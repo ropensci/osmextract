@@ -1,2 +1,81 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # geofabric
-Small package to enable download and import of OSM data from the Geofabric website
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+The goal of geofabric is to provide easy access to OSM data shipped by
+[geofrabric](http://download.geofabrik.de).
+
+## Installation
+
+<!-- You can install the released version of geofabric from [CRAN](https://CRAN.R-project.org) with: -->
+
+<!-- ``` r -->
+
+<!-- install.packages("geofabric") -->
+
+<!-- ``` -->
+
+You can install the development version from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ITSLeeds/geofabric")
+```
+
+## Usage
+
+Give geofabric the name of a country and it will try to download it,
+e.g.:
+
+``` r
+library(geofabric)
+get_geofabric(continent = "europe", country = "andorra")
+#> Trying http://download.geofabrik.de/europe/andorra-latest-free.shp.zip
+#> Downloading http://download.geofabrik.de/europe/andorra-latest-free.shp.zip
+#> The following shapefiles have been downloaded:
+#>  [1] "gis_osm_buildings_a_free_1.shp" "gis_osm_landuse_a_free_1.shp"  
+#>  [3] "gis_osm_natural_a_free_1.shp"   "gis_osm_natural_free_1.shp"    
+#>  [5] "gis_osm_places_a_free_1.shp"    "gis_osm_places_free_1.shp"     
+#>  [7] "gis_osm_pofw_a_free_1.shp"      "gis_osm_pofw_free_1.shp"       
+#>  [9] "gis_osm_pois_a_free_1.shp"      "gis_osm_pois_free_1.shp"       
+#> [11] "gis_osm_railways_free_1.shp"    "gis_osm_roads_free_1.shp"      
+#> [13] "gis_osm_traffic_a_free_1.shp"   "gis_osm_traffic_free_1.shp"    
+#> [15] "gis_osm_transport_a_free_1.shp" "gis_osm_transport_free_1.shp"  
+#> [17] "gis_osm_water_a_free_1.shp"     "gis_osm_waterways_free_1.shp"
+```
+
+If there are no files available for that country, only regions, it will
+tell you:
+
+``` r
+get_geofabric(continent = "europe", country = "great-britain")
+#> Trying http://download.geofabrik.de/europe/great-britain-latest-free.shp.zip
+#> No country file to download. See http://download.geofabrik.de/europe/great-britain for available regions.
+#> [1] "http://download.geofabrik.de/europe/great-britain"
+```
+
+Download a specific region as
+follows:
+
+``` r
+get_geofabric(continent = "europe", country = "great-britain", region = "wales")
+#> Trying http://download.geofabrik.de/europe/great-britain/wales-latest-free.shp.zip
+#> Downloading http://download.geofabrik.de/europe/great-britain/wales-latest-free.shp.zip
+#> The following shapefiles have been downloaded:
+#>  [1] "gis_osm_buildings_a_free_1.shp" "gis_osm_landuse_a_free_1.shp"  
+#>  [3] "gis_osm_natural_a_free_1.shp"   "gis_osm_natural_free_1.shp"    
+#>  [5] "gis_osm_places_a_free_1.shp"    "gis_osm_places_free_1.shp"     
+#>  [7] "gis_osm_pofw_a_free_1.shp"      "gis_osm_pofw_free_1.shp"       
+#>  [9] "gis_osm_pois_a_free_1.shp"      "gis_osm_pois_free_1.shp"       
+#> [11] "gis_osm_railways_free_1.shp"    "gis_osm_roads_free_1.shp"      
+#> [13] "gis_osm_traffic_a_free_1.shp"   "gis_osm_traffic_free_1.shp"    
+#> [15] "gis_osm_transport_a_free_1.shp" "gis_osm_transport_free_1.shp"  
+#> [17] "gis_osm_water_a_free_1.shp"     "gis_osm_waterways_free_1.shp"
+# get_geofabric(continent = "europe", country = "italy", region = "nord-este")
+```

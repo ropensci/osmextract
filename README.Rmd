@@ -1,0 +1,57 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# geofabric
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of geofabric is to provide easy access to OSM data shipped by [geofrabric](http://download.geofabrik.de).
+
+## Installation
+
+<!-- You can install the released version of geofabric from [CRAN](https://CRAN.R-project.org) with: -->
+
+<!-- ``` r -->
+<!-- install.packages("geofabric") -->
+<!-- ``` -->
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ITSLeeds/geofabric")
+```
+## Usage
+
+Give geofabric the name of a country and it will try to download it, e.g.: 
+
+```{r example}
+library(geofabric)
+get_geofabric(continent = "europe", country = "andorra")
+```
+
+If there are no files available for that country, only regions, it will tell you:
+
+```{r cars}
+get_geofabric(continent = "europe", country = "great-britain")
+```
+
+Download a specific region as follows:
+
+```{r}
+get_geofabric(continent = "europe", country = "great-britain", region = "wales")
+# get_geofabric(continent = "europe", country = "italy", region = "nord-este")
+```
+
