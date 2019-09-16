@@ -31,7 +31,7 @@ get_geofabric = function(continent = "europe",
   download.file(url = country_url, destfile = download_path)
   unzip(zipfile = download_path, exdir = unzip_directory)
   message("The following shapefiles have been downloaded:")
-  shapefiles = list.files(path = unzip_directory, pattern = ".shp")
+  shapefiles = list.files(path = unzip_directory, pattern = ".shp", full.names = TRUE)
   return(shapefiles)
 }
 
