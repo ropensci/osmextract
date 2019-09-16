@@ -51,7 +51,7 @@ get_geofabric(continent = "europe", country = "great-britain")
 Download a specific region as follows:
 
 ```{r}
-get_geofabric(continent = "europe", country = "great-britain", region = "wales")
+# get_geofabric(continent = "europe", country = "great-britain", region = "wales")
 # get_geofabric(continent = "europe", country = "italy", region = "nord-este")
 ```
 
