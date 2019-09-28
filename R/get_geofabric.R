@@ -42,6 +42,14 @@ get_geofabric = function(
         stop("Search in geofabric_zones for a closer match.")
       }
     }
+    large_size = grepl(pattern = "G", x = geofabric_matches$size_pbf)
+    if(interactive() & ask & high_distance) {
+      message("This is a large file ", geofabric_matches$size_pbf)
+      continue = utils::menu(choices = c(TRUE, FALSE), title = "Would you like to download this file?")
+      if(!continue) {
+        stop("Aborted by user.")
+      }
+    }
     # add would you like to proceed message?
   }
 
@@ -61,7 +69,7 @@ get_geofabric = function(
   # message("The following shapefiles have been downloaded:")
   # shapefiles = list.files(path = unzip_directory, pattern = ".shp", full.names = TRUE)
   # return(shapefiles)
-  sf::read_sf(download_path, layer = layer) # todo: use alternative read command that uses custom .ini file
+  read_pbf(download_path, layer = layer) # todo: use alternative read command that uses custom .ini file
 }
 
 # old version of function -------------------------------------------------
