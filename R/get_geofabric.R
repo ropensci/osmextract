@@ -1,10 +1,12 @@
 #' Download osm data from geofabric
 #'
 #' @param name Name of the geofabric zone to download
-#' @param format Format of data to download (currently only pbf supported)
 #' @param layer Character string telling `sf` which OSM layer to import.
 #' One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`
 #' @param download_directory Where to download the data? `tempdir()` by default.
+#' @param ask Should the user be asked before downloading the file?
+#' @param max_dist What is the maximum distance in fuzzy matching to tolerate before asking
+#' the user to select which zone to download?
 #'
 #' @export
 #' @examples
@@ -12,13 +14,16 @@
 #' \donttest{
 #' get_geofabric("andorra")
 #' get_geofabric("west-yorkshire")
+#' # user asked to choose closest match when interactive
+#' get_geofabric("kdljfdl")
 #' }
 get_geofabric = function(
   name = "west-yorkshire",
-  format = "pbf",
+  # format = "pbf",
   layer = "lines",
-  download_directory = tempdir()
-  # unzip_directory = tempdir()
+  download_directory = tempdir(),
+  ask = TRUE,
+  max_dist = 3
   ) {
 
   geofabric_matches = geofabric_zones[geofabric_zones$name == name, ]
@@ -29,7 +34,14 @@ get_geofabric = function(
     matching_dist = as.numeric(utils::adist(geofabric_zones$name, name))
     best_match = which.min(matching_dist)
     geofabric_matches = geofabric_zones[best_match, ]
-    message("No exact matching geofabric zone. Best match is ", geofabric_matches$name)
+    high_distance = matching_dist[best_match] > max_dist
+    message("No exact matching geofabric zone. Best match is ", geofabric_matches$name, " ", geofabric_matches$size_pbf)
+    if(interactive() & ask & high_distance) {
+      continue = utils::menu(choices = c(TRUE, FALSE), title = "Would you like to download this file?")
+      if(!continue) {
+        stop("Search in geofabric_zones for a closer match.")
+      }
+    }
     # add would you like to proceed message?
   }
 
@@ -38,7 +50,7 @@ get_geofabric = function(
   # download_path = file.path(download_directory, paste0(zone, ".zip"))
   download_path = file.path(download_directory, paste0(name, ".osm.pbf"))
   if(!file.exists(download_path)) {
-    message("Downloading ", zone_url, " to ", download_path)
+    message("Downloading ", zone_url, " to \n", download_path)
     utils::download.file(url = zone_url, destfile = download_path)
   } else {
     message("Data already detected in ", download_path)
@@ -53,6 +65,7 @@ get_geofabric = function(
 }
 
 # old version of function -------------------------------------------------
+# @param format Format of data to download (currently only pbf supported)
 # get_geofabric_contry_continent = function(
 #                          continent = "europe",
 #                          country = "great-britain",

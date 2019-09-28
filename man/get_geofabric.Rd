@@ -4,18 +4,21 @@
 \alias{get_geofabric}
 \title{Download osm data from geofabric}
 \usage{
-get_geofabric(name = "west-yorkshire", format = "pbf",
-  layer = "lines", download_directory = tempdir())
+get_geofabric(name = "west-yorkshire", layer = "lines",
+  download_directory = tempdir(), ask = TRUE, max_dist = 3)
 }
 \arguments{
 \item{name}{Name of the geofabric zone to download}
-
-\item{format}{Format of data to download (currently only pbf supported)}
 
 \item{layer}{Character string telling `sf` which OSM layer to import.
 One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`}
 
 \item{download_directory}{Where to download the data? `tempdir()` by default.}
+
+\item{ask}{Should the user be asked before downloading the file?}
+
+\item{max_dist}{What is the maximum distance in fuzzy matching to tolerate before asking
+the user to select which zone to download?}
 }
 \description{
 Download osm data from geofabric
@@ -25,5 +28,7 @@ get_geofabric("isle of man")
 \donttest{
 get_geofabric("andorra")
 get_geofabric("west-yorkshire")
+# user asked to choose closest match when interactive
+get_geofabric("kdljfdl")
 }
 }
