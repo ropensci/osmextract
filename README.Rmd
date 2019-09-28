@@ -37,15 +37,19 @@ devtools::install_github("ITSLeeds/geofabric")
 
 Give geofabric the name of a geofabric zone and it will download and import it.
 By default it imports the 'lines' layer, but any layer can be read-in.
+Behind the scenes, the function `read_pbf()`, a wrapper around `sf::st_read()` is used with configuration options to import additional columns from the .pbf files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set with `attributes` argument):
 
 ```{r example}
 library(geofabric)
 andorra_lines = get_geofabric(name = "andorra", layer = "lines")
-andorra_point = get_geofabric(name = "andorra", layer = "points")
+names(andorra_lines)
+andorra_point = get_geofabric(name = "andorra", layer = "points", attributes = "shop")
+names(andorra_point) # note the 'shop' column has been added
 plot(andorra_lines$geometry)
-plot(andorra_point, add = TRUE)
+plot(andorra_point[andorra_point$shop == "supermarket", ], col = "red", add = TRUE)
 ```
 
+The above code plotted lines representing roads and other linear features in Andorra, with an overlay of shops that are represented in OSM data.
 If there are no files available for a zone name, geofabric will search for and import the nearest matching zone:
 
 ```{r matching}

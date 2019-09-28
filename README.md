@@ -34,31 +34,59 @@ devtools::install_github("ITSLeeds/geofabric")
 
 Give geofabric the name of a geofabric zone and it will download and
 import it. By default it imports the ‘lines’ layer, but any layer can be
-read-in.
+read-in. Behind the scenes, the function `read_pbf()`, a wrapper around
+`sf::st_read()` is used with configuration options to import additional
+columns from the .pbf files not imported by default, including
+`maxspeed`, `lanes` and `oneway` (the attributes to include can be set
+with `attributes` argument):
 
 ``` r
 library(geofabric)
 andorra_lines = get_geofabric(name = "andorra", layer = "lines")
-#> No exact matching geofabric zone. Best match is Andorra
-#> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to /tmp/Rtmpdr8qaM/andorra.osm.pbf
-andorra_point = get_geofabric(name = "andorra", layer = "points")
-#> No exact matching geofabric zone. Best match is Andorra
-#> Data already detected in /tmp/Rtmpdr8qaM/andorra.osm.pbf
+#> No exact matching geofabric zone. Best match is Andorra (1.5 MB)
+#> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to 
+#> /tmp/RtmpCKcKzj/andorra.osm.pbf
+#> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
+#> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpCKcKzj/ini_new.ini)
+names(andorra_lines)
+#>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+#>  [6] "barrier"    "man_made"   "maxspeed"   "oneway"     "building"  
+#> [11] "surface"    "landuse"    "natural"    "start_date" "wall"      
+#> [16] "service"    "lanes"      "layer"      "tracktype"  "bridge"    
+#> [21] "foot"       "bicycle"    "lit"        "railway"    "footway"   
+#> [26] "z_order"    "other_tags" "geometry"
+andorra_point = get_geofabric(name = "andorra", layer = "points", attributes = "shop")
+#> No exact matching geofabric zone. Best match is Andorra (1.5 MB)
+#> Data already detected in /tmp/RtmpCKcKzj/andorra.osm.pbf
+#> Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made
+#> New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpCKcKzj/ini_new.ini)
+names(andorra_point) # note the 'shop' column has been added
+#>  [1] "osm_id"     "name"       "barrier"    "highway"    "ref"       
+#>  [6] "address"    "is_in"      "place"      "man_made"   "shop"      
+#> [11] "other_tags" "geometry"
 plot(andorra_lines$geometry)
-plot(andorra_point, add = TRUE)
-#> Warning in plot.sf(andorra_point, add = TRUE): ignoring all but the first
-#> attribute
+plot(andorra_point[andorra_point$shop == "supermarket", ], col = "red", add = TRUE)
+#> Warning in plot.sf(andorra_point[andorra_point$shop == "supermarket", ], :
+#> ignoring all but the first attribute
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-If there are no files available for a zone name, geofabric will search
-for and import the nearest matching zone:
+The above code plotted lines representing roads and other linear
+features in Andorra, with an overlay of shops that are represented in
+OSM data. If there are no files available for a zone name, geofabric
+will search for and import the nearest matching zone:
 
 ``` r
 iow_lines = get_geofabric(name = "isle wight")
-#> No exact matching geofabric zone. Best match is Isle of Wight
-#> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to /tmp/Rtmpdr8qaM/isle wight.osm.pbf
+#> No exact matching geofabric zone. Best match is Isle of Wight (7.2 MB)
+#> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to 
+#> /tmp/RtmpCKcKzj/isle wight.osm.pbf
+#> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
+#> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpCKcKzj/ini_new.ini)
 plot(iow_lines$geometry) # note the lines contain ferry services to france and elsewhere
 ```
 
