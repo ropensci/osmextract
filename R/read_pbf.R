@@ -27,7 +27,7 @@ read_pbf = function(dsn,
   }
   message("Using ini file that can can be edited with file.edit(", ini_file, ")")
   config_options = paste0("CONFIG_FILE=", ini_file)
-  res = sf::st_read(dsn, layer = layer, options = config_options)
+  res = sf::read_sf(dsn = dsn, layer = layer, options = config_options)
 }
 #' Get modified version of config file for reading .pbf files with GDAL/sf
 #'
