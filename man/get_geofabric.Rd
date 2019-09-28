@@ -5,6 +5,7 @@
 \title{Download osm data from geofabric}
 \usage{
 get_geofabric(name = "west-yorkshire", layer = "lines",
+  attributes = make_additional_attributes(layer = layer),
   download_directory = tempdir(), ask = TRUE, max_dist = 3)
 }
 \arguments{
@@ -12,6 +13,8 @@ get_geofabric(name = "west-yorkshire", layer = "lines",
 
 \item{layer}{Character string telling `sf` which OSM layer to import.
 One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`}
+
+\item{attributes}{Vector of character strings naming attributes to import}
 
 \item{download_directory}{Where to download the data? `tempdir()` by default.}
 

@@ -1,5 +1,6 @@
 #' Download osm data from geofabric
 #'
+#' @inheritParams read_pbf
 #' @param name Name of the geofabric zone to download
 #' @param layer Character string telling `sf` which OSM layer to import.
 #' One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`
@@ -21,6 +22,7 @@ get_geofabric = function(
   name = "west-yorkshire",
   # format = "pbf",
   layer = "lines",
+  attributes = make_additional_attributes(layer = layer),
   download_directory = tempdir(),
   ask = TRUE,
   max_dist = 3
@@ -69,7 +71,7 @@ get_geofabric = function(
   # message("The following shapefiles have been downloaded:")
   # shapefiles = list.files(path = unzip_directory, pattern = ".shp", full.names = TRUE)
   # return(shapefiles)
-  read_pbf(download_path, layer = layer) # todo: use alternative read command that uses custom .ini file
+  read_pbf(download_path, layer = layer, attributes = attributes)
 }
 
 # old version of function -------------------------------------------------
