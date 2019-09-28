@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of geofabric is to provide easy access to OSM data shipped by [geofrabric](http://download.geofabrik.de).
+The goal of geofabric is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by [Geofabrik GmbH](http://download.geofabrik.de).
 
 ## Installation
 

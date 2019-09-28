@@ -7,8 +7,10 @@
 
 <!-- badges: end -->
 
-The goal of geofabric is to provide easy access to OSM data shipped by
-[geofrabric](http://download.geofabrik.de).
+The goal of geofabric is to make it easier for open source software
+users to access freely available, community created geographic data, in
+the form of OpenSteetMap data shipped by [Geofabrik
+GmbH](http://download.geofabrik.de).
 
 ## Installation
 
@@ -38,10 +40,10 @@ read-in.
 library(geofabric)
 andorra_lines = get_geofabric(name = "andorra", layer = "lines")
 #> No exact matching geofabric zone. Best match is Andorra
-#> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to /tmp/RtmpjRa7Of/andorra.osm.pbf
+#> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to /tmp/Rtmpdr8qaM/andorra.osm.pbf
 andorra_point = get_geofabric(name = "andorra", layer = "points")
 #> No exact matching geofabric zone. Best match is Andorra
-#> Data already detected in /tmp/RtmpjRa7Of/andorra.osm.pbf
+#> Data already detected in /tmp/Rtmpdr8qaM/andorra.osm.pbf
 plot(andorra_lines$geometry)
 plot(andorra_point, add = TRUE)
 #> Warning in plot.sf(andorra_point, add = TRUE): ignoring all but the first
@@ -56,7 +58,7 @@ for and import the nearest matching zone:
 ``` r
 iow_lines = get_geofabric(name = "isle wight")
 #> No exact matching geofabric zone. Best match is Isle of Wight
-#> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to /tmp/RtmpjRa7Of/isle wight.osm.pbf
+#> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to /tmp/Rtmpdr8qaM/isle wight.osm.pbf
 plot(iow_lines$geometry) # note the lines contain ferry services to france and elsewhere
 ```
 
