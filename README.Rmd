@@ -54,10 +54,19 @@ If there are no files available for a zone name, geofabric will search for and i
 
 ```{r matching}
 iow_lines = get_geofabric(name = "isle wight")
+iow_file = file.path(tempdir(), "isle wight.osm.pbf")
 plot(iow_lines$geometry) # note the lines contain ferry services to france and elsewhere
 ```
 
 Take care: files downloaded from geofabrik can be large.
+
+If you want to use `st_read()` to read-in the .pbf files, e.g. to set additional query arguments, you can do so, as demonstrated below.
+
+```{r query}
+query = "select highway from lines where highway = 'cycleway' or highway = 'residential'"
+iow_lines_subset = sf::st_read(iow_file, layer = "lines", query = query)
+plot(iow_lines_subset)
+```
 
 # geofabrik zones
 
@@ -82,7 +91,8 @@ names(geofabric_zones)
 
 Each geographic level (continents, countries, regions and subregions) is shown in the map below, with a few of them named for reference.
 
-```{r zonemap, echo=FALSE}
+```{r zonemap}
+# todo: tidy up geofabric_zones data and this code chunk
 library(tmap)
 sel1 = is.na(geofabric_zones$level)
 geofabric_zones$level[sel1] = 1

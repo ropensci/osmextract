@@ -45,10 +45,10 @@ library(geofabric)
 andorra_lines = get_geofabric(name = "andorra", layer = "lines")
 #> No exact matching geofabric zone. Best match is Andorra (1.5 MB)
 #> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to 
-#> /tmp/RtmpCKcKzj/andorra.osm.pbf
+#> /tmp/Rtmpgfgz6F/andorra.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpCKcKzj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpgfgz6F/ini_new.ini)
 names(andorra_lines)
 #>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #>  [6] "barrier"    "man_made"   "maxspeed"   "oneway"     "building"  
@@ -58,10 +58,10 @@ names(andorra_lines)
 #> [26] "z_order"    "other_tags" "geometry"
 andorra_point = get_geofabric(name = "andorra", layer = "points", attributes = "shop")
 #> No exact matching geofabric zone. Best match is Andorra (1.5 MB)
-#> Data already detected in /tmp/RtmpCKcKzj/andorra.osm.pbf
+#> Data already detected in /tmp/Rtmpgfgz6F/andorra.osm.pbf
 #> Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made
 #> New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpCKcKzj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpgfgz6F/ini_new.ini)
 names(andorra_point) # note the 'shop' column has been added
 #>  [1] "osm_id"     "name"       "barrier"    "highway"    "ref"       
 #>  [6] "address"    "is_in"      "place"      "man_made"   "shop"      
@@ -83,16 +83,36 @@ will search for and import the nearest matching zone:
 iow_lines = get_geofabric(name = "isle wight")
 #> No exact matching geofabric zone. Best match is Isle of Wight (7.2 MB)
 #> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to 
-#> /tmp/RtmpCKcKzj/isle wight.osm.pbf
+#> /tmp/Rtmpgfgz6F/isle wight.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpCKcKzj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpgfgz6F/ini_new.ini)
+iow_file = file.path(tempdir(), "isle wight.osm.pbf")
 plot(iow_lines$geometry) # note the lines contain ferry services to france and elsewhere
 ```
 
 <img src="man/figures/README-matching-1.png" width="100%" />
 
 Take care: files downloaded from geofabrik can be large.
+
+If you want to use `st_read()` to read-in the .pbf files, e.g. to set
+additional query arguments, you can do so, as demonstrated
+below.
+
+``` r
+query = "select highway from lines where highway = 'cycleway' or highway = 'residential'"
+iow_lines_subset = sf::st_read(iow_file, layer = "lines", query = query)
+#> Reading layer `lines' from data source `/tmp/Rtmpgfgz6F/isle wight.osm.pbf' using driver `OSM'
+#> Simple feature collection with 2534 features and 1 field
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727
+#> epsg (SRID):    4326
+#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+plot(iow_lines_subset)
+```
+
+<img src="man/figures/README-query-1.png" width="100%" />
 
 # geofabrik zones
 
@@ -127,7 +147,22 @@ names(geofabric_zones)
 Each geographic level (continents, countries, regions and subregions) is
 shown in the map below, with a few of them named for reference.
 
-    #> Linking to GEOS 3.5.1, GDAL 2.1.2, PROJ 4.9.3
+``` r
+# todo: tidy up geofabric_zones data and this code chunk
+library(tmap)
+sel1 = is.na(geofabric_zones$level)
+geofabric_zones$level[sel1] = 1
+geofabric_zones$label = ""
+geofabric_zones$label[sel1] = geofabric_zones$name[sel1]
+set.seed(9)
+sel2 = sample(x = 1:nrow(geofabric_zones), size = 5)
+geofabric_zones$label[sel2] = geofabric_zones$name[sel2]
+tm_shape(geofabric_zones) +
+  tm_polygons() +
+  tm_text(text = "label") +
+  tm_facets(by = "level")
+#> Linking to GEOS 3.5.1, GDAL 2.1.2, PROJ 4.9.3
+```
 
 <img src="man/figures/README-zonemap-1.png" width="100%" />
 
