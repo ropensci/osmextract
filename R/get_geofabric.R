@@ -61,7 +61,7 @@ get_geofabric = function(
   download_path = file.path(download_directory, paste0(name, ".osm.pbf"))
   if(!file.exists(download_path)) {
     message("Downloading ", zone_url, " to \n", download_path)
-    utils::download.file(url = zone_url, destfile = download_path)
+    utils::download.file(url = zone_url, destfile = download_path, mode = "wb")
   } else {
     message("Data already detected in ", download_path)
   }
