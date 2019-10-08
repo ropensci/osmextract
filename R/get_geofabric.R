@@ -45,7 +45,7 @@ get_geofabric = function(
       }
     }
     large_size = grepl(pattern = "G", x = geofabric_matches$size_pbf)
-    if(interactive() & ask & high_distance) {
+    if(interactive() & ask & large_size) {
       message("This is a large file ", geofabric_matches$size_pbf)
       continue = utils::menu(choices = c(TRUE, FALSE), title = "Would you like to download this file?")
       if(continue == 2L) {# same reasoning as before
