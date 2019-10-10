@@ -40,7 +40,7 @@ get_geofabric = function(
     message("No exact matching geofabric zone. Best match is ", geofabric_matches$name, " ", geofabric_matches$size_pbf)
     if(interactive() & ask & high_distance) {
       continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
-      if(continue != 1L) {# since the options are Yes/No, then Yes == 2L
+      if(continue != 1L) {# since the options are Yes/No, then Yes == 1L
         stop("Search in geofabric_zones for a closer match.")
       }
     }
