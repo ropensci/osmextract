@@ -6,7 +6,8 @@
 \usage{
 get_geofabric(name = "west-yorkshire", layer = "lines",
   attributes = make_additional_attributes(layer = layer),
-  download_directory = tempdir(), ask = TRUE, max_dist = 3)
+  download_directory = gf_download_directory(), ask = TRUE,
+  max_dist = 3)
 }
 \arguments{
 \item{name}{Name of the geofabric zone to download}
@@ -29,10 +30,9 @@ Download osm data from geofabric
 \examples{
 get_geofabric("isle of man")
 \donttest{
-get_geofabric("andorra")
-get_geofabric("west-yorkshire")
+get_geofabric(name = "andorra") # try other names, e.g. name = "west-yorkshire"
 # user asked to choose closest match when interactive
-get_geofabric("kdljfdl")
+get_geofabric("kdljfdl", ask = FALSE)
 # get zone associated with a point
 name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
 get_geofabric(name)

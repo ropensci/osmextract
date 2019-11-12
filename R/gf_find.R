@@ -14,10 +14,16 @@ gf_find = function(name, ask = FALSE, max_dist = 3) {
   geofabric_matches = geofabric_zones[best_match, ]
   high_distance = matching_dist[best_match] > max_dist
   message("No exact matching geofabric zone. Best match is ", geofabric_matches$name, " ", geofabric_matches$size_pbf)
-  if(interactive() & ask & high_distance) {
-    continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
-    if(continue != 1L) {# since the options are Yes/No, then Yes == 1L
-      stop("Search in geofabric_zones for a closer match.")
+  if(high_distance) {
+    if(interactive() & ask) {
+      continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
+      if(continue != 1L) {# since the options are Yes/No, then Yes == 1L
+        message("Search in geofabric_zones$name for a closer match.")
+        return(NULL)
+      }
+    } else {
+      message("Nearest match to geofabric_zones$name is greater than threshold distance")
+      return(NULL)
     }
   }
   geofabric_matches
