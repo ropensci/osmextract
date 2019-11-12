@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # geofabric
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/itsleeds/geofabric.svg?branch=master)](https://travis-ci.org/itsleeds/geofabric)
 <!-- badges: end -->
 
 The goal of geofabric is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by [Geofabrik GmbH](http://download.geofabrik.de).
