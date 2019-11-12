@@ -25,6 +25,7 @@ gf_find = function(name, ask = FALSE, max_dist = 3) {
 #' Find geofabric zones based on sf or sfc object
 #'
 #' @inheritParams get_geofabric
+#' @param op TBD since I don't really understand this parameter
 #'
 #' @return A data frame representing the matching items from the Geofabrik website
 #' @export

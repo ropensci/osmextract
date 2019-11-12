@@ -10,6 +10,8 @@ gf_find_sf(name, ask = FALSE, op = sf::st_contains)
 \item{name}{Name of the geofabric zone to download}
 
 \item{ask}{Should the user be asked before downloading the file?}
+
+\item{op}{TBD since I don't really understand this parameter}
 }
 \value{
 A data frame representing the matching items from the Geofabrik website
