@@ -40,7 +40,7 @@ gf_find_sf = function(name, ask = FALSE, op = sf::st_contains) {
     return(NULL)
   }
 
-  geofabric_matches = geofabric_all_matches[which.max(geofabric_matches$level), ]
+  geofabric_matches = geofabric_all_matches[which.max(geofabric_all_matches$level), ]
   message(
     "The place is within these geofabrik zones: ",
     paste0(geofabric_all_matches$name, collapse = ", "),
