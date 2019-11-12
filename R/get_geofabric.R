@@ -33,18 +33,7 @@ get_geofabric = function(
   # browser()
 
   if(nrow(geofabric_matches) == 0) {
-    matching_dist = as.numeric(utils::adist(geofabric_zones$name, name))
-    best_match = which.min(matching_dist)
-    geofabric_matches = geofabric_zones[best_match, ]
-    high_distance = matching_dist[best_match] > max_dist
-    message("No exact matching geofabric zone. Best match is ", geofabric_matches$name, " ", geofabric_matches$size_pbf)
-    if(interactive() & ask & high_distance) {
-      continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
-      if(continue != 1L) {# since the options are Yes/No, then Yes == 1L
-        stop("Search in geofabric_zones for a closer match.")
-      }
-    }
-    # add would you like to proceed message?
+    geofabric_matches = gf_find(name = name, ask = ask)
   }
 
   large_size = grepl(pattern = "G", x = geofabric_matches$size_pbf)
