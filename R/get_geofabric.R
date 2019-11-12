@@ -5,6 +5,9 @@
 #' @param layer Character string telling `sf` which OSM layer to import.
 #' One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`
 #' @param download_directory Where to download the data? `tempdir()` by default.
+#' If you want to download your data into a persistend directory, set
+#' `GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
+#' `usethis::edit_r_environ()`.
 #' @param ask Should the user be asked before downloading the file?
 #' @param max_dist What is the maximum distance in fuzzy matching to tolerate before asking
 #' the user to select which zone to download?
@@ -13,10 +16,9 @@
 #' @examples
 #' get_geofabric("isle of man")
 #' \donttest{
-#' get_geofabric("andorra")
-#' get_geofabric("west-yorkshire")
+#' get_geofabric(name = "andorra") # try other names, e.g. name = "west-yorkshire"
 #' # user asked to choose closest match when interactive
-#' get_geofabric("kdljfdl")
+#' get_geofabric("kdljfdl", ask = FALSE)
 #' # get zone associated with a point
 #' name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
 #' get_geofabric(name)
@@ -26,7 +28,7 @@ get_geofabric = function(
   # format = "pbf",
   layer = "lines",
   attributes = make_additional_attributes(layer = layer),
-  download_directory = tempdir(),
+  download_directory = gf_download_directory(),
   ask = TRUE,
   max_dist = 3
   ) {
@@ -36,13 +38,18 @@ get_geofabric = function(
   } else {
     geofabric_matches = gf_find(name, ask, max_dist)
   }
+  if(is.null(geofabric_matches)) {
+    # Match failed with message from gf_find
+    return(NULL)
+  }
 
   large_size = grepl(pattern = "G", x = geofabric_matches$size_pbf)
   if(interactive() & ask & large_size) {
     message("This is a large file ", geofabric_matches$size_pbf)
     continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
     if(continue != 1L) {# for the same reasoning as before
-      stop("Aborted by user.")
+      message("Aborted by user.")
+      return(NULL)
     }
   }
 
@@ -63,6 +70,14 @@ get_geofabric = function(
   # shapefiles = list.files(path = unzip_directory, pattern = ".shp", full.names = TRUE)
   # return(shapefiles)
   read_pbf(download_path, layer = layer, attributes = attributes)
+}
+
+gf_download_directory = function(){
+  d = Sys.getenv("GF_DOWNLOAD_DIRECTORY")
+  if(nchar(d) == 0) {
+    d = tempdir()
+  }
+  d
 }
 
 # old version of function -------------------------------------------------
