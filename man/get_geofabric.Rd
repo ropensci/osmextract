@@ -33,5 +33,8 @@ get_geofabric("andorra")
 get_geofabric("west-yorkshire")
 # user asked to choose closest match when interactive
 get_geofabric("kdljfdl")
+# get zone associated with a point
+name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
+get_geofabric(name)
 }
 }

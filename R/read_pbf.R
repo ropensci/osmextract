@@ -47,7 +47,9 @@ read_pbf = function(dsn,
 #' A character vector representing an ini file.
 #' @export
 #' @examples
+#' \donttest{
 #' make_ini_attributes("oneway", "lines")
+#' }
 make_additional_attributes = function(layer) {
   l = list(
     points = c(

@@ -32,5 +32,7 @@ via `sf`. See https://github.com/r-spatial/sf/issues/1157 for details.
 Default additional attributes were taken from https://taginfo.openstreetmap.org/keys
 }
 \examples{
+\donttest{
 make_ini_attributes("oneway", "lines")
+}
 }
