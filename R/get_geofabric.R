@@ -31,7 +31,7 @@ get_geofabric = function(
   max_dist = 3
   ) {
 
-  if(is(name, "sf") | is(name, "sfc")) {
+  if(inherits(name, "sf") | inherits(name, "sfc")) {
     geofabric_matches = gf_find_sf(name, ask)
   } else {
     geofabric_matches = gf_find(name, ask, max_dist)
