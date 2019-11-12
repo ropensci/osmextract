@@ -8,6 +8,7 @@
 #' @examples
 #' gf_find("Andorra")
 gf_find = function(name, ask = FALSE, max_dist = 3) {
+
   matching_dist = as.numeric(utils::adist(geofabric_zones$name, name))
   best_match = which.min(matching_dist)
   geofabric_matches = geofabric_zones[best_match, ]

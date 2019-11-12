@@ -17,6 +17,9 @@
 #' get_geofabric("west-yorkshire")
 #' # user asked to choose closest match when interactive
 #' get_geofabric("kdljfdl")
+#' # get zone associated with a point
+#' name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
+#' get_geofabric(name)
 #' }
 get_geofabric = function(
   name = "west-yorkshire",
@@ -28,12 +31,10 @@ get_geofabric = function(
   max_dist = 3
   ) {
 
-  geofabric_matches = geofabric_zones[geofabric_zones$name == name, ]
-
-  # browser()
-
-  if(nrow(geofabric_matches) == 0) {
-    geofabric_matches = gf_find(name = name, ask = ask)
+  if(is(name, "sf") | is(name, "sfc")) {
+    geofabric_matches = gf_find_sf(name, ask)
+  } else {
+    geofabric_matches = gf_find(name, ask, max_dist)
   }
 
   large_size = grepl(pattern = "G", x = geofabric_matches$size_pbf)
