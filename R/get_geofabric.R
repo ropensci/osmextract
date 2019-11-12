@@ -56,7 +56,7 @@ get_geofabric = function(
   zone_url = geofabric_matches$pbf_url
 
   # download_path = file.path(download_directory, paste0(zone, ".zip"))
-  download_path = file.path(download_directory, paste0(name, ".osm.pbf"))
+  download_path = file.path(download_directory, paste0(geofabric_matches$name, ".osm.pbf"))
   if(!file.exists(download_path)) {
     message("Downloading ", zone_url, " to \n", download_path)
     utils::download.file(url = zone_url, destfile = download_path, mode = "wb")
