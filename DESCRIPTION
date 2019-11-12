@@ -15,3 +15,5 @@ Imports:
     sf,
     utils,
     httr
+Suggests: 
+    tibble
