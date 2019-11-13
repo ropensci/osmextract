@@ -31,7 +31,6 @@ gf_find = function(name, ask = FALSE, max_dist = 3) {
 #' Find geofabric zones based on sf or sfc object
 #'
 #' @inheritParams get_geofabric
-#' @param op TBD since I don't really understand this parameter
 #'
 #' @return A data frame representing the matching items from the Geofabrik website
 #' @export
@@ -40,7 +39,7 @@ gf_find = function(name, ask = FALSE, max_dist = 3) {
 #' name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
 #' gf_find_sf(name)
 gf_find_sf = function(name, ask = FALSE, op = sf::st_contains) {
-  sel_within = lengths(sf::st_within(name, geofabric_zones)) > 0
+  # sel_within = lengths(sf::st_within(name, geofabric_zones)) > 0
   geofabric_all_matches = geofabric_zones[name, , op = op]
   if(nrow(geofabric_all_matches) == 0) {
     message("The object is not within any geofrabric zones, aborting")

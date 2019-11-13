@@ -1,16 +1,18 @@
 #' Download osm data from geofabric
 #'
 #' @inheritParams read_pbf
-#' @param name Name of the geofabric zone to download
+#' @param name Name or spatial object of the geofabric zone to download
 #' @param layer Character string telling `sf` which OSM layer to import.
 #' One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`
 #' @param download_directory Where to download the data? `tempdir()` by default.
-#' If you want to download your data into a persistend directory, set
+#' If you want to download your data into a persistent directory, set
 #' `GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
 #' `usethis::edit_r_environ()`.
 #' @param ask Should the user be asked before downloading the file?
 #' @param max_dist What is the maximum distance in fuzzy matching to tolerate before asking
 #' the user to select which zone to download?
+#' @param op The binary spatial predicate used to identify the smallest geofabric zones
+#' that matches the simple feature input in `name`
 #'
 #' @export
 #' @examples
@@ -22,6 +24,8 @@
 #' # get zone associated with a point
 #' name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
 #' get_geofabric(name)
+#' name = sf::st_sfc(sf::st_point(c(0, 53)), sf::st_point(c(-2, 55)), crs = 4326)
+#' gf_find_sf(name)
 #' }
 get_geofabric = function(
   name = "west-yorkshire",
@@ -30,12 +34,21 @@ get_geofabric = function(
   attributes = make_additional_attributes(layer = layer),
   download_directory = gf_download_directory(),
   ask = TRUE,
-  max_dist = 3
+  max_dist = 3,
+  op = sf::st_contains
   ) {
 
   if(inherits(name, "sf") | inherits(name, "sfc")) {
-    geofabric_matches = gf_find_sf(name, ask)
+    if(nrow(name) > 1) {
+      warning("Matching only based on the first feature.")
+      message("Try sf::st_union() to convert into a single multi feature.")
+    }
+    geofabric_matches = gf_find_sf(name, ask, op)
   } else {
+    if(length(name) > 1) {
+      name = name[1]
+      warning("Matching only the first name supplied.")
+    }
     geofabric_matches = gf_find(name, ask, max_dist)
   }
   if(is.null(geofabric_matches)) {

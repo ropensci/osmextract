@@ -7,22 +7,28 @@
 get_geofabric(name = "west-yorkshire", layer = "lines",
   attributes = make_additional_attributes(layer = layer),
   download_directory = gf_download_directory(), ask = TRUE,
-  max_dist = 3)
+  max_dist = 3, op = sf::st_contains)
 }
 \arguments{
-\item{name}{Name of the geofabric zone to download}
+\item{name}{Name or spatial object of the geofabric zone to download}
 
 \item{layer}{Character string telling `sf` which OSM layer to import.
 One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`}
 
 \item{attributes}{Vector of character strings naming attributes to import}
 
-\item{download_directory}{Where to download the data? `tempdir()` by default.}
+\item{download_directory}{Where to download the data? `tempdir()` by default.
+If you want to download your data into a persistent directory, set
+`GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
+`usethis::edit_r_environ()`.}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
 \item{max_dist}{What is the maximum distance in fuzzy matching to tolerate before asking
 the user to select which zone to download?}
+
+\item{op}{The binary spatial predicate used to identify the smallest geofabric zones
+that matches the simple feature input in `name`}
 }
 \description{
 Download osm data from geofabric
@@ -36,5 +42,7 @@ get_geofabric("kdljfdl", ask = FALSE)
 # get zone associated with a point
 name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
 get_geofabric(name)
+name = sf::st_sfc(sf::st_point(c(0, 53)), sf::st_point(c(-2, 55)), crs = 4326)
+gf_find_sf(name)
 }
 }
