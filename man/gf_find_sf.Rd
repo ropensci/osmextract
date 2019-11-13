@@ -7,11 +7,12 @@
 gf_find_sf(name, ask = FALSE, op = sf::st_contains)
 }
 \arguments{
-\item{name}{Name of the geofabric zone to download}
+\item{name}{Name or spatial object of the geofabric zone to download}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
-\item{op}{TBD since I don't really understand this parameter}
+\item{op}{The binary spatial predicate used to identify the smallest geofabric zones
+that matches the simple feature input in `name`}
 }
 \value{
 A data frame representing the matching items from the Geofabrik website

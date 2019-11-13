@@ -7,7 +7,7 @@
 gf_find(name, ask = FALSE, max_dist = 3)
 }
 \arguments{
-\item{name}{Name of the geofabric zone to download}
+\item{name}{Name or spatial object of the geofabric zone to download}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
