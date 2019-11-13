@@ -116,7 +116,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Name of the geofabric zone to download</p></td>
+      <td><p>Name or spatial object of the geofabric zone to download</p></td>
     </tr>
     <tr>
       <th>ask</th>
@@ -124,7 +124,8 @@
     </tr>
     <tr>
       <th>op</th>
-      <td><p>TBD since I don't really understand this parameter</p></td>
+      <td><p>The binary spatial predicate used to identify the smallest geofabric zones
+that matches the simple feature input in `name`</p></td>
     </tr>
     </table>
 
@@ -134,7 +135,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>name</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/sfc.html'>st_sfc</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st.html'>st_point</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>53</span>)), <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>)
-<span class='fu'>gf_find_sf</span>(<span class='no'>name</span>)</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_within assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_contains assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The place is within these geofabrik zones: Europe, Great Britain, Britain and Ireland, England, Lincolnshire</span>
+<span class='fu'>gf_find_sf</span>(<span class='no'>name</span>)</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_contains assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The place is within these geofabrik zones: Europe, Great Britain, Britain and Ireland, England, Lincolnshire</span>
 #&gt; <span class='message'>Selecting the smallest: Lincolnshire</span></div><div class='output co'>#&gt; Simple feature collection with 1 feature and 11 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XYZ
