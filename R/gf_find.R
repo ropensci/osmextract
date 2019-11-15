@@ -13,8 +13,8 @@ gf_find = function(name, ask = FALSE, max_dist = 5) {
   best_match = which.min(matching_dist)
   geofabric_matches = geofabric_zones[best_match, ]
   high_distance = matching_dist[best_match] > max_dist
-  message("No exact matching geofabric zone. Best match is ", geofabric_matches$name, " ", geofabric_matches$size_pbf)
   if(high_distance) {
+    message("No exact matching geofabric zone. Best match is ", geofabric_matches$name, " ", geofabric_matches$size_pbf)
     if(interactive() & ask) {
       continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
       if(continue != 1L) {# since the options are Yes/No, then Yes == 1L

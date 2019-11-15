@@ -40,14 +40,14 @@ get_geofabric = function(
 
   if(inherits(name, "sf") | inherits(name, "sfc")) {
     if(nrow(name) > 1) {
-      warning("Matching only based on the first feature.")
+      warning("Matching only based on the first feature.", immediate. = TRUE)
       message("Try sf::st_union() to convert into a single multi feature.")
     }
     geofabric_matches = gf_find_sf(name, ask, op)
   } else {
     if(length(name) > 1) {
       name = name[1]
-      warning("Matching only the first name supplied.")
+      warning("Matching only the first name supplied: ", name, immediate. = TRUE)
     }
     geofabric_matches = gf_find(name, ask, max_dist)
   }
