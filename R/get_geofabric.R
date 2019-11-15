@@ -47,7 +47,7 @@ get_geofabric = function(
   } else {
     if(length(name) > 1) {
       name = name[1]
-      warning("Matching only the first name supplied.", immediate. = TRUE)
+      warning("Matching only the first name supplied: ", name, immediate. = TRUE)
     }
     geofabric_matches = gf_find(name, ask, max_dist)
   }
