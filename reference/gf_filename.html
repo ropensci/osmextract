@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find geofabric zones — gf_find • geofabric</title>
+<title>Get the filename of a file downloaded from geofabrik — gf_filename • geofabric</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Find geofabric zones — gf_find" />
-<meta property="og:description" content="Find geofabric zones" />
+<meta property="og:title" content="Get the filename of a file downloaded from geofabrik — gf_filename" />
+<meta property="og:description" content="Get the filename of a file downloaded from geofabrik" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,60 +100,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find geofabric zones</h1>
+    <h1>Get the filename of a file downloaded from geofabrik</h1>
     
-    <div class="hidden name"><code>gf_find.Rd</code></div>
+    <div class="hidden name"><code>gf_filename.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find geofabric zones</p>
+    <p>Get the filename of a file downloaded from geofabrik</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gf_find</span>(<span class='no'>name</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>max_dist</span> <span class='kw'>=</span> <span class='fl'>5</span>)</pre>
+    <pre class="usage"><span class='fu'>gf_filename</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"West Yorkshire"</span>,
+  <span class='kw'>download_directory</span> <span class='kw'>=</span> <span class='fu'>gf_download_directory</span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Name or spatial object of the geofabric zone to download</p></td>
+      <td><p>The name of the geofrabic zone. Must be an element in `geofabric::geofabric_zones$name`.</p></td>
     </tr>
     <tr>
-      <th>ask</th>
-      <td><p>Should the user be asked before downloading the file?</p></td>
-    </tr>
-    <tr>
-      <th>max_dist</th>
-      <td><p>What is the maximum distance in fuzzy matching to tolerate before asking
-the user to select which zone to download?</p></td>
+      <th>download_directory</th>
+      <td><p>Where to download the data? `tempdir()` by default.
+If you want to download your data into a persistent directory, set
+`GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
+`usethis::edit_r_environ()`.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A data frame representing the matching items from the Geofabrik website</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>gf_find</span>(<span class='st'>"Andorra"</span>)</div><div class='output co'>#&gt; <span class='message'>No exact matching geofabric zone. Best match is Andorra (1.5 MB)</span></div><div class='output co'>#&gt; Simple feature collection with 1 feature and 11 fields
-#&gt; geometry type:  MULTIPOLYGON
-#&gt; dimension:      XYZ
-#&gt; bbox:           xmin: 1.412368 ymin: 42.4276 xmax: 1.787481 ymax: 42.65717
-#&gt; epsg (SRID):    4326
-#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs
-#&gt;        name size_pbf                                                    pbf_url
-#&gt; 116 Andorra (1.5 MB) http://download.geofabrik.de/europe/andorra-latest.osm.pbf
-#&gt;                                             page_url part_of level continent
-#&gt; 116 http://download.geofabrik.de/europe/andorra.html  Europe     2    Europe
-#&gt;     country region subregion                                    geometry_url
-#&gt; 116 Andorra   &lt;NA&gt;      &lt;NA&gt; http://download.geofabrik.de/europe/andorra.kml
-#&gt;                           geometry
-#&gt; 116 MULTIPOLYGON Z (((1.516233 ...</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>=</span> <span class='fu'>gf_filename</span>(<span class='st'>"Isle of Wight"</span>)
+<span class='no'>f</span></div><div class='output co'>#&gt; [1] "/tmp/RtmpWjPinl/Isle of Wight.osm.pbf"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.exists</a></span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
