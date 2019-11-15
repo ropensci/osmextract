@@ -46,11 +46,10 @@ with `attributes` argument):
 library(geofabric)
 andorra_lines = get_geofabric(name = "andorra", layer = "lines")
 #> No exact matching geofabric zone. Best match is Andorra (1.5 MB)
-#> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to 
-#> /tmp/Rtmp3TDgSG/andorra.osm.pbf
+#> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp3TDgSG/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmp6x01W9/ini_new.ini)
 names(andorra_lines)
 #>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #>  [6] "barrier"    "man_made"   "maxspeed"   "oneway"     "building"  
@@ -60,10 +59,10 @@ names(andorra_lines)
 #> [26] "z_order"    "other_tags" "geometry"
 andorra_point = get_geofabric(name = "andorra", layer = "points", attributes = "shop")
 #> No exact matching geofabric zone. Best match is Andorra (1.5 MB)
-#> Data already detected in /tmp/Rtmp3TDgSG/andorra.osm.pbf
+#> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
 #> Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made
 #> New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp3TDgSG/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmp6x01W9/ini_new.ini)
 names(andorra_point) # note the 'shop' column has been added
 #>  [1] "osm_id"     "name"       "barrier"    "highway"    "ref"       
 #>  [6] "address"    "is_in"      "place"      "man_made"   "shop"      
@@ -84,31 +83,48 @@ will search for and import the nearest matching zone:
 ``` r
 iow_lines = get_geofabric(name = "isle wight")
 #> No exact matching geofabric zone. Best match is Isle of Wight (7.2 MB)
-#> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to 
-#> /tmp/Rtmp3TDgSG/isle wight.osm.pbf
+#> Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp3TDgSG/ini_new.ini)
-iow_file = file.path(tempdir(), "isle wight.osm.pbf")
-plot(iow_lines$geometry) # note the lines contain ferry services to france and elsewhere
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmp6x01W9/ini_new.ini)
 ```
 
-<img src="man/figures/README-matching-1.png" width="100%" />
-
-Take care: files downloaded from geofabrik can be large.
-
-If you want to use `st_read()` to read-in the .pbf files, e.g. to set
-additional query arguments, you can do so, as demonstrated
-below.
+Take care: files downloaded from geofabrik can be large. You can find
+information on the geofabrik region defining the boundaries of the
+result with `gf_find()`:
 
 ``` r
-query = "select highway from lines where highway = 'cycleway' or highway = 'residential'"
-iow_lines_subset = sf::st_read(iow_file, layer = "lines", query = query)
-#> Reading layer `lines' from data source `/tmp/Rtmp3TDgSG/isle wight.osm.pbf' using driver `OSM'
-#> Simple feature collection with 2537 features and 1 field
+iow_gf_region = gf_find("isle wight")
+#> No exact matching geofabric zone. Best match is Isle of Wight (7.2 MB)
+plot(iow_gf_region)
+#> Warning: plotting the first 9 out of 11 attributes; use max.plot = 11 to plot
+#> all
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+``` r
+iow_gf_name = iow_gf_region$name
+iow_gf_name
+#> [1] "Isle of Wight"
+```
+
+If you want to use `st_read()` to read-in the .pbf files, e.g. to set
+additional query arguments, you can do so, as demonstrated below.
+
+``` r
+iow_gf_file = gf_filename(iow_gf_name)
+iow_gf_file
+#> [1] "~/hd/data/osm/Isle of Wight.osm.pbf"
+file.exists(iow_gf_file)
+#> [1] TRUE
+query = "select highway from lines where highway = 'cycleway' or highway = 'secondary' or highway = 'primary'"
+iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/Isle of Wight.osm.pbf' using driver `OSM'
+#> Simple feature collection with 1057 features and 1 field
 #> geometry type:  LINESTRING
 #> dimension:      XY
-#> bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727
+#> bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245
 #> epsg (SRID):    4326
 #> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 plot(iow_lines_subset)
@@ -141,9 +157,9 @@ info about each geofabric zone:
 
 ``` r
 names(geofabric_zones)
-#>  [1] "name"         "size_pbf"     "pbf_url"      "page_url"    
-#>  [5] "part_of"      "level"        "continent"    "country"     
-#>  [9] "region"       "subregion"    "geometry_url" "geometry"
+#>  [1] "name"         "size_pbf"     "pbf_url"      "page_url"     "part_of"     
+#>  [6] "level"        "continent"    "country"      "region"       "subregion"   
+#> [11] "geometry_url" "geometry"
 ```
 
 Each geographic level (continents, countries, regions and subregions) is

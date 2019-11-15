@@ -7,7 +7,7 @@
 get_geofabric(name = "west-yorkshire", layer = "lines",
   attributes = make_additional_attributes(layer = layer),
   download_directory = gf_download_directory(), ask = TRUE,
-  max_dist = 3, op = sf::st_contains)
+  max_dist = 5, op = sf::st_contains)
 }
 \arguments{
 \item{name}{Name or spatial object of the geofabric zone to download}

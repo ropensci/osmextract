@@ -4,7 +4,7 @@
 \alias{gf_find}
 \title{Find geofabric zones}
 \usage{
-gf_find(name, ask = FALSE, max_dist = 3)
+gf_find(name, ask = FALSE, max_dist = 5)
 }
 \arguments{
 \item{name}{Name or spatial object of the geofabric zone to download}

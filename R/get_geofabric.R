@@ -34,7 +34,7 @@ get_geofabric = function(
   attributes = make_additional_attributes(layer = layer),
   download_directory = gf_download_directory(),
   ask = TRUE,
-  max_dist = 3,
+  max_dist = 5,
   op = sf::st_contains
   ) {
 
@@ -91,6 +91,28 @@ gf_download_directory = function(){
     d = tempdir()
   }
   d
+}
+
+
+#' Get the filename of a file downloaded from geofabrik
+#'
+#' @param name The name of the geofrabic zone. Must be an element in `geofabric::geofabric_zones$name`.
+#' @inheritParams get_geofabric
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' f = gf_filename("Isle of Wight")
+#' f
+#' file.exists(f)
+gf_filename = function(
+  name = "West Yorkshire",
+  # format = "pbf",
+  download_directory = gf_download_directory()
+) {
+  stopifnot(name %in% geofabric::geofabric_zones$name)
+  file.path(download_directory, paste0(name, ".osm.pbf"))
 }
 
 # old version of function -------------------------------------------------

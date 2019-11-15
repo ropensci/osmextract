@@ -55,17 +55,26 @@ If there are no files available for a zone name, geofabric will search for and i
 
 ```{r matching}
 iow_lines = get_geofabric(name = "isle wight")
-iow_file = file.path(tempdir(), "isle wight.osm.pbf")
-plot(iow_lines$geometry) # note the lines contain ferry services to france and elsewhere
 ```
 
 Take care: files downloaded from geofabrik can be large.
+You can find information on the geofabrik region defining the boundaries of the result with `gf_find()`: 
+
+```{r}
+iow_gf_region = gf_find("isle wight")
+plot(iow_gf_region)
+iow_gf_name = iow_gf_region$name
+iow_gf_name
+```
 
 If you want to use `st_read()` to read-in the .pbf files, e.g. to set additional query arguments, you can do so, as demonstrated below.
 
 ```{r query}
-query = "select highway from lines where highway = 'cycleway' or highway = 'residential'"
-iow_lines_subset = sf::st_read(iow_file, layer = "lines", query = query)
+iow_gf_file = gf_filename(iow_gf_name)
+iow_gf_file
+file.exists(iow_gf_file)
+query = "select highway from lines where highway = 'cycleway' or highway = 'secondary' or highway = 'primary'"
+iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
 plot(iow_lines_subset)
 ```
 
