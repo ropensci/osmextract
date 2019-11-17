@@ -16,8 +16,8 @@
 #'
 #' @export
 #' @examples
-#' get_geofabric("isle of man")
 #' \donttest{
+#' get_geofabric("isle of man")
 #' get_geofabric(name = "andorra") # try other names, e.g. name = "west-yorkshire"
 #' # user asked to choose closest match when interactive
 #' get_geofabric("kdljfdl", ask = FALSE)
