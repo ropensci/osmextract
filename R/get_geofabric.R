@@ -39,7 +39,8 @@ get_geofabric = function(
   ) {
 
   if(inherits(name, "sf") | inherits(name, "sfc")) {
-    if(nrow(name) > 1) {
+    name <- sf::st_geometry(name)
+    if(length(name) > 1) {
       warning("Matching only based on the first feature.", immediate. = TRUE)
       message("Try sf::st_union() to convert into a single multi feature.")
     }
