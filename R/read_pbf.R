@@ -3,6 +3,8 @@
 #' @inheritParams make_additional_attributes
 #' @param dsn The location of the file
 #' @param ini_file A modified version of https://github.com/OSGeo/gdal/raw/master/gdal/data/osmconf.ini
+#' @param key Character string defining the key values to subset the data from, e.g. `"highway"`
+#' @param value The value(s) the `key` can take, e.g. `"cycleway"`
 #'
 #' @export
 #' @examples
@@ -14,9 +16,13 @@
 #' names(res)
 #' res = read_pbf(f, layer = "points")
 #' names(res)
+#' res_cycleway = res = read_pbf(f, layer = "lines", key = "highway", value = "cycleway")
+#' plot(res_cycleway)
 #' }
 read_pbf = function(dsn,
                     layer = "lines",
+                    key = NULL,
+                    value = NULL,
                     attributes = make_additional_attributes(layer = layer),
                     ini_file = NULL,
                     append = TRUE) {
@@ -25,8 +31,16 @@ read_pbf = function(dsn,
     ini_new = make_ini_attributes(attributes = attributes, layer = layer, append = TRUE)
     writeLines(ini_new, ini_file)
   }
-  message("Using ini file that can can be edited with file.edit(", ini_file, ")")
   config_options = paste0("CONFIG_FILE=", ini_file)
+  if(!is.null(key)) {
+    if(is.null(value)) {
+      value = "*"
+    }
+    query = paste0("select ", key, " from ", layer, " where ", key, " = '", value,"'")
+    res = sf::read_sf(dsn = dsn, layer = layer, options = config_options, query = query)
+    return(res)
+  }
+  message("Using ini file that can can be edited with file.edit(", ini_file, ")")
   res = sf::read_sf(dsn = dsn, layer = layer, options = config_options)
 }
 #' Get modified version of config file for reading .pbf files with GDAL/sf
