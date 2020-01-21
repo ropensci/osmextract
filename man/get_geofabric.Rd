@@ -43,9 +43,9 @@ Download osm data from geofabric
 get_geofabric("isle of man")
 get_geofabric(name = "andorra") # try other names, e.g. name = "west-yorkshire"
 # user asked to choose closest match when interactive
-get_geofabric("kdljfdl", ask = FALSE)
+# get_geofabric("kdljfdl", ask = FALSE)
 # get zone associated with a point
-name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
+name = sf::st_sfc(sf::st_point(c(-1.3, 50.7)), crs = 4326)
 get_geofabric(name)
 name = sf::st_sfc(sf::st_point(c(0, 53)), sf::st_point(c(-2, 55)), crs = 4326)
 gf_find_sf(name)
