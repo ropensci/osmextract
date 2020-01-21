@@ -109,9 +109,15 @@
     <p>Read pbf files with additional attributes</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_pbf</span>(<span class='no'>dsn</span>, <span class='kw'>layer</span> <span class='kw'>=</span> <span class='st'>"lines"</span>,
+    <pre class="usage"><span class='fu'>read_pbf</span>(
+  <span class='no'>dsn</span>,
+  <span class='kw'>layer</span> <span class='kw'>=</span> <span class='st'>"lines"</span>,
+  <span class='kw'>key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>value</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>attributes</span> <span class='kw'>=</span> <span class='fu'><a href='make_additional_attributes.html'>make_additional_attributes</a></span>(<span class='kw'>layer</span> <span class='kw'>=</span> <span class='no'>layer</span>),
-  <span class='kw'>ini_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>ini_file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -124,6 +130,14 @@
       <th>layer</th>
       <td><p>Which layer to read in? One of
 "points"           "lines"            "multipolygons"    "multilinestrings" or "other_relations"</p></td>
+    </tr>
+    <tr>
+      <th>key</th>
+      <td><p>Character string defining the key values to subset the data from, e.g. `"highway"`</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>The value(s) the `key` can take, e.g. `"cycleway"`</p></td>
     </tr>
     <tr>
       <th>attributes</th>
@@ -145,7 +159,23 @@
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='no'>pbf_url</span> <span class='kw'>=</span> <span class='no'>geofabric_zones</span>$<span class='no'>pbf_url</span>[<span class='no'>geofabric_zones</span>$<span class='no'>name</span> <span class='kw'>==</span> <span class='st'>"Isle of Wight"</span>]
 <span class='no'>f</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"test.osm.pbf"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='no'>pbf_url</span>, <span class='no'>f</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open URL 'http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf': HTTP status was '429 Unknown Error'</span></div><div class='output co'>#&gt; <span class='error'>Error in download.file(pbf_url, f): cannot open URL 'http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf'</span></div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>read_pbf</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; <span class='message'>Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></div><div class='output co'>#&gt; <span class='message'>New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></div><div class='output co'>#&gt; <span class='message'>Using ini file that can can be edited with file.edit(/tmp/RtmpaTQ3jZ/ini_new.ini)</span></div><div class='output co'>#&gt; <span class='error'>Error: Cannot open "/tmp/RtmpaTQ3jZ/test.osm.pbf"; The file doesn't seem to exist.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'res' not found</span></div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>read_pbf</span>(<span class='no'>f</span>, <span class='kw'>layer</span> <span class='kw'>=</span> <span class='st'>"points"</span>)</div><div class='output co'>#&gt; <span class='message'>Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made</span></div><div class='output co'>#&gt; <span class='message'>New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,building,natural,surface,source,power,amenity,shop,operator</span></div><div class='output co'>#&gt; <span class='message'>Using ini file that can can be edited with file.edit(/tmp/RtmpaTQ3jZ/ini_new.ini)</span></div><div class='output co'>#&gt; <span class='error'>Error: Cannot open "/tmp/RtmpaTQ3jZ/test.osm.pbf"; The file doesn't seem to exist.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'res' not found</span></div><div class='input'># }
+<span class='fu'><a href='https://rdrr.io/r/utils/download.file.html'>download.file</a></span>(<span class='no'>pbf_url</span>, <span class='no'>f</span>)
+<span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>read_pbf</span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; <span class='message'>Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></div><div class='output co'>#&gt; <span class='message'>New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></div><div class='output co'>#&gt; <span class='message'>Using ini file that can can be edited with file.edit(/tmp/Rtmpht4vh1/ini_new.ini)</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+#&gt;  [6] "barrier"    "man_made"   "maxspeed"   "oneway"     "building"  
+#&gt; [11] "surface"    "landuse"    "natural"    "start_date" "wall"      
+#&gt; [16] "service"    "lanes"      "layer"      "tracktype"  "bridge"    
+#&gt; [21] "foot"       "bicycle"    "lit"        "railway"    "footway"   
+#&gt; [26] "z_order"    "other_tags" "geometry"  </div><div class='input'><span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>read_pbf</span>(<span class='no'>f</span>, <span class='kw'>layer</span> <span class='kw'>=</span> <span class='st'>"points"</span>)</div><div class='output co'>#&gt; <span class='message'>Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made</span></div><div class='output co'>#&gt; <span class='message'>New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,building,natural,surface,source,power,amenity,shop,operator</span></div><div class='output co'>#&gt; <span class='message'>Using ini file that can can be edited with file.edit(/tmp/Rtmpht4vh1/ini_new.ini)</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "barrier"    "highway"    "ref"       
+#&gt;  [6] "address"    "is_in"      "place"      "man_made"   "building"  
+#&gt; [11] "natural"    "surface"    "source"     "power"      "amenity"   
+#&gt; [16] "shop"       "operator"   "other_tags" "geometry"  </div><div class='input'><span class='no'>res_cycleway</span> <span class='kw'>=</span> <span class='no'>res</span> <span class='kw'>=</span> <span class='fu'>read_pbf</span>(<span class='no'>f</span>, <span class='kw'>layer</span> <span class='kw'>=</span> <span class='st'>"lines"</span>, <span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"highway"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"cycleway"</span>)</div><div class='output co'>#&gt; <span class='message'>Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></div><div class='output co'>#&gt; <span class='message'>New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>res_cycleway</span>)</div><div class='img'><img src='read_pbf-1.png' alt='' width='700' height='433' /></div><div class='input'># for europe # uncomment to get big dataset
+# f_en = gf_filename("England")
+# u_en = geofabric_zones$pbf_url[geofabric_zones$name == "England"]
+# download.file(u_en, f_en)
+# cycleway_en = read_pbf(f_en, layer = "lines", key = "highway", value = "cycleway")
+# plot(cycleway_en$geometry)
+# pryr::object_size(cycleway_en)
+# }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
