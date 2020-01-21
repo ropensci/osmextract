@@ -7,8 +7,12 @@
 \usage{
 make_additional_attributes(layer)
 
-make_ini_attributes(attributes, layer,
-  defaults = get_ini_layer_defaults(layer), append = TRUE)
+make_ini_attributes(
+  attributes,
+  layer,
+  defaults = get_ini_layer_defaults(layer),
+  append = TRUE
+)
 }
 \arguments{
 \item{layer}{Which layer to read in? One of

@@ -4,15 +4,25 @@
 \alias{read_pbf}
 \title{Read pbf files with additional attributes}
 \usage{
-read_pbf(dsn, layer = "lines",
+read_pbf(
+  dsn,
+  layer = "lines",
+  key = NULL,
+  value = NULL,
   attributes = make_additional_attributes(layer = layer),
-  ini_file = NULL, append = TRUE)
+  ini_file = NULL,
+  append = TRUE
+)
 }
 \arguments{
 \item{dsn}{The location of the file}
 
 \item{layer}{Which layer to read in? One of
 "points"           "lines"            "multipolygons"    "multilinestrings" or "other_relations"}
+
+\item{key}{Character string defining the key values to subset the data from, e.g. `"highway"`}
+
+\item{value}{The value(s) the `key` can take, e.g. `"cycleway"`}
 
 \item{attributes}{Vector of character strings naming attributes to import}
 
@@ -33,5 +43,14 @@ res = read_pbf(f)
 names(res)
 res = read_pbf(f, layer = "points")
 names(res)
+res_cycleway = res = read_pbf(f, layer = "lines", key = "highway", value = "cycleway")
+plot(res_cycleway)
+# for europe # uncomment to get big dataset
+# f_en = gf_filename("England")
+# u_en = geofabric_zones$pbf_url[geofabric_zones$name == "England"]
+# download.file(u_en, f_en)
+# cycleway_en = read_pbf(f_en, layer = "lines", key = "highway", value = "cycleway")
+# plot(cycleway_en$geometry)
+# pryr::object_size(cycleway_en)
 }
 }

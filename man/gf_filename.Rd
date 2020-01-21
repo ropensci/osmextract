@@ -4,8 +4,10 @@
 \alias{gf_filename}
 \title{Get the filename of a file downloaded from geofabrik}
 \usage{
-gf_filename(name = "West Yorkshire",
-  download_directory = gf_download_directory())
+gf_filename(
+  name = "West Yorkshire",
+  download_directory = gf_download_directory()
+)
 }
 \arguments{
 \item{name}{The name of the geofrabic zone. Must be an element in `geofabric::geofabric_zones$name`.}
@@ -14,6 +16,9 @@ gf_filename(name = "West Yorkshire",
 If you want to download your data into a persistent directory, set
 `GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
 `usethis::edit_r_environ()`.}
+}
+\value{
+
 }
 \description{
 Get the filename of a file downloaded from geofabrik

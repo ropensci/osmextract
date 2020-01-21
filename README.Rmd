@@ -73,10 +73,29 @@ If you want to use `st_read()` to read-in the .pbf files, e.g. to set additional
 iow_gf_file = gf_filename(iow_gf_name)
 iow_gf_file
 file.exists(iow_gf_file)
-query = "select highway from lines where highway = 'cycleway' or highway = 'secondary' or highway = 'primary'"
+iow_lines_cycle = read_pbf(dsn = iow_gf_file, "lines", key = "highway", value = "cycleway")
+plot(iow_lines_cycle)
+```
+
+If you want even more control, you can used GDAL's `query` argument via `sf`:
+
+```{r}
+query = paste0("select highway from lines where highway = ",
+               "'cycleway' or highway = 'secondary' or highway = 'primary'")
 iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
 plot(iow_lines_subset)
 ```
+
+You can also get your geofabric data based on a spatial query, for example in Honduras:
+
+```{r}
+library(geofabric)
+place_sf = sf::st_as_sf(data.frame(x = -86, y = 15, n = 1),
+                        coords = c("x", "y"), crs = 4326)
+osm_data_place = get_geofabric(place_sf)
+plot(osm_data_place["highway"])
+```
+
 
 # geofabrik zones
 
