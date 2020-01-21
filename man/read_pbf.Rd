@@ -9,6 +9,7 @@ read_pbf(
   layer = "lines",
   key = NULL,
   value = NULL,
+  selected_columns = "*",
   attributes = make_additional_attributes(layer = layer),
   ini_file = NULL,
   append = TRUE
@@ -23,6 +24,8 @@ read_pbf(
 \item{key}{Character string defining the key values to subset the data from, e.g. `"highway"`}
 
 \item{value}{The value(s) the `key` can take, e.g. `"cycleway"`}
+
+\item{selected_columns}{The columns to return in the output}
 
 \item{attributes}{Vector of character strings naming attributes to import}
 
@@ -39,13 +42,24 @@ Read pbf files with additional attributes
 pbf_url = geofabric_zones$pbf_url[geofabric_zones$name == "Isle of Wight"]
 f = file.path(tempdir(), "test.osm.pbf")
 download.file(pbf_url, f)
+# testing read_sf
+sf::st_layers(f)
+res = sf::read_sf(f) # works
+res = sf::read_sf(f, query = "select * from lines") # works
+res = sf::read_sf(f, query = "select * from multipolygons") # works
+res = read_pbf(f, layer = "multipolygons")
+q = "select * from lines where highway = 'cycleway'"
+res_cycleways = sf::read_sf(f, layer = "lines", query = q)
+res_cycleways = read_pbf(f, key = "highway", value = "cycleway") # more concise
 res = read_pbf(f)
 names(res)
 res = read_pbf(f, layer = "points")
 names(res)
+res = read_pbf(f, selected_columns = "highway") # only return highway column
+names(res)
 res_cycleway = res = read_pbf(f, layer = "lines", key = "highway", value = "cycleway")
 plot(res_cycleway)
-# for europe # uncomment to get big dataset
+# uncomment to get big dataset
 # f_en = gf_filename("England")
 # u_en = geofabric_zones$pbf_url[geofabric_zones$name == "England"]
 # download.file(u_en, f_en)

@@ -5,20 +5,31 @@
 #' @param ini_file A modified version of https://github.com/OSGeo/gdal/raw/master/gdal/data/osmconf.ini
 #' @param key Character string defining the key values to subset the data from, e.g. `"highway"`
 #' @param value The value(s) the `key` can take, e.g. `"cycleway"`
-#'
+#' @param selected_columns The columns to return in the output
 #' @export
 #' @examples
 #' \donttest{
 #' pbf_url = geofabric_zones$pbf_url[geofabric_zones$name == "Isle of Wight"]
 #' f = file.path(tempdir(), "test.osm.pbf")
 #' download.file(pbf_url, f)
+#' # testing read_sf
+#' sf::st_layers(f)
+#' res = sf::read_sf(f) # works
+#' res = sf::read_sf(f, query = "select * from lines") # works
+#' res = sf::read_sf(f, query = "select * from multipolygons") # works
+#' res = read_pbf(f, layer = "multipolygons")
+#' q = "select * from lines where highway = 'cycleway'"
+#' res_cycleways = sf::read_sf(f, layer = "lines", query = q)
+#' res_cycleways = read_pbf(f, key = "highway", value = "cycleway") # more concise
 #' res = read_pbf(f)
 #' names(res)
 #' res = read_pbf(f, layer = "points")
 #' names(res)
+#' res = read_pbf(f, selected_columns = "highway") # only return highway column
+#' names(res)
 #' res_cycleway = res = read_pbf(f, layer = "lines", key = "highway", value = "cycleway")
 #' plot(res_cycleway)
-#' # for europe # uncomment to get big dataset
+#' # uncomment to get big dataset
 #' # f_en = gf_filename("England")
 #' # u_en = geofabric_zones$pbf_url[geofabric_zones$name == "England"]
 #' # download.file(u_en, f_en)
@@ -30,25 +41,26 @@ read_pbf = function(dsn,
                     layer = "lines",
                     key = NULL,
                     value = NULL,
+                    selected_columns = "*",
                     attributes = make_additional_attributes(layer = layer),
                     ini_file = NULL,
-                    append = TRUE) {
+                    append = TRUE
+                    ) {
   if(is.null(ini_file)) {
     ini_file = file.path(tempdir(), "ini_new.ini")
     ini_new = make_ini_attributes(attributes = attributes, layer = layer, append = TRUE)
     writeLines(ini_new, ini_file)
   }
   config_options = paste0("CONFIG_FILE=", ini_file)
+  query = paste0("select ", selected_columns, " from ", layer)
   if(!is.null(key)) {
     if(is.null(value)) {
       value = "*"
     }
-    query = paste0("select ", key, " from ", layer, " where ", key, " = '", value,"'")
-    res = sf::read_sf(dsn = dsn, layer = layer, options = config_options, query = query)
-    return(res)
+    query = paste0(query, " where ", key, " = '", value,"'")
   }
   message("Using ini file that can can be edited with file.edit(", ini_file, ")")
-  res = sf::read_sf(dsn = dsn, layer = layer, options = config_options)
+  res = sf::read_sf(dsn = dsn, layer = layer, options = config_options, query = query)
 }
 #' Get modified version of config file for reading .pbf files with GDAL/sf
 #'
