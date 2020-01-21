@@ -18,6 +18,13 @@
 #' names(res)
 #' res_cycleway = res = read_pbf(f, layer = "lines", key = "highway", value = "cycleway")
 #' plot(res_cycleway)
+#' # for europe # uncomment to get big dataset
+#' # f_en = gf_filename("England")
+#' # u_en = geofabric_zones$pbf_url[geofabric_zones$name == "England"]
+#' # download.file(u_en, f_en)
+#' # cycleway_en = read_pbf(f_en, layer = "lines", key = "highway", value = "cycleway")
+#' # plot(cycleway_en$geometry)
+#' # pryr::object_size(cycleway_en)
 #' }
 read_pbf = function(dsn,
                     layer = "lines",
