@@ -1,5 +1,4 @@
-## code to prepare `geofabric_urls` dataset goes here
-
+## code to prepare `geofabrik_urls` dataset goes here
 library(tidyverse)
 library(rvest)
 
@@ -169,6 +168,5 @@ for(i in 2:nrow(t_regions)) {
 t_all = rbind(t_continents, t_countries, t_regions, t_subregions)
 mapview::mapview(t_all)
 
-geofabric_zones = t_all
-
-usethis::use_data(geofabric_zones)
+geofabrik_zones = t_all
+usethis::use_data(geofabrik_zones)
