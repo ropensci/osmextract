@@ -14,14 +14,18 @@
 #' the user to select which zone to download?
 #' @param op The binary spatial predicate used to identify the smallest geofabrik zones
 #' that matches the simple feature input in `name`
+#' @param ... Additional arguments passed to [`read_pbf()`]
 #'
 #' @export
 #' @examples
 #' \donttest{
 #' get_geofabrik("isle of man")
-#' get_geofabrik(name = "andorra") # try other names, e.g. name = "west-yorkshire"
+#' andorra = get_geofabrik(name = "andorra") # try other names, e.g. name = "west-yorkshire"
+#' head(andorra)
+#' cycleways_andorra = get_geofabrik("andorra", key = "highway", value = "cycleway")
+#' plot(cycleways_andorra)
 #' # user asked to choose closest match when interactive
-#' # get_geofabrik("kdljfdl", ask = FALSE)
+#' # get_geofabrik("kdljfdl", ask = FALSE) # not run to save time
 #' # get zone associated with a point
 #' name = sf::st_sfc(sf::st_point(c(-1.3, 50.7)), crs = 4326)
 #' get_geofabrik(name)
@@ -32,6 +36,7 @@ get_geofabrik = function(
   name = "west-yorkshire",
   # format = "pbf",
   layer = "lines",
+  ...,
   attributes = make_additional_attributes(layer = layer),
   download_directory = gf_download_directory(),
   ask = TRUE,
@@ -84,7 +89,7 @@ get_geofabrik = function(
   # message("The following shapefiles have been downloaded:")
   # shapefiles = list.files(path = unzip_directory, pattern = ".shp", full.names = TRUE)
   # return(shapefiles)
-  read_pbf(download_path, layer = layer, attributes = attributes)
+  read_pbf(download_path, layer = layer, attributes = attributes, ...)
 }
 
 gf_download_directory = function(){

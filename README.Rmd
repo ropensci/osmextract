@@ -21,6 +21,28 @@ knitr::opts_chunk$set(
 
 The goal of `geofabrik` is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by [Geofabrik GmbH](http://download.geofabrik.de).
 
+## Why geofabrik?
+
+[`osmdata`](https://github.com/ropensci/osmdata) provides an R interface to the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API), which is ideal for downloading small OSM datasets. However, the API is rate limited, making it hard to download large datasets.
+As a case study, let's try to download all cycleways in England:
+
+```{r, eval=FALSE}
+library(osmdata)
+cycleways_england = opq("England") %>% 
+  add_osm_feature(key = "highway", value = "cycleway") %>% 
+  osmdata_sf()
+# Error in check_for_error(doc) : General overpass server error; returned:
+# The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. 
+```
+
+The query hanged with an error message after around 10 seconds.
+The same query can be made with `geofabrik` as follows:
+
+```{r}
+library(geofabrik)
+
+```
+
 ## Installation
 
 <!-- You can install the released version of geofabrik from [CRAN](https://CRAN.R-project.org) with: -->
@@ -41,7 +63,6 @@ By default it imports the 'lines' layer, but any layer can be read-in.
 Behind the scenes, the function `read_pbf()`, a wrapper around `sf::st_read()` is used with configuration options to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set with `attributes` argument):
 
 ```{r example}
-library(geofabrik)
 andorra_lines = get_geofabrik(name = "andorra", layer = "lines")
 names(andorra_lines)
 andorra_point = get_geofabrik(name = "andorra", layer = "points", attributes = "shop")

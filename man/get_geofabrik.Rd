@@ -7,6 +7,7 @@
 get_geofabrik(
   name = "west-yorkshire",
   layer = "lines",
+  ...,
   attributes = make_additional_attributes(layer = layer),
   download_directory = gf_download_directory(),
   ask = TRUE,
@@ -20,6 +21,8 @@ to download. See examples.}
 
 \item{layer}{Character string telling `sf` which OSM layer to import.
 One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`}
+
+\item{...}{Additional arguments passed to [`read_pbf()`]}
 
 \item{attributes}{Vector of character strings naming attributes to import}
 
@@ -42,9 +45,12 @@ Download OSM data from [geofabrik.de](http://www.geofabrik.de/)
 \examples{
 \donttest{
 get_geofabrik("isle of man")
-get_geofabrik(name = "andorra") # try other names, e.g. name = "west-yorkshire"
+andorra = get_geofabrik(name = "andorra") # try other names, e.g. name = "west-yorkshire"
+head(andorra)
+cycleways_andorra = get_geofabrik("andorra", key = "highway", value = "cycleway")
+plot(cycleways_andorra)
 # user asked to choose closest match when interactive
-# get_geofabrik("kdljfdl", ask = FALSE)
+# get_geofabrik("kdljfdl", ask = FALSE) # not run to save time
 # get zone associated with a point
 name = sf::st_sfc(sf::st_point(c(-1.3, 50.7)), crs = 4326)
 get_geofabrik(name)
