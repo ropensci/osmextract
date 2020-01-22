@@ -36,12 +36,19 @@ cycleways_england = opq("England") %>%
 ```
 
 The query hanged with an error message after around 10 seconds.
-The same query can be made with `geofabrik` as follows:
+The same query can be made with `geofabrik` as follows (not evaluated):
 
 ```{r}
 library(geofabrik)
-
 ```
+
+```{r, eval=FALSE}
+cycleways_england = get_geofabrik("England", key = "highway", value = "cycleway")
+plot(sf::st_geometry(cycleways_england))
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
 
 ## Installation
 

@@ -14,6 +14,38 @@ users to access freely available, community created geographic data, in
 the form of OpenSteetMap data shipped by [Geofabrik
 GmbH](http://download.geofabrik.de).
 
+## Why geofabrik?
+
+[`osmdata`](https://github.com/ropensci/osmdata) provides an R interface
+to the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API),
+which is ideal for downloading small OSM datasets. However, the API is
+rate limited, making it hard to download large datasets. As a case
+study, let’s try to download all cycleways in England:
+
+``` r
+library(osmdata)
+cycleways_england = opq("England") %>% 
+  add_osm_feature(key = "highway", value = "cycleway") %>% 
+  osmdata_sf()
+# Error in check_for_error(doc) : General overpass server error; returned:
+# The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. 
+```
+
+The query hanged with an error message after around 10 seconds. The same
+query can be made with `geofabrik` as follows (not
+evaluated):
+
+``` r
+library(geofabrik)
+```
+
+``` r
+cycleways_england = get_geofabrik("England", key = "highway", value = "cycleway")
+plot(sf::st_geometry(cycleways_england))
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
 ## Installation
 
 <!-- You can install the released version of geofabrik from [CRAN](https://CRAN.R-project.org) with: -->
@@ -43,13 +75,11 @@ columns from the `.pbf` files not imported by default, including
 with `attributes` argument):
 
 ``` r
-library(geofabrik)
 andorra_lines = get_geofabrik(name = "andorra", layer = "lines")
-#> Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to 
-#> /tmp/RtmpuGQe7Z/Andorra.osm.pbf
+#> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)
 names(andorra_lines)
 #>  [1] "osm_id"         "name"           "highway"        "waterway"      
 #>  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      
@@ -59,10 +89,10 @@ names(andorra_lines)
 #> [21] "foot"           "bicycle"        "lit"            "railway"       
 #> [25] "footway"        "z_order"        "other_tags"     "_ogr_geometry_"
 andorra_point = get_geofabrik(name = "andorra", layer = "points", attributes = "shop")
-#> Data already detected in /tmp/RtmpuGQe7Z/Andorra.osm.pbf
+#> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
 #> Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made
 #> New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)
 names(andorra_point) # note the 'shop' column has been added
 #>  [1] "osm_id"         "name"           "barrier"        "highway"       
 #>  [5] "ref"            "address"        "is_in"          "place"         
@@ -82,11 +112,10 @@ will search for and import the nearest matching zone:
 
 ``` r
 iow_lines = get_geofabrik(name = "isle wight")
-#> Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to 
-#> /tmp/RtmpuGQe7Z/Isle of Wight.osm.pbf
+#> Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)
 ```
 
 Take care: files downloaded from
@@ -101,7 +130,7 @@ plot(iow_gf_region)
 #> all
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ``` r
 iow_gf_name = iow_gf_region$name
@@ -115,13 +144,13 @@ additional query arguments, you can do so, as demonstrated below.
 ``` r
 iow_gf_file = gf_filename(iow_gf_name)
 iow_gf_file
-#> [1] "/tmp/RtmpuGQe7Z/Isle of Wight.osm.pbf"
+#> [1] "~/hd/data/osm/Isle of Wight.osm.pbf"
 file.exists(iow_gf_file)
 #> [1] TRUE
 iow_lines_cycle = read_pbf(dsn = iow_gf_file, "lines", key = "highway", value = "cycleway")
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)
 plot(iow_lines_cycle)
 #> Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot
 #> all
@@ -136,8 +165,8 @@ If you want even more control, you can used GDAL’s `query` argument via
 query = paste0("select highway from lines where highway = ",
                "'cycleway' or highway = 'secondary' or highway = 'primary'")
 iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
-#> Reading layer `lines' from data source `/tmp/RtmpuGQe7Z/Isle of Wight.osm.pbf' using driver `OSM'
-#> Simple feature collection with 1058 features and 1 field
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/Isle of Wight.osm.pbf' using driver `OSM'
+#> Simple feature collection with 1057 features and 1 field
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245
@@ -146,7 +175,7 @@ iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
 plot(iow_lines_subset)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 <!-- TODO: FIX THE FOLLOWING PART SINCE IT DOESN'T WORK -->
 
