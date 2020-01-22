@@ -1,1 +1,1 @@
-utils::globalVariables(c("geofabric_zones"))
+utils::globalVariables(c("geofabrik_zones"))
