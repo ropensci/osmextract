@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.org/itsleeds/geofabric.svg?branch=master)](https://travis-ci.org/itsleeds/geofabric)
+status](https://travis-ci.org/itsleeds/geofabrik.svg?branch=master)](https://travis-ci.org/itsleeds/geofabrik)
 <!-- badges: end -->
 
 The goal of `geofabrik` is to make it easier for open source software
@@ -90,7 +90,7 @@ andorra_lines = get_geofabrik(name = "andorra", layer = "lines")
 #> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
 names(andorra_lines)
 #>  [1] "osm_id"         "name"           "highway"        "waterway"      
 #>  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      
@@ -103,7 +103,7 @@ andorra_point = get_geofabrik(name = "andorra", layer = "points", attributes = "
 #> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
 #> Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made
 #> New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
 names(andorra_point) # note the 'shop' column has been added
 #>  [1] "osm_id"         "name"           "barrier"        "highway"       
 #>  [5] "ref"            "address"        "is_in"          "place"         
@@ -126,7 +126,7 @@ iow_lines = get_geofabrik(name = "isle wight")
 #> Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
 ```
 
 Take care: files downloaded from
@@ -161,7 +161,7 @@ file.exists(iow_gf_file)
 iow_lines_cycle = read_pbf(dsn = iow_gf_file, "lines", key = "highway", value = "cycleway")
 #> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
 #> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)
+#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
 plot(iow_lines_cycle)
 #> Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot
 #> all
