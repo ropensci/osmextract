@@ -74,6 +74,22 @@
 <!-- badges: start -->
 
 <p>The goal of <code>geofabrik</code> is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by <a href="http://download.geofabrik.de">Geofabrik GmbH</a>.</p>
+<div id="why-geofabrik" class="section level2">
+<h2 class="hasAnchor">
+<a href="#why-geofabrik" class="anchor"></a>Why geofabrik?</h2>
+<p><a href="https://github.com/ropensci/osmdata"><code>osmdata</code></a> provides an R interface to the <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API</a>, which is ideal for downloading small OSM datasets. However, the API is rate limited, making it hard to download large datasets. As a case study, let’s try to download all cycleways in England:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(osmdata)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">cycleways_england =<span class="st"> </span><span class="kw">opq</span>(<span class="st">"England"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="st">  </span><span class="kw">add_osm_feature</span>(<span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw">osmdata_sf</span>()</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># Error in check_for_error(doc) : General overpass server error; returned:</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span></a></code></pre></div>
+<p>The query hanged with an error message after around 10 seconds. The same query can be made with <code>geofabrik</code> as follows (not evaluated):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(geofabrik)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cycleways_england =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="st">"England"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(cycleways_england))</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -82,85 +98,82 @@
 <!-- install.packages("geofabrik") -->
 <!-- ``` -->
 <p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"ITSLeeds/geofabrik"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"ITSLeeds/geofabrik"</span>)</a></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Give <code>geofabrik</code> the name of a geofabrik zone and it will download and import it. By default it imports the ‘lines’ layer, but any layer can be read-in. Behind the scenes, the function <code><a href="reference/read_pbf.html">read_pbf()</a></code>, a wrapper around <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code> is used with configuration options to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(geofabrik)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">andorra_lines =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"andorra"</span>, <span class="dt">layer =</span> <span class="st">"lines"</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Downloading http://download.geofabrik.de/europe/andorra-latest.osm.pbf to </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; /tmp/RtmpuGQe7Z/Andorra.osm.pbf</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_lines)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  [1] "osm_id"         "name"           "highway"        "waterway"      </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  [9] "oneway"         "building"       "surface"        "landuse"       </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; [13] "natural"        "start_date"     "wall"           "service"       </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; [17] "lanes"          "layer"          "tracktype"      "bridge"        </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; [21] "foot"           "bicycle"        "lit"            "railway"       </span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; [25] "footway"        "z_order"        "other_tags"     "_ogr_geometry_"</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">andorra_point =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"andorra"</span>, <span class="dt">layer =</span> <span class="st">"points"</span>, <span class="dt">attributes =</span> <span class="st">"shop"</span>)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; Data already detected in /tmp/RtmpuGQe7Z/Andorra.osm.pbf</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_point) <span class="co"># note the 'shop' column has been added</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt;  [1] "osm_id"         "name"           "barrier"        "highway"       </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;  [5] "ref"            "address"        "is_in"          "place"         </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt;  [9] "man_made"       "shop"           "other_tags"     "_ogr_geometry_"</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(andorra_lines))</a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(andorra_point[andorra_point<span class="op">$</span>shop <span class="op">==</span><span class="st"> "supermarket"</span>, ], <span class="dt">col =</span> <span class="st">"red"</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; Warning in plot.sf(andorra_point[andorra_point$shop == "supermarket", ], :</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; ignoring all but the first attribute</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">andorra_lines =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"andorra"</span>, <span class="dt">layer =</span> <span class="st">"lines"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Andorra.osm.pbf</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_lines)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  [1] "osm_id"         "name"           "highway"        "waterway"      </span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  [9] "oneway"         "building"       "surface"        "landuse"       </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; [13] "natural"        "start_date"     "wall"           "service"       </span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [17] "lanes"          "layer"          "tracktype"      "bridge"        </span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [21] "foot"           "bicycle"        "lit"            "railway"       </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [25] "footway"        "z_order"        "other_tags"     "_ogr_geometry_"</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">andorra_point =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"andorra"</span>, <span class="dt">layer =</span> <span class="st">"points"</span>, <span class="dt">attributes =</span> <span class="st">"shop"</span>)</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Andorra.osm.pbf</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_point) <span class="co"># note the 'shop' column has been added</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;  [1] "osm_id"         "name"           "barrier"        "highway"       </span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;  [5] "ref"            "address"        "is_in"          "place"         </span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;  [9] "man_made"       "shop"           "other_tags"     "_ogr_geometry_"</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(andorra_lines))</a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(andorra_point[andorra_point<span class="op">$</span>shop <span class="op">==</span><span class="st"> "supermarket"</span>, ], <span class="dt">col =</span> <span class="st">"red"</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; Warning in plot.sf(andorra_point[andorra_point$shop == "supermarket", ], :</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; ignoring all but the first attribute</span></a></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
 <p>The above code plotted lines representing roads and other linear features in Andorra, with an overlay of shops that are represented in OSM data. If there are no files available for a zone name, <code>geofabrik</code> will search for and import the nearest matching zone:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">iow_lines =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"isle wight"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Downloading http://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf to </span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpuGQe7Z/Isle of Wight.osm.pbf</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">iow_lines =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"isle wight"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)</span></a></code></pre></div>
 <p>Take care: files downloaded from <a href="http://download.geofabrik.de">geofabrik.de</a> can be large. You can find information on the geofabrik region defining the boundaries of the result with <code><a href="reference/gf_find.html">gf_find()</a></code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">iow_gf_region =<span class="st"> </span><span class="kw"><a href="reference/gf_find.html">gf_find</a></span>(<span class="st">"isle wight"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_gf_region)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Warning: plotting the first 9 out of 11 attributes; use max.plot = 11 to plot</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; all</span></a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">iow_gf_name =<span class="st"> </span>iow_gf_region<span class="op">$</span>name</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">iow_gf_name</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; [1] "Isle of Wight"</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">iow_gf_region =<span class="st"> </span><span class="kw"><a href="reference/gf_find.html">gf_find</a></span>(<span class="st">"isle wight"</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_gf_region)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Warning: plotting the first 9 out of 11 attributes; use max.plot = 11 to plot</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; all</span></a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">iow_gf_name =<span class="st"> </span>iow_gf_region<span class="op">$</span>name</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">iow_gf_name</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; [1] "Isle of Wight"</span></a></code></pre></div>
 <p>If you want to use <code>st_read()</code> to read-in the <code>.pbf</code> files, e.g. to set additional query arguments, you can do so, as demonstrated below.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">iow_gf_file =<span class="st"> </span><span class="kw"><a href="reference/gf_filename.html">gf_filename</a></span>(iow_gf_name)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">iow_gf_file</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; [1] "/tmp/RtmpuGQe7Z/Isle of Wight.osm.pbf"</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span>(iow_gf_file)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">iow_lines_cycle =<span class="st"> </span><span class="kw"><a href="reference/read_pbf.html">read_pbf</a></span>(<span class="dt">dsn =</span> iow_gf_file, <span class="st">"lines"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpuGQe7Z/ini_new.ini)</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_cycle)</a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; all</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">iow_gf_file =<span class="st"> </span><span class="kw"><a href="reference/gf_filename.html">gf_filename</a></span>(iow_gf_name)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">iow_gf_file</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; [1] "~/hd/data/osm/Isle of Wight.osm.pbf"</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span>(iow_gf_file)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">iow_lines_cycle =<span class="st"> </span><span class="kw"><a href="reference/read_pbf.html">read_pbf</a></span>(<span class="dt">dsn =</span> iow_gf_file, <span class="st">"lines"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmpofn2GB/ini_new.ini)</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_cycle)</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; all</span></a></code></pre></div>
 <p><img src="reference/figures/README-query-1.png" width="100%"></p>
 <p>If you want even more control, you can used GDAL’s <code>query</code> argument via <code>sf</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">query =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"select highway from lines where highway = "</span>,</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">               <span class="st">"'cycleway' or highway = 'secondary' or highway = 'primary'"</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">iow_lines_subset =<span class="st"> </span>sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(iow_gf_file, <span class="dt">layer =</span> <span class="st">"lines"</span>, <span class="dt">query =</span> query)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpuGQe7Z/Isle of Wight.osm.pbf' using driver `OSM'</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Simple feature collection with 1058 features and 1 field</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; geometry type:  LINESTRING</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; epsg (SRID):    4326</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_subset)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">query =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"select highway from lines where highway = "</span>,</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">               <span class="st">"'cycleway' or highway = 'secondary' or highway = 'primary'"</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">iow_lines_subset =<span class="st"> </span>sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(iow_gf_file, <span class="dt">layer =</span> <span class="st">"lines"</span>, <span class="dt">query =</span> query)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/Isle of Wight.osm.pbf' using driver `OSM'</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Simple feature collection with 1057 features and 1 field</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; geometry type:  LINESTRING</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; dimension:      XY</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; epsg (SRID):    4326</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_subset)</a></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
 <!-- TODO: FIX THE FOLLOWING PART SINCE IT DOESN'T WORK -->
 <!-- You can also get your geofabrik data based on a spatial query, for example in Honduras: -->
 <!-- ```{r} -->
@@ -176,7 +189,7 @@
 <h1 class="hasAnchor">
 <a href="#geofabrik-zones" class="anchor"></a>geofabrik zones</h1>
 <p>The package ships with a data frame representing all zones made available by the package. These can be interactively searched with the following command:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_zones[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_zones[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
 <p>That will display the following table in the viewer:</p>
 <table class="table">
 <colgroup>
@@ -213,30 +226,30 @@
 </tbody>
 </table>
 <p>The following attributes are available from this file if you want more info about each geofabrik zone:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(geofabrik_zones)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt;  [1] "name"         "size_pbf"     "pbf_url"      "page_url"     "part_of"     </span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;  [6] "continent"    "country"      "region"       "subregion"    "level"       </span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [11] "geometry_url" "geometry"</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(geofabrik_zones)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1] "name"         "size_pbf"     "pbf_url"      "page_url"     "part_of"     </span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;  [6] "continent"    "country"      "region"       "subregion"    "level"       </span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [11] "geometry_url" "geometry"</span></a></code></pre></div>
 <p>Each geographic level (continents, countries, regions and subregions) is shown in the map below, with a few of them named for reference.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># todo: tidy up geofabrik_zones data and this code chunk</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tmap)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">sel1 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(geofabrik_zones<span class="op">$</span>level)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">geofabrik_zones<span class="op">$</span>level[sel1] =<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">geofabrik_zones<span class="op">$</span>label =<span class="st"> ""</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">geofabrik_zones<span class="op">$</span>label[sel1] =<span class="st"> </span>geofabrik_zones<span class="op">$</span>name[sel1]</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">sel2 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(geofabrik_zones), <span class="dt">size =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">geofabrik_zones<span class="op">$</span>label[sel2] =<span class="st"> </span>geofabrik_zones<span class="op">$</span>name[sel2]</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="kw">tm_shape</span>(geofabrik_zones) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">  </span><span class="kw">tm_polygons</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">  </span><span class="kw">tm_text</span>(<span class="dt">text =</span> <span class="st">"label"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="st">  </span><span class="kw">tm_facets</span>(<span class="dt">by =</span> <span class="st">"level"</span>)</a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; Warning: The shape geofabrik_zones is invalid. See sf::st_is_valid</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># todo: tidy up geofabrik_zones data and this code chunk</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tmap)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">sel1 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(geofabrik_zones<span class="op">$</span>level)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">geofabrik_zones<span class="op">$</span>level[sel1] =<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">geofabrik_zones<span class="op">$</span>label =<span class="st"> ""</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">geofabrik_zones<span class="op">$</span>label[sel1] =<span class="st"> </span>geofabrik_zones<span class="op">$</span>name[sel1]</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">sel2 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(geofabrik_zones), <span class="dt">size =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">geofabrik_zones<span class="op">$</span>label[sel2] =<span class="st"> </span>geofabrik_zones<span class="op">$</span>name[sel2]</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="kw">tm_shape</span>(geofabrik_zones) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="st">  </span><span class="kw">tm_polygons</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="st">  </span><span class="kw">tm_text</span>(<span class="dt">text =</span> <span class="st">"label"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="st">  </span><span class="kw">tm_facets</span>(<span class="dt">by =</span> <span class="st">"level"</span>)</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; Warning: The shape geofabrik_zones is invalid. See sf::st_is_valid</span></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1</span></a></code></pre></div>
 <p><img src="reference/figures/README-zonemap-1.png" width="100%"></p>
 <p>A couple of the countries, regions and sub regions available is shown below.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">geofabrik_countries =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, ]</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_countries[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">geofabrik_countries =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, ]</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_countries[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="2%">
@@ -265,8 +278,8 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">geofabrik_regions =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, ]</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_regions[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">geofabrik_regions =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, ]</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_regions[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="3%">
@@ -295,8 +308,8 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">geofabrik_subregions =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">4</span>, ]</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_subregions[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">geofabrik_subregions =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">4</span>, ]</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_subregions[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="2%">
