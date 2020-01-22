@@ -89,7 +89,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cycleways_england =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="st">"England"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(cycleways_england))</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>The package is designed to complement <code>osmdata</code> which has advantages over <code>geofabrik</code> for small datasets: it’s likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>geofabrik</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects.</p>
+<p>The package is designed to complement <code>osmdata</code> which has advantages over <code>geofabrik</code> for small datasets: <code>osmdata</code> is likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>geofabrik</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects. On the other hand, <code>geofabrik</code> provides a fast way to download large OSM datasets in the highly compressed <code>pbf</code> format and read them in via the fast C library <a href="https://gdal.org/drivers/vector/osm.html">GDAL</a> and the R package <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -110,7 +110,7 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Andorra.osm.pbf</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp2996OA/ini_new.ini)</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_lines)</a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  [1] "osm_id"         "name"           "highway"        "waterway"      </span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      </span></a>
@@ -123,7 +123,7 @@
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Andorra.osm.pbf</span></a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made</span></a>
 <a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp2996OA/ini_new.ini)</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)</span></a>
 <a class="sourceLine" id="cb5-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_point) <span class="co"># note the 'shop' column has been added</span></a>
 <a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;  [1] "osm_id"         "name"           "barrier"        "highway"       </span></a>
 <a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;  [5] "ref"            "address"        "is_in"          "place"         </span></a>
@@ -138,7 +138,7 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp2996OA/ini_new.ini)</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)</span></a></code></pre></div>
 <p>Take care: files downloaded from <a href="http://download.geofabrik.de">geofabrik.de</a> can be large. You can find information on the geofabrik region defining the boundaries of the result with <code><a href="reference/gf_find.html">gf_find()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">iow_gf_region =<span class="st"> </span><span class="kw"><a href="reference/gf_find.html">gf_find</a></span>(<span class="st">"isle wight"</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_gf_region)</a>
@@ -157,7 +157,7 @@
 <a class="sourceLine" id="cb9-6" data-line-number="6">iow_lines_cycle =<span class="st"> </span><span class="kw"><a href="reference/read_pbf.html">read_pbf</a></span>(<span class="dt">dsn =</span> iow_gf_file, <span class="st">"lines"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp2996OA/ini_new.ini)</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/Rtmp0xtHAj/ini_new.ini)</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_cycle)</a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; all</span></a></code></pre></div>
