@@ -1,6 +1,6 @@
-Package: geofabric
+Package: geofabrik
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Read and download OSM data from geofabrik.de
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
