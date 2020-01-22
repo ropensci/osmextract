@@ -5,5 +5,5 @@
 #'
 #' @docType data
 #' @keywords datasets
-#' @name geofabric_zones
+#' @name geofabrik_zones
 NULL

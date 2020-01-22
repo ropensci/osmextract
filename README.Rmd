@@ -13,51 +13,51 @@ knitr::opts_chunk$set(
 )
 ```
 
-# geofabric
+# geofabrik
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/itsleeds/geofabric.svg?branch=master)](https://travis-ci.org/itsleeds/geofabric)
 <!-- badges: end -->
 
-The goal of geofabric is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by [Geofabrik GmbH](http://download.geofabrik.de).
+The goal of `geofabrik` is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by [Geofabrik GmbH](http://download.geofabrik.de).
 
 ## Installation
 
-<!-- You can install the released version of geofabric from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of geofabrik from [CRAN](https://CRAN.R-project.org) with: -->
 
 <!-- ``` r -->
-<!-- install.packages("geofabric") -->
+<!-- install.packages("geofabrik") -->
 <!-- ``` -->
 You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ITSLeeds/geofabric")
+devtools::install_github("ITSLeeds/geofabrik")
 ```
 ## Usage
 
-Give geofabric the name of a geofabric zone and it will download and import it.
+Give `geofabrik` the name of a geofabrik zone and it will download and import it.
 By default it imports the 'lines' layer, but any layer can be read-in.
-Behind the scenes, the function `read_pbf()`, a wrapper around `sf::st_read()` is used with configuration options to import additional columns from the .pbf files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set with `attributes` argument):
+Behind the scenes, the function `read_pbf()`, a wrapper around `sf::st_read()` is used with configuration options to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set with `attributes` argument):
 
 ```{r example}
-library(geofabric)
-andorra_lines = get_geofabric(name = "andorra", layer = "lines")
+library(geofabrik)
+andorra_lines = get_geofabrik(name = "andorra", layer = "lines")
 names(andorra_lines)
-andorra_point = get_geofabric(name = "andorra", layer = "points", attributes = "shop")
+andorra_point = get_geofabrik(name = "andorra", layer = "points", attributes = "shop")
 names(andorra_point) # note the 'shop' column has been added
-plot(andorra_lines$geometry)
+plot(sf::st_geometry(andorra_lines))
 plot(andorra_point[andorra_point$shop == "supermarket", ], col = "red", add = TRUE)
 ```
 
 The above code plotted lines representing roads and other linear features in Andorra, with an overlay of shops that are represented in OSM data.
-If there are no files available for a zone name, geofabric will search for and import the nearest matching zone:
+If there are no files available for a zone name, `geofabrik` will search for and import the nearest matching zone:
 
 ```{r matching}
-iow_lines = get_geofabric(name = "isle wight")
+iow_lines = get_geofabrik(name = "isle wight")
 ```
 
-Take care: files downloaded from geofabrik can be large.
+Take care: files downloaded from [geofabrik.de](http://download.geofabrik.de) can be large.
 You can find information on the geofabrik region defining the boundaries of the result with `gf_find()`: 
 
 ```{r}
@@ -67,7 +67,7 @@ iow_gf_name = iow_gf_region$name
 iow_gf_name
 ```
 
-If you want to use `st_read()` to read-in the .pbf files, e.g. to set additional query arguments, you can do so, as demonstrated below.
+If you want to use `st_read()` to read-in the `.pbf` files, e.g. to set additional query arguments, you can do so, as demonstrated below.
 
 ```{r query}
 iow_gf_file = gf_filename(iow_gf_name)
@@ -86,15 +86,16 @@ iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
 plot(iow_lines_subset)
 ```
 
-You can also get your geofabric data based on a spatial query, for example in Honduras:
+<!-- TODO: FIX THE FOLLOWING PART SINCE IT DOESN'T WORK -->
+<!-- You can also get your geofabrik data based on a spatial query, for example in Honduras: -->
 
-```{r}
-library(geofabric)
-place_sf = sf::st_as_sf(data.frame(x = -86, y = 15, n = 1),
-                        coords = c("x", "y"), crs = 4326)
-osm_data_place = get_geofabric(place_sf)
-plot(osm_data_place["highway"])
-```
+<!-- ```{r} -->
+<!-- library(geofabrik) -->
+<!-- place_sf = sf::st_as_sf(data.frame(x = -86, y = 15, n = 1), -->
+<!--                         coords = c("x", "y"), crs = 4326) -->
+<!-- osm_data_place = get_geofabrik(place_sf) -->
+<!-- plot(osm_data_place["highway"]) -->
+<!-- ``` -->
 
 
 # geofabrik zones
@@ -103,34 +104,34 @@ The package ships with a data frame representing all zones made available by the
 These can be interactively searched with the following command:
 
 ```{r, eval=FALSE}
-View(sf::st_drop_geometry(geofabric_zones[1:3]))
+View(sf::st_drop_geometry(geofabrik_zones[1:3]))
 ```
 
 That will display the following table in the viewer:
 
 ```{r viewer, echo=FALSE}
-knitr::kable(sf::st_drop_geometry(geofabric_zones[1:4, 1:3]))
+knitr::kable(sf::st_drop_geometry(geofabrik_zones[1:4, 1:3]))
 ```
 
-The following attributes are available from this file if you want more info about each geofabric zone:
+The following attributes are available from this file if you want more info about each geofabrik zone:
 
 ```{r cols}
-names(geofabric_zones)
+names(geofabrik_zones)
 ```
 
 Each geographic level (continents, countries, regions and subregions) is shown in the map below, with a few of them named for reference.
 
 ```{r zonemap}
-# todo: tidy up geofabric_zones data and this code chunk
+# todo: tidy up geofabrik_zones data and this code chunk
 library(tmap)
-sel1 = is.na(geofabric_zones$level)
-geofabric_zones$level[sel1] = 1
-geofabric_zones$label = ""
-geofabric_zones$label[sel1] = geofabric_zones$name[sel1]
+sel1 = is.na(geofabrik_zones$level)
+geofabrik_zones$level[sel1] = 1
+geofabrik_zones$label = ""
+geofabrik_zones$label[sel1] = geofabrik_zones$name[sel1]
 set.seed(9)
-sel2 = sample(x = 1:nrow(geofabric_zones), size = 5)
-geofabric_zones$label[sel2] = geofabric_zones$name[sel2]
-tm_shape(geofabric_zones) +
+sel2 = sample(x = 1:nrow(geofabrik_zones), size = 5)
+geofabrik_zones$label[sel2] = geofabrik_zones$name[sel2]
+tm_shape(geofabrik_zones) +
   tm_polygons() +
   tm_text(text = "label") +
   tm_facets(by = "level")
@@ -139,24 +140,23 @@ tm_shape(geofabric_zones) +
 A couple of the countries, regions and sub regions available is shown below.
 
 ```{r viewer-countries}
-geofabric_countries = geofabric_zones[geofabric_zones$level == 2, ]
-knitr::kable(sf::st_drop_geometry(geofabric_countries[1:2, 1:3]))
+geofabrik_countries = geofabrik_zones[geofabrik_zones$level == 2, ]
+knitr::kable(sf::st_drop_geometry(geofabrik_countries[1:2, 1:3]))
 ```
 
 ```{r viewer-regions}
-geofabric_regions = geofabric_zones[geofabric_zones$level == 3, ]
-knitr::kable(sf::st_drop_geometry(geofabric_regions[1:2, 1:3]))
+geofabrik_regions = geofabrik_zones[geofabrik_zones$level == 3, ]
+knitr::kable(sf::st_drop_geometry(geofabrik_regions[1:2, 1:3]))
 ```
 
 ```{r viewer-subregions}
-geofabric_subregions = geofabric_zones[geofabric_zones$level == 4, ]
-knitr::kable(sf::st_drop_geometry(geofabric_subregions[1:2, 1:3]))
+geofabrik_subregions = geofabrik_zones[geofabrik_zones$level == 4, ]
+knitr::kable(sf::st_drop_geometry(geofabrik_subregions[1:2, 1:3]))
 ```
 
 ```{r old, echo=FALSE, eval=FALSE}
-get_geofabric(continent = "europe", country = "great-britain")
+get_geofabrik(continent = "europe", country = "great-britain")
 # Download a specific region as follows:
-# get_geofabric(continent = "europe", country = "great-britain", region = "wales")
-# get_geofabric(continent = "europe", country = "italy", region = "nord-este")
+# get_geofabrik(continent = "europe", country = "great-britain", region = "wales")
+# get_geofabrik(continent = "europe", country = "italy", region = "nord-este")
 ```
-

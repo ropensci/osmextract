@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' \donttest{
-#' pbf_url = geofabric_zones$pbf_url[geofabric_zones$name == "Isle of Wight"]
+#' pbf_url = geofabrik_zones$pbf_url[geofabrik_zones$name == "Isle of Wight"]
 #' f = file.path(tempdir(), "test.osm.pbf")
 #' download.file(pbf_url, f)
 #' # testing read_sf
@@ -31,7 +31,7 @@
 #' plot(res_cycleway)
 #' # uncomment to get big dataset
 #' # f_en = gf_filename("England")
-#' # u_en = geofabric_zones$pbf_url[geofabric_zones$name == "England"]
+#' # u_en = geofabrik_zones$pbf_url[geofabrik_zones$name == "England"]
 #' # download.file(u_en, f_en)
 #' # cycleway_en = read_pbf(f_en, layer = "lines", key = "highway", value = "cycleway")
 #' # plot(cycleway_en$geometry)
