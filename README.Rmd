@@ -49,8 +49,9 @@ plot(sf::st_geometry(cycleways_england))
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-The package is designed to complement `osmdata` which has advantages over `geofabrik` for small datasets: it's likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface.
+The package is designed to complement `osmdata` which has advantages over `geofabrik` for small datasets: `osmdata` is likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface.
 `osmdata` can provide data in a range of formats, while `geofabrik` only returns [`sf`](https://github.com/r-spatial/sf) objects.
+On the other hand, `geofabrik` provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and the R package [`sf`](https://github.com/r-spatial/sf).
 
 
 ## Installation
