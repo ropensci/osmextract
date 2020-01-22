@@ -104,7 +104,7 @@ rutland <- download.file(
 
 my_ini_file <- paste0(tempfile(), ".ini")
 writeLines(
-  text = geofabric::make_ini_attributes(c("maxspeed", "oneway", "lanes"), layer = "lines", append = TRUE),
+  text = geofabrik::make_ini_attributes(c("maxspeed", "oneway", "lanes"), layer = "lines", append = TRUE),
   con = my_ini_file
 )
 
