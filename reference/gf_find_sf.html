@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find geofabric zones based on sf or sfc object — gf_find_sf • geofabric</title>
+<title>Find geofabrik zones based on sf or sfc object — gf_find_sf • geofabrik</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Find geofabric zones based on sf or sfc object — gf_find_sf" />
-<meta property="og:description" content="Find geofabric zones based on sf or sfc object" />
+<meta property="og:title" content="Find geofabrik zones based on sf or sfc object — gf_find_sf" />
+<meta property="og:description" content="Find geofabrik zones based on sf or sfc object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -68,7 +68,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">geofabric</a>
+        <a class="navbar-link" href="../index.html">geofabrik</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -100,13 +100,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find geofabric zones based on sf or sfc object</h1>
+    <h1>Find geofabrik zones based on sf or sfc object</h1>
     
     <div class="hidden name"><code>gf_find_sf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find geofabric zones based on sf or sfc object</p>
+    <p>Find geofabrik zones based on sf or sfc object</p>
     </div>
 
     <pre class="usage"><span class='fu'>gf_find_sf</span>(<span class='no'>name</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>op</span> <span class='kw'>=</span> <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/sf/man/geos_binary_pred.html'>st_contains</a></span>)</pre>
@@ -116,7 +116,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Name or spatial object of the geofabric zone to download</p></td>
+      <td><p>String or [`sf::sf`] spatial object of the geofabrik zone
+to download. See examples.</p></td>
     </tr>
     <tr>
       <th>ask</th>
@@ -124,7 +125,7 @@
     </tr>
     <tr>
       <th>op</th>
-      <td><p>The binary spatial predicate used to identify the smallest geofabric zones
+      <td><p>The binary spatial predicate used to identify the smallest geofabrik zones
 that matches the simple feature input in `name`</p></td>
     </tr>
     </table>
@@ -143,17 +144,17 @@ that matches the simple feature input in `name`</p></td>
 #&gt; epsg (SRID):    4326
 #&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #&gt;             name  size_pbf
-#&gt; 401 Lincolnshire (25.6 MB)
+#&gt; 406 Lincolnshire (26.2 MB)
 #&gt;                                                                                   pbf_url
-#&gt; 401 http://download.geofabrik.de/europe/great-britain/england/lincolnshire-latest.osm.pbf
+#&gt; 406 http://download.geofabrik.de/europe/great-britain/england/lincolnshire-latest.osm.pbf
 #&gt;                                                                        page_url
-#&gt; 401 http://download.geofabrik.de/europe/great-britain/england/lincolnshire.html
-#&gt;     part_of level continent country  region    subregion
-#&gt; 401 England     4      &lt;NA&gt;    &lt;NA&gt; England Lincolnshire
+#&gt; 406 http://download.geofabrik.de/europe/great-britain/england/lincolnshire.html
+#&gt;     part_of continent country  region    subregion level
+#&gt; 406 England      &lt;NA&gt;    &lt;NA&gt; England Lincolnshire     4
 #&gt;                                                                   geometry_url
-#&gt; 401 http://download.geofabrik.de/europe/great-britain/england/lincolnshire.kml
+#&gt; 406 http://download.geofabrik.de/europe/great-britain/england/lincolnshire.kml
 #&gt;                           geometry
-#&gt; 401 MULTIPOLYGON Z (((-0.761741...</div></pre>
+#&gt; 406 MULTIPOLYGON Z (((-0.761741...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

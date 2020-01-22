@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find geofabric zones — gf_find • geofabric</title>
+<title>Find geofabrik zones — gf_find • geofabrik</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Find geofabric zones — gf_find" />
-<meta property="og:description" content="Find geofabric zones" />
+<meta property="og:title" content="Find geofabrik zones — gf_find" />
+<meta property="og:description" content="Find geofabrik zones" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -68,7 +68,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">geofabric</a>
+        <a class="navbar-link" href="../index.html">geofabrik</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -100,13 +100,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find geofabric zones</h1>
+    <h1>Find geofabrik zones</h1>
     
     <div class="hidden name"><code>gf_find.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find geofabric zones</p>
+    <p>Find geofabrik zones</p>
     </div>
 
     <pre class="usage"><span class='fu'>gf_find</span>(<span class='no'>name</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>max_dist</span> <span class='kw'>=</span> <span class='fl'>5</span>)</pre>
@@ -116,7 +116,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>Name or spatial object of the geofabric zone to download</p></td>
+      <td><p>String or [`sf::sf`] spatial object of the geofabrik zone
+to download. See examples.</p></td>
     </tr>
     <tr>
       <th>ask</th>
@@ -141,11 +142,11 @@ the user to select which zone to download?</p></td>
 #&gt; epsg (SRID):    4326
 #&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #&gt;        name size_pbf                                                    pbf_url
-#&gt; 116 Andorra (1.5 MB) http://download.geofabrik.de/europe/andorra-latest.osm.pbf
-#&gt;                                             page_url part_of level continent
-#&gt; 116 http://download.geofabrik.de/europe/andorra.html  Europe     2    Europe
-#&gt;     country region subregion                                    geometry_url
-#&gt; 116 Andorra   &lt;NA&gt;      &lt;NA&gt; http://download.geofabrik.de/europe/andorra.kml
+#&gt; 116 Andorra (1.6 MB) http://download.geofabrik.de/europe/andorra-latest.osm.pbf
+#&gt;                                             page_url part_of continent country
+#&gt; 116 http://download.geofabrik.de/europe/andorra.html  Europe    Europe Andorra
+#&gt;     region subregion level                                    geometry_url
+#&gt; 116   &lt;NA&gt;      &lt;NA&gt;     2 http://download.geofabrik.de/europe/andorra.kml
 #&gt;                           geometry
 #&gt; 116 MULTIPOLYGON Z (((1.516233 ...</div></pre>
   </div>

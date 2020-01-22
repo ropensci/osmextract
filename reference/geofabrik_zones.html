@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the filename of a file downloaded from geofabrik — gf_filename • geofabrik</title>
+<title>sf data frame containing attributes and geometries of geofrabric download zones — geofabrik_zones • geofabrik</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Get the filename of a file downloaded from geofabrik — gf_filename" />
-<meta property="og:description" content="Get the filename of a file downloaded from geofabrik" />
+<meta property="og:title" content="sf data frame containing attributes and geometries of geofrabric download zones — geofabrik_zones" />
+<meta property="og:description" content="sf data frame containing attributes and geometries of geofrabric download zones" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,50 +100,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the filename of a file downloaded from geofabrik</h1>
+    <h1>sf data frame containing attributes and geometries of geofrabric download zones</h1>
     
-    <div class="hidden name"><code>gf_filename.Rd</code></div>
+    <div class="hidden name"><code>geofabrik_zones.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the filename of a file downloaded from geofabrik</p>
+    <p>sf data frame containing attributes and geometries of geofrabric download zones</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gf_filename</span>(
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"West Yorkshire"</span>,
-  <span class='kw'>download_directory</span> <span class='kw'>=</span> <span class='fu'>gf_download_directory</span>()
-)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>name</th>
-      <td><p>The name of the geofrabic zone. Must be an element in `geofabrik::geofabrik_zones$name`.</p></td>
-    </tr>
-    <tr>
-      <th>download_directory</th>
-      <td><p>Where to download the data? `tempdir()` by default.
-If you want to download your data into a persistent directory, set
-`GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
-`usethis::edit_r_environ()`.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>A character vector.</p>
+    <p>The `geofabric_zones` can be (re-)generated using the script in the
+`data-raw` directory.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>f</span> <span class='kw'>=</span> <span class='fu'>gf_filename</span>(<span class='st'>"Isle of Wight"</span>)
-<span class='no'>f</span></div><div class='output co'>#&gt; [1] "/tmp/RtmpTRUODP/Isle of Wight.osm.pbf"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.exists</a></span>(<span class='no'>f</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#note">Note</a></li>
     </ul>
 
   </div>
