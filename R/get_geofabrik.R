@@ -123,7 +123,7 @@ gf_filename = function(
 
 # old version of function -------------------------------------------------
 # @param format Format of data to download (currently only pbf supported)
-# get_geofabric_contry_continent = function(
+# get_geofabrik_contry_continent = function(
 #                          continent = "europe",
 #                          country = "great-britain",
 #                          region = NULL,
