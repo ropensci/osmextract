@@ -2,12 +2,13 @@
 % Please edit documentation in R/gf_find.R
 \name{gf_find}
 \alias{gf_find}
-\title{Find geofabric zones}
+\title{Find geofabrik zones}
 \usage{
 gf_find(name, ask = FALSE, max_dist = 5)
 }
 \arguments{
-\item{name}{Name or spatial object of the geofabric zone to download}
+\item{name}{String or [`sf::sf`] spatial object of the geofabrik zone
+to download. See examples.}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
@@ -18,7 +19,7 @@ the user to select which zone to download?}
 A data frame representing the matching items from the Geofabrik website
 }
 \description{
-Find geofabric zones
+Find geofabrik zones
 }
 \examples{
 gf_find("Andorra")

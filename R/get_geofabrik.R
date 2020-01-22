@@ -101,9 +101,8 @@ gf_download_directory = function(){
 #' @param name The name of the geofrabic zone. Must be an element in `geofabrik::geofabrik_zones$name`.
 #' @inheritParams get_geofabrik
 #'
-#' @return
+#' @return A character vector.
 #' @export
-#'
 #' @examples
 #' f = gf_filename("Isle of Wight")
 #' f

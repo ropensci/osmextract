@@ -2,23 +2,24 @@
 % Please edit documentation in R/gf_find.R
 \name{gf_find_sf}
 \alias{gf_find_sf}
-\title{Find geofabric zones based on sf or sfc object}
+\title{Find geofabrik zones based on sf or sfc object}
 \usage{
 gf_find_sf(name, ask = FALSE, op = sf::st_contains)
 }
 \arguments{
-\item{name}{Name or spatial object of the geofabric zone to download}
+\item{name}{String or [`sf::sf`] spatial object of the geofabrik zone
+to download. See examples.}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
-\item{op}{The binary spatial predicate used to identify the smallest geofabric zones
+\item{op}{The binary spatial predicate used to identify the smallest geofabrik zones
 that matches the simple feature input in `name`}
 }
 \value{
 A data frame representing the matching items from the Geofabrik website
 }
 \description{
-Find geofabric zones based on sf or sfc object
+Find geofabrik zones based on sf or sfc object
 }
 \examples{
 name = sf::st_sfc(sf::st_point(c(0, 53)), crs = 4326)
