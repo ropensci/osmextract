@@ -7,13 +7,13 @@
 gf_find_sf(name, ask = FALSE, op = sf::st_contains)
 }
 \arguments{
-\item{name}{String or [`sf::sf`] spatial object of the geofabrik zone
+\item{name}{String or \code{\link[sf:sf]{sf::sf}} spatial object of the geofabrik zone
 to download. See examples.}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
 \item{op}{The binary spatial predicate used to identify the smallest geofabrik zones
-that matches the simple feature input in `name`}
+that matches the simple feature input in \code{name}}
 }
 \value{
 A data frame representing the matching items from the Geofabrik website

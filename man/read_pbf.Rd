@@ -10,9 +10,10 @@ read_pbf(
   key = NULL,
   value = NULL,
   selected_columns = "*",
-  attributes = make_additional_attributes(layer = layer),
   ini_file = NULL,
-  append = TRUE
+  attributes = make_additional_attributes(layer = layer),
+  append = TRUE,
+  vectortranslate_options = NULL
 )
 }
 \arguments{
@@ -21,21 +22,28 @@ read_pbf(
 \item{layer}{Which layer to read in? One of
 "points"           "lines"            "multipolygons"    "multilinestrings" or "other_relations"}
 
-\item{key}{Character string defining the key values to subset the data from, e.g. `"highway"`}
+\item{key}{Character string defining the key values to subset the data from, e.g. \code{"highway"}}
 
-\item{value}{The value(s) the `key` can take, e.g. `"cycleway"`}
+\item{value}{The value(s) the \code{key} can take, e.g. \code{"cycleway"}}
 
 \item{selected_columns}{The columns to return in the output}
 
+\item{ini_file}{A modified version of
+\url{https://github.com/OSGeo/gdal/raw/master/gdal/data/osmconf.ini} If NULL (the
+default), then it's created using \code{\link[=make_ini_attributes]{make_ini_attributes()}} function.}
+
 \item{attributes}{Vector of character strings naming attributes to import}
 
-\item{ini_file}{A modified version of https://github.com/OSGeo/gdal/raw/master/gdal/data/osmconf.ini}
+\item{append}{Should the columns named in \code{attributes} be appended to the default columns?
+\code{TRUE} by default.}
 
-\item{append}{Should the columns named in `attributes` be appended to the default columns?
-`TRUE` by default.}
+\item{vectortranslate_options}{Character vector that specify the options
+passed to ogr2ogr. See details.}
 }
 \description{
-Read pbf files with additional attributes
+Read pbf files (typically downloaded with \code{\link[=get_geofabrik]{get_geofabrik()}}) translating
+the \verb{.osm.pbf`` file into a }.gpkg`` format. See details and the discussion
+in \url{https://github.com/OSGeo/gdal/issues/2100}
 }
 \examples{
 \donttest{

@@ -8,7 +8,7 @@
 sf data frame containing attributes and geometries of geofrabric download zones
 }
 \note{
-The `geofabrik_zones` can be (re-)generated using the script in the
-`data-raw` directory.
+The \code{geofabrik_zones} can be (re-)generated using the script in the
+\code{data-raw} directory.
 }
 \keyword{datasets}

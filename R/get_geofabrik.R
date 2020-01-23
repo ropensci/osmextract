@@ -1,4 +1,6 @@
-#' Download OSM data from [geofabrik.de](http://www.geofabrik.de/)
+#' Download OSM data from geofabrik
+#'
+#' Download OSM data from <http://download.geofabrik.de/>
 #'
 #' @inheritParams read_pbf
 #' @param name String or [`sf::sf`] spatial object of the geofabrik zone

@@ -10,12 +10,12 @@ gf_filename(
 )
 }
 \arguments{
-\item{name}{The name of the geofrabic zone. Must be an element in `geofabrik::geofabrik_zones$name`.}
+\item{name}{The name of the geofrabic zone. Must be an element in \code{geofabrik::geofabrik_zones$name}.}
 
-\item{download_directory}{Where to download the data? `tempdir()` by default.
+\item{download_directory}{Where to download the data? \code{tempdir()} by default.
 If you want to download your data into a persistent directory, set
-`GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
-`usethis::edit_r_environ()`.}
+\verb{GF_DOWNLOAD_DIRECTORY=/path/for/osm/data} in your \code{.Renviron} file, e.g. with
+\code{usethis::edit_r_environ()}.}
 }
 \value{
 A character vector.

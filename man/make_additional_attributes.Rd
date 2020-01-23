@@ -22,15 +22,15 @@ make_ini_attributes(
 
 \item{defaults}{The default attributes}
 
-\item{append}{Should the columns named in `attributes` be appended to the default columns?
-`TRUE` by default.}
+\item{append}{Should the columns named in \code{attributes} be appended to the default columns?
+\code{TRUE} by default.}
 }
 \value{
 A character vector representing an ini file.
 }
 \description{
-This function provides a user friendly interface to the [GDAL OSM driver](https://gdal.org/drivers/vector/osm.html)
-via `sf`. See https://github.com/r-spatial/sf/issues/1157 for details.
+This function provides a user friendly interface to the \href{https://gdal.org/drivers/vector/osm.html}{GDAL OSM driver}
+via \code{sf}. See https://github.com/r-spatial/sf/issues/1157 for details.
 }
 \details{
 Default additional attributes were taken from https://taginfo.openstreetmap.org/keys

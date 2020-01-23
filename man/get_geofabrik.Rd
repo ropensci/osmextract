@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_geofabrik.R
 \name{get_geofabrik}
 \alias{get_geofabrik}
-\title{Download OSM data from [geofabrik.de](http://www.geofabrik.de/)}
+\title{Download OSM data from geofabrik}
 \usage{
 get_geofabrik(
   name = "west-yorkshire",
@@ -16,20 +16,20 @@ get_geofabrik(
 )
 }
 \arguments{
-\item{name}{String or [`sf::sf`] spatial object of the geofabrik zone
+\item{name}{String or \code{\link[sf:sf]{sf::sf}} spatial object of the geofabrik zone
 to download. See examples.}
 
-\item{layer}{Character string telling `sf` which OSM layer to import.
-One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`}
+\item{layer}{Character string telling \code{sf} which OSM layer to import.
+One of \code{points}, \code{lines} (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}}
 
-\item{...}{Additional arguments passed to [`read_pbf()`]}
+\item{...}{Additional arguments passed to \code{\link[=read_pbf]{read_pbf()}}}
 
 \item{attributes}{Vector of character strings naming attributes to import}
 
-\item{download_directory}{Where to download the data? `tempdir()` by default.
+\item{download_directory}{Where to download the data? \code{tempdir()} by default.
 If you want to download your data into a persistent directory, set
-`GF_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with
-`usethis::edit_r_environ()`.}
+\verb{GF_DOWNLOAD_DIRECTORY=/path/for/osm/data} in your \code{.Renviron} file, e.g. with
+\code{usethis::edit_r_environ()}.}
 
 \item{ask}{Should the user be asked before downloading the file?}
 
@@ -37,10 +37,10 @@ If you want to download your data into a persistent directory, set
 the user to select which zone to download?}
 
 \item{op}{The binary spatial predicate used to identify the smallest geofabrik zones
-that matches the simple feature input in `name`}
+that matches the simple feature input in \code{name}}
 }
 \description{
-Download OSM data from [geofabrik.de](http://www.geofabrik.de/)
+Download OSM data from \url{http://download.geofabrik.de/}
 }
 \examples{
 \donttest{

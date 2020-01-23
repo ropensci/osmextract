@@ -7,7 +7,7 @@
 gf_find(name, ask = FALSE, max_dist = 5)
 }
 \arguments{
-\item{name}{String or [`sf::sf`] spatial object of the geofabrik zone
+\item{name}{String or \code{\link[sf:sf]{sf::sf}} spatial object of the geofabrik zone
 to download. See examples.}
 
 \item{ask}{Should the user be asked before downloading the file?}
