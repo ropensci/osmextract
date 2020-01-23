@@ -1,11 +1,21 @@
 #' Read pbf files with additional attributes
 #'
+#' Read pbf files (typically downloaded with [`get_geofabrik()`]) translating
+#' the `.osm.pbf`` file into a `.gpkg`` format. See details and the discussion
+#' in <https://github.com/OSGeo/gdal/issues/2100>
+#'
 #' @inheritParams make_additional_attributes
 #' @param dsn The location of the file
-#' @param ini_file A modified version of https://github.com/OSGeo/gdal/raw/master/gdal/data/osmconf.ini
 #' @param key Character string defining the key values to subset the data from, e.g. `"highway"`
 #' @param value The value(s) the `key` can take, e.g. `"cycleway"`
 #' @param selected_columns The columns to return in the output
+#' @param ini_file A modified version of
+#'   <https://github.com/OSGeo/gdal/raw/master/gdal/data/osmconf.ini> If NULL (the
+#'   default), then it's created using [`make_ini_attributes()`] function.
+#' @param vectortranslate_options Character vector that specify the options
+#'   passed to ogr2ogr. See details.
+#'
+#'
 #' @export
 #' @examples
 #' \donttest{
@@ -42,16 +52,33 @@ read_pbf = function(dsn,
                     key = NULL,
                     value = NULL,
                     selected_columns = "*",
-                    attributes = make_additional_attributes(layer = layer),
                     ini_file = NULL,
-                    append = TRUE
+                    attributes = make_additional_attributes(layer = layer),
+                    append = TRUE,
+                    vectortranslate_options = NULL
                     ) {
   if(is.null(ini_file)) {
     ini_file = file.path(tempdir(), "ini_new.ini")
     ini_new = make_ini_attributes(attributes = attributes, layer = layer, append = TRUE)
     writeLines(ini_new, ini_file)
   }
-  config_options = paste0("CONFIG_FILE=", ini_file)
+  # Translate .osm.pbf file into a .gpkg format
+  gpkg_file <- paste0(tempfile(), ".gpkg")
+  if (is.null(vectortranslate_options)) {
+    vectortranslate_options <- c(
+      "-f", "GPKG", # define output format, i.e. gpkg
+      "-overwrite",
+      "-oo", paste0("CONFIG_FILE=", ini_file),
+      "-lco", "GEOMETRY_NAME=geometry" # fix https://github.com/ITSLeeds/geofabrik/issues/36
+    )
+  }
+  sf::gdal_utils(
+    util = "vectortranslate",
+    source = dsn,
+    destination = gpkg_file,
+    options = vectortranslate_options
+  )
+
   query = paste0("select ", selected_columns, " from ", layer)
   if(!is.null(key)) {
     if(is.null(value)) {
@@ -60,8 +87,10 @@ read_pbf = function(dsn,
     query = paste0(query, " where ", key, " = '", value,"'")
   }
   message("Using ini file that can can be edited with file.edit(", ini_file, ")")
-  res = sf::read_sf(dsn = dsn, layer = layer, options = config_options, query = query)
+  res = sf::read_sf(gpkg_file, layer = layer, query = query)
 }
+
+
 #' Get modified version of config file for reading .pbf files with GDAL/sf
 #'
 #' This function provides a user friendly interface to the [GDAL OSM driver](https://gdal.org/drivers/vector/osm.html)
