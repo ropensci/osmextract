@@ -14,6 +14,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE)
 URL: https://itsleeds.github.io/geofabrik/, https://github.com/itsleeds/geofabrik
 BugReports: https://github.com/itsleeds/geofabrik/issues
 Depends: R (>= 3.4.0)
