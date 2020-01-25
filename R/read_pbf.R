@@ -1,12 +1,12 @@
 #' Read pbf files with additional attributes
 #'
-#' Read pbf files (typically downloaded with [`get_geofabrik()`]) translating
-#' the `.osm.pbf`` file into a `.gpkg`` format. See details and the discussion
-#' in <https://github.com/OSGeo/gdal/issues/2100>
+#' Read pbf files (typically downloaded with [`get_geofabrik()`]) after
+#' translating the `.osm.pbf` format into a `.gpkg` format. See details.
 #'
 #' @inheritParams make_additional_attributes
 #' @param dsn The location of the file
-#' @param key Character string defining the key values to subset the data from, e.g. `"highway"`
+#' @param key Character string defining the key values to subset the data from,
+#'   e.g. `"highway"`.
 #' @param value The value(s) the `key` can take, e.g. `"cycleway"`
 #' @param selected_columns The columns to return in the output
 #' @param ini_file A modified version of
@@ -15,6 +15,39 @@
 #' @param vectortranslate_options Character vector that specify the options
 #'   passed to ogr2ogr. See details.
 #'
+#' @details
+#' This function is used to read `.osm.pbf` files using the following procedure.
+#' First the `.osm.pbf` file is translated into a `.gpkg` file using
+#' `vectortranslate` [gdal utils](https://gdal.org/programs/ogr2ogr.html) via
+#' [`sf::gdal_utils()`].
+#' Then, the .gpkg file is read using [`sf::read_sf()`] function.
+#' Read the discussion in <https://github.com/ITSLeeds/geofabrik/issues/12> and
+#' <https://github.com/OSGeo/gdal/issues/2100> for an explanation of this
+#' procedure.
+#'
+#' The `vectortranslate_options` parameter is used to control the behaviour of
+#' `vectortranslate` utils. If `NULL` (the default), then the following options
+#' are added:
+#'
+#' - "-f", "GPKG",
+#' - "-overwrite",
+#' - "-oo", "CONFIG_FILE=*ini_file*",
+#' - "-lco", "GEOMETRY_NAME=geometry",
+#' - *layer*
+#'
+#' Check [ogr2ogr2](https://gdal.org/programs/ogr2ogr.html) documentation for a
+#' complete list of all available operations and [`sf::gdal_utils()`] for
+#' examples on how to specify the options parameter.
+#' The strings `c("-f", "GPKG")` are used to specify the desired output format
+#' (GPKG in this case).
+#' The third string is used to set the `overwrite` option.
+#' The fourth and fifth strings are used to set the GDAL OSM driver [Open
+#' Options](https://gdal.org/drivers/vector/osm.html#open-options) and overwrite
+#' the default CONFIG_FILE with *ini_file* parameter to read additional
+#' attributes.
+#' The last two strings are used to set the GPKG Layer Creation Options and fix
+#' <https://github.com/ITSLeeds/geofabrik/issues/36>.
+#' The last parameter specifies the desired layer.
 #'
 #' @export
 #' @examples
@@ -24,10 +57,9 @@
 #' download.file(pbf_url, f)
 #' # testing read_sf
 #' sf::st_layers(f)
-#' res = sf::read_sf(f) # works
-#' res = sf::read_sf(f, query = "select * from lines") # works
-#' res = sf::read_sf(f, query = "select * from multipolygons") # works
-#' res = read_pbf(f, layer = "multipolygons")
+#' res = sf::read_sf(f, layer = "lines") # works
+#' res = sf::read_sf(f, layer = "lines", query = "select * from lines") # works
+#' res = sf::read_sf(f, layer = "multipolygons", query = "select * from multipolygons") # works
 #' q = "select * from lines where highway = 'cycleway'"
 #' res_cycleways = sf::read_sf(f, layer = "lines", query = q)
 #' res_cycleways = read_pbf(f, key = "highway", value = "cycleway") # more concise
@@ -69,7 +101,8 @@ read_pbf = function(dsn,
       "-f", "GPKG", # define output format, i.e. gpkg
       "-overwrite",
       "-oo", paste0("CONFIG_FILE=", ini_file),
-      "-lco", "GEOMETRY_NAME=geometry" # fix https://github.com/ITSLeeds/geofabrik/issues/36
+      "-lco", "GEOMETRY_NAME=geometry", # fix https://github.com/ITSLeeds/geofabrik/issues/36
+      layer
     )
   }
   sf::gdal_utils(

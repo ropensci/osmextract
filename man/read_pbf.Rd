@@ -22,7 +22,8 @@ read_pbf(
 \item{layer}{Which layer to read in? One of
 "points"           "lines"            "multipolygons"    "multilinestrings" or "other_relations"}
 
-\item{key}{Character string defining the key values to subset the data from, e.g. \code{"highway"}}
+\item{key}{Character string defining the key values to subset the data from,
+e.g. \code{"highway"}.}
 
 \item{value}{The value(s) the \code{key} can take, e.g. \code{"cycleway"}}
 
@@ -41,9 +42,42 @@ default), then it's created using \code{\link[=make_ini_attributes]{make_ini_att
 passed to ogr2ogr. See details.}
 }
 \description{
-Read pbf files (typically downloaded with \code{\link[=get_geofabrik]{get_geofabrik()}}) translating
-the \verb{.osm.pbf`` file into a }.gpkg`` format. See details and the discussion
-in \url{https://github.com/OSGeo/gdal/issues/2100}
+Read pbf files (typically downloaded with \code{\link[=get_geofabrik]{get_geofabrik()}}) after
+translating the \code{.osm.pbf} format into a \code{.gpkg} format. See details.
+}
+\details{
+This function is used to read \code{.osm.pbf} files using the following procedure.
+First the \code{.osm.pbf} file is translated into a \code{.gpkg} file using
+\code{vectortranslate} \href{https://gdal.org/programs/ogr2ogr.html}{gdal utils} via
+\code{\link[sf:gdal_utils]{sf::gdal_utils()}}.
+Then, the .gpkg file is read using \code{\link[sf:read_sf]{sf::read_sf()}} function.
+Read the discussion in \url{https://github.com/ITSLeeds/geofabrik/issues/12} and
+\url{https://github.com/OSGeo/gdal/issues/2100} for an explanation of this
+procedure.
+
+The \code{vectortranslate_options} parameter is used to control the behaviour of
+\code{vectortranslate} utils. If \code{NULL} (the default), then the following options
+are added:
+\itemize{
+\item "-f", "GPKG",
+\item "-overwrite",
+\item "-oo", "CONFIG_FILE=\emph{ini_file}",
+\item "-lco", "GEOMETRY_NAME=geometry",
+\item \emph{layer}
+}
+
+Check \href{https://gdal.org/programs/ogr2ogr.html}{ogr2ogr2} documentation for a
+complete list of all available operations and \code{\link[sf:gdal_utils]{sf::gdal_utils()}} for
+examples on how to specify the options parameter.
+The strings \code{c("-f", "GPKG")} are used to specify the desired output format
+(GPKG in this case).
+The third string is used to set the \code{overwrite} option.
+The fourth and fifth strings are used to set the GDAL OSM driver \href{https://gdal.org/drivers/vector/osm.html#open-options}{Open Options} and overwrite
+the default CONFIG_FILE with \emph{ini_file} parameter to read additional
+attributes.
+The last two strings are used to set the GPKG Layer Creation Options and fix
+\url{https://github.com/ITSLeeds/geofabrik/issues/36}.
+The last parameter specifies the desired layer.
 }
 \examples{
 \donttest{
