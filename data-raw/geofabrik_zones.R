@@ -1,8 +1,8 @@
-## code to prepare `geofabrik_urls` dataset goes here
+## code to prepare `osmextractr_urls` dataset goes here
 library(tidyverse)
 library(rvest)
 
-base_url = "http://download.geofabrik.de/"
+base_url = "http://download.osmextractr.de/"
 xpath = ".subregion+ td a"
 d = read_html(base_url)
 t = d %>% html_table() %>% .[[1]]
@@ -32,7 +32,7 @@ t_continents = t
 # t_continents$name = "World"
 
 # # for countries
-# # u = "http://download.geofabrik.de/europe.html"
+# # u = "http://download.osmextractr.de/europe.html"
 # u = t_continents$page_url[6]
 # xpath = ".subregion+ td a"
 # d = read_html(u)
@@ -124,7 +124,7 @@ get_geofrabric_urls = function(u, xpath = ".subregion+ td a", level = "country",
 }
 
 # t_continents = get_geofrabric_urls(u = base_url)
-t_countries_europe = get_geofrabric_urls(u = "http://download.geofabrik.de/europe.html")
+t_countries_europe = get_geofrabric_urls(u = "http://download.osmextractr.de/europe.html")
 # View(t_europe)
 # t_all = rbind(t_continents, t_countries_europe)
 
@@ -168,5 +168,5 @@ for(i in 2:nrow(t_regions)) {
 t_all = rbind(t_continents, t_countries, t_regions, t_subregions)
 mapview::mapview(t_all)
 
-geofabrik_zones = t_all
-usethis::use_data(geofabrik_zones)
+osmextractr_zones = t_all
+usethis::use_data(osmextractr_zones)

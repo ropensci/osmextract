@@ -1,5 +1,5 @@
 library(sf)
-download.file("http://download.geofabrik.de/europe/great-britain/england/greater-london-latest.osm.pbf", "greater-london-latest.osm.pbf", mode = "wb")
+download.file("http://download.osmextractr.de/europe/great-britain/england/greater-london-latest.osm.pbf", "greater-london-latest.osm.pbf", mode = "wb")
 
 greater_london <- st_read(
   "greater-london-latest.osm.pbf",
@@ -97,14 +97,14 @@ bench::mark(iterations = 1, check = FALSE, get1(), get2(), get3(), get3())
 
 
 rutland <- download.file(
-  url = "http://download.geofabrik.de/europe/great-britain/england/rutland-latest.osm.pbf",
+  url = "http://download.osmextractr.de/europe/great-britain/england/rutland-latest.osm.pbf",
   destfile = "rutland-latest.osm.pbf",
   mode = "wb"
 )
 
 my_ini_file <- paste0(tempfile(), ".ini")
 writeLines(
-  text = geofabrik::make_ini_attributes(c("maxspeed", "oneway", "lanes"), layer = "lines", append = TRUE),
+  text = osmextractr::make_ini_attributes(c("maxspeed", "oneway", "lanes"), layer = "lines", append = TRUE),
   con = my_ini_file
 )
 

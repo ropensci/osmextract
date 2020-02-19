@@ -1,7 +1,7 @@
-#' Download OSM data from [geofabrik.de](http://www.geofabrik.de/)
+#' Download OSM data from [osmextractr.de](http://www.osmextractr.de/)
 #'
 #' @inheritParams read_pbf
-#' @param name String or [`sf::sf`] spatial object of the geofabrik zone
+#' @param name String or [`sf::sf`] spatial object of the osmextractr zone
 #' to download. See examples.
 #' @param layer Character string telling `sf` which OSM layer to import.
 #' One of `points`, `lines` (the default), `multilinestrings`, `multipolygons` or `other_relations`
@@ -12,27 +12,27 @@
 #' @param ask Should the user be asked before downloading the file?
 #' @param max_dist What is the maximum distance in fuzzy matching to tolerate before asking
 #' the user to select which zone to download?
-#' @param op The binary spatial predicate used to identify the smallest geofabrik zones
+#' @param op The binary spatial predicate used to identify the smallest osmextractr zones
 #' that matches the simple feature input in `name`
 #' @param ... Additional arguments passed to [`read_pbf()`]
 #'
 #' @export
 #' @examples
 #' \donttest{
-#' get_geofabrik("isle of man")
-#' andorra = get_geofabrik(name = "andorra") # try other names, e.g. name = "west-yorkshire"
+#' get_osmextractr("isle of man")
+#' andorra = get_osmextractr(name = "andorra") # try other names, e.g. name = "west-yorkshire"
 #' head(andorra)
-#' cycleways_andorra = get_geofabrik("andorra", key = "highway", value = "cycleway")
+#' cycleways_andorra = get_osmextractr("andorra", key = "highway", value = "cycleway")
 #' plot(cycleways_andorra)
 #' # user asked to choose closest match when interactive
-#' # get_geofabrik("kdljfdl", ask = FALSE) # not run to save time
+#' # get_osmextractr("kdljfdl", ask = FALSE) # not run to save time
 #' # get zone associated with a point
 #' name = sf::st_sfc(sf::st_point(c(-1.3, 50.7)), crs = 4326)
-#' get_geofabrik(name)
+#' get_osmextractr(name)
 #' name = sf::st_sfc(sf::st_point(c(0, 53)), sf::st_point(c(-2, 55)), crs = 4326)
 #' gf_find_sf(name)
 #' }
-get_geofabrik = function(
+get_osmextractr = function(
   name = "west-yorkshire",
   # format = "pbf",
   layer = "lines",
@@ -50,22 +50,22 @@ get_geofabrik = function(
       warning("Matching only based on the first feature.", immediate. = TRUE)
       message("Try sf::st_union() to convert into a single multi feature.")
     }
-    geofabrik_matches = gf_find_sf(name, ask, op)
+    osmextractr_matches = gf_find_sf(name, ask, op)
   } else {
     if(length(name) > 1) {
       name = name[1]
       warning("Matching only the first name supplied: ", name, immediate. = TRUE)
     }
-    geofabrik_matches = gf_find(name, ask, max_dist)
+    osmextractr_matches = gf_find(name, ask, max_dist)
   }
-  if(is.null(geofabrik_matches)) {
+  if(is.null(osmextractr_matches)) {
     # Match failed with message from gf_find
     return(NULL)
   }
 
-  large_size = grepl(pattern = "G", x = geofabrik_matches$size_pbf)
+  large_size = grepl(pattern = "G", x = osmextractr_matches$size_pbf)
   if(interactive() & ask & large_size) {
-    message("This is a large file ", geofabrik_matches$size_pbf)
+    message("This is a large file ", osmextractr_matches$size_pbf)
     continue = utils::menu(choices = c("Yes", "No"), title = "Would you like to download this file?")
     if(continue != 1L) {# for the same reasoning as before
       message("Aborted by user.")
@@ -73,10 +73,10 @@ get_geofabrik = function(
     }
   }
 
-  zone_url = geofabrik_matches$pbf_url
+  zone_url = osmextractr_matches$pbf_url
 
   # download_path = file.path(download_directory, paste0(zone, ".zip"))
-  download_path = file.path(download_directory, paste0(geofabrik_matches$name, ".osm.pbf"))
+  download_path = file.path(download_directory, paste0(osmextractr_matches$name, ".osm.pbf"))
   if(!file.exists(download_path)) {
     message("Downloading ", zone_url, " to \n", download_path)
     utils::download.file(url = zone_url, destfile = download_path, mode = "wb")
@@ -101,10 +101,10 @@ gf_download_directory = function(){
 }
 
 
-#' Get the filename of a file downloaded from geofabrik
+#' Get the filename of a file downloaded from osmextractr
 #'
-#' @param name The name of the geofrabic zone. Must be an element in `geofabrik::geofabrik_zones$name`.
-#' @inheritParams get_geofabrik
+#' @param name The name of the geofrabic zone. Must be an element in `osmextractr::osmextractr_zones$name`.
+#' @inheritParams get_osmextractr
 #'
 #' @return A character vector.
 #' @export
@@ -117,20 +117,20 @@ gf_filename = function(
   # format = "pbf",
   download_directory = gf_download_directory()
 ) {
-  stopifnot(name %in% geofabrik::geofabrik_zones$name)
+  stopifnot(name %in% osmextractr::osmextractr_zones$name)
   file.path(download_directory, paste0(name, ".osm.pbf"))
 }
 
 # old version of function -------------------------------------------------
 # @param format Format of data to download (currently only pbf supported)
-# get_geofabrik_contry_continent = function(
+# get_osmextractr_contry_continent = function(
 #                          continent = "europe",
 #                          country = "great-britain",
 #                          region = NULL,
 #                          download_directory = tempdir(),
 #                          unzip_directory = tempdir()) {
 #   country_only = country_url = paste0(
-#     "http://download.geofabrik.de/",
+#     "http://download.osmextractr.de/",
 #     continent,
 #     "/",
 #     country
