@@ -1,9 +1,8 @@
-^.*\.Rproj$
+^osmextractr\.Rproj$
 ^\.Rproj\.user$
-^README\.Rmd$
-^data-raw$
 ^LICENSE\.md$
-^_pkgdown\.yml$
-^docs$
-^pkgdown$
-^\.travis\.yml$
+^README\.Rmd$
+^README\.md$
+^cran-comments\.md$
+^\.github$
+^data-raw$
