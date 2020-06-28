@@ -47,4 +47,21 @@ osmext_match("RU", match_by = "iso3166_1_alpha2")
 #> 
 #> $pbf_file_size
 #> [1] 2820253009
+osmext_match("Isle Wight", max_string_dist = 3)
+#> $pbf_url
+#> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
+#> 
+#> $pbf_file_size
+#> [1] 6877468
+```
+
+# Test download
+
+``` r
+iow = osmext_match("Isle Wight", max_string_dist = 3)
+osmext_download(
+  file_url = iow$pbf_url, 
+  file_size = iow$pbf_file_size
+)
+#> [1] "/tmp/RtmpmldZS1/geofabrik_isle-of-wight-latest.osm.pbf"
 ```

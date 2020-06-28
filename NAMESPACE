@@ -2,4 +2,5 @@
 
 S3method(osmext_match,character)
 S3method(osmext_match,default)
+export(osmext_download)
 export(osmext_match)

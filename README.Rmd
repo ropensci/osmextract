@@ -33,5 +33,16 @@ osmext_match("US", match_by = "iso3166_1_alpha2") # matching by iso3166 is reall
 osmext_match("Korea") # Add one function to explore matches with grep
 osmext_match("Russia") # Add one function to explore matches with grep
 osmext_match("RU", match_by = "iso3166_1_alpha2")
+osmext_match("Isle Wight", max_string_dist = 3)
+```
+
+# Test download
+
+```{r}
+iow = osmext_match("Isle Wight", max_string_dist = 3)
+osmext_download(
+  file_url = iow$pbf_url, 
+  file_size = iow$pbf_file_size
+)
 ```
 
