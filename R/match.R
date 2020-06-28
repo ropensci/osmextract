@@ -8,7 +8,6 @@
 #'
 #' @examples
 #' 1 + 1
-
 osmext_match = function(place, ...) {
   UseMethod("osmext_match")
 }
