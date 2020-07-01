@@ -21,3 +21,5 @@ Depends: R (>= 3.4.0)
 Imports: 
     sf,
     utils
+Suggests: 
+    testthat
