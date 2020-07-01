@@ -13,7 +13,7 @@ Description: More about what it does (maybe more than one line)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/itsleeds/geofabrik
 BugReports: https://github.com/itsleeds/geofabrik/issues

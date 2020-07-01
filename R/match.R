@@ -1,13 +1,17 @@
-#' Match input place with a url
+#' Match input data with a url
 #'
-#' @param place A
-#' @param ... B
+#' This function is used to match the input `place` with a url.
 #'
-#' @return ABC
+#' @inheritParams osmext_get
+#' @param ... arguments passed to other methods
+#'
+#' @return A list with two elements, named `url` and `file_size`. The first
+#'   element is the url of the file associated with the input `place`, while the
+#'   second element is the size of the file.
 #' @export
 #'
 #' @examples
-#' 1 + 1
+#' osmext_match("Italy")
 osmext_match = function(place, ...) {
   UseMethod("osmext_match")
 }
@@ -20,21 +24,18 @@ osmext_match.default <- function(place, ...) {
        " Feel free to open a new issue at ... .", call. = FALSE)
 }
 
-#' @param provider C
-#' @param match_by D
-#' @param max_string_dist E
-#' @param interactive_ask F
-#' @param verbose G
+#' @inheritParams osmext_get
 #' @rdname osmext_match
 #' @export
 osmext_match.character <- function(
   place,
-  ...,
   provider = "geofabrik",
   match_by = "name",
+  format = "pbf",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
   ) {
   # For the moment we support only length-one character vectors
   if (length(place) > 1L) {
@@ -101,8 +102,8 @@ osmext_match.character <- function(
 
   # Return a list with the url and the file_size of the matched place
   result <- list(
-    pbf_url = best_matched_place[["pbf"]],
-    pbf_file_size = best_matched_place[["pbf_file_size"]]
+    url = best_matched_place[["pbf"]],
+    file_size = best_matched_place[["pbf_file_size"]]
   )
   result
 }
