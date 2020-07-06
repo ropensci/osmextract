@@ -30,7 +30,6 @@ osmext_match.default <- function(place, ...) {
 osmext_match.sfc_POINT <- function(
   place,
   provider = "geofabrik",
-  verbose = TRUE,
   ...
 ) {
   # For the moment we support only length-one sfc_POINT objects
@@ -71,6 +70,28 @@ osmext_match.sfc_POINT <- function(
   )
   result
 
+}
+
+#' @inheritParams osmext_get
+#' @rdname osmext_match
+#' @export
+osmext_match.numeric = function(
+  place,
+  ...
+) {
+  # In this case I just need to build the appropriate object and create a
+  # wrapper around osmext_match.sfc_POINT
+  if (length(place) != 2L) {
+    stop(
+      "You need to provide a pair of coordinates and you passed as input",
+      " a vector of length ", length(place)
+    )
+  }
+
+  # Build the sfc_POINT object
+  place <- sf::st_sfc(sf::st_point(place), crs = 4326)
+
+  osmext_match(place, ...)
 }
 
 #' @inheritParams osmext_get
