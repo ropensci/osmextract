@@ -27,6 +27,55 @@ osmext_match.default <- function(place, ...) {
 #' @inheritParams osmext_get
 #' @rdname osmext_match
 #' @export
+osmext_match.sfc_POINT <- function(
+  place,
+  provider = "geofabrik",
+  verbose = TRUE,
+  ...
+) {
+  # For the moment we support only length-one sfc_POINT objects
+  if (length(place) > 1L) {
+    stop(
+      "At the moment we support only length-one sfc_POINT objects for 'place' parameter.",
+      " Feel free to open a new issue at ...",
+      call. = FALSE
+    )
+  }
+
+  # Load the data associated with the chosen provider.
+  provider_data <- load_provider_data(provider)
+
+  # Check the CRS
+  if (sf::st_crs(place) != sf::st_crs(provider_data)) {
+    place = sf::st_transform(place, crs = sf::st_crs(provider_data))
+  }
+
+  # Spatial subset according to sf::st_intersects (maybe add a parameter for that)
+  matched_zones = provider_data[place, ]
+
+  # Check that the input zone intersects at least 1 area
+  if (nrow(matched_zones) == 0L) {
+    stop("The input place does not intersect any area for the chosen provider.")
+  }
+
+  # What to do if there are multiple matches?  (maybe add a parameter for that)
+  if (nrow(matched_zones) > 1L) {
+    # Check for the "smallest" zone
+    smallest_zone = matched_zones[which.max(matched_zones[["level"]]), ]
+  }
+
+  # Return a list with the url and the file_size of the matched place
+  result <- list(
+    url = smallest_zone[["pbf"]],
+    file_size = smallest_zone[["pbf_file_size"]]
+  )
+  result
+
+}
+
+#' @inheritParams osmext_get
+#' @rdname osmext_match
+#' @export
 osmext_match.character <- function(
   place,
   provider = "geofabrik",

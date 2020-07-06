@@ -8,6 +8,7 @@ osmext_get(
   place,
   provider = "geofabrik",
   match_by = "name",
+  format = "pbf",
   max_string_dist = 1,
   interactive_ask = FALSE,
   verbose = TRUE,
@@ -25,6 +26,9 @@ to the mathced \code{place}? For the moment we support only
 \item{match_by}{Which column of the provider data should be used for matching
 the input place? The default value is "name". Check details and examples to
 understand why this parameter is important.}
+
+\item{format}{File format that will be downloaded from the chosen provider.
+For the moment only the .osm.pbf format for download}
 
 \item{max_string_dist}{What is the maximum distance in fuzzy matching to
 tolerate before asking the user to select which zone to download?}

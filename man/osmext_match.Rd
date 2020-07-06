@@ -3,6 +3,7 @@
 \name{osmext_match}
 \alias{osmext_match}
 \alias{osmext_match.default}
+\alias{osmext_match.sfc_POINT}
 \alias{osmext_match.character}
 \title{Match input data with a url}
 \usage{
@@ -10,10 +11,13 @@ osmext_match(place, ...)
 
 \method{osmext_match}{default}(place, ...)
 
+\method{osmext_match}{sfc_POINT}(place, provider = "geofabrik", verbose = TRUE, ...)
+
 \method{osmext_match}{character}(
   place,
   provider = "geofabrik",
   match_by = "name",
+  format = "pbf",
   max_string_dist = 1,
   interactive_ask = FALSE,
   verbose = TRUE,
@@ -30,16 +34,19 @@ loaded.}
 to the mathced \code{place}? For the moment we support only
 \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
+\item{verbose}{Should the user be asked before downloading the file?}
+
 \item{match_by}{Which column of the provider data should be used for matching
 the input place? The default value is "name". Check details and examples to
 understand why this parameter is important.}
+
+\item{format}{File format that will be downloaded from the chosen provider.
+For the moment only the .osm.pbf format for download}
 
 \item{max_string_dist}{What is the maximum distance in fuzzy matching to
 tolerate before asking the user to select which zone to download?}
 
 \item{interactive_ask}{What to do is the closest match is further than max_string_dist?}
-
-\item{verbose}{Should the user be asked before downloading the file?}
 }
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first

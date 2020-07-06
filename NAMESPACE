@@ -2,6 +2,7 @@
 
 S3method(osmext_match,character)
 S3method(osmext_match,default)
+S3method(osmext_match,sfc_POINT)
 export(osmext_download)
 export(osmext_get)
 export(osmext_match)

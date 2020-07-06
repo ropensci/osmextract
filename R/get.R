@@ -32,15 +32,6 @@ osmext_get = function(
   verbose = TRUE,
   ...
 ) {
-  # Match the input zone with the provider's data.
-  matched_zone <- osmext_match(
-    place = place,
-    provider = provider,
-    match_by = match_by,
-    max_string_dist = max_string_dist,
-    interactive_ask = interactive_ask,
-    verbose = verbose
-  )
-  matched_zone
+  1
 }
 

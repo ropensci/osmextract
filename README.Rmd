@@ -19,13 +19,34 @@ knitr::opts_chunk$set(
 library(osmextractr)
 ```
 
-# Test matching
+The packages is composed by 4 main functions: 
 
-```{r, error = TRUE, warning = TRUE}
+1. `osmext_match`: Match the input zone with one of the files stored by the OSM providers
+2. `osmext_download`: Download the chosen file
+3. `osmext_vectortranslate`: Convert the pbf format into gpkg
+4. `osmext_read`: Read the gpkg file
+
+# Test `osmext_match`
+
+The simplest case: 
+
+```{r}
 osmext_match("Italy")
+```
+
+The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). I would ignore the CRS warning for the moment. 
+
+```{r}
+coords_milan = sf::st_point(c(1514924.21, 5034552.92))
+st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
+osmext_match(st_sfc_milan)
+```
+
+<!-- The input `place` can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:  -->
+
+```{r, eval = FALSE}
 osmext_match("Italy", provider = "bbbike") #TODO
 osmext_match(c(9, 45)) #TODO, crs = 4326 is implicit in this case
-osmext_match(sf::st_sfc(sf::st_point(c(1680146.94, 4851840.10)), crs = 3003)) #TODO
 
 osmext_match("US")
 osmext_match("US", match_by = "iso3166_1_alpha2") # matching by iso3166 is really powerful IMO but it should be documented
@@ -36,13 +57,16 @@ osmext_match("RU", match_by = "iso3166_1_alpha2")
 osmext_match("Isle Wight", max_string_dist = 3)
 ```
 
+
+```{r, eval = FALSE}
+```
+
 # Test download
 
-```{r}
+```{r, eval = FALSE}
 iow = osmext_match("Isle Wight", max_string_dist = 3)
 osmext_download(
   file_url = iow$pbf_url, 
   file_size = iow$pbf_file_size
 )
 ```
-
