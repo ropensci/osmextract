@@ -195,4 +195,57 @@ load_provider_data <- function(provider) {
   provider_data
 }
 
+#' Check for patterns in the provider's data columns
+#'
+#' This function is used to explore the provider's data and check for patterns
+#' in the existing columns
+#'
+#' @inheritParams osmext_get
+#' @param pattern Character string for the pattern that should be matched
+#'
+#' @return A
+#' @export
+#'
+#' @examples
+#' osmext_check_pattern(
+#' pattern = "Yorkshire",
+#' provider = "geofabrik",
+#' match_by = "name"
+#' )
+osmext_check_pattern <- function(
+  pattern,
+  provider = "geofabrik",
+  match_by = "name"
+) {
+  # Check that the input pattern is a character vector
+  if (!is.character(pattern)) {
+    pattern <- structure( # taken from base::grep
+      as.character(pattern),
+      names = names(pattern)
+    )
+  }
+  # Load the dataset associated with the chosen provider
+  provider_data <- load_provider_data(provider)
 
+  # Check that the value of match_by argument corresponds to one of the columns
+  # in provider_data
+  if (match_by %!in% colnames(provider_data)) {
+    stop(
+      "You cannot set match_by = ", match_by,
+      " since it's not one of the columns of the provider dataframe",
+      call. = FALSE
+    )
+  }
+
+  # Extract the appropriate vector
+  match_by_column <- provider_data[[match_by]]
+
+
+  # Then we extract and return only the elements of the match_by_column that
+  # match the input pattern.
+  result <- grep(pattern, match_by_column, value = TRUE)
+  result
+
+}
+
+grep

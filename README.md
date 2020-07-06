@@ -21,7 +21,7 @@ The function `osmext_get` is a wrapper around all of them.
 
 # Test `osmext_match`
 
-The simplest case:
+The simplest example:
 
 ``` r
 osmext_match("Italy")
@@ -30,6 +30,59 @@ osmext_match("Italy")
 #> 
 #> $file_size
 #> [1] 1544340778
+```
+
+There are several situations where it could be difficult to find the
+appropriate data source due to several small differences in the official
+names:
+
+``` r
+osmext_match("Korea")
+#> No exact matching found for place = Korea. Best match is Azores.
+#> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+osmext_match("Russia")
+#> No exact matching found for place = Russia. Best match is Asia.
+#> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+```
+
+For these reasons we implemented the possibility to look for the
+appropriate area according to the [iso3166-1
+alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code:
+
+``` r
+osmext_match("KP", match_by = "iso3166_1_alpha2")
+#> $url
+#> [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 33241783
+osmext_match("RU", match_by = "iso3166_1_alpha2")
+#> $url
+#> [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 2820253009
+osmext_match("US", match_by = "iso3166_1_alpha2")
+#> $url
+#> [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 6982945396
+```
+
+We also created a function that let you explore the matching variables
+according to a chosen pattern, for example:
+
+``` r
+osmext_check_pattern("London", provider = "geofabrik", match_by = "name")
+#> [1] "Greater London"
+osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
+#> [1] "Russian Federation"
+osmext_check_pattern("Korea", provider = "geofabrik", match_by = "name")
+#> [1] "North Korea" "South Korea"
+osmext_check_pattern("Yorkshire", provider = "geofabrik", match_by = "name")
+#> [1] "East Yorkshire with Hull" "North Yorkshire"         
+#> [3] "South Yorkshire"          "West Yorkshire"
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with
@@ -66,15 +119,19 @@ osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
 #> Error in osmext_match.numeric(c(9.1916, 45.465, 9.202, 45.4781)): You need to provide a pair of coordinates and you passed as input a vector of length 4
 ```
 
-``` r
-osmext_match("Italy", provider = "bbbike") #TODO
-osmext_match("US")
-osmext_match("US", match_by = "iso3166_1_alpha2") # matching by iso3166 is really powerful IMO but it should be documented
+If there are several error matching the input place with one of the
+zone, you can also try increasing the maximum allowed string distance:
 
-osmext_match("Korea") # Add one function to explore matches with grep
-osmext_match("Russia") # Add one function to explore matches with grep
-osmext_match("RU", match_by = "iso3166_1_alpha2")
+``` r
+osmext_match("Isle Wight")
+#> No exact matching found for place = Isle Wight. Best match is Isle of Wight.
+#> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 osmext_match("Isle Wight", max_string_dist = 3)
+#> $url
+#> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 6877468
 ```
 
 # Test download

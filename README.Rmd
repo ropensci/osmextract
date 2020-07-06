@@ -30,10 +30,34 @@ The function `osmext_get` is a wrapper around all of them.
 
 # Test `osmext_match`
 
-The simplest case: 
+The simplest example: 
 
 ```{r}
 osmext_match("Italy")
+```
+
+There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names: 
+
+```{r, error = TRUE}
+osmext_match("Korea")
+osmext_match("Russia")
+```
+
+For these reasons we implemented the possibility to look for the appropriate area according to the [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code: 
+
+```{r}
+osmext_match("KP", match_by = "iso3166_1_alpha2")
+osmext_match("RU", match_by = "iso3166_1_alpha2")
+osmext_match("US", match_by = "iso3166_1_alpha2")
+```
+
+We also created a function that let you explore the matching variables according to a chosen pattern, for example: 
+
+```{r}
+osmext_check_pattern("London", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("Korea", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("Yorkshire", provider = "geofabrik", match_by = "name")
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). I would ignore the CRS warning for the moment. 
@@ -52,15 +76,10 @@ osmext_match(c(9.1916))
 osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
 ```
 
+If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance: 
 
-```{r, eval = FALSE}
-osmext_match("Italy", provider = "bbbike") #TODO
-osmext_match("US")
-osmext_match("US", match_by = "iso3166_1_alpha2") # matching by iso3166 is really powerful IMO but it should be documented
-
-osmext_match("Korea") # Add one function to explore matches with grep
-osmext_match("Russia") # Add one function to explore matches with grep
-osmext_match("RU", match_by = "iso3166_1_alpha2")
+```{r, error = TRUE}
+osmext_match("Isle Wight")
 osmext_match("Isle Wight", max_string_dist = 3)
 ```
 
