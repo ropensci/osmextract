@@ -1,14 +1,17 @@
-#' Match input data with a url
+#' Match input place with a geographical zone
 #'
-#' This function is used to match the input `place` with a url.
+#' This function is used to match the input `place` with the url of the
+#' corresponding pbf file (and its file size, if present).
 #'
 #' @inheritParams osmext_get
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
-#'   element is the url of the file associated with the input `place`, while the
-#'   second element is the size of the file.
+#'   element is the url of the file associated with the input `place`, while
+#'   the second element is the size of the file.
 #' @export
+#'
+#' @details ABC
 #'
 #' @examples
 #' osmext_match("Italy")
@@ -19,9 +22,11 @@ osmext_match = function(place, ...) {
 #' @rdname osmext_match
 #' @export
 osmext_match.default <- function(place, ...) {
-  stop("At the moment there is no support for matching objects of class ",
-       class(place)[1], ".",
-       " Feel free to open a new issue at ... .", call. = FALSE)
+  stop(
+    "At the moment there is no support for matching objects of class ",
+    class(place)[1], ".",
+    " Feel free to open a new issue at ... .", call. = FALSE
+  )
 }
 
 #' @inheritParams osmext_get
@@ -30,6 +35,7 @@ osmext_match.default <- function(place, ...) {
 osmext_match.sfc_POINT <- function(
   place,
   provider = "geofabrik",
+  verbose = FALSE,
   ...
 ) {
   # For the moment we support only length-one sfc_POINT objects
@@ -77,6 +83,8 @@ osmext_match.sfc_POINT <- function(
 #' @export
 osmext_match.numeric = function(
   place,
+  provider = "geofabrik",
+  verbose = FALSE,
   ...
 ) {
   # In this case I just need to build the appropriate object and create a
@@ -91,7 +99,7 @@ osmext_match.numeric = function(
   # Build the sfc_POINT object
   place <- sf::st_sfc(sf::st_point(place), crs = 4326)
 
-  osmext_match(place, ...)
+  osmext_match(place, provider = provider, verbose = verbose, ...)
 }
 
 #' @inheritParams osmext_get
@@ -101,10 +109,9 @@ osmext_match.character <- function(
   place,
   provider = "geofabrik",
   match_by = "name",
-  format = "pbf",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  verbose = TRUE,
+  verbose = FALSE,
   ...
   ) {
   # For the moment we support only length-one character vectors

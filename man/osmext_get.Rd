@@ -8,36 +8,40 @@ osmext_get(
   place,
   provider = "geofabrik",
   match_by = "name",
-  format = "pbf",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  verbose = TRUE,
-  ...
+  verbose = FALSE
 )
 }
 \arguments{
-\item{place}{String for the geographic zone that should be downloaded and
-loaded.}
+\item{place}{Description of the geographical area that should be download
+through the chosen \code{provider}. Can be either a length-1 character vector, a
+length-1 \code{sfc_POINT} object or a numeric vector with length 2. See details
+and examples.}
 
 \item{provider}{Which provider should be used to download the data associated
-to the mathced \code{place}? For the moment we support only
+to the input \code{place}? For the moment we support only
 \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
 \item{match_by}{Which column of the provider data should be used for matching
-the input place? The default value is "name". Check details and examples to
-understand why this parameter is important.}
+the input place with the provider's data? The default is "name". Check
+details and examples to understand how this parameter works. Ignored if
+\code{place} is not a character vector since the matching is performed through a
+spatial operation.}
 
-\item{format}{File format that will be downloaded from the chosen provider.
-For the moment only the .osm.pbf format for download}
+\item{max_string_dist}{Numeric and ge than 0. What is the maximum distance in
+fuzzy matching to tolerate before asking the user to select which zone to
+download? Check details and examples to understand why this parameter is
+important. Ignored if \code{place} is not a character vector since the matching
+is performed through a spatial operation.}
 
-\item{max_string_dist}{What is the maximum distance in fuzzy matching to
-tolerate before asking the user to select which zone to download?}
+\item{interactive_ask}{Boolean. If \code{TRUE} the function creates and
+interactive menu in case the best match is further than \code{max_string_dist}.
+Check details and examples to understand why this parameter is important.
+Ignored if \code{place} is not a character vector since the matching is
+performed through a spatial operation.}
 
-\item{interactive_ask}{What to do is the closest match is further than max_string_dist?}
-
-\item{verbose}{Should the user be asked before downloading the file?}
-
-\item{...}{Additional arguments passed to \code{\link[sf:st_read]{sf::st_read()}}}
+\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
 A

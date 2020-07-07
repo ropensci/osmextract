@@ -10,12 +10,14 @@ osmext_check_pattern(pattern, provider = "geofabrik", match_by = "name")
 \item{pattern}{Character string for the pattern that should be matched}
 
 \item{provider}{Which provider should be used to download the data associated
-to the mathced \code{place}? For the moment we support only
+to the input \code{place}? For the moment we support only
 \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
 \item{match_by}{Which column of the provider data should be used for matching
-the input place? The default value is "name". Check details and examples to
-understand why this parameter is important.}
+the input place with the provider's data? The default is "name". Check
+details and examples to understand how this parameter works. Ignored if
+\code{place} is not a character vector since the matching is performed through a
+spatial operation.}
 }
 \value{
 A
