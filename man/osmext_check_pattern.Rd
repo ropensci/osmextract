@@ -4,20 +4,21 @@
 \alias{osmext_check_pattern}
 \title{Check for patterns in the provider's data columns}
 \usage{
-osmext_check_pattern(pattern, provider = "geofabrik", match_by = "name")
+osmext_check_pattern(
+  pattern,
+  provider = "geofabrik",
+  match_by = "name",
+  full_row = FALSE
+)
 }
 \arguments{
 \item{pattern}{Character string for the pattern that should be matched}
 
-\item{provider}{Which provider should be used to download the data associated
-to the input \code{place}? For the moment we support only
-\href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{TODO}
 
-\item{match_by}{Which column of the provider data should be used for matching
-the input place with the provider's data? The default is "name". Check
-details and examples to understand how this parameter works. Ignored if
-\code{place} is not a character vector since the matching is performed through a
-spatial operation.}
+\item{match_by}{TODO}
+
+\item{full_row}{TODO}
 }
 \value{
 A

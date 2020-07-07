@@ -46,11 +46,13 @@ details and examples to understand how this parameter works. Ignored if
 \code{place} is not a character vector since the matching is performed through a
 spatial operation.}
 
-\item{max_string_dist}{Numeric and ge than 0. What is the maximum distance in
-fuzzy matching to tolerate before asking the user to select which zone to
-download? Check details and examples to understand why this parameter is
-important. Ignored if \code{place} is not a character vector since the matching
-is performed through a spatial operation.}
+\item{max_string_dist}{Numeric value greater or equal than 0. What is the
+maximum distance in fuzzy matching to tolerate before asking the user to
+select which zone to download? This parameter is set equal to 0 if
+\code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}. Check details and
+examples to understand why this parameter is important. Ignored if \code{place}
+is not a character vector since the matching is performed through a spatial
+operation.}
 
 \item{interactive_ask}{Boolean. If \code{TRUE} the function creates and
 interactive menu in case the best match is further than \code{max_string_dist}.
