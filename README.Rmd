@@ -107,18 +107,18 @@ osmext_match("Isle Wight", max_string_dist = 3)
 
 The simplest example: 
 
-```{r, eval = FALSE}
+```{r}
 iow = osmext_match("Isle of Wight")
 osmext_download(
   file_url = iow$url, 
-  file_size = iow$file_size, 
-  download_directory = tempdir()
+  file_size = iow$file_size
 )
 ```
 
-If you want to download your data into a persistent directory, set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with `usethis::edit_r_environ()`. For example: 
+If you want to download your data into a persistent directory, set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with `usethis::edit_r_environ()` or manually. For example: 
 
-```{r, eval = FALSE}
+```{r}
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "~/osmext_data")
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size

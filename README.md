@@ -209,18 +209,20 @@ The simplest example:
 iow = osmext_match("Isle of Wight")
 osmext_download(
   file_url = iow$url, 
-  file_size = iow$file_size, 
-  download_directory = tempdir()
+  file_size = iow$file_size
 )
+#> [1] "/tmp/Rtmpu4ZpAp/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
 
 If you want to download your data into a persistent directory, set
 `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
-e.g. with `usethis::edit_r_environ()`. For example:
+e.g. with `usethis::edit_r_environ()` or manually. For example:
 
 ``` r
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "~/osmext_data")
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
+#> [1] "~/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
