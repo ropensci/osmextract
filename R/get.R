@@ -12,11 +12,13 @@
 #'   details and examples to understand how this parameter works. Ignored if
 #'   `place` is not a character vector since the matching is performed through a
 #'   spatial operation.
-#' @param max_string_dist Numeric and ge than 0. What is the maximum distance in
-#'   fuzzy matching to tolerate before asking the user to select which zone to
-#'   download? Check details and examples to understand why this parameter is
-#'   important. Ignored if `place` is not a character vector since the matching
-#'   is performed through a spatial operation.
+#' @param max_string_dist Numeric value greater or equal than 0. What is the
+#'   maximum distance in fuzzy matching to tolerate before asking the user to
+#'   select which zone to download? This parameter is set equal to 0 if
+#'   `match_by` is equal to `iso3166_1_alpha2` or `iso3166_2`. Check details and
+#'   examples to understand why this parameter is important. Ignored if `place`
+#'   is not a character vector since the matching is performed through a spatial
+#'   operation.
 #' @param interactive_ask Boolean. If `TRUE` the function creates and
 #'   interactive menu in case the best match is further than `max_string_dist`.
 #'   Check details and examples to understand why this parameter is important.
