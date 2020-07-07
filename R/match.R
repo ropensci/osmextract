@@ -152,14 +152,14 @@ osmext_match.character <- function(
   # Check if the best match is still too far
   high_distance <- matching_dists[best_match_id, 1] > max_string_dist
 
-  if (high_distance) {
-    if (verbose) {
+  if (isTRUE(high_distance)) {
+    if (isTRUE(verbose)) {
       message(
         "No exact matching found for place = ", place, ". ",
         "Best match is ", best_matched_place[[match_by]], "."
       )
     }
-    if (interactive() && interactive_ask) {
+    if (interactive() && isTRUE(interactive_ask)) {
       continue <- utils::menu(
         choices = c("Yes", "No"),
         title = "Would you like to download this file?"
@@ -213,8 +213,10 @@ load_provider_data <- function(provider) {
 #' This function is used to explore the provider's data and check for patterns
 #' in the existing columns
 #'
-#' @inheritParams osmext_get
 #' @param pattern Character string for the pattern that should be matched
+#' @param provider TODO
+#' @param match_by TODO
+#' @param full_row TODO
 #'
 #' @return A
 #' @export
@@ -228,7 +230,8 @@ load_provider_data <- function(provider) {
 osmext_check_pattern <- function(
   pattern,
   provider = "geofabrik",
-  match_by = "name"
+  match_by = "name",
+  full_row = FALSE
 ) {
   # Check that the input pattern is a character vector
   if (!is.character(pattern)) {
@@ -253,12 +256,16 @@ osmext_check_pattern <- function(
   # Extract the appropriate vector
   match_by_column <- provider_data[[match_by]]
 
+  # Then we extract only the elements of the match_by_column that match the
+  # input pattern.
+  match_ID <- grep(pattern, match_by_column)
 
-  # Then we extract and return only the elements of the match_by_column that
-  # match the input pattern.
-  result <- grep(pattern, match_by_column, value = TRUE)
-  result
-
+  # If full_row is TRUE than return the corresponding row of provider_data,
+  # otherwise just the matched pattern.
+  if (isTRUE(full_row)) {
+    provider_data[match_ID, ]
+  } else {
+    match_by_column[match_ID]
+  }
 }
 
-grep
