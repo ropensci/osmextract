@@ -1,6 +1,37 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+The leitmotif of package is to help the users to read and download
+extracts of OpenStreetMap data stored by several providers, such as
+[Geofabrik](http://download.geofabrik.de/) or
+[bbbike](https://download.bbbike.org/osm/bbbike/). The provider’s data
+are stored using `sf` objects that summarize the most important
+characteristics of each geographic zone, such as the name and the url of
+the pbf file.
+
+``` r
+library(sf)
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+osmextractr::geofabrik_zones[, c(2, 8)]
+#> Simple feature collection with 430 features and 2 fields
+#> geometry type:  MULTIPOLYGON
+#> dimension:      XY
+#> bbox:           xmin: -180 ymin: -90 xmax: 180 ymax: 85.04177
+#> geographic CRS: WGS 84
+#> First 10 features:
+#>           name                                                                       pbf                       geometry
+#> 1  Afghanistan             https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf MULTIPOLYGON (((62.47808 29...
+#> 2       Africa                       https://download.geofabrik.de/africa-latest.osm.pbf MULTIPOLYGON (((11.60092 33...
+#> 3      Albania               https://download.geofabrik.de/europe/albania-latest.osm.pbf MULTIPOLYGON (((19.37748 42...
+#> 4      Alberta https://download.geofabrik.de/north-america/canada/alberta-latest.osm.pbf MULTIPOLYGON (((-110.0051 4...
+#> 5      Algeria               https://download.geofabrik.de/africa/algeria-latest.osm.pbf MULTIPOLYGON (((6.899245 37...
+#> 6         Alps                  https://download.geofabrik.de/europe/alps-latest.osm.pbf MULTIPOLYGON (((5.57178 48....
+#> 7       Alsace         https://download.geofabrik.de/europe/france/alsace-latest.osm.pbf MULTIPOLYGON (((8.236555 48...
+#> 8      Andorra               https://download.geofabrik.de/europe/andorra-latest.osm.pbf MULTIPOLYGON (((1.516233 42...
+#> 9       Angola                https://download.geofabrik.de/africa/angola-latest.osm.pbf MULTIPOLYGON (((20.72182 -1...
+#> 10  Antarctica                   https://download.geofabrik.de/antarctica-latest.osm.pbf MULTIPOLYGON (((-180 -90, 1...
+```
+
 # Load package
 
 ``` r
@@ -81,8 +112,7 @@ osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
 osmext_check_pattern("Korea", provider = "geofabrik", match_by = "name")
 #> [1] "North Korea" "South Korea"
 osmext_check_pattern("Yorkshire", provider = "geofabrik", match_by = "name")
-#> [1] "East Yorkshire with Hull" "North Yorkshire"         
-#> [3] "South Yorkshire"          "West Yorkshire"
+#> [1] "East Yorkshire with Hull" "North Yorkshire"          "South Yorkshire"          "West Yorkshire"
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with

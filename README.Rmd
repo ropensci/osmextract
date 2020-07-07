@@ -11,6 +11,15 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+options(width = 140)
+```
+
+The leitmotif of package is to help the users to read and download extracts of OpenStreetMap data stored by several providers, such as [Geofabrik](http://download.geofabrik.de/) or [bbbike](https://download.bbbike.org/osm/bbbike/). The provider's data are stored using `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file.  
+
+```{r}
+library(sf)
+osmextractr::geofabrik_zones[, c(2, 8)]
 ```
 
 # Load package 
