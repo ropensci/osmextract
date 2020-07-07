@@ -34,9 +34,8 @@ and examples.}
 
 \item{...}{arguments passed to other methods}
 
-\item{provider}{Which provider should be used to download the data associated
-to the input \code{place}? For the moment we support only
-\href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{Which provider should be used to download the data? For the
+moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
 \item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 

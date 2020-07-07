@@ -2,12 +2,12 @@
 % Please edit documentation in R/download.R
 \name{osmext_download}
 \alias{osmext_download}
-\title{Title}
+\title{Download the input file}
 \usage{
 osmext_download(
   file_url,
   file_basename = basename(file_url),
-  provider = "geofabrik",
+  provider = infer_provider_from_url(file_url),
   download_directory = osmext_download_directory(),
   file_size = NA,
   force_download = FALSE,
@@ -20,23 +20,24 @@ osmext_download(
 
 \item{file_basename}{B}
 
-\item{provider}{C}
+\item{provider}{Which provider should be used to download the data? For the
+moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
-\item{download_directory}{D}
+\item{download_directory}{TODO}
 
 \item{file_size}{E}
 
-\item{force_download}{F}
+\item{force_download}{TODO}
 
-\item{max_file_size}{G}
+\item{max_file_size}{TODO}
 
-\item{verbose}{H}
+\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
 ch
 }
 \description{
-Title
+Download the input file if it's not already present in the specified download_directory.
 }
 \examples{
 1 + 1

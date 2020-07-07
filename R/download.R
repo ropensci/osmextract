@@ -1,13 +1,11 @@
-#' Title
+#' Download the input file
 #'
+#' Download the input file if it's not already present in the specified download_directory.
+#'
+#' @inheritParams osmext_get
 #' @param file_url A
 #' @param file_basename B
-#' @param provider C
-#' @param download_directory D
 #' @param file_size E
-#' @param force_download F
-#' @param max_file_size G
-#' @param verbose H
 #'
 #' @return ch
 #' @export
@@ -17,7 +15,7 @@
 osmext_download <- function(
   file_url,
   file_basename = basename(file_url),
-  provider = "geofabrik",
+  provider = infer_provider_from_url(file_url),
   download_directory = osmext_download_directory(),
   file_size = NA,
   force_download = FALSE,
@@ -28,11 +26,11 @@ osmext_download <- function(
   # the provider and the file_basename
   file_path <- file.path(download_directory, paste(provider, file_basename, sep = "_"))
 
-  # If the file exists and force_download == FALSE, then raise a message and
+  # If the file exists and force_download is FALSE, then raise a message and
   # return the file_path. Otherwise we download it after checking for the
   # file_size.
-  if (file.exists(file_path) && !force_download) {
-    if (verbose) {
+  if (file.exists(file_path) && !isTRUE(force_download)) {
+    if (isTRUE(verbose)) {
       message(
       "The chosen file is already detected in the download_directory. ",
       "Skip downloading."
@@ -41,7 +39,7 @@ osmext_download <- function(
     return(file_path)
   }
 
-  if (!file.exists(file_path) || force_download) {
+  if (!file.exists(file_path) || isTRUE(force_download)) {
     if (interactive() && !is.na(file_size) && file_size >= max_file_size) {
       message("This is a large file (", round(file_size / 1e+6), " MB)!")
       continue <- utils::menu(
@@ -61,8 +59,8 @@ osmext_download <- function(
       quiet = !verbose
     )
 
-    if (verbose) {
-      message("Just finished downloading the pbf file!")
+    if (isTRUE(verbose)) {
+      message("pbf file downloaded!")
     }
   }
 
@@ -81,4 +79,12 @@ osmext_download_directory <- function() {
     dir.create(download_directory)
   }
   download_directory
+}
+
+# Infer the chosen provider by the file_url
+infer_provider_from_url = function(file_url) {
+  if (grepl("geofabrik", file_url)) {
+    return("geofabrik")
+  }
+  stop("Cannot infer the provider from the url, please specify it")
 }

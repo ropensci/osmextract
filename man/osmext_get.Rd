@@ -10,6 +10,9 @@ osmext_get(
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
+  download_directory = osmext_download_directory(),
+  force_download = FALSE,
+  max_file_size = 5e+08,
   verbose = FALSE
 )
 }
@@ -19,9 +22,8 @@ through the chosen \code{provider}. Can be either a length-1 character vector, a
 length-1 \code{sfc_POINT} object or a numeric vector with length 2. See details
 and examples.}
 
-\item{provider}{Which provider should be used to download the data associated
-to the input \code{place}? For the moment we support only
-\href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{Which provider should be used to download the data? For the
+moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
 \item{match_by}{Which column of the provider data should be used for matching
 the input place with the provider's data? The default is "name". Check
@@ -42,6 +44,12 @@ interactive menu in case the best match is further than \code{max_string_dist}.
 Check details and examples to understand why this parameter is important.
 Ignored if \code{place} is not a character vector since the matching is
 performed through a spatial operation.}
+
+\item{download_directory}{TODO}
+
+\item{force_download}{TODO}
+
+\item{max_file_size}{TODO}
 
 \item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
