@@ -69,10 +69,8 @@ names:
 
 ``` r
 osmext_match("Korea")
-#> No exact matching found for place = Korea. Best match is Azores.
 #> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 osmext_match("Russia")
-#> No exact matching found for place = Russia. Best match is Asia.
 #> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 ```
 
@@ -81,19 +79,19 @@ appropriate area according to the [iso3166-1
 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code:
 
 ``` r
-osmext_match("KP", match_by = "iso3166_1_alpha2", verbose = FALSE)
+osmext_match("KP", match_by = "iso3166_1_alpha2")
 #> $url
 #> [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 33241783
-osmext_match("RU", match_by = "iso3166_1_alpha2", verbose = FALSE)
+osmext_match("RU", match_by = "iso3166_1_alpha2")
 #> $url
 #> [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 2820253009
-osmext_match("US", match_by = "iso3166_1_alpha2", verbose = FALSE)
+osmext_match("US", match_by = "iso3166_1_alpha2")
 #> $url
 #> [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"
 #> 
@@ -106,10 +104,8 @@ there are no per-country extracts (e.g. Israel and Palestine)
 
 ``` r
 osmext_match("PS", match_by = "iso3166_1_alpha2")
-#> No exact matching found for place = PS. Best match is IS.
 #> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 osmext_match("IL", match_by = "iso3166_1_alpha2")
-#> No exact matching found for place = IL. Best match is AL.
 #> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 ```
 
@@ -117,16 +113,45 @@ For this reason we also created a function that let you explore the
 matching variables according to a chosen pattern, for example:
 
 ``` r
-osmext_check_pattern("Palestine", provider = "geofabrik", match_by = "name")
-#> [1] "Israel and Palestine"
-osmext_check_pattern("London", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("London")
 #> [1] "Greater London"
-osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("Russia")
 #> [1] "Russian Federation"
-osmext_check_pattern("Korea", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("Korea")
 #> [1] "North Korea" "South Korea"
-osmext_check_pattern("Yorkshire", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("Yorkshire")
 #> [1] "East Yorkshire with Hull" "North Yorkshire"          "South Yorkshire"          "West Yorkshire"
+osmext_check_pattern("US")
+#> [1] "US Midwest"         "US Northeast"       "US Pacific"         "US South"           "US West"            "Georgia (US State)"
+osmext_check_pattern("US", match_by = "iso3166_2")
+#>  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC" "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS"
+#> [18] "US-KY" "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT" "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC"
+#> [35] "US-ND" "US-OH" "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX" "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI"
+#> [52] "US-WY"
+osmext_check_pattern("Palestine")
+#> [1] "Israel and Palestine"
+osmext_check_pattern("Israel", full_row = TRUE)
+#> Simple feature collection with 1 feature and 14 fields
+#> geometry type:  MULTIPOLYGON
+#> dimension:      XY
+#> bbox:           xmin: 34.07929 ymin: 29.37711 xmax: 35.91531 ymax: 33.35091
+#> geographic CRS: WGS 84
+#>                       id                 name parent level iso3166_1_alpha2 iso3166_2 pbf_file_size
+#> 151 israel-and-palestine Israel and Palestine   asia     2            PS IL      <NA>      82361911
+#>                                                                        pbf
+#> 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.pbf
+#>                                                                        bz2
+#> 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.bz2
+#>                                                                             shp
+#> 151 https://download.geofabrik.de/asia/israel-and-palestine-latest-free.shp.zip
+#>                                                                                     pbf.internal
+#> 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-latest-internal.osm.pbf
+#>                                                                                   history
+#> 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-internal.osh.pbf
+#>                                                     taginfo                                                         updates
+#> 151 https://taginfo.geofabrik.de/asia/israel-and-palestine/ https://download.geofabrik.de/asia/israel-and-palestine-updates
+#>                           geometry
+#> 151 MULTIPOLYGON (((34.64563 32...
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with
@@ -157,10 +182,9 @@ osmext_match(c(9.1916, 45.4650)) # Duomo di Milano
 #> 
 #> $file_size
 #> [1] 416306623
-osmext_match(c(9.1916))
-#> Error in osmext_match.numeric(c(9.1916)): You need to provide a pair of coordinates and you passed as input a vector of length 1
 osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
 #> Error in osmext_match.numeric(c(9.1916, 45.465, 9.202, 45.4781)): You need to provide a pair of coordinates and you passed as input a vector of length 4
+# osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
 ```
 
 If there are several error matching the input place with one of the
@@ -168,7 +192,6 @@ zone, you can also try increasing the maximum allowed string distance:
 
 ``` r
 osmext_match("Isle Wight")
-#> No exact matching found for place = Isle Wight. Best match is Isle of Wight.
 #> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 osmext_match("Isle Wight", max_string_dist = 3)
 #> $url
@@ -189,7 +212,6 @@ osmext_download(
   file_size = iow$file_size, 
   download_directory = tempdir()
 )
-#> [1] "/tmp/RtmppQcmgT/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
 
 If you want to download your data into a persistent directory, set
@@ -201,5 +223,4 @@ osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
-#> [1] "/tmp/RtmppQcmgT/geofabrik_isle-of-wight-latest.osm.pbf"
 ```

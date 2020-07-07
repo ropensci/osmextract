@@ -55,9 +55,9 @@ osmext_match("Russia")
 For these reasons we implemented the possibility to look for the appropriate area according to the [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code: 
 
 ```{r}
-osmext_match("KP", match_by = "iso3166_1_alpha2", verbose = FALSE)
-osmext_match("RU", match_by = "iso3166_1_alpha2", verbose = FALSE)
-osmext_match("US", match_by = "iso3166_1_alpha2", verbose = FALSE)
+osmext_match("KP", match_by = "iso3166_1_alpha2")
+osmext_match("RU", match_by = "iso3166_1_alpha2")
+osmext_match("US", match_by = "iso3166_1_alpha2")
 ```
 
 The are a few cases where the `iso3166-1 alpha2` codes can fail because there are no per-country extracts (e.g. Israel and Palestine)
@@ -70,11 +70,14 @@ osmext_match("IL", match_by = "iso3166_1_alpha2")
 For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example: 
 
 ```{r}
-osmext_check_pattern("Palestine", provider = "geofabrik", match_by = "name")
-osmext_check_pattern("London", provider = "geofabrik", match_by = "name")
-osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
-osmext_check_pattern("Korea", provider = "geofabrik", match_by = "name")
-osmext_check_pattern("Yorkshire", provider = "geofabrik", match_by = "name")
+osmext_check_pattern("London")
+osmext_check_pattern("Russia")
+osmext_check_pattern("Korea")
+osmext_check_pattern("Yorkshire")
+osmext_check_pattern("US")
+osmext_check_pattern("US", match_by = "iso3166_2")
+osmext_check_pattern("Palestine")
+osmext_check_pattern("Israel", full_row = TRUE)
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). I would ignore the CRS warning for the moment. 
@@ -89,8 +92,8 @@ The input `place` can be also specified using a numeric vector of coordinates. I
 
 ```{r, error = TRUE}
 osmext_match(c(9.1916, 45.4650)) # Duomo di Milano
-osmext_match(c(9.1916))
 osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
+# osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
 ```
 
 If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance: 
@@ -104,7 +107,7 @@ osmext_match("Isle Wight", max_string_dist = 3)
 
 The simplest example: 
 
-```{r}
+```{r, eval = FALSE}
 iow = osmext_match("Isle of Wight")
 osmext_download(
   file_url = iow$url, 
@@ -113,9 +116,9 @@ osmext_download(
 )
 ```
 
-If you want to download your data into a persistent directory, set  `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with `usethis::edit_r_environ()`. For example: 
+If you want to download your data into a persistent directory, set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with `usethis::edit_r_environ()`. For example: 
 
-```{r}
+```{r, eval = FALSE}
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
