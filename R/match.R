@@ -129,6 +129,12 @@ osmext_match.character <- function(
     )
   }
 
+  # If the user is looking for a match using iso3166_1_alpha2 or iso3166_2 codes
+  # then max_string_dist should be 0
+  if (match_by %in% c("iso3166_1_alpha2", "iso3166_2") & max_string_dist > 0) {
+    max_string_dist = 0
+  }
+
   # Look for the best match between the input 'place' and the data column
   # selected with the match_by argument.
   matching_dists <- utils::adist(provider_data[[match_by]], place, ignore.case = TRUE)

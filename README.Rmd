@@ -55,14 +55,22 @@ osmext_match("Russia")
 For these reasons we implemented the possibility to look for the appropriate area according to the [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code: 
 
 ```{r}
-osmext_match("KP", match_by = "iso3166_1_alpha2")
-osmext_match("RU", match_by = "iso3166_1_alpha2")
-osmext_match("US", match_by = "iso3166_1_alpha2")
+osmext_match("KP", match_by = "iso3166_1_alpha2", verbose = FALSE)
+osmext_match("RU", match_by = "iso3166_1_alpha2", verbose = FALSE)
+osmext_match("US", match_by = "iso3166_1_alpha2", verbose = FALSE)
 ```
 
-We also created a function that let you explore the matching variables according to a chosen pattern, for example: 
+The are a few cases where the `iso3166-1 alpha2` codes can fail because there are no per-country extracts (e.g. Israel and Palestine)
+
+```{r, error = TRUE}
+osmext_match("PS", match_by = "iso3166_1_alpha2")
+osmext_match("IL", match_by = "iso3166_1_alpha2")
+```
+
+For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example: 
 
 ```{r}
+osmext_check_pattern("Palestine", provider = "geofabrik", match_by = "name")
 osmext_check_pattern("London", provider = "geofabrik", match_by = "name")
 osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
 osmext_check_pattern("Korea", provider = "geofabrik", match_by = "name")

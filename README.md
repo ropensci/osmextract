@@ -81,19 +81,19 @@ appropriate area according to the [iso3166-1
 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code:
 
 ``` r
-osmext_match("KP", match_by = "iso3166_1_alpha2")
+osmext_match("KP", match_by = "iso3166_1_alpha2", verbose = FALSE)
 #> $url
 #> [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 33241783
-osmext_match("RU", match_by = "iso3166_1_alpha2")
+osmext_match("RU", match_by = "iso3166_1_alpha2", verbose = FALSE)
 #> $url
 #> [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 2820253009
-osmext_match("US", match_by = "iso3166_1_alpha2")
+osmext_match("US", match_by = "iso3166_1_alpha2", verbose = FALSE)
 #> $url
 #> [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"
 #> 
@@ -101,10 +101,24 @@ osmext_match("US", match_by = "iso3166_1_alpha2")
 #> [1] 6982945396
 ```
 
-We also created a function that let you explore the matching variables
-according to a chosen pattern, for example:
+The are a few cases where the `iso3166-1 alpha2` codes can fail because
+there are no per-country extracts (e.g. Israel and Palestine)
 
 ``` r
+osmext_match("PS", match_by = "iso3166_1_alpha2")
+#> No exact matching found for place = PS. Best match is IS.
+#> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+osmext_match("IL", match_by = "iso3166_1_alpha2")
+#> No exact matching found for place = IL. Best match is AL.
+#> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+```
+
+For this reason we also created a function that let you explore the
+matching variables according to a chosen pattern, for example:
+
+``` r
+osmext_check_pattern("Palestine", provider = "geofabrik", match_by = "name")
+#> [1] "Israel and Palestine"
 osmext_check_pattern("London", provider = "geofabrik", match_by = "name")
 #> [1] "Greater London"
 osmext_check_pattern("Russia", provider = "geofabrik", match_by = "name")
