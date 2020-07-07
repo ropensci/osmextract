@@ -70,10 +70,10 @@ osmext_download <- function(
 }
 
 
-# The following function is used to extract the OSM_DOWNLOAD_DIRECTORY
+# The following function is used to extract the OSMEXT_DOWNLOAD_DIRECTORY
 # environment variable.
 osmext_download_directory <- function() {
-  download_directory <- Sys.getenv("OSM_DOWNLOAD_DIRECTORY", "")
+  download_directory <- Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", "")
   if (download_directory == "") {
     download_directory <- tempdir()
   }

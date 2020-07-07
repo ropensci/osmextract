@@ -32,7 +32,7 @@ osmextractr::geofabrik_zones[, c(2, 8)]
 #> 10  Antarctica                   https://download.geofabrik.de/antarctica-latest.osm.pbf MULTIPOLYGON (((-180 -90, 1...
 ```
 
-# Load package
+## Load package
 
 ``` r
 library(osmextractr)
@@ -178,12 +178,28 @@ osmext_match("Isle Wight", max_string_dist = 3)
 #> [1] 6877468
 ```
 
-# Test download
+## Test `osmext_download`
+
+The simplest example:
 
 ``` r
-iow = osmext_match("Isle Wight", max_string_dist = 3)
+iow = osmext_match("Isle of Wight")
 osmext_download(
-  file_url = iow$pbf_url, 
-  file_size = iow$pbf_file_size
+  file_url = iow$url, 
+  file_size = iow$file_size, 
+  download_directory = tempdir()
 )
+#> [1] "/tmp/RtmppQcmgT/geofabrik_isle-of-wight-latest.osm.pbf"
+```
+
+If you want to download your data into a persistent directory, set
+`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
+e.g. with `usethis::edit_r_environ()`. For example:
+
+``` r
+osmext_download(
+  file_url = iow$url, 
+  file_size = iow$file_size
+)
+#> [1] "/tmp/RtmppQcmgT/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
