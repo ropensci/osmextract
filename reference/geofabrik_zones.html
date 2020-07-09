@@ -6,27 +6,31 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>sf data frame containing attributes and geometries of geofrabric download zones — geofabrik_zones • geofabrik</title>
+<title>A <code>data.frame</code> of geographical zones taken from Geofabrik — geofabrik_zones • osmextractr</title>
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -35,9 +39,10 @@
 
 
 
-<meta property="og:title" content="sf data frame containing attributes and geometries of geofrabric download zones — geofabrik_zones" />
-<meta property="og:description" content="sf data frame containing attributes and geometries of geofrabric download zones" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="A <code>data.frame</code> of geographical zones taken from Geofabrik — geofabrik_zones" />
+<meta property="og:description" content="A sf data.frame containing the urls, names and file_size of the OSM extracts
+stored at https://download.geofabrik.de/. You can read more details
+about these data at the following link: https://download.geofabrik.de/technical.html." />
 
 
 
@@ -55,7 +60,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,7 +73,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">geofabrik</a>
+        <a class="navbar-link" href="../index.html">osmextractr</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -87,7 +92,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/itsleeds/geofabrik">
+  <a href="https://github.com/itsleeds/geofabrik/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -105,29 +110,76 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>sf data frame containing attributes and geometries of geofrabric download zones</h1>
+    <h1>A <code>data.frame</code> of geographical zones taken from Geofabrik</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/geofabrik/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>geofabrik_zones.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>sf data frame containing attributes and geometries of geofrabric download zones</p>
+    <p>A <code>sf</code> <code>data.frame</code> containing the urls, names and file_size of the OSM extracts
+stored at <a href='https://download.geofabrik.de/'>https://download.geofabrik.de/</a>. You can read more details
+about these data at the following link: <a href='https://download.geofabrik.de/technical.html'>https://download.geofabrik.de/technical.html</a>.</p>
     </div>
 
+    <pre class="usage"><span class='kw'>geofabrik_zones</span></pre>
 
 
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>The `geofabrik_zones` can be (re-)generated using the script in the
-`data-raw` directory.</p>
+    <p>A sf dataframe with 430 rows and 14 columns:</p><dl>
+<dt>id</dt><dd><p>A unique identifier, contains letters, numbers and potentially
+the characters "-" and "/".</p></dd>
+<dt>name</dt><dd><p>The, usually English, long-form name of the area.</p></dd>
+<dt>parent</dt><dd><p>The identifier of the next larger excerpts that contains this
+one, if present.</p></dd>
+<dt>level</dt><dd><p>An integer code between 1 and 3. If level == 1L then the
+zone corresponds to one of the continents plus the Russian Federation:
+Africa, Antartica, Asia, Australia and Oceania, Central America, Europe,
+North America, Russian Federation and South America. If level == 2L then
+the zone corresponds to the continent's subregions (i.e. the countries,
+such as Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and
+so on). There are also some exceptions that correspond to the Special Sub
+Regions (according to their geofabrik definition), which are: South Africa
+(includes Lesotho), Alps, Britain and Ireland, Germany + Austria +
+Switzerland, USMidwest, US Northeast, US Pacific, US South, US West and all
+US states. level == 3L correspond to the subregions of each state (or each
+level 2 zone). For example the West Yorkshire, which is a subregion of
+England, is a level 3 zone.</p></dd>
+<dt>iso3166-1:alpha2</dt><dd><p>A character vector of two-letter ISO3166-1 codes.
+This will be set on the smallest extract that still fully (or mostly)
+contains the entity with that code; e.g. the code "DE" will be given for
+the Germany extract and not for Europe even though Europe contains Germany.
+If an extract covers several countries and no per-contry extracts are
+available (e.g. Israel and Palestine), then several ISO codes will be
+given (such as "PS - IL" for "Palestine and Israel").</p></dd>
+<dt>iso3166_2</dt><dd><p>A character vector of usually five-character ISO3166-2
+codes. The same rules as above apply. Some entities have both an iso3166-1
+and and iso3166-2 code.</p></dd>
+<dt>pbf</dt><dd><p>Link to the latest .osm.pbf file for this region.</p></dd>
+<dt>bz2</dt><dd><p>Link to the latest .osm.bz2 file for this region.</p></dd>
+<dt>shp</dt><dd><p>Link to the latest shape file for this region.</p></dd>
+<dt>pbf.internal</dt><dd><p>Link to the latest .osm.pbf file with user data for
+this region (requires OSM login).</p></dd>
+<dt>history</dt><dd><p>Link to the latest history file for this region (requires
+OSM login).</p></dd>
+<dt>taginfo</dt><dd><p>Link to the Geofabrik taginfo instance for this region.</p></dd>
+<dt>updates</dt><dd><p>Link to the updates directory (append /state.txt for status
+file).</p></dd>
+<dt>geometry</dt><dd><p>The sfc for that geographical region. These are not the
+country boundaries but a buffer around countries.</p></dd>
+<dt>pbf_size_size</dt><dd><p>Size of the pbf file in bytes.</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://download.geofabrik.de/'>https://download.geofabrik.de/</a></p>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#note">Note</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -138,7 +190,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

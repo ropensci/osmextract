@@ -5,21 +5,21 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Download and read-in OpenStreetMap data from geofabrik.de • geofabrik</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Download and read-in OpenStreetMap data from geofabrik.de">
+<title>Download and Read OpenStreetMap Data Extracts • osmextractr</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Download and Read OpenStreetMap Data Extracts">
 <meta property="og:description" content="More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +31,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">geofabrik</a>
+        <a class="navbar-link" href="index.html">osmextractr</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -50,7 +50,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/itsleeds/geofabrik">
+  <a href="https://github.com/itsleeds/geofabrik/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -68,286 +68,489 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="geofabrik" class="section level1">
+<div id="osmextractr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#geofabrik" class="anchor"></a>geofabrik</h1></div>
+<a href="#osmextractr" class="anchor"></a>osmextractr</h1></div>
 <!-- badges: start -->
-
-<p>The goal of <code>geofabrik</code> is to make it easier for open source software users to access freely available, community created geographic data, in the form of OpenSteetMap data shipped by <a href="http://download.geofabrik.de">Geofabrik GmbH</a>.</p>
-<div id="why-geofabrik" class="section level2">
+<!-- badges: end -->
+<p>The goal of <code>osmextractr</code> is to make it easier for R users to access freely available, community created geographic data, in the form of OpenSteetMap data extracted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a>.</p>
+<div id="why-osmextractr" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why-geofabrik" class="anchor"></a>Why geofabrik?</h2>
+<a href="#why-osmextractr" class="anchor"></a>Why osmextractr?</h2>
 <p><a href="https://github.com/ropensci/osmdata"><code>osmdata</code></a> provides an R interface to the <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API</a>, which is ideal for downloading small OSM datasets. However, the API is rate limited, making it hard to download large datasets. As a case study, let’s try to download all cycleways in England:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(osmdata)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">cycleways_england =<span class="st"> </span><span class="kw">opq</span>(<span class="st">"England"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="st">  </span><span class="kw">add_osm_feature</span>(<span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw">osmdata_sf</span>()</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># Error in check_for_error(doc) : General overpass server error; returned:</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span></a></code></pre></div>
-<p>The query hanged with an error message after around 10 seconds. The same query can be made with <code>geofabrik</code> as follows (not evaluated):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(geofabrik)</a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cycleways_england =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="st">"England"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(cycleways_england))</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>The package is designed to complement <code>osmdata</code> which has advantages over <code>geofabrik</code> for small datasets: <code>osmdata</code> is likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>geofabrik</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects. On the other hand, <code>geofabrik</code> provides a fast way to download large OSM datasets in the highly compressed <code>pbf</code> format and read them in via the fast C library <a href="https://gdal.org/drivers/vector/osm.html">GDAL</a> and the R package <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">osmdata</span>)
+<span class="kw">cycleways_england</span> <span class="op">=</span> <span class="fu">opq</span>(<span class="st">"England"</span>) <span class="op">%&gt;%</span> 
+  <span class="fu">add_osm_feature</span>(key = <span class="st">"highway"</span>, value = <span class="st">"cycleway"</span>) <span class="op">%&gt;%</span> 
+  <span class="fu">osmdata_sf</span>()
+<span class="co"># Error in check_for_error(doc) : General overpass server error; returned:</span>
+<span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span>
+</pre></div>
+<p>The query hanged with an error message after around 10 seconds. The same query can be made with <code>osmextractr</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds (after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format, not evaluated):</p>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/geofabrik">osmextractr</a></span>)
+<span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright</span>
+<span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
+</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">cycleways_england</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
+  <span class="st">"England"</span>,
+  osmext_verbose = <span class="fl">TRUE</span>,
+  query = <span class="st">"SELECT * FROM 'lines' WHERE highway = 'cycleway'"</span>
+)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">cycleways_england</span>))
+</pre></div>
+<p><img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%"></p>
+<p>The package is designed to complement <code>osmdata</code> which has advantages over <code>osmextractr</code> for small datasets: <code>osmdata</code> is likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>osmextractr</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects. On the other hand, <code>osmextractr</code> provides a fast way to download large OSM datasets in the highly compressed <code>pbf</code> format and read them in via the fast C library <a href="https://gdal.org/drivers/vector/osm.html">GDAL</a> and the R package <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<!-- You can install the released version of geofabrik from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of osmextractr from [CRAN](https://CRAN.R-project.org) with: -->
 <!-- ``` r -->
-<!-- install.packages("geofabrik") -->
+<!-- install.packages("osmextractr") -->
 <!-- ``` -->
 <p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"ITSLeeds/geofabrik"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="co"># install.packages("devtools")</span>
+<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"ITSLeeds/osmextractr"</span>)
+</pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Give <code>geofabrik</code> the name of a geofabrik zone and it will download and import it. By default it imports the ‘lines’ layer, but any layer can be read-in. Behind the scenes, the function <code><a href="reference/read_pbf.html">read_pbf()</a></code>, a wrapper around <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code> is used with configuration options to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">andorra_lines =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"andorra"</span>, <span class="dt">layer =</span> <span class="st">"lines"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Andorra.osm.pbf</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_lines)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  [1] "osm_id"         "name"           "highway"        "waterway"      </span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      </span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  [9] "oneway"         "building"       "surface"        "landuse"       </span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; [13] "natural"        "start_date"     "wall"           "service"       </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; [17] "lanes"          "layer"          "tracktype"      "bridge"        </span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; [21] "foot"           "bicycle"        "lit"            "railway"       </span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; [25] "footway"        "z_order"        "other_tags"     "_ogr_geometry_"</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">andorra_point =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"andorra"</span>, <span class="dt">layer =</span> <span class="st">"points"</span>, <span class="dt">attributes =</span> <span class="st">"shop"</span>)</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Andorra.osm.pbf</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(andorra_point) <span class="co"># note the 'shop' column has been added</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;  [1] "osm_id"         "name"           "barrier"        "highway"       </span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;  [5] "ref"            "address"        "is_in"          "place"         </span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;  [9] "man_made"       "shop"           "other_tags"     "_ogr_geometry_"</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(andorra_lines))</a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(andorra_point[andorra_point<span class="op">$</span>shop <span class="op">==</span><span class="st"> "supermarket"</span>, ], <span class="dt">col =</span> <span class="st">"red"</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; Warning in plot.sf(andorra_point[andorra_point$shop == "supermarket", ], :</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; ignoring all but the first attribute</span></a></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" width="100%"></p>
-<p>The above code plotted lines representing roads and other linear features in Andorra, with an overlay of shops that are represented in OSM data. If there are no files available for a zone name, <code>geofabrik</code> will search for and import the nearest matching zone:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">iow_lines =<span class="st"> </span><span class="kw"><a href="reference/get_geofabrik.html">get_geofabrik</a></span>(<span class="dt">name =</span> <span class="st">"isle wight"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)</span></a></code></pre></div>
-<p>Take care: files downloaded from <a href="http://download.geofabrik.de">geofabrik.de</a> can be large. You can find information on the geofabrik region defining the boundaries of the result with <code><a href="reference/gf_find.html">gf_find()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">iow_gf_region =<span class="st"> </span><span class="kw"><a href="reference/gf_find.html">gf_find</a></span>(<span class="st">"isle wight"</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_gf_region)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Warning: plotting the first 9 out of 11 attributes; use max.plot = 11 to plot</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; all</span></a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">iow_gf_name =<span class="st"> </span>iow_gf_region<span class="op">$</span>name</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">iow_gf_name</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; [1] "Isle of Wight"</span></a></code></pre></div>
-<p>If you want to use <code>st_read()</code> to read-in the <code>.pbf</code> files, e.g. to set additional query arguments, you can do so, as demonstrated below.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">iow_gf_file =<span class="st"> </span><span class="kw"><a href="reference/gf_filename.html">gf_filename</a></span>(iow_gf_name)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">iow_gf_file</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; [1] "~/hd/data/osm/Isle of Wight.osm.pbf"</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span>(iow_gf_file)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">iow_lines_cycle =<span class="st"> </span><span class="kw"><a href="reference/read_pbf.html">read_pbf</a></span>(<span class="dt">dsn =</span> iow_gf_file, <span class="st">"lines"</span>, <span class="dt">key =</span> <span class="st">"highway"</span>, <span class="dt">value =</span> <span class="st">"cycleway"</span>)</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_cycle)</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; all</span></a></code></pre></div>
-<p><img src="reference/figures/README-query-1.png" width="100%"></p>
-<p>If you want even more control, you can used GDAL’s <code>query</code> argument via <code>sf</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">query =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"select highway from lines where highway = "</span>,</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">               <span class="st">"'cycleway' or highway = 'secondary' or highway = 'primary'"</span>)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">iow_lines_subset =<span class="st"> </span>sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(iow_gf_file, <span class="dt">layer =</span> <span class="st">"lines"</span>, <span class="dt">query =</span> query)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/Isle of Wight.osm.pbf' using driver `OSM'</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; Simple feature collection with 1057 features and 1 field</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; geometry type:  LINESTRING</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; epsg (SRID):    4326</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(iow_lines_subset)</a></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
-<!-- TODO: FIX THE FOLLOWING PART SINCE IT DOESN'T WORK -->
-<!-- You can also get your geofabrik data based on a spatial query, for example in Honduras: -->
-<!-- ```{r} -->
-<!-- library(geofabrik) -->
-<!-- place_sf = sf::st_as_sf(data.frame(x = -86, y = 15, n = 1), -->
-<!--                         coords = c("x", "y"), crs = 4326) -->
-<!-- osm_data_place = get_geofabrik(place_sf) -->
-<!-- plot(osm_data_place["highway"]) -->
-<!-- ``` -->
+<p>Give <code>osmextractr</code> the name of a geofabrik zone and it will download and import it. By default it imports the ‘lines’ layer, but any layer can be read-in. Behind the scenes, the function <code>read_pbf()</code>, a wrapper around <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code> is used with configuration options to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument):</p>
+<p>The leitmotif of package is to help the users to read and download extracts of OpenStreetMap data stored by several providers, such as <a href="http://download.geofabrik.de/">Geofabrik</a> or <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The provider’s data are stored using <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatial.github.io/sf">sf</a></span>)
+<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
+<span class="kw">osmextractr</span>::<span class="kw"><a href="reference/geofabrik_zones.html">geofabrik_zones</a></span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">8</span>)]
+<span class="co">#&gt; Simple feature collection with 430 features and 2 fields</span>
+<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -180 ymin: -90 xmax: 180 ymax: 85.04177</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt; First 10 features:</span>
+<span class="co">#&gt;           name                                                                       pbf                       geometry</span>
+<span class="co">#&gt; 1  Afghanistan             https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf MULTIPOLYGON (((62.47808 29...</span>
+<span class="co">#&gt; 2       Africa                       https://download.geofabrik.de/africa-latest.osm.pbf MULTIPOLYGON (((11.60092 33...</span>
+<span class="co">#&gt; 3      Albania               https://download.geofabrik.de/europe/albania-latest.osm.pbf MULTIPOLYGON (((19.37748 42...</span>
+<span class="co">#&gt; 4      Alberta https://download.geofabrik.de/north-america/canada/alberta-latest.osm.pbf MULTIPOLYGON (((-110.0051 4...</span>
+<span class="co">#&gt; 5      Algeria               https://download.geofabrik.de/africa/algeria-latest.osm.pbf MULTIPOLYGON (((6.899245 37...</span>
+<span class="co">#&gt; 6         Alps                  https://download.geofabrik.de/europe/alps-latest.osm.pbf MULTIPOLYGON (((5.57178 48....</span>
+<span class="co">#&gt; 7       Alsace         https://download.geofabrik.de/europe/france/alsace-latest.osm.pbf MULTIPOLYGON (((8.236555 48...</span>
+<span class="co">#&gt; 8      Andorra               https://download.geofabrik.de/europe/andorra-latest.osm.pbf MULTIPOLYGON (((1.516233 42...</span>
+<span class="co">#&gt; 9       Angola                https://download.geofabrik.de/africa/angola-latest.osm.pbf MULTIPOLYGON (((20.72182 -1...</span>
+<span class="co">#&gt; 10  Antarctica                   https://download.geofabrik.de/antarctica-latest.osm.pbf MULTIPOLYGON (((-180 -90, 1...</span>
+</pre></div>
+</div>
+<div id="load-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#load-package" class="anchor"></a>Load package</h2>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/geofabrik">osmextractr</a></span>)
+</pre></div>
+<p>The packages is composed by 4 main functions:</p>
+<ol>
+<li>
+<code>osmext_match</code>: Match the input zone with one of the files stored by the OSM providers</li>
+<li>
+<code>osmext_download</code>: Download the chosen file</li>
+<li>
+<code>osmext_vectortranslate</code>: Convert the pbf format into gpkg</li>
+<li>
+<code>osmext_read</code>: Read the gpkg file</li>
+</ol>
+<p>The function <code>osmext_get</code> is a wrapper around all of them.</p>
 </div>
 </div>
-<div id="geofabrik-zones" class="section level1">
+<div id="test-osmext_match" class="section level1">
 <h1 class="hasAnchor">
-<a href="#geofabrik-zones" class="anchor"></a>geofabrik zones</h1>
-<p>The package ships with a data frame representing all zones made available by the package. These can be interactively searched with the following command:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/View.html">View</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_zones[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
-<p>That will display the following table in the viewer:</p>
-<table class="table">
-<colgroup>
-<col width="22%">
-<col width="9%">
-<col width="67%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">name</th>
-<th align="left">size_pbf</th>
-<th align="left">pbf_url</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Africa</td>
-<td align="left">(3.5 GB)</td>
-<td align="left"><a href="http://download.geofabrik.de/africa-latest.osm.pbf" class="uri">http://download.geofabrik.de/africa-latest.osm.pbf</a></td>
-</tr>
-<tr class="even">
-<td align="left">Antarctica</td>
-<td align="left">(29.0 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/antarctica-latest.osm.pbf" class="uri">http://download.geofabrik.de/antarctica-latest.osm.pbf</a></td>
-</tr>
-<tr class="odd">
-<td align="left">Asia</td>
-<td align="left">(7.6 GB)</td>
-<td align="left"><a href="http://download.geofabrik.de/asia-latest.osm.pbf" class="uri">http://download.geofabrik.de/asia-latest.osm.pbf</a></td>
-</tr>
-<tr class="even">
-<td align="left">Australia and Oceania</td>
-<td align="left">(727 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/australia-oceania-latest.osm.pbf" class="uri">http://download.geofabrik.de/australia-oceania-latest.osm.pbf</a></td>
-</tr>
-</tbody>
-</table>
-<p>The following attributes are available from this file if you want more info about each geofabrik zone:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(geofabrik_zones)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt;  [1] "name"         "size_pbf"     "pbf_url"      "page_url"     "part_of"     </span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;  [6] "continent"    "country"      "region"       "subregion"    "level"       </span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; [11] "geometry_url" "geometry"</span></a></code></pre></div>
-<p>Each geographic level (continents, countries, regions and subregions) is shown in the map below, with a few of them named for reference.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># todo: tidy up geofabrik_zones data and this code chunk</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tmap)</a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">sel1 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(geofabrik_zones<span class="op">$</span>level)</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">geofabrik_zones<span class="op">$</span>level[sel1] =<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">geofabrik_zones<span class="op">$</span>label =<span class="st"> ""</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">geofabrik_zones<span class="op">$</span>label[sel1] =<span class="st"> </span>geofabrik_zones<span class="op">$</span>name[sel1]</a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb13-8" data-line-number="8">sel2 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(geofabrik_zones), <span class="dt">size =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb13-9" data-line-number="9">geofabrik_zones<span class="op">$</span>label[sel2] =<span class="st"> </span>geofabrik_zones<span class="op">$</span>name[sel2]</a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="kw">tm_shape</span>(geofabrik_zones) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="st">  </span><span class="kw">tm_polygons</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="st">  </span><span class="kw">tm_text</span>(<span class="dt">text =</span> <span class="st">"label"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="st">  </span><span class="kw">tm_facets</span>(<span class="dt">by =</span> <span class="st">"level"</span>)</a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; Warning: The shape geofabrik_zones is invalid. See sf::st_is_valid</span></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1</span></a></code></pre></div>
-<p><img src="reference/figures/README-zonemap-1.png" width="100%"></p>
-<p>A couple of the countries, regions and sub regions available is shown below.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">geofabrik_countries =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, ]</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_countries[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="8%">
-<col width="11%">
-<col width="76%">
-</colgroup>
-<thead><tr class="header">
-<th></th>
-<th align="left">name</th>
-<th align="left">size_pbf</th>
-<th align="left">pbf_url</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>9</td>
-<td align="left">Algeria</td>
-<td align="left">(85 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/africa/algeria-latest.osm.pbf" class="uri">http://download.geofabrik.de/africa/algeria-latest.osm.pbf</a></td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td align="left">Angola</td>
-<td align="left">(46.6 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/africa/angola-latest.osm.pbf" class="uri">http://download.geofabrik.de/africa/angola-latest.osm.pbf</a></td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">geofabrik_regions =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, ]</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_regions[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="3%">
-<col width="15%">
-<col width="10%">
-<col width="71%">
-</colgroup>
-<thead><tr class="header">
-<th></th>
-<th align="left">name</th>
-<th align="left">size_pbf</th>
-<th align="left">pbf_url</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>238</td>
-<td align="left">Chūbu region</td>
-<td align="left">(289 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/asia/japan/chubu-latest.osm.pbf" class="uri">http://download.geofabrik.de/asia/japan/chubu-latest.osm.pbf</a></td>
-</tr>
-<tr class="even">
-<td>239</td>
-<td align="left">Chūgoku region</td>
-<td align="left">(130 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/asia/japan/chugoku-latest.osm.pbf" class="uri">http://download.geofabrik.de/asia/japan/chugoku-latest.osm.pbf</a></td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">geofabrik_subregions =<span class="st"> </span>geofabrik_zones[geofabrik_zones<span class="op">$</span>level <span class="op">==</span><span class="st"> </span><span class="dv">4</span>, ]</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(sf<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(geofabrik_subregions[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]))</a></code></pre></div>
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="19%">
-<col width="6%">
-<col width="71%">
-</colgroup>
-<thead><tr class="header">
-<th></th>
-<th align="left">name</th>
-<th align="left">size_pbf</th>
-<th align="left">pbf_url</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>365</td>
-<td align="left">Regierungsbezirk Freiburg</td>
-<td align="left">(113 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/europe/germany/baden-wuerttemberg/freiburg-regbez-latest.osm.pbf" class="uri">http://download.geofabrik.de/europe/germany/baden-wuerttemberg/freiburg-regbez-latest.osm.pbf</a></td>
-</tr>
-<tr class="even">
-<td>366</td>
-<td align="left">Regierungsbezirk Karlsruhe</td>
-<td align="left">(105 MB)</td>
-<td align="left"><a href="http://download.geofabrik.de/europe/germany/baden-wuerttemberg/karlsruhe-regbez-latest.osm.pbf" class="uri">http://download.geofabrik.de/europe/germany/baden-wuerttemberg/karlsruhe-regbez-latest.osm.pbf</a></td>
-</tr>
-</tbody>
-</table>
+<a href="#test-osmext_match" class="anchor"></a>Test <code>osmext_match</code>
+</h1>
+<p>The simplest example:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Italy"</span>)
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 1544340778</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle of wight"</span>)
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 6877468</span>
+</pre></div>
+<p>There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Korea"</span>)
+<span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Russia"</span>)
+<span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
+</pre></div>
+<p>For these reasons we implemented the possibility to look for the appropriate area according to the <a href="https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2">iso3166-1 alpha2</a> code:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"KP"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 33241783</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"RU"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/russia-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 2820253009</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 6982945396</span>
+</pre></div>
+<p>The are a few cases where the <code>iso3166-1 alpha2</code> codes can fail because there are no per-country extracts (e.g. Israel and Palestine)</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"PS"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"IL"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
+</pre></div>
+<p>For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"London"</span>)
+<span class="co">#&gt; [1] "Greater London"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Russia"</span>)
+<span class="co">#&gt; [1] "Russian Federation"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Korea"</span>)
+<span class="co">#&gt; [1] "North Korea" "South Korea"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Yorkshire"</span>)
+<span class="co">#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"          "South Yorkshire"          "West Yorkshire"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"US"</span>)
+<span class="co">#&gt; [1] "US Midwest"         "US Northeast"       "US Pacific"         "US South"           "US West"            "Georgia (US State)"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_2"</span>)
+<span class="co">#&gt;  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC" "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS"</span>
+<span class="co">#&gt; [18] "US-KY" "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT" "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC"</span>
+<span class="co">#&gt; [35] "US-ND" "US-OH" "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX" "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI"</span>
+<span class="co">#&gt; [52] "US-WY"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Palestine"</span>)
+<span class="co">#&gt; [1] "Israel and Palestine"</span>
+<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
+<span class="co">#&gt; Simple feature collection with 1 feature and 14 fields</span>
+<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: 34.07929 ymin: 29.37711 xmax: 35.91531 ymax: 33.35091</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt;                       id                 name parent level iso3166_1_alpha2 iso3166_2 pbf_file_size</span>
+<span class="co">#&gt; 151 israel-and-palestine Israel and Palestine   asia     2            PS IL      &lt;NA&gt;      82361911</span>
+<span class="co">#&gt;                                                                        pbf</span>
+<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.pbf</span>
+<span class="co">#&gt;                                                                        bz2</span>
+<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.bz2</span>
+<span class="co">#&gt;                                                                             shp</span>
+<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-latest-free.shp.zip</span>
+<span class="co">#&gt;                                                                                     pbf.internal</span>
+<span class="co">#&gt; 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-latest-internal.osm.pbf</span>
+<span class="co">#&gt;                                                                                   history</span>
+<span class="co">#&gt; 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-internal.osh.pbf</span>
+<span class="co">#&gt;                                                     taginfo                                                         updates</span>
+<span class="co">#&gt; 151 https://taginfo.geofabrik.de/asia/israel-and-palestine/ https://download.geofabrik.de/asia/israel-and-palestine-updates</span>
+<span class="co">#&gt;                           geometry</span>
+<span class="co">#&gt; 151 MULTIPOLYGON (((34.64563 32...</span>
+</pre></div>
+<p>The input <code>place</code> can be also specified using an <code>sfc_POINT</code> object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the <code>level</code> variable). I would ignore the CRS warning for the moment.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">coords_milan</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1514924.21</span>, <span class="fl">5034552.92</span>)) <span class="co"># Duomo di Milano</span>
+<span class="kw">st_sfc_milan</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="kw">coords_milan</span>, crs = <span class="fl">3003</span>)
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="kw">st_sfc_milan</span>)
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 416306623</span>
+</pre></div>
+<p>The input <code>place</code> can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">9.1916</span>, <span class="fl">45.4650</span>)) <span class="co"># Duomo di Milano</span>
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 416306623</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">9.1916</span>, <span class="fl">45.4650</span>, <span class="fl">9.2020</span>, <span class="fl">45.4781</span>))
+<span class="co">#&gt; Error in osmext_match.numeric(c(9.1916, 45.465, 9.202, 45.4781)): You need to provide a pair of coordinates and you passed as input a vector of length 4</span>
+<span class="co"># osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error</span>
+</pre></div>
+<p>If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle Wight"</span>)
+<span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
+<span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle Wight"</span>, max_string_dist = <span class="fl">3</span>)
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 6877468</span>
+</pre></div>
+<div id="test-osmext_download" class="section level2">
+<h2 class="hasAnchor">
+<a href="#test-osmext_download" class="anchor"></a>Test <code>osmext_download</code>
+</h2>
+<p>The simplest example:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle of Wight"</span>)
+<span class="fu"><a href="reference/osmext_download.html">osmext_download</a></span>(
+  file_url = <span class="kw">iow</span><span class="op">$</span><span class="kw">url</span>, 
+  file_size = <span class="kw">iow</span><span class="op">$</span><span class="kw">file_size</span>
+)
+<span class="co">#&gt; [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"</span>
+</pre></div>
+<p>If you want to download your data into a specific folder once, you can set the download directory:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span>(<span class="st">"OSMEXT_DOWNLOAD_DIRECTORY"</span> = <span class="st">"/home/andrea/Downloads"</span>)
+<span class="fu"><a href="reference/osmext_download.html">osmext_download</a></span>(
+  file_url = <span class="kw">iow</span><span class="op">$</span><span class="kw">url</span>, 
+  file_size = <span class="kw">iow</span><span class="op">$</span><span class="kw">file_size</span>
+)
+<span class="co">#&gt; /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf</span>
+</pre></div>
+<p>If you want to set a directory that will persist, you can set <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="kw">usethis</span>::<span class="fu">edit_r_environ</span>()
+<span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span>
+</pre></div>
+</div>
+<div id="importing-osm-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#importing-osm-data" class="anchor"></a>Importing OSM data</h2>
+<p>The function <code><a href="reference/osmext_get.html">osmext_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+(<span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>))
+<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 44365 features and 9 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt; Simple feature collection with 44365 features and 9 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt; First 10 features:</span>
+<span class="co">#&gt;    osm_id                 name     highway waterway aerialway barrier man_made z_order</span>
+<span class="co">#&gt; 1     413             Lane End residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       3</span>
+<span class="co">#&gt; 2     415        Foreland Road   secondary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       6</span>
+<span class="co">#&gt; 3     416          Steyne Road   secondary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       6</span>
+<span class="co">#&gt; 4     698      Carpenters Road   secondary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       6</span>
+<span class="co">#&gt; 5     701            Mill Road    tertiary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       4</span>
+<span class="co">#&gt; 6     705       Downsview Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       3</span>
+<span class="co">#&gt; 7     706          Lincoln Way residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       3</span>
+<span class="co">#&gt; 8     709        Paddock Drive residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       3</span>
+<span class="co">#&gt; 9     710 Forelands Field Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       3</span>
+<span class="co">#&gt; 10    713         Howgate Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;       3</span>
+<span class="co">#&gt;                                                                                                                 other_tags</span>
+<span class="co">#&gt; 1                                                      "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","surface"=&gt;"asphalt"</span>
+<span class="co">#&gt; 2                    "lit"=&gt;"yes","ref"=&gt;"B3395","lanes"=&gt;"2","surface"=&gt;"asphalt","maxspeed"=&gt;"30 mph","sidewalk"=&gt;"both"</span>
+<span class="co">#&gt; 3                                       "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","ref"=&gt;"B3395","surface"=&gt;"asphalt"</span>
+<span class="co">#&gt; 4  "incline"=&gt;"down","lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","ref"=&gt;"B3330","sidewalk"=&gt;"left","surface"=&gt;"asphalt"</span>
+<span class="co">#&gt; 5                                                       "lanes"=&gt;"2","lit"=&gt;"no","maxspeed"=&gt;"30 mph","surface"=&gt;"asphalt"</span>
+<span class="co">#&gt; 6                                                                                                                     &lt;NA&gt;</span>
+<span class="co">#&gt; 7                                                                                                                     &lt;NA&gt;</span>
+<span class="co">#&gt; 8                                                                                                                     &lt;NA&gt;</span>
+<span class="co">#&gt; 9                                                                      "designation"=&gt;"public_footpath","prow_ref"=&gt;"BB13"</span>
+<span class="co">#&gt; 10                  "bicycle"=&gt;"yes","foot"=&gt;"yes","horse"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"no","surface"=&gt;"asphalt"</span>
+<span class="co">#&gt;                          geometry</span>
+<span class="co">#&gt; 1  LINESTRING (-1.083348 50.68...</span>
+<span class="co">#&gt; 2  LINESTRING (-1.083348 50.68...</span>
+<span class="co">#&gt; 3  LINESTRING (-1.089935 50.68...</span>
+<span class="co">#&gt; 4  LINESTRING (-1.115375 50.69...</span>
+<span class="co">#&gt; 5  LINESTRING (-1.094493 50.68...</span>
+<span class="co">#&gt; 6  LINESTRING (-1.083304 50.68...</span>
+<span class="co">#&gt; 7  LINESTRING (-1.086146 50.68...</span>
+<span class="co">#&gt; 8  LINESTRING (-1.074056 50.68...</span>
+<span class="co">#&gt; 9  LINESTRING (-1.076458 50.68...</span>
+<span class="co">#&gt; 10 LINESTRING (-1.087919 50.68...</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">iow</span>)
+<span class="co">#&gt; [1] "sf"         "data.frame"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">iow</span>) <span class="co"># default variable names</span>
+<span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span>
+</pre></div>
+<p>Once imported, we can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major and minor roads, for example:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="kw">iow_major_roads</span> <span class="op">=</span> <span class="kw">iow</span>[<span class="kw">iow</span><span class="op">$</span><span class="kw">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"primary"</span>, <span class="st">"secondary"</span>), ]
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_major_roads</span>[<span class="st">"highway"</span>])
+</pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="100%"></p>
+<p>The same steps can be used to get other OSM datasets (note use of <code>osmext_verbose = TRUE</code> to show additional message, examples not run):</p>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="kw">test_malta</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Malta"</span>, osmext_verbose = <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="kw">test_malta</span>)
+<span class="kw">test_andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Andorra"</span>, extra_attributes = <span class="st">"ref"</span>, osmext_verbose = <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="kw">test_andorra</span>)
+</pre></div>
+</div>
+<div id="queries" class="section level2">
+<h2 class="hasAnchor">
+<a href="#queries" class="anchor"></a>Queries</h2>
+<p>Some files from providers such as geofabrik are large. You may therefore want to check the contents before importing them. To do this you can use an SQL query that is passed to GDAL via <code>sf</code>. To check the values stored in the highway column for our Isle of Wight example, for example, run the following command:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
+  <span class="st">"Isle of Wight"</span>, 
+  query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
+)
+<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Warning: no simple feature geometries present: returning a data.frame or tbl_df</span>
+<span class="co">#&gt;           highway</span>
+<span class="co">#&gt; 1     residential</span>
+<span class="co">#&gt; 2       secondary</span>
+<span class="co">#&gt; 3        tertiary</span>
+<span class="co">#&gt; 4    unclassified</span>
+<span class="co">#&gt; 5         primary</span>
+<span class="co">#&gt; 6         footway</span>
+<span class="co">#&gt; 7         service</span>
+<span class="co">#&gt; 8            &lt;NA&gt;</span>
+<span class="co">#&gt; 9           track</span>
+<span class="co">#&gt; 10      bridleway</span>
+<span class="co">#&gt; 11          steps</span>
+<span class="co">#&gt; 12           path</span>
+<span class="co">#&gt; 13   primary_link</span>
+<span class="co">#&gt; 14       cycleway</span>
+<span class="co">#&gt; 15  living_street</span>
+<span class="co">#&gt; 16     pedestrian</span>
+<span class="co">#&gt; 17   construction</span>
+<span class="co">#&gt; 18 secondary_link</span>
+<span class="co">#&gt; 19  tertiary_link</span>
+<span class="co">#&gt; 20       proposed</span>
+</pre></div>
+<p>The values will vary. There are more types of highway in the Andorra dataset, for example:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
+  <span class="st">"Andorra"</span>, 
+  query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
+)
+<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_andorra-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Warning: no simple feature geometries present: returning a data.frame or tbl_df</span>
+<span class="co">#&gt;           highway</span>
+<span class="co">#&gt; 1         primary</span>
+<span class="co">#&gt; 2            &lt;NA&gt;</span>
+<span class="co">#&gt; 3           trunk</span>
+<span class="co">#&gt; 4  secondary_link</span>
+<span class="co">#&gt; 5       secondary</span>
+<span class="co">#&gt; 6        tertiary</span>
+<span class="co">#&gt; 7     residential</span>
+<span class="co">#&gt; 8         service</span>
+<span class="co">#&gt; 9           steps</span>
+<span class="co">#&gt; 10   unclassified</span>
+<span class="co">#&gt; 11     pedestrian</span>
+<span class="co">#&gt; 12        footway</span>
+<span class="co">#&gt; 13          track</span>
+<span class="co">#&gt; 14  living_street</span>
+<span class="co">#&gt; 15           path</span>
+<span class="co">#&gt; 16      bridleway</span>
+<span class="co">#&gt; 17     trunk_link</span>
+<span class="co">#&gt; 18   primary_link</span>
+<span class="co">#&gt; 19       cycleway</span>
+<span class="co">#&gt; 20  tertiary_link</span>
+<span class="co">#&gt; 21        raceway</span>
+<span class="co">#&gt; 22           road</span>
+</pre></div>
+<p>The same <code>query</code> argument can be used to read-in only certain features, all primary roads in Andorra for example:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="co"># and select only one of them: </span>
+<span class="kw">iow_primary</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
+  <span class="st">"Isle of Wight"</span>, 
+  extra_attributes = <span class="st">"ref"</span>, 
+  osmext_verbose = <span class="fl">TRUE</span>, 
+  query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('primary')"</span>
+)
+<span class="co">#&gt; The input place was matched with: Isle of Wight</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 548 features and 9 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">iow_primary</span>)
+<span class="co">#&gt; [1] "sf"         "data.frame"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_primary</span><span class="op">$</span><span class="kw">geometry</span>)
+</pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-22-1.png" width="100%"></p>
+<p>This is substantially faster and less memory intensive than reading-in the whole dataset and filtering with R.</p>
+<p>You can use <a href="https://gdal.org/user/ogr_sql_dialect.html">GDAL’s SQL syntax</a> to get the result you need. Let’s get all primary and secondary roads, for example:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="kw">iow_major_roads2</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
+  <span class="st">"Isle of Wight"</span>, 
+  extra_attributes = <span class="st">"ref"</span>, 
+  osmext_verbose = <span class="fl">TRUE</span>, 
+  query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"</span>
+)
+<span class="co">#&gt; The input place was matched with: Isle of Wight</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 918 features and 9 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_major_roads2</span>[<span class="st">"highway"</span>])
+</pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-23-1.png" width="100%"></p>
+<p>You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit">
+<span class="kw">iow_active_travel</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
+  <span class="st">"Isle of Wight"</span>, 
+  extra_attributes = <span class="st">"ref"</span>, 
+  osmext_verbose = <span class="fl">TRUE</span>, 
+  query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street')"</span>
+)
+<span class="co">#&gt; The input place was matched with: Isle of Wight</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 143 features and 9 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -1.538843 ymin: 50.61815 xmax: -1.133171 ymax: 50.7592</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_active_travel</span>[<span class="st">"highway"</span>])
+</pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-24-1.png" width="100%"></p>
+</div>
+<div id="next-steps" class="section level2">
+<h2 class="hasAnchor">
+<a href="#next-steps" class="anchor"></a>Next steps</h2>
+<p>We hope to make the user interface to the SQL syntax more user friendly. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
+</div>
+<div id="licence" class="section level2">
+<h2 class="hasAnchor">
+<a href="#licence" class="anchor"></a>Licence</h2>
+<p>We hope this package will provide easy access to OSM data for reproducible research in the public interest, adhering to the condition of the <a href="https://opendatacommons.org/licenses/odbl/">OdBL licence</a> which states that</p>
+<blockquote>
+<p>Any Derivative Database that You Publicly Use must be only under the terms of: - i. This License; - ii. A later version of this License similar in spirit to this</p>
+</blockquote>
+</div>
+<div id="other-approaches" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-approaches" class="anchor"></a>Other approaches</h2>
+<!-- todo: add links to other packages -->
+</div>
 </div>
 
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/itsleeds/geofabrik">https://​github.com/​itsleeds/​geofabrik</a>
+<li>Browse source code at <br><a href="https://github.com/itsleeds/geofabrik/">https://​github.com/​itsleeds/​geofabrik/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/itsleeds/geofabrik/issues">https://​github.com/​itsleeds/​geofabrik/​issues</a>
 </li>
@@ -363,18 +566,12 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Robin Lovelace <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5679-6536" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>Robin Lovelace <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5679-6536" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://travis-ci.org/itsleeds/geofabrik"><img src="https://travis-ci.org/itsleeds/geofabrik.svg?branch=master" alt="Travis build status"></a></li>
-</ul>
-</div>
-</div>
+  </div>
 </div>
 
 
@@ -383,7 +580,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
