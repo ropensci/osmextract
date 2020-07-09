@@ -115,61 +115,35 @@
 <span class="co"># install.packages("devtools")</span>
 <span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"ITSLeeds/osmextractr"</span>)
 </pre></div>
+<p>Load the package with:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatial.github.io/sf">sf</a></span>)
+<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
+</pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Give <code>osmextractr</code> the name of a geofabrik zone and it will download and import it. By default it imports the ‘lines’ layer, but any layer can be read-in. Behind the scenes, the function <code>read_pbf()</code>, a wrapper around <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code> is used with configuration options to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument):</p>
-<p>The leitmotif of package is to help the users to read and download extracts of OpenStreetMap data stored by several providers, such as <a href="http://download.geofabrik.de/">Geofabrik</a> or <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The provider’s data are stored using <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatial.github.io/sf">sf</a></span>)
-<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0</span>
-<span class="kw">osmextractr</span>::<span class="kw"><a href="reference/geofabrik_zones.html">geofabrik_zones</a></span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">8</span>)]
-<span class="co">#&gt; Simple feature collection with 430 features and 2 fields</span>
-<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
-<span class="co">#&gt; dimension:      XY</span>
-<span class="co">#&gt; bbox:           xmin: -180 ymin: -90 xmax: 180 ymax: 85.04177</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="co">#&gt; First 10 features:</span>
-<span class="co">#&gt;           name</span>
-<span class="co">#&gt; 1  Afghanistan</span>
-<span class="co">#&gt; 2       Africa</span>
-<span class="co">#&gt; 3      Albania</span>
-<span class="co">#&gt; 4      Alberta</span>
-<span class="co">#&gt; 5      Algeria</span>
-<span class="co">#&gt; 6         Alps</span>
-<span class="co">#&gt; 7       Alsace</span>
-<span class="co">#&gt; 8      Andorra</span>
-<span class="co">#&gt; 9       Angola</span>
-<span class="co">#&gt; 10  Antarctica</span>
-<span class="co">#&gt;                                                                          pbf</span>
-<span class="co">#&gt; 1              https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf</span>
-<span class="co">#&gt; 2                        https://download.geofabrik.de/africa-latest.osm.pbf</span>
-<span class="co">#&gt; 3                https://download.geofabrik.de/europe/albania-latest.osm.pbf</span>
-<span class="co">#&gt; 4  https://download.geofabrik.de/north-america/canada/alberta-latest.osm.pbf</span>
-<span class="co">#&gt; 5                https://download.geofabrik.de/africa/algeria-latest.osm.pbf</span>
-<span class="co">#&gt; 6                   https://download.geofabrik.de/europe/alps-latest.osm.pbf</span>
-<span class="co">#&gt; 7          https://download.geofabrik.de/europe/france/alsace-latest.osm.pbf</span>
-<span class="co">#&gt; 8                https://download.geofabrik.de/europe/andorra-latest.osm.pbf</span>
-<span class="co">#&gt; 9                 https://download.geofabrik.de/africa/angola-latest.osm.pbf</span>
-<span class="co">#&gt; 10                   https://download.geofabrik.de/antarctica-latest.osm.pbf</span>
-<span class="co">#&gt;                          geometry</span>
-<span class="co">#&gt; 1  MULTIPOLYGON (((62.47808 29...</span>
-<span class="co">#&gt; 2  MULTIPOLYGON (((11.60092 33...</span>
-<span class="co">#&gt; 3  MULTIPOLYGON (((19.37748 42...</span>
-<span class="co">#&gt; 4  MULTIPOLYGON (((-110.0051 4...</span>
-<span class="co">#&gt; 5  MULTIPOLYGON (((6.899245 37...</span>
-<span class="co">#&gt; 6  MULTIPOLYGON (((5.57178 48....</span>
-<span class="co">#&gt; 7  MULTIPOLYGON (((8.236555 48...</span>
-<span class="co">#&gt; 8  MULTIPOLYGON (((1.516233 42...</span>
-<span class="co">#&gt; 9  MULTIPOLYGON (((20.72182 -1...</span>
-<span class="co">#&gt; 10 MULTIPOLYGON (((-180 -90, 1...</span>
+<p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. <!-- The second was [bbbike](https://download.bbbike.org/osm/bbbike/). --> The package can be extended to support additional providers, as seen in <a href="https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d">code</a> that adds a working test provider.</p>
+<p>Providers break the world into zones. These zones are represented as <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">geofabrik_zones</span>)
+<span class="co">#&gt;  [1] "id"               "name"             "parent"           "level"           </span>
+<span class="co">#&gt;  [5] "iso3166_1_alpha2" "iso3166_2"        "pbf_file_size"    "pbf"             </span>
+<span class="co">#&gt;  [9] "bz2"              "shp"              "pbf.internal"     "history"         </span>
+<span class="co">#&gt; [13] "taginfo"          "updates"          "geometry"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>(<span class="kw">geofabrik_zones</span>[<span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">8</span>)])
+<span class="co">#&gt;          name                                                           pbf</span>
+<span class="co">#&gt; 1 Afghanistan https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf</span>
+<span class="co">#&gt; 2      Africa           https://download.geofabrik.de/africa-latest.osm.pbf</span>
+<span class="co">#&gt; 3     Albania   https://download.geofabrik.de/europe/albania-latest.osm.pbf</span>
 </pre></div>
 </div>
 <div id="load-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-package" class="anchor"></a>Load package</h2>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextractr">osmextractr</a></span>)
 </pre></div>
 <p>The packages is composed by 4 main functions:</p>
@@ -191,7 +165,7 @@
 <a href="#test-osmext_match" class="anchor"></a>Test <code>osmext_match</code>
 </h1>
 <p>The simplest example:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Italy"</span>)
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</span>
@@ -206,14 +180,14 @@
 <span class="co">#&gt; [1] 6877468</span>
 </pre></div>
 <p>There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
+<div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Korea"</span>)
 <span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Russia"</span>)
 <span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 </pre></div>
 <p>For these reasons we implemented the possibility to look for the appropriate area according to the <a href="https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2">iso3166-1 alpha2</a> code:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
+<div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"KP"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"</span>
@@ -234,14 +208,14 @@
 <span class="co">#&gt; [1] 6982945396</span>
 </pre></div>
 <p>The are a few cases where the <code>iso3166-1 alpha2</code> codes can fail because there are no per-country extracts (e.g. Israel and Palestine)</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb11"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"PS"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
 <span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"IL"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
 <span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 </pre></div>
 <p>For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"London"</span>)
 <span class="co">#&gt; [1] "Greater London"</span>
 <span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Russia"</span>)
@@ -263,35 +237,10 @@
 <span class="co">#&gt; [46] "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI" "US-WY"</span>
 <span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Palestine"</span>)
 <span class="co">#&gt; [1] "Israel and Palestine"</span>
-<span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
-<span class="co">#&gt; Simple feature collection with 1 feature and 14 fields</span>
-<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
-<span class="co">#&gt; dimension:      XY</span>
-<span class="co">#&gt; bbox:           xmin: 34.07929 ymin: 29.37711 xmax: 35.91531 ymax: 33.35091</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="co">#&gt;                       id                 name parent level iso3166_1_alpha2</span>
-<span class="co">#&gt; 151 israel-and-palestine Israel and Palestine   asia     2            PS IL</span>
-<span class="co">#&gt;     iso3166_2 pbf_file_size</span>
-<span class="co">#&gt; 151      &lt;NA&gt;      82361911</span>
-<span class="co">#&gt;                                                                        pbf</span>
-<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.pbf</span>
-<span class="co">#&gt;                                                                        bz2</span>
-<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.bz2</span>
-<span class="co">#&gt;                                                                             shp</span>
-<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-latest-free.shp.zip</span>
-<span class="co">#&gt;                                                                                     pbf.internal</span>
-<span class="co">#&gt; 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-latest-internal.osm.pbf</span>
-<span class="co">#&gt;                                                                                   history</span>
-<span class="co">#&gt; 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-internal.osh.pbf</span>
-<span class="co">#&gt;                                                     taginfo</span>
-<span class="co">#&gt; 151 https://taginfo.geofabrik.de/asia/israel-and-palestine/</span>
-<span class="co">#&gt;                                                             updates</span>
-<span class="co">#&gt; 151 https://download.geofabrik.de/asia/israel-and-palestine-updates</span>
-<span class="co">#&gt;                           geometry</span>
-<span class="co">#&gt; 151 MULTIPOLYGON (((34.64563 32...</span>
+<span class="kw">israel_sf</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_check_pattern.html">osmext_check_pattern</a></span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
 </pre></div>
 <p>The input <code>place</code> can be also specified using an <code>sfc_POINT</code> object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the <code>level</code> variable). I would ignore the CRS warning for the moment.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
+<div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="kw">coords_milan</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1514924.21</span>, <span class="fl">5034552.92</span>)) <span class="co"># Duomo di Milano</span>
 <span class="kw">st_sfc_milan</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="kw">coords_milan</span>, crs = <span class="fl">3003</span>)
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="kw">st_sfc_milan</span>)
@@ -303,7 +252,7 @@
 <span class="co">#&gt; [1] 416306623</span>
 </pre></div>
 <p>The input <code>place</code> can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">9.1916</span>, <span class="fl">45.4650</span>)) <span class="co"># Duomo di Milano</span>
 <span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
 <span class="co">#&gt; $url</span>
@@ -316,7 +265,7 @@
 <span class="co"># osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error</span>
 </pre></div>
 <p>If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
+<div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle Wight"</span>)
 <span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle Wight"</span>, max_string_dist = <span class="fl">3</span>)
@@ -331,16 +280,16 @@
 <a href="#test-osmext_download" class="anchor"></a>Test <code>osmext_download</code>
 </h2>
 <p>The simplest example:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle of Wight"</span>)
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">iow_details</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_match.html">osmext_match</a></span>(<span class="st">"Isle of Wight"</span>)
 <span class="fu"><a href="reference/osmext_download.html">osmext_download</a></span>(
-  file_url = <span class="kw">iow</span><span class="op">$</span><span class="kw">url</span>, 
-  file_size = <span class="kw">iow</span><span class="op">$</span><span class="kw">file_size</span>
+  file_url = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">url</span>, 
+  file_size = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">file_size</span>
 )
 <span class="co">#&gt; [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"</span>
 </pre></div>
 <p>If you want to download your data into a specific folder once, you can set the download directory:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
+<div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span>(<span class="st">"OSMEXT_DOWNLOAD_DIRECTORY"</span> = <span class="st">"/home/andrea/Downloads"</span>)
 <span class="fu"><a href="reference/osmext_download.html">osmext_download</a></span>(
   file_url = <span class="kw">iow</span><span class="op">$</span><span class="kw">url</span>, 
@@ -349,7 +298,7 @@
 <span class="co">#&gt; /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf</span>
 </pre></div>
 <p>If you want to set a directory that will persist, you can set <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
+<div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="kw">usethis</span>::<span class="fu">edit_r_environ</span>()
 <span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span>
 </pre></div>
@@ -358,64 +307,14 @@
 <h2 class="hasAnchor">
 <a href="#importing-osm-data" class="anchor"></a>Importing OSM data</h2>
 <p>The function <code><a href="reference/osmext_get.html">osmext_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-(<span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>))
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
 <span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 44365 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599</span>
 <span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="co">#&gt; Simple feature collection with 44365 features and 9 fields</span>
-<span class="co">#&gt; geometry type:  LINESTRING</span>
-<span class="co">#&gt; dimension:      XY</span>
-<span class="co">#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="co">#&gt; First 10 features:</span>
-<span class="co">#&gt;    osm_id                 name     highway waterway aerialway barrier man_made</span>
-<span class="co">#&gt; 1     413             Lane End residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 2     415        Foreland Road   secondary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 3     416          Steyne Road   secondary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 4     698      Carpenters Road   secondary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 5     701            Mill Road    tertiary     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 6     705       Downsview Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 7     706          Lincoln Way residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 8     709        Paddock Drive residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 9     710 Forelands Field Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; 10    713         Howgate Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt;    z_order</span>
-<span class="co">#&gt; 1        3</span>
-<span class="co">#&gt; 2        6</span>
-<span class="co">#&gt; 3        6</span>
-<span class="co">#&gt; 4        6</span>
-<span class="co">#&gt; 5        4</span>
-<span class="co">#&gt; 6        3</span>
-<span class="co">#&gt; 7        3</span>
-<span class="co">#&gt; 8        3</span>
-<span class="co">#&gt; 9        3</span>
-<span class="co">#&gt; 10       3</span>
-<span class="co">#&gt;                                                                                                                 other_tags</span>
-<span class="co">#&gt; 1                                                      "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","surface"=&gt;"asphalt"</span>
-<span class="co">#&gt; 2                    "lit"=&gt;"yes","ref"=&gt;"B3395","lanes"=&gt;"2","surface"=&gt;"asphalt","maxspeed"=&gt;"30 mph","sidewalk"=&gt;"both"</span>
-<span class="co">#&gt; 3                                       "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","ref"=&gt;"B3395","surface"=&gt;"asphalt"</span>
-<span class="co">#&gt; 4  "incline"=&gt;"down","lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","ref"=&gt;"B3330","sidewalk"=&gt;"left","surface"=&gt;"asphalt"</span>
-<span class="co">#&gt; 5                                                       "lanes"=&gt;"2","lit"=&gt;"no","maxspeed"=&gt;"30 mph","surface"=&gt;"asphalt"</span>
-<span class="co">#&gt; 6                                                                                                                     &lt;NA&gt;</span>
-<span class="co">#&gt; 7                                                                                                                     &lt;NA&gt;</span>
-<span class="co">#&gt; 8                                                                                                                     &lt;NA&gt;</span>
-<span class="co">#&gt; 9                                                                      "designation"=&gt;"public_footpath","prow_ref"=&gt;"BB13"</span>
-<span class="co">#&gt; 10                  "bicycle"=&gt;"yes","foot"=&gt;"yes","horse"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"no","surface"=&gt;"asphalt"</span>
-<span class="co">#&gt;                          geometry</span>
-<span class="co">#&gt; 1  LINESTRING (-1.083348 50.68...</span>
-<span class="co">#&gt; 2  LINESTRING (-1.083348 50.68...</span>
-<span class="co">#&gt; 3  LINESTRING (-1.089935 50.68...</span>
-<span class="co">#&gt; 4  LINESTRING (-1.115375 50.69...</span>
-<span class="co">#&gt; 5  LINESTRING (-1.094493 50.68...</span>
-<span class="co">#&gt; 6  LINESTRING (-1.083304 50.68...</span>
-<span class="co">#&gt; 7  LINESTRING (-1.086146 50.68...</span>
-<span class="co">#&gt; 8  LINESTRING (-1.074056 50.68...</span>
-<span class="co">#&gt; 9  LINESTRING (-1.076458 50.68...</span>
-<span class="co">#&gt; 10 LINESTRING (-1.087919 50.68...</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">iow</span>)
 <span class="co">#&gt; [1] "sf"         "data.frame"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">iow</span>) <span class="co"># default variable names</span>
@@ -423,13 +322,13 @@
 <span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span>
 </pre></div>
 <p>Once imported, we can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major and minor roads, for example:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
+<div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="kw">iow_major_roads</span> <span class="op">=</span> <span class="kw">iow</span>[<span class="kw">iow</span><span class="op">$</span><span class="kw">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"primary"</span>, <span class="st">"secondary"</span>), ]
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_major_roads</span>[<span class="st">"highway"</span>])
 </pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
 <p>The same steps can be used to get other OSM datasets (note use of <code>osmext_verbose = TRUE</code> to show additional message, examples not run):</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
+<div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="kw">test_malta</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Malta"</span>, osmext_verbose = <span class="fl">TRUE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="kw">test_malta</span>)
 <span class="kw">test_andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(<span class="st">"Andorra"</span>, extra_attributes = <span class="st">"ref"</span>, osmext_verbose = <span class="fl">TRUE</span>)
@@ -440,7 +339,7 @@
 <h2 class="hasAnchor">
 <a href="#queries" class="anchor"></a>Queries</h2>
 <p>Some files from providers such as geofabrik are large. You may therefore want to check the contents before importing them. To do this you can use an SQL query that is passed to GDAL via <code>sf</code>. To check the values stored in the highway column for our Isle of Wight example, for example, run the following command:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
+<div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
@@ -470,7 +369,7 @@
 <span class="co">#&gt; 20       proposed</span>
 </pre></div>
 <p>The values will vary. There are more types of highway in the Andorra dataset, for example:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
+<div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
   <span class="st">"Andorra"</span>, 
   query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
@@ -502,7 +401,7 @@
 <span class="co">#&gt; 22           road</span>
 </pre></div>
 <p>The same <code>query</code> argument can be used to read-in only certain features, all primary roads in Andorra for example:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
+<div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="co"># and select only one of them: </span>
 <span class="kw">iow_primary</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
@@ -526,7 +425,7 @@
 <p><img src="reference/figures/README-iow2-1.png" width="100%"></p>
 <p>This is substantially faster and less memory intensive than reading-in the whole dataset and filtering with R.</p>
 <p>You can use <a href="https://gdal.org/user/ogr_sql_dialect.html">GDAL’s SQL syntax</a> to get the result you need. Let’s get all primary and secondary roads, for example:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
+<div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="kw">iow_major_roads2</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   extra_attributes = <span class="st">"ref"</span>, 
@@ -546,21 +445,21 @@
 </pre></div>
 <p><img src="reference/figures/README-iow3-1.png" width="100%"></p>
 <p>You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
+<div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="kw">iow_active_travel</span> <span class="op">=</span> <span class="fu"><a href="reference/osmext_get.html">osmext_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   extra_attributes = <span class="st">"ref"</span>, 
   osmext_verbose = <span class="fl">TRUE</span>, 
-  query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street')"</span>
+  query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street', 'residential')"</span>
 )
 <span class="co">#&gt; The input place was matched with: Isle of Wight</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
 <span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 143 features and 9 fields</span>
+<span class="co">#&gt; Simple feature collection with 2545 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
-<span class="co">#&gt; bbox:           xmin: -1.538843 ymin: 50.61815 xmax: -1.133171 ymax: 50.7592</span>
+<span class="co">#&gt; bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727</span>
 <span class="co">#&gt; geographic CRS: WGS 84</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_active_travel</span>[<span class="st">"highway"</span>])
 </pre></div>
@@ -576,8 +475,16 @@
 <a href="#licence" class="anchor"></a>Licence</h2>
 <p>We hope this package will provide easy access to OSM data for reproducible research in the public interest, adhering to the condition of the <a href="https://opendatacommons.org/licenses/odbl/">OdBL licence</a> which states that</p>
 <blockquote>
-<p>Any Derivative Database that You Publicly Use must be only under the terms of: - i. This License; - ii. A later version of this License similar in spirit to this</p>
+<p>Any Derivative Database that You Publicly Use must be only under the terms of:</p>
 </blockquote>
+<ul>
+<li><ol>
+<li>This License;</li>
+</ol></li>
+<li><ol>
+<li>A later version of this License similar in spirit to this</li>
+</ol></li>
+</ul>
 </div>
 <div id="other-approaches" class="section level2">
 <h2 class="hasAnchor">
