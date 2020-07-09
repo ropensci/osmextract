@@ -52,9 +52,9 @@ library(osmextractr)
 
 
 ```{r, eval=FALSE}
-cycleways_england = osmext_get(
+cycleways_england = oe_get(
   "England",
-  osmext_verbose = TRUE,
+  oe_verbose = TRUE,
   query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
 )
 plot(sf::st_geometry(cycleways_england))
@@ -133,55 +133,55 @@ library(osmextractr)
 
 The packages is composed by 4 main functions: 
 
-1. `osmext_match`: Match the input zone with one of the files stored by the OSM providers
-2. `osmext_download`: Download the chosen file
-3. `osmext_vectortranslate`: Convert the pbf format into gpkg
-4. `osmext_read`: Read the gpkg file
+1. `oe_match`: Match the input zone with one of the files stored by the OSM providers
+2. `oe_download`: Download the chosen file
+3. `oe_vectortranslate`: Convert the pbf format into gpkg
+4. `oe_read`: Read the gpkg file
 
-The function `osmext_get` is a wrapper around all of them. 
+The function `oe_get` is a wrapper around all of them. 
 
-# Test `osmext_match`
+# Test `oe_match`
 
 The simplest example: 
 
 ```{r}
-osmext_match("Italy")
-osmext_match("Isle of wight")
+oe_match("Italy")
+oe_match("Isle of wight")
 ```
 
 There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names: 
 
 ```{r, error = TRUE}
-osmext_match("Korea")
-osmext_match("Russia")
+oe_match("Korea")
+oe_match("Russia")
 ```
 
 For these reasons we implemented the possibility to look for the appropriate area according to the [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code: 
 
 ```{r}
-osmext_match("KP", match_by = "iso3166_1_alpha2")
-osmext_match("RU", match_by = "iso3166_1_alpha2")
-osmext_match("US", match_by = "iso3166_1_alpha2")
+oe_match("KP", match_by = "iso3166_1_alpha2")
+oe_match("RU", match_by = "iso3166_1_alpha2")
+oe_match("US", match_by = "iso3166_1_alpha2")
 ```
 
 The are a few cases where the `iso3166-1 alpha2` codes can fail because there are no per-country extracts (e.g. Israel and Palestine)
 
 ```{r, error = TRUE}
-osmext_match("PS", match_by = "iso3166_1_alpha2")
-osmext_match("IL", match_by = "iso3166_1_alpha2")
+oe_match("PS", match_by = "iso3166_1_alpha2")
+oe_match("IL", match_by = "iso3166_1_alpha2")
 ```
 
 For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example: 
 
 ```{r}
-osmext_check_pattern("London")
-osmext_check_pattern("Russia")
-osmext_check_pattern("Korea")
-osmext_check_pattern("Yorkshire")
-osmext_check_pattern("US")
-osmext_check_pattern("US", match_by = "iso3166_2")
-osmext_check_pattern("Palestine")
-israel_sf = osmext_check_pattern("Israel", full_row = TRUE)
+oe_check_pattern("London")
+oe_check_pattern("Russia")
+oe_check_pattern("Korea")
+oe_check_pattern("Yorkshire")
+oe_check_pattern("US")
+oe_check_pattern("US", match_by = "iso3166_2")
+oe_check_pattern("Palestine")
+israel_sf = oe_check_pattern("Israel", full_row = TRUE)
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). I would ignore the CRS warning for the moment. 
@@ -189,31 +189,31 @@ The input `place` can be also specified using an `sfc_POINT` object with arbitra
 ```{r}
 coords_milan = sf::st_point(c(1514924.21, 5034552.92)) # Duomo di Milano
 st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
-osmext_match(st_sfc_milan)
+oe_match(st_sfc_milan)
 ```
 
 The input `place` can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:
 
 ```{r, error = TRUE}
-osmext_match(c(9.1916, 45.4650)) # Duomo di Milano
-osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
-# osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
+oe_match(c(9.1916, 45.4650)) # Duomo di Milano
+oe_match(c(9.1916, 45.4650, 9.2020, 45.4781))
+# oe_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
 ```
 
 If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance: 
 
 ```{r, error = TRUE}
-osmext_match("Isle Wight")
-osmext_match("Isle Wight", max_string_dist = 3)
+oe_match("Isle Wight")
+oe_match("Isle Wight", max_string_dist = 3)
 ```
 
-## Test `osmext_download`
+## Test `oe_download`
 
 The simplest example: 
 
 ```{r}
-iow_details = osmext_match("Isle of Wight")
-osmext_download(
+iow_details = oe_match("Isle of Wight")
+oe_download(
   file_url = iow_details$url, 
   file_size = iow_details$file_size
 )
@@ -223,7 +223,7 @@ If you want to download your data into a specific folder once, you can set the d
 
 ```{r, eval=FALSE}
 Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
-osmext_download(
+oe_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
@@ -239,10 +239,10 @@ usethis::edit_r_environ()
 
 ## Importing OSM data
 
-The function `osmext_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object:
+The function `oe_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object:
 
 ```{r}
-iow = osmext_get("Isle of Wight", stringsAsFactors = FALSE)
+iow = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 class(iow)
 names(iow) # default variable names
 ```
@@ -256,12 +256,12 @@ iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
 plot(iow_major_roads["highway"])
 ```
 
-The same steps can be used to get other OSM datasets (note use of `osmext_verbose = TRUE` to show additional message, examples not run):
+The same steps can be used to get other OSM datasets (note use of `oe_verbose = TRUE` to show additional message, examples not run):
 
 ```{r, eval=FALSE}
-test_malta = osmext_get("Malta", osmext_verbose = TRUE)
+test_malta = oe_get("Malta", oe_verbose = TRUE)
 ncol(test_malta)
-test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
+test_andorra = oe_get("Andorra", extra_attributes = "ref", oe_verbose = TRUE)
 ncol(test_andorra)
 ```
 
@@ -273,7 +273,7 @@ To do this you can use an SQL query that is passed to GDAL via `sf`.
 To check the values stored in the highway column for our Isle of Wight example, for example, run the following command: 
 
 ```{r}
-osmext_get(
+oe_get(
   "Isle of Wight", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
@@ -283,7 +283,7 @@ The values will vary.
 There are more types of highway in the Andorra dataset, for example:
 
 ```{r}
-osmext_get(
+oe_get(
   "Andorra", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
@@ -293,10 +293,10 @@ The same `query` argument can be used to read-in only certain features, all prim
 
 ```{r, iow2}
 # and select only one of them: 
-iow_primary = osmext_get(
+iow_primary = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  oe_verbose = TRUE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
 )
 class(iow_primary)
@@ -309,10 +309,10 @@ You can use [GDAL's SQL syntax](https://gdal.org/user/ogr_sql_dialect.html) to g
 Let's get all primary and secondary roads, for example:
 
 ```{r, iow3}
-iow_major_roads2 = osmext_get(
+iow_major_roads2 = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  oe_verbose = TRUE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
 )
 plot(iow_major_roads2["highway"])
@@ -321,10 +321,10 @@ plot(iow_major_roads2["highway"])
 You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:
 
 ```{r, iow4}
-iow_active_travel = osmext_get(
+iow_active_travel = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  oe_verbose = TRUE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street', 'residential')"
 )
 plot(iow_active_travel["highway"])
