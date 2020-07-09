@@ -137,4 +137,15 @@ test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = 
 ncol(test_andorra)
 ```
 
+Example of query: 
+
+```{r}
+osmext_get(
+  "Andorra", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM \"lines\" WHERE highway IN ('primary')"
+)
+```
+
 

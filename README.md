@@ -276,3 +276,23 @@ test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = 
 ncol(test_andorra)
 #> [1] 11
 ```
+
+Example of query:
+
+``` r
+osmext_get(
+  "Andorra", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM \"lines\" WHERE highway IN ('primary')"
+)
+#> The input place was matched with: Andorra
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 509 features and 10 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: 1.419741 ymin: 42.43591 xmax: 1.737789 ymax: 42.63297
+#> geographic CRS: WGS 84
+```
