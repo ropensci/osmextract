@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.R
 \name{osmext_get}
 \alias{osmext_get}
-\title{Title}
+\title{Download, translate and read OSM extracts}
 \usage{
 osmext_get(
   place,
@@ -54,13 +54,13 @@ performed through a spatial operation.}
 \item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
-A
+An sf object related to the input place.
 }
 \description{
-Title
+Download, translate and read OSM extracts
 }
 \details{
-ABC
+This function is a wrapper around ...
 }
 \examples{
 1 + 1
