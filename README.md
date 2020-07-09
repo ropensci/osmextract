@@ -211,7 +211,7 @@ osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
-#> [1] "/tmp/Rtmpu4ZpAp/geofabrik_isle-of-wight-latest.osm.pbf"
+#> [1] "/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
 
 If you want to download your data into a persistent directory, set
@@ -219,10 +219,60 @@ If you want to download your data into a persistent directory, set
 e.g. with `usethis::edit_r_environ()` or manually. For example:
 
 ``` r
-Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "~/osmext_data")
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/osmext_data")
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
-#> [1] "~/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
+#> [1] "/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
+```
+
+## Test `osmext_get`
+
+``` r
+osmext_get("Isle of Wight", osmext_verbose = TRUE)
+#> The input place was matched with: Isle of Wight
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 44365 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
+#> geographic CRS: WGS 84
+osmext_get("Isle of Man", osmext_verbose = TRUE)
+#> The input place was matched with: Isle of Man
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-man-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 13308 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -20.05167 ymin: 52.03634 xmax: -2.913484 ymax: 55.71753
+#> geographic CRS: WGS 84
+
+test_malta = osmext_get("Malta", osmext_verbose = TRUE)
+#> The input place was matched with: Malta
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_malta-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 39443 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: 5.33975 ymin: 31.21 xmax: 29.91 ymax: 42.9466
+#> geographic CRS: WGS 84
+ncol(test_malta)
+#> [1] 10
+test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
+#> The input place was matched with: Andorra
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 5992 features and 10 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: 0.975577 ymin: 42.32422 xmax: 1.824654 ymax: 42.78834
+#> geographic CRS: WGS 84
+ncol(test_andorra)
+#> [1] 11
 ```

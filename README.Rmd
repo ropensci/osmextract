@@ -130,12 +130,11 @@ osmext_download(
 ```{r}
 osmext_get("Isle of Wight", osmext_verbose = TRUE)
 osmext_get("Isle of Man", osmext_verbose = TRUE)
-# osmext_get(c(9.1916, 45.4650), osmext_verbose = TRUE)
 
 test_malta = osmext_get("Malta", osmext_verbose = TRUE)
-test_malta
+ncol(test_malta)
 test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
-test_andorra
+ncol(test_andorra)
 ```
 
 
