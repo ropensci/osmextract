@@ -183,6 +183,10 @@ osmext_match.character <- function(
     }
   }
 
+  if (isTRUE(verbose)) {
+    message("The input place was matched with: ", best_matched_place[[match_by]])
+  }
+
   # Return a list with the url and the file_size of the matched place
   result <- list(
     url = best_matched_place[["pbf"]],
