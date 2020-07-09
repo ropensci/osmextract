@@ -7,7 +7,7 @@
 #' @param file_basename B
 #' @param file_size E
 #'
-#' @return ch
+#' @return path
 #' @export
 #'
 #' @examples

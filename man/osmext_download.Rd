@@ -34,7 +34,7 @@ moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.
 \item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
-ch
+path
 }
 \description{
 Download the input file if it's not already present in the specified download_directory.

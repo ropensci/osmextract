@@ -118,7 +118,7 @@ osmext_download(
 If you want to download your data into a persistent directory, set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with `usethis::edit_r_environ()` or manually. For example: 
 
 ```{r}
-Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "~/osmext_data")
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/osmext_data")
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size

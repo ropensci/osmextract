@@ -6,13 +6,18 @@
 \usage{
 osmext_get(
   place,
+  layer = "lines",
   provider = "geofabrik",
+  ...,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
   download_directory = osmext_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+08,
+  vectortranslate_options = NULL,
+  osmconf_ini = NULL,
+  force_vectortranslate = NULL,
   verbose = FALSE
 )
 }
@@ -22,8 +27,12 @@ through the chosen \code{provider}. Can be either a length-1 character vector, a
 length-1 \code{sfc_POINT} object or a numeric vector with length 2. See details
 and examples.}
 
+\item{layer}{TODO}
+
 \item{provider}{Which provider should be used to download the data? For the
 moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+
+\item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}}
 
 \item{match_by}{Which column of the provider data should be used for matching
 the input place with the provider's data? The default is "name". Check
@@ -50,6 +59,12 @@ performed through a spatial operation.}
 \item{force_download}{TODO}
 
 \item{max_file_size}{TODO}
+
+\item{vectortranslate_options}{TODO}
+
+\item{osmconf_ini}{TODO}
+
+\item{force_vectortranslate}{TODO}
 
 \item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }

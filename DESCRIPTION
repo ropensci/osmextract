@@ -20,6 +20,7 @@ BugReports: https://github.com/itsleeds/geofabrik/issues
 Depends: R (>= 3.4.0)
 Imports: 
     sf (>= 0.8.1),
-    utils
+    utils,
+    tools
 Suggests: 
     testthat
