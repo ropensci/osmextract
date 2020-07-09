@@ -26,7 +26,7 @@ osmext_match.default <- function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
-    " Feel free to open a new issue at ... .", call. = FALSE
+    " Feel free to open a new issue at github.com/itsleeds/osmextractr", call. = FALSE
   )
 }
 
@@ -43,7 +43,7 @@ osmext_match.sfc_POINT <- function(
   if (length(place) > 1L) {
     stop(
       "At the moment we support only length-one sfc_POINT objects for 'place' parameter.",
-      " Feel free to open a new issue at ...",
+      " Feel free to open a new issue at github.com/itsleeds/osmextractr",
       call. = FALSE
     )
   }

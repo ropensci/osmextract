@@ -81,5 +81,5 @@ Download, translate and read OSM extracts
 This function is a wrapper around ...
 }
 \examples{
-# osmext_get("Isle of Wight", provider = "test")
+osmext_get("Isle of Wight", provider = "test")
 }
