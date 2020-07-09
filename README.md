@@ -1,6 +1,98 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# geofabrik
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+The goal of `osmextractr` is to make it easier for R users to access
+freely available, community created geographic data, in the form of
+OpenSteetMap data extracted by providers such as [Geofabrik
+GmbH](http://download.geofabrik.de).
+
+## Why osmextractr?
+
+[`osmdata`](https://github.com/ropensci/osmdata) provides an R interface
+to the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API),
+which is ideal for downloading small OSM datasets. However, the API is
+rate limited, making it hard to download large datasets. As a case
+study, let’s try to download all cycleways in England:
+
+``` r
+library(osmdata)
+cycleways_england = opq("England") %>% 
+  add_osm_feature(key = "highway", value = "cycleway") %>% 
+  osmdata_sf()
+# Error in check_for_error(doc) : General overpass server error; returned:
+# The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. 
+```
+
+The query hanged with an error message after around 10 seconds. The same
+query can be made with `osmextractr` as follows, which reads-in almost
+100k linestrings in less than 10 seconds (after the data has been
+downloaded in the compressed `.pbf` format and converted to the open
+standard `.gpkg` format, not evaluated):
+
+``` r
+library(osmextractr)
+#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
+#> Geofabrik data are taken from https://download.geofabrik.de/
+```
+
+``` r
+cycleways_england = osmext_get(
+  "England",
+  osmext_verbose = TRUE,
+  query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
+)
+plot(sf::st_geometry(cycleways_england))
+```
+
+<img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%" />
+
+The package is designed to complement `osmdata` which has advantages
+over `osmextractr` for small datasets: `osmdata` is likely to be quicker
+for datasets less than \~10 MB, provides up-to-date data and has an
+intuitive interface. `osmdata` can provide data in a range of formats,
+while `osmextractr` only returns [`sf`](https://github.com/r-spatial/sf)
+objects. On the other hand, `osmextractr` provides a fast way to
+download large OSM datasets in the highly compressed `pbf` format and
+read them in via the fast C library
+[GDAL](https://gdal.org/drivers/vector/osm.html) and the R package
+[`sf`](https://github.com/r-spatial/sf).
+
+## Installation
+
+<!-- You can install the released version of osmextractr from [CRAN](https://CRAN.R-project.org) with: -->
+
+<!-- ``` r -->
+
+<!-- install.packages("osmextractr") -->
+
+<!-- ``` -->
+
+You can install the development version from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ITSLeeds/osmextractr")
+```
+
+## Usage
+
+Give `osmextractr` the name of a geofabrik zone and it will download and
+import it. By default it imports the ‘lines’ layer, but any layer can be
+read-in. Behind the scenes, the function `read_pbf()`, a wrapper around
+`sf::st_read()` is used with configuration options to import additional
+columns from the `.pbf` files not imported by default, including
+`maxspeed`, `lanes` and `oneway` (the attributes to include can be set
+with `attributes` argument):
+
 The leitmotif of package is to help the users to read and download
 extracts of OpenStreetMap data stored by several providers, such as
 [Geofabrik](http://download.geofabrik.de/) or
@@ -36,8 +128,6 @@ osmextractr::geofabrik_zones[, c(2, 8)]
 
 ``` r
 library(osmextractr)
-#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
-#> Geofabrik data are taken from https://download.geofabrik.de/
 ```
 
 The packages is composed by 4 main functions:
@@ -309,7 +399,7 @@ iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
 plot(iow_major_roads["highway"])
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
 
 The same steps can be used to get other OSM datasets (note use of
 `osmext_verbose = TRUE` to show additional message, examples not run):
@@ -419,7 +509,7 @@ class(iow_primary)
 plot(iow_primary$geometry)
 ```
 
-<img src="man/figures/README-unnamed-chunk-20-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
 
 This is substantially faster and less memory intensive than reading-in
 the whole dataset and filtering with R.
@@ -447,7 +537,7 @@ iow_major_roads2 = osmext_get(
 plot(iow_major_roads2["highway"])
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
 
 You can also use regex, as shown in the following command that gets
 roads that are likely to be walking and cycling friendly:
@@ -471,7 +561,7 @@ iow_active_travel = osmext_get(
 plot(iow_active_travel["highway"])
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="100%" />
 
 ## Next steps
 
@@ -489,3 +579,7 @@ states that
 > Any Derivative Database that You Publicly Use must be only under the
 > terms of: - i. This License; - ii. A later version of this License
 > similar in spirit to this
+
+## Other approaches
+
+<!-- todo: add links to other packages -->
