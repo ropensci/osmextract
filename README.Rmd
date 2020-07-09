@@ -43,6 +43,7 @@ The simplest example:
 
 ```{r}
 osmext_match("Italy")
+osmext_match("Isle of wight")
 ```
 
 There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names: 
@@ -115,46 +116,128 @@ osmext_download(
 )
 ```
 
-If you want to download your data into a persistent directory, set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with `usethis::edit_r_environ()` or manually. For example: 
+If you want to download your data into a specific folder once, you can set the download directory: 
 
-```{r}
-Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/osmext_data")
+```{r, eval=FALSE}
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
+#> /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf
 ```
 
-## Test `osmext_get`
+If you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+
+```{r, eval=FALSE}
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+## Importing OSM data
+
+The function `osmext_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object:
 
 ```{r}
-osmext_get("Isle of Wight", osmext_verbose = TRUE)
-osmext_get("Isle of Man", osmext_verbose = TRUE)
+(iow = osmext_get("Isle of Wight", stringsAsFactors = FALSE))
+class(iow)
+names(iow) # default variable names
+```
 
+Once imported, we can use all the functions for data frames in base R and other packages.
+We can also use functions from the `sf` package for spatial analysis and visualisation.
+Let's plot all the major and minor roads, for example:
+
+```{r}
+iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
+plot(iow_major_roads["highway"])
+```
+
+The same steps can be used to get other OSM datasets (note use of `osmext_verbose = TRUE` to show additional message, examples not run):
+
+```{r, eval=FALSE}
 test_malta = osmext_get("Malta", osmext_verbose = TRUE)
 ncol(test_malta)
 test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
 ncol(test_andorra)
 ```
 
-Example of query: 
+## Queries
+
+Some files from providers such as geofabrik are large.
+You may therefore want to check the contents before importing them.
+To do this you can use an SQL query that is passed to GDAL via `sf`.
+To check the values stored in the highway column for our Isle of Wight example, for example, run the following command: 
 
 ```{r}
-# We can check the values of the higway column: 
 osmext_get(
-  "Andorra", 
-  extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  "Isle of Wight", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
+```
 
-# and select only one of them: 
+The values will vary.
+There are more types of highway in the Andorra dataset, for example:
+
+```{r}
 osmext_get(
   "Andorra", 
-  extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
-  query = "SELECT * FROM \"lines\" WHERE highway IN ('primary')"
+  query = "SELECT DISTINCT highway FROM \"lines\" "
 )
 ```
+
+The same `query` argument can be used to read-in only certain features, all primary roads in Andorra for example: 
+
+```{r}
+# and select only one of them: 
+iow_primary = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
+)
+class(iow_primary)
+plot(iow_primary$geometry)
+```
+
+This is substantially faster and less memory intensive than reading-in the whole dataset and filtering with R.
+
+You can use [GDAL's SQL syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result you need.
+Let's get all primary and secondary roads, for example:
+
+```{r}
+iow_major_roads2 = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
+)
+plot(iow_major_roads2["highway"])
+```
+
+You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:
+
+```{r}
+iow_active_travel = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street')"
+)
+plot(iow_active_travel["highway"])
+```
+
+## Next steps
+
+We hope to make the user interface to the SQL syntax more user friendly.
+Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.
+
+## Licence
+
+We hope this package will provide easy access to OSM data for reproducible research in the public interest, adhering to the condition of the [OdBL licence](https://opendatacommons.org/licenses/odbl/) which states that
+
+> Any Derivative Database that You Publicly Use must be only under the terms of:
+> - i. This License;
+> - ii. A later version of this License similar in spirit to this
 
 

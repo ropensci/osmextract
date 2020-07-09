@@ -61,6 +61,12 @@ osmext_match("Italy")
 #> 
 #> $file_size
 #> [1] 1544340778
+osmext_match("Isle of wight")
+#> $url
+#> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 6877468
 ```
 
 There are several situations where it could be difficult to find the
@@ -211,86 +217,157 @@ osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
-#> [1] "/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
+#> [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
 
-If you want to download your data into a persistent directory, set
-`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
-e.g. with `usethis::edit_r_environ()` or manually. For example:
+If you want to download your data into a specific folder once, you can
+set the download directory:
 
 ``` r
-Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/osmext_data")
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
 osmext_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
-#> [1] "/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
+#> /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf
 ```
 
-## Test `osmext_get`
+If you want to set a directory that will persist, you can set
+`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
+e.g. with:
 
 ``` r
-osmext_get("Isle of Wight", osmext_verbose = TRUE)
-#> The input place was matched with: Isle of Wight
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
-#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+## Importing OSM data
+
+The function `osmext_get()` downloads (if not already downloaded) and
+reads-in data from OSM extract providers as an `sf` object:
+
+``` r
+(iow = osmext_get("Isle of Wight", stringsAsFactors = FALSE))
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #> Simple feature collection with 44365 features and 9 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
 #> geographic CRS: WGS 84
-osmext_get("Isle of Man", osmext_verbose = TRUE)
-#> The input place was matched with: Isle of Man
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
-#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-man-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 13308 features and 9 fields
+#> Simple feature collection with 44365 features and 9 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
-#> bbox:           xmin: -20.05167 ymin: 52.03634 xmax: -2.913484 ymax: 55.71753
+#> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
 #> geographic CRS: WGS 84
-
-test_malta = osmext_get("Malta", osmext_verbose = TRUE)
-#> The input place was matched with: Malta
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
-#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_malta-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 39443 features and 9 fields
-#> geometry type:  LINESTRING
-#> dimension:      XY
-#> bbox:           xmin: 5.33975 ymin: 31.21 xmax: 29.91 ymax: 42.9466
-#> geographic CRS: WGS 84
-ncol(test_malta)
-#> [1] 10
-test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
-#> The input place was matched with: Andorra
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
-#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 5992 features and 10 fields
-#> geometry type:  LINESTRING
-#> dimension:      XY
-#> bbox:           xmin: 0.975577 ymin: 42.32422 xmax: 1.824654 ymax: 42.78834
-#> geographic CRS: WGS 84
-ncol(test_andorra)
-#> [1] 11
+#> First 10 features:
+#>    osm_id                 name     highway waterway aerialway barrier man_made z_order
+#> 1     413             Lane End residential     <NA>      <NA>    <NA>     <NA>       3
+#> 2     415        Foreland Road   secondary     <NA>      <NA>    <NA>     <NA>       6
+#> 3     416          Steyne Road   secondary     <NA>      <NA>    <NA>     <NA>       6
+#> 4     698      Carpenters Road   secondary     <NA>      <NA>    <NA>     <NA>       6
+#> 5     701            Mill Road    tertiary     <NA>      <NA>    <NA>     <NA>       4
+#> 6     705       Downsview Road residential     <NA>      <NA>    <NA>     <NA>       3
+#> 7     706          Lincoln Way residential     <NA>      <NA>    <NA>     <NA>       3
+#> 8     709        Paddock Drive residential     <NA>      <NA>    <NA>     <NA>       3
+#> 9     710 Forelands Field Road residential     <NA>      <NA>    <NA>     <NA>       3
+#> 10    713         Howgate Road residential     <NA>      <NA>    <NA>     <NA>       3
+#>                                                                                                                 other_tags
+#> 1                                                      "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","surface"=>"asphalt"
+#> 2                    "lit"=>"yes","ref"=>"B3395","lanes"=>"2","surface"=>"asphalt","maxspeed"=>"30 mph","sidewalk"=>"both"
+#> 3                                       "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","ref"=>"B3395","surface"=>"asphalt"
+#> 4  "incline"=>"down","lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","ref"=>"B3330","sidewalk"=>"left","surface"=>"asphalt"
+#> 5                                                       "lanes"=>"2","lit"=>"no","maxspeed"=>"30 mph","surface"=>"asphalt"
+#> 6                                                                                                                     <NA>
+#> 7                                                                                                                     <NA>
+#> 8                                                                                                                     <NA>
+#> 9                                                                      "designation"=>"public_footpath","prow_ref"=>"BB13"
+#> 10                  "bicycle"=>"yes","foot"=>"yes","horse"=>"yes","maxspeed"=>"30 mph","oneway"=>"no","surface"=>"asphalt"
+#>                          geometry
+#> 1  LINESTRING (-1.083348 50.68...
+#> 2  LINESTRING (-1.083348 50.68...
+#> 3  LINESTRING (-1.089935 50.68...
+#> 4  LINESTRING (-1.115375 50.69...
+#> 5  LINESTRING (-1.094493 50.68...
+#> 6  LINESTRING (-1.083304 50.68...
+#> 7  LINESTRING (-1.086146 50.68...
+#> 8  LINESTRING (-1.074056 50.68...
+#> 9  LINESTRING (-1.076458 50.68...
+#> 10 LINESTRING (-1.087919 50.68...
+class(iow)
+#> [1] "sf"         "data.frame"
+names(iow) # default variable names
+#>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
 ```
 
-Example of query:
+Once imported, we can use all the functions for data frames in base R
+and other packages. We can also use functions from the `sf` package for
+spatial analysis and visualisation. Let’s plot all the major and minor
+roads, for example:
 
 ``` r
-# We can check the values of the higway column: 
+iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
+plot(iow_major_roads["highway"])
+```
+
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
+
+The same steps can be used to get other OSM datasets (note use of
+`osmext_verbose = TRUE` to show additional message, examples not run):
+
+``` r
+test_malta = osmext_get("Malta", osmext_verbose = TRUE)
+ncol(test_malta)
+test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
+ncol(test_andorra)
+```
+
+## Queries
+
+Some files from providers such as geofabrik are large. You may therefore
+want to check the contents before importing them. To do this you can use
+an SQL query that is passed to GDAL via `sf`. To check the values stored
+in the highway column for our Isle of Wight example, for example, run
+the following command:
+
+``` r
 osmext_get(
-  "Andorra", 
-  extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  "Isle of Wight", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
-#> The input place was matched with: Andorra
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
-#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Warning: no simple feature geometries present: returning a data.frame or tbl_df
+#>           highway
+#> 1     residential
+#> 2       secondary
+#> 3        tertiary
+#> 4    unclassified
+#> 5         primary
+#> 6         footway
+#> 7         service
+#> 8            <NA>
+#> 9           track
+#> 10      bridleway
+#> 11          steps
+#> 12           path
+#> 13   primary_link
+#> 14       cycleway
+#> 15  living_street
+#> 16     pedestrian
+#> 17   construction
+#> 18 secondary_link
+#> 19  tertiary_link
+#> 20       proposed
+```
+
+The values will vary. There are more types of highway in the Andorra
+dataset, for example:
+
+``` r
+osmext_get(
+  "Andorra", 
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_andorra-latest.gpkg' using driver `GPKG'
 #> Warning: no simple feature geometries present: returning a data.frame or tbl_df
 #>           highway
 #> 1         primary
@@ -315,21 +392,100 @@ osmext_get(
 #> 20  tertiary_link
 #> 21        raceway
 #> 22           road
+```
 
+The same `query` argument can be used to read-in only certain features,
+all primary roads in Andorra for example:
+
+``` r
 # and select only one of them: 
-osmext_get(
-  "Andorra", 
+iow_primary = osmext_get(
+  "Isle of Wight", 
   extra_attributes = "ref", 
   osmext_verbose = TRUE, 
-  query = "SELECT * FROM \"lines\" WHERE highway IN ('primary')"
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
 )
-#> The input place was matched with: Andorra
+#> The input place was matched with: Isle of Wight
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations
-#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 509 features and 10 fields
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 548 features and 9 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
-#> bbox:           xmin: 1.419741 ymin: 42.43591 xmax: 1.737789 ymax: 42.63297
+#> bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952
 #> geographic CRS: WGS 84
+class(iow_primary)
+#> [1] "sf"         "data.frame"
+plot(iow_primary$geometry)
 ```
+
+<img src="man/figures/README-unnamed-chunk-20-1.png" width="100%" />
+
+This is substantially faster and less memory intensive than reading-in
+the whole dataset and filtering with R.
+
+You can use [GDAL’s SQL
+syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result
+you need. Let’s get all primary and secondary roads, for example:
+
+``` r
+iow_major_roads2 = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
+)
+#> The input place was matched with: Isle of Wight
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 918 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245
+#> geographic CRS: WGS 84
+plot(iow_major_roads2["highway"])
+```
+
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="100%" />
+
+You can also use regex, as shown in the following command that gets
+roads that are likely to be walking and cycling friendly:
+
+``` r
+iow_active_travel = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street')"
+)
+#> The input place was matched with: Isle of Wight
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 143 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -1.538843 ymin: 50.61815 xmax: -1.133171 ymax: 50.7592
+#> geographic CRS: WGS 84
+plot(iow_active_travel["highway"])
+```
+
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
+
+## Next steps
+
+We hope to make the user interface to the SQL syntax more user friendly.
+Any contributions to support this or any other improvements to the
+package are very welcome via our issue tracker.
+
+## Licence
+
+We hope this package will provide easy access to OSM data for
+reproducible research in the public interest, adhering to the condition
+of the [OdBL licence](https://opendatacommons.org/licenses/odbl/) which
+states that
+
+> Any Derivative Database that You Publicly Use must be only under the
+> terms of: - i. This License; - ii. A later version of this License
+> similar in spirit to this
