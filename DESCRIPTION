@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-5679-6536")),
-    person("Andrea", "Gilardi", role=c("ctb"),
+    person("Andrea", "Gilardi", role=c("aut"),
       comment = c(ORCID = "0000-0002-9424-7439"))
     )
 Description: More about what it does (maybe more than one line)
@@ -15,8 +15,8 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/itsleeds/geofabrik
-BugReports: https://github.com/itsleeds/geofabrik/issues
+URL: https://github.com/itsleeds/osmextractr
+BugReports: https://github.com/itsleeds/osmextractr/issues
 Depends: R (>= 3.4.0)
 Imports: 
     sf (>= 0.8.1),
