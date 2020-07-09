@@ -208,7 +208,8 @@ load_provider_data <- function(provider) {
 
   provider_data <- switch(
     provider,
-    "geofabrik" = geofabrik_zones
+    "geofabrik" = geofabrik_zones,
+    "test" = test_zones
   )
   provider_data
 }

@@ -3,6 +3,7 @@
 \docType{data}
 \name{geofabrik_zones}
 \alias{geofabrik_zones}
+\alias{test_zones}
 \title{A \code{data.frame} of geographical zones taken from Geofabrik}
 \format{
 A sf dataframe with 430 rows and 14 columns:

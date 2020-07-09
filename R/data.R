@@ -51,4 +51,5 @@
 #' }
 #'
 #' @source \url{https://download.geofabrik.de/}
+#' @aliases test_zones
 "geofabrik_zones"

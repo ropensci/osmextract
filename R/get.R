@@ -39,7 +39,7 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' 1 + 1
+#' osmext_get("Isle of Wight", provider = "test")
 osmext_get = function(
   place,
   layer = "lines",

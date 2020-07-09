@@ -2,5 +2,8 @@
 '%!in%' <- function(x, y) !('%in%'(x,y))
 
 osmext_available_providers <- function() {
-  c("geofabrik")
+  c(
+    "geofabrik",
+    "test"
+    )
 }
