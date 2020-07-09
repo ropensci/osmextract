@@ -125,3 +125,12 @@ osmext_download(
 )
 ```
 
+## Test `osmext_get`
+
+```{r}
+osmext_get("Isle of Wight", verbose = TRUE)
+osmext_get("Isle of Man", verbose = TRUE)
+osmext_get(c(9.1916, 45.4650), verbose = TRUE)
+```
+
+
