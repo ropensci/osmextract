@@ -280,6 +280,43 @@ ncol(test_andorra)
 Example of query:
 
 ``` r
+# We can check the values of the higway column: 
+osmext_get(
+  "Andorra", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+#> The input place was matched with: Andorra
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
+#> Warning: no simple feature geometries present: returning a data.frame or tbl_df
+#>           highway
+#> 1         primary
+#> 2            <NA>
+#> 3           trunk
+#> 4  secondary_link
+#> 5       secondary
+#> 6        tertiary
+#> 7     residential
+#> 8         service
+#> 9           steps
+#> 10   unclassified
+#> 11     pedestrian
+#> 12        footway
+#> 13          track
+#> 14  living_street
+#> 15           path
+#> 16      bridleway
+#> 17     trunk_link
+#> 18   primary_link
+#> 19       cycleway
+#> 20  tertiary_link
+#> 21        raceway
+#> 22           road
+
+# and select only one of them: 
 osmext_get(
   "Andorra", 
   extra_attributes = "ref", 

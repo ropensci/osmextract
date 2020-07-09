@@ -140,6 +140,15 @@ ncol(test_andorra)
 Example of query: 
 
 ```{r}
+# We can check the values of the higway column: 
+osmext_get(
+  "Andorra", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+
+# and select only one of them: 
 osmext_get(
   "Andorra", 
   extra_attributes = "ref", 
