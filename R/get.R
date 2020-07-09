@@ -1,4 +1,4 @@
-#' Title
+#' Download, translate and read OSM extracts
 #'
 #' @param place Description of the geographical area that should be download
 #'   through the chosen `provider`. Can be either a length-1 character vector, a
@@ -28,9 +28,9 @@
 #' @param max_file_size TODO
 #' @param verbose Boolean. If `TRUE` the function prints informative messages.
 #'
-#' @return A
+#' @return An sf object related to the input place.
 #' @export
-#' @details ABC
+#' @details This function is a wrapper around ...
 #'
 #' @examples
 #' 1 + 1
@@ -45,6 +45,30 @@ osmext_get = function(
   max_file_size = 5e+8,
   verbose = FALSE
 ) {
-  1
+
+  # Match the input place with the provider's data.
+  matched_zone <- osmext_match(
+    place = place,
+    provider = provider,
+    match_by = match_by,
+    max_string_dist = max_string_dist,
+    interactive_ask = interactive_ask,
+    verbose = verbose
+  )
+
+  # Extract the matched url and file size and pass these parameters to the
+  # osmext-download function.
+  file_url <- matched_zone[["url"]]
+  file_size <- matched_zone[["file_size"]]
+  file_path <- osmext_download(
+    file_url = file_url,
+    download_directory = download_directory,
+    file_size = file_size,
+    force_download = force_download,
+    max_file_size = max_file_size,
+    verbose = verbose
+  )
+  file_path
+
 }
 
