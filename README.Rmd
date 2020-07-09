@@ -21,6 +21,7 @@ options(width = 140)
 
 <!-- badges: start -->
 
+[![R build status](https://github.com/itsleeds/osmextractr/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextractr/actions)
 <!-- badges: end -->
 
 The goal of `osmextractr` is to make it easier for R
