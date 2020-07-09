@@ -1,172 +1,102 @@
-## code to prepare `geofabrik_urls` dataset goes here
-library(tidyverse)
-library(rvest)
+## code to prepare `geofabrik_zones` dataset goes here
 
-base_url = "http://download.geofabrik.de/"
-xpath = ".subregion+ td a"
-d = read_html(base_url)
-t = d %>% html_table() %>% .[[1]]
-t = t[c(1, 3)]
-h = d %>% html_nodes(xpath) %>% html_attr("href") %>% paste0(base_url, .)
-t = t[2:nrow(t),]
-names(t)[1:2] = c("name", "size_pbf")
-t$pbf_url = h
-# download.file(h[2], "/tmp/test.osm.pbf")
-t$page_url = gsub(pattern = "-latest.osm.pbf", replacement = ".html", x = t$pbf_url)
-t$part_of = "World"
-t$level = names(hierarchy)[level]
-t$continent = NA
-t$country = NA
-t$region = NA
-t$subregion = NA
-# t[[names(hierarchy)[level - 1]]] = n
-# t[[names(hierarchy)[level]]] = t$name
-t$level = NA
-t$geometry_url = gsub(pattern = ".html", replacement = ".kml", x = t$page_url)
+# packages
+library(sf)
+library(jsonlite)
+library(purrr)
+library(httr)
 
-geometry = map(t$geometry_url, ~ sf::st_read(.))
-geometry_sf = do.call(rbind, geometry)
-t = sf::st_sf(t, geometry = sf::st_geometry(geometry_sf))
-t_continents = t
+# Download official description of geofabrik data.
+geofabrik_zones <- st_read("https://download.geofabrik.de/index-v1.json", stringsAsFactors = FALSE) %>%
+  janitor::clean_names()
 
-# t_continents$name = "World"
+# Check the result
+str(geofabrik_zones, max.level = 1, nchar.max = 64, give.attr = FALSE)
 
-# # for countries
-# # u = "http://download.geofabrik.de/europe.html"
-# u = t_continents$page_url[6]
-# xpath = ".subregion+ td a"
-# d = read_html(u)
-# n = d %>% html_node("h2") %>% html_text()
-# t = d %>% html_table()
-# t = bind_rows(t[2:3])
-# h = d %>% html_nodes(xpath) %>% html_attr("href") %>% paste0(base_url, .)
-# summary(t$`Sub Region` == "")
-# t = t[!t$`Sub Region` == "",]
-# names(t)[1:2] = c("name", "size_pbf")
-# t$level = "country"
-# t$pbf_url = h
-# # download.file(h[2], "/tmp/test.osm.pbf")
-# t$page_url = gsub(pattern = "-latest.osm.pbf", replacement = ".html", x = t$pbf_url)
-# t$part_of = n
-# t$continent = NA
-# t$country = NA
-# t$region = NA
-# t$subregion = NA
+# There are a few problems with the ISO3166 columns (i.e. they are read as list
+# columns with character(0) instead of NA/NULL).
+my_fix_iso3166 <- function(list_column) {
+  vapply(
+    list_column,
+    function(x) {
+      if (identical(x, character(0))) {
+        NA_character_
+      } else {
+        paste(x, collapse = " ")
+      }
+    },
+    character(1)
+  )
+}
 
-names(t_europe)
+# We used the paste function in the else case because there are a few record
+# where the ISO3166 code is composed by two or more elements, such as c("PS", "IL")
+# for Israel and Palestine, c("SN", "GM") for Senegal and Gambia. The same
+# situation happens with the US states where the ISO3166 code is c("US", state).
+geofabrik_zones$iso3166_2 <- my_fix_iso3166(geofabrik_zones$iso3166_2)
+geofabrik_zones$iso3166_1_alpha2 <- my_fix_iso3166(geofabrik_zones$iso3166_1_alpha2)
 
-# t_all = bind_rows(t_continents, t)
+# We need to preprocess the urls column since it was read in a JSON format:
+# geofabrik_zones$urls[[1]]
+# "{
+#   \"pbf\": \"https:\\/\\/download.geofabrik.de\\/asia\\/afghanistan-latest.osm.pbf\",
+#   \"bz2\": \"https:\\/\\/download.geofabrik.de\\/asia\\/afghanistan-latest.osm.bz2\",
+#   \"shp\": \"https:\\/\\/download.geofabrik.de\\/asia\\/afghanistan-latest-free.shp.zip\",
+#   \"pbf-internal\": \"https:\\/\\/osm-internal.download.geofabrik.de\\/asia\\/afghanistan-latest-internal.osm.pbf\",
+#   \"history\": \"https:\\/\\/osm-internal.download.geofabrik.de\\/asia\\/afghanistan-internal.osh.pbf\",
+#   \"taginfo\": \"https:\\/\\/taginfo.geofabrik.de\\/asia\\/afghanistan\\/\",
+#   \"updates\": \"https:\\/\\/download.geofabrik.de\\/asia\\/afghanistan-updates\"
+# }"
 
+geofabrik_urls <- map_dfr(geofabrik_zones$urls, fromJSON)
+geofabrik_urls
+geofabrik_zones$urls <- NULL # This is just to remove the urls column
 
-# generalise the solution -------------------------------------------------
+# From rbind.sf docs: If you need to cbind e.g. a data.frame to an sf, use
+# data.frame directly and use st_sf on its result, or use bind_cols; see
+# examples.
+geofabrik_zones <- st_sf(data.frame(geofabrik_zones, geofabrik_urls))
 
-# hierarchy:
-hierarchy = c(
-  continent = 1,
-  country = 2,
-  region = 3,
-  subregion = 4
+# Now we are going to add to the geofabrik_zones sf object other useful
+# information for each pbf file such as it's content-length (i.e. the file size
+# in bytes). We can get this information from the headers of each file.
+# Idea from:
+# https://stackoverflow.com/questions/2301009/get-file-size-before-downloading-counting-how-much-already-downloaded-httpru/2301030
+
+geofabrik_zones$pbf_file_size <- map_dbl(
+  .x = geofabrik_zones$pbf,
+  .f = function(x) as.numeric(headers(HEAD(x))$`content-length`)
 )
 
-get_geofrabric_urls = function(u, xpath = ".subregion+ td a", level = "country", continent = NA, country = NA, region = NA) {
-  if(!identical(httr::status_code(httr::GET(u)), 200L)) return(NULL)
-  if(is.character(level)) {
-    level = hierarchy[level]
-  }
-  b_url = gsub(pattern = "[a-z|-]+.html", replacement = "", u)
-  d = read_html(u)
-  n = d %>% html_node("h2") %>% html_text()
-  t = d %>% html_table()
-  n_tables = length(t)
-  # t[[1]] # mess
-  # t[[2]] # mess
+# Add a new column named "level", which is used for spatial matching. It has
+# three categories named "1", "2" and "3", and it is based on the geofabrik
+# column "parent". It is defined as follows:
+# - level = 1 when parent == NA. This happens for the continents plus the
+# Russian Federation. More precisely it occurs for: Africa, Antarctica, Asia,
+# Australia and Oceania, Central America, Europe, North America, Russian
+# Federation and South America;
+# - level = 2 correspond to each continent subregion such as Italy, Great
+# Britain, Spain, USA, Mexico, Belize, Morocco, Peru ...
+# There are also a few exceptions that correspond to the Special Sub Regions
+# (according to the geofabrik definition), which are: South Africa (includes
+# Lesotho), Alps, Britain and Ireland, Germany + Austria + Switzerland, US
+# Midwest, US Northeast, US Pacific, US South, US West and all US states;
+# - level = 3 correspond to the subregions of level 2 region. For example the
+# West Yorkshire, which is a subregion of England, is a level 3 zone.
 
-  if(n_tables == 1) return(NULL) # no urls in there
-  if(n_tables == 2) {
-    t = t[[2]]
-    t
-  } else t = do.call(rbind, t[2:3])
-  if(nrow(t) <= 1) {
-    return(NULL)
-  } # it's empty, return NULL (for next stage)
+library(dplyr)
+geofabrik_zones <- geofabrik_zones %>%
+  mutate(
+    level = case_when(
+      is.na(parent) ~ 1L,
+      parent %in% c(
+        "africa", "asia", "australia-oceania", "central-america", "europe",
+        "north-america", "south-america"
+      )             ~ 2L,
+      TRUE          ~ 3L
+    )
+  ) %>%
+  select(id, name, parent, level, iso3166_1_alpha2, iso3166_2, pbf_file_size, everything())
 
-
-  h = d %>% html_nodes(xpath) %>% html_attr("href") %>% paste0(b_url, .)
-  t = t[!t$`Sub Region` == "",] # filter excess info
-  col_has_mb = sapply(t, function(x) all(grepl(pattern = "B", x = x)))
-  t = t[c(1, which(col_has_mb))]
-  names(t)[1:2] = c("name", "size_pbf")
-  t$pbf_url = h
-  # download.file(h[2], "/tmp/test.osm.pbf")
-  t$page_url = gsub(pattern = "-latest.osm.pbf", replacement = ".html", x = t$pbf_url)
-  t$part_of = n
-  t$level = names(hierarchy)[level]
-
-  t$pbf_url = h
-  # download.file(h[2], "/tmp/test.osm.pbf")
-  t$page_url = gsub(pattern = "-latest.osm.pbf", replacement = ".html", x = t$pbf_url)
-  t$part_of = n
-  t$continent = NA
-  t$country = NA
-  t$region = NA
-  t$subregion = NA
-
-  t[[names(hierarchy)[level - 1]]] = n
-  t[[names(hierarchy)[level]]] = t$name
-  t$level = level
-  t$geometry_url = gsub(pattern = ".html", replacement = ".kml", x = t$page_url)
-
-  geometry = map(t$geometry_url, ~ sf::st_read(.))
-  geometry_sf = do.call(rbind, geometry)
-  t = sf::st_sf(t, geometry = sf::st_geometry(geometry_sf))
-
-  t
-}
-
-# t_continents = get_geofrabric_urls(u = base_url)
-t_countries_europe = get_geofrabric_urls(u = "http://download.geofabrik.de/europe.html")
-# View(t_europe)
-# t_all = rbind(t_continents, t_countries_europe)
-
-t_countries_africa = get_geofrabric_urls(u = t_continents$page_url[1])
-# t_countries_antarctica = get_geofrabric_urls(u = t_continents$page_url[2]) # NULL
-# t_countries_asia = get_geofrabric_urls(u = t_continents$page_url[3]) # testing - fixed problem
-# t_countries_oceana = get_geofrabric_urls(u = t_continents$page_url[4])
-# t_all = rbind(t_continents, t_countries_africa, t_countries_europe, t_countries_asia)
-
-t_countries = t_countries_africa
-for(i in 2:nrow(t_continents)) {
-  t_countries = rbind(t_countries, get_geofrabric_urls(u = t_continents$page_url[i], level = "country"))
-}
-t_all = rbind(t_continents, t_countries)
-
-download.file(t_all$pbf_url[99], "/tmp/test.pbf")
-
-# try getting regions
-get_geofrabric_urls(t_countries$page_url[1]) # fails
-get_geofrabric_urls(t_countries$page_url[2]) # fails
-t_germany = t_countries %>% filter(name == "Germany")
-t_subregions = get_geofrabric_urls(t_germany$page_url, level = "region") # works
-t_regions = get_geofrabric_urls(t_countries$page_url[1])
-for(i in 2:nrow(t_countries)) {
-  t_regions = rbind(t_regions, get_geofrabric_urls(u = t_countries$page_url[i], level = "region"))
-}
-
-t_all = bind_rows(t_continents, t_countries, t_regions)
-
-# try getting subregions
-t_eng = t_regions %>%
-  filter(name == "England")
-t_subregions_of_england = get_geofrabric_urls(u = t_eng$page_url, level = "subregion") # fails
-t_eng$page_url
-
-t_subregions = get_geofrabric_urls(t_regions$page_url[1])
-for(i in 2:nrow(t_regions)) {
-  t_subregions = rbind(t_subregions, get_geofrabric_urls(u = t_regions$page_url[i], level = "subregion"))
-}
-
-t_all = rbind(t_continents, t_countries, t_regions, t_subregions)
-mapview::mapview(t_all)
-
-geofabrik_zones = t_all
-usethis::use_data(geofabrik_zones)
+# The end
+usethis::use_data(geofabrik_zones, overwrite = TRUE)

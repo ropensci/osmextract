@@ -1,6 +1,6 @@
-Package: geofabrik
+Package: osmextractr
 Type: Package
-Title: Download and read-in OpenStreetMap data from geofabrik.de
+Title: Download and Read OpenStreetMap Data Extracts
 Version: 0.1.0
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
@@ -13,14 +13,14 @@ Description: More about what it does (maybe more than one line)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
-URL: https://itsleeds.github.io/geofabrik/, https://github.com/itsleeds/geofabrik
+RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+URL: https://github.com/itsleeds/geofabrik
 BugReports: https://github.com/itsleeds/geofabrik/issues
 Depends: R (>= 3.4.0)
 Imports: 
-    sf,
+    sf (>= 0.8.1),
     utils,
-    httr
+    tools
 Suggests: 
-    tibble
-
+    testthat

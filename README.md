@@ -1,20 +1,20 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # geofabrik
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/itsleeds/geofabrik.svg?branch=master)](https://travis-ci.org/itsleeds/geofabrik)
 <!-- badges: end -->
 
-The goal of `geofabrik` is to make it easier for open source software
-users to access freely available, community created geographic data, in
-the form of OpenSteetMap data shipped by [Geofabrik
+The goal of `osmextractr` is to make it easier for R users to access
+freely available, community created geographic data, in the form of
+OpenSteetMap data extracted by providers such as [Geofabrik
 GmbH](http://download.geofabrik.de).
 
-## Why geofabrik?
+## Why osmextractr?
 
 [`osmdata`](https://github.com/ropensci/osmdata) provides an R interface
 to the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API),
@@ -32,38 +32,46 @@ cycleways_england = opq("England") %>%
 ```
 
 The query hanged with an error message after around 10 seconds. The same
-query can be made with `geofabrik` as follows (not
-evaluated):
+query can be made with `osmextractr` as follows, which reads-in almost
+100k linestrings in less than 10 seconds (after the data has been
+downloaded in the compressed `.pbf` format and converted to the open
+standard `.gpkg` format, not evaluated):
 
 ``` r
-library(geofabrik)
+library(osmextractr)
+#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
+#> Geofabrik data are taken from https://download.geofabrik.de/
 ```
 
 ``` r
-cycleways_england = get_geofabrik("England", key = "highway", value = "cycleway")
+cycleways_england = osmext_get(
+  "England",
+  osmext_verbose = TRUE,
+  query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
+)
 plot(sf::st_geometry(cycleways_england))
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%" />
 
 The package is designed to complement `osmdata` which has advantages
-over `geofabrik` for small datasets: `osmdata` is likely to be quicker
-for datasets less than ~10 MB, provides up-to-date data and has an
+over `osmextractr` for small datasets: `osmdata` is likely to be quicker
+for datasets less than \~10 MB, provides up-to-date data and has an
 intuitive interface. `osmdata` can provide data in a range of formats,
-while `geofabrik` only returns [`sf`](https://github.com/r-spatial/sf)
-objects. On the other hand, `geofabrik` provides a fast way to download
-large OSM datasets in the highly compressed `pbf` format and read them
-in via the fast C library
+while `osmextractr` only returns [`sf`](https://github.com/r-spatial/sf)
+objects. On the other hand, `osmextractr` provides a fast way to
+download large OSM datasets in the highly compressed `pbf` format and
+read them in via the fast C library
 [GDAL](https://gdal.org/drivers/vector/osm.html) and the R package
 [`sf`](https://github.com/r-spatial/sf).
 
 ## Installation
 
-<!-- You can install the released version of geofabrik from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of osmextractr from [CRAN](https://CRAN.R-project.org) with: -->
 
 <!-- ``` r -->
 
-<!-- install.packages("geofabrik") -->
+<!-- install.packages("osmextractr") -->
 
 <!-- ``` -->
 
@@ -72,12 +80,12 @@ You can install the development version from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ITSLeeds/geofabrik")
+devtools::install_github("ITSLeeds/osmextractr")
 ```
 
 ## Usage
 
-Give `geofabrik` the name of a geofabrik zone and it will download and
+Give `osmextractr` the name of a geofabrik zone and it will download and
 import it. By default it imports the ‘lines’ layer, but any layer can be
 read-in. Behind the scenes, the function `read_pbf()`, a wrapper around
 `sf::st_read()` is used with configuration options to import additional
@@ -85,209 +93,493 @@ columns from the `.pbf` files not imported by default, including
 `maxspeed`, `lanes` and `oneway` (the attributes to include can be set
 with `attributes` argument):
 
+The leitmotif of package is to help the users to read and download
+extracts of OpenStreetMap data stored by several providers, such as
+[Geofabrik](http://download.geofabrik.de/) or
+[bbbike](https://download.bbbike.org/osm/bbbike/). The provider’s data
+are stored using `sf` objects that summarize the most important
+characteristics of each geographic zone, such as the name and the url of
+the pbf file.
+
 ``` r
-andorra_lines = get_geofabrik(name = "andorra", layer = "lines")
-#> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
-#> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
-#> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
-names(andorra_lines)
-#>  [1] "osm_id"         "name"           "highway"        "waterway"      
-#>  [5] "aerialway"      "barrier"        "man_made"       "maxspeed"      
-#>  [9] "oneway"         "building"       "surface"        "landuse"       
-#> [13] "natural"        "start_date"     "wall"           "service"       
-#> [17] "lanes"          "layer"          "tracktype"      "bridge"        
-#> [21] "foot"           "bicycle"        "lit"            "railway"       
-#> [25] "footway"        "z_order"        "other_tags"     "_ogr_geometry_"
-andorra_point = get_geofabrik(name = "andorra", layer = "points", attributes = "shop")
-#> Data already detected in ~/hd/data/osm/Andorra.osm.pbf
-#> Old attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made
-#> New attributes: attributes=name,barrier,highway,ref,address,is_in,place,man_made,shop
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
-names(andorra_point) # note the 'shop' column has been added
-#>  [1] "osm_id"         "name"           "barrier"        "highway"       
-#>  [5] "ref"            "address"        "is_in"          "place"         
-#>  [9] "man_made"       "shop"           "other_tags"     "_ogr_geometry_"
-plot(sf::st_geometry(andorra_lines))
-plot(andorra_point[andorra_point$shop == "supermarket", ], col = "red", add = TRUE)
-#> Warning in plot.sf(andorra_point[andorra_point$shop == "supermarket", ], :
-#> ignoring all but the first attribute
+library(sf)
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+osmextractr::geofabrik_zones[, c(2, 8)]
+#> Simple feature collection with 430 features and 2 fields
+#> geometry type:  MULTIPOLYGON
+#> dimension:      XY
+#> bbox:           xmin: -180 ymin: -90 xmax: 180 ymax: 85.04177
+#> geographic CRS: WGS 84
+#> First 10 features:
+#>           name                                                                       pbf                       geometry
+#> 1  Afghanistan             https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf MULTIPOLYGON (((62.47808 29...
+#> 2       Africa                       https://download.geofabrik.de/africa-latest.osm.pbf MULTIPOLYGON (((11.60092 33...
+#> 3      Albania               https://download.geofabrik.de/europe/albania-latest.osm.pbf MULTIPOLYGON (((19.37748 42...
+#> 4      Alberta https://download.geofabrik.de/north-america/canada/alberta-latest.osm.pbf MULTIPOLYGON (((-110.0051 4...
+#> 5      Algeria               https://download.geofabrik.de/africa/algeria-latest.osm.pbf MULTIPOLYGON (((6.899245 37...
+#> 6         Alps                  https://download.geofabrik.de/europe/alps-latest.osm.pbf MULTIPOLYGON (((5.57178 48....
+#> 7       Alsace         https://download.geofabrik.de/europe/france/alsace-latest.osm.pbf MULTIPOLYGON (((8.236555 48...
+#> 8      Andorra               https://download.geofabrik.de/europe/andorra-latest.osm.pbf MULTIPOLYGON (((1.516233 42...
+#> 9       Angola                https://download.geofabrik.de/africa/angola-latest.osm.pbf MULTIPOLYGON (((20.72182 -1...
+#> 10  Antarctica                   https://download.geofabrik.de/antarctica-latest.osm.pbf MULTIPOLYGON (((-180 -90, 1...
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
-
-The above code plotted lines representing roads and other linear
-features in Andorra, with an overlay of shops that are represented in
-OSM data. If there are no files available for a zone name, `geofabrik`
-will search for and import the nearest matching zone:
+## Load package
 
 ``` r
-iow_lines = get_geofabrik(name = "isle wight")
-#> Data already detected in ~/hd/data/osm/Isle of Wight.osm.pbf
-#> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
-#> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
+library(osmextractr)
 ```
 
-Take care: files downloaded from
-[geofabrik.de](http://download.geofabrik.de) can be large. You can find
-information on the geofabrik region defining the boundaries of the
-result with `gf_find()`:
+The packages is composed by 4 main functions:
+
+1.  `osmext_match`: Match the input zone with one of the files stored by
+    the OSM providers
+2.  `osmext_download`: Download the chosen file
+3.  `osmext_vectortranslate`: Convert the pbf format into gpkg
+4.  `osmext_read`: Read the gpkg file
+
+The function `osmext_get` is a wrapper around all of them.
+
+# Test `osmext_match`
+
+The simplest example:
 
 ``` r
-iow_gf_region = gf_find("isle wight")
-plot(iow_gf_region)
-#> Warning: plotting the first 9 out of 11 attributes; use max.plot = 11 to plot
-#> all
+osmext_match("Italy")
+#> $url
+#> [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 1544340778
+osmext_match("Isle of wight")
+#> $url
+#> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 6877468
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+There are several situations where it could be difficult to find the
+appropriate data source due to several small differences in the official
+names:
 
 ``` r
-iow_gf_name = iow_gf_region$name
-iow_gf_name
-#> [1] "Isle of Wight"
+osmext_match("Korea")
+#> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+osmext_match("Russia")
+#> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 ```
 
-If you want to use `st_read()` to read-in the `.pbf` files, e.g. to set
-additional query arguments, you can do so, as demonstrated below.
+For these reasons we implemented the possibility to look for the
+appropriate area according to the [iso3166-1
+alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code:
 
 ``` r
-iow_gf_file = gf_filename(iow_gf_name)
-iow_gf_file
-#> [1] "~/hd/data/osm/Isle of Wight.osm.pbf"
-file.exists(iow_gf_file)
-#> [1] TRUE
-iow_lines_cycle = read_pbf(dsn = iow_gf_file, "lines", key = "highway", value = "cycleway")
-#> Old attributes: attributes=name,highway,waterway,aerialway,barrier,man_made
-#> New attributes: attributes=name,highway,waterway,aerialway,barrier,man_made,maxspeed,oneway,building,surface,landuse,natural,start_date,wall,service,lanes,layer,tracktype,bridge,foot,bicycle,lit,railway,footway
-#> Using ini file that can can be edited with file.edit(/tmp/RtmpVXPYg7/ini_new.ini)
-plot(iow_lines_cycle)
-#> Warning: plotting the first 9 out of 27 attributes; use max.plot = 27 to plot
-#> all
+osmext_match("KP", match_by = "iso3166_1_alpha2")
+#> $url
+#> [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 33241783
+osmext_match("RU", match_by = "iso3166_1_alpha2")
+#> $url
+#> [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 2820253009
+osmext_match("US", match_by = "iso3166_1_alpha2")
+#> $url
+#> [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 6982945396
 ```
 
-<img src="man/figures/README-query-1.png" width="100%" />
-
-If you want even more control, you can used GDAL’s `query` argument via
-`sf`:
+The are a few cases where the `iso3166-1 alpha2` codes can fail because
+there are no per-country extracts (e.g. Israel and Palestine)
 
 ``` r
-query = paste0("select highway from lines where highway = ",
-               "'cycleway' or highway = 'secondary' or highway = 'primary'")
-iow_lines_subset = sf::st_read(iow_gf_file, layer = "lines", query = query)
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/Isle of Wight.osm.pbf' using driver `OSM'
-#> Simple feature collection with 1057 features and 1 field
+osmext_match("PS", match_by = "iso3166_1_alpha2")
+#> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+osmext_match("IL", match_by = "iso3166_1_alpha2")
+#> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+```
+
+For this reason we also created a function that let you explore the
+matching variables according to a chosen pattern, for example:
+
+``` r
+osmext_check_pattern("London")
+#> [1] "Greater London"
+osmext_check_pattern("Russia")
+#> [1] "Russian Federation"
+osmext_check_pattern("Korea")
+#> [1] "North Korea" "South Korea"
+osmext_check_pattern("Yorkshire")
+#> [1] "East Yorkshire with Hull" "North Yorkshire"          "South Yorkshire"          "West Yorkshire"
+osmext_check_pattern("US")
+#> [1] "US Midwest"         "US Northeast"       "US Pacific"         "US South"           "US West"            "Georgia (US State)"
+osmext_check_pattern("US", match_by = "iso3166_2")
+#>  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC" "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS"
+#> [18] "US-KY" "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT" "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC"
+#> [35] "US-ND" "US-OH" "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX" "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI"
+#> [52] "US-WY"
+osmext_check_pattern("Palestine")
+#> [1] "Israel and Palestine"
+osmext_check_pattern("Israel", full_row = TRUE)
+#> Simple feature collection with 1 feature and 14 fields
+#> geometry type:  MULTIPOLYGON
+#> dimension:      XY
+#> bbox:           xmin: 34.07929 ymin: 29.37711 xmax: 35.91531 ymax: 33.35091
+#> geographic CRS: WGS 84
+#>                       id                 name parent level iso3166_1_alpha2 iso3166_2 pbf_file_size
+#> 151 israel-and-palestine Israel and Palestine   asia     2            PS IL      <NA>      82361911
+#>                                                                        pbf
+#> 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.pbf
+#>                                                                        bz2
+#> 151 https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.bz2
+#>                                                                             shp
+#> 151 https://download.geofabrik.de/asia/israel-and-palestine-latest-free.shp.zip
+#>                                                                                     pbf.internal
+#> 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-latest-internal.osm.pbf
+#>                                                                                   history
+#> 151 https://osm-internal.download.geofabrik.de/asia/israel-and-palestine-internal.osh.pbf
+#>                                                     taginfo                                                         updates
+#> 151 https://taginfo.geofabrik.de/asia/israel-and-palestine/ https://download.geofabrik.de/asia/israel-and-palestine-updates
+#>                           geometry
+#> 151 MULTIPOLYGON (((34.64563 32...
+```
+
+The input `place` can be also specified using an `sfc_POINT` object with
+arbitrary CRS as documented in the following example. If there are
+multiple matches, the function returns the smallest area (according to
+the `level` variable). I would ignore the CRS warning for the moment.
+
+``` r
+coords_milan = sf::st_point(c(1514924.21, 5034552.92)) # Duomo di Milano
+st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
+osmext_match(st_sfc_milan)
+#> although coordinates are longitude/latitude, st_intersects assumes that they are planar
+#> $url
+#> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 416306623
+```
+
+The input `place` can be also specified using a numeric vector of
+coordinates. In that case the CRS is assumed to be 4326:
+
+``` r
+osmext_match(c(9.1916, 45.4650)) # Duomo di Milano
+#> although coordinates are longitude/latitude, st_intersects assumes that they are planar
+#> $url
+#> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 416306623
+osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
+#> Error in osmext_match.numeric(c(9.1916, 45.465, 9.202, 45.4781)): You need to provide a pair of coordinates and you passed as input a vector of length 4
+# osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
+```
+
+If there are several error matching the input place with one of the
+zone, you can also try increasing the maximum allowed string distance:
+
+``` r
+osmext_match("Isle Wight")
+#> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
+osmext_match("Isle Wight", max_string_dist = 3)
+#> $url
+#> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
+#> 
+#> $file_size
+#> [1] 6877468
+```
+
+## Test `osmext_download`
+
+The simplest example:
+
+``` r
+iow = osmext_match("Isle of Wight")
+osmext_download(
+  file_url = iow$url, 
+  file_size = iow$file_size
+)
+#> [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"
+```
+
+If you want to download your data into a specific folder once, you can
+set the download directory:
+
+``` r
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
+osmext_download(
+  file_url = iow$url, 
+  file_size = iow$file_size
+)
+#> /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf
+```
+
+If you want to set a directory that will persist, you can set
+`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
+e.g. with:
+
+``` r
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+## Importing OSM data
+
+The function `osmext_get()` downloads (if not already downloaded) and
+reads-in data from OSM extract providers as an `sf` object:
+
+``` r
+(iow = osmext_get("Isle of Wight", stringsAsFactors = FALSE))
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 44365 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
+#> geographic CRS: WGS 84
+#> Simple feature collection with 44365 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
+#> geographic CRS: WGS 84
+#> First 10 features:
+#>    osm_id                 name     highway waterway aerialway barrier man_made z_order
+#> 1     413             Lane End residential     <NA>      <NA>    <NA>     <NA>       3
+#> 2     415        Foreland Road   secondary     <NA>      <NA>    <NA>     <NA>       6
+#> 3     416          Steyne Road   secondary     <NA>      <NA>    <NA>     <NA>       6
+#> 4     698      Carpenters Road   secondary     <NA>      <NA>    <NA>     <NA>       6
+#> 5     701            Mill Road    tertiary     <NA>      <NA>    <NA>     <NA>       4
+#> 6     705       Downsview Road residential     <NA>      <NA>    <NA>     <NA>       3
+#> 7     706          Lincoln Way residential     <NA>      <NA>    <NA>     <NA>       3
+#> 8     709        Paddock Drive residential     <NA>      <NA>    <NA>     <NA>       3
+#> 9     710 Forelands Field Road residential     <NA>      <NA>    <NA>     <NA>       3
+#> 10    713         Howgate Road residential     <NA>      <NA>    <NA>     <NA>       3
+#>                                                                                                                 other_tags
+#> 1                                                      "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","surface"=>"asphalt"
+#> 2                    "lit"=>"yes","ref"=>"B3395","lanes"=>"2","surface"=>"asphalt","maxspeed"=>"30 mph","sidewalk"=>"both"
+#> 3                                       "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","ref"=>"B3395","surface"=>"asphalt"
+#> 4  "incline"=>"down","lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","ref"=>"B3330","sidewalk"=>"left","surface"=>"asphalt"
+#> 5                                                       "lanes"=>"2","lit"=>"no","maxspeed"=>"30 mph","surface"=>"asphalt"
+#> 6                                                                                                                     <NA>
+#> 7                                                                                                                     <NA>
+#> 8                                                                                                                     <NA>
+#> 9                                                                      "designation"=>"public_footpath","prow_ref"=>"BB13"
+#> 10                  "bicycle"=>"yes","foot"=>"yes","horse"=>"yes","maxspeed"=>"30 mph","oneway"=>"no","surface"=>"asphalt"
+#>                          geometry
+#> 1  LINESTRING (-1.083348 50.68...
+#> 2  LINESTRING (-1.083348 50.68...
+#> 3  LINESTRING (-1.089935 50.68...
+#> 4  LINESTRING (-1.115375 50.69...
+#> 5  LINESTRING (-1.094493 50.68...
+#> 6  LINESTRING (-1.083304 50.68...
+#> 7  LINESTRING (-1.086146 50.68...
+#> 8  LINESTRING (-1.074056 50.68...
+#> 9  LINESTRING (-1.076458 50.68...
+#> 10 LINESTRING (-1.087919 50.68...
+class(iow)
+#> [1] "sf"         "data.frame"
+names(iow) # default variable names
+#>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
+```
+
+Once imported, we can use all the functions for data frames in base R
+and other packages. We can also use functions from the `sf` package for
+spatial analysis and visualisation. Let’s plot all the major and minor
+roads, for example:
+
+``` r
+iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
+plot(iow_major_roads["highway"])
+```
+
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+
+The same steps can be used to get other OSM datasets (note use of
+`osmext_verbose = TRUE` to show additional message, examples not run):
+
+``` r
+test_malta = osmext_get("Malta", osmext_verbose = TRUE)
+ncol(test_malta)
+test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
+ncol(test_andorra)
+```
+
+## Queries
+
+Some files from providers such as geofabrik are large. You may therefore
+want to check the contents before importing them. To do this you can use
+an SQL query that is passed to GDAL via `sf`. To check the values stored
+in the highway column for our Isle of Wight example, for example, run
+the following command:
+
+``` r
+osmext_get(
+  "Isle of Wight", 
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Warning: no simple feature geometries present: returning a data.frame or tbl_df
+#>           highway
+#> 1     residential
+#> 2       secondary
+#> 3        tertiary
+#> 4    unclassified
+#> 5         primary
+#> 6         footway
+#> 7         service
+#> 8            <NA>
+#> 9           track
+#> 10      bridleway
+#> 11          steps
+#> 12           path
+#> 13   primary_link
+#> 14       cycleway
+#> 15  living_street
+#> 16     pedestrian
+#> 17   construction
+#> 18 secondary_link
+#> 19  tertiary_link
+#> 20       proposed
+```
+
+The values will vary. There are more types of highway in the Andorra
+dataset, for example:
+
+``` r
+osmext_get(
+  "Andorra", 
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_andorra-latest.gpkg' using driver `GPKG'
+#> Warning: no simple feature geometries present: returning a data.frame or tbl_df
+#>           highway
+#> 1         primary
+#> 2            <NA>
+#> 3           trunk
+#> 4  secondary_link
+#> 5       secondary
+#> 6        tertiary
+#> 7     residential
+#> 8         service
+#> 9           steps
+#> 10   unclassified
+#> 11     pedestrian
+#> 12        footway
+#> 13          track
+#> 14  living_street
+#> 15           path
+#> 16      bridleway
+#> 17     trunk_link
+#> 18   primary_link
+#> 19       cycleway
+#> 20  tertiary_link
+#> 21        raceway
+#> 22           road
+```
+
+The same `query` argument can be used to read-in only certain features,
+all primary roads in Andorra for example:
+
+``` r
+# and select only one of them: 
+iow_primary = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
+)
+#> The input place was matched with: Isle of Wight
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 548 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952
+#> geographic CRS: WGS 84
+class(iow_primary)
+#> [1] "sf"         "data.frame"
+plot(iow_primary$geometry)
+```
+
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="100%" />
+
+This is substantially faster and less memory intensive than reading-in
+the whole dataset and filtering with R.
+
+You can use [GDAL’s SQL
+syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result
+you need. Let’s get all primary and secondary roads, for example:
+
+``` r
+iow_major_roads2 = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
+)
+#> The input place was matched with: Isle of Wight
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 918 features and 9 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245
-#> epsg (SRID):    4326
-#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
-plot(iow_lines_subset)
+#> geographic CRS: WGS 84
+plot(iow_major_roads2["highway"])
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
 
-<!-- TODO: FIX THE FOLLOWING PART SINCE IT DOESN'T WORK -->
-
-<!-- You can also get your geofabrik data based on a spatial query, for example in Honduras: -->
-
-<!-- ```{r} -->
-
-<!-- library(geofabrik) -->
-
-<!-- place_sf = sf::st_as_sf(data.frame(x = -86, y = 15, n = 1), -->
-
-<!--                         coords = c("x", "y"), crs = 4326) -->
-
-<!-- osm_data_place = get_geofabrik(place_sf) -->
-
-<!-- plot(osm_data_place["highway"]) -->
-
-<!-- ``` -->
-
-# geofabrik zones
-
-The package ships with a data frame representing all zones made
-available by the package. These can be interactively searched with the
-following command:
+You can also use regex, as shown in the following command that gets
+roads that are likely to be walking and cycling friendly:
 
 ``` r
-View(sf::st_drop_geometry(geofabrik_zones[1:3]))
+iow_active_travel = osmext_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  osmext_verbose = TRUE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street')"
+)
+#> The input place was matched with: Isle of Wight
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 143 features and 9 fields
+#> geometry type:  LINESTRING
+#> dimension:      XY
+#> bbox:           xmin: -1.538843 ymin: 50.61815 xmax: -1.133171 ymax: 50.7592
+#> geographic CRS: WGS 84
+plot(iow_active_travel["highway"])
 ```
 
-That will display the following table in the
-viewer:
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="100%" />
 
-| name                  | size\_pbf | pbf\_url                                                        |
-| :-------------------- | :-------- | :-------------------------------------------------------------- |
-| Africa                | (3.5 GB)  | <http://download.geofabrik.de/africa-latest.osm.pbf>            |
-| Antarctica            | (29.0 MB) | <http://download.geofabrik.de/antarctica-latest.osm.pbf>        |
-| Asia                  | (7.6 GB)  | <http://download.geofabrik.de/asia-latest.osm.pbf>              |
-| Australia and Oceania | (727 MB)  | <http://download.geofabrik.de/australia-oceania-latest.osm.pbf> |
+## Next steps
 
-The following attributes are available from this file if you want more
-info about each geofabrik zone:
+We hope to make the user interface to the SQL syntax more user friendly.
+Any contributions to support this or any other improvements to the
+package are very welcome via our issue tracker.
 
-``` r
-names(geofabrik_zones)
-#>  [1] "name"         "size_pbf"     "pbf_url"      "page_url"     "part_of"     
-#>  [6] "continent"    "country"      "region"       "subregion"    "level"       
-#> [11] "geometry_url" "geometry"
-```
+## Licence
 
-Each geographic level (continents, countries, regions and subregions) is
-shown in the map below, with a few of them named for reference.
+We hope this package will provide easy access to OSM data for
+reproducible research in the public interest, adhering to the condition
+of the [OdBL licence](https://opendatacommons.org/licenses/odbl/) which
+states that
 
-``` r
-# todo: tidy up geofabrik_zones data and this code chunk
-library(tmap)
-sel1 = is.na(geofabrik_zones$level)
-geofabrik_zones$level[sel1] = 1
-geofabrik_zones$label = ""
-geofabrik_zones$label[sel1] = geofabrik_zones$name[sel1]
-set.seed(9)
-sel2 = sample(x = 1:nrow(geofabrik_zones), size = 5)
-geofabrik_zones$label[sel2] = geofabrik_zones$name[sel2]
-tm_shape(geofabrik_zones) +
-  tm_polygons() +
-  tm_text(text = "label") +
-  tm_facets(by = "level")
-#> Warning: The shape geofabrik_zones is invalid. See sf::st_is_valid
-#> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
-```
+> Any Derivative Database that You Publicly Use must be only under the
+> terms of: - i. This License; - ii. A later version of this License
+> similar in spirit to this
 
-<img src="man/figures/README-zonemap-1.png" width="100%" />
+## Other approaches
 
-A couple of the countries, regions and sub regions available is shown
-below.
-
-``` r
-geofabrik_countries = geofabrik_zones[geofabrik_zones$level == 2, ]
-knitr::kable(sf::st_drop_geometry(geofabrik_countries[1:2, 1:3]))
-```
-
-|    | name    | size\_pbf | pbf\_url                                                     |
-| -- | :------ | :-------- | :----------------------------------------------------------- |
-| 9  | Algeria | (85 MB)   | <http://download.geofabrik.de/africa/algeria-latest.osm.pbf> |
-| 10 | Angola  | (46.6 MB) | <http://download.geofabrik.de/africa/angola-latest.osm.pbf>  |
-
-``` r
-geofabrik_regions = geofabrik_zones[geofabrik_zones$level == 3, ]
-knitr::kable(sf::st_drop_geometry(geofabrik_regions[1:2, 1:3]))
-```
-
-|     | name           | size\_pbf | pbf\_url                                                         |
-| --- | :------------- | :-------- | :--------------------------------------------------------------- |
-| 238 | Chūbu region   | (289 MB)  | <http://download.geofabrik.de/asia/japan/chubu-latest.osm.pbf>   |
-| 239 | Chūgoku region | (130 MB)  | <http://download.geofabrik.de/asia/japan/chugoku-latest.osm.pbf> |
-
-``` r
-geofabrik_subregions = geofabrik_zones[geofabrik_zones$level == 4, ]
-knitr::kable(sf::st_drop_geometry(geofabrik_subregions[1:2, 1:3]))
-```
-
-|     | name                       | size\_pbf | pbf\_url                                                                                         |
-| --- | :------------------------- | :-------- | :----------------------------------------------------------------------------------------------- |
-| 365 | Regierungsbezirk Freiburg  | (113 MB)  | <http://download.geofabrik.de/europe/germany/baden-wuerttemberg/freiburg-regbez-latest.osm.pbf>  |
-| 366 | Regierungsbezirk Karlsruhe | (105 MB)  | <http://download.geofabrik.de/europe/germany/baden-wuerttemberg/karlsruhe-regbez-latest.osm.pbf> |
+<!-- todo: add links to other packages -->
