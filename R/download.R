@@ -32,7 +32,7 @@ osmext_download <- function(
   if (file.exists(file_path) && !isTRUE(force_download)) {
     if (isTRUE(verbose)) {
       message(
-      "The chosen file is already detected in the download_directory. ",
+      "The chosen file was already detected in the download directory. ",
       "Skip downloading."
       )
     }
@@ -60,7 +60,7 @@ osmext_download <- function(
     )
 
     if (isTRUE(verbose)) {
-      message("pbf file downloaded!")
+      message("File downloaded!")
     }
   }
 
@@ -81,7 +81,7 @@ osmext_download_directory <- function() {
   download_directory
 }
 
-# Infer the chosen provider by the file_url
+# Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
   if (grepl("geofabrik", file_url)) {
     return("geofabrik")
