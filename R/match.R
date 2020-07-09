@@ -4,6 +4,7 @@
 #' corresponding pbf file (and its file size, if present).
 #'
 #' @inheritParams osmext_get
+#' @param verbose TODO
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first

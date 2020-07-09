@@ -31,7 +31,7 @@ moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.
 
 \item{max_file_size}{TODO}
 
-\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{verbose}{TODO}
 }
 \value{
 path

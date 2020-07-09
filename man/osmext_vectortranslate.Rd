@@ -7,7 +7,9 @@
 osmext_vectortranslate(
   file_path,
   vectortranslate_options = NULL,
+  layer = NULL,
   osmconf_ini = NULL,
+  extra_attributes = NULL,
   force_vectortranslate = FALSE,
   verbose = FALSE
 )
@@ -17,11 +19,15 @@ osmext_vectortranslate(
 
 \item{vectortranslate_options}{B}
 
+\item{layer}{B2}
+
 \item{osmconf_ini}{C}
 
-\item{force_vectortranslate}{D}
+\item{extra_attributes}{D}
 
-\item{verbose}{E}
+\item{force_vectortranslate}{E}
+
+\item{verbose}{F}
 }
 \value{
 path

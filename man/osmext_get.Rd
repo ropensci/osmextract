@@ -17,8 +17,9 @@ osmext_get(
   max_file_size = 5e+08,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
+  extra_attributes = NULL,
   force_vectortranslate = NULL,
-  verbose = FALSE
+  osmext_verbose = FALSE
 )
 }
 \arguments{
@@ -64,9 +65,11 @@ performed through a spatial operation.}
 
 \item{osmconf_ini}{TODO}
 
+\item{extra_attributes}{TODO}
+
 \item{force_vectortranslate}{TODO}
 
-\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{osmext_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
 An sf object related to the input place.

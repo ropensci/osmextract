@@ -6,6 +6,7 @@
 #' @param file_url A
 #' @param file_basename B
 #' @param file_size E
+#' @param verbose TODO
 #'
 #' @return path
 #' @export

@@ -29,8 +29,9 @@
 #' @param max_file_size TODO
 #' @param vectortranslate_options TODO
 #' @param osmconf_ini TODO
+#' @param extra_attributes TODO
 #' @param force_vectortranslate TODO
-#' @param verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param osmext_verbose Boolean. If `TRUE` the function prints informative messages.
 #' @param ... Arguments that should  be passed to [`sf::st_read()`]
 #'
 #' @return An sf object related to the input place.
@@ -52,8 +53,9 @@ osmext_get = function(
   max_file_size = 5e+8,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
+  extra_attributes = NULL,
   force_vectortranslate = NULL,
-  verbose = FALSE
+  osmext_verbose = FALSE
 ) {
 
   # Match the input place with the provider's data.
@@ -63,7 +65,7 @@ osmext_get = function(
     match_by = match_by,
     max_string_dist = max_string_dist,
     interactive_ask = interactive_ask,
-    verbose = verbose
+    verbose = osmext_verbose
   )
 
   # Extract the matched url and file size and pass these parameters to the
@@ -76,16 +78,18 @@ osmext_get = function(
     file_size = file_size,
     force_download = force_download,
     max_file_size = max_file_size,
-    verbose = verbose
+    verbose = osmext_verbose
   )
 
   # Pass the file_path to osmext_vectortranslate
   gpkg_file_path = osmext_vectortranslate(
     file_path = file_path,
     vectortranslate_options = vectortranslate_options,
+    layer = layer,
     osmconf_ini = osmconf_ini,
+    extra_attributes = extra_attributes,
     force_vectortranslate = force_vectortranslate,
-    verbose = verbose
+    verbose = osmext_verbose
   )
 
   # Read the translated file with sf::st_read

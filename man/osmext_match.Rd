@@ -37,7 +37,7 @@ and examples.}
 \item{provider}{Which provider should be used to download the data? For the
 moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
-\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{verbose}{TODO}
 
 \item{match_by}{Which column of the provider data should be used for matching
 the input place with the provider's data? The default is "name". Check
