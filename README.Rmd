@@ -11,8 +11,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-
-options(width = 140)
 ```
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -240,7 +238,7 @@ Once imported, we can use all the functions for data frames in base R and other 
 We can also use functions from the `sf` package for spatial analysis and visualisation.
 Let's plot all the major and minor roads, for example:
 
-```{r}
+```{r iow1}
 iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
 plot(iow_major_roads["highway"])
 ```
@@ -280,7 +278,7 @@ osmext_get(
 
 The same `query` argument can be used to read-in only certain features, all primary roads in Andorra for example: 
 
-```{r}
+```{r, iow2}
 # and select only one of them: 
 iow_primary = osmext_get(
   "Isle of Wight", 
@@ -297,7 +295,7 @@ This is substantially faster and less memory intensive than reading-in the whole
 You can use [GDAL's SQL syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result you need.
 Let's get all primary and secondary roads, for example:
 
-```{r}
+```{r, iow3}
 iow_major_roads2 = osmext_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
@@ -309,7 +307,7 @@ plot(iow_major_roads2["highway"])
 
 You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:
 
-```{r}
+```{r, iow4}
 iow_active_travel = osmext_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
