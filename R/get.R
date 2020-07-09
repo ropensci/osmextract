@@ -4,6 +4,7 @@
 #'   through the chosen `provider`. Can be either a length-1 character vector, a
 #'   length-1 `sfc_POINT` object or a numeric vector with length 2. See details
 #'   and examples.
+#' @param layer TODO
 #' @param provider Which provider should be used to download the data? For the
 #'   moment we support only [`"geofabrik"`](http://download.geofabrik.de/).
 #' @param match_by Which column of the provider data should be used for matching
@@ -26,7 +27,11 @@
 #' @param download_directory TODO
 #' @param force_download TODO
 #' @param max_file_size TODO
+#' @param vectortranslate_options TODO
+#' @param osmconf_ini TODO
+#' @param force_vectortranslate TODO
 #' @param verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param ... Arguments that should  be passed to [`sf::st_read()`]
 #'
 #' @return An sf object related to the input place.
 #' @export
@@ -36,13 +41,18 @@
 #' 1 + 1
 osmext_get = function(
   place,
+  layer = "lines",
   provider = "geofabrik",
+  ...,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
   download_directory = osmext_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+8,
+  vectortranslate_options = NULL,
+  osmconf_ini = NULL,
+  force_vectortranslate = NULL,
   verbose = FALSE
 ) {
 
@@ -68,7 +78,22 @@ osmext_get = function(
     max_file_size = max_file_size,
     verbose = verbose
   )
-  file_path
+
+  # Pass the file_path to osmext_vectortranslate
+  gpkg_file_path = osmext_vectortranslate(
+    file_path = file_path,
+    vectortranslate_options = vectortranslate_options,
+    osmconf_ini = osmconf_ini,
+    force_vectortranslate = force_vectortranslate,
+    verbose = verbose
+  )
+
+  # Read the translated file with sf::st_read
+  sf::st_read(
+    dsn = gpkg_file_path,
+    layer = layer,
+    ...
+  )
 
 }
 
