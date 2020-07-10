@@ -81,8 +81,8 @@ Download, translate and read OSM extracts
 This function is a wrapper around ...
 }
 \examples{
-oe_get("Isle of Wight", provider = "test")
+oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
 \dontrun{
-
+baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 }
 }
