@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' 1 + 1
-osmext_vectortranslate = function(
+oe_vectortranslate = function(
   file_path,
   vectortranslate_options = NULL,
   layer = NULL,

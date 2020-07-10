@@ -31,7 +31,7 @@
 #' @param osmconf_ini TODO
 #' @param extra_attributes TODO
 #' @param force_vectortranslate TODO
-#' @param osmext_verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
 #' @param ... Arguments that should  be passed to [`sf::st_read()`]
 #'
 #' @return An sf object related to the input place.
@@ -39,8 +39,11 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' osmext_get("Isle of Wight", provider = "test")
-osmext_get = function(
+#' oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+#' \dontrun{
+#' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
+#' }
+oe_get = function(
   place,
   layer = "lines",
   provider = "geofabrik",
@@ -48,48 +51,49 @@ osmext_get = function(
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  download_directory = osmext_download_directory(),
+  download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+8,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = NULL,
-  osmext_verbose = FALSE
+  oe_verbose = FALSE
 ) {
 
   # Match the input place with the provider's data.
-  matched_zone <- osmext_match(
+  matched_zone <- oe_match(
     place = place,
     provider = provider,
     match_by = match_by,
     max_string_dist = max_string_dist,
     interactive_ask = interactive_ask,
-    verbose = osmext_verbose
+    verbose = oe_verbose
   )
 
   # Extract the matched url and file size and pass these parameters to the
   # osmext-download function.
   file_url <- matched_zone[["url"]]
   file_size <- matched_zone[["file_size"]]
-  file_path <- osmext_download(
+  file_path <- oe_download(
     file_url = file_url,
     download_directory = download_directory,
+    provider = provider,
     file_size = file_size,
     force_download = force_download,
     max_file_size = max_file_size,
-    verbose = osmext_verbose
+    verbose = oe_verbose
   )
 
-  # Pass the file_path to osmext_vectortranslate
-  gpkg_file_path = osmext_vectortranslate(
+  # Pass the file_path to oe_vectortranslate
+  gpkg_file_path = oe_vectortranslate(
     file_path = file_path,
     vectortranslate_options = vectortranslate_options,
     layer = layer,
     osmconf_ini = osmconf_ini,
     extra_attributes = extra_attributes,
     force_vectortranslate = force_vectortranslate,
-    verbose = osmext_verbose
+    verbose = oe_verbose
   )
 
   # Read the translated file with sf::st_read

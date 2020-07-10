@@ -3,7 +3,7 @@
 #' This function is used to match the input `place` with the url of the
 #' corresponding pbf file (and its file size, if present).
 #'
-#' @inheritParams osmext_get
+#' @inheritParams oe_get
 #' @param verbose TODO
 #' @param ... arguments passed to other methods
 #'
@@ -15,14 +15,14 @@
 #' @details ABC
 #'
 #' @examples
-#' osmext_match("Italy")
-osmext_match = function(place, ...) {
-  UseMethod("osmext_match")
+#' oe_match("Italy")
+oe_match = function(place, ...) {
+  UseMethod("oe_match")
 }
 
-#' @rdname osmext_match
+#' @rdname oe_match
 #' @export
-osmext_match.default <- function(place, ...) {
+oe_match.default <- function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
@@ -30,10 +30,10 @@ osmext_match.default <- function(place, ...) {
   )
 }
 
-#' @inheritParams osmext_get
-#' @rdname osmext_match
+#' @inheritParams oe_get
+#' @rdname oe_match
 #' @export
-osmext_match.sfc_POINT <- function(
+oe_match.sfc_POINT <- function(
   place,
   provider = "geofabrik",
   verbose = FALSE,
@@ -79,17 +79,17 @@ osmext_match.sfc_POINT <- function(
 
 }
 
-#' @inheritParams osmext_get
-#' @rdname osmext_match
+#' @inheritParams oe_get
+#' @rdname oe_match
 #' @export
-osmext_match.numeric = function(
+oe_match.numeric = function(
   place,
   provider = "geofabrik",
   verbose = FALSE,
   ...
 ) {
   # In this case I just need to build the appropriate object and create a
-  # wrapper around osmext_match.sfc_POINT
+  # wrapper around oe_match.sfc_POINT
   if (length(place) != 2L) {
     stop(
       "You need to provide a pair of coordinates and you passed as input",
@@ -100,13 +100,13 @@ osmext_match.numeric = function(
   # Build the sfc_POINT object
   place <- sf::st_sfc(sf::st_point(place), crs = 4326)
 
-  osmext_match(place, provider = provider, verbose = verbose, ...)
+  oe_match(place, provider = provider, verbose = verbose, ...)
 }
 
-#' @inheritParams osmext_get
-#' @rdname osmext_match
+#' @inheritParams oe_get
+#' @rdname oe_match
 #' @export
-osmext_match.character <- function(
+oe_match.character <- function(
   place,
   provider = "geofabrik",
   match_by = "name",
@@ -198,10 +198,10 @@ osmext_match.character <- function(
 
 # The following function is used just to load the correct provider database
 load_provider_data <- function(provider) {
-  if (provider %!in% osmext_available_providers()) {
+  if (provider %!in% oe_available_providers()) {
     stop(
       "You can only select one of the following providers: ",
-      osmext_available_providers(),
+      oe_available_providers(),
       call. = FALSE
     )
   }
@@ -209,9 +209,19 @@ load_provider_data <- function(provider) {
   provider_data <- switch(
     provider,
     "geofabrik" = geofabrik_zones,
-    "test" = test_zones
+    "test" = test_zones,
+    "bbbike" = bbbike_zones
+    # , "another" = another_provider
   )
   provider_data
+}
+
+oe_available_providers <- function() {
+  c(
+    "geofabrik",
+    "test",
+    "bbbike"
+  )
 }
 
 #' Check for patterns in the provider's data columns
@@ -228,12 +238,12 @@ load_provider_data <- function(provider) {
 #' @export
 #'
 #' @examples
-#' osmext_check_pattern(
+#' oe_check_pattern(
 #' pattern = "Yorkshire",
 #' provider = "geofabrik",
 #' match_by = "name"
 #' )
-osmext_check_pattern <- function(
+oe_check_pattern <- function(
   pattern,
   provider = "geofabrik",
   match_by = "name",

@@ -2,7 +2,7 @@
 #'
 #' Download the input file if it's not already present in the specified download_directory.
 #'
-#' @inheritParams osmext_get
+#' @inheritParams oe_get
 #' @param file_url A
 #' @param file_basename B
 #' @param file_size E
@@ -13,11 +13,11 @@
 #'
 #' @examples
 #' 1 + 1
-osmext_download <- function(
+oe_download <- function(
   file_url,
   file_basename = basename(file_url),
   provider = infer_provider_from_url(file_url),
-  download_directory = osmext_download_directory(),
+  download_directory = oe_download_directory(),
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+8, # 5e+8 = 500MB in bytes
@@ -41,13 +41,14 @@ osmext_download <- function(
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-    if (interactive() && !is.na(file_size) && file_size >= max_file_size) {
-      message("This is a large file (", round(file_size / 1e+6), " MB)!")
-      continue <- utils::menu(
-        choices = c("Yes", "No"),
-        title = "Are you sure that you want to download it?"
-      )
-
+    if(provider == "geofabrik") {
+      if (interactive() && !is.na(file_size) && file_size >= max_file_size ) {
+        message("This is a large file (", round(file_size / 1e+6), " MB)!")
+        continue <- utils::menu(
+          choices = c("Yes", "No"),
+          title = "Are you sure that you want to download it?"
+        )
+    }
       if (continue != 1L) {
         stop("Aborted by user.")
       }
@@ -71,7 +72,7 @@ osmext_download <- function(
 
 # The following function is used to extract the OSMEXT_DOWNLOAD_DIRECTORY
 # environment variable.
-osmext_download_directory <- function() {
+oe_download_directory <- function() {
   download_directory <- Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", "")
   if (download_directory == "") {
     download_directory <- tempdir()
@@ -84,8 +85,9 @@ osmext_download_directory <- function() {
 
 # Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
-  if (grepl("geofabrik", file_url)) {
-    return("geofabrik")
+  providers_in_url = grepl(pattern = oe_available_providers(), x = file_url)
+  if (any(providers_in_url)) {
+    return(oe_available_providers()[providers_in_url])
   }
   stop("Cannot infer the provider from the url, please specify it")
 }

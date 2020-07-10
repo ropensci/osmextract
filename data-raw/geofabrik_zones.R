@@ -102,7 +102,7 @@ geofabrik_zones <- geofabrik_zones %>%
 usethis::use_data(geofabrik_zones, overwrite = TRUE)
 
 # create test provider
-osmext_get(place = "Isle of Wight", download_directory = ".")
+oe_get(place = "Isle of Wight", download_directory = ".")
 piggyback::pb_upload("geofabrik_isle-of-wight-latest.osm.pbf")
 u = piggyback::pb_download_url("geofabrik_isle-of-wight-latest.osm.pbf")
 test_zones = geofabrik_zones

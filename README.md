@@ -46,9 +46,9 @@ library(osmextractr)
 ```
 
 ``` r
-cycleways_england = osmext_get(
+cycleways_england = oe_get(
   "England",
-  osmext_verbose = TRUE,
+  oe_verbose = TRUE,
   query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
 )
 plot(sf::st_geometry(cycleways_england))
@@ -106,9 +106,9 @@ The package supports downloading, reading and extracting OpenStreetMap
 data from various providers. A list of providers can be found at
 [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
 The first provider supported was
-[Geofabrik](http://download.geofabrik.de/).
-<!-- The second was [bbbike](https://download.bbbike.org/osm/bbbike/). -->
-The package can be extended to support additional providers, as seen in
+[Geofabrik](http://download.geofabrik.de/). The second was
+[bbbike](https://download.bbbike.org/osm/bbbike/). The package can be
+extended to support additional providers, as seen in
 [code](https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d)
 that adds a working test provider.
 
@@ -128,6 +128,11 @@ st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
 #> 1 Afghanistan https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf
 #> 2      Africa           https://download.geofabrik.de/africa-latest.osm.pbf
 #> 3     Albania   https://download.geofabrik.de/europe/albania-latest.osm.pbf
+bbbike_zones$name[1:20]
+#>  [1] "Aachen"      "Aarhus"      "Adelaide"    "Albuquerque" "Alexandria" 
+#>  [6] "Amsterdam"   "Antwerpen"   "Arnhem"      "Auckland"    "Augsburg"   
+#> [11] "Austin"      "Baghdad"     "Baku"        "Balaton"     "Bamberg"    
+#> [16] "Bangkok"     "Barcelona"   "Basel"       "Beijing"     "Beirut"
 ```
 
 ## Load package
@@ -138,26 +143,26 @@ library(osmextractr)
 
 The packages is composed by 4 main functions:
 
-1.  `osmext_match`: Match the input zone with one of the files stored by
-    the OSM providers
-2.  `osmext_download`: Download the chosen file
-3.  `osmext_vectortranslate`: Convert the pbf format into gpkg
-4.  `osmext_read`: Read the gpkg file
+1.  `oe_match`: Match the input zone with one of the files stored by the
+    OSM providers
+2.  `oe_download`: Download the chosen file
+3.  `oe_vectortranslate`: Convert the pbf format into gpkg
+4.  `oe_read`: Read the gpkg file
 
-The function `osmext_get` is a wrapper around all of them.
+The function `oe_get` is a wrapper around all of them.
 
-# Test `osmext_match`
+# Test `oe_match`
 
 The simplest example:
 
 ``` r
-osmext_match("Italy")
+oe_match("Italy")
 #> $url
 #> [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 1544340778
-osmext_match("Isle of wight")
+oe_match("Isle of wight")
 #> $url
 #> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
 #> 
@@ -170,9 +175,9 @@ appropriate data source due to several small differences in the official
 names:
 
 ``` r
-osmext_match("Korea")
+oe_match("Korea")
 #> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
-osmext_match("Russia")
+oe_match("Russia")
 #> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 ```
 
@@ -181,19 +186,19 @@ appropriate area according to the [iso3166-1
 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code:
 
 ``` r
-osmext_match("KP", match_by = "iso3166_1_alpha2")
+oe_match("KP", match_by = "iso3166_1_alpha2")
 #> $url
 #> [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 33241783
-osmext_match("RU", match_by = "iso3166_1_alpha2")
+oe_match("RU", match_by = "iso3166_1_alpha2")
 #> $url
 #> [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 2820253009
-osmext_match("US", match_by = "iso3166_1_alpha2")
+oe_match("US", match_by = "iso3166_1_alpha2")
 #> $url
 #> [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"
 #> 
@@ -205,9 +210,9 @@ The are a few cases where the `iso3166-1 alpha2` codes can fail because
 there are no per-country extracts (e.g. Israel and Palestine)
 
 ``` r
-osmext_match("PS", match_by = "iso3166_1_alpha2")
+oe_match("PS", match_by = "iso3166_1_alpha2")
 #> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
-osmext_match("IL", match_by = "iso3166_1_alpha2")
+oe_match("IL", match_by = "iso3166_1_alpha2")
 #> Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
 ```
 
@@ -215,28 +220,28 @@ For this reason we also created a function that let you explore the
 matching variables according to a chosen pattern, for example:
 
 ``` r
-osmext_check_pattern("London")
+oe_check_pattern("London")
 #> [1] "Greater London"
-osmext_check_pattern("Russia")
+oe_check_pattern("Russia")
 #> [1] "Russian Federation"
-osmext_check_pattern("Korea")
+oe_check_pattern("Korea")
 #> [1] "North Korea" "South Korea"
-osmext_check_pattern("Yorkshire")
+oe_check_pattern("Yorkshire")
 #> [1] "East Yorkshire with Hull" "North Yorkshire"         
 #> [3] "South Yorkshire"          "West Yorkshire"
-osmext_check_pattern("US")
+oe_check_pattern("US")
 #> [1] "US Midwest"         "US Northeast"       "US Pacific"        
 #> [4] "US South"           "US West"            "Georgia (US State)"
-osmext_check_pattern("US", match_by = "iso3166_2")
+oe_check_pattern("US", match_by = "iso3166_2")
 #>  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC"
 #> [10] "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS" "US-KY"
 #> [19] "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT"
 #> [28] "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC" "US-ND" "US-OH"
 #> [37] "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX"
 #> [46] "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI" "US-WY"
-osmext_check_pattern("Palestine")
+oe_check_pattern("Palestine")
 #> [1] "Israel and Palestine"
-israel_sf = osmext_check_pattern("Israel", full_row = TRUE)
+israel_sf = oe_check_pattern("Israel", full_row = TRUE)
 ```
 
 The input `place` can be also specified using an `sfc_POINT` object with
@@ -247,7 +252,7 @@ the `level` variable). I would ignore the CRS warning for the moment.
 ``` r
 coords_milan = sf::st_point(c(1514924.21, 5034552.92)) # Duomo di Milano
 st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
-osmext_match(st_sfc_milan)
+oe_match(st_sfc_milan)
 #> although coordinates are longitude/latitude, st_intersects assumes that they are planar
 #> $url
 #> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
@@ -260,25 +265,25 @@ The input `place` can be also specified using a numeric vector of
 coordinates. In that case the CRS is assumed to be 4326:
 
 ``` r
-osmext_match(c(9.1916, 45.4650)) # Duomo di Milano
+oe_match(c(9.1916, 45.4650)) # Duomo di Milano
 #> although coordinates are longitude/latitude, st_intersects assumes that they are planar
 #> $url
 #> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
 #> 
 #> $file_size
 #> [1] 416306623
-osmext_match(c(9.1916, 45.4650, 9.2020, 45.4781))
-#> Error in osmext_match.numeric(c(9.1916, 45.465, 9.202, 45.4781)): You need to provide a pair of coordinates and you passed as input a vector of length 4
-# osmext_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
+oe_match(c(9.1916, 45.4650, 9.2020, 45.4781))
+#> Error in oe_match.numeric(c(9.1916, 45.465, 9.202, 45.4781)): You need to provide a pair of coordinates and you passed as input a vector of length 4
+# oe_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
 ```
 
 If there are several error matching the input place with one of the
 zone, you can also try increasing the maximum allowed string distance:
 
 ``` r
-osmext_match("Isle Wight")
+oe_match("Isle Wight")
 #> Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.
-osmext_match("Isle Wight", max_string_dist = 3)
+oe_match("Isle Wight", max_string_dist = 3)
 #> $url
 #> [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
 #> 
@@ -286,13 +291,13 @@ osmext_match("Isle Wight", max_string_dist = 3)
 #> [1] 6877468
 ```
 
-## Test `osmext_download`
+## Test `oe_download`
 
 The simplest example:
 
 ``` r
-iow_details = osmext_match("Isle of Wight")
-osmext_download(
+iow_details = oe_match("Isle of Wight")
+oe_download(
   file_url = iow_details$url, 
   file_size = iow_details$file_size
 )
@@ -304,7 +309,7 @@ set the download directory:
 
 ``` r
 Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
-osmext_download(
+oe_download(
   file_url = iow$url, 
   file_size = iow$file_size
 )
@@ -322,11 +327,11 @@ usethis::edit_r_environ()
 
 ## Importing OSM data
 
-The function `osmext_get()` downloads (if not already downloaded) and
+The function `oe_get()` downloads (if not already downloaded) and
 reads-in data from OSM extract providers as an `sf` object:
 
 ``` r
-iow = osmext_get("Isle of Wight", stringsAsFactors = FALSE)
+iow = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 #> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #> Simple feature collection with 44365 features and 9 fields
 #> geometry type:  LINESTRING
@@ -353,12 +358,12 @@ plot(iow_major_roads["highway"])
 <img src="man/figures/README-iow1-1.png" width="100%" />
 
 The same steps can be used to get other OSM datasets (note use of
-`osmext_verbose = TRUE` to show additional message, examples not run):
+`oe_verbose = TRUE` to show additional message, examples not run):
 
 ``` r
-test_malta = osmext_get("Malta", osmext_verbose = TRUE)
+test_malta = oe_get("Malta", oe_verbose = TRUE)
 ncol(test_malta)
-test_andorra = osmext_get("Andorra", extra_attributes = "ref", osmext_verbose = TRUE)
+test_andorra = oe_get("Andorra", extra_attributes = "ref", oe_verbose = TRUE)
 ncol(test_andorra)
 ```
 
@@ -371,7 +376,7 @@ in the highway column for our Isle of Wight example, for example, run
 the following command:
 
 ``` r
-osmext_get(
+oe_get(
   "Isle of Wight", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
@@ -404,7 +409,7 @@ The values will vary. There are more types of highway in the Andorra
 dataset, for example:
 
 ``` r
-osmext_get(
+oe_get(
   "Andorra", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
@@ -440,10 +445,10 @@ all primary roads in Andorra for example:
 
 ``` r
 # and select only one of them: 
-iow_primary = osmext_get(
+iow_primary = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  oe_verbose = TRUE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
 )
 #> The input place was matched with: Isle of Wight
@@ -470,10 +475,10 @@ syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result
 you need. Let’s get all primary and secondary roads, for example:
 
 ``` r
-iow_major_roads2 = osmext_get(
+iow_major_roads2 = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  oe_verbose = TRUE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
 )
 #> The input place was matched with: Isle of Wight
@@ -494,10 +499,10 @@ You can also use regex, as shown in the following command that gets
 roads that are likely to be walking and cycling friendly:
 
 ``` r
-iow_active_travel = osmext_get(
+iow_active_travel = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  osmext_verbose = TRUE, 
+  oe_verbose = TRUE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street', 'residential')"
 )
 #> The input place was matched with: Isle of Wight
@@ -514,11 +519,27 @@ plot(iow_active_travel["highway"])
 
 <img src="man/figures/README-iow4-1.png" width="100%" />
 
+## Other providers
+
+At present `geofabrik` and `bbbike` providers are supported. An example
+showing how to use an alternative provider is shown in the example
+below.
+
+``` r
+leeds = oe_get(place = "Leeds", provider = "bbbike", oe_verbose = TRUE)
+names(leeds)
+#> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  
+plot(leeds$geometry)
+```
+
+<img src="https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png" width="100%" />
+
 ## Next steps
 
 We hope to make the user interface to the SQL syntax more user friendly.
-Any contributions to support this or any other improvements to the
-package are very welcome via our issue tracker.
+We would love to see more providers added and see what people can do
+with OSM data. Any contributions to support this or any other
+improvements to the package are very welcome via our issue tracker.
 
 ## Licence
 
