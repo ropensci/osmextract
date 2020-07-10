@@ -82,4 +82,7 @@ This function is a wrapper around ...
 }
 \examples{
 oe_get("Isle of Wight", provider = "test")
+\dontrun{
+
+}
 }

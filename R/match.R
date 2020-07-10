@@ -216,6 +216,14 @@ load_provider_data <- function(provider) {
   provider_data
 }
 
+oe_available_providers <- function() {
+  c(
+    "geofabrik",
+    "test",
+    "bbbike"
+  )
+}
+
 #' Check for patterns in the provider's data columns
 #'
 #' This function is used to explore the provider's data and check for patterns

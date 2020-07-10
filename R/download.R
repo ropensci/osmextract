@@ -16,7 +16,7 @@
 oe_download <- function(
   file_url,
   file_basename = basename(file_url),
-  provider = infer_provider_from_url(file_url),
+  provider = "geofabrik",
   download_directory = oe_download_directory(),
   file_size = NA,
   force_download = FALSE,
@@ -41,13 +41,14 @@ oe_download <- function(
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-    if (interactive() && !is.na(file_size) && file_size >= max_file_size) {
-      message("This is a large file (", round(file_size / 1e+6), " MB)!")
-      continue <- utils::menu(
-        choices = c("Yes", "No"),
-        title = "Are you sure that you want to download it?"
-      )
-
+    if(provider == "geofabrik") {
+      if (interactive() && !is.na(file_size) && file_size >= max_file_size ) {
+        message("This is a large file (", round(file_size / 1e+6), " MB)!")
+        continue <- utils::menu(
+          choices = c("Yes", "No"),
+          title = "Are you sure that you want to download it?"
+        )
+    }
       if (continue != 1L) {
         stop("Aborted by user.")
       }

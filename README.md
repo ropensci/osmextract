@@ -106,9 +106,9 @@ The package supports downloading, reading and extracting OpenStreetMap
 data from various providers. A list of providers can be found at
 [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
 The first provider supported was
-[Geofabrik](http://download.geofabrik.de/).
-<!-- The second was [bbbike](https://download.bbbike.org/osm/bbbike/). -->
-The package can be extended to support additional providers, as seen in
+[Geofabrik](http://download.geofabrik.de/). The second was
+[bbbike](https://download.bbbike.org/osm/bbbike/). The package can be
+extended to support additional providers, as seen in
 [code](https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d)
 that adds a working test provider.
 
@@ -128,6 +128,11 @@ st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
 #> 1 Afghanistan https://download.geofabrik.de/asia/afghanistan-latest.osm.pbf
 #> 2      Africa           https://download.geofabrik.de/africa-latest.osm.pbf
 #> 3     Albania   https://download.geofabrik.de/europe/albania-latest.osm.pbf
+bbbike_zones$name[1:20]
+#>  [1] "Aachen"      "Aarhus"      "Adelaide"    "Albuquerque" "Alexandria" 
+#>  [6] "Amsterdam"   "Antwerpen"   "Arnhem"      "Auckland"    "Augsburg"   
+#> [11] "Austin"      "Baghdad"     "Baku"        "Balaton"     "Bamberg"    
+#> [16] "Bangkok"     "Barcelona"   "Basel"       "Beijing"     "Beirut"
 ```
 
 ## Load package
@@ -138,8 +143,8 @@ library(osmextractr)
 
 The packages is composed by 4 main functions:
 
-1.  `oe_match`: Match the input zone with one of the files stored by
-    the OSM providers
+1.  `oe_match`: Match the input zone with one of the files stored by the
+    OSM providers
 2.  `oe_download`: Download the chosen file
 3.  `oe_vectortranslate`: Convert the pbf format into gpkg
 4.  `oe_read`: Read the gpkg file
@@ -514,11 +519,27 @@ plot(iow_active_travel["highway"])
 
 <img src="man/figures/README-iow4-1.png" width="100%" />
 
+## Other providers
+
+At present `geofabrik` and `bbbike` providers are supported. An example
+showing how to use an alternative provider is shown in the example
+below.
+
+``` r
+leeds = oe_get(place = "Leeds", provider = "bbbike", oe_verbose = TRUE)
+names(leeds)
+#> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  
+plot(leeds$geometry)
+```
+
+<img src="https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png" width="100%" />
+
 ## Next steps
 
 We hope to make the user interface to the SQL syntax more user friendly.
-Any contributions to support this or any other improvements to the
-package are very welcome via our issue tracker.
+We would love to see more providers added and see what people can do
+with OSM data. Any contributions to support this or any other
+improvements to the package are very welcome via our issue tracker.
 
 ## Licence
 
