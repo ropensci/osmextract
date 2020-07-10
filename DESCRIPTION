@@ -23,4 +23,7 @@ Imports:
     utils,
     tools
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
