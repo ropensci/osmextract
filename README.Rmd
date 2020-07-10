@@ -114,7 +114,7 @@ with `attributes` argument):
 The package supports downloading, reading and extracting OpenStreetMap data from various providers.
 A list of providers can be found at [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
 The first provider supported was [Geofabrik](http://download.geofabrik.de/).
-<!-- The second was [bbbike](https://download.bbbike.org/osm/bbbike/). -->
+The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
 The package can be extended to support additional providers, as seen in [code](https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d) that adds a working test provider.
 
 Providers break the world into zones.
@@ -123,6 +123,7 @@ These zones are represented as `sf` objects that summarize the most important ch
 ```{r}
 names(geofabrik_zones)
 st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
+bbbike_zones$name[1:20]
 ```
 
 ## Load package 
@@ -330,9 +331,27 @@ iow_active_travel = oe_get(
 plot(iow_active_travel["highway"])
 ```
 
+## Other providers
+
+At present `geofabrik` and `bbbike` providers are supported.
+An example showing how to use an alternative provider is shown in the example below.
+
+```{r, eval=FALSE}
+leeds = oe_get(place = "Leeds", provider = "bbbike", oe_verbose = TRUE)
+names(leeds)
+#> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  
+plot(leeds$geometry)
+```
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png")
+```
+
 ## Next steps
 
 We hope to make the user interface to the SQL syntax more user friendly.
+We would love to see more providers added and see what people can do with OSM data.
 Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.
 
 ## Licence

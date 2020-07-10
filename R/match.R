@@ -209,9 +209,19 @@ load_provider_data <- function(provider) {
   provider_data <- switch(
     provider,
     "geofabrik" = geofabrik_zones,
-    "test" = test_zones
+    "test" = test_zones,
+    "bbbike" = bbbike_zones
+    # , "another" = another_provider
   )
   provider_data
+}
+
+oe_available_providers <- function() {
+  c(
+    "geofabrik",
+    "test",
+    "bbbike"
+  )
 }
 
 #' Check for patterns in the provider's data columns

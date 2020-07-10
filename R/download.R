@@ -41,13 +41,14 @@ oe_download <- function(
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-    if (interactive() && !is.na(file_size) && file_size >= max_file_size) {
-      message("This is a large file (", round(file_size / 1e+6), " MB)!")
-      continue <- utils::menu(
-        choices = c("Yes", "No"),
-        title = "Are you sure that you want to download it?"
-      )
-
+    if(provider == "geofabrik") {
+      if (interactive() && !is.na(file_size) && file_size >= max_file_size ) {
+        message("This is a large file (", round(file_size / 1e+6), " MB)!")
+        continue <- utils::menu(
+          choices = c("Yes", "No"),
+          title = "Are you sure that you want to download it?"
+        )
+    }
       if (continue != 1L) {
         stop("Aborted by user.")
       }
@@ -84,8 +85,9 @@ oe_download_directory <- function() {
 
 # Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
-  if (grepl("geofabrik", file_url)) {
-    return("geofabrik")
+  providers_in_url = grepl(pattern = oe_available_providers(), x = file_url)
+  if (any(providers_in_url)) {
+    return(oe_available_providers()[providers_in_url])
   }
   stop("Cannot infer the provider from the url, please specify it")
 }

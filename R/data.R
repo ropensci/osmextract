@@ -53,3 +53,26 @@
 #' @source \url{https://download.geofabrik.de/}
 #' @aliases test_zones
 "geofabrik_zones"
+
+#' A `data.frame` of geographical zones taken from bbbike.org
+#'
+#' Start bicycle routing for... everywhere!
+#'
+#' A `sf` `data.frame` containing the urls, names and file_size of the OSM extracts.
+#' See \url{https://download.bbbike.org/osm/}.
+#'
+#' @format A sf dataframe with 430 rows and 14 columns:
+#' \describe{
+#'   \item{name}{The, usually English, long-form name of the city}
+#'   \item{last_modified}{When was it last modified?}
+#'   \item{type}{empty}
+#'   \item{size}{Should be the size}
+#'   \item{base_url}{The base URL for the city}
+#'   \item{poly_url}{The .poly file location}
+#'   \item{pbf}{Link to the latest .osm.pbf file for this region.}
+#'   \item{geometry}{The sfc for that geographical region, rectangular.}
+#' }
+#'
+#' @source \url{https://download.bbbike.org/osm/}
+"bbbike_zones"
+

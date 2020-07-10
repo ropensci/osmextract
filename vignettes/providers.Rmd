@@ -1,0 +1,78 @@
+---
+title: "Add new OpenStreetMap providers"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Add new OpenStreetMap providers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(osmextractr)
+```
+
+As of summer 2020 there are 7 services providing bulk OSM datasets listed at [https://wiki.openstreetmap.org/wiki/Processed_data_providers](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
+This package is designed to make it easy to add new providers.
+To add a new provider there are three main steps, creating the zones, adding the provider and documentation, outlined below.
+
+# Adding a `provider_zones` object to the package
+
+The first and hardest step is to create an R object analogous to the `test_zones` object shown below:
+
+```{r}
+names(test_zones)
+test_zones[c(2, 8)]
+```
+
+The output shows the three most important column names in dataset:
+
+1. The dataset name
+2. The url endpoint where .pbf files associated with each zone can be downloaded
+3. The geometry, representing the spatial extent of the dataset
+
+The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first and [test](https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d) providers in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextractr/blob/master/data-raw/geofabrik_zones.R)
+The following commands will clone this repo and open the relevant file:
+
+```bash
+git clone git@github.com:itsleeds/osmextractr
+rstudio osmextractr/osmextractr.Rproj
+```
+
+Then in RStudio:
+
+```{r, eval=FALSE}
+file.edit("data-raw/geofabrik_zones.R")
+```
+
+Create a new script to document the code that generates the new object, e.g. for `bbbike`:
+
+```{r, eval=FALSE}
+file.edit("data-raw/bbbike_zones.R")
+```
+
+After you have created the new provider `_zones` file it's time to add the provider to the package.
+
+# Adding the new provider to the package
+
+Once you have created your overview `_zones` file as outlined in the previous step, you need to modify the following files for the provider to be available for others:
+
+- [data.R](https://github.com/ITSLeeds/osmextractr/blob/master/R/data.R), where you'll need to document the new dataset
+- [globals.R](https://github.com/ITSLeeds/osmextractr/blob/master/R/globals.R), where you'll need to add the new object name
+- [match.RR](https://github.com/ITSLeeds/osmextractr/blob/master/R/match.RR), where you'll need to add the new object name
+
+# Documenting the provider
+
+The final step is also the most fun: documenting and using the provider.
+Add an example, mention it in the README and tell others about what this new provider can do!
+
+# Conclusion
+
+This vignette talks through the main steps needed to extend `osmextractr` by adding new OSM data providers.
+To see the same information in code form, see the PR that implemented the `bbike` provider here: https://github.com/ITSLeeds/osmextractr/pull/57/files
