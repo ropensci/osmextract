@@ -25,7 +25,8 @@ knitr::opts_chunk$set(
 The goal of `osmextractr` is to make it easier for R
 users to access freely available, community created geographic data, in
 the form of OpenSteetMap data extracted by providers such as [Geofabrik
-GmbH](http://download.geofabrik.de).
+GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
+For information on alternatives and how to add them see the [providers vignette](https://itsleeds.github.io/osmextractr/articles/providers.html).
 
 ## Why osmextractr?
 
@@ -59,9 +60,6 @@ cycleways_england = oe_get(
 )
 plot(sf::st_geometry(cycleways_england))
 ```
-
-
-
 
 <img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%" />
 
@@ -351,7 +349,7 @@ knitr::include_graphics("https://user-images.githubusercontent.com/1825120/87104
 ## Next steps
 
 We hope to make the user interface to the SQL syntax more user friendly.
-We would love to see more providers added and see what people can do with OSM data.
+We would love to see more providers added (see the [Add new OpenStreetMap providers](https://itsleeds.github.io/osmextractr/articles/providers.html) for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good.
 Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.
 
 ## Licence

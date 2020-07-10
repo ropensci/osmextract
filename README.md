@@ -14,7 +14,10 @@ status](https://github.com/itsleeds/osmextractr/workflows/R-CMD-check/badge.svg)
 The goal of `osmextractr` is to make it easier for R users to access
 freely available, community created geographic data, in the form of
 OpenSteetMap data extracted by providers such as [Geofabrik
-GmbH](http://download.geofabrik.de).
+GmbH](http://download.geofabrik.de) and
+[bbbike](https://download.bbbike.org/osm/). For information on
+alternatives and how to add them see the [providers
+vignette](https://itsleeds.github.io/osmextractr/articles/providers.html).
 
 ## Why osmextractr?
 
@@ -301,7 +304,11 @@ oe_download(
   file_url = iow_details$url, 
   file_size = iow_details$file_size
 )
+#> Warning in grepl(pattern = oe_available_providers(), x = file_url): argument
+#> 'pattern' has length > 1 and only the first element will be used
 #> [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"
+#> [2] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/test_isle-of-wight-latest.osm.pbf"     
+#> [3] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/bbbike_isle-of-wight-latest.osm.pbf"
 ```
 
 If you want to download your data into a specific folder once, you can
@@ -537,9 +544,14 @@ plot(leeds$geometry)
 ## Next steps
 
 We hope to make the user interface to the SQL syntax more user friendly.
-We would love to see more providers added and see what people can do
-with OSM data. Any contributions to support this or any other
-improvements to the package are very welcome via our issue tracker.
+We would love to see more providers added (see the [Add new
+OpenStreetMap
+providers](https://itsleeds.github.io/osmextractr/articles/providers.html)
+for details) and see what people can do with OSM datasets of the type
+provided by this package in a reproducible and open statistical
+programming environment for the greater good. Any contributions to
+support this or any other improvements to the package are very welcome
+via our issue tracker.
 
 ## Licence
 
