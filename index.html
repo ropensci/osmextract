@@ -85,7 +85,7 @@
 <a href="#osmextractr" class="anchor"></a>osmextractr</h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>osmextractr</code> is to make it easier for R users to access freely available, community created geographic data, in the form of OpenSteetMap data extracted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a>.</p>
+<p>The goal of <code>osmextractr</code> is to make it easier for R users to access freely available, community created geographic data, in the form of OpenSteetMap data extracted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/">bbbike</a>. For information on alternatives and how to add them see the <a href="https://itsleeds.github.io/osmextractr/articles/providers.html">providers vignette</a>.</p>
 <div id="why-osmextractr" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-osmextractr" class="anchor"></a>Why osmextractr?</h2>
@@ -303,7 +303,11 @@
   file_url = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">url</span>, 
   file_size = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">file_size</span>
 )
+<span class="co">#&gt; Warning in grepl(pattern = oe_available_providers(), x = file_url): argument</span>
+<span class="co">#&gt; 'pattern' has length &gt; 1 and only the first element will be used</span>
 <span class="co">#&gt; [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"</span>
+<span class="co">#&gt; [2] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/test_isle-of-wight-latest.osm.pbf"     </span>
+<span class="co">#&gt; [3] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/bbbike_isle-of-wight-latest.osm.pbf"</span>
 </pre></div>
 <p>If you want to download your data into a specific folder once, you can set the download directory:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit">
@@ -497,7 +501,7 @@
 <div id="next-steps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next-steps" class="anchor"></a>Next steps</h2>
-<p>We hope to make the user interface to the SQL syntax more user friendly. We would love to see more providers added and see what people can do with OSM data. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
+<p>We hope to make the user interface to the SQL syntax more user friendly. We would love to see more providers added (see the <a href="https://itsleeds.github.io/osmextractr/articles/providers.html">Add new OpenStreetMap providers</a> for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
 </div>
 <div id="licence" class="section level2">
 <h2 class="hasAnchor">
