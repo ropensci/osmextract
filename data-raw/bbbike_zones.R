@@ -62,3 +62,10 @@ plot(bbbike_zones_final) # cities worldwide
 
 bbbike_zones = bbbike_zones_final
 usethis::use_data(bbbike_zones, version = 3)
+
+# tidy up
+zip(zipfile = "bbbike_polys.zip", files = "bbbike_polys")
+piggyback::pb_upload("bbbike_polys.zip")
+piggyback::pb_upload("polygon2geojson.py")
+piggyback::pb_upload("Aachen.geojson")
+piggyback::pb_upload("Aachen.poly")
