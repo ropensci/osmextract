@@ -16,7 +16,7 @@
 oe_download <- function(
   file_url,
   file_basename = basename(file_url),
-  provider = "geofabrik",
+  provider = infer_provider_from_url(file_url),
   download_directory = oe_download_directory(),
   file_size = NA,
   force_download = FALSE,
@@ -87,6 +87,9 @@ oe_download_directory <- function() {
 infer_provider_from_url = function(file_url) {
   if (grepl("geofabrik", file_url)) {
     return("geofabrik")
+  }
+  if (grepl("bbbike", file_url)) {
+    return("bbbike")
   }
   stop("Cannot infer the provider from the url, please specify it")
 }

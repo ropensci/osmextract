@@ -7,7 +7,7 @@
 oe_download(
   file_url,
   file_basename = basename(file_url),
-  provider = "geofabrik",
+  provider = infer_provider_from_url(file_url),
   download_directory = oe_download_directory(),
   file_size = NA,
   force_download = FALSE,
