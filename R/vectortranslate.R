@@ -66,7 +66,7 @@ oe_vectortranslate = function(
       paste0("attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")),
       temp_ini
     )
-    temp_ini[[id_old]] = paste(temp_ini[[id_old]], extra_attributes, sep = ",")
+    temp_ini[[id_old]] = paste(c(temp_ini[[id_old]], extra_attributes), collapse = ",")
     temp_ini_file = paste0(tempfile(), ".ini")
     writeLines(temp_ini, con = temp_ini_file)
     osmconf_ini = temp_ini_file
