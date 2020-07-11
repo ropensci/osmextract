@@ -144,6 +144,7 @@
   osmconf_ini = <span class='kw'>NULL</span>,
   extra_attributes = <span class='kw'>NULL</span>,
   force_vectortranslate = <span class='kw'>NULL</span>,
+  download_only = <span class='fl'>FALSE</span>,
   oe_verbose = <span class='fl'>FALSE</span>
 )</pre>
 
@@ -225,6 +226,12 @@ performed through a spatial operation.</p></td>
       <td><p>TODO</p></td>
     </tr>
     <tr>
+      <th>download_only</th>
+      <td><p>Boolean. If <code>TRUE</code> then the function only returns the
+path where the matched file is stored, instead of reading it. <code>FALSE</code> by
+default.</p></td>
+    </tr>
+    <tr>
       <th>oe_verbose</th>
       <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
     </tr>
@@ -238,7 +245,7 @@ performed through a spatial operation.</p></td>
     <p>This function is a wrapper around ...</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp3Wn3uD/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpQA07Jp/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 44365 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
