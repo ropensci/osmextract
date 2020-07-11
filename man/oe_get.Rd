@@ -19,6 +19,7 @@ oe_get(
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = NULL,
+  download_only = FALSE,
   oe_verbose = FALSE
 )
 }
@@ -68,6 +69,10 @@ performed through a spatial operation.}
 \item{extra_attributes}{TODO}
 
 \item{force_vectortranslate}{TODO}
+
+\item{download_only}{Boolean. If \code{TRUE} then the function only returns the
+path where the matched file is stored, instead of reading it. \code{FALSE} by
+default.}
 
 \item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }

@@ -32,6 +32,9 @@
 #' @param extra_attributes TODO
 #' @param force_vectortranslate TODO
 #' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param download_only Boolean. If `TRUE` then the function only returns the
+#'   path where the matched file is stored, instead of reading it. `FALSE` by
+#'   default.
 #' @param ... Arguments that should  be passed to [`sf::st_read()`]
 #'
 #' @return An sf object related to the input place.
@@ -43,6 +46,7 @@
 #' \dontrun{
 #' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 #' }
+#' oe_get("Isle of Wight", download_only = TRUE)
 oe_get = function(
   place,
   layer = "lines",
@@ -58,6 +62,7 @@ oe_get = function(
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = NULL,
+  download_only = FALSE,
   oe_verbose = FALSE
 ) {
 
@@ -95,6 +100,11 @@ oe_get = function(
     force_vectortranslate = force_vectortranslate,
     verbose = oe_verbose
   )
+
+  # Should we read the file or simply return its path?
+  if (isTRUE(download_only)) {
+    return(gpkg_file_path)
+  }
 
   # Read the translated file with sf::st_read
   sf::st_read(
