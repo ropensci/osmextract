@@ -8,8 +8,8 @@ Authors@R: c(
     person("Andrea", "Gilardi", role=c("aut"),
       comment = c(ORCID = "0000-0002-9424-7439"))
     )
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This package is used to download, convert and read Open Street
+    Map data extracts downloaded from several providers. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -17,7 +17,7 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/itsleeds/osmextractr
 BugReports: https://github.com/itsleeds/osmextractr/issues
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 Imports: 
     sf (>= 0.8.1),
     utils,
