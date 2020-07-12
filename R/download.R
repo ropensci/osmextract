@@ -1,16 +1,18 @@
-#' Download the input file
+#' Download file containing OSM data
 #'
-#' Download the input file if it's not already present in the specified download_directory.
+#' Download the input file if it's not already present in `oe_download_directory()`
+#' or the specified `download_directory`.
 #'
 #' @inheritParams oe_get
-#' @param file_url A
-#' @param file_basename B
-#' @param file_size E
+#' @param file_url A URL containing OSM data (e.g. as a .pbf file)
+#' @param file_basename The base name of the file. Default behaviour:
+#' auto generated from the URL.
+#' @param file_size How big is the file? Optional. `NA` by default.
 #' @param verbose Print information about the file matched? Default: `FALSE`.
 #' @param quiet Should files be downloaded without a progress bar?
 #' `FALSE` by default.
 #'
-#' @return path
+#' @return Character string representing the full path the downloaded file
 #' @export
 #'
 #' @examples
@@ -21,11 +23,12 @@
 #'   file_size = iow_details$file_size
 #' )
 #' f
-#' bristol_details = oe_match("Bristol", provider = "bbike")
+#' bristol_details = oe_match("Bristol", provider = "bbbike")
 #' oe_download(
-#'   file_url = iow_details$url,
-#'   file_size = iow_details$file_size,
-#'   provider = "bbbike"
+#'   file_url = bristol_details$url,
+#'   file_size = bristol_details$file_size,
+#'   provider = "bbbike",
+#'   download_directory = tempdir()
 #' )
 #' }
 oe_download = function(

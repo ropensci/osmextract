@@ -2,7 +2,7 @@
 % Please edit documentation in R/download.R
 \name{oe_download}
 \alias{oe_download}
-\title{Download the input file}
+\title{Download file containing OSM data}
 \usage{
 oe_download(
   file_url,
@@ -17,16 +17,17 @@ oe_download(
 )
 }
 \arguments{
-\item{file_url}{A}
+\item{file_url}{A URL containing OSM data (e.g. as a .pbf file)}
 
-\item{file_basename}{B}
+\item{file_basename}{The base name of the file. Default behaviour:
+auto generated from the URL.}
 
 \item{provider}{Which provider should be used to download the data? For the
 moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
 \item{download_directory}{TODO}
 
-\item{file_size}{E}
+\item{file_size}{How big is the file? Optional. \code{NA} by default.}
 
 \item{force_download}{TODO}
 
@@ -38,10 +39,11 @@ moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.
 \code{FALSE} by default.}
 }
 \value{
-path
+Character string representing the full path the downloaded file
 }
 \description{
-Download the input file if it's not already present in the specified download_directory.
+Download the input file if it's not already present in \code{oe_download_directory()}
+or the specified \code{download_directory}.
 }
 \examples{
 \dontrun{
@@ -51,11 +53,12 @@ f = oe_download(
   file_size = iow_details$file_size
 )
 f
-bristol_details = oe_match("Bristol", provider = "bbike")
+bristol_details = oe_match("Bristol", provider = "bbbike")
 oe_download(
-  file_url = iow_details$url,
-  file_size = iow_details$file_size,
-  provider = "bbbike"
+  file_url = bristol_details$url,
+  file_size = bristol_details$file_size,
+  provider = "bbbike",
+  download_directory = tempdir()
 )
 }
 }
