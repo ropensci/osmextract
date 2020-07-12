@@ -90,4 +90,5 @@ oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
 \dontrun{
 baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 }
+oe_get("Isle of Wight", download_only = TRUE)
 }

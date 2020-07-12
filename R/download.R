@@ -6,7 +6,9 @@
 #' @param file_url A
 #' @param file_basename B
 #' @param file_size E
-#' @param verbose TODO
+#' @param verbose Print information about the file matched? Default: `FALSE`.
+#' @param quiet Should files be downloaded without a progress bar?
+#' `FALSE` by default.
 #'
 #' @return path
 #' @export
@@ -21,7 +23,8 @@ oe_download <- function(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+8, # 5e+8 = 500MB in bytes
-  verbose = FALSE
+  verbose = FALSE,
+  quiet = FALSE
   ) {
   # First we need to build the file_path combining the download_directory,
   # the provider and the file_basename
@@ -58,7 +61,7 @@ oe_download <- function(
       url = file_url,
       destfile = file_path,
       mode = "wb",
-      quiet = !verbose
+      quiet = quiet
     )
 
     if (isTRUE(verbose)) {

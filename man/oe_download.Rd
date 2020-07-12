@@ -12,7 +12,8 @@ oe_download(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+08,
-  verbose = FALSE
+  verbose = FALSE,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -31,7 +32,10 @@ moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.
 
 \item{max_file_size}{TODO}
 
-\item{verbose}{TODO}
+\item{verbose}{Print information about the file matched? Default: \code{FALSE}.}
+
+\item{quiet}{Should files be downloaded without a progress bar?
+\code{FALSE} by default.}
 }
 \value{
 path
