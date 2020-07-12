@@ -4,7 +4,7 @@
 #' corresponding pbf file (and its file size, if present).
 #'
 #' @inheritParams oe_get
-#' @param verbose TODO
+#' @param verbose Print messages on the matching process? `FALSE` by default.
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
@@ -226,19 +226,28 @@ oe_available_providers = function() {
 #' in the existing columns
 #'
 #' @param pattern Character string for the pattern that should be matched
-#' @param provider TODO
-#' @param match_by TODO
-#' @param full_row TODO
+#' @inheritParams oe_get
+#' @param match_by Column name in the provider dataset used to find the match,
+#' `name` by default.
+#' @param full_row Return all columns in the matching row?
+#' `FALSE` by default.
 #'
 #' @return A
 #' @export
 #'
 #' @examples
 #' oe_check_pattern(
-#' pattern = "Yorkshire",
-#' provider = "geofabrik",
-#' match_by = "name"
+#'   pattern = "Yorkshire",
+#'   provider = "geofabrik",
+#'   match_by = "name"
 #' )
+#' res = oe_check_pattern(
+#'   pattern = "Yorkshire",
+#'   provider = "geofabrik",
+#'   match_by = "name",
+#'   full_row = TRUE
+#' )
+#' sf::st_drop_geometry(res)[1:3]
 oe_check_pattern = function(
   pattern,
   provider = "geofabrik",
