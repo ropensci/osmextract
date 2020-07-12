@@ -4,7 +4,7 @@
 #'   through the chosen `provider`. Can be either a length-1 character vector, a
 #'   length-1 `sfc_POINT` object or a numeric vector with length 2. See details
 #'   and examples.
-#' @param layer TODO
+#' @param layer Which `layer` should be read in?
 #' @param provider Which provider should be used to download the data? For the
 #'   moment we support only [`"geofabrik"`](http://download.geofabrik.de/).
 #' @param match_by Which column of the provider data should be used for matching
@@ -42,8 +42,18 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+#' iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+#' class(iow)
+#' summary(sf::st_geometry_type(iow))
+#' oe_match("Isle of Wight", provider = "test")
+#' f = oe_get("Isle of Wight", provider = "test", download_only = TRUE)
+#' # todo: write function to get the .pbf file path
+#' f_pbf = gsub(".gpkg", ".osm.pbf", f)
+#' sf::st_layers(f)
+#' sf::st_layers(f_pbf)
 #' \dontrun{
+#' # fix issue that different layers cannot be read-in
+#' iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
 #' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 #' }
 #' oe_get("Isle of Wight", download_only = TRUE)
