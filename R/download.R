@@ -61,6 +61,7 @@ oe_download = function(
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
     if(provider == "geofabrik") {
+      continue = TRUE
       if (interactive() && !is.na(file_size) && file_size >= max_file_size ) {
         message("This is a large file (", round(file_size / 1e+6), " MB)!")
         continue = utils::menu(
