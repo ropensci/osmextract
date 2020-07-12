@@ -6,8 +6,9 @@
 #'   and examples.
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
-#' @param provider Which provider should be used to download the data? For the
-#'   moment we support only [`"geofabrik"`](http://download.geofabrik.de/).
+#' @param provider Which provider should be used to download the data?
+#'   Available providers can be found with the following command:
+#'   `osmextractr:::oe_available_providers()`
 #' @param match_by Which column of the provider data should be used for matching
 #'   the input place with the provider's data? The default is "name". Check
 #'   details and examples to understand how this parameter works. Ignored if

@@ -34,8 +34,9 @@ and examples.}
 
 \item{...}{arguments passed to other methods}
 
-\item{provider}{Which provider should be used to download the data? For the
-moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{Which provider should be used to download the data?
+Available providers can be found with the following command:
+\code{osmextractr:::oe_available_providers()}}
 
 \item{verbose}{Print messages on the matching process? \code{FALSE} by default.}
 

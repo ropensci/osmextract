@@ -32,8 +32,9 @@ and examples.}
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{provider}{Which provider should be used to download the data? For the
-moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{Which provider should be used to download the data?
+Available providers can be found with the following command:
+\code{osmextractr:::oe_available_providers()}}
 
 \item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}}
 
