@@ -22,7 +22,7 @@ oe_match = function(place, ...) {
 
 #' @rdname oe_match
 #' @export
-oe_match.default <- function(place, ...) {
+oe_match.default = function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
@@ -33,7 +33,7 @@ oe_match.default <- function(place, ...) {
 #' @inheritParams oe_get
 #' @rdname oe_match
 #' @export
-oe_match.sfc_POINT <- function(
+oe_match.sfc_POINT = function(
   place,
   provider = "geofabrik",
   verbose = FALSE,
@@ -49,7 +49,7 @@ oe_match.sfc_POINT <- function(
   }
 
   # Load the data associated with the chosen provider.
-  provider_data <- load_provider_data(provider)
+  provider_data = load_provider_data(provider)
 
   # Check the CRS
   if (sf::st_crs(place) != sf::st_crs(provider_data)) {
@@ -71,7 +71,7 @@ oe_match.sfc_POINT <- function(
   }
 
   # Return a list with the url and the file_size of the matched place
-  result <- list(
+  result = list(
     url = smallest_zone[["pbf"]],
     file_size = smallest_zone[["pbf_file_size"]]
   )
@@ -98,7 +98,7 @@ oe_match.numeric = function(
   }
 
   # Build the sfc_POINT object
-  place <- sf::st_sfc(sf::st_point(place), crs = 4326)
+  place = sf::st_sfc(sf::st_point(place), crs = 4326)
 
   oe_match(place, provider = provider, verbose = verbose, ...)
 }
@@ -106,7 +106,7 @@ oe_match.numeric = function(
 #' @inheritParams oe_get
 #' @rdname oe_match
 #' @export
-oe_match.character <- function(
+oe_match.character = function(
   place,
   provider = "geofabrik",
   match_by = "name",
@@ -125,7 +125,7 @@ oe_match.character <- function(
   }
 
   # Load the data associated with the chosen provider.
-  provider_data <- load_provider_data(provider)
+  provider_data = load_provider_data(provider)
 
   # Check that the value of match_by argument corresponds to one of the columns
   # in provider_data
@@ -145,13 +145,13 @@ oe_match.character <- function(
 
   # Look for the best match between the input 'place' and the data column
   # selected with the match_by argument.
-  matching_dists <- utils::adist(provider_data[[match_by]], place, ignore.case = TRUE)
-  best_match_id <- which.min(matching_dists)
+  matching_dists = utils::adist(provider_data[[match_by]], place, ignore.case = TRUE)
+  best_match_id = which.min(matching_dists)
   # WHAT TO DO IF THERE ARE MULTIPLE BEST MATCHES?
-  best_matched_place <- provider_data[best_match_id, ]
+  best_matched_place = provider_data[best_match_id, ]
 
   # Check if the best match is still too far
-  high_distance <- matching_dists[best_match_id, 1] > max_string_dist
+  high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
   if (isTRUE(high_distance)) {
     if (isTRUE(verbose)) {
@@ -161,7 +161,7 @@ oe_match.character <- function(
       )
     }
     if (interactive() && isTRUE(interactive_ask)) {
-      continue <- utils::menu(
+      continue = utils::menu(
         choices = c("Yes", "No"),
         title = "Would you like to download this file?"
       )
@@ -189,7 +189,7 @@ oe_match.character <- function(
   }
 
   # Return a list with the url and the file_size of the matched place
-  result <- list(
+  result = list(
     url = best_matched_place[["pbf"]],
     file_size = best_matched_place[["pbf_file_size"]]
   )
@@ -197,7 +197,7 @@ oe_match.character <- function(
 }
 
 # The following function is used just to load the correct provider database
-load_provider_data <- function(provider) {
+load_provider_data = function(provider) {
   if (provider %!in% oe_available_providers()) {
     stop(
       "You can only select one of the following providers: ",
@@ -206,7 +206,7 @@ load_provider_data <- function(provider) {
     )
   }
 
-  provider_data <- switch(
+  provider_data = switch(
     provider,
     "geofabrik" = geofabrik_zones,
     "test" = test_zones,
@@ -216,7 +216,7 @@ load_provider_data <- function(provider) {
   provider_data
 }
 
-oe_available_providers <- function() {
+oe_available_providers = function() {
   c(
     "geofabrik",
     "test",
@@ -243,7 +243,7 @@ oe_available_providers <- function() {
 #' provider = "geofabrik",
 #' match_by = "name"
 #' )
-oe_check_pattern <- function(
+oe_check_pattern = function(
   pattern,
   provider = "geofabrik",
   match_by = "name",
@@ -251,13 +251,13 @@ oe_check_pattern <- function(
 ) {
   # Check that the input pattern is a character vector
   if (!is.character(pattern)) {
-    pattern <- structure( # taken from base::grep
+    pattern = structure( # taken from base::grep
       as.character(pattern),
       names = names(pattern)
     )
   }
   # Load the dataset associated with the chosen provider
-  provider_data <- load_provider_data(provider)
+  provider_data = load_provider_data(provider)
 
   # Check that the value of match_by argument corresponds to one of the columns
   # in provider_data
@@ -270,11 +270,11 @@ oe_check_pattern <- function(
   }
 
   # Extract the appropriate vector
-  match_by_column <- provider_data[[match_by]]
+  match_by_column = provider_data[[match_by]]
 
   # Then we extract only the elements of the match_by_column that match the
   # input pattern.
-  match_ID <- grep(pattern, match_by_column)
+  match_ID = grep(pattern, match_by_column)
 
   # If full_row is TRUE than return the corresponding row of provider_data,
   # otherwise just the matched pattern.

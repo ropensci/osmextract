@@ -7,7 +7,7 @@ library(purrr)
 library(httr)
 
 # Download official description of geofabrik data.
-geofabrik_zones <- st_read("https://download.geofabrik.de/index-v1.json", stringsAsFactors = FALSE) %>%
+geofabrik_zones = st_read("https://download.geofabrik.de/index-v1.json", stringsAsFactors = FALSE) %>%
   janitor::clean_names()
 
 # Check the result
@@ -15,7 +15,7 @@ str(geofabrik_zones, max.level = 1, nchar.max = 64, give.attr = FALSE)
 
 # There are a few problems with the ISO3166 columns (i.e. they are read as list
 # columns with character(0) instead of NA/NULL).
-my_fix_iso3166 <- function(list_column) {
+my_fix_iso3166 = function(list_column) {
   vapply(
     list_column,
     function(x) {
@@ -33,8 +33,8 @@ my_fix_iso3166 <- function(list_column) {
 # where the ISO3166 code is composed by two or more elements, such as c("PS", "IL")
 # for Israel and Palestine, c("SN", "GM") for Senegal and Gambia. The same
 # situation happens with the US states where the ISO3166 code is c("US", state).
-geofabrik_zones$iso3166_2 <- my_fix_iso3166(geofabrik_zones$iso3166_2)
-geofabrik_zones$iso3166_1_alpha2 <- my_fix_iso3166(geofabrik_zones$iso3166_1_alpha2)
+geofabrik_zones$iso3166_2 = my_fix_iso3166(geofabrik_zones$iso3166_2)
+geofabrik_zones$iso3166_1_alpha2 = my_fix_iso3166(geofabrik_zones$iso3166_1_alpha2)
 
 # We need to preprocess the urls column since it was read in a JSON format:
 # geofabrik_zones$urls[[1]]
@@ -48,14 +48,14 @@ geofabrik_zones$iso3166_1_alpha2 <- my_fix_iso3166(geofabrik_zones$iso3166_1_alp
 #   \"updates\": \"https:\\/\\/download.geofabrik.de\\/asia\\/afghanistan-updates\"
 # }"
 
-geofabrik_urls <- map_dfr(geofabrik_zones$urls, fromJSON)
+geofabrik_urls = map_dfr(geofabrik_zones$urls, fromJSON)
 geofabrik_urls
-geofabrik_zones$urls <- NULL # This is just to remove the urls column
+geofabrik_zones$urls = NULL # This is just to remove the urls column
 
 # From rbind.sf docs: If you need to cbind e.g. a data.frame to an sf, use
 # data.frame directly and use st_sf on its result, or use bind_cols; see
 # examples.
-geofabrik_zones <- st_sf(data.frame(geofabrik_zones, geofabrik_urls))
+geofabrik_zones = st_sf(data.frame(geofabrik_zones, geofabrik_urls))
 
 # Now we are going to add to the geofabrik_zones sf object other useful
 # information for each pbf file such as it's content-length (i.e. the file size
@@ -63,7 +63,7 @@ geofabrik_zones <- st_sf(data.frame(geofabrik_zones, geofabrik_urls))
 # Idea from:
 # https://stackoverflow.com/questions/2301009/get-file-size-before-downloading-counting-how-much-already-downloaded-httpru/2301030
 
-geofabrik_zones$pbf_file_size <- map_dbl(
+geofabrik_zones$pbf_file_size = map_dbl(
   .x = geofabrik_zones$pbf,
   .f = function(x) as.numeric(headers(HEAD(x))$`content-length`)
 )
@@ -85,7 +85,7 @@ geofabrik_zones$pbf_file_size <- map_dbl(
 # West Yorkshire, which is a subregion of England, is a level 3 zone.
 
 library(dplyr)
-geofabrik_zones <- geofabrik_zones %>%
+geofabrik_zones = geofabrik_zones %>%
   mutate(
     level = case_when(
       is.na(parent) ~ 1L,

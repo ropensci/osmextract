@@ -25,7 +25,7 @@ oe_vectortranslate = function(
   # First we need to build the file path of the .gpkg using the following
   # convention: it is the same file path of the .osm.pbf file but with .gpkg
   # extension
-  gpkg_file_path <- paste0(
+  gpkg_file_path = paste0(
     # I need the double file_path_san_ext to cancel the .osm and the .pbf
     tools::file_path_sans_ext(tools::file_path_sans_ext(file_path)),
     ".gpkg"
@@ -54,7 +54,7 @@ oe_vectortranslate = function(
     # by GDAL at stored at the following link:
     # https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini
     # It was saved on the 9th of July 2020.
-    osmconf_ini <- system.file("osmconf.ini", package = "osmextractr")
+    osmconf_ini = system.file("osmconf.ini", package = "osmextractr")
   }
   if (is.null(osmconf_ini) && !is.null(extra_attributes)) {
     if (is.null(layer)) {
@@ -73,7 +73,7 @@ oe_vectortranslate = function(
   }
 
   if (is.null(vectortranslate_options)) {
-    vectortranslate_options <- c(
+    vectortranslate_options = c(
       "-f", "GPKG",
       "-overwrite",
       "-oo", paste0("CONFIG_FILE=", osmconf_ini),

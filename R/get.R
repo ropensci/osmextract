@@ -67,7 +67,7 @@ oe_get = function(
 ) {
 
   # Match the input place with the provider's data.
-  matched_zone <- oe_match(
+  matched_zone = oe_match(
     place = place,
     provider = provider,
     match_by = match_by,
@@ -78,9 +78,9 @@ oe_get = function(
 
   # Extract the matched url and file size and pass these parameters to the
   # osmext-download function.
-  file_url <- matched_zone[["url"]]
-  file_size <- matched_zone[["file_size"]]
-  file_path <- oe_download(
+  file_url = matched_zone[["url"]]
+  file_size = matched_zone[["file_size"]]
+  file_path = oe_download(
     file_url = file_url,
     download_directory = download_directory,
     provider = provider,
