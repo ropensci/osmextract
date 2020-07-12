@@ -14,7 +14,20 @@
 #' @export
 #'
 #' @examples
-#' 1 + 1
+#' \dontrun{
+#' iow_details = oe_match("Isle of Wight", provider = "test")
+#' f = oe_download(
+#'   file_url = iow_details$url,
+#'   file_size = iow_details$file_size
+#' )
+#' f
+#' bristol_details = oe_match("Bristol", provider = "bbike")
+#' oe_download(
+#'   file_url = iow_details$url,
+#'   file_size = iow_details$file_size,
+#'   provider = "bbbike"
+#' )
+#' }
 oe_download = function(
   file_url,
   file_basename = basename(file_url),
@@ -88,9 +101,11 @@ oe_download_directory = function() {
 
 # Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
-  providers_in_url = grepl(pattern = oe_available_providers(), x = file_url)
-  if (any(providers_in_url)) {
-    return(oe_available_providers()[providers_in_url])
+  providers_regex = paste(oe_available_providers(), collapse = "|")
+  m = regexpr(pattern = providers_regex, file_url)
+  matching_provider = regmatches(x = file_url, m = m)
+  if (matching_provider %in% oe_available_providers()) {
+    return(matching_provider)
   }
   stop("Cannot infer the provider from the url, please specify it")
 }

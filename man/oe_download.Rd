@@ -44,5 +44,18 @@ path
 Download the input file if it's not already present in the specified download_directory.
 }
 \examples{
-1 + 1
+\dontrun{
+iow_details = oe_match("Isle of Wight", provider = "test")
+f = oe_download(
+  file_url = iow_details$url,
+  file_size = iow_details$file_size
+)
+f
+bristol_details = oe_match("Bristol", provider = "bbike")
+oe_download(
+  file_url = iow_details$url,
+  file_size = iow_details$file_size,
+  provider = "bbbike"
+)
+}
 }
