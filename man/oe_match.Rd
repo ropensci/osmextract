@@ -61,15 +61,12 @@ performed through a spatial operation.}
 }
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first
-element is the url of the file associated with the input \code{place}, while
+element is the URL of the file associated with the input \code{place}, while
 the second element is the size of the file.
 }
 \description{
-This function is used to match the input \code{place} with the url of the
+This function is used to match the input \code{place} with the URL of the
 corresponding pbf file (and its file size, if present).
-}
-\details{
-ABC
 }
 \examples{
 oe_match("Italy")

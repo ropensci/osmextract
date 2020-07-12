@@ -1,6 +1,6 @@
 #' Match input place with a geographical zone
 #'
-#' This function is used to match the input `place` with the url of the
+#' This function is used to match the input `place` with the URL of the
 #' corresponding pbf file (and its file size, if present).
 #'
 #' @inheritParams oe_get
@@ -8,12 +8,9 @@
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
-#'   element is the url of the file associated with the input `place`, while
+#'   element is the URL of the file associated with the input `place`, while
 #'   the second element is the size of the file.
 #' @export
-#'
-#' @details ABC
-#'
 #' @examples
 #' oe_match("Italy")
 oe_match = function(place, ...) {
@@ -70,7 +67,7 @@ oe_match.sfc_POINT = function(
     smallest_zone = matched_zones[which.max(matched_zones[["level"]]), ]
   }
 
-  # Return a list with the url and the file_size of the matched place
+  # Return a list with the URL and the file_size of the matched place
   result = list(
     url = smallest_zone[["pbf"]],
     file_size = smallest_zone[["pbf_file_size"]]
@@ -188,7 +185,6 @@ oe_match.character = function(
     message("The input place was matched with: ", best_matched_place[[match_by]])
   }
 
-  # Return a list with the url and the file_size of the matched place
   result = list(
     url = best_matched_place[["pbf"]],
     file_size = best_matched_place[["pbf_file_size"]]

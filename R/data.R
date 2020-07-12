@@ -1,6 +1,6 @@
 #' A `data.frame` of geographical zones taken from Geofabrik
 #'
-#' A `sf` `data.frame` containing the urls, names and file_size of the OSM extracts
+#' A `sf` `data.frame` containing the URLs, names and file_size of the OSM extracts
 #' stored at \url{https://download.geofabrik.de/}. You can read more details
 #' about these data at the following link: \url{https://download.geofabrik.de/technical.html}.
 #'
@@ -58,7 +58,7 @@
 #'
 #' Start bicycle routing for... everywhere!
 #'
-#' A `sf` `data.frame` containing the urls, names and file_size of the OSM extracts.
+#' A `sf` `data.frame` containing the URLs, names and file_size of the OSM extracts.
 #' See \url{https://download.bbbike.org/osm/}.
 #'
 #' @format A sf dataframe with 430 rows and 14 columns:

@@ -76,7 +76,7 @@ oe_get = function(
     verbose = oe_verbose
   )
 
-  # Extract the matched url and file size and pass these parameters to the
+  # Extract the matched URL and file size and pass these parameters to the
   # osmext-download function.
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]

@@ -27,7 +27,7 @@ bbbike_zones
 Start bicycle routing for... everywhere!
 }
 \details{
-A \code{sf} \code{data.frame} containing the urls, names and file_size of the OSM extracts.
+A \code{sf} \code{data.frame} containing the URLs, names and file_size of the OSM extracts.
 See \url{https://download.bbbike.org/osm/}.
 }
 \keyword{datasets}
