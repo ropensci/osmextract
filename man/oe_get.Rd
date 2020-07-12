@@ -20,7 +20,7 @@ oe_get(
   extra_attributes = NULL,
   force_vectortranslate = NULL,
   download_only = FALSE,
-  oe_verbose = FALSE
+  verbose = FALSE
 )
 }
 \arguments{
@@ -29,7 +29,8 @@ through the chosen \code{provider}. Can be either a length-1 character vector, a
 length-1 \code{sfc_POINT} object or a numeric vector with length 2. See details
 and examples.}
 
-\item{layer}{Which \code{layer} should be read in?}
+\item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
+(the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
 \item{provider}{Which provider should be used to download the data? For the
 moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
@@ -56,25 +57,37 @@ Check details and examples to understand why this parameter is important.
 Ignored if \code{place} is not a character vector since the matching is
 performed through a spatial operation.}
 
-\item{download_directory}{TODO}
+\item{download_directory}{Where to download the file containing the OSM data?
+By default this is \code{tempdir()}, which changes each time you restart R.
+You can set a persistent \code{download_directory} by adding the following
+to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
+\verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
-\item{force_download}{TODO}
+\item{force_download}{Should the file be updated if it has already been
+downloaded? \code{FALSE} by default.}
 
-\item{max_file_size}{TODO}
+\item{max_file_size}{The maximum file size to download without asking.
+Default: \code{5e+8}, half a gigabyte.}
 
-\item{vectortranslate_options}{TODO}
+\item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
+argument \code{options}. Set by default.}
 
-\item{osmconf_ini}{TODO}
+\item{osmconf_ini}{The configuration file specifying which columns should be
+in the resulting data frame. See documentation at
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org} for details.}
 
-\item{extra_attributes}{TODO}
+\item{extra_attributes}{Which addition columns, corresponding to OSM keys,
+should be in the resulting dataset? \code{NULL} by default.}
 
-\item{force_vectortranslate}{TODO}
+\item{force_vectortranslate}{Force the original \code{.pbf} file to be translated
+into a \code{.gpkg} file, even if a \code{.gpkg} associated with the \code{provider} zone
+already exists.}
 
 \item{download_only}{Boolean. If \code{TRUE} then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
-\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
 An sf object related to the input place.
@@ -86,7 +99,7 @@ Download, translate and read OSM extracts
 This function is a wrapper around ...
 }
 \examples{
-iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+iow = oe_get("Isle of Wight", provider = "test", verbose = TRUE)
 class(iow)
 summary(sf::st_geometry_type(iow))
 oe_match("Isle of Wight", provider = "test")
@@ -98,7 +111,7 @@ sf::st_layers(f_pbf)
 \dontrun{
 # fix issue that different layers cannot be read-in
 iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
-baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
+baku = oe_get(place = "Baku", provider = "bbbike", verbose = TRUE)
 }
 oe_get("Isle of Wight", download_only = TRUE)
 }

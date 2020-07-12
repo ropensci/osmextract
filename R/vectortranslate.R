@@ -1,12 +1,7 @@
 #' Translate the .osm.pbf format into .gpkg
 #'
+#' @inheritParams oe_get
 #' @param file_path A
-#' @param vectortranslate_options B
-#' @param layer B2
-#' @param osmconf_ini C
-#' @param extra_attributes D
-#' @param force_vectortranslate E
-#' @param verbose F
 #'
 #' @return path
 #' @export

@@ -4,7 +4,8 @@
 #'   through the chosen `provider`. Can be either a length-1 character vector, a
 #'   length-1 `sfc_POINT` object or a numeric vector with length 2. See details
 #'   and examples.
-#' @param layer Which `layer` should be read in?
+#' @param layer Which `layer` should be read in? Typically `points`, `lines`
+#' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
 #' @param provider Which provider should be used to download the data? For the
 #'   moment we support only [`"geofabrik"`](http://download.geofabrik.de/).
 #' @param match_by Which column of the provider data should be used for matching
@@ -24,14 +25,26 @@
 #'   Check details and examples to understand why this parameter is important.
 #'   Ignored if `place` is not a character vector since the matching is
 #'   performed through a spatial operation.
-#' @param download_directory TODO
-#' @param force_download TODO
-#' @param max_file_size TODO
-#' @param vectortranslate_options TODO
-#' @param osmconf_ini TODO
-#' @param extra_attributes TODO
-#' @param force_vectortranslate TODO
-#' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param download_directory Where to download the file containing the OSM data?
+#' By default this is `tempdir()`, which changes each time you restart R.
+#' You can set a persistent `download_directory` by adding the following
+#' to your `.Renviron` file (e.g. with `usethis::edit_r_environ()`):
+#' `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
+#' @param force_download Should the file be updated if it has already been
+#' downloaded? `FALSE` by default.
+#' @param max_file_size The maximum file size to download without asking.
+#' Default: `5e+8`, half a gigabyte.
+#' @param vectortranslate_options Options to pass to the [`sf::gdal_utils()`]
+#' argument `options`. Set by default.
+#' @param osmconf_ini The configuration file specifying which columns should be
+#' in the resulting data frame. See documentation at
+#' [gdal.org](https://gdal.org/drivers/vector/osm.html) for details.
+#' @param extra_attributes Which addition columns, corresponding to OSM keys,
+#' should be in the resulting dataset? `NULL` by default.
+#' @param force_vectortranslate Force the original `.pbf` file to be translated
+#' into a `.gpkg` file, even if a `.gpkg` associated with the `provider` zone
+#' already exists.
+#' @param verbose Boolean. If `TRUE` the function prints informative messages.
 #' @param download_only Boolean. If `TRUE` then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -42,7 +55,7 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+#' iow = oe_get("Isle of Wight", provider = "test", verbose = TRUE)
 #' class(iow)
 #' summary(sf::st_geometry_type(iow))
 #' oe_match("Isle of Wight", provider = "test")
@@ -54,7 +67,7 @@
 #' \dontrun{
 #' # fix issue that different layers cannot be read-in
 #' iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
-#' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
+#' baku = oe_get(place = "Baku", provider = "bbbike", verbose = TRUE)
 #' }
 #' oe_get("Isle of Wight", download_only = TRUE)
 oe_get = function(
@@ -73,7 +86,7 @@ oe_get = function(
   extra_attributes = NULL,
   force_vectortranslate = NULL,
   download_only = FALSE,
-  oe_verbose = FALSE
+  verbose = FALSE
 ) {
 
   # Match the input place with the provider's data.
@@ -83,7 +96,7 @@ oe_get = function(
     match_by = match_by,
     max_string_dist = max_string_dist,
     interactive_ask = interactive_ask,
-    verbose = oe_verbose
+    verbose = verbose
   )
 
   # Extract the matched URL and file size and pass these parameters to the
@@ -97,7 +110,7 @@ oe_get = function(
     file_size = file_size,
     force_download = force_download,
     max_file_size = max_file_size,
-    verbose = oe_verbose
+    verbose = verbose
   )
 
   # Pass the file_path to oe_vectortranslate
@@ -108,7 +121,7 @@ oe_get = function(
     osmconf_ini = osmconf_ini,
     extra_attributes = extra_attributes,
     force_vectortranslate = force_vectortranslate,
-    verbose = oe_verbose
+    verbose = verbose
   )
 
   # Should we read the file or simply return its path?

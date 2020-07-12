@@ -25,13 +25,19 @@ auto generated from the URL.}
 \item{provider}{Which provider should be used to download the data? For the
 moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
 
-\item{download_directory}{TODO}
+\item{download_directory}{Where to download the file containing the OSM data?
+By default this is \code{tempdir()}, which changes each time you restart R.
+You can set a persistent \code{download_directory} by adding the following
+to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
+\verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default.}
 
-\item{force_download}{TODO}
+\item{force_download}{Should the file be updated if it has already been
+downloaded? \code{FALSE} by default.}
 
-\item{max_file_size}{TODO}
+\item{max_file_size}{The maximum file size to download without asking.
+Default: \code{5e+8}, half a gigabyte.}
 
 \item{verbose}{Print information about the file matched? Default: \code{FALSE}.}
 
