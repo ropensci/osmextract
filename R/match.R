@@ -8,10 +8,37 @@
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
 #'   element is the URL of the file associated with the input `place`, while
-#'   the second element is the size of the file.
+#'   the second element is the size of the file (which may be `NULL` or `NA`)
 #' @export
+#'
+#' @seealso `oe_check_pattern()`
+#'
 #' @examples
+#' # The simplest example:
 #' oe_match("Italy")
+#'
+#' # Match the input zone using an sfc_POINT object:
+#' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+#' oe_match(milan_duomo)
+#'
+#' # Match the input zone using a numeric vector of coordinates
+#' # (in which case crs = 4326 is assumed)
+#' oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
+#'
+#' # Perform the matching operations using other columns instead of "name".
+#' oe_match("RU", match_by = "iso3166_1_alpha2")
+#' # Increase the max_string_dist parameter and help the function:
+#' oe_match("Isle Wight", max_string_dist = 3)
+#' # but be aware that it can be dangerous:
+#' oe_match("London", max_string_dist = 3, oe_verbose = TRUE)
+#'
+#' # Check interactive_ask:
+#' if (interactive()) {
+#'     oe_match("London", interactive_ask = TRUE)
+#' }
+#'
+#' # Change the provider:
+#' oe_match("Leeds", provider = "bbbike")
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
@@ -150,7 +177,7 @@ oe_match.character = function(
   high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
   if (isTRUE(high_distance)) {
-    if (isTRUE(oe_verbose)) {
+    if (isTRUE(oe_verbose) || isTRUE(interactive_ask)) {
       message(
         "No exact matching found for place = ", place, ". ",
         "Best match is ", best_matched_place[[match_by]], "."
@@ -159,7 +186,7 @@ oe_match.character = function(
     if (interactive() && isTRUE(interactive_ask)) {
       continue = utils::menu(
         choices = c("Yes", "No"),
-        title = "Would you like to download this file?"
+        title = "Do you confirm that this is the right match?"
       )
       # since the options are Yes/No, then Yes == 1L
       if (continue != 1L) {
