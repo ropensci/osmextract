@@ -32,13 +32,16 @@ You can set a persistent \code{download_directory} by adding the following
 to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
-\item{file_size}{How big is the file? Optional. \code{NA} by default.}
+\item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
+bigger than \code{max_file_size} and the function is run in interactive mode,
+then an interactive menu is displayed, asking for permission for
+downloading the file.}
 
 \item{force_download}{Should the file be updated if it has already been
 downloaded? \code{FALSE} by default.}
 
-\item{max_file_size}{The maximum file size to download without asking.
-Default: \code{5e+8}, half a gigabyte.}
+\item{max_file_size}{The maximum file size to download without asking in
+interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
 \item{verbose}{Print information about the file matched? Default: \code{FALSE}.}
 
@@ -55,16 +58,14 @@ or the specified \code{download_directory}.
 \examples{
 \dontrun{
 iow_details = oe_match("Isle of Wight", provider = "test")
-f = oe_download(
+oe_download(
   file_url = iow_details$url,
   file_size = iow_details$file_size
 )
-f
 bristol_details = oe_match("Bristol", provider = "bbbike")
 oe_download(
   file_url = bristol_details$url,
   file_size = bristol_details$file_size,
-  provider = "bbbike",
   download_directory = tempdir()
 )
 }

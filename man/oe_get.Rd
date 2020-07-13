@@ -67,8 +67,8 @@ to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
 \item{force_download}{Should the file be updated if it has already been
 downloaded? \code{FALSE} by default.}
 
-\item{max_file_size}{The maximum file size to download without asking.
-Default: \code{5e+8}, half a gigabyte.}
+\item{max_file_size}{The maximum file size to download without asking in
+interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
 \item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
 argument \code{options}. Set by default.}

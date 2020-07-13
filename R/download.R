@@ -7,7 +7,10 @@
 #' @param file_url A URL containing OSM data (e.g. as a .pbf file)
 #' @param file_basename The base name of the file. Default behaviour:
 #' auto generated from the URL.
-#' @param file_size How big is the file? Optional. `NA` by default.
+#' @param file_size How big is the file? Optional. `NA` by default. If it's
+#'   bigger than `max_file_size` and the function is run in interactive mode,
+#'   then an interactive menu is displayed, asking for permission for
+#'   downloading the file.
 #' @param verbose Print information about the file matched? Default: `FALSE`.
 #' @param quiet Should files be downloaded without a progress bar?
 #' `FALSE` by default.
@@ -18,16 +21,14 @@
 #' @examples
 #' \dontrun{
 #' iow_details = oe_match("Isle of Wight", provider = "test")
-#' f = oe_download(
+#' oe_download(
 #'   file_url = iow_details$url,
 #'   file_size = iow_details$file_size
 #' )
-#' f
 #' bristol_details = oe_match("Bristol", provider = "bbbike")
 #' oe_download(
 #'   file_url = bristol_details$url,
 #'   file_size = bristol_details$file_size,
-#'   provider = "bbbike",
 #'   download_directory = tempdir()
 #' )
 #' }
@@ -60,18 +61,19 @@ oe_download = function(
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-    if(provider == "geofabrik") {
-      continue = TRUE
-      if (interactive() && !is.na(file_size) && file_size >= max_file_size ) {
-        message("This is a large file (", round(file_size / 1e+6), " MB)!")
-        continue = utils::menu(
-          choices = c("Yes", "No"),
-          title = "Are you sure that you want to download it?"
-        )
+
+    # If working in interactive session and file_size > max_file_size, then we
+    # double check if we really want to download the file.
+    continue = 1L
+    if (interactive() && !is.null(file_size) && !is.na(file_size) && file_size >= max_file_size ) {
+      message("This is a large file (", round(file_size / 1e+6), " MB)!")
+      continue = utils::menu(
+        choices = c("Yes", "No"),
+        title = "Are you sure that you want to download it?"
+      )
     }
-      if (continue != 1L) {
-        stop("Aborted by user.")
-      }
+    if (continue != 1L) {
+      stop("Aborted by user.")
     }
 
     utils::download.file(

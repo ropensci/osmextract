@@ -33,8 +33,8 @@
 #' `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
 #' @param force_download Should the file be updated if it has already been
 #' downloaded? `FALSE` by default.
-#' @param max_file_size The maximum file size to download without asking.
-#' Default: `5e+8`, half a gigabyte.
+#' @param max_file_size The maximum file size to download without asking in
+#'   interactive mode. Default: `5e+8`, half a gigabyte.
 #' @param vectortranslate_options Options to pass to the [`sf::gdal_utils()`]
 #' argument `options`. Set by default.
 #' @param osmconf_ini The configuration file specifying which columns should be
