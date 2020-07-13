@@ -227,7 +227,10 @@ the second element is the size of the file (which may be <code>NULL</code> or <c
 <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='kw'>milan_duomo</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: GDAL Error 1: No PROJ.4 translation for destination SRS, coordinate transformation initialization has failed.</span></div><div class='output co'>#&gt; <span class='error'>Error in CPL_transform(x, crs, aoi, pipeline, reverse): OGRCreateCoordinateTransformation() returned NULL: PROJ available?</span></div><div class='input'>
 <span class='co'># Match the input zone using a numeric vector of coordinates</span>
 <span class='co'># (in which case crs = 4326 is assumed)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9.1916</span>, <span class='fl'>45.4650</span>)) <span class='co'># Milan, Duomo using CRS = 4326</span></div><div class='output co'>#&gt; <span class='warning'>Warning: GDAL Error 1: No PROJ.4 translation for destination SRS, coordinate transformation initialization has failed.</span></div><div class='output co'>#&gt; <span class='error'>Error in CPL_transform(x, crs, aoi, pipeline, reverse): OGRCreateCoordinateTransformation() returned NULL: PROJ available?</span></div><div class='input'>
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9.1916</span>, <span class='fl'>45.4650</span>)) <span class='co'># Milan, Duomo using CRS = 4326</span>
+}
+
 <span class='co'># Perform the matching operations using other columns instead of "name".</span>
 <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"RU"</span>, match_by = <span class='st'>"iso3166_1_alpha2"</span>)</div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
