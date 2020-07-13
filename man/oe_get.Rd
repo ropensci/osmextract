@@ -103,3 +103,16 @@ Download, translate and read OSM extracts
 \details{
 This function is a wrapper around ...
 }
+\examples{
+iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+class(iow)
+summary(sf::st_geometry_type(iow))
+iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
+summary(sf::st_geometry_type(iow_points))
+# Get the .pbf file path
+oe_get("Isle of Wight", download_only = TRUE)
+\dontrun{
+# alternative providers
+baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
+}
+}
