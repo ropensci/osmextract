@@ -147,15 +147,19 @@ in the existing columns</p>
     </tr>
     <tr>
       <th>provider</th>
-      <td><p>TODO</p></td>
+      <td><p>Which provider should be used to download the data?
+Available providers can be found with the following command:
+<code>osmextractr:::oe_available_providers()</code></p></td>
     </tr>
     <tr>
       <th>match_by</th>
-      <td><p>TODO</p></td>
+      <td><p>Column name in the provider dataset used to find the match,
+<code>name</code> by default.</p></td>
     </tr>
     <tr>
       <th>full_row</th>
-      <td><p>TODO</p></td>
+      <td><p>Return all columns in the matching row?
+<code>FALSE</code> by default.</p></td>
     </tr>
     </table>
 
@@ -165,11 +169,21 @@ in the existing columns</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_check_pattern.html'>oe_check_pattern</a></span>(
-pattern = <span class='st'>"Yorkshire"</span>,
-provider = <span class='st'>"geofabrik"</span>,
-match_by = <span class='st'>"name"</span>
+  pattern = <span class='st'>"Yorkshire"</span>,
+  provider = <span class='st'>"geofabrik"</span>,
+  match_by = <span class='st'>"name"</span>
 )</div><div class='output co'>#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"         
-#&gt; [3] "South Yorkshire"          "West Yorkshire"          </div></pre>
+#&gt; [3] "South Yorkshire"          "West Yorkshire"          </div><div class='input'><span class='kw'>res</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_check_pattern.html'>oe_check_pattern</a></span>(
+  pattern = <span class='st'>"Yorkshire"</span>,
+  provider = <span class='st'>"geofabrik"</span>,
+  match_by = <span class='st'>"name"</span>,
+  full_row = <span class='fl'>TRUE</span>
+)
+<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry.html'>st_drop_geometry</a></span>(<span class='kw'>res</span>)[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]</div><div class='output co'>#&gt;                           id                     name  parent
+#&gt; 94  east-yorkshire-with-hull East Yorkshire with Hull england
+#&gt; 245          north-yorkshire          North Yorkshire england
+#&gt; 315          south-yorkshire          South Yorkshire england
+#&gt; 420           west-yorkshire           West Yorkshire england</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

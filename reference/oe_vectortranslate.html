@@ -136,7 +136,7 @@
   osmconf_ini = <span class='kw'>NULL</span>,
   extra_attributes = <span class='kw'>NULL</span>,
   force_vectortranslate = <span class='fl'>FALSE</span>,
-  verbose = <span class='fl'>FALSE</span>
+  oe_verbose = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -144,37 +144,44 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file_path</th>
-      <td><p>A</p></td>
+      <td><p>Character string representing the full path the .osm.pbf file</p></td>
     </tr>
     <tr>
       <th>vectortranslate_options</th>
-      <td><p>B</p></td>
+      <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
+argument <code>options</code>. Set by default. Check details and examples.</p></td>
     </tr>
     <tr>
       <th>layer</th>
-      <td><p>B2</p></td>
+      <td><p>Which <code>layer</code> should be read in? Typically <code>points</code>, <code>lines</code>
+(the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
-      <td><p>C</p></td>
+      <td><p>The configuration file specifying which columns should be
+in the resulting data frame. See documentation at
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a> for details.</p></td>
     </tr>
     <tr>
       <th>extra_attributes</th>
-      <td><p>D</p></td>
+      <td><p>Which addition columns, corresponding to OSM keys,
+should be in the resulting dataset? <code>NULL</code> by default.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
-      <td><p>E</p></td>
+      <td><p>Force the original <code>.pbf</code> file to be translated
+into a <code>.gpkg</code> file, even if a <code>.gpkg</code> associated with the <code>provider</code> zone
+already exists.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>F</p></td>
+      <th>oe_verbose</th>
+      <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>path</p>
+    <p>Character string representing the full path the .gpkg file</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fl'>1</span> <span class='op'>+</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] 2</div></pre>

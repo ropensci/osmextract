@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download the input file — oe_download • osmextractr</title>
+<title>Download file containing OSM data — oe_download • osmextractr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Download the input file — oe_download" />
-<meta property="og:description" content="Download the input file if it's not already present in the specified download_directory." />
+<meta property="og:title" content="Download file containing OSM data — oe_download" />
+<meta property="og:description" content="Download the input file if it's not already present in oe_download_directory()
+or the specified download_directory." />
 
 
 
@@ -120,13 +121,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download the input file</h1>
+    <h1>Download file containing OSM data</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextractr/blob/master/R/download.R'><code>R/download.R</code></a></small>
     <div class="hidden name"><code>oe_download.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Download the input file if it's not already present in the specified download_directory.</p>
+    <p>Download the input file if it's not already present in <code>oe_download_directory()</code>
+or the specified <code>download_directory</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
@@ -137,7 +139,8 @@
   file_size = <span class='fl'>NA</span>,
   force_download = <span class='fl'>FALSE</span>,
   max_file_size = <span class='fl'>5e+08</span>,
-  verbose = <span class='fl'>FALSE</span>
+  oe_verbose = <span class='fl'>FALSE</span>,
+  oe_quiet = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -145,45 +148,73 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file_url</th>
-      <td><p>A</p></td>
+      <td><p>A URL containing OSM data (e.g. as a .pbf file)</p></td>
     </tr>
     <tr>
       <th>file_basename</th>
-      <td><p>B</p></td>
+      <td><p>The base name of the file. Default behaviour:
+auto generated from the URL.</p></td>
     </tr>
     <tr>
       <th>provider</th>
-      <td><p>Which provider should be used to download the data? For the
-moment we support only <a href='http://download.geofabrik.de/'><code>"geofabrik"</code></a>.</p></td>
+      <td><p>Which provider should be used to download the data?
+Available providers can be found with the following command:
+<code>osmextractr:::oe_available_providers()</code></p></td>
     </tr>
     <tr>
       <th>download_directory</th>
-      <td><p>TODO</p></td>
+      <td><p>Where to download the file containing the OSM data?
+By default this is <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>, which changes each time you restart R.
+You can set a persistent <code>download_directory</code> by adding the following
+to your <code>.Renviron</code> file (e.g. with <code>usethis::edit_r_environ()</code>):
+<code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
     </tr>
     <tr>
       <th>file_size</th>
-      <td><p>E</p></td>
+      <td><p>How big is the file? Optional. <code>NA</code> by default. If it's
+bigger than <code>max_file_size</code> and the function is run in interactive mode,
+then an interactive menu is displayed, asking for permission for
+downloading the file.</p></td>
     </tr>
     <tr>
       <th>force_download</th>
-      <td><p>TODO</p></td>
+      <td><p>Should the file be updated if it has already been
+downloaded? <code>FALSE</code> by default.</p></td>
     </tr>
     <tr>
       <th>max_file_size</th>
-      <td><p>TODO</p></td>
+      <td><p>The maximum file size to download without asking in
+interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>TODO</p></td>
+      <th>oe_verbose</th>
+      <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
+    </tr>
+    <tr>
+      <th>oe_quiet</th>
+      <td><p>Should files be downloaded without a progress bar?
+<code>FALSE</code> by default.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>path</p>
+    <p>Character string representing the full path the downloaded file</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fl'>1</span> <span class='op'>+</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] 2</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
+  file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,
+  file_size = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>file_size</span>
+)
+<span class='kw'>bristol_details</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Bristol"</span>, provider = <span class='st'>"bbbike"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
+  file_url = <span class='kw'>bristol_details</span><span class='op'>$</span><span class='kw'>url</span>,
+  file_size = <span class='kw'>bristol_details</span><span class='op'>$</span><span class='kw'>file_size</span>,
+  download_directory = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
+)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

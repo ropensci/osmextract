@@ -145,7 +145,8 @@
   extra_attributes = <span class='kw'>NULL</span>,
   force_vectortranslate = <span class='kw'>NULL</span>,
   download_only = <span class='fl'>FALSE</span>,
-  oe_verbose = <span class='fl'>FALSE</span>
+  oe_verbose = <span class='fl'>FALSE</span>,
+  oe_quiet = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -160,12 +161,14 @@ and examples.</p></td>
     </tr>
     <tr>
       <th>layer</th>
-      <td><p>TODO</p></td>
+      <td><p>Which <code>layer</code> should be read in? Typically <code>points</code>, <code>lines</code>
+(the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>.</p></td>
     </tr>
     <tr>
       <th>provider</th>
-      <td><p>Which provider should be used to download the data? For the
-moment we support only <a href='http://download.geofabrik.de/'><code>"geofabrik"</code></a>.</p></td>
+      <td><p>Which provider should be used to download the data?
+Available providers can be found with the following command:
+<code>osmextractr:::oe_available_providers()</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -199,31 +202,43 @@ performed through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
-      <td><p>TODO</p></td>
+      <td><p>Where to download the file containing the OSM data?
+By default this is <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>, which changes each time you restart R.
+You can set a persistent <code>download_directory</code> by adding the following
+to your <code>.Renviron</code> file (e.g. with <code>usethis::edit_r_environ()</code>):
+<code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
     </tr>
     <tr>
       <th>force_download</th>
-      <td><p>TODO</p></td>
+      <td><p>Should the file be updated if it has already been
+downloaded? <code>FALSE</code> by default.</p></td>
     </tr>
     <tr>
       <th>max_file_size</th>
-      <td><p>TODO</p></td>
+      <td><p>The maximum file size to download without asking in
+interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
       <th>vectortranslate_options</th>
-      <td><p>TODO</p></td>
+      <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
+argument <code>options</code>. Set by default. Check details and examples.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
-      <td><p>TODO</p></td>
+      <td><p>The configuration file specifying which columns should be
+in the resulting data frame. See documentation at
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a> for details.</p></td>
     </tr>
     <tr>
       <th>extra_attributes</th>
-      <td><p>TODO</p></td>
+      <td><p>Which addition columns, corresponding to OSM keys,
+should be in the resulting dataset? <code>NULL</code> by default.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
-      <td><p>TODO</p></td>
+      <td><p>Force the original <code>.pbf</code> file to be translated
+into a <code>.gpkg</code> file, even if a <code>.gpkg</code> associated with the <code>provider</code> zone
+already exists.</p></td>
     </tr>
     <tr>
       <th>download_only</th>
@@ -235,6 +250,11 @@ default.</p></td>
       <th>oe_verbose</th>
       <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
     </tr>
+    <tr>
+      <th>oe_quiet</th>
+      <td><p>Should files be downloaded without a progress bar?
+<code>FALSE</code> by default.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -245,14 +265,44 @@ default.</p></td>
     <p>This function is a wrapper around ...</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpQA07Jp/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+    <pre class="examples"><div class='input'><span class='kw'>iow</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpsIkWbm/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 44365 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
-#&gt; CRS:            4326</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+#&gt; CRS:            4326</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>iow</span>)</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>iow</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
+#&gt;                  0                  0              44365                  0 
+#&gt;         MULTIPOINT    MULTILINESTRING       MULTIPOLYGON GEOMETRYCOLLECTION 
+#&gt;                  0                  0                  0                  0 
+#&gt;     CIRCULARSTRING      COMPOUNDCURVE       CURVEPOLYGON         MULTICURVE 
+#&gt;                  0                  0                  0                  0 
+#&gt;       MULTISURFACE              CURVE            SURFACE  POLYHEDRALSURFACE 
+#&gt;                  0                  0                  0                  0 
+#&gt;                TIN           TRIANGLE 
+#&gt;                  0                  0 </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>)</div><div class='output co'>#&gt; $url
+#&gt; [1] "https://github.com/ITSLeeds/osmextractr/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf"
+#&gt; 
+#&gt; $file_size
+#&gt; [1] 6877468
+#&gt; </div><div class='input'><span class='kw'>f</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)
+<span class='co'># todo: write function to get the .pbf file path</span>
+<span class='kw'>f_pbf</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span>(<span class='st'>".gpkg"</span>, <span class='st'>".osm.pbf"</span>, <span class='kw'>f</span>)
+<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>f</span>)</div><div class='output co'>#&gt; Driver: GPKG 
+#&gt; Available layers:
+#&gt;   layer_name geometry_type features fields
+#&gt; 1      lines   Line String    44365      9</div><div class='input'><span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>f_pbf</span>)</div><div class='output co'>#&gt; Driver: OSM 
+#&gt; Available layers:
+#&gt;         layer_name       geometry_type features fields
+#&gt; 1           points               Point       NA     10
+#&gt; 2            lines         Line String       NA      9
+#&gt; 3 multilinestrings   Multi Line String       NA      4
+#&gt; 4    multipolygons       Multi Polygon       NA     25
+#&gt; 5  other_relations Geometry Collection       NA      4</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># fix issue that different layers cannot be read-in</span>
+<span class='kw'>iow_points</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>)
 <span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, oe_verbose = <span class='fl'>TRUE</span>)
-}</div></pre>
+}
+<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpsIkWbm/geofabrik_isle-of-wight-latest.gpkg"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
