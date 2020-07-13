@@ -111,6 +111,9 @@ iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
 summary(sf::st_geometry_type(iow_points))
 # Get the .pbf file path
 oe_get("Isle of Wight", download_only = TRUE)
+# add additional attributes
+im = oe_get("Isle of Wight", provider = "test", extra_attributes = "maxpeed")
+names(im)
 \dontrun{
 # alternative providers
 baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)

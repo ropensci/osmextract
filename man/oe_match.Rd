@@ -63,12 +63,39 @@ performed through a spatial operation.}
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first
 element is the URL of the file associated with the input \code{place}, while
-the second element is the size of the file.
+the second element is the size of the file (which may be \code{NULL} or \code{NA})
 }
 \description{
 This function is used to match the input \code{place} with the URL of the
 corresponding pbf file (and its file size, if present).
 }
 \examples{
+# The simplest example:
 oe_match("Italy")
+
+# Match the input zone using an sfc_POINT object:
+milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+oe_match(milan_duomo)
+
+# Match the input zone using a numeric vector of coordinates
+# (in which case crs = 4326 is assumed)
+oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
+
+# Perform the matching operations using other columns instead of "name".
+oe_match("RU", match_by = "iso3166_1_alpha2")
+# Increase the max_string_dist parameter and help the function:
+oe_match("Isle Wight", max_string_dist = 3)
+# but be aware that it can be dangerous:
+oe_match("London", max_string_dist = 3, oe_verbose = TRUE)
+
+# Check interactive_ask:
+if (interactive()) {
+    oe_match("London", interactive_ask = TRUE)
+}
+
+# Change the provider:
+oe_match("Leeds", provider = "bbbike")
+}
+\seealso{
+\code{oe_check_pattern()}
 }
