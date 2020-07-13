@@ -12,9 +12,9 @@ oe_match(place, ...)
 
 \method{oe_match}{default}(place, ...)
 
-\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", verbose = FALSE, ...)
+\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", oe_verbose = FALSE, ...)
 
-\method{oe_match}{numeric}(place, provider = "geofabrik", verbose = FALSE, ...)
+\method{oe_match}{numeric}(place, provider = "geofabrik", oe_verbose = FALSE, ...)
 
 \method{oe_match}{character}(
   place,
@@ -22,7 +22,7 @@ oe_match(place, ...)
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  verbose = FALSE,
+  oe_verbose = FALSE,
   ...
 )
 }
@@ -38,7 +38,7 @@ and examples.}
 Available providers can be found with the following command:
 \code{osmextractr:::oe_available_providers()}}
 
-\item{verbose}{Print messages on the matching process? \code{FALSE} by default.}
+\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 
 \item{match_by}{Which column of the provider data should be used for matching
 the input place with the provider's data? The default is "name". Check

@@ -20,7 +20,8 @@ oe_get(
   extra_attributes = NULL,
   force_vectortranslate = NULL,
   download_only = FALSE,
-  verbose = FALSE
+  oe_verbose = FALSE,
+  oe_quiet = FALSE
 )
 }
 \arguments{
@@ -71,7 +72,7 @@ downloaded? \code{FALSE} by default.}
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
 \item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
-argument \code{options}. Set by default.}
+argument \code{options}. Set by default. Check details and examples.}
 
 \item{osmconf_ini}{The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
@@ -88,7 +89,10 @@ already exists.}
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
-\item{verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+
+\item{oe_quiet}{Should files be downloaded without a progress bar?
+\code{FALSE} by default.}
 }
 \value{
 An sf object related to the input place.
@@ -100,7 +104,7 @@ Download, translate and read OSM extracts
 This function is a wrapper around ...
 }
 \examples{
-iow = oe_get("Isle of Wight", provider = "test", verbose = TRUE)
+iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
 class(iow)
 summary(sf::st_geometry_type(iow))
 oe_match("Isle of Wight", provider = "test")
@@ -112,7 +116,7 @@ sf::st_layers(f_pbf)
 \dontrun{
 # fix issue that different layers cannot be read-in
 iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
-baku = oe_get(place = "Baku", provider = "bbbike", verbose = TRUE)
+baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 }
 oe_get("Isle of Wight", download_only = TRUE)
 }

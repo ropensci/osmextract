@@ -36,7 +36,7 @@
 #' @param max_file_size The maximum file size to download without asking in
 #'   interactive mode. Default: `5e+8`, half a gigabyte.
 #' @param vectortranslate_options Options to pass to the [`sf::gdal_utils()`]
-#' argument `options`. Set by default.
+#' argument `options`. Set by default. Check details and examples.
 #' @param osmconf_ini The configuration file specifying which columns should be
 #' in the resulting data frame. See documentation at
 #' [gdal.org](https://gdal.org/drivers/vector/osm.html) for details.
@@ -45,7 +45,9 @@
 #' @param force_vectortranslate Force the original `.pbf` file to be translated
 #' into a `.gpkg` file, even if a `.gpkg` associated with the `provider` zone
 #' already exists.
-#' @param verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param oe_quiet Should files be downloaded without a progress bar?
+#' `FALSE` by default.
 #' @param download_only Boolean. If `TRUE` then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -56,7 +58,7 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' iow = oe_get("Isle of Wight", provider = "test", verbose = TRUE)
+#' iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
 #' class(iow)
 #' summary(sf::st_geometry_type(iow))
 #' oe_match("Isle of Wight", provider = "test")
@@ -68,7 +70,7 @@
 #' \dontrun{
 #' # fix issue that different layers cannot be read-in
 #' iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
-#' baku = oe_get(place = "Baku", provider = "bbbike", verbose = TRUE)
+#' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 #' }
 #' oe_get("Isle of Wight", download_only = TRUE)
 oe_get = function(
@@ -87,7 +89,8 @@ oe_get = function(
   extra_attributes = NULL,
   force_vectortranslate = NULL,
   download_only = FALSE,
-  verbose = FALSE
+  oe_verbose = FALSE,
+  oe_quiet = FALSE
 ) {
 
   # Match the input place with the provider's data.
@@ -97,7 +100,7 @@ oe_get = function(
     match_by = match_by,
     max_string_dist = max_string_dist,
     interactive_ask = interactive_ask,
-    verbose = verbose
+    oe_verbose = oe_verbose
   )
 
   # Extract the matched URL and file size and pass these parameters to the
@@ -111,7 +114,7 @@ oe_get = function(
     file_size = file_size,
     force_download = force_download,
     max_file_size = max_file_size,
-    verbose = verbose
+    oe_verbose = oe_verbose
   )
 
   # Pass the file_path to oe_vectortranslate
@@ -122,7 +125,7 @@ oe_get = function(
     osmconf_ini = osmconf_ini,
     extra_attributes = extra_attributes,
     force_vectortranslate = force_vectortranslate,
-    verbose = verbose
+    oe_verbose = oe_verbose
   )
 
   # Should we read the file or simply return its path?

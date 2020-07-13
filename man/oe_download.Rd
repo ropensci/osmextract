@@ -12,8 +12,8 @@ oe_download(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+08,
-  verbose = FALSE,
-  quiet = FALSE
+  oe_verbose = FALSE,
+  oe_quiet = FALSE
 )
 }
 \arguments{
@@ -43,9 +43,9 @@ downloaded? \code{FALSE} by default.}
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{verbose}{Print information about the file matched? Default: \code{FALSE}.}
+\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 
-\item{quiet}{Should files be downloaded without a progress bar?
+\item{oe_quiet}{Should files be downloaded without a progress bar?
 \code{FALSE} by default.}
 }
 \value{

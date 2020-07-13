@@ -4,7 +4,6 @@
 #' corresponding pbf file (and its file size, if present).
 #'
 #' @inheritParams oe_get
-#' @param verbose Print messages on the matching process? `FALSE` by default.
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
@@ -33,7 +32,7 @@ oe_match.default = function(place, ...) {
 oe_match.sfc_POINT = function(
   place,
   provider = "geofabrik",
-  verbose = FALSE,
+  oe_verbose = FALSE,
   ...
 ) {
   # For the moment we support only length-one sfc_POINT objects
@@ -82,7 +81,7 @@ oe_match.sfc_POINT = function(
 oe_match.numeric = function(
   place,
   provider = "geofabrik",
-  verbose = FALSE,
+  oe_verbose = FALSE,
   ...
 ) {
   # In this case I just need to build the appropriate object and create a
@@ -97,7 +96,7 @@ oe_match.numeric = function(
   # Build the sfc_POINT object
   place = sf::st_sfc(sf::st_point(place), crs = 4326)
 
-  oe_match(place, provider = provider, verbose = verbose, ...)
+  oe_match(place, provider = provider, oe_verbose = oe_verbose, ...)
 }
 
 #' @inheritParams oe_get
@@ -109,7 +108,7 @@ oe_match.character = function(
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  verbose = FALSE,
+  oe_verbose = FALSE,
   ...
   ) {
   # For the moment we support only length-one character vectors
@@ -151,7 +150,7 @@ oe_match.character = function(
   high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
   if (isTRUE(high_distance)) {
-    if (isTRUE(verbose)) {
+    if (isTRUE(oe_verbose)) {
       message(
         "No exact matching found for place = ", place, ". ",
         "Best match is ", best_matched_place[[match_by]], "."
@@ -181,7 +180,7 @@ oe_match.character = function(
     }
   }
 
-  if (isTRUE(verbose)) {
+  if (isTRUE(oe_verbose)) {
     message("The input place was matched with: ", best_matched_place[[match_by]])
   }
 

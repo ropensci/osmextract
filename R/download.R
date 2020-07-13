@@ -11,9 +11,6 @@
 #'   bigger than `max_file_size` and the function is run in interactive mode,
 #'   then an interactive menu is displayed, asking for permission for
 #'   downloading the file.
-#' @param verbose Print information about the file matched? Default: `FALSE`.
-#' @param quiet Should files be downloaded without a progress bar?
-#' `FALSE` by default.
 #'
 #' @return Character string representing the full path the downloaded file
 #' @export
@@ -40,8 +37,8 @@ oe_download = function(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+8, # 5e+8 = 500MB in bytes
-  verbose = FALSE,
-  quiet = FALSE
+  oe_verbose = FALSE,
+  oe_quiet = FALSE
   ) {
   # First we need to build the file_path combining the download_directory,
   # the provider and the file_basename
@@ -51,7 +48,7 @@ oe_download = function(
   # return the file_path. Otherwise we download it after checking for the
   # file_size.
   if (file.exists(file_path) && !isTRUE(force_download)) {
-    if (isTRUE(verbose)) {
+    if (isTRUE(oe_verbose)) {
       message(
       "The chosen file was already detected in the download directory. ",
       "Skip downloading."
@@ -80,10 +77,10 @@ oe_download = function(
       url = file_url,
       destfile = file_path,
       mode = "wb",
-      quiet = quiet
+      quiet = oe_quiet
     )
 
-    if (isTRUE(verbose)) {
+    if (isTRUE(oe_verbose)) {
       message("File downloaded!")
     }
   }
