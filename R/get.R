@@ -65,6 +65,10 @@ oe_get = function(
   download_only = FALSE,
   oe_verbose = FALSE
 ) {
+  
+  if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
+    force_vectortranslate = TRUE
+    }
 
   # Match the input place with the provider's data.
   matched_zone <- oe_match(
