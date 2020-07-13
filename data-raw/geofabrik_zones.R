@@ -99,14 +99,27 @@ geofabrik_zones = geofabrik_zones %>%
   select(id, name, parent, level, iso3166_1_alpha2, iso3166_2, pbf_file_size, everything())
 
 # Get minimal .pbf file
-u = "https://osmaxx.hsr.ch/media/osmaxx/outputfiles/512a0f9b-7665-4078-80b1-77c4e4af3123/its-min_wgs-84_2020-07-12_pbf_full-detail.zip"
-download.file(u, destfile = "/tmp/its-min.zip")
-unzip("/tmp/its-min.zip", exdir = "/tmp")
-f = list.files("/tmp/pbf/", pattern = "pbf", full.names = TRUE)
-file.copy(f, "its-min.pbf")
-system("ls -hal *.pbf") # less than 100 km
-res = sf::read_sf("its-min.pbf", layer = "lines")
-mapview::mapview(res) # strange thing: contains lots of linestrings worldwide...
+# u = "https://osmaxx.hsr.ch/media/osmaxx/outputfiles/512a0f9b-7665-4078-80b1-77c4e4af3123/its-min_wgs-84_2020-07-12_pbf_full-detail.zip"
+# download.file(u, destfile = "/tmp/its-min.zip")
+# unzip("/tmp/its-min.zip", exdir = "/tmp")
+# f = list.files("/tmp/pbf/", pattern = "pbf", full.names = TRUE)
+# file.copy(f, "its-min.pbf")
+# system("ls -hal *.pbf") # less than 100 km
+# res = sf::read_sf("its-min.pbf", layer = "lines")
+# mapview::mapview(res) # strange thing: contains lots of linestrings worldwide...
+# res = sf::read_sf("its-osmaxx-2020-07.pbf", layer = "lines")
+# mapview::mapview(res) # strange thing: contains lots of linestrings worldwide...
+# From josm...
+res = sf::read_sf("its-example.osm")
+mapview::mapview(res)
+msg = "osmconvert its-example.osm -o=its-example.osm.pbf"
+system(msg)
+res = sf::read_sf("its-example.osm.pbf")
+res = sf::read_sf("its-example.osm.pbf", layer = "lines")
+mapview::mapview(res)
+system("ls -hal *.pbf") # 40 kb
+file.copy("its-example.osm.pbf", "inst/")
+
 # The end
 usethis::use_data(geofabrik_zones, overwrite = TRUE)
 
