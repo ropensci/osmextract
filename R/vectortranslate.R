@@ -32,7 +32,7 @@ oe_vectortranslate = function(
     if (isTRUE(oe_verbose)) {
       message(
         "The corresponding gpkg file was already detected. ",
-        "Skip vectortranslate operations"
+        "Skip vectortranslate operations."
       )
     }
     return(gpkg_file_path)

@@ -103,20 +103,3 @@ Download, translate and read OSM extracts
 \details{
 This function is a wrapper around ...
 }
-\examples{
-iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
-class(iow)
-summary(sf::st_geometry_type(iow))
-oe_match("Isle of Wight", provider = "test")
-f = oe_get("Isle of Wight", provider = "test", download_only = TRUE)
-# todo: write function to get the .pbf file path
-f_pbf = gsub(".gpkg", ".osm.pbf", f)
-sf::st_layers(f)
-sf::st_layers(f_pbf)
-\dontrun{
-# fix issue that different layers cannot be read-in
-iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
-baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
-}
-oe_get("Isle of Wight", download_only = TRUE)
-}

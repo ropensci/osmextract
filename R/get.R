@@ -58,18 +58,12 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
+#' iow_lines = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
 #' class(iow)
 #' summary(sf::st_geometry_type(iow))
-#' oe_match("Isle of Wight", provider = "test")
-#' f = oe_get("Isle of Wight", provider = "test", download_only = TRUE)
+#' iow_points = oe_get("Isle of Wight", provider = "test", layer = "points", oe_verbose = TRUE)
+#' summary(sf::st_geometry_type(iow_points))
 #' # todo: write function to get the .pbf file path
-#' f_pbf = gsub(".gpkg", ".osm.pbf", f)
-#' sf::st_layers(f)
-#' sf::st_layers(f_pbf)
-#' \dontrun{
-#' # fix issue that different layers cannot be read-in
-#' iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
 #' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
 #' }
 #' oe_get("Isle of Wight", download_only = TRUE)
@@ -92,7 +86,6 @@ oe_get = function(
   oe_verbose = FALSE,
   oe_quiet = FALSE
 ) {
-
   # Match the input place with the provider's data.
   matched_zone = oe_match(
     place = place,
@@ -131,6 +124,30 @@ oe_get = function(
   # Should we read the file or simply return its path?
   if (isTRUE(download_only)) {
     return(gpkg_file_path)
+  }
+
+  # Check if the layer is not present in the gpkg file
+  if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
+    if (layer %!in% sf::st_layers(file_path)[["name"]]) {
+      stop(
+        "You selected the layer ", layer,
+        ", which is not present in the .gpkg file or the .pbf file"
+      )
+    }
+    # Try to add the new layer from the .osm.pbf file to the .gpkg file
+    if (isTRUE(oe_verbose)) {
+      message("Adding a new layer to the .gpkg file")
+    }
+
+    gpkg_file_path = oe_vectortranslate(
+      file_path = file_path,
+      vectortranslate_options = vectortranslate_options,
+      layer = layer,
+      osmconf_ini = osmconf_ini,
+      extra_attributes = extra_attributes,
+      force_vectortranslate = TRUE,
+      oe_verbose = oe_verbose
+    )
   }
 
   # Read the translated file with sf::st_read
