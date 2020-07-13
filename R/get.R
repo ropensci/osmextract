@@ -65,6 +65,9 @@
 #' summary(sf::st_geometry_type(iow_points))
 #' # Get the .pbf file path
 #' oe_get("Isle of Wight", download_only = TRUE)
+#' # add additional attributes
+#' im = oe_get("Isle of Wight", provider = "test", extra_attributes = "maxpeed")
+#' names(im)
 #' \dontrun{
 #' # alternative providers
 #' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
@@ -97,6 +100,10 @@ oe_get = function(
     interactive_ask = interactive_ask,
     oe_verbose = oe_verbose
   )
+
+  if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
+    force_vectortranslate = TRUE
+  }
 
   # Extract the matched URL and file size and pass these parameters to the
   # osmext-download function.
