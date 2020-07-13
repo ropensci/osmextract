@@ -26,4 +26,6 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
+Remotes:
+    r-spatial/sf
 VignetteBuilder: knitr
