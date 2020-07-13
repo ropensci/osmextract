@@ -1,14 +1,9 @@
 #' Translate the .osm.pbf format into .gpkg
 #'
-#' @param file_path A
-#' @param vectortranslate_options B
-#' @param layer B2
-#' @param osmconf_ini C
-#' @param extra_attributes D
-#' @param force_vectortranslate E
-#' @param verbose F
+#' @inheritParams oe_get
+#' @param file_path Character string representing the full path the .osm.pbf file
 #'
-#' @return path
+#' @return Character string representing the full path the .gpkg file
 #' @export
 #'
 #' @examples
@@ -20,12 +15,12 @@ oe_vectortranslate = function(
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = FALSE,
-  verbose = FALSE
+  oe_verbose = FALSE
 ) {
   # First we need to build the file path of the .gpkg using the following
   # convention: it is the same file path of the .osm.pbf file but with .gpkg
   # extension
-  gpkg_file_path <- paste0(
+  gpkg_file_path = paste0(
     # I need the double file_path_san_ext to cancel the .osm and the .pbf
     tools::file_path_sans_ext(tools::file_path_sans_ext(file_path)),
     ".gpkg"
@@ -34,7 +29,7 @@ oe_vectortranslate = function(
   # If the gpgk file already exists and force_vectortranslate is FALSE then we
   # raise a message and we return the path of the .gpkg file.
   if (file.exists(gpkg_file_path) && !isTRUE(force_vectortranslate)) {
-    if (isTRUE(verbose)) {
+    if (isTRUE(oe_verbose)) {
       message(
         "The corresponding gpkg file was already detected. ",
         "Skip vectortranslate operations"
@@ -54,7 +49,7 @@ oe_vectortranslate = function(
     # by GDAL at stored at the following link:
     # https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini
     # It was saved on the 9th of July 2020.
-    osmconf_ini <- system.file("osmconf.ini", package = "osmextractr")
+    osmconf_ini = system.file("osmconf.ini", package = "osmextractr")
   }
   if (is.null(osmconf_ini) && !is.null(extra_attributes)) {
     if (is.null(layer)) {
@@ -73,7 +68,7 @@ oe_vectortranslate = function(
   }
 
   if (is.null(vectortranslate_options)) {
-    vectortranslate_options <- c(
+    vectortranslate_options = c(
       "-f", "GPKG",
       "-overwrite",
       "-oo", paste0("CONFIG_FILE=", osmconf_ini),
@@ -85,7 +80,7 @@ oe_vectortranslate = function(
     }
   }
 
-  if (isTRUE(verbose)) {
+  if (isTRUE(oe_verbose)) {
     message(
       "Start with the vectortranslate operations on the input file!"
     )
@@ -99,7 +94,7 @@ oe_vectortranslate = function(
     options = vectortranslate_options
   )
 
-  if (isTRUE(verbose)) {
+  if (isTRUE(oe_verbose)) {
     message(
       "Finished the vectortranslate operations on the input file!"
     )

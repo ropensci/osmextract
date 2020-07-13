@@ -14,11 +14,15 @@ oe_check_pattern(
 \arguments{
 \item{pattern}{Character string for the pattern that should be matched}
 
-\item{provider}{TODO}
+\item{provider}{Which provider should be used to download the data?
+Available providers can be found with the following command:
+\code{osmextractr:::oe_available_providers()}}
 
-\item{match_by}{TODO}
+\item{match_by}{Column name in the provider dataset used to find the match,
+\code{name} by default.}
 
-\item{full_row}{TODO}
+\item{full_row}{Return all columns in the matching row?
+\code{FALSE} by default.}
 }
 \value{
 A
@@ -29,8 +33,15 @@ in the existing columns
 }
 \examples{
 oe_check_pattern(
-pattern = "Yorkshire",
-provider = "geofabrik",
-match_by = "name"
+  pattern = "Yorkshire",
+  provider = "geofabrik",
+  match_by = "name"
 )
+res = oe_check_pattern(
+  pattern = "Yorkshire",
+  provider = "geofabrik",
+  match_by = "name",
+  full_row = TRUE
+)
+sf::st_drop_geometry(res)[1:3]
 }

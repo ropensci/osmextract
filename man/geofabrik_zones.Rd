@@ -58,7 +58,7 @@ country boundaries but a buffer around countries.}
 geofabrik_zones
 }
 \description{
-A \code{sf} \code{data.frame} containing the urls, names and file_size of the OSM extracts
+A \code{sf} \code{data.frame} containing the URLs, names and file_size of the OSM extracts
 stored at \url{https://download.geofabrik.de/}. You can read more details
 about these data at the following link: \url{https://download.geofabrik.de/technical.html}.
 }

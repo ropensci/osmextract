@@ -11,26 +11,33 @@ oe_vectortranslate(
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = FALSE,
-  verbose = FALSE
+  oe_verbose = FALSE
 )
 }
 \arguments{
-\item{file_path}{A}
+\item{file_path}{Character string representing the full path the .osm.pbf file}
 
-\item{vectortranslate_options}{B}
+\item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
+argument \code{options}. Set by default. Check details and examples.}
 
-\item{layer}{B2}
+\item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
+(the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{osmconf_ini}{C}
+\item{osmconf_ini}{The configuration file specifying which columns should be
+in the resulting data frame. See documentation at
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org} for details.}
 
-\item{extra_attributes}{D}
+\item{extra_attributes}{Which addition columns, corresponding to OSM keys,
+should be in the resulting dataset? \code{NULL} by default.}
 
-\item{force_vectortranslate}{E}
+\item{force_vectortranslate}{Force the original \code{.pbf} file to be translated
+into a \code{.gpkg} file, even if a \code{.gpkg} associated with the \code{provider} zone
+already exists.}
 
-\item{verbose}{F}
+\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 }
 \value{
-path
+Character string representing the full path the .gpkg file
 }
 \description{
 Translate the .osm.pbf format into .gpkg

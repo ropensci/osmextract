@@ -12,9 +12,9 @@ oe_match(place, ...)
 
 \method{oe_match}{default}(place, ...)
 
-\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", verbose = FALSE, ...)
+\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", oe_verbose = FALSE, ...)
 
-\method{oe_match}{numeric}(place, provider = "geofabrik", verbose = FALSE, ...)
+\method{oe_match}{numeric}(place, provider = "geofabrik", oe_verbose = FALSE, ...)
 
 \method{oe_match}{character}(
   place,
@@ -22,7 +22,7 @@ oe_match(place, ...)
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  verbose = FALSE,
+  oe_verbose = FALSE,
   ...
 )
 }
@@ -34,10 +34,11 @@ and examples.}
 
 \item{...}{arguments passed to other methods}
 
-\item{provider}{Which provider should be used to download the data? For the
-moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{Which provider should be used to download the data?
+Available providers can be found with the following command:
+\code{osmextractr:::oe_available_providers()}}
 
-\item{verbose}{TODO}
+\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 
 \item{match_by}{Which column of the provider data should be used for matching
 the input place with the provider's data? The default is "name". Check
@@ -61,15 +62,12 @@ performed through a spatial operation.}
 }
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first
-element is the url of the file associated with the input \code{place}, while
+element is the URL of the file associated with the input \code{place}, while
 the second element is the size of the file.
 }
 \description{
-This function is used to match the input \code{place} with the url of the
+This function is used to match the input \code{place} with the URL of the
 corresponding pbf file (and its file size, if present).
-}
-\details{
-ABC
 }
 \examples{
 oe_match("Italy")

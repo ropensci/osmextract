@@ -2,7 +2,7 @@
 % Please edit documentation in R/download.R
 \name{oe_download}
 \alias{oe_download}
-\title{Download the input file}
+\title{Download file containing OSM data}
 \usage{
 oe_download(
   file_url,
@@ -12,33 +12,61 @@ oe_download(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+08,
-  verbose = FALSE
+  oe_verbose = FALSE,
+  oe_quiet = FALSE
 )
 }
 \arguments{
-\item{file_url}{A}
+\item{file_url}{A URL containing OSM data (e.g. as a .pbf file)}
 
-\item{file_basename}{B}
+\item{file_basename}{The base name of the file. Default behaviour:
+auto generated from the URL.}
 
-\item{provider}{Which provider should be used to download the data? For the
-moment we support only \href{http://download.geofabrik.de/}{\code{"geofabrik"}}.}
+\item{provider}{Which provider should be used to download the data?
+Available providers can be found with the following command:
+\code{osmextractr:::oe_available_providers()}}
 
-\item{download_directory}{TODO}
+\item{download_directory}{Where to download the file containing the OSM data?
+By default this is \code{tempdir()}, which changes each time you restart R.
+You can set a persistent \code{download_directory} by adding the following
+to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
+\verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
-\item{file_size}{E}
+\item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
+bigger than \code{max_file_size} and the function is run in interactive mode,
+then an interactive menu is displayed, asking for permission for
+downloading the file.}
 
-\item{force_download}{TODO}
+\item{force_download}{Should the file be updated if it has already been
+downloaded? \code{FALSE} by default.}
 
-\item{max_file_size}{TODO}
+\item{max_file_size}{The maximum file size to download without asking in
+interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{verbose}{TODO}
+\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+
+\item{oe_quiet}{Should files be downloaded without a progress bar?
+\code{FALSE} by default.}
 }
 \value{
-path
+Character string representing the full path the downloaded file
 }
 \description{
-Download the input file if it's not already present in the specified download_directory.
+Download the input file if it's not already present in \code{oe_download_directory()}
+or the specified \code{download_directory}.
 }
 \examples{
-1 + 1
+\dontrun{
+iow_details = oe_match("Isle of Wight", provider = "test")
+oe_download(
+  file_url = iow_details$url,
+  file_size = iow_details$file_size
+)
+bristol_details = oe_match("Bristol", provider = "bbbike")
+oe_download(
+  file_url = bristol_details$url,
+  file_size = bristol_details$file_size,
+  download_directory = tempdir()
+)
+}
 }

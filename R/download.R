@@ -1,19 +1,35 @@
-#' Download the input file
+#' Download file containing OSM data
 #'
-#' Download the input file if it's not already present in the specified download_directory.
+#' Download the input file if it's not already present in `oe_download_directory()`
+#' or the specified `download_directory`.
 #'
 #' @inheritParams oe_get
-#' @param file_url A
-#' @param file_basename B
-#' @param file_size E
-#' @param verbose TODO
+#' @param file_url A URL containing OSM data (e.g. as a .pbf file)
+#' @param file_basename The base name of the file. Default behaviour:
+#' auto generated from the URL.
+#' @param file_size How big is the file? Optional. `NA` by default. If it's
+#'   bigger than `max_file_size` and the function is run in interactive mode,
+#'   then an interactive menu is displayed, asking for permission for
+#'   downloading the file.
 #'
-#' @return path
+#' @return Character string representing the full path the downloaded file
 #' @export
 #'
 #' @examples
-#' 1 + 1
-oe_download <- function(
+#' \dontrun{
+#' iow_details = oe_match("Isle of Wight", provider = "test")
+#' oe_download(
+#'   file_url = iow_details$url,
+#'   file_size = iow_details$file_size
+#' )
+#' bristol_details = oe_match("Bristol", provider = "bbbike")
+#' oe_download(
+#'   file_url = bristol_details$url,
+#'   file_size = bristol_details$file_size,
+#'   download_directory = tempdir()
+#' )
+#' }
+oe_download = function(
   file_url,
   file_basename = basename(file_url),
   provider = infer_provider_from_url(file_url),
@@ -21,17 +37,18 @@ oe_download <- function(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+8, # 5e+8 = 500MB in bytes
-  verbose = FALSE
+  oe_verbose = FALSE,
+  oe_quiet = FALSE
   ) {
   # First we need to build the file_path combining the download_directory,
   # the provider and the file_basename
-  file_path <- file.path(download_directory, paste(provider, file_basename, sep = "_"))
+  file_path = file.path(download_directory, paste(provider, file_basename, sep = "_"))
 
   # If the file exists and force_download is FALSE, then raise a message and
   # return the file_path. Otherwise we download it after checking for the
   # file_size.
   if (file.exists(file_path) && !isTRUE(force_download)) {
-    if (isTRUE(verbose)) {
+    if (isTRUE(oe_verbose)) {
       message(
       "The chosen file was already detected in the download directory. ",
       "Skip downloading."
@@ -41,27 +58,29 @@ oe_download <- function(
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-    if(provider == "geofabrik") {
-      if (interactive() && !is.na(file_size) && file_size >= max_file_size ) {
-        message("This is a large file (", round(file_size / 1e+6), " MB)!")
-        continue <- utils::menu(
-          choices = c("Yes", "No"),
-          title = "Are you sure that you want to download it?"
-        )
+
+    # If working in interactive session and file_size > max_file_size, then we
+    # double check if we really want to download the file.
+    continue = 1L
+    if (interactive() && !is.null(file_size) && !is.na(file_size) && file_size >= max_file_size ) {
+      message("This is a large file (", round(file_size / 1e+6), " MB)!")
+      continue = utils::menu(
+        choices = c("Yes", "No"),
+        title = "Are you sure that you want to download it?"
+      )
     }
-      if (continue != 1L) {
-        stop("Aborted by user.")
-      }
+    if (continue != 1L) {
+      stop("Aborted by user.")
     }
 
     utils::download.file(
       url = file_url,
       destfile = file_path,
       mode = "wb",
-      quiet = !verbose
+      quiet = oe_quiet
     )
 
-    if (isTRUE(verbose)) {
+    if (isTRUE(oe_verbose)) {
       message("File downloaded!")
     }
   }
@@ -72,10 +91,10 @@ oe_download <- function(
 
 # The following function is used to extract the OSMEXT_DOWNLOAD_DIRECTORY
 # environment variable.
-oe_download_directory <- function() {
-  download_directory <- Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", "")
+oe_download_directory = function() {
+  download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", "")
   if (download_directory == "") {
-    download_directory <- tempdir()
+    download_directory = tempdir()
   }
   if (!dir.exists(download_directory)) {
     dir.create(download_directory)
@@ -85,9 +104,11 @@ oe_download_directory <- function() {
 
 # Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
-  providers_in_url = grepl(pattern = oe_available_providers(), x = file_url)
-  if (any(providers_in_url)) {
-    return(oe_available_providers()[providers_in_url])
+  providers_regex = paste(oe_available_providers(), collapse = "|")
+  m = regexpr(pattern = providers_regex, file_url)
+  matching_provider = regmatches(x = file_url, m = m)
+  if (matching_provider %in% oe_available_providers()) {
+    return(matching_provider)
   }
   stop("Cannot infer the provider from the url, please specify it")
 }
