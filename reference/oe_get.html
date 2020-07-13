@@ -264,45 +264,6 @@ default.</p></td>
 
     <p>This function is a wrapper around ...</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>iow</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpsIkWbm/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#&gt; Simple feature collection with 44365 features and 9 fields
-#&gt; geometry type:  LINESTRING
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
-#&gt; CRS:            4326</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>iow</span>)</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>iow</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
-#&gt;                  0                  0              44365                  0 
-#&gt;         MULTIPOINT    MULTILINESTRING       MULTIPOLYGON GEOMETRYCOLLECTION 
-#&gt;                  0                  0                  0                  0 
-#&gt;     CIRCULARSTRING      COMPOUNDCURVE       CURVEPOLYGON         MULTICURVE 
-#&gt;                  0                  0                  0                  0 
-#&gt;       MULTISURFACE              CURVE            SURFACE  POLYHEDRALSURFACE 
-#&gt;                  0                  0                  0                  0 
-#&gt;                TIN           TRIANGLE 
-#&gt;                  0                  0 </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>)</div><div class='output co'>#&gt; $url
-#&gt; [1] "https://github.com/ITSLeeds/osmextractr/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf"
-#&gt; 
-#&gt; $file_size
-#&gt; [1] 6877468
-#&gt; </div><div class='input'><span class='kw'>f</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)
-<span class='co'># todo: write function to get the .pbf file path</span>
-<span class='kw'>f_pbf</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span>(<span class='st'>".gpkg"</span>, <span class='st'>".osm.pbf"</span>, <span class='kw'>f</span>)
-<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>f</span>)</div><div class='output co'>#&gt; Driver: GPKG 
-#&gt; Available layers:
-#&gt;   layer_name geometry_type features fields
-#&gt; 1      lines   Line String    44365      9</div><div class='input'><span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>f_pbf</span>)</div><div class='output co'>#&gt; Driver: OSM 
-#&gt; Available layers:
-#&gt;         layer_name       geometry_type features fields
-#&gt; 1           points               Point       NA     10
-#&gt; 2            lines         Line String       NA      9
-#&gt; 3 multilinestrings   Multi Line String       NA      4
-#&gt; 4    multipolygons       Multi Polygon       NA     25
-#&gt; 5  other_relations Geometry Collection       NA      4</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># fix issue that different layers cannot be read-in</span>
-<span class='kw'>iow_points</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>)
-<span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, oe_verbose = <span class='fl'>TRUE</span>)
-}
-<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpsIkWbm/geofabrik_isle-of-wight-latest.gpkg"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
