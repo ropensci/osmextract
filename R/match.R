@@ -23,7 +23,9 @@
 #'
 #' # Match the input zone using a numeric vector of coordinates
 #' # (in which case crs = 4326 is assumed)
+#' \dontrun{
 #' oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
+#' }
 #'
 #' # Perform the matching operations using other columns instead of "name".
 #' oe_match("RU", match_by = "iso3166_1_alpha2")
