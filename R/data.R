@@ -66,7 +66,7 @@
 #'   \item{name}{The, usually English, long-form name of the city}
 #'   \item{last_modified}{When was it last modified?}
 #'   \item{type}{empty}
-#'   \item{size}{Should be the size}
+#'   \item{pbf_size_size}{Size of the pbf file in bytes.}
 #'   \item{base_url}{The base URL for the city}
 #'   \item{poly_url}{The .poly file location}
 #'   \item{pbf}{Link to the latest .osm.pbf file for this region.}

@@ -61,7 +61,12 @@ bbbike_zones_final = sf::st_sf(bbbike_zones, geometry = bbbike_zone_polygons$geo
 plot(bbbike_zones_final) # cities worldwide
 
 bbbike_zones = bbbike_zones_final
-usethis::use_data(bbbike_zones, version = 3)
+# Add the pbf file size
+bbbike_zones$pbf_file_size = map_dbl(
+  .x = bbbike_zones$pbf,
+  .f = function(x) as.numeric(headers(HEAD(x))$`content-length`)
+)
+usethis::use_data(bbbike_zones, version = 3, overwrite = TRUE)
 
 # tidy up
 zip(zipfile = "bbbike_polys.zip", files = "bbbike_polys")
