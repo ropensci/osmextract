@@ -172,14 +172,13 @@ Available providers can be found with the following command:
   pattern = <span class='st'>"Yorkshire"</span>,
   provider = <span class='st'>"geofabrik"</span>,
   match_by = <span class='st'>"name"</span>
-)</div><div class='output co'>#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"         
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"         
 #&gt; [3] "South Yorkshire"          "West Yorkshire"          </div><div class='input'><span class='kw'>res</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_check_pattern.html'>oe_check_pattern</a></span>(
   pattern = <span class='st'>"Yorkshire"</span>,
   provider = <span class='st'>"geofabrik"</span>,
   match_by = <span class='st'>"name"</span>,
   full_row = <span class='fl'>TRUE</span>
-)
-<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry.html'>st_drop_geometry</a></span>(<span class='kw'>res</span>)[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]</div><div class='output co'>#&gt;                           id                     name  parent
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='input'><span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry.html'>st_drop_geometry</a></span>(<span class='kw'>res</span>)[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>]</div><div class='output co'>#&gt;                           id                     name  parent
 #&gt; 94  east-yorkshire-with-hull East Yorkshire with Hull england
 #&gt; 245          north-yorkshire          North Yorkshire england
 #&gt; 315          south-yorkshire          South Yorkshire england
