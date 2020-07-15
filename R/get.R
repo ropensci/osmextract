@@ -45,6 +45,9 @@
 #' @param force_vectortranslate Force the original `.pbf` file to be translated
 #' into a `.gpkg` file, even if a `.gpkg` associated with the `provider` zone
 #' already exists.
+#' @param skip_vectortranslate Boolean. If `TRUE` then the function skips all
+#'   the vectortranslate operations and it reads (or simply returns the path) of
+#'   the .osm.pbf file. `FALSE` by default.
 #' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
 #' @param oe_quiet Should files be downloaded without a progress bar?
 #' `FALSE` by default.
@@ -88,6 +91,7 @@ oe_get = function(
   extra_attributes = NULL,
   force_vectortranslate = NULL,
   download_only = FALSE,
+  skip_vectortranslate = FALSE,
   oe_verbose = FALSE,
   oe_quiet = FALSE
 ) {
@@ -118,6 +122,15 @@ oe_get = function(
     max_file_size = max_file_size,
     oe_verbose = oe_verbose
   )
+
+  # Check for skip_vectortranslate since, in that case, we don't need the
+  # vectortranslate process
+  if (isTRUE(skip_vectortranslate) && isTRUE(download_only)) {
+    return(file_path)
+  }
+  if (isTRUE(skip_vectortranslate)) {
+    return(sf::st_read(file_path, layer = layer, ...))
+  }
 
   # Pass the file_path to oe_vectortranslate
   gpkg_file_path = oe_vectortranslate(
