@@ -46,6 +46,7 @@ standard `.gpkg` format, not evaluated):
 library(osmextractr)
 #> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
 #> Geofabrik data are taken from https://download.geofabrik.de/
+#> For usage details of bbbike data see https://download.bbbike.org/osm/
 ```
 
 ``` r
@@ -84,8 +85,8 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("ITSLeeds/osmextractr")
+# install.packages("remotes")
+remotes::install_github("ITSLeeds/osmextractr")
 ```
 
 Load the package with:
@@ -304,11 +305,7 @@ oe_download(
   file_url = iow_details$url, 
   file_size = iow_details$file_size
 )
-#> Warning in grepl(pattern = oe_available_providers(), x = file_url): argument
-#> 'pattern' has length > 1 and only the first element will be used
 #> [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"
-#> [2] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/test_isle-of-wight-latest.osm.pbf"     
-#> [3] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/bbbike_isle-of-wight-latest.osm.pbf"
 ```
 
 If you want to download your data into a specific folder once, you can
@@ -340,7 +337,7 @@ reads-in data from OSM extract providers as an `sf` object:
 ``` r
 iow = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 #> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 44365 features and 9 fields
+#> Simple feature collection with 44424 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
@@ -349,7 +346,8 @@ class(iow)
 #> [1] "sf"         "data.frame"
 names(iow) # default variable names
 #>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
+#>  [6] "barrier"    "man_made"   "ref"        "z_order"    "other_tags"
+#> [11] "geometry"
 ```
 
 Once imported, we can use all the functions for data frames in base R
@@ -460,9 +458,10 @@ iow_primary = oe_get(
 )
 #> The input place was matched with: Isle of Wight
 #> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Start with the vectortranslate operations on the input file!
+#> Finished the vectortranslate operations on the input file!
 #> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 548 features and 9 fields
+#> Simple feature collection with 548 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952
@@ -490,9 +489,10 @@ iow_major_roads2 = oe_get(
 )
 #> The input place was matched with: Isle of Wight
 #> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Start with the vectortranslate operations on the input file!
+#> Finished the vectortranslate operations on the input file!
 #> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 918 features and 9 fields
+#> Simple feature collection with 918 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245
@@ -514,9 +514,10 @@ iow_active_travel = oe_get(
 )
 #> The input place was matched with: Isle of Wight
 #> The chosen file was already detected in the download directory. Skip downloading.
-#> The corresponding gpkg file was already detected. Skip vectortranslate operations
+#> Start with the vectortranslate operations on the input file!
+#> Finished the vectortranslate operations on the input file!
 #> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 2545 features and 9 fields
+#> Simple feature collection with 2545 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727
