@@ -103,6 +103,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextractr">osmextractr</a></span>)
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright</span>
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
+<span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
 </pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">cycleways_england</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(
@@ -124,8 +125,8 @@
 <!-- ``` -->
 <p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># install.packages("devtools")</span>
-<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"ITSLeeds/osmextractr"</span>)
+<span class="co"># install.packages("remotes")</span>
+<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ITSLeeds/osmextractr"</span>)
 </pre></div>
 <p>Load the package with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
@@ -303,11 +304,7 @@
   file_url = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">url</span>, 
   file_size = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">file_size</span>
 )
-<span class="co">#&gt; Warning in grepl(pattern = oe_available_providers(), x = file_url): argument</span>
-<span class="co">#&gt; 'pattern' has length &gt; 1 and only the first element will be used</span>
 <span class="co">#&gt; [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"</span>
-<span class="co">#&gt; [2] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/test_isle-of-wight-latest.osm.pbf"     </span>
-<span class="co">#&gt; [3] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/bbbike_isle-of-wight-latest.osm.pbf"</span>
 </pre></div>
 <p>If you want to download your data into a specific folder once, you can set the download directory:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit">
@@ -331,7 +328,7 @@
 <div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
 <span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 44365 features and 9 fields</span>
+<span class="co">#&gt; Simple feature collection with 44424 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599</span>
@@ -340,7 +337,8 @@
 <span class="co">#&gt; [1] "sf"         "data.frame"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">iow</span>) <span class="co"># default variable names</span>
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
-<span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span>
+<span class="co">#&gt;  [6] "barrier"    "man_made"   "ref"        "z_order"    "other_tags"</span>
+<span class="co">#&gt; [11] "geometry"</span>
 </pre></div>
 <p>Once imported, we can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major and minor roads, for example:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
@@ -432,9 +430,10 @@
 )
 <span class="co">#&gt; The input place was matched with: Isle of Wight</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
+<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 548 features and 9 fields</span>
+<span class="co">#&gt; Simple feature collection with 548 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952</span>
@@ -455,9 +454,10 @@
 )
 <span class="co">#&gt; The input place was matched with: Isle of Wight</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
+<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 918 features and 9 fields</span>
+<span class="co">#&gt; Simple feature collection with 918 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245</span>
@@ -475,9 +475,10 @@
 )
 <span class="co">#&gt; The input place was matched with: Isle of Wight</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations</span>
+<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 2545 features and 9 fields</span>
+<span class="co">#&gt; Simple feature collection with 2545 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727</span>
