@@ -11,8 +11,7 @@
 #' @export
 #'
 #' @details
-#' TODO: 1) Add explanation of the meaning of mtime and ctime (?file.info); 2)
-#' Exclude test from the providers; 3) Add .gpkg stuff
+#' TODO: 1) Add explanation of the meaning of mtime and ctime (?file.info); 3) Add .gpkg stuff
 #' @examples
 #' 1 + 1
 oe_update = function(
@@ -21,6 +20,9 @@ oe_update = function(
 ) {
   # Extract all files in download_directory
   all_files = list.files(download_directory)
+
+  # Save all providers but test
+  all_providers = setdiff(oe_available_providers(), "test")
 
   # The following is used to check if the directory is empty since list.files
   # returns character(0) in case of empty dir
@@ -40,11 +42,11 @@ oe_update = function(
       "stored in the download_directory: \n"
     )
     print(old_files_info[, c(1, 4, 5)])
-    cat("Now the .osm.pbf files are going to be updated")
+    cat("\nNow the .osm.pbf files are going to be updated.\n")
   }
 
   # Find all files with the following pattern: provider_something.osm.pbf
-  providers_regex = paste0(oe_available_providers(), collapse = "|")
+  providers_regex = paste0(all_providers, collapse = "|")
   oe_regex = paste(
     "(", providers_regex, ")", # match with geofabrik or bbbike or ...
     "_(.+)", # match with everything
@@ -56,10 +58,23 @@ oe_update = function(
 
   browser()
   for (file in osmpbf_files) {
-    file_split = strsplit(file, split = "_")
+    matching_providers = vapply(all_providers, grepl, FUN.VALUE = logical(1), x = file, fixed = TRUE)
+    provider = all_providers[matching_providers]
+    id = regmatches(
+      file,
+      regexpr(paste0("(?<=", provider, "_)[a-zA-Z]+"), file, perl = TRUE)
+    )
 
+    oe_get(
+      place = id,
+      provider = provider,
+      match_by = "id",
+      force_download = TRUE,
+      download_only = TRUE,
+      skip_vectortranslate = TRUE
+    )
   }
 }
 
-# p = "geofabrik_andorra-latest.gpkg"
-# strsplit(p, split = "_")
+
+
