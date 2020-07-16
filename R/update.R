@@ -6,7 +6,10 @@
 #' @param download_directory Character string of the path of the directory where
 #'   the files are saved.
 #' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
-#' @param ... Additional parameter that will be passed to `oe_get`
+#' @param delete_gpkg Boolean. if `TRUE` the function deletes the old `.gpkg`
+#'   files to minimize the probability of accidentally reading-in old and
+#'   not-synchronized .gpkg files. Defaults to `TRUE`.
+#' @param ... Additional parameter that will be passed to `oe_get()`
 #'
 #' @return The path(s) of the .osm.pbf file(s) that were updated invisibly.
 #' @export
@@ -21,6 +24,7 @@
 oe_update = function(
   download_directory = oe_download_directory(),
   oe_verbose = TRUE,
+  delete_gpkg = TRUE,
   ...
 ) {
   # Extract all files in download_directory
@@ -39,6 +43,7 @@ oe_update = function(
       call. = FALSE
     )
   }
+
   # A summary of the files in download_directory
   if (isTRUE(oe_verbose)) {
     old_files_info = file.info(file.path(download_directory, all_files))
@@ -47,8 +52,18 @@ oe_update = function(
       "stored in the download_directory: \n"
     )
     print(old_files_info[, c(1, 4, 5)])
-    cat("\nNow the .osm.pbf files are going to be updated.\n")
+    cat("\n The .osm.pbf files are going to be updated.\n")
   }
+
+  # Check if the .gpkg files should be deleted
+  if (isTRUE(delete_gpkg)) {
+    file.remove(grep("\\.gpkg", all_files, value = TRUE))
+    if (isTRUE(oe_verbose)) {
+      message("The .gpkg files in download_directory were removed.")
+    }
+  }
+
+
 
   # Find all files with the following pattern: provider_whatever.osm.pbf
   providers_regex = paste0(all_providers, collapse = "|")

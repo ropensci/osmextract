@@ -4,7 +4,12 @@
 \alias{oe_update}
 \title{Update all the files stores in download_directory}
 \usage{
-oe_update(download_directory = oe_download_directory(), oe_verbose = TRUE, ...)
+oe_update(
+  download_directory = oe_download_directory(),
+  oe_verbose = TRUE,
+  delete_gpkg = TRUE,
+  ...
+)
 }
 \arguments{
 \item{download_directory}{Character string of the path of the directory where
@@ -12,7 +17,11 @@ the files are saved.}
 
 \item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 
-\item{...}{Additional parameter that will be passed to \code{oe_get}}
+\item{delete_gpkg}{Boolean. if \code{TRUE} the function deletes the old \code{.gpkg}
+files to minimize the probability of accidentally reading-in old and
+not-synchronized .gpkg files. Defaults to \code{TRUE}.}
+
+\item{...}{Additional parameter that will be passed to \code{oe_get()}}
 }
 \value{
 The path(s) of the .osm.pbf file(s) that were updated invisibly.
