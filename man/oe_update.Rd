@@ -4,23 +4,31 @@
 \alias{oe_update}
 \title{Update all the files stores in download_directory}
 \usage{
-oe_update(download_directory = oe_download_directory(), oe_verbose = TRUE)
+oe_update(download_directory = oe_download_directory(), oe_verbose = TRUE, ...)
 }
 \arguments{
 \item{download_directory}{Character string of the path of the directory where
 the files are saved.}
 
 \item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+
+\item{...}{Additional parameter that will be passed to \code{oe_get}}
 }
 \value{
-Not sure
+TODO
 }
 \description{
 This function is used to re-download all .osm.obf files stored in
 \code{download_directory}
 }
 \details{
-TODO: 1) Add explanation of the meaning of mtime and ctime (?file.info); 3) Add .gpkg stuff
+TODO:
+\enumerate{
+\item Add explanation of the meaning of mtime and ctime (?file.info);
+\item Add .gpkg stuff (?)
+\item return (?)
+\item Add a more detailed description of the internals
+}
 }
 \examples{
 1 + 1

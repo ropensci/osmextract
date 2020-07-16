@@ -6,17 +6,23 @@
 #' @param download_directory Character string of the path of the directory where
 #'   the files are saved.
 #' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param ... Additional parameter that will be passed to `oe_get`
 #'
-#' @return Not sure
+#' @return TODO
 #' @export
 #'
 #' @details
-#' TODO: 1) Add explanation of the meaning of mtime and ctime (?file.info); 3) Add .gpkg stuff
+#' TODO:
+#' 1) Add explanation of the meaning of mtime and ctime (?file.info);
+#' 2) Add .gpkg stuff (?)
+#' 3) return (?)
+#' 4) Add a more detailed description of the internals
 #' @examples
 #' 1 + 1
 oe_update = function(
   download_directory = oe_download_directory(),
-  oe_verbose = TRUE
+  oe_verbose = TRUE,
+  ...
 ) {
   # Extract all files in download_directory
   all_files = list.files(download_directory)
@@ -45,7 +51,7 @@ oe_update = function(
     cat("\nNow the .osm.pbf files are going to be updated.\n")
   }
 
-  # Find all files with the following pattern: provider_something.osm.pbf
+  # Find all files with the following pattern: provider_whatever.osm.pbf
   providers_regex = paste0(all_providers, collapse = "|")
   oe_regex = paste(
     "(", providers_regex, ")", # match with geofabrik or bbbike or ...
@@ -56,23 +62,40 @@ oe_update = function(
   )
   osmpbf_files = grep(oe_regex, all_files, perl = TRUE, value = TRUE)
 
-  browser()
+  # For all the files matched with the previous regex
   for (file in osmpbf_files) {
+    # Match it's provider
     matching_providers = vapply(all_providers, grepl, FUN.VALUE = logical(1), x = file, fixed = TRUE)
     provider = all_providers[matching_providers]
+    # Match the id of the place (the id is the alphabetic string right  after
+    # the provider, for example if file is equal to
+    # geofabrik_italy-latest-update.osm.pbf then provider = geofabrik and id =
+    # italy)
     id = regmatches(
       file,
       regexpr(paste0("(?<=", provider, "_)[a-zA-Z]+"), file, perl = TRUE)
     )
 
+    # Update the .osm.pbf files, skipping the vectortranslate step
     oe_get(
       place = id,
       provider = provider,
       match_by = "id",
       force_download = TRUE,
       download_only = TRUE,
-      skip_vectortranslate = TRUE
+      skip_vectortranslate = TRUE,
+      ...
     )
+  }
+
+  # A summary of the files in download_directory
+  if (isTRUE(oe_verbose)) {
+    new_files_info = file.info(file.path(download_directory, osmpbf_files))
+    cat(
+      "This is a short description of some characteristics of the updated",
+      " files stored in the download_directory: \n"
+    )
+    print(new_files_info[, c(1, 4, 5)])
   }
 }
 
