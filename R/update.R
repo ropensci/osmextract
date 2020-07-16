@@ -8,14 +8,13 @@
 #' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
 #' @param ... Additional parameter that will be passed to `oe_get`
 #'
-#' @return TODO
+#' @return The path(s) of the .osm.pbf file(s) that were updated invisibly.
 #' @export
 #'
 #' @details
 #' TODO:
 #' 1) Add explanation of the meaning of mtime and ctime (?file.info);
 #' 2) Add .gpkg stuff (?)
-#' 3) return (?)
 #' 4) Add a more detailed description of the internals
 #' @examples
 #' 1 + 1
@@ -97,6 +96,8 @@ oe_update = function(
     )
     print(new_files_info[, c(1, 4, 5)])
   }
+
+  invisible(osmpbf_files)
 }
 
 

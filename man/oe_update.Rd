@@ -15,7 +15,7 @@ the files are saved.}
 \item{...}{Additional parameter that will be passed to \code{oe_get}}
 }
 \value{
-TODO
+The path(s) of the .osm.pbf file(s) that were updated invisibly.
 }
 \description{
 This function is used to re-download all .osm.obf files stored in
@@ -26,7 +26,6 @@ TODO:
 \enumerate{
 \item Add explanation of the meaning of mtime and ctime (?file.info);
 \item Add .gpkg stuff (?)
-\item return (?)
 \item Add a more detailed description of the internals
 }
 }
