@@ -145,6 +145,7 @@
   extra_attributes = <span class='kw'>NULL</span>,
   force_vectortranslate = <span class='kw'>NULL</span>,
   download_only = <span class='fl'>FALSE</span>,
+  skip_vectortranslate = <span class='fl'>FALSE</span>,
   oe_verbose = <span class='fl'>FALSE</span>,
   oe_quiet = <span class='fl'>FALSE</span>
 )</pre>
@@ -247,6 +248,12 @@ path where the matched file is stored, instead of reading it. <code>FALSE</code>
 default.</p></td>
     </tr>
     <tr>
+      <th>skip_vectortranslate</th>
+      <td><p>Boolean. If <code>TRUE</code> then the function skips all
+the vectortranslate operations and it reads (or simply returns the path) of
+the .osm.pbf file. <code>FALSE</code> by default.</p></td>
+    </tr>
+    <tr>
       <th>oe_verbose</th>
       <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
     </tr>
@@ -265,12 +272,12 @@ default.</p></td>
     <p>This function is a wrapper around ...</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>iow</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpcNK1yu/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+    <pre class="examples"><div class='input'><span class='kw'>iow</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZcSrmI/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 44365 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
-#&gt; CRS:            4326</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>iow</span>)</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>iow</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>iow</span>)</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>iow</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
 #&gt;                  0                  0              44365                  0 
 #&gt;         MULTIPOINT    MULTILINESTRING       MULTIPOLYGON GEOMETRYCOLLECTION 
 #&gt;                  0                  0                  0                  0 
@@ -279,12 +286,12 @@ default.</p></td>
 #&gt;       MULTISURFACE              CURVE            SURFACE  POLYHEDRALSURFACE 
 #&gt;                  0                  0                  0                  0 
 #&gt;                TIN           TRIANGLE 
-#&gt;                  0                  0 </div><div class='input'><span class='kw'>iow_points</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpcNK1yu/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#&gt;                  0                  0 </div><div class='input'><span class='kw'>iow_points</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>)</div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZcSrmI/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 58945 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -3.805609 ymin: 43.45894 xmax: -1.046749 ymax: 50.89437
-#&gt; CRS:            4326</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>iow_points</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>iow_points</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
 #&gt;                  0              58945                  0                  0 
 #&gt;         MULTIPOINT    MULTILINESTRING       MULTIPOLYGON GEOMETRYCOLLECTION 
 #&gt;                  0                  0                  0                  0 
@@ -294,13 +301,13 @@ default.</p></td>
 #&gt;                  0                  0                  0                  0 
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'><span class='co'># Get the .pbf file path</span>
-<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpcNK1yu/geofabrik_isle-of-wight-latest.gpkg"</div><div class='input'><span class='co'># add additional attributes</span>
-<span class='kw'>im</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"maxpeed"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpcNK1yu/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpZcSrmI/geofabrik_isle-of-wight-latest.gpkg"</div><div class='input'><span class='co'># add additional attributes</span>
+<span class='kw'>im</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"maxpeed"</span>)</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZcSrmI/test_geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 44365 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
-#&gt; CRS:            4326</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "maxpeed"    "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># alternative providers</span>

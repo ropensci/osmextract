@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • osmextractr</title>
+<title>Update all the <code>.osm.pbf</code> files saved in a directory — oe_update • osmextractr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Update all the <code>.osm.pbf</code> files saved in a directory — oe_update" />
+<meta property="og:description" content="This function is used to re-download all .osm.pbf files stored in
+download_directory that were firstly downloaded through oe_get(). See
+details." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,84 +120,84 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Update all the <code>.osm.pbf</code> files saved in a directory</h1>
+    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextractr/blob/master/R/update.R'><code>R/update.R</code></a></small>
+    <div class="hidden name"><code>oe_update.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function is used to re-download all <code>.osm.pbf</code> files stored in
+<code>download_directory</code> that were firstly downloaded through <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>. See
+details.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_update.html'>oe_update</a></span>(
+  download_directory = <span class='fu'>oe_download_directory</span>(),
+  oe_verbose = <span class='fl'>TRUE</span>,
+  delete_gpkg = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
+)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="bbbike_zones.html">bbbike_zones</a></code> </p>
-        </td>
-        <td><p>A <code>data.frame</code> of geographical zones taken from bbbike.org</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geofabrik_zones.html">geofabrik_zones</a></code> </p>
-        </td>
-        <td><p>A <code>data.frame</code> of geographical zones taken from Geofabrik</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="oe_check_pattern.html">oe_check_pattern()</a></code> </p>
-        </td>
-        <td><p>Check for patterns in the provider's data columns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="oe_download.html">oe_download()</a></code> </p>
-        </td>
-        <td><p>Download file containing OSM data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="oe_get.html">oe_get()</a></code> </p>
-        </td>
-        <td><p>Download, translate and read OSM extracts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="oe_match.html">oe_match()</a></code> </p>
-        </td>
-        <td><p>Match input place with a geographical zone</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="oe_update.html">oe_update()</a></code> </p>
-        </td>
-        <td><p>Update all the <code>.osm.pbf</code> files saved in a directory</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="oe_vectortranslate.html">oe_vectortranslate()</a></code> </p>
-        </td>
-        <td><p>Translate the .osm.pbf format into .gpkg</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>download_directory</th>
+      <td><p>Character string of the path of the directory
+where the <code>.osm.pbf</code> files are saved.</p></td>
+    </tr>
+    <tr>
+      <th>oe_verbose</th>
+      <td><p>Boolean. If <code>TRUE</code> the function prints informative
+messages. See Details.</p></td>
+    </tr>
+    <tr>
+      <th>delete_gpkg</th>
+      <td><p>Boolean. if <code>TRUE</code> the function deletes the old <code>.gpkg</code>
+files. We added this parameter to minimize the probability of accidentally
+reading-in old and not-synchronized <code>.gpkg</code> files. See details. Defaults to
+<code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameter that will be passed to <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The path(s) of the .osm.pbf file(s) that were updated invisibly.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function is used to re-download the <code>.osm.pbf</code> files stored in
+a the directory (specified by <code>download_directory</code> param) that were firstly
+downloaded through <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>. The name of the files must begin with the
+name of one of the supported providers (see <code>oe_available_providers()</code>) and
+it must end with <code>".osm.pbf"</code>. All other files in the directory that do
+not match this format are ignored.</p>
+<p>The process for re-downloading the <code>.osm.pbf</code> files is performed using the
+function <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>. The appropriate provider is determined by looking at
+the first word in the path of the <code>.osm.pbf</code> file. The place is determined
+by looking at the second word in the file path and the matching is
+performed through the <code>id</code> column in the provider's database. So, for
+example, the path <code>geofabrik_italy-latest-update.osm.pbf</code> will be matched
+with the provider <code>"geofabrik"</code> and the geographical zone <code>italy</code> through
+the column <code>id</code> in <code>geofabrik_zones</code>.</p>
+<p>The parameter <code>delete_gpkg</code> is used to delete all <code>.gpkg</code> files in
+<code>download_directory</code>. We decided to set its default value to <code>TRUE</code> to
+minimize the possibility of reading-in old and non-synchonized <code>.gpkg</code>
+files. If you set <code>delete_gpkg = TRUE</code>, then you need to manually reconvert
+all files using <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code> or <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_vectortranslate.html'>oe_vectortranslate()</a></code>. See examples.</p>
+<p>TODO:</p><ol>
+<li><p>Add explanation of the meaning of mtime and ctime (?file.info);</p></li>
+</ol>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fl'>1</span> <span class='op'>+</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] 2</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
