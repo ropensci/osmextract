@@ -1,15 +1,40 @@
-#' Update all the files stores in download_directory
+#' Update all the `.osm.pbf` files saved in a directory
 #'
-#' This function is used to re-download all .osm.obf files stored in
-#' `download_directory`
+#' This function is used to re-download all `.osm.pbf` files stored in
+#' `download_directory` that were firstly downloaded through `oe_get()`. See
+#' details.
 #'
-#' @param download_directory Character string of the path of the directory where
-#'   the files are saved.
-#' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
+#' @param download_directory Character string of the path of the directory
+#'   where the `.osm.pbf` files are saved.
+#' @param oe_verbose Boolean. If `TRUE` the function prints informative
+#'   messages. See Details.
 #' @param delete_gpkg Boolean. if `TRUE` the function deletes the old `.gpkg`
-#'   files to minimize the probability of accidentally reading-in old and
-#'   not-synchronized .gpkg files. Defaults to `TRUE`.
-#' @param ... Additional parameter that will be passed to `oe_get()`
+#'   files. We added this parameter to minimize the probability of accidentally
+#'   reading-in old and not-synchronized `.gpkg` files. See details. Defaults to
+#'   `TRUE`.
+#' @param ... Additional parameter that will be passed to `oe_get()`.
+#'
+#' @details This function is used to re-download the `.osm.pbf` files stored in
+#'   a the directory (specified by `download_directory` param) that were firstly
+#'   downloaded through `oe_get()`. The name of the files must begin with the
+#'   name of one of the supported providers (see `oe_available_providers()`) and
+#'   it must end with `".osm.pbf"`. All other files in the directory that do
+#'   not match this format are ignored.
+#'
+#'   The process for re-downloading the `.osm.pbf` files is performed using the
+#'   function `oe_get()`. The appropriate provider is determined by looking at
+#'   the first word in the path of the `.osm.pbf` file. The place is determined
+#'   by looking at the second word in the file path and the matching is
+#'   performed through the `id` column in the provider's database. So, for
+#'   example, the path `geofabrik_italy-latest-update.osm.pbf` will be matched
+#'   with the provider `"geofabrik"` and the geographical zone `italy` through
+#'   the column `id` in `geofabrik_zones`.
+#'
+#'   The parameter `delete_gpkg` is used to delete all `.gpkg` files in
+#'   `download_directory`. We decided to set its default value to `TRUE` to
+#'   minimize the possibility of reading-in old and non-synchonized `.gpkg`
+#'   files. If you set `delete_gpkg = TRUE`, then you need to manually reconvert
+#'   all files using `oe_get()` or `oe_vectortranslate()`. See examples.
 #'
 #' @return The path(s) of the .osm.pbf file(s) that were updated invisibly.
 #' @export
@@ -17,8 +42,6 @@
 #' @details
 #' TODO:
 #' 1) Add explanation of the meaning of mtime and ctime (?file.info);
-#' 2) Add .gpkg stuff (?)
-#' 4) Add a more detailed description of the internals
 #' @examples
 #' 1 + 1
 oe_update = function(
