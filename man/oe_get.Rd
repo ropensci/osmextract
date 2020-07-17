@@ -20,6 +20,7 @@ oe_get(
   extra_attributes = NULL,
   force_vectortranslate = NULL,
   download_only = FALSE,
+  skip_vectortranslate = FALSE,
   oe_verbose = FALSE,
   oe_quiet = FALSE
 )
@@ -88,6 +89,10 @@ already exists.}
 \item{download_only}{Boolean. If \code{TRUE} then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
+
+\item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
+the vectortranslate operations and it reads (or simply returns the path) of
+the .osm.pbf file. \code{FALSE} by default.}
 
 \item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
 
