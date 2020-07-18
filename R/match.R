@@ -231,9 +231,9 @@ load_provider_data = function(provider) {
 
   provider_data = switch(
     provider,
-    "geofabrik" = geofabrik_zones,
-    "test" = test_zones,
-    "bbbike" = bbbike_zones
+    "geofabrik" = osmextractr::geofabrik_zones,
+    "test" = osmextractr::test_zones,
+    "bbbike" = osmextractr::bbbike_zones
     # , "another" = another_provider
   )
   sf::st_crs(provider_data) = 4326
