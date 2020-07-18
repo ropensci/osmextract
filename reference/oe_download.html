@@ -202,16 +202,23 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     <p>Character string representing the full path the downloaded file</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>, provider = <span class='st'>"test"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
+  file_url = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>url</span>,
+  file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
+  <span class='co'># for the moment we always need to specify the provider for files</span>
+  <span class='co'># matched with test provider</span>
+  provider = <span class='st'>"test"</span>
+)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpjJslrW/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,
   file_size = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>file_size</span>
 )
-<span class='kw'>bristol_details</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Bristol"</span>, provider = <span class='st'>"bbbike"</span>)
+<span class='kw'>Sucre_details</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"Sucre"</span>, provider = <span class='st'>"bbbike"</span>)
 <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
-  file_url = <span class='kw'>bristol_details</span><span class='op'>$</span><span class='kw'>url</span>,
-  file_size = <span class='kw'>bristol_details</span><span class='op'>$</span><span class='kw'>file_size</span>,
+  file_url = <span class='kw'>Sucre_details</span><span class='op'>$</span><span class='kw'>url</span>,
+  file_size = <span class='kw'>Sucre_details</span><span class='op'>$</span><span class='kw'>file_size</span>,
   download_directory = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
 )
 }</div></pre>

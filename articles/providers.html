@@ -102,15 +102,15 @@
 <p>The first and hardest step is to create an R object analogous to the <code>test_zones</code> object shown below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">test_zones</span>)
-<span class="co">#&gt;  [1] "id"               "name"             "parent"           "level"           </span>
-<span class="co">#&gt;  [5] "iso3166_1_alpha2" "iso3166_2"        "pbf_file_size"    "pbf"             </span>
-<span class="co">#&gt;  [9] "bz2"              "shp"              "pbf.internal"     "history"         </span>
-<span class="co">#&gt; [13] "taginfo"          "updates"          "geometry"</span>
-<span class="kw">test_zones</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">8</span>)]
+<span class="co">#&gt; [1] "id"            "name"          "parent"        "level"        </span>
+<span class="co">#&gt; [5] "pbf_file_size" "pbf"           "geometry"</span>
+<span class="kw">test_zones</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">6</span>)]
 <span class="co">#&gt;              name</span>
 <span class="co">#&gt; 149 Isle of Wight</span>
+<span class="co">#&gt; 2       ITS Leeds</span>
 <span class="co">#&gt;                                                                                                        pbf</span>
 <span class="co">#&gt; 149 https://github.com/ITSLeeds/osmextractr/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf</span>
+<span class="co">#&gt; 2                              https://github.com/ITSLeeds/osmextractr/raw/master/inst/its-example.osm.pbf</span>
 </pre></div>
 <p>The output shows the three most important column names in dataset:</p>
 <ol style="list-style-type: decimal">
