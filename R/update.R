@@ -38,10 +38,6 @@
 #'
 #' @return The path(s) of the .osm.pbf file(s) that were updated invisibly.
 #' @export
-#'
-#' @details
-#' TODO:
-#' 1) Add explanation of the meaning of mtime and ctime (?file.info);
 #' @examples
 #' 1 + 1
 oe_update = function(

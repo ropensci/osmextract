@@ -55,11 +55,6 @@ The parameter \code{delete_gpkg} is used to delete all \code{.gpkg} files in
 minimize the possibility of reading-in old and non-synchonized \code{.gpkg}
 files. If you set \code{delete_gpkg = TRUE}, then you need to manually reconvert
 all files using \code{oe_get()} or \code{oe_vectortranslate()}. See examples.
-
-TODO:
-\enumerate{
-\item Add explanation of the meaning of mtime and ctime (?file.info);
-}
 }
 \examples{
 1 + 1
