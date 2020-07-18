@@ -28,7 +28,7 @@ The first and hardest step is to create an R object analogous to the `test_zones
 
 ```{r}
 names(test_zones)
-test_zones[c(2, 8)]
+test_zones[c(2, 6)]
 ```
 
 The output shows the three most important column names in dataset:
