@@ -16,8 +16,16 @@
 #' @export
 #'
 #' @examples
+#' its_match = oe_match("ITS Leeds", provider = "test")
+#' oe_download(
+#'   file_url = its_match$url,
+#'   file_size = its_match$file_size,
+#'   # for the moment we always need to specify the provider for files
+#'   # matched with test provider
+#'   provider = "test"
+#' )
 #' \dontrun{
-#' iow_details = oe_match("its", provider = "test", match_by = "id")
+#' iow_details = oe_match("Isle of Wight")
 #' oe_download(
 #'   file_url = iow_details$url,
 #'   file_size = iow_details$file_size
