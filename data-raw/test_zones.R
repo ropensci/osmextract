@@ -43,7 +43,7 @@ file.remove("geofabrik_isle-of-wight-latest.osm.pbf")
 
 its_url <- "https://github.com/ITSLeeds/osmextractr/raw/master/inst/its-example.osm.pbf"
 test_zones[2, "id"] <- "its"
-test_zones[2, "name"] <- "Institute of Transport Studies, Leeds"
+test_zones[2, "name"] <- "ITS Leeds"
 test_zones[2, "parent"] <- NA
 test_zones[2, "level"] <- NA
 test_zones[2, "pbf_file_size"] <- as.numeric(httr::headers(httr::HEAD(its_url))$`content-length`)
