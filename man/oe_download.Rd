@@ -57,15 +57,15 @@ or the specified \code{download_directory}.
 }
 \examples{
 \dontrun{
-iow_details = oe_match("Isle of Wight", provider = "test")
+iow_details = oe_match("its", provider = "test", match_by = "id")
 oe_download(
   file_url = iow_details$url,
   file_size = iow_details$file_size
 )
-bristol_details = oe_match("Bristol", provider = "bbbike")
+Sucre_details = oe_match("Sucre", provider = "bbbike")
 oe_download(
-  file_url = bristol_details$url,
-  file_size = bristol_details$file_size,
+  file_url = Sucre_details$url,
+  file_size = Sucre_details$file_size,
   download_directory = tempdir()
 )
 }
