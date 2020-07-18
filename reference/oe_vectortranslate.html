@@ -129,7 +129,7 @@
     <p>Translate the .osm.pbf format into .gpkg</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_vectortranslate.html'>oe_vectortranslate</a></span>(
+    <pre class="usage"><span class='fu'>oe_vectortranslate</span>(
   <span class='kw'>file_path</span>,
   vectortranslate_options = <span class='kw'>NULL</span>,
   layer = <span class='kw'>NULL</span>,
@@ -185,15 +185,15 @@ already exists.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># First we need to match an input zone with a .osm.pbf file</span>
-<span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
+<span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
 <span class='co'># The we can download the .osm.pbf files</span>
-<span class='kw'>its_pbf</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_download.html'>oe_download</a></span>(
+<span class='kw'>its_pbf</span> <span class='op'>=</span> <span class='fu'><a href='oe_download.html'>oe_download</a></span>(
   file_url = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>url</span>,
   file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
   download_directory = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
   provider = <span class='st'>"test"</span>
 )
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_vectortranslate.html'>oe_vectortranslate</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(
  <span class='kw'>its_pbf</span>
 )
 <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div></pre>

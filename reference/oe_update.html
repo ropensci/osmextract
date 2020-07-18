@@ -129,11 +129,11 @@ details." />
 
     <div class="ref-description">
     <p>This function is used to re-download all <code>.osm.pbf</code> files stored in
-<code>download_directory</code> that were firstly downloaded through <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>. See
+<code>download_directory</code> that were firstly downloaded through <code><a href='oe_get.html'>oe_get()</a></code>. See
 details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/osmextractr/man/oe_update.html'>oe_update</a></span>(
+    <pre class="usage"><span class='fu'>oe_update</span>(
   download_directory = <span class='fu'>oe_download_directory</span>(),
   oe_verbose = <span class='fl'>TRUE</span>,
   delete_gpkg = <span class='fl'>TRUE</span>,
@@ -162,7 +162,7 @@ reading-in old and not-synchronized <code>.gpkg</code> files. See details. Defau
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameter that will be passed to <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>.</p></td>
+      <td><p>Additional parameter that will be passed to <code><a href='oe_get.html'>oe_get()</a></code>.</p></td>
     </tr>
     </table>
 
@@ -173,12 +173,12 @@ reading-in old and not-synchronized <code>.gpkg</code> files. See details. Defau
 
     <p>This function is used to re-download the <code>.osm.pbf</code> files stored in
 a the directory (specified by <code>download_directory</code> param) that were firstly
-downloaded through <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>. The name of the files must begin with the
+downloaded through <code><a href='oe_get.html'>oe_get()</a></code>. The name of the files must begin with the
 name of one of the supported providers (see <code>oe_available_providers()</code>) and
 it must end with <code>".osm.pbf"</code>. All other files in the directory that do
 not match this format are ignored.</p>
 <p>The process for re-downloading the <code>.osm.pbf</code> files is performed using the
-function <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code>. The appropriate provider is determined by looking at
+function <code><a href='oe_get.html'>oe_get()</a></code>. The appropriate provider is determined by looking at
 the first word in the path of the <code>.osm.pbf</code> file. The place is determined
 by looking at the second word in the file path and the matching is
 performed through the <code>id</code> column in the provider's database. So, for
@@ -189,7 +189,7 @@ the column <code>id</code> in <code>geofabrik_zones</code>.</p>
 <code>download_directory</code>. We decided to set its default value to <code>TRUE</code> to
 minimize the possibility of reading-in old and non-synchonized <code>.gpkg</code>
 files. If you set <code>delete_gpkg = TRUE</code>, then you need to manually reconvert
-all files using <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_get.html'>oe_get()</a></code> or <code><a href='https://rdrr.io/pkg/osmextractr/man/oe_vectortranslate.html'>oe_vectortranslate()</a></code>. See examples.</p>
+all files using <code><a href='oe_get.html'>oe_get()</a></code> or <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>. See examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fl'>1</span> <span class='op'>+</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] 2</div></pre>
