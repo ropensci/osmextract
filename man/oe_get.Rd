@@ -109,15 +109,17 @@ Download, translate and read OSM extracts
 This function is a wrapper around ...
 }
 \examples{
-iow = oe_get("Isle of Wight", provider = "test", oe_verbose = TRUE)
-class(iow)
-summary(sf::st_geometry_type(iow))
-iow_points = oe_get("Isle of Wight", provider = "test", layer = "points")
-summary(sf::st_geometry_type(iow_points))
-# Get the .pbf file path
-oe_get("Isle of Wight", download_only = TRUE)
+its_leeds = oe_get("ITS Leeds", provider = "test", oe_verbose = TRUE)
+class(its_leeds)
+summary(sf::st_geometry_type(its_leeds))
+# Add another layer to the .gpkg file
+its_leeds_points = oe_get("ITS Leeds", provider = "test", layer = "points")
+summary(sf::st_geometry_type(its_leeds_points))
+# Get the .osm.pbf and .gpkg file path
+oe_get("ITS Leeds", provider = "test", download_only = TRUE)
+oe_get("ITS Leeds", provider = "test", download_only = TRUE, skip_vectortranslate = TRUE)
 # add additional attributes
-im = oe_get("Isle of Wight", provider = "test", extra_attributes = "maxpeed")
+im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway")
 names(im)
 \dontrun{
 # alternative providers

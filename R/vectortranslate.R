@@ -7,7 +7,20 @@
 #' @export
 #'
 #' @examples
-#' 1 + 1
+#' # First we need to match an input zone with a .osm.pbf file
+#' its_match = oe_match("ITS Leeds", provider = "test")
+#' # The we can download the .osm.pbf files
+#' its_pbf = oe_download(
+#'   file_url = its_match$url,
+#'   file_size = its_match$file_size,
+#'   download_directory = tempdir(),
+#'   provider = "test"
+#' )
+#' list.files(tempdir(), pattern = "pbf|gpkg")
+#' its_gpkg = oe_vectortranslate(
+#'  its_pbf
+#' )
+#' list.files(tempdir(), pattern = "pbf|gpkg")
 oe_vectortranslate = function(
   file_path,
   vectortranslate_options = NULL,
