@@ -6,7 +6,9 @@ Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-5679-6536")),
     person("Andrea", "Gilardi", role=c("aut"),
-      comment = c(ORCID = "0000-0002-9424-7439"))
+      comment = c(ORCID = "0000-0002-9424-7439")),
+    person("Barry", "Rowlingson", role=c("cbt"),
+      comment = c(ORCID = "0000-0002-8586-6625"))
     )
 Description: This package is used to download, convert and read Open Street
     Map data extracts downloaded from several providers. 
