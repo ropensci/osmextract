@@ -137,10 +137,10 @@ corresponding pbf file (and its file size, if present).</p>
 <span class='fu'>oe_match</span>(<span class='kw'>place</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for sfc_POINT</span>
-<span class='fu'>oe_match</span>(<span class='kw'>place</span>, provider = <span class='st'>"geofabrik"</span>, oe_verbose = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>oe_match</span>(<span class='kw'>place</span>, provider = <span class='st'>"geofabrik"</span>, quiet = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>oe_match</span>(<span class='kw'>place</span>, provider = <span class='st'>"geofabrik"</span>, oe_verbose = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>oe_match</span>(<span class='kw'>place</span>, provider = <span class='st'>"geofabrik"</span>, quiet = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for character</span>
 <span class='fu'>oe_match</span>(
@@ -149,7 +149,7 @@ corresponding pbf file (and its file size, if present).</p>
   match_by = <span class='st'>"name"</span>,
   max_string_dist = <span class='fl'>1</span>,
   interactive_ask = <span class='fl'>FALSE</span>,
-  oe_verbose = <span class='fl'>FALSE</span>,
+  quiet = <span class='fl'>TRUE</span>,
   <span class='kw'>...</span>
 )</pre>
 
@@ -174,8 +174,8 @@ Available providers can be found with the following command:
 <code>osmextractr:::oe_available_providers()</code></p></td>
     </tr>
     <tr>
-      <th>oe_verbose</th>
-      <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
+      <th>quiet</th>
+      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.</p></td>
     </tr>
     <tr>
       <th>match_by</th>
@@ -252,7 +252,7 @@ the second element is the size of the file (which may be <code>NULL</code> or <c
 #&gt; $file_size
 #&gt; [1] 6877468
 #&gt; </div><div class='input'><span class='co'># but be aware that it can be dangerous:</span>
-<span class='fu'>oe_match</span>(<span class='st'>"London"</span>, max_string_dist = <span class='fl'>3</span>, oe_verbose = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Jordan</span></div><div class='output co'>#&gt; $url
+<span class='fu'>oe_match</span>(<span class='st'>"London"</span>, max_string_dist = <span class='fl'>3</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Jordan</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/asia/jordan-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size

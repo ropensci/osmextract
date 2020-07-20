@@ -139,8 +139,7 @@ or the specified <code>download_directory</code>.</p>
   file_size = <span class='fl'>NA</span>,
   force_download = <span class='fl'>FALSE</span>,
   max_file_size = <span class='fl'>5e+08</span>,
-  oe_verbose = <span class='fl'>FALSE</span>,
-  oe_quiet = <span class='fl'>FALSE</span>
+  quiet = <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -187,13 +186,8 @@ downloaded? <code>FALSE</code> by default.</p></td>
 interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
-      <th>oe_verbose</th>
-      <td><p>Boolean. If <code>TRUE</code> the function prints informative messages.</p></td>
-    </tr>
-    <tr>
-      <th>oe_quiet</th>
-      <td><p>Should files be downloaded without a progress bar?
-<code>FALSE</code> by default.</p></td>
+      <th>quiet</th>
+      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.</p></td>
     </tr>
     </table>
 
@@ -209,7 +203,7 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
   <span class='co'># for the moment we always need to specify the provider for files</span>
   <span class='co'># matched with test provider</span>
   provider = <span class='st'>"test"</span>
-)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpmXrUKQ/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpiVnkRX/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,

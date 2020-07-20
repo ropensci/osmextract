@@ -108,7 +108,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw">cycleways_england</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(
   <span class="st">"England"</span>,
-  oe_verbose = <span class="fl">TRUE</span>,
+  quiet = <span class="fl">FALSE</span>,
   query = <span class="st">"SELECT * FROM 'lines' WHERE highway = 'cycleway'"</span>
 )
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">cycleways_england</span>))
@@ -304,7 +304,7 @@
   file_url = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">url</span>, 
   file_size = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">file_size</span>
 )
-<span class="co">#&gt; [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"</span>
+<span class="co">#&gt; [1] "/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"</span>
 </pre></div>
 <p>If you want to download your data into a specific folder once, you can set the download directory:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit">
@@ -327,8 +327,8 @@
 <p>The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="kw">iow</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
-<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 44424 features and 10 fields</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 44521 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599</span>
@@ -337,8 +337,7 @@
 <span class="co">#&gt; [1] "sf"         "data.frame"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">iow</span>) <span class="co"># default variable names</span>
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
-<span class="co">#&gt;  [6] "barrier"    "man_made"   "ref"        "z_order"    "other_tags"</span>
-<span class="co">#&gt; [11] "geometry"</span>
+<span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span>
 </pre></div>
 <p>Once imported, we can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major and minor roads, for example:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
@@ -346,11 +345,11 @@
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">iow_major_roads</span>[<span class="st">"highway"</span>])
 </pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
-<p>The same steps can be used to get other OSM datasets (note use of <code>oe_verbose = TRUE</code> to show additional message, examples not run):</p>
+<p>The same steps can be used to get other OSM datasets (note use of <code>quiet = FALSE</code> to show additional message, examples not run):</p>
 <div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">test_malta</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Malta"</span>, oe_verbose = <span class="fl">TRUE</span>)
+<span class="kw">test_malta</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Malta"</span>, quiet = <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="kw">test_malta</span>)
-<span class="kw">test_andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, extra_attributes = <span class="st">"ref"</span>, oe_verbose = <span class="fl">TRUE</span>)
+<span class="kw">test_andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, extra_attributes = <span class="st">"ref"</span>, quiet = <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="kw">test_andorra</span>)
 </pre></div>
 </div>
@@ -363,7 +362,7 @@
   <span class="st">"Isle of Wight"</span>, 
   query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
 )
-<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Warning: no simple feature geometries present: returning a data.frame or tbl_df</span>
 <span class="co">#&gt;           highway</span>
 <span class="co">#&gt; 1     residential</span>
@@ -393,7 +392,7 @@
   <span class="st">"Andorra"</span>, 
   query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
 )
-<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_andorra-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Warning: no simple feature geometries present: returning a data.frame or tbl_df</span>
 <span class="co">#&gt;           highway</span>
 <span class="co">#&gt; 1         primary</span>
@@ -425,15 +424,11 @@
 <span class="kw">iow_primary</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   extra_attributes = <span class="st">"ref"</span>, 
-  oe_verbose = <span class="fl">TRUE</span>, 
+  quiet = <span class="fl">FALSE</span>, 
   query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('primary')"</span>
 )
-<span class="co">#&gt; The input place was matched with: Isle of Wight</span>
-<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 548 features and 10 fields</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 549 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952</span>
@@ -449,15 +444,11 @@
 <span class="kw">iow_major_roads2</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   extra_attributes = <span class="st">"ref"</span>, 
-  oe_verbose = <span class="fl">TRUE</span>, 
+  quiet = <span class="fl">FALSE</span>, 
   query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"</span>
 )
-<span class="co">#&gt; The input place was matched with: Isle of Wight</span>
-<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 918 features and 10 fields</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 920 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245</span>
@@ -470,15 +461,11 @@
 <span class="kw">iow_active_travel</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   extra_attributes = <span class="st">"ref"</span>, 
-  oe_verbose = <span class="fl">TRUE</span>, 
+  quiet = <span class="fl">FALSE</span>, 
   query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street', 'residential')"</span>
 )
-<span class="co">#&gt; The input place was matched with: Isle of Wight</span>
-<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 2545 features and 10 fields</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 2567 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727</span>
@@ -492,7 +479,7 @@
 <a href="#other-providers" class="anchor"></a>Other providers</h2>
 <p>At present <code>geofabrik</code> and <code>bbbike</code> providers are supported. An example showing how to use an alternative provider is shown in the example below.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="kw">leeds</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(place = <span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>, oe_verbose = <span class="fl">TRUE</span>)
+<span class="kw">leeds</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(place = <span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>, quiet = <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">leeds</span>)
 <span class="co">#&gt; [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">leeds</span><span class="op">$</span><span class="kw">geometry</span>)
@@ -535,6 +522,7 @@
 <a href="https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis">PostGIS</a> is an established spatial database that works well with large OSM datasets</li>
 <li>Any others? Let us know!</li>
 </ul>
+<!-- :) -->
 </div>
 </div>
 
