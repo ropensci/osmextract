@@ -52,7 +52,7 @@ library(osmextractr)
 ``` r
 cycleways_england = oe_get(
   "England",
-  oe_verbose = TRUE,
+  quiet = FALSE,
   query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
 )
 plot(sf::st_geometry(cycleways_england))
@@ -305,7 +305,7 @@ oe_download(
   file_url = iow_details$url, 
   file_size = iow_details$file_size
 )
-#> [1] "/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.osm.pbf"
+#> [1] "/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.osm.pbf"
 ```
 
 If you want to download your data into a specific folder once, you can
@@ -336,8 +336,8 @@ reads-in data from OSM extract providers as an `sf` object:
 
 ``` r
 iow = oe_get("Isle of Wight", stringsAsFactors = FALSE)
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 44424 features and 10 fields
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 44521 features and 9 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -5.401978 ymin: 43.35489 xmax: -0.175775 ymax: 50.89599
@@ -346,8 +346,7 @@ class(iow)
 #> [1] "sf"         "data.frame"
 names(iow) # default variable names
 #>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#>  [6] "barrier"    "man_made"   "ref"        "z_order"    "other_tags"
-#> [11] "geometry"
+#>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
 ```
 
 Once imported, we can use all the functions for data frames in base R
@@ -362,13 +361,13 @@ plot(iow_major_roads["highway"])
 
 <img src="man/figures/README-iow1-1.png" width="100%" />
 
-The same steps can be used to get other OSM datasets (note use of
-`oe_verbose = TRUE` to show additional message, examples not run):
+The same steps can be used to get other OSM datasets (note use of `quiet
+= FALSE` to show additional message, examples not run):
 
 ``` r
-test_malta = oe_get("Malta", oe_verbose = TRUE)
+test_malta = oe_get("Malta", quiet = FALSE)
 ncol(test_malta)
-test_andorra = oe_get("Andorra", extra_attributes = "ref", oe_verbose = TRUE)
+test_andorra = oe_get("Andorra", extra_attributes = "ref", quiet = FALSE)
 ncol(test_andorra)
 ```
 
@@ -385,7 +384,7 @@ oe_get(
   "Isle of Wight", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
 #> Warning: no simple feature geometries present: returning a data.frame or tbl_df
 #>           highway
 #> 1     residential
@@ -418,7 +417,7 @@ oe_get(
   "Andorra", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
 )
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_andorra-latest.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_andorra-latest.gpkg' using driver `GPKG'
 #> Warning: no simple feature geometries present: returning a data.frame or tbl_df
 #>           highway
 #> 1         primary
@@ -453,15 +452,11 @@ all primary roads in Andorra for example:
 iow_primary = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  oe_verbose = TRUE, 
+  quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
 )
-#> The input place was matched with: Isle of Wight
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> Start with the vectortranslate operations on the input file!
-#> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 548 features and 10 fields
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 549 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.537223 ymin: 50.58314 xmax: -1.141969 ymax: 50.75952
@@ -484,15 +479,11 @@ you need. Let’s get all primary and secondary roads, for example:
 iow_major_roads2 = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  oe_verbose = TRUE, 
+  quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
 )
-#> The input place was matched with: Isle of Wight
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> Start with the vectortranslate operations on the input file!
-#> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 918 features and 10 fields
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 920 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.565827 ymin: 50.58314 xmax: -1.083348 ymax: 50.76245
@@ -509,15 +500,11 @@ roads that are likely to be walking and cycling friendly:
 iow_active_travel = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  oe_verbose = TRUE, 
+  quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street', 'residential')"
 )
-#> The input place was matched with: Isle of Wight
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> Start with the vectortranslate operations on the input file!
-#> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/data/osm/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
-#> Simple feature collection with 2545 features and 10 fields
+#> Reading layer `lines' from data source `/home/andrea/osmext_data/geofabrik_isle-of-wight-latest.gpkg' using driver `GPKG'
+#> Simple feature collection with 2567 features and 10 fields
 #> geometry type:  LINESTRING
 #> dimension:      XY
 #> bbox:           xmin: -1.549514 ymin: 50.57872 xmax: -1.072414 ymax: 50.76727
@@ -534,7 +521,7 @@ showing how to use an alternative provider is shown in the example
 below.
 
 ``` r
-leeds = oe_get(place = "Leeds", provider = "bbbike", oe_verbose = TRUE)
+leeds = oe_get(place = "Leeds", provider = "bbbike", quiet = FALSE)
 names(leeds)
 #> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  
 plot(leeds$geometry)
@@ -582,3 +569,5 @@ states that
     is an established spatial database that works well with large OSM
     datasets
   - Any others? Let us know\!
+
+<!-- :) -->
