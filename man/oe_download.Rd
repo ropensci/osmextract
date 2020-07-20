@@ -23,7 +23,7 @@ auto generated from the URL.}
 
 \item{provider}{Which provider should be used to download the data?
 Available providers can be found with the following command:
-\code{osmextractr:::oe_available_providers()}}
+\code{osmextract:::oe_available_providers()}}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is \code{tempdir()}, which changes each time you restart R.

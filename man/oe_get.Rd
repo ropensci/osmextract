@@ -35,7 +35,7 @@ and examples.}
 
 \item{provider}{Which provider should be used to download the data?
 Available providers can be found with the following command:
-\code{osmextractr:::oe_available_providers()}}
+\code{osmextract:::oe_available_providers()}}
 
 \item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}}
 

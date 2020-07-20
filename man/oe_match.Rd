@@ -36,7 +36,7 @@ and examples.}
 
 \item{provider}{Which provider should be used to download the data?
 Available providers can be found with the following command:
-\code{osmextractr:::oe_available_providers()}}
+\code{osmextract:::oe_available_providers()}}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 

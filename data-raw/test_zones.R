@@ -4,7 +4,7 @@
 ## It uses the same structure as geofabrik_zones.
 
 # The Isle of Wight example is created as follows:
-library(osmextractr)
+library(osmextract)
 oe_get(
   place = "Isle of Wight",
   download_directory = ".",
@@ -41,7 +41,7 @@ file.remove("geofabrik_isle-of-wight-latest.osm.pbf")
 # system("ls -hal *.pbf") # 40 kb
 # file.copy("its-example.osm.pbf", "inst/")
 
-its_url <- "https://github.com/ITSLeeds/osmextractr/raw/master/inst/its-example.osm.pbf"
+its_url <- "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
 test_zones[2, "id"] <- "its"
 test_zones[2, "name"] <- "ITS Leeds"
 test_zones[2, "parent"] <- NA

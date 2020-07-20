@@ -50,7 +50,7 @@ oe_match.default = function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
-    " Feel free to open a new issue at github.com/itsleeds/osmextractr", call. = FALSE
+    " Feel free to open a new issue at github.com/itsleeds/osmextract", call. = FALSE
   )
 }
 
@@ -67,7 +67,7 @@ oe_match.sfc_POINT = function(
   if (length(place) > 1L) {
     stop(
       "At the moment we support only length-one sfc_POINT objects for 'place' parameter.",
-      " Feel free to open a new issue at github.com/itsleeds/osmextractr",
+      " Feel free to open a new issue at github.com/itsleeds/osmextract",
       call. = FALSE
     )
   }
@@ -231,9 +231,9 @@ load_provider_data = function(provider) {
 
   provider_data = switch(
     provider,
-    "geofabrik" = osmextractr::geofabrik_zones,
-    "test" = osmextractr::test_zones,
-    "bbbike" = osmextractr::bbbike_zones
+    "geofabrik" = osmextract::geofabrik_zones,
+    "test" = osmextract::test_zones,
+    "bbbike" = osmextract::bbbike_zones
     # , "another" = another_provider
   )
   sf::st_crs(provider_data) = 4326
