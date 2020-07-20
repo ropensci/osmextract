@@ -128,7 +128,7 @@ oe_get = function(
     return(file_path)
   }
   if (isTRUE(skip_vectortranslate)) {
-    return(sf::st_read(file_path, layer = layer, ...))
+    return(sf::st_read(file_path, layer = layer, quiet = quiet, ...))
   }
 
   # Pass the file_path to oe_vectortranslate
@@ -175,6 +175,7 @@ oe_get = function(
   sf::st_read(
     dsn = gpkg_file_path,
     layer = layer,
+    quiet = quiet,
     ...
   )
 
