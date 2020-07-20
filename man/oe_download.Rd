@@ -12,8 +12,7 @@ oe_download(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+08,
-  oe_verbose = FALSE,
-  oe_quiet = FALSE
+  quiet = TRUE
 )
 }
 \arguments{
@@ -43,10 +42,7 @@ downloaded? \code{FALSE} by default.}
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
-
-\item{oe_quiet}{Should files be downloaded without a progress bar?
-\code{FALSE} by default.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
 Character string representing the full path the downloaded file

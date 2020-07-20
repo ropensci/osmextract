@@ -55,7 +55,7 @@ library(osmextractr)
 ```{r, eval=FALSE}
 cycleways_england = oe_get(
   "England",
-  oe_verbose = TRUE,
+  quiet = FALSE,
   query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
 )
 plot(sf::st_geometry(cycleways_england))
@@ -255,12 +255,12 @@ iow_major_roads = iow[iow$highway %in% c("primary", "secondary"), ]
 plot(iow_major_roads["highway"])
 ```
 
-The same steps can be used to get other OSM datasets (note use of `oe_verbose = TRUE` to show additional message, examples not run):
+The same steps can be used to get other OSM datasets (note use of `quiet = FALSE` to show additional message, examples not run):
 
 ```{r, eval=FALSE}
-test_malta = oe_get("Malta", oe_verbose = TRUE)
+test_malta = oe_get("Malta", quiet = FALSE)
 ncol(test_malta)
-test_andorra = oe_get("Andorra", extra_attributes = "ref", oe_verbose = TRUE)
+test_andorra = oe_get("Andorra", extra_attributes = "ref", quiet = FALSE)
 ncol(test_andorra)
 ```
 
@@ -295,7 +295,7 @@ The same `query` argument can be used to read-in only certain features, all prim
 iow_primary = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  oe_verbose = TRUE, 
+  quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary')"
 )
 class(iow_primary)
@@ -311,7 +311,7 @@ Let's get all primary and secondary roads, for example:
 iow_major_roads2 = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  oe_verbose = TRUE, 
+  quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
 )
 plot(iow_major_roads2["highway"])
@@ -323,7 +323,7 @@ You can also use regex, as shown in the following command that gets roads that a
 iow_active_travel = oe_get(
   "Isle of Wight", 
   extra_attributes = "ref", 
-  oe_verbose = TRUE, 
+  quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'living_street', 'residential')"
 )
 plot(iow_active_travel["highway"])
@@ -335,7 +335,7 @@ At present `geofabrik` and `bbbike` providers are supported.
 An example showing how to use an alternative provider is shown in the example below.
 
 ```{r, eval=FALSE}
-leeds = oe_get(place = "Leeds", provider = "bbbike", oe_verbose = TRUE)
+leeds = oe_get(place = "Leeds", provider = "bbbike", quiet = FALSE)
 names(leeds)
 #> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  
 plot(leeds$geometry)

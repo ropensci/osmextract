@@ -6,20 +6,20 @@
 #'
 #' @param download_directory Character string of the path of the directory
 #'   where the `.osm.pbf` files are saved.
-#' @param oe_verbose Boolean. If `TRUE` the function prints informative
-#'   messages. See Details.
+#' @param quiet Boolean. If `FALSE` the function prints informative
+#'   messages. Default to `FALSE`. See Details.
 #' @param delete_gpkg Boolean. if `TRUE` the function deletes the old `.gpkg`
 #'   files. We added this parameter to minimize the probability of accidentally
 #'   reading-in old and not-synchronized `.gpkg` files. See details. Defaults to
 #'   `TRUE`.
 #' @param ... Additional parameter that will be passed to `oe_get()`.
 #'
-#' @details This function is used to re-download the `.osm.pbf` files stored in
-#'   a the directory (specified by `download_directory` param) that were firstly
-#'   downloaded through `oe_get()`. The name of the files must begin with the
-#'   name of one of the supported providers (see `oe_available_providers()`) and
-#'   it must end with `".osm.pbf"`. All other files in the directory that do
-#'   not match this format are ignored.
+#' @details This function is used to re-download `.osm.pbf` files that are
+#'   stored in a directory (specified by `download_directory` param) and that
+#'   were firstly downloaded through `oe_get()`. The name of the files must
+#'   begin with the name of one of the supported providers (see
+#'   `oe_available_providers()`) and it must end with `".osm.pbf"`. All other
+#'   files in the directory that do not match this format are ignored.
 #'
 #'   The process for re-downloading the `.osm.pbf` files is performed using the
 #'   function `oe_get()`. The appropriate provider is determined by looking at
@@ -36,13 +36,20 @@
 #'   files. If you set `delete_gpkg = TRUE`, then you need to manually reconvert
 #'   all files using `oe_get()` or `oe_vectortranslate()`. See examples.
 #'
+#'   If you set the parameter `quiet` to `FALSE`, then the function will print
+#'   some useful messages regarding the characteristics of the files before and
+#'   after updating them. More precisely, it will print the output of the
+#'   columns `size`, `mtime` and `ctime` from `file.info()`. Please note that
+#'   the meaning of `mtime` and `ctime` depends on the OS and the file system.
+#'   Check `?file.info`. See examples.
+#'
 #' @return The path(s) of the .osm.pbf file(s) that were updated invisibly.
 #' @export
 #' @examples
 #' 1 + 1
 oe_update = function(
   download_directory = oe_download_directory(),
-  oe_verbose = TRUE,
+  quiet = FALSE,
   delete_gpkg = TRUE,
   ...
 ) {
@@ -64,7 +71,7 @@ oe_update = function(
   }
 
   # A summary of the files in download_directory
-  if (isTRUE(oe_verbose)) {
+  if (isFALSE(quiet)) {
     old_files_info = file.info(file.path(download_directory, all_files))
     cat(
       "This is a short description of some characteristics of the files",
@@ -77,7 +84,7 @@ oe_update = function(
   # Check if the .gpkg files should be deleted
   if (isTRUE(delete_gpkg)) {
     file.remove(grep("\\.gpkg", all_files, value = TRUE))
-    if (isTRUE(oe_verbose)) {
+    if (isFALSE(quiet)) {
       message("The .gpkg files in download_directory were removed.")
     }
   }
@@ -122,7 +129,7 @@ oe_update = function(
   }
 
   # A summary of the files in download_directory
-  if (isTRUE(oe_verbose)) {
+  if (isFALSE(quiet)) {
     new_files_info = file.info(file.path(download_directory, osmpbf_files))
     cat(
       "This is a short description of some characteristics of the updated",

@@ -28,7 +28,7 @@ oe_vectortranslate = function(
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = FALSE,
-  oe_verbose = FALSE
+  quiet = TRUE
 ) {
   # First we need to build the file path of the .gpkg using the following
   # convention: it is the same file path of the .osm.pbf file but with .gpkg
@@ -42,7 +42,7 @@ oe_vectortranslate = function(
   # If the gpgk file already exists and force_vectortranslate is FALSE then we
   # raise a message and we return the path of the .gpkg file.
   if (file.exists(gpkg_file_path) && !isTRUE(force_vectortranslate)) {
-    if (isTRUE(oe_verbose)) {
+    if (isFALSE(quiet)) {
       message(
         "The corresponding gpkg file was already detected. ",
         "Skip vectortranslate operations."
@@ -93,7 +93,7 @@ oe_vectortranslate = function(
     }
   }
 
-  if (isTRUE(oe_verbose)) {
+  if (isFALSE(quiet)) {
     message(
       "Start with the vectortranslate operations on the input file!"
     )
@@ -107,7 +107,7 @@ oe_vectortranslate = function(
     options = vectortranslate_options
   )
 
-  if (isTRUE(oe_verbose)) {
+  if (isFALSE(quiet)) {
     message(
       "Finished the vectortranslate operations on the input file!"
     )

@@ -6,7 +6,7 @@
 \usage{
 oe_update(
   download_directory = oe_download_directory(),
-  oe_verbose = TRUE,
+  quiet = FALSE,
   delete_gpkg = TRUE,
   ...
 )
@@ -15,8 +15,8 @@ oe_update(
 \item{download_directory}{Character string of the path of the directory
 where the \code{.osm.pbf} files are saved.}
 
-\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative
-messages. See Details.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative
+messages. Default to \code{FALSE}. See Details.}
 
 \item{delete_gpkg}{Boolean. if \code{TRUE} the function deletes the old \code{.gpkg}
 files. We added this parameter to minimize the probability of accidentally
@@ -34,12 +34,12 @@ This function is used to re-download all \code{.osm.pbf} files stored in
 details.
 }
 \details{
-This function is used to re-download the \code{.osm.pbf} files stored in
-a the directory (specified by \code{download_directory} param) that were firstly
-downloaded through \code{oe_get()}. The name of the files must begin with the
-name of one of the supported providers (see \code{oe_available_providers()}) and
-it must end with \code{".osm.pbf"}. All other files in the directory that do
-not match this format are ignored.
+This function is used to re-download \code{.osm.pbf} files that are
+stored in a directory (specified by \code{download_directory} param) and that
+were firstly downloaded through \code{oe_get()}. The name of the files must
+begin with the name of one of the supported providers (see
+\code{oe_available_providers()}) and it must end with \code{".osm.pbf"}. All other
+files in the directory that do not match this format are ignored.
 
 The process for re-downloading the \code{.osm.pbf} files is performed using the
 function \code{oe_get()}. The appropriate provider is determined by looking at
@@ -55,6 +55,13 @@ The parameter \code{delete_gpkg} is used to delete all \code{.gpkg} files in
 minimize the possibility of reading-in old and non-synchonized \code{.gpkg}
 files. If you set \code{delete_gpkg = TRUE}, then you need to manually reconvert
 all files using \code{oe_get()} or \code{oe_vectortranslate()}. See examples.
+
+If you set the parameter \code{quiet} to \code{FALSE}, then the function will print
+some useful messages regarding the characteristics of the files before and
+after updating them. More precisely, it will print the output of the
+columns \code{size}, \code{mtime} and \code{ctime} from \code{file.info()}. Please note that
+the meaning of \code{mtime} and \code{ctime} depends on the OS and the file system.
+Check \code{?file.info}. See examples.
 }
 \examples{
 1 + 1

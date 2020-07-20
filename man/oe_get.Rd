@@ -21,8 +21,7 @@ oe_get(
   force_vectortranslate = NULL,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
-  oe_verbose = FALSE,
-  oe_quiet = FALSE
+  quiet = TRUE
 )
 }
 \arguments{
@@ -94,10 +93,7 @@ default.}
 the vectortranslate operations and it reads (or simply returns the path) of
 the .osm.pbf file. \code{FALSE} by default.}
 
-\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
-
-\item{oe_quiet}{Should files be downloaded without a progress bar?
-\code{FALSE} by default.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
 An sf object related to the input place.
@@ -109,7 +105,7 @@ Download, translate and read OSM extracts
 This function is a wrapper around ...
 }
 \examples{
-its_leeds = oe_get("ITS Leeds", provider = "test", oe_verbose = TRUE)
+its_leeds = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
 class(its_leeds)
 summary(sf::st_geometry_type(its_leeds))
 # Add another layer to the .gpkg file
@@ -123,6 +119,6 @@ im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway")
 names(im)
 \dontrun{
 # alternative providers
-baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
+baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)
 }
 }

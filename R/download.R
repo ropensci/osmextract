@@ -45,8 +45,7 @@ oe_download = function(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+8, # 5e+8 = 500MB in bytes
-  oe_verbose = FALSE,
-  oe_quiet = FALSE
+  quiet = TRUE
   ) {
   # First we need to build the file_path combining the download_directory,
   # the provider and the file_basename
@@ -56,7 +55,7 @@ oe_download = function(
   # return the file_path. Otherwise we download it after checking for the
   # file_size.
   if (file.exists(file_path) && !isTRUE(force_download)) {
-    if (isTRUE(oe_verbose)) {
+    if (isFALSE(quiet)) {
       message(
       "The chosen file was already detected in the download directory. ",
       "Skip downloading."
@@ -85,10 +84,10 @@ oe_download = function(
       url = file_url,
       destfile = file_path,
       mode = "wb",
-      quiet = oe_quiet
+      quiet = quiet
     )
 
-    if (isTRUE(oe_verbose)) {
+    if (isFALSE(quiet)) {
       message("File downloaded!")
     }
   }
