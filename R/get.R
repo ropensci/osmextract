@@ -48,9 +48,7 @@
 #' @param skip_vectortranslate Boolean. If `TRUE` then the function skips all
 #'   the vectortranslate operations and it reads (or simply returns the path) of
 #'   the .osm.pbf file. `FALSE` by default.
-#' @param oe_verbose Boolean. If `TRUE` the function prints informative messages.
-#' @param oe_quiet Should files be downloaded without a progress bar?
-#' `FALSE` by default.
+#' @param quiet Boolean. If `FALSE` the function prints informative messages.
 #' @param download_only Boolean. If `TRUE` then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -61,7 +59,7 @@
 #' @details This function is a wrapper around ...
 #'
 #' @examples
-#' its_leeds = oe_get("ITS Leeds", provider = "test", oe_verbose = TRUE)
+#' its_leeds = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
 #' class(its_leeds)
 #' summary(sf::st_geometry_type(its_leeds))
 #' # Add another layer to the .gpkg file
@@ -75,7 +73,7 @@
 #' names(im)
 #' \dontrun{
 #' # alternative providers
-#' baku = oe_get(place = "Baku", provider = "bbbike", oe_verbose = TRUE)
+#' baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)
 #' }
 oe_get = function(
   place,
@@ -94,8 +92,7 @@ oe_get = function(
   force_vectortranslate = NULL,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
-  oe_verbose = FALSE,
-  oe_quiet = FALSE
+  quiet = TRUE
 ) {
   # Match the input place with the provider's data.
   matched_zone = oe_match(
@@ -104,7 +101,7 @@ oe_get = function(
     match_by = match_by,
     max_string_dist = max_string_dist,
     interactive_ask = interactive_ask,
-    oe_verbose = oe_verbose
+    quiet = quiet
   )
 
   if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
@@ -122,7 +119,7 @@ oe_get = function(
     file_size = file_size,
     force_download = force_download,
     max_file_size = max_file_size,
-    oe_verbose = oe_verbose
+    quiet = quiet
   )
 
   # Check for skip_vectortranslate since, in that case, we don't need the
@@ -142,7 +139,7 @@ oe_get = function(
     osmconf_ini = osmconf_ini,
     extra_attributes = extra_attributes,
     force_vectortranslate = force_vectortranslate,
-    oe_verbose = oe_verbose
+    quiet = quiet
   )
 
   # Should we read the file or simply return its path?
@@ -159,7 +156,7 @@ oe_get = function(
       )
     }
     # Try to add the new layer from the .osm.pbf file to the .gpkg file
-    if (isTRUE(oe_verbose)) {
+    if (isFALSE(quiet)) {
       message("Adding a new layer to the .gpkg file")
     }
 
@@ -170,7 +167,7 @@ oe_get = function(
       osmconf_ini = osmconf_ini,
       extra_attributes = extra_attributes,
       force_vectortranslate = TRUE,
-      oe_verbose = oe_verbose
+      quiet = quiet
     )
   }
 

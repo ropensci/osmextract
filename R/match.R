@@ -31,7 +31,7 @@
 #' # Increase the max_string_dist parameter and help the function:
 #' oe_match("Isle Wight", max_string_dist = 3)
 #' # but be aware that it can be dangerous:
-#' oe_match("London", max_string_dist = 3, oe_verbose = TRUE)
+#' oe_match("London", max_string_dist = 3, quiet = FALSE)
 #'
 #' # Check interactive_ask:
 #' if (interactive()) {
@@ -60,7 +60,7 @@ oe_match.default = function(place, ...) {
 oe_match.sfc_POINT = function(
   place,
   provider = "geofabrik",
-  oe_verbose = FALSE,
+  quiet = TRUE,
   ...
 ) {
   # For the moment we support only length-one sfc_POINT objects
@@ -109,7 +109,7 @@ oe_match.sfc_POINT = function(
 oe_match.numeric = function(
   place,
   provider = "geofabrik",
-  oe_verbose = FALSE,
+  quiet = TRUE,
   ...
 ) {
   # In this case I just need to build the appropriate object and create a
@@ -124,7 +124,7 @@ oe_match.numeric = function(
   # Build the sfc_POINT object
   place = sf::st_sfc(sf::st_point(place), crs = 4326)
 
-  oe_match(place, provider = provider, oe_verbose = oe_verbose, ...)
+  oe_match(place, provider = provider, quiet = quiet, ...)
 }
 
 #' @inheritParams oe_get
@@ -136,7 +136,7 @@ oe_match.character = function(
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  oe_verbose = FALSE,
+  quiet = TRUE,
   ...
   ) {
   # For the moment we support only length-one character vectors
@@ -178,7 +178,7 @@ oe_match.character = function(
   high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
   if (isTRUE(high_distance)) {
-    if (isTRUE(oe_verbose) || isTRUE(interactive_ask)) {
+    if (isFALSE(quiet) || isTRUE(interactive_ask)) {
       message(
         "No exact matching found for place = ", place, ". ",
         "Best match is ", best_matched_place[[match_by]], "."
@@ -208,7 +208,7 @@ oe_match.character = function(
     }
   }
 
-  if (isTRUE(oe_verbose)) {
+  if (isFALSE(quiet)) {
     message("The input place was matched with: ", best_matched_place[[match_by]])
   }
 

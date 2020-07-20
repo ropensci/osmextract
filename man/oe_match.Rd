@@ -12,9 +12,9 @@ oe_match(place, ...)
 
 \method{oe_match}{default}(place, ...)
 
-\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", oe_verbose = FALSE, ...)
+\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", quiet = TRUE, ...)
 
-\method{oe_match}{numeric}(place, provider = "geofabrik", oe_verbose = FALSE, ...)
+\method{oe_match}{numeric}(place, provider = "geofabrik", quiet = TRUE, ...)
 
 \method{oe_match}{character}(
   place,
@@ -22,7 +22,7 @@ oe_match(place, ...)
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  oe_verbose = FALSE,
+  quiet = TRUE,
   ...
 )
 }
@@ -38,7 +38,7 @@ and examples.}
 Available providers can be found with the following command:
 \code{osmextractr:::oe_available_providers()}}
 
-\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 
 \item{match_by}{Which column of the provider data should be used for matching
 the input place with the provider's data? The default is "name". Check
@@ -87,7 +87,7 @@ oe_match("RU", match_by = "iso3166_1_alpha2")
 # Increase the max_string_dist parameter and help the function:
 oe_match("Isle Wight", max_string_dist = 3)
 # but be aware that it can be dangerous:
-oe_match("London", max_string_dist = 3, oe_verbose = TRUE)
+oe_match("London", max_string_dist = 3, quiet = FALSE)
 
 # Check interactive_ask:
 if (interactive()) {

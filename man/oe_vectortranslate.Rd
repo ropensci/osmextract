@@ -11,7 +11,7 @@ oe_vectortranslate(
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = FALSE,
-  oe_verbose = FALSE
+  quiet = TRUE
 )
 }
 \arguments{
@@ -34,7 +34,7 @@ should be in the resulting dataset? \code{NULL} by default.}
 into a \code{.gpkg} file, even if a \code{.gpkg} associated with the \code{provider} zone
 already exists.}
 
-\item{oe_verbose}{Boolean. If \code{TRUE} the function prints informative messages.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
 Character string representing the full path the .gpkg file
