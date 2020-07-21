@@ -1,4 +1,4 @@
 library(testthat)
-library(osmextractr)
+library(osmextract)
 
-test_check("osmextractr")
+test_check("osmextract")

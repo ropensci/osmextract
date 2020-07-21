@@ -3,23 +3,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# osmextractr
+# osmextract
 
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/itsleeds/osmextractr/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextractr/actions)
+status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
 <!-- badges: end -->
 
-The goal of `osmextractr` is to make it easier for R users to access
+The goal of `osmextract` is to make it easier for R users to access
 freely available, community created geographic data, in the form of
 OpenSteetMap data extracted by providers such as [Geofabrik
 GmbH](http://download.geofabrik.de) and
 [bbbike](https://download.bbbike.org/osm/). For information on
 alternatives and how to add them see the [providers
-vignette](https://itsleeds.github.io/osmextractr/articles/providers.html).
+vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
 
-## Why osmextractr?
+## Why osmextract?
 
 [`osmdata`](https://github.com/ropensci/osmdata) provides an R interface
 to the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API),
@@ -37,13 +37,13 @@ cycleways_england = opq("England") %>%
 ```
 
 The query hanged with an error message after around 10 seconds. The same
-query can be made with `osmextractr` as follows, which reads-in almost
+query can be made with `osmextract` as follows, which reads-in almost
 100k linestrings in less than 10 seconds (after the data has been
 downloaded in the compressed `.pbf` format and converted to the open
 standard `.gpkg` format, not evaluated):
 
 ``` r
-library(osmextractr)
+library(osmextract)
 #> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
 #> Geofabrik data are taken from https://download.geofabrik.de/
 #> For usage details of bbbike data see https://download.bbbike.org/osm/
@@ -61,11 +61,11 @@ plot(sf::st_geometry(cycleways_england))
 <img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%" />
 
 The package is designed to complement `osmdata` which has advantages
-over `osmextractr` for small datasets: `osmdata` is likely to be quicker
+over `osmextract` for small datasets: `osmdata` is likely to be quicker
 for datasets less than \~10 MB, provides up-to-date data and has an
 intuitive interface. `osmdata` can provide data in a range of formats,
-while `osmextractr` only returns [`sf`](https://github.com/r-spatial/sf)
-objects. On the other hand, `osmextractr` provides a fast way to
+while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf)
+objects. On the other hand, `osmextract` provides a fast way to
 download large OSM datasets in the highly compressed `pbf` format and
 read them in via the fast C library
 [GDAL](https://gdal.org/drivers/vector/osm.html) and the R package
@@ -73,11 +73,11 @@ read them in via the fast C library
 
 ## Installation
 
-<!-- You can install the released version of osmextractr from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with: -->
 
 <!-- ``` r -->
 
-<!-- install.packages("osmextractr") -->
+<!-- install.packages("osmextract") -->
 
 <!-- ``` -->
 
@@ -86,7 +86,7 @@ You can install the development version from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("ITSLeeds/osmextractr")
+remotes::install_github("ITSLeeds/osmextract")
 ```
 
 Load the package with:
@@ -98,7 +98,7 @@ library(sf)
 
 ## Usage
 
-Give `osmextractr` the name of a geofabrik zone and it will download and
+Give `osmextract` the name of a geofabrik zone and it will download and
 import it. By default it imports the ‘lines’ layer, but any layer can be
 read-in. Behind the scenes, the function `read_pbf()`, a wrapper around
 `sf::st_read()` is used with configuration options to import additional
@@ -113,7 +113,7 @@ The first provider supported was
 [Geofabrik](http://download.geofabrik.de/). The second was
 [bbbike](https://download.bbbike.org/osm/bbbike/). The package can be
 extended to support additional providers, as seen in
-[code](https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d)
+[code](https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d)
 that adds a working test provider.
 
 Providers break the world into zones. These zones are represented as
@@ -142,7 +142,7 @@ bbbike_zones$name[1:20]
 ## Load package
 
 ``` r
-library(osmextractr)
+library(osmextract)
 ```
 
 The packages is composed by 4 main functions:
@@ -534,7 +534,7 @@ plot(leeds$geometry)
 We hope to make the user interface to the SQL syntax more user friendly.
 We would love to see more providers added (see the [Add new
 OpenStreetMap
-providers](https://itsleeds.github.io/osmextractr/articles/providers.html)
+providers](https://itsleeds.github.io/osmextract/articles/providers.html)
 for details) and see what people can do with OSM datasets of the type
 provided by this package in a reproducible and open statistical
 programming environment for the greater good. Any contributions to

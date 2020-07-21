@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(osmextractr)
+library(osmextract)
 ```
 
 As of summer 2020 there are 7 services providing bulk OSM datasets listed at [https://wiki.openstreetmap.org/wiki/Processed_data_providers](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
@@ -37,12 +37,12 @@ The output shows the three most important column names in dataset:
 2. The url endpoint where .pbf files associated with each zone can be downloaded
 3. The geometry, representing the spatial extent of the dataset
 
-The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first and [test](https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d) providers in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextractr/blob/master/data-raw/geofabrik_zones.R)
+The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first and [test](https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d) providers in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R)
 The following commands will clone this repo and open the relevant file:
 
 ```bash
-git clone git@github.com:itsleeds/osmextractr
-rstudio osmextractr/osmextractr.Rproj
+git clone git@github.com:itsleeds/osmextract
+rstudio osmextract/osmextract.Rproj
 ```
 
 Then in RStudio:
@@ -63,9 +63,9 @@ After you have created the new provider `_zones` file it's time to add the provi
 
 Once you have created your overview `_zones` file as outlined in the previous step, you need to modify the following files for the provider to be available for others:
 
-- [data.R](https://github.com/ITSLeeds/osmextractr/blob/master/R/data.R), where you'll need to document the new dataset
-- [globals.R](https://github.com/ITSLeeds/osmextractr/blob/master/R/globals.R), where you'll need to add the new object name
-- [match.RR](https://github.com/ITSLeeds/osmextractr/blob/master/R/match.RR), where you'll need to add the new object name
+- [data.R](https://github.com/ITSLeeds/osmextract/blob/master/R/data.R), where you'll need to document the new dataset
+- [globals.R](https://github.com/ITSLeeds/osmextract/blob/master/R/globals.R), where you'll need to add the new object name
+- [match.RR](https://github.com/ITSLeeds/osmextract/blob/master/R/match.RR), where you'll need to add the new object name
 
 # Documenting the provider
 
@@ -74,5 +74,5 @@ Add an example, mention it in the README and tell others about what this new pro
 
 # Conclusion
 
-This vignette talks through the main steps needed to extend `osmextractr` by adding new OSM data providers.
-To see the same information in code form, see the PR that implemented the `bbike` provider here: https://github.com/ITSLeeds/osmextractr/pull/57/files
+This vignette talks through the main steps needed to extend `osmextract` by adding new OSM data providers.
+To see the same information in code form, see the PR that implemented the `bbike` provider here: https://github.com/ITSLeeds/osmextract/pull/57/files

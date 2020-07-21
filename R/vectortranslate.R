@@ -62,14 +62,14 @@ oe_vectortranslate = function(
     # by GDAL at stored at the following link:
     # https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini
     # It was saved on the 9th of July 2020.
-    osmconf_ini = system.file("osmconf.ini", package = "osmextractr")
+    osmconf_ini = system.file("osmconf.ini", package = "osmextract")
   }
   if (is.null(osmconf_ini) && !is.null(extra_attributes)) {
     if (is.null(layer)) {
       stop("You need to specify the layer parameter!")
     }
 
-    temp_ini = readLines(system.file("osmconf.ini", package = "osmextractr"))
+    temp_ini = readLines(system.file("osmconf.ini", package = "osmextract"))
     id_old = grep(
       paste0("attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")),
       temp_ini
