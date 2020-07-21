@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download, translate and read OSM extracts — oe_get • osmextractr</title>
+<title>Download, translate and read OSM extracts — oe_get • osmextract</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">osmextractr</a>
+        <a class="navbar-link" href="../index.html">osmextract</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -102,7 +102,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/itsleeds/osmextractr/">
+  <a href="https://github.com/itsleeds/osmextract/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -121,7 +121,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Download, translate and read OSM extracts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextractr/blob/master/R/get.R'><code>R/get.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/get.R'><code>R/get.R</code></a></small>
     <div class="hidden name"><code>oe_get.Rd</code></div>
     </div>
 
@@ -168,7 +168,7 @@ and examples.</p></td>
       <th>provider</th>
       <td><p>Which provider should be used to download the data?
 Available providers can be found with the following command:
-<code>osmextractr:::oe_available_providers()</code></p></td>
+<code>osmextract:::oe_available_providers()</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -266,7 +266,7 @@ the .osm.pbf file. <code>FALSE</code> by default.</p></td>
     <p>This function is a wrapper around ...</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>its_leeds</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpiVnkRX/test_its-example.gpkg' using driver `GPKG'
+    <pre class="examples"><div class='input'><span class='kw'>its_leeds</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpNoJfCE/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -292,7 +292,7 @@ the .osm.pbf file. <code>FALSE</code> by default.</p></td>
 #&gt;                  0                  0                  0                  0 
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'><span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpiVnkRX/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpiVnkRX/test_its-example.osm.pbf"</div><div class='input'><span class='co'># add additional attributes</span>
+<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpNoJfCE/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpNoJfCE/test_its-example.osm.pbf"</div><div class='input'><span class='co'># add additional attributes</span>
 <span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"oneway"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"

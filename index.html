@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Download and Read OpenStreetMap Data Extracts • osmextractr</title>
+<title>Download and Read OpenStreetMap Data Extracts • osmextract</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -31,7 +31,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">osmextractr</a>
+        <a class="navbar-link" href="index.html">osmextract</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -62,7 +62,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/itsleeds/osmextractr/">
+  <a href="https://github.com/itsleeds/osmextract/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -80,15 +80,15 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="osmextractr" class="section level1">
+<div id="osmextract" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#osmextractr" class="anchor"></a>osmextractr</h1></div>
+<a href="#osmextract" class="anchor"></a>osmextract</h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>osmextractr</code> is to make it easier for R users to access freely available, community created geographic data, in the form of OpenSteetMap data extracted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/">bbbike</a>. For information on alternatives and how to add them see the <a href="https://itsleeds.github.io/osmextractr/articles/providers.html">providers vignette</a>.</p>
-<div id="why-osmextractr" class="section level2">
+<p>The goal of <code>osmextract</code> is to make it easier for R users to access freely available, community created geographic data, in the form of OpenSteetMap data extracted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/">bbbike</a>. For information on alternatives and how to add them see the <a href="https://itsleeds.github.io/osmextract/articles/providers.html">providers vignette</a>.</p>
+<div id="why-osmextract" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why-osmextractr" class="anchor"></a>Why osmextractr?</h2>
+<a href="#why-osmextract" class="anchor"></a>Why osmextract?</h2>
 <p><a href="https://github.com/ropensci/osmdata"><code>osmdata</code></a> provides an R interface to the <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API</a>, which is ideal for downloading small OSM datasets. However, the API is rate limited, making it hard to download large datasets. As a case study, let’s try to download all cycleways in England:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">osmdata</span>)
@@ -98,9 +98,9 @@
 <span class="co"># Error in check_for_error(doc) : General overpass server error; returned:</span>
 <span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span>
 </pre></div>
-<p>The query hanged with an error message after around 10 seconds. The same query can be made with <code>osmextractr</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds (after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format, not evaluated):</p>
+<p>The query hanged with an error message after around 10 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds (after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format, not evaluated):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextractr">osmextractr</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span>)
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright</span>
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
 <span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
@@ -114,19 +114,19 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">cycleways_england</span>))
 </pre></div>
 <p><img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%"></p>
-<p>The package is designed to complement <code>osmdata</code> which has advantages over <code>osmextractr</code> for small datasets: <code>osmdata</code> is likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>osmextractr</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects. On the other hand, <code>osmextractr</code> provides a fast way to download large OSM datasets in the highly compressed <code>pbf</code> format and read them in via the fast C library <a href="https://gdal.org/drivers/vector/osm.html">GDAL</a> and the R package <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
+<p>The package is designed to complement <code>osmdata</code> which has advantages over <code>osmextract</code> for small datasets: <code>osmdata</code> is likely to be quicker for datasets less than ~10 MB, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>osmextract</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects. On the other hand, <code>osmextract</code> provides a fast way to download large OSM datasets in the highly compressed <code>pbf</code> format and read them in via the fast C library <a href="https://gdal.org/drivers/vector/osm.html">GDAL</a> and the R package <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<!-- You can install the released version of osmextractr from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with: -->
 <!-- ``` r -->
-<!-- install.packages("osmextractr") -->
+<!-- install.packages("osmextract") -->
 <!-- ``` -->
 <p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="co"># install.packages("remotes")</span>
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ITSLeeds/osmextractr"</span>)
+<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"ITSLeeds/osmextract"</span>)
 </pre></div>
 <p>Load the package with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
@@ -137,8 +137,8 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Give <code>osmextractr</code> the name of a geofabrik zone and it will download and import it. By default it imports the ‘lines’ layer, but any layer can be read-in. Behind the scenes, the function <code>read_pbf()</code>, a wrapper around <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code> is used with configuration options to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument):</p>
-<p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. The second was <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The package can be extended to support additional providers, as seen in <a href="https://github.com/ITSLeeds/osmextractr/commit/be3b48e7ed7ccd957e988bacad053161247b206d">code</a> that adds a working test provider.</p>
+<p>Give <code>osmextract</code> the name of a geofabrik zone and it will download and import it. By default it imports the ‘lines’ layer, but any layer can be read-in. Behind the scenes, the function <code>read_pbf()</code>, a wrapper around <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code> is used with configuration options to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument):</p>
+<p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. The second was <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The package can be extended to support additional providers, as seen in <a href="https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d">code</a> that adds a working test provider.</p>
 <p>Providers break the world into zones. These zones are represented as <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">geofabrik_zones</span>)
@@ -162,7 +162,7 @@
 <h2 class="hasAnchor">
 <a href="#load-package" class="anchor"></a>Load package</h2>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextractr">osmextractr</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span>)
 </pre></div>
 <p>The packages is composed by 4 main functions:</p>
 <ol>
@@ -489,7 +489,7 @@
 <div id="next-steps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next-steps" class="anchor"></a>Next steps</h2>
-<p>We hope to make the user interface to the SQL syntax more user friendly. We would love to see more providers added (see the <a href="https://itsleeds.github.io/osmextractr/articles/providers.html">Add new OpenStreetMap providers</a> for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
+<p>We hope to make the user interface to the SQL syntax more user friendly. We would love to see more providers added (see the <a href="https://itsleeds.github.io/osmextract/articles/providers.html">Add new OpenStreetMap providers</a> for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
 </div>
 <div id="licence" class="section level2">
 <h2 class="hasAnchor">
@@ -532,9 +532,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/itsleeds/osmextractr/">https://​github.com/​itsleeds/​osmextractr/​</a>
+<li>Browse source code at <br><a href="https://github.com/itsleeds/osmextract/">https://​github.com/​itsleeds/​osmextract/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/itsleeds/osmextractr/issues">https://​github.com/​itsleeds/​osmextractr/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/itsleeds/osmextract/issues">https://​github.com/​itsleeds/​osmextract/​issues</a>
 </li>
 </ul>
 </div>
@@ -557,7 +557,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/itsleeds/osmextractr/actions"><img src="https://github.com/itsleeds/osmextractr/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/itsleeds/osmextract/actions"><img src="https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
 </div>

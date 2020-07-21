@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download file containing OSM data — oe_download • osmextractr</title>
+<title>Download file containing OSM data — oe_download • osmextract</title>
 
 
 <!-- jquery -->
@@ -72,7 +72,7 @@ or the specified download_directory." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">osmextractr</a>
+        <a class="navbar-link" href="../index.html">osmextract</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -103,7 +103,7 @@ or the specified download_directory." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/itsleeds/osmextractr/">
+  <a href="https://github.com/itsleeds/osmextract/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -122,7 +122,7 @@ or the specified download_directory." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Download file containing OSM data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextractr/blob/master/R/download.R'><code>R/download.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/download.R'><code>R/download.R</code></a></small>
     <div class="hidden name"><code>oe_download.Rd</code></div>
     </div>
 
@@ -158,7 +158,7 @@ auto generated from the URL.</p></td>
       <th>provider</th>
       <td><p>Which provider should be used to download the data?
 Available providers can be found with the following command:
-<code>osmextractr:::oe_available_providers()</code></p></td>
+<code>osmextract:::oe_available_providers()</code></p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -203,7 +203,7 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
   <span class='co'># for the moment we always need to specify the provider for files</span>
   <span class='co'># matched with test provider</span>
   provider = <span class='st'>"test"</span>
-)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpiVnkRX/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpNoJfCE/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,
