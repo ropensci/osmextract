@@ -95,61 +95,38 @@ oe_get = function(
   quiet = TRUE
 ) {
 
-  # The first step is checking if the input place is actually a place (i.e. a
-  # string, a numeric or an sfc object) or the path to a pbf/gpkg file.
-  is_place_a_path = FALSE
-  if (file.exists(place)) {
-    is_place_a_path = TRUE
-    if (isFALSE(quiet)) {
-      message(
-        "The input place was matched with an existing file!"
-      )
-    }
-    place_ext = tools::file_ext(place)
+  # Match the input place with the provider's data.
+  matched_zone = oe_match(
+    place = place,
+    provider = provider,
+    match_by = match_by,
+    max_string_dist = max_string_dist,
+    interactive_ask = interactive_ask,
+    quiet = quiet
+  )
 
-    if (place_ext %!in% c("gpkg", "pbf")) {
-      stop("...")
-    }
-    file_path = place
-  }
-
-  # The next two steps are needed only if place is not the path to a file
-  if (!is_place_a_path) {
-    # Match the input place with the provider's data.
-    matched_zone = oe_match(
-      place = place,
-      provider = provider,
-      match_by = match_by,
-      max_string_dist = max_string_dist,
-      interactive_ask = interactive_ask,
-      quiet = quiet
-    )
-
-    # Extract the matched URL and file size and pass these parameters to the
-    # osmext-download function.
-    file_url = matched_zone[["url"]]
-    file_size = matched_zone[["file_size"]]
-    file_path = oe_download(
-      file_url = file_url,
-      download_directory = download_directory,
-      provider = provider,
-      file_size = file_size,
-      force_download = force_download,
-      max_file_size = max_file_size,
-      quiet = quiet
-    )
-  }
+  # Extract the matched URL and file size and pass these parameters to the
+  # osmext-download function.
+  file_url = matched_zone[["url"]]
+  file_size = matched_zone[["file_size"]]
+  file_path = oe_download(
+    file_url = file_url,
+    download_directory = download_directory,
+    provider = provider,
+    file_size = file_size,
+    force_download = force_download,
+    max_file_size = max_file_size,
+    quiet = quiet
+  )
 
   # Check for skip_vectortranslate since, in that case, we don't need the
   # vectortranslate process
   if (isTRUE(skip_vectortranslate) && isTRUE(download_only)) {
     return(file_path)
   }
-  if (isTRUE(skip_vectortranslate) && is_place_a_path && place_ext == "pbf") {
+  if (isTRUE(skip_vectortranslate)) {
     return(sf::st_read(file_path, layer = layer, quiet = quiet, ...))
   }
-
-
 
   if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
     force_vectortranslate = TRUE
