@@ -94,6 +94,7 @@ oe_get = function(
   skip_vectortranslate = FALSE,
   quiet = TRUE
 ) {
+
   # Match the input place with the provider's data.
   matched_zone = oe_match(
     place = place,
@@ -103,10 +104,6 @@ oe_get = function(
     interactive_ask = interactive_ask,
     quiet = quiet
   )
-
-  if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
-    force_vectortranslate = TRUE
-  }
 
   # Extract the matched URL and file size and pass these parameters to the
   # osmext-download function.
