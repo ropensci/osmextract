@@ -39,9 +39,14 @@ oe_vectortranslate = function(
     ".gpkg"
   )
 
+  # TODO: document this part
+  if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
+    force_vectortranslate = TRUE
+  }
+
   # If the gpgk file already exists and force_vectortranslate is FALSE then we
   # raise a message and we return the path of the .gpkg file.
-  if (file.exists(gpkg_file_path) && !isTRUE(force_vectortranslate)) {
+  if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
     if (isFALSE(quiet)) {
       message(
         "The corresponding gpkg file was already detected. ",

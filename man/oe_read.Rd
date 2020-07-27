@@ -18,7 +18,7 @@ oe_read(
 )
 }
 \arguments{
-\item{file_path}{The path of the .pbf file that should be translated and
+\item{file_path}{The path of the .gpkg or .osm.pbf file that should be
 read-in.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
@@ -59,10 +59,11 @@ An sf object related to the input path.
 Read a .pbf or .gpkg object
 }
 \details{
-For the moment I will consider only .osm.pbf file. The approach is more
-or less the same as for oe_get() but we need to skip the matching
-operations. In the near future I think I could merge the two approaches
-i.e. oe_get will be oe_match + oe_read to avoid a lot of duplication.
+For the moment I will consider only .gpkg or .osm.pbf file. The
+approach is more or less the same as for oe_get() but we need to skip the
+matching operations. In the near future I think I could merge the two
+approaches i.e. oe_get will be oe_match + oe_read to avoid a lot of
+duplication.
 }
 \examples{
 oe_read(

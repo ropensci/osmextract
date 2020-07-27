@@ -128,10 +128,6 @@ oe_get = function(
     return(sf::st_read(file_path, layer = layer, quiet = quiet, ...))
   }
 
-  if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
-    force_vectortranslate = TRUE
-  }
-
   # Pass the file_path to oe_vectortranslate
   gpkg_file_path = oe_vectortranslate(
     file_path = file_path,
