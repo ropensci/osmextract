@@ -1,16 +1,17 @@
 #' Read a .pbf or .gpkg object
 #'
 #' @inheritParams oe_get
-#' @param file_path The path of the .pbf file that should be translated and
+#' @param file_path The path of the .gpkg or .osm.pbf file that should be
 #'   read-in.
 #'
 #' @return An sf object related to the input path.
 #' @export
 #'
-#' @details For the moment I will consider only .osm.pbf file. The approach is more
-#'   or less the same as for oe_get() but we need to skip the matching
-#'   operations. In the near future I think I could merge the two approaches
-#'   i.e. oe_get will be oe_match + oe_read to avoid a lot of duplication.
+#' @details For the moment I will consider only .gpkg or .osm.pbf file. The
+#'   approach is more or less the same as for oe_get() but we need to skip the
+#'   matching operations. In the near future I think I could merge the two
+#'   approaches i.e. oe_get will be oe_match + oe_read to avoid a lot of
+#'   duplication.
 #'
 #' @examples
 #' oe_read(
@@ -30,13 +31,13 @@ oe_read = function(
   quiet = TRUE
 ) {
 
-  # If the user set skip_vectortranslate = TRUE then we do not need to do
-  # anything but sf::st_read.
-  if (isTRUE(skip_vectortranslate)) {
+  # If the user set skip_vectortranslate = TRUE or the file extension is .gpkg
+  # then we do not need to do anything but sf::st_read the input file
+  if (isTRUE(skip_vectortranslate) || tools::file_ext(file_path) == "gpkg") {
     return(sf::st_read(file_path, layer = layer, quiet = quiet, ...))
   }
 
-  # Pass the file_path to oe_vectortranslate
+  # Pass the .osm.pbf file_path to oe_vectortranslate
   gpkg_file_path = oe_vectortranslate(
     file_path = file_path,
     vectortranslate_options = vectortranslate_options,
