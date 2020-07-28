@@ -219,35 +219,6 @@ oe_match.character = function(
   result
 }
 
-# The following function is used just to load the correct provider database
-load_provider_data = function(provider) {
-  if (provider %!in% oe_available_providers()) {
-    stop(
-      "You can only select one of the following providers: ",
-      oe_available_providers(),
-      call. = FALSE
-    )
-  }
-
-  provider_data = switch(
-    provider,
-    "geofabrik" = osmextract::geofabrik_zones,
-    "test" = osmextract::test_zones,
-    "bbbike" = osmextract::bbbike_zones
-    # , "another" = another_provider
-  )
-  sf::st_crs(provider_data) = 4326
-  provider_data
-}
-
-oe_available_providers = function() {
-  c(
-    "geofabrik",
-    "test",
-    "bbbike"
-  )
-}
-
 #' Check for patterns in the provider's data columns
 #'
 #' This function is used to explore the provider's data and check for patterns
