@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download file containing OSM data — oe_download • osmextract</title>
+<title>Summary of available providers — oe_providers • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Download file containing OSM data — oe_download" />
-<meta property="og:description" content="Download the input file if it's not already present in oe_download_directory()
-or the specified download_directory." />
+<meta property="og:title" content="Summary of available providers — oe_providers" />
+<meta property="og:description" content="This function is used to display a short summary of the major characteristics
+of the databases associated to all available providers." />
 
 
 
@@ -121,70 +121,21 @@ or the specified download_directory." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download file containing OSM data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/download.R'><code>R/download.R</code></a></small>
-    <div class="hidden name"><code>oe_download.Rd</code></div>
+    <h1>Summary of available providers</h1>
+    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/providers.R'><code>R/providers.R</code></a></small>
+    <div class="hidden name"><code>oe_providers.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Download the input file if it's not already present in <code>oe_download_directory()</code>
-or the specified <code>download_directory</code>.</p>
+    <p>This function is used to display a short summary of the major characteristics
+of the databases associated to all available providers.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>oe_download</span>(
-  <span class='kw'>file_url</span>,
-  file_basename = <span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='kw'>file_url</span>),
-  provider = <span class='fu'>infer_provider_from_url</span>(<span class='kw'>file_url</span>),
-  download_directory = <span class='fu'>oe_download_directory</span>(),
-  file_size = <span class='fl'>NA</span>,
-  force_download = <span class='fl'>FALSE</span>,
-  max_file_size = <span class='fl'>5e+08</span>,
-  quiet = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>oe_providers</span>(quiet = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>file_url</th>
-      <td><p>A URL containing OSM data (e.g. as a .pbf file)</p></td>
-    </tr>
-    <tr>
-      <th>file_basename</th>
-      <td><p>The base name of the file. Default behaviour:
-auto generated from the URL.</p></td>
-    </tr>
-    <tr>
-      <th>provider</th>
-      <td><p>Which provider should be used to download the data?
-Available providers can be found with the following command:
-<code>osmextract:::oe_available_providers()</code></p></td>
-    </tr>
-    <tr>
-      <th>download_directory</th>
-      <td><p>Where to download the file containing the OSM data?
-By default this is <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>, which changes each time you restart R.
-You can set a persistent <code>download_directory</code> by adding the following
-to your <code>.Renviron</code> file (e.g. with <code>usethis::edit_r_environ()</code>):
-<code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
-    </tr>
-    <tr>
-      <th>file_size</th>
-      <td><p>How big is the file? Optional. <code>NA</code> by default. If it's
-bigger than <code>max_file_size</code> and the function is run in interactive mode,
-then an interactive menu is displayed, asking for permission for
-downloading the file.</p></td>
-    </tr>
-    <tr>
-      <th>force_download</th>
-      <td><p>Should the file be updated if it has already been
-downloaded? <code>FALSE</code> by default.</p></td>
-    </tr>
-    <tr>
-      <th>max_file_size</th>
-      <td><p>The maximum file size to download without asking in
-interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
-    </tr>
     <tr>
       <th>quiet</th>
       <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.</p></td>
@@ -193,29 +144,14 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Character string representing the full path the downloaded file</p>
+    <p>A <code>data.frame</code> with 4 columns representing the name of each available
+provider, the name of the corresponding database and the number of features
+and fields.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
-<span class='fu'>oe_download</span>(
-  file_url = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>url</span>,
-  file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
-  <span class='co'># for the moment we always need to specify the provider for files</span>
-  <span class='co'># matched with test provider</span>
-  provider = <span class='st'>"test"</span>
-)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpLYqJ7z/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
-<span class='fu'>oe_download</span>(
-  file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,
-  file_size = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>file_size</span>
-)
-<span class='kw'>Sucre_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Sucre"</span>, provider = <span class='st'>"bbbike"</span>)
-<span class='fu'>oe_download</span>(
-  file_url = <span class='kw'>Sucre_details</span><span class='op'>$</span><span class='kw'>url</span>,
-  file_size = <span class='kw'>Sucre_details</span><span class='op'>$</span><span class='kw'>file_size</span>,
-  download_directory = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>oe_providers</span>()</div><div class='output co'>#&gt; <span class='message'>Check the corresponding help pages to read more details about the fields in each database</span></div><div class='output co'>#&gt;   available_providers   database_name number_of_zones number_of_fields
+#&gt; 1           geofabrik geofabrik_zones             430               14
+#&gt; 2              bbbike    bbbike_zones             235                9</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
