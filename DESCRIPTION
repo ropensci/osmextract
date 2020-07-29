@@ -3,10 +3,10 @@ Type: Package
 Title: Download and Read OpenStreetMap Data Extracts
 Version: 0.1.0
 Authors@R: c(
-    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
-      comment = c(ORCID = "0000-0001-5679-6536")),
-    person("Andrea", "Gilardi", role=c("aut"),
+    person("Andrea", "Gilardi", role=c("aut", "cre"),
       comment = c(ORCID = "0000-0002-9424-7439")),
+    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut"),
+      comment = c(ORCID = "0000-0001-5679-6536")),
     person("Barry", "Rowlingson", role=c("ctb"),
       comment = c(ORCID = "0000-0002-8586-6625"))
     )
