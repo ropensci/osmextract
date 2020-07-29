@@ -1,23 +1,49 @@
-#' Match input place with a geographical zone
+#' Match input place with a URL
 #'
-#' This function is used to match the input `place` with the URL of the
-#' corresponding pbf file (and its file size, if present).
+#' This function is used to match an input `place` with the URL of a .osm.pbf
+#' file (and its file-size, if present). The URLs are stored in several
+#' provider's databases. See `oe_providers()` and examples.
 #'
 #' @inheritParams oe_get
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
-#'   element is the URL of the file associated with the input `place`, while
-#'   the second element is the size of the file (which may be `NULL` or `NA`)
+#'   element is the URL of the .osm.pbf file associated with the input `place`,
+#'   while the second element is the size of the file in bytes (which may be
+#'   `NULL` or `NA`)
 #' @export
 #'
-#' @seealso `oe_check_pattern()`
+#' @seealso `oe_patterns()` and `oe_check_pattern()`.
 #'
+#' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
+#'   provider to perform matching operations using [ISO 3166-1
+#'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
+#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See `?geofabrik_zones`
+#'   for more details.
 #' @examples
 #' # The simplest example:
 #' oe_match("Italy")
 #'
-#' # Don't run example, see issue #49
+#' # The default provider is "geofabrik", but we can change that:
+#' oe_match("Leeds", provider = "bbbike")
+#'
+#' # By default the matching operations are performed through the column "name"
+#' # in the provider's database but this can be a problem:
+#' \dontrun{
+#' oe_match("Russia", quiet = FALSE)}
+#' # So you can perform the matching operations using other columns in the
+#' # provider's database:
+#' oe_match("RU", match_by = "iso3166_1_alpha2")
+#' # Run oe_providers() for a description of all providers and check the help
+#' # pages of the corresponding databases to learn which fields are present.
+#'
+#' # You can always increase the max_string_dist argument to help the function:
+#' \dontrun{
+#' oe_match("Isle Wight", quiet = FALSE)}
+#' oe_match("Isle Wight", max_string_dist = 3, quiet = FALSE)
+#' # but be aware that it can be dangerous:
+#' oe_match("London", max_string_dist = 3, quiet = FALSE)
+#'
 #' # Match the input zone using an sfc_POINT object:
 #' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 #' oe_match(milan_duomo)
@@ -26,20 +52,10 @@
 #' # (in which case crs = 4326 is assumed)
 #' oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 #'
-#' # Perform the matching operations using other columns instead of "name".
-#' oe_match("RU", match_by = "iso3166_1_alpha2")
-#' # Increase the max_string_dist parameter and help the function:
-#' oe_match("Isle Wight", max_string_dist = 3)
-#' # but be aware that it can be dangerous:
-#' oe_match("London", max_string_dist = 3, quiet = FALSE)
-#'
 #' # Check interactive_ask:
 #' if (interactive()) {
 #'     oe_match("London", interactive_ask = TRUE)
 #' }
-#'
-#' # Change the provider:
-#' oe_match("Leeds", provider = "bbbike")
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }

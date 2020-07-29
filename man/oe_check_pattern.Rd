@@ -14,9 +14,8 @@ oe_check_pattern(
 \arguments{
 \item{pattern}{Character string for the pattern that should be matched}
 
-\item{provider}{Which provider should be used to download the data?
-Available providers can be found with the following command:
-\code{osmextract:::oe_available_providers()}}
+\item{provider}{Which provider should be used to download the data? Available
+providers can be found with the following command: \code{oe_providers()}.}
 
 \item{match_by}{Column name in the provider dataset used to find the match,
 \code{name} by default.}

@@ -6,7 +6,7 @@
 \alias{oe_match.sfc_POINT}
 \alias{oe_match.numeric}
 \alias{oe_match.character}
-\title{Match input place with a geographical zone}
+\title{Match input place with a URL}
 \usage{
 oe_match(place, ...)
 
@@ -27,26 +27,27 @@ oe_match(place, ...)
 )
 }
 \arguments{
-\item{place}{Description of the geographical area that should be download
-through the chosen \code{provider}. Can be either a length-1 character vector, a
-length-1 \code{sfc_POINT} object or a numeric vector with length 2. See details
-and examples.}
+\item{place}{Description of the geographical area that should be matched to a
+.osm.pbf file through the chosen \code{provider}. Can be either a length-1
+character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
+coordinates with length 2. In the latter case it is assumed that the EPSG
+code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
+See details and examples.}
 
 \item{...}{arguments passed to other methods}
 
-\item{provider}{Which provider should be used to download the data?
-Available providers can be found with the following command:
-\code{osmextract:::oe_available_providers()}}
+\item{provider}{Which provider should be used to download the data? Available
+providers can be found with the following command: \code{oe_providers()}.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 
-\item{match_by}{Which column of the provider data should be used for matching
-the input place with the provider's data? The default is "name". Check
-details and examples to understand how this parameter works. Ignored if
-\code{place} is not a character vector since the matching is performed through a
-spatial operation.}
+\item{match_by}{Which column of the provider's database should be used for
+matching the input \code{place} with a .osm.pbf file? The default is "name".
+Check details and examples to understand how this parameter works. Ignored
+if \code{place} is not a character vector since the matching is performed
+through a spatial operation.}
 
-\item{max_string_dist}{Numeric value greater or equal than 0. What is the
+\item{max_string_dist}{Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching to tolerate before asking the user to
 select which zone to download? This parameter is set equal to 0 if
 \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}. Check details and
@@ -55,25 +56,51 @@ is not a character vector since the matching is performed through a spatial
 operation.}
 
 \item{interactive_ask}{Boolean. If \code{TRUE} the function creates and
-interactive menu in case the best match is further than \code{max_string_dist}.
-Check details and examples to understand why this parameter is important.
-Ignored if \code{place} is not a character vector since the matching is
-performed through a spatial operation.}
+interactive menu in case the best match is further than \code{max_string_dist},
+otherwise it fails with \code{stop()}. Check details and examples to understand
+why this parameter is important. Ignored if \code{place} is not a character
+vector since the matching is performed through a spatial operation.}
 }
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first
-element is the URL of the file associated with the input \code{place}, while
-the second element is the size of the file (which may be \code{NULL} or \code{NA})
+element is the URL of the .osm.pbf file associated with the input \code{place},
+while the second element is the size of the file in bytes (which may be
+\code{NULL} or \code{NA})
 }
 \description{
-This function is used to match the input \code{place} with the URL of the
-corresponding pbf file (and its file size, if present).
+This function is used to match an input \code{place} with the URL of a .osm.pbf
+file (and its file-size, if present). The URLs are stored in several
+provider's databases. See \code{oe_providers()} and examples.
+}
+\details{
+The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by geofabrik
+provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2}. See \code{?geofabrik_zones}
+for more details.
 }
 \examples{
 # The simplest example:
 oe_match("Italy")
 
-# Don't run example, see issue #49
+# The default provider is "geofabrik", but we can change that:
+oe_match("Leeds", provider = "bbbike")
+
+# By default the matching operations are performed through the column "name"
+# in the provider's database but this can be a problem:
+\dontrun{
+oe_match("Russia", quiet = FALSE)}
+# So you can perform the matching operations using other columns in the
+# provider's database:
+oe_match("RU", match_by = "iso3166_1_alpha2")
+# Run oe_providers() for a description of all providers and check the help
+# pages of the corresponding databases to learn which fields are present.
+
+# You can always increase the max_string_dist argument to help the function:
+\dontrun{
+oe_match("Isle Wight", quiet = FALSE)}
+oe_match("Isle Wight", max_string_dist = 3, quiet = FALSE)
+# but be aware that it can be dangerous:
+oe_match("London", max_string_dist = 3, quiet = FALSE)
+
 # Match the input zone using an sfc_POINT object:
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 oe_match(milan_duomo)
@@ -82,21 +109,11 @@ oe_match(milan_duomo)
 # (in which case crs = 4326 is assumed)
 oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 
-# Perform the matching operations using other columns instead of "name".
-oe_match("RU", match_by = "iso3166_1_alpha2")
-# Increase the max_string_dist parameter and help the function:
-oe_match("Isle Wight", max_string_dist = 3)
-# but be aware that it can be dangerous:
-oe_match("London", max_string_dist = 3, quiet = FALSE)
-
 # Check interactive_ask:
 if (interactive()) {
     oe_match("London", interactive_ask = TRUE)
 }
-
-# Change the provider:
-oe_match("Leeds", provider = "bbbike")
 }
 \seealso{
-\code{oe_check_pattern()}
+\code{oe_patterns()} and \code{oe_check_pattern()}.
 }
