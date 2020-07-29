@@ -14,7 +14,8 @@ load_provider_data = function(provider) {
   if (provider %!in% oe_available_providers()) {
     stop(
       "You can only select one of the following providers: ",
-      oe_available_providers(),
+      paste(setdiff(oe_available_providers(), "test"), collapse = " - "),
+      ". Did you pass more than one place to oe_match?",
       call. = FALSE
     )
   }

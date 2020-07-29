@@ -159,7 +159,7 @@ oe_match.character = function(
   if (length(place) > 1L) {
     stop(
       "At the moment we support only length-one character vectors for 'place' parameter.",
-      " Feel free to open a new issue at ...",
+      " Feel free to open a new issue at https://github.com/ITSLeeds/osmextract",
       call. = FALSE
     )
   }
