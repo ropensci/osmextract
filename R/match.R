@@ -20,6 +20,19 @@
 #'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
 #'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See `?geofabrik_zones`
 #'   for more details.
+#'
+#'   If the input place is specified as a spatial point (either sfc_POINT or
+#'   numeric coordinates), then the function will return the geographical area
+#'   with the highest "level" intersecting the point. See the help pages of the
+#'   chosen provider database for understanding the meaning of the "level"
+#'   field. If there are multiple areas at the same "level" intersecting the
+#'   input place, then the function will return the area whose centroid is
+#'   closer to the input place.
+#'
+#'   If the input place is specified as a character vector and there are
+#'   multiple plausible matches between the input place and the match_by column,
+#'   then the function will return a warning and it will select the first match.
+#'   See examples.
 #' @examples
 #' # The simplest example:
 #' oe_match("Italy")
@@ -58,6 +71,9 @@
 #' if (interactive()) {
 #'     oe_match("London", interactive_ask = TRUE)
 #' }
+#'
+#' # It returns a warning since Berin is matched both with Benin and Berlin
+#' oe_match("Berin", quiet = FALSE)
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
@@ -121,17 +137,24 @@ oe_match.sfc_POINT = function(
 
     # Select the zones with the highest level. I do not use which.max since I
     # want to select all occurrences, not only the first one
-    matched_zones = matched_zones[matched_zones[["level"]] == max(matched_zones[["level"]]), ]
+    matched_zones = matched_zones[matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE), ]
   }
 
   # If, again, there are multiple matches with the same "level", we will select
   # only the area closest to the input place.
   if (nrow(matched_zones) > 1L) {
-    neare_id_centroid = sf::st_nearest_feature(
+    if (isFALSE(quiet)) {
+      message(
+        "The input place was matched with multiple geographical areas with the same \"level\". ",
+        "Selecting the area whose centroid is closer to the input place"
+      )
+    }
+
+    nearest_id_centroid = sf::st_nearest_feature(
       place,
       sf::st_centroid(sf::st_geometry(matched_zones))
     )
-    matched_zones <- matched_zones[neare_id_centroid,]
+    matched_zones <- matched_zones[nearest_id_centroid,]
   }
 
   # Return a list with the URL and the file_size of the matched place
@@ -210,8 +233,16 @@ oe_match.character = function(
   # Look for the best match between the input 'place' and the data column
   # selected with the match_by argument.
   matching_dists = utils::adist(provider_data[[match_by]], place, ignore.case = TRUE)
-  best_match_id = which.min(matching_dists)
-  # WHAT TO DO IF THERE ARE MULTIPLE BEST MATCHES?
+  best_match_id = which(matching_dists == min(matching_dists, na.rm = TRUE))
+  if (length(best_match_id) > 1L) {
+    warning(
+      "The input place was matched with multiple geographical zones: ",
+      paste(provider_data[[match_by]][best_match_id], collapse = " - "),
+      ". Selecting the first match.",
+      call. = FALSE
+    )
+    best_match_id <- best_match_id[1L]
+  }
   best_matched_place = provider_data[best_match_id, ]
 
   # Check if the best match is still too far

@@ -76,6 +76,19 @@ provider's databases. See \code{oe_providers()} and examples.
 The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by geofabrik
 provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2}. See \code{?geofabrik_zones}
 for more details.
+
+If the input place is specified as a spatial point (either sfc_POINT or
+numeric coordinates), then the function will return the geographical area
+with the highest "level" intersecting the point. See the help pages of the
+chosen provider database for understanding the meaning of the "level"
+field. If there are multiple areas at the same "level" intersecting the
+input place, then the function will return the area whose centroid is
+closer to the input place.
+
+If the input place is specified as a character vector and there are
+multiple plausible matches between the input place and the match_by column,
+then the function will return a warning and it will select the first match.
+See examples.
 }
 \examples{
 # The simplest example:
@@ -115,6 +128,9 @@ oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 if (interactive()) {
     oe_match("London", interactive_ask = TRUE)
 }
+
+# It returns a warning since Berin is matched both with Benin and Berlin
+oe_match("Berin", quiet = FALSE)
 }
 \seealso{
 \code{oe_patterns()} and \code{oe_check_pattern()}.
