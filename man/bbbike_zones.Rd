@@ -14,6 +14,11 @@ A sf dataframe with 430 rows and 14 columns:
 \item{base_url}{The base URL for the city}
 \item{poly_url}{The .poly file location}
 \item{pbf}{Link to the latest .osm.pbf file for this region.}
+\item{level}{An integer code which is always equal to 3L since the bbbike
+data represent non-hierarchical geographical zones. This is used only for
+matching operations in case of spatial input. The oe_* functions will
+select the geographical area closest to the input place with the highest
+"level". See \code{?geofabrik_zones} for an example of hierarchical structure.}
 \item{geometry}{The sfc for that geographical region, rectangular.}
 }
 }

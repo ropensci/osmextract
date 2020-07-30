@@ -25,27 +25,28 @@ oe_get(
 )
 }
 \arguments{
-\item{place}{Description of the geographical area that should be download
-through the chosen \code{provider}. Can be either a length-1 character vector, a
-length-1 \code{sfc_POINT} object or a numeric vector with length 2. See details
-and examples.}
+\item{place}{Description of the geographical area that should be matched to a
+.osm.pbf file through the chosen \code{provider}. Can be either a length-1
+character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
+coordinates with length 2. In the latter case it is assumed that the EPSG
+code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
+See details and examples.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{provider}{Which provider should be used to download the data?
-Available providers can be found with the following command:
-\code{osmextract:::oe_available_providers()}}
+\item{provider}{Which provider should be used to download the data? Available
+providers can be found with the following command: \code{oe_providers()}.}
 
 \item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}}
 
-\item{match_by}{Which column of the provider data should be used for matching
-the input place with the provider's data? The default is "name". Check
-details and examples to understand how this parameter works. Ignored if
-\code{place} is not a character vector since the matching is performed through a
-spatial operation.}
+\item{match_by}{Which column of the provider's database should be used for
+matching the input \code{place} with a .osm.pbf file? The default is "name".
+Check details and examples to understand how this parameter works. Ignored
+if \code{place} is not a character vector since the matching is performed
+through a spatial operation.}
 
-\item{max_string_dist}{Numeric value greater or equal than 0. What is the
+\item{max_string_dist}{Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching to tolerate before asking the user to
 select which zone to download? This parameter is set equal to 0 if
 \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}. Check details and
@@ -54,10 +55,10 @@ is not a character vector since the matching is performed through a spatial
 operation.}
 
 \item{interactive_ask}{Boolean. If \code{TRUE} the function creates and
-interactive menu in case the best match is further than \code{max_string_dist}.
-Check details and examples to understand why this parameter is important.
-Ignored if \code{place} is not a character vector since the matching is
-performed through a spatial operation.}
+interactive menu in case the best match is further than \code{max_string_dist},
+otherwise it fails with \code{stop()}. Check details and examples to understand
+why this parameter is important. Ignored if \code{place} is not a character
+vector since the matching is performed through a spatial operation.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is \code{tempdir()}, which changes each time you restart R.

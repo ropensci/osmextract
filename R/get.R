@@ -1,20 +1,21 @@
 #' Download, translate and read OSM extracts
 #'
-#' @param place Description of the geographical area that should be download
-#'   through the chosen `provider`. Can be either a length-1 character vector, a
-#'   length-1 `sfc_POINT` object or a numeric vector with length 2. See details
-#'   and examples.
+#' @param place Description of the geographical area that should be matched to a
+#'   .osm.pbf file through the chosen `provider`. Can be either a length-1
+#'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
+#'   coordinates with length 2. In the latter case it is assumed that the EPSG
+#'   code is 4326, while you can use any EPSG code with an `sfc_POINT` object.
+#'   See details and examples.
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
-#' @param provider Which provider should be used to download the data?
-#'   Available providers can be found with the following command:
-#'   `osmextract:::oe_available_providers()`
-#' @param match_by Which column of the provider data should be used for matching
-#'   the input place with the provider's data? The default is "name". Check
-#'   details and examples to understand how this parameter works. Ignored if
-#'   `place` is not a character vector since the matching is performed through a
-#'   spatial operation.
-#' @param max_string_dist Numeric value greater or equal than 0. What is the
+#' @param provider Which provider should be used to download the data? Available
+#'   providers can be found with the following command: `oe_providers()`.
+#' @param match_by Which column of the provider's database should be used for
+#'   matching the input `place` with a .osm.pbf file? The default is "name".
+#'   Check details and examples to understand how this parameter works. Ignored
+#'   if `place` is not a character vector since the matching is performed
+#'   through a spatial operation.
+#' @param max_string_dist Numerical value greater or equal than 0. What is the
 #'   maximum distance in fuzzy matching to tolerate before asking the user to
 #'   select which zone to download? This parameter is set equal to 0 if
 #'   `match_by` is equal to `iso3166_1_alpha2` or `iso3166_2`. Check details and
@@ -22,10 +23,10 @@
 #'   is not a character vector since the matching is performed through a spatial
 #'   operation.
 #' @param interactive_ask Boolean. If `TRUE` the function creates and
-#'   interactive menu in case the best match is further than `max_string_dist`.
-#'   Check details and examples to understand why this parameter is important.
-#'   Ignored if `place` is not a character vector since the matching is
-#'   performed through a spatial operation.
+#'   interactive menu in case the best match is further than `max_string_dist`,
+#'   otherwise it fails with `stop()`. Check details and examples to understand
+#'   why this parameter is important. Ignored if `place` is not a character
+#'   vector since the matching is performed through a spatial operation.
 #' @param download_directory Where to download the file containing the OSM data?
 #' By default this is `tempdir()`, which changes each time you restart R.
 #' You can set a persistent `download_directory` by adding the following

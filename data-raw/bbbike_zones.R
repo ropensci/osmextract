@@ -70,6 +70,9 @@ bbbike_zones$pbf_file_size = map_dbl(
 # Add the id
 bbbike_zones$id = bbbike_zones$name
 
+# Add the level variable
+bbbike_zones$level <- 3L
+
 usethis::use_data(bbbike_zones, version = 3, overwrite = TRUE)
 
 # tidy up
