@@ -234,28 +234,28 @@
 </pre></div>
 <p>For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"London"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"London"</span>)
 <span class="co">#&gt; [1] "Greater London"</span>
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"Russia"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"Russia"</span>)
 <span class="co">#&gt; [1] "Russian Federation"</span>
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"Korea"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"Korea"</span>)
 <span class="co">#&gt; [1] "North Korea" "South Korea"</span>
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"Yorkshire"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"Yorkshire"</span>)
 <span class="co">#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"         </span>
 <span class="co">#&gt; [3] "South Yorkshire"          "West Yorkshire"</span>
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"US"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"US"</span>)
 <span class="co">#&gt; [1] "US Midwest"         "US Northeast"       "US Pacific"        </span>
 <span class="co">#&gt; [4] "US South"           "US West"            "Georgia (US State)"</span>
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_2"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_2"</span>)
 <span class="co">#&gt;  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC"</span>
 <span class="co">#&gt; [10] "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS" "US-KY"</span>
 <span class="co">#&gt; [19] "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT"</span>
 <span class="co">#&gt; [28] "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC" "US-ND" "US-OH"</span>
 <span class="co">#&gt; [37] "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX"</span>
 <span class="co">#&gt; [46] "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI" "US-WY"</span>
-<span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"Palestine"</span>)
+<span class="fu">oe_check_pattern</span>(<span class="st">"Palestine"</span>)
 <span class="co">#&gt; [1] "Israel and Palestine"</span>
-<span class="kw">israel_sf</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_check_pattern.html">oe_check_pattern</a></span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
+<span class="kw">israel_sf</span> <span class="op">=</span> <span class="fu">oe_check_pattern</span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
 </pre></div>
 <p>The input <code>place</code> can be also specified using an <code>sfc_POINT</code> object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the <code>level</code> variable). I would ignore the CRS warning for the moment.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">

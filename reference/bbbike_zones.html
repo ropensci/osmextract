@@ -142,6 +142,11 @@
 <dt>base_url</dt><dd><p>The base URL for the city</p></dd>
 <dt>poly_url</dt><dd><p>The .poly file location</p></dd>
 <dt>pbf</dt><dd><p>Link to the latest .osm.pbf file for this region.</p></dd>
+<dt>level</dt><dd><p>An integer code which is always equal to 3L since the bbbike
+data represent non-hierarchical geographical zones. This is used only for
+matching operations in case of spatial input. The oe_* functions will
+select the geographical area closest to the input place with the highest
+"level". See <code><a href='geofabrik_zones.html'>?geofabrik_zones</a></code> for an example of hierarchical structure.</p></dd>
 <dt>geometry</dt><dd><p>The sfc for that geographical region, rectangular.</p></dd>
 
 </dl>

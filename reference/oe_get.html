@@ -154,10 +154,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>place</th>
-      <td><p>Description of the geographical area that should be download
-through the chosen <code>provider</code>. Can be either a length-1 character vector, a
-length-1 <code>sfc_POINT</code> object or a numeric vector with length 2. See details
-and examples.</p></td>
+      <td><p>Description of the geographical area that should be matched to a
+.osm.pbf file through the chosen <code>provider</code>. Can be either a length-1
+character vector, a length-1 <code>sfc_POINT</code> object or a numeric vector of
+coordinates with length 2. In the latter case it is assumed that the EPSG
+code is 4326, while you can use any EPSG code with an <code>sfc_POINT</code> object.
+See details and examples.</p></td>
     </tr>
     <tr>
       <th>layer</th>
@@ -166,9 +168,8 @@ and examples.</p></td>
     </tr>
     <tr>
       <th>provider</th>
-      <td><p>Which provider should be used to download the data?
-Available providers can be found with the following command:
-<code>osmextract:::oe_available_providers()</code></p></td>
+      <td><p>Which provider should be used to download the data? Available
+providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -176,15 +177,15 @@ Available providers can be found with the following command:
     </tr>
     <tr>
       <th>match_by</th>
-      <td><p>Which column of the provider data should be used for matching
-the input place with the provider's data? The default is "name". Check
-details and examples to understand how this parameter works. Ignored if
-<code>place</code> is not a character vector since the matching is performed through a
-spatial operation.</p></td>
+      <td><p>Which column of the provider's database should be used for
+matching the input <code>place</code> with a .osm.pbf file? The default is "name".
+Check details and examples to understand how this parameter works. Ignored
+if <code>place</code> is not a character vector since the matching is performed
+through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>max_string_dist</th>
-      <td><p>Numeric value greater or equal than 0. What is the
+      <td><p>Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching to tolerate before asking the user to
 select which zone to download? This parameter is set equal to 0 if
 <code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>. Check details and
@@ -195,10 +196,10 @@ operation.</p></td>
     <tr>
       <th>interactive_ask</th>
       <td><p>Boolean. If <code>TRUE</code> the function creates and
-interactive menu in case the best match is further than <code>max_string_dist</code>.
-Check details and examples to understand why this parameter is important.
-Ignored if <code>place</code> is not a character vector since the matching is
-performed through a spatial operation.</p></td>
+interactive menu in case the best match is further than <code>max_string_dist</code>,
+otherwise it fails with <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>. Check details and examples to understand
+why this parameter is important. Ignored if <code>place</code> is not a character
+vector since the matching is performed through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -266,7 +267,7 @@ the .osm.pbf file. <code>FALSE</code> by default.</p></td>
     <p>This function is a wrapper around ...</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>its_leeds</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpXS7fzN/test_its-example.gpkg' using driver `GPKG'
+    <pre class="examples"><div class='input'><span class='kw'>its_leeds</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpqsUzkV/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -292,7 +293,7 @@ the .osm.pbf file. <code>FALSE</code> by default.</p></td>
 #&gt;                  0                  0                  0                  0 
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'><span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpXS7fzN/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpXS7fzN/test_its-example.osm.pbf"</div><div class='input'><span class='co'># add additional attributes</span>
+<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpqsUzkV/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpqsUzkV/test_its-example.osm.pbf"</div><div class='input'><span class='co'># add additional attributes</span>
 <span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"oneway"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
