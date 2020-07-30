@@ -52,11 +52,30 @@ We will demonstrate each function in turn.
 
 ## List providers with `oe_providers()`
 
-`oe_providers()` lists the providers that are currently available on the version of `osmextract` you have installed.
+`oe_providers()` lists the providers that are currently available with the version of `osmextract` you have installed.
+
+```{r}
+oe_providers()
+```
+
+Each element in `database_name` is a data object that is packaged with `osmextract`.
+
+```{r}
+data(package = "osmextract")
+```
 
 
 
 ## Importing OSM data
+
+Before importing OSM data it is probably first worth loading the `sf` package as follows:
+
+```{r}
+library(sf)
+```
+
+That gives you access to many geographic functions for working with geographic vector data of the type provided by `osmextract`.
+
 
 The function `oe_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object:
 
