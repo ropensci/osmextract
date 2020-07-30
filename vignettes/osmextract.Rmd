@@ -41,12 +41,20 @@ See the [License/Use Cases page on the OSM wiki](https://wiki.openstreetmap.org/
 The packages is composed of the following main functions: 
 
 1. `oe_providers()`: Show which providers of OSM extracts are available
-1. `oe_match`: Match the input zone with one of the files stored by the OSM providers
-2. `oe_download`: Download the chosen file
-3. `oe_vectortranslate`: Convert the .pbf files into .gpkg files
-4. `oe_read`: Read the `.gpkg` files
+1. `oe_match()`: Match the input zone with one of the files stored by the OSM providers
+2. `oe_download()`: Download the chosen file
+3. `oe_vectortranslate()`: Convert the .pbf files into .gpkg files
+4. `oe_read()`: Read the `.gpkg` files
+5. `oe_get()`: Match, download, translate and import data in one step
 
-We will demonstrate each of these in turn.
+For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
+We will demonstrate each function in turn.
+
+## List providers with `oe_providers()`
+
+`oe_providers()` lists the providers that are currently available on the version of `osmextract` you have installed.
+
+
 
 ## Importing OSM data
 
