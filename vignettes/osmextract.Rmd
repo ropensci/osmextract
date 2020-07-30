@@ -121,9 +121,9 @@ oe_match("PS", match_by = "iso3166_1_alpha2")
 oe_match("IL", match_by = "iso3166_1_alpha2")
 ```
 
-For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example: 
+<!-- For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:  -->
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 oe_check_pattern("London")
 oe_check_pattern("Russia")
 oe_check_pattern("Korea")
