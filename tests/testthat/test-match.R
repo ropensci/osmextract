@@ -24,3 +24,18 @@ test_that("oe_match with new classes", {
   expect_error(oe_match(c(1 + 2i, 1 - 2i)))
 })
 
+test_that("oe_match and sfc", {
+  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+  expect_match(oe_match(milan_duomo)$url, "italy")
+})
+
+test_that("oe_match and numeric input", {
+  expect_match(oe_match(c(9.1916, 45.4650))$url, "italy")
+})
+
+test_that("oe_match with multiple spatial matches", {
+  # See https://github.com/ITSLeeds/osmextract/issues/98
+  # The following test is used to check that in case a single point intersects multiple areas, then oe_match will select the area whose centroid is closest to the input point.
+  problem <- c(4.91069, 52.27786)
+  expect_match(oe_match(problem, provider = "bbbike")$url, "Amsterdam")
+})

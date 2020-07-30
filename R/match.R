@@ -46,7 +46,9 @@
 #'
 #' # Match the input zone using an sfc_POINT object:
 #' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-#' oe_match(milan_duomo)
+#' oe_match(milan_duomo, quiet = FALSE)
+#' leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
+#' oe_match(leeds, provider = "bbbike")
 #'
 #' # Match the input zone using a numeric vector of coordinates
 #' # (in which case crs = 4326 is assumed)
@@ -104,16 +106,38 @@ oe_match.sfc_POINT = function(
     stop("The input place does not intersect any area for the chosen provider.")
   }
 
-  # What to do if there are multiple matches?  (maybe add a parameter for that)
+  # If there are multiple matches, we will select the geographical zones with
+  # the highest level (more or less they correspond to the smallest areas)
   if (nrow(matched_zones) > 1L) {
-    # Check for the "smallest" zone
-    smallest_zone = matched_zones[which.max(matched_zones[["level"]]), ]
+    if (isFALSE(quiet)) {
+      message(
+        "The input place was matched with multiple geographical areas. ",
+        "Selecting the areas with the biggest \"level\". See the help page ",
+        " associated to the chosen provider for an explanation of the ",
+        "meaning of the \"level\" field"
+      )
+    }
+
+
+    # Select the zones with the highest level. I do not use which.max since I
+    # want to select all occurrences, not only the first one
+    matched_zones = matched_zones[matched_zones[["level"]] == max(matched_zones[["level"]]), ]
+  }
+
+  # If, again, there are multiple matches with the same "level", we will select
+  # only the area closest to the input place.
+  if (nrow(matched_zones) > 1L) {
+    neare_id_centroid = sf::st_nearest_feature(
+      place,
+      sf::st_centroid(sf::st_geometry(matched_zones))
+    )
+    matched_zones <- matched_zones[neare_id_centroid,]
   }
 
   # Return a list with the URL and the file_size of the matched place
   result = list(
-    url = smallest_zone[["pbf"]],
-    file_size = smallest_zone[["pbf_file_size"]]
+    url = matched_zones[["pbf"]],
+    file_size = matched_zones[["pbf_file_size"]]
   )
   result
 

@@ -103,7 +103,9 @@ oe_match("London", max_string_dist = 3, quiet = FALSE)
 
 # Match the input zone using an sfc_POINT object:
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-oe_match(milan_duomo)
+oe_match(milan_duomo, quiet = FALSE)
+leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
+oe_match(leeds, provider = "bbbike")
 
 # Match the input zone using a numeric vector of coordinates
 # (in which case crs = 4326 is assumed)
