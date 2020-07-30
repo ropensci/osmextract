@@ -53,7 +53,6 @@ test_that("oe_match: different providers, match_by or max_string dist args", {
   expect_warning(oe_match("Berin"))
 })
 
-
 test_that("oe_match: Cannot specify more than one place", {
   # Characters
   expect_error(oe_match(c("Italy", "Spain")))
@@ -68,4 +67,11 @@ test_that("oe_match: Cannot specify more than one place", {
   # numeric
   expect_error(oe_match(c(9.1916, 45.4650, -1.543794, 53.698968)))
   expect_error(oe_match(c(9.1916, 45.4650), c(-1.543794, 53.698968)))
+})
+
+test_that("oe_check_pattern: simplest examples work", {
+  # regexp = NA is used to test that the function runs without any error
+  expect_error(oe_explore_pattern("Yorkshire"), regexp = NA)
+  expect_error(oe_explore_pattern("Yorkshire", full_row = TRUE), regexp = NA)
+  expect_error(oe_explore_pattern("Yorkshire", match_by = "XXX"))
 })

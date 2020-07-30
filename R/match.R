@@ -13,7 +13,7 @@
 #'   `NULL` or `NA`)
 #' @export
 #'
-#' @seealso `oe_patterns()` and `oe_check_pattern()`.
+#' @seealso `oe_providers()` and `oe_explore_pattern()`.
 #'
 #' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
@@ -290,35 +290,32 @@ oe_match.character = function(
   result
 }
 
-#' Check for patterns in the provider's data columns
+#' Explore patterns in the provider's databases
 #'
-#' This function is used to explore the provider's data and check for patterns
-#' in the existing columns
+#' This function is used to explore the provider's databases and look for
+#' patterns. This function can be useful in combination with `oe_match()` and
+#' `oe_get()` for an easy match. See examples.
 #'
-#' @param pattern Character string for the pattern that should be matched
-#' @inheritParams oe_get
-#' @param match_by Column name in the provider dataset used to find the match,
-#' `name` by default.
-#' @param full_row Return all columns in the matching row?
-#' `FALSE` by default.
+#' @param pattern Character string representing the pattern that should be
+#'   explored.
+#' @param provider Which provider should be used? Check a summary of all
+#'   available providers with `oe_providers()`.
+#' @param match_by Column name of the provider's database that will be used to
+#'   find the match.
+#' @param full_row Boolean. Return all columns for the matching rows? `FALSE` by
+#'   default.
 #'
-#' @return A
+#' @return A character vector or a subset of the provider's database.
 #' @export
 #'
 #' @examples
-#' oe_check_pattern(
-#'   pattern = "Yorkshire",
-#'   provider = "geofabrik",
-#'   match_by = "name"
-#' )
-#' res = oe_check_pattern(
-#'   pattern = "Yorkshire",
-#'   provider = "geofabrik",
-#'   match_by = "name",
-#'   full_row = TRUE
-#' )
+#' \dontrun{
+#' oe_match("Yorkshire", quiet = FALSE)}
+#' oe_explore_pattern("Yorkshire")
+#'
+#' res = oe_explore_pattern("Yorkshire", full_row = TRUE)
 #' sf::st_drop_geometry(res)[1:3]
-oe_check_pattern = function(
+oe_explore_pattern = function(
   pattern,
   provider = "geofabrik",
   match_by = "name",

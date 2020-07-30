@@ -133,5 +133,5 @@ if (interactive()) {
 oe_match("Berin", quiet = FALSE)
 }
 \seealso{
-\code{oe_patterns()} and \code{oe_check_pattern()}.
+\code{oe_providers()} and \code{oe_explore_pattern()}.
 }
