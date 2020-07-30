@@ -95,146 +95,21 @@ remotes::install_github("ITSLeeds/osmextract")
 Load the package with:
 
 ```{r}
+library(osmextract)
+```
+
+To use alongside functionality in the `sf` package we also recommend attaching this geographic data package as follows:
+
+```{r}
 library(sf)
 ```
+
 
 ## Usage
 
 Give `osmextract` the name of a geofabrik zone and it will download and
-import it. By default it imports the ‘lines’ layer, but any layer can be
-read-in. Behind the scenes, the function `read_pbf()`, a wrapper around
-`sf::st_read()` is used with configuration options to import additional
-columns from the `.pbf` files not imported by default, including
-`maxspeed`, `lanes` and `oneway` (the attributes to include can be set
-with `attributes` argument):
-
-
-The package supports downloading, reading and extracting OpenStreetMap data from various providers.
-A list of providers can be found at [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
-The first provider supported was [Geofabrik](http://download.geofabrik.de/).
-The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
-The package can be extended to support additional providers, as seen in [code](https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d) that adds a working test provider.
-
-Providers break the world into zones.
-These zones are represented as `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.
-
-```{r}
-names(geofabrik_zones)
-st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
-bbbike_zones$name[1:20]
-```
-
-## Load package 
-
-```{r}
-library(osmextract)
-```
-
-The packages is composed by 4 main functions: 
-
-1. `oe_match`: Match the input zone with one of the files stored by the OSM providers
-2. `oe_download`: Download the chosen file
-3. `oe_vectortranslate`: Convert the pbf format into gpkg
-4. `oe_read`: Read the gpkg file
-
-The function `oe_get` is a wrapper around all of them. 
-
-# Test `oe_match`
-
-The simplest example: 
-
-```{r}
-oe_match("Italy")
-oe_match("Isle of wight")
-```
-
-There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names: 
-
-```{r, error = TRUE}
-oe_match("Korea")
-oe_match("Russia")
-```
-
-For these reasons we implemented the possibility to look for the appropriate area according to the [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) code: 
-
-```{r}
-oe_match("KP", match_by = "iso3166_1_alpha2")
-oe_match("RU", match_by = "iso3166_1_alpha2")
-oe_match("US", match_by = "iso3166_1_alpha2")
-```
-
-The are a few cases where the `iso3166-1 alpha2` codes can fail because there are no per-country extracts (e.g. Israel and Palestine)
-
-```{r, error = TRUE}
-oe_match("PS", match_by = "iso3166_1_alpha2")
-oe_match("IL", match_by = "iso3166_1_alpha2")
-```
-
-For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example: 
-
-```{r}
-oe_check_pattern("London")
-oe_check_pattern("Russia")
-oe_check_pattern("Korea")
-oe_check_pattern("Yorkshire")
-oe_check_pattern("US")
-oe_check_pattern("US", match_by = "iso3166_2")
-oe_check_pattern("Palestine")
-israel_sf = oe_check_pattern("Israel", full_row = TRUE)
-```
-
-The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). I would ignore the CRS warning for the moment. 
-
-```{r}
-coords_milan = sf::st_point(c(1514924.21, 5034552.92)) # Duomo di Milano
-st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
-oe_match(st_sfc_milan)
-```
-
-The input `place` can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:
-
-```{r, error = TRUE}
-oe_match(c(9.1916, 45.4650)) # Duomo di Milano
-oe_match(c(9.1916, 45.4650, 9.2020, 45.4781))
-# oe_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
-```
-
-If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance: 
-
-```{r, error = TRUE}
-oe_match("Isle Wight")
-oe_match("Isle Wight", max_string_dist = 3)
-```
-
-## Test `oe_download`
-
-The simplest example: 
-
-```{r}
-iow_details = oe_match("Isle of Wight")
-oe_download(
-  file_url = iow_details$url, 
-  file_size = iow_details$file_size
-)
-```
-
-If you want to download your data into a specific folder once, you can set the download directory: 
-
-```{r, eval=FALSE}
-Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
-oe_download(
-  file_url = iow$url, 
-  file_size = iow$file_size
-)
-#> /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf
-```
-
-If you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
-
-```{r, eval=FALSE}
-usethis::edit_r_environ()
-# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
-```
+import it.
+By default it imports the 'lines' layer, but any layer can be read-in. 
 
 ## Importing OSM data
 
