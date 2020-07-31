@@ -87,6 +87,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_github("r-spatial/sf")
+          remotes::install_github("r-spatial/s2")
         shell: Rscript {0}
 
       - name: Session info
