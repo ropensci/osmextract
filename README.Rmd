@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![R build status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
+[![Codecov test coverage](https://codecov.io/gh/itsleeds/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/itsleeds/osmextract?branch=master)
 <!-- badges: end -->
 
 The goal of `osmextract` is to make it easier for people to access OpenStreetMap (OSM) data for reproducible research.
