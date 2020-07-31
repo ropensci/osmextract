@@ -1,0 +1,326 @@
+---
+title: "Introducing osmextract"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introducing osmextract}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette provides an introduction to using the package, building on the README which covers installation and our motivations for creating it.
+
+Loading the package generates important messages about the license associated with OSM data.
+
+```{r setup}
+library(osmextract)
+```
+
+The first thing to say is: do not ignore this message!
+There are important legal considerations that you should be aware of before using OSM data, especially if you are working in a for-profit capacity.
+
+# Legal considerations
+
+Anyone using OSM data is bound by law to adhere to the [ODbL](https://opendatacommons.org/licenses/odbl/summary/) which means that you must:
+
+- Attribute: You must attribute any public use of the database, or works produced from the database, in the manner specified in the ODbL. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database.
+- Share-Alike: If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL.
+- Keep open: If you redistribute the database, or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.
+
+In short, publicly using OSM data without attribution or selling datasets derived from it is illegal.
+See the [License/Use Cases page on the OSM wiki](https://wiki.openstreetmap.org/wiki/License/Use_Cases) for detailed use cases.
+
+# Main package functions
+
+The packages is composed of the following main functions: 
+
+1. `oe_providers()`: Show which providers of OSM extracts are available
+1. `oe_match()`: Match the input zone with one of the files stored by the OSM providers
+2. `oe_download()`: Download the chosen file
+3. `oe_vectortranslate()`: Convert the .pbf files into .gpkg files
+4. `oe_read()`: Read the `.gpkg` files
+5. `oe_get()`: Match, download, translate and import data in one step
+
+For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
+We will demonstrate each function in turn.
+
+## List providers with `oe_providers()`
+
+`oe_providers()` lists the providers that are currently available with the version of `osmextract` you have installed.
+
+```{r}
+oe_providers()
+```
+
+Each element in `database_name` is a data object that is packaged with `osmextract`.
+Perhaps the best known bulk OSM data provider is Geofabrik, represented as data frame in the packaged object `geofabrik_zones`.
+
+```{r}
+class(geofabrik_zones)
+```
+
+Note that in addition to being a data frame with rows and columns, the object is also an `sf` object, as defined in the [package](https://r-spatial.github.io/sf/) of the same name.
+When working with `sf` objects it makes sense to have the package loaded:
+
+```{r}
+library(sf)
+```
+
+That gives you access to many geographic functions for working with geographic vector data of the type provided by `osmextract`.
+Each row of data in an `sf` object contains a geometry, representing the area covered by each provider zone, meaning you can plot the data as follows:
+
+```{r}
+plot(geofabrik_zones$geometry)
+```
+
+The plot above shows how the provider divides geographic space into discrete chunks.
+Different providers have other zoning systems.
+
+```{r}
+plot(bbbike_zones$geometry, xlim = c(-2, 10), ylim = c(30, 60))
+```
+
+As shown in the above visualisation of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of major cities.
+You can also download manually selected regions of interest from the BBBike website.
+
+## Finding OSM extracts with `oe_match()`
+
+`oe_match()` takes character strings and returns matching zones based on the `name` column in the provider data objects such as `geofabrik_zones`.
+By default it returns a named list with the URL and file size of the corresponding `pbf` file hosted by the provider, as shown below.
+
+```{r}
+oe_match("Italy")
+oe_match("Isle of wight")
+```
+
+There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names: 
+
+```{r, error=TRUE}
+oe_match("Korea")
+oe_match("Russia")
+```
+
+We therefore enable search using [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes: 
+
+```{r}
+oe_match("KP", match_by = "iso3166_1_alpha2")
+oe_match("RU", match_by = "iso3166_1_alpha2")
+oe_match("US", match_by = "iso3166_1_alpha2")
+```
+
+The are a few cases where the `iso3166-1 alpha2` codes can fail because there are no per-country extracts (e.g. Israel and Palestine)
+
+```{r, error = TRUE}
+oe_match("PS", match_by = "iso3166_1_alpha2")
+oe_match("IL", match_by = "iso3166_1_alpha2")
+```
+
+<!-- For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:  -->
+
+```{r, eval=FALSE, echo=FALSE}
+oe_check_pattern("London")
+oe_check_pattern("Russia")
+oe_check_pattern("Korea")
+oe_check_pattern("Yorkshire")
+oe_check_pattern("US")
+oe_check_pattern("US", match_by = "iso3166_2")
+oe_check_pattern("Palestine")
+israel_sf = oe_check_pattern("Israel", full_row = TRUE)
+```
+
+### Finding zones based on geographic inputs
+
+The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). I would ignore the CRS warning for the moment. 
+
+```{r}
+coords_milan = sf::st_point(c(1514924.21, 5034552.92)) # Duomo di Milano
+st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
+oe_match(st_sfc_milan)
+```
+
+The input `place` can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:
+
+```{r, error = TRUE}
+oe_match(c(9.1916, 45.4650)) # Duomo di Milano
+oe_match(c(9.1916, 45.4650, 9.2020, 45.4781))
+# oe_match(c(9.1916, 45.4650), c(9.2020, 45.4781)) FIXME with suitable check and error
+```
+
+If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance: 
+
+```{r, error = TRUE}
+oe_match("Isle Wight")
+oe_match("Isle Wight", max_string_dist = 3)
+```
+
+To reduce unnecessary computational resources and save bandwidth/electricity, we will use a small OSM extract in subsequent sections that can be found as follows:
+
+```{r}
+iow_details = oe_match("ITS Leeds", provider = "test")
+iow_details
+```
+
+
+## Download OSM data with `oe_download()`
+
+The purpose of `oe_download()` is to download .pbf files representing OSM extracts for regions listed in the provider zones can can be found with functions such as `oe_match()` outlined in the previous section.
+The function takes a URL as an input and downloads the file:
+
+```{r, eval=FALSE}
+oe_download(
+  file_url = iow_details$url, 
+  file_size = iow_details$file_size,
+  download_directory = "."
+)
+```
+
+If you want to download your data into a specific folder once, you can set the download directory: 
+
+```{r, eval=FALSE}
+Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
+oe_download(
+  file_url = iow$url, 
+  file_size = iow$file_size
+)
+#> /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf
+```
+
+If you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+
+```{r, eval=FALSE}
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+## Convert OSM files with `oe_vectortranslate()`
+
+## Read-in OSM datasets with `oe_read()`
+
+## Do it all with `oe_get()`
+
+To simplify the steps outlined above, while enabling modularity if needs be, we packaged them all into a single function that works as follows:
+
+```{r}
+its_lines = oe_get("ITS Leeds", provider = "test")
+plot(its_lines)
+```
+
+## Queries
+
+Some files from providers such as geofabrik are large.
+You may therefore want to check the contents before importing them.
+To do this you can use an SQL query that is passed to GDAL via `sf`.
+To check the values stored in the highway column for our Isle of Wight example, for example, run the following command: 
+
+```{r}
+its_highway_values = oe_get(
+  "ITS Leeds",
+  provider = "test",
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+nrow(its_highway_values)
+its_highway_values$highway
+```
+
+The values will vary depending on how many types of highway are in the particular extract of interest.
+There are more types of highway in the Andorra dataset, for example:
+
+```{r, eval=FALSE}
+andorra_highway_values = oe_get(
+  "Andorra", 
+  query = "SELECT DISTINCT highway FROM \"lines\" "
+)
+nrow(andorra_highway_values)
+#> [1] 22
+```
+
+The same `query` argument can be used to read-in only certain features, all residential highway segments in the `its_lines` dataset for example: 
+
+```{r, iow2}
+# and select only one of them: 
+its_residential = oe_get(
+  "ITS Leeds",
+  provider = "test",
+  extra_attributes = "ref", 
+  quiet = FALSE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('residential')"
+)
+class(its_residential)
+plot(its_residential$geometry)
+```
+
+This is substantially faster and less memory intensive than reading-in the whole dataset and filtering with R.
+Computational efficiency is important when working with large OSM datasets provided by the package.
+
+You can use [GDAL's SQL syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result you need.
+Let's get all primary and secondary roads in the Isle of Wight, for example (result not shown):
+
+```{r, iow3, eval=FALSE}
+iow_major_roads2 = oe_get(
+  "Isle of Wight", 
+  extra_attributes = "ref", 
+  quiet = FALSE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
+)
+# plot(iow_major_roads2["highway"])
+```
+
+You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:
+
+```{r, iow4}
+its_active_travel = oe_get(
+  "ITS Leeds",
+  provider = "test",
+  extra_attributes = "ref", 
+  quiet = FALSE, 
+  query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'pedestrian', 'footway')"
+)
+plot(its_active_travel["highway"], key.pos = 1)
+```
+
+## Other providers
+
+At present `geofabrik` and `bbbike` providers are supported.
+An example showing how to use an alternative provider is shown in the example below.
+
+```{r, eval=FALSE}
+leeds = oe_get(place = "Leeds", provider = "bbbike", quiet = FALSE)
+names(leeds)
+#> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  
+plot(leeds$geometry)
+```
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png")
+```
+
+
+The package supports downloading, reading and extracting OpenStreetMap data from various providers.
+A list of providers can be found at [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
+The first provider supported was [Geofabrik](http://download.geofabrik.de/).
+The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
+The package can be extended to support additional providers, as seen in [code](https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d) that adds a working test provider.
+
+Providers break the world into zones.
+These zones are represented as `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.
+
+```{r}
+names(geofabrik_zones)
+st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
+bbbike_zones$name[1:20]
+```
+
+
+The function `oe_get` is a wrapper around all of them. 
+
+Behind the scenes, the function `oe_read()` is used to translate and read-in `.pbf` files using `sf::st_read()`.
+Various configuration options can be used to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set
+with `attributes` argument)
+
