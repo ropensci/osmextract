@@ -2,7 +2,7 @@
 % Please edit documentation in R/download.R
 \name{oe_download}
 \alias{oe_download}
-\title{Download file containing OSM data}
+\title{Download a .osm.pbf file given a url}
 \usage{
 oe_download(
   file_url,
@@ -44,11 +44,20 @@ interactive mode. Default: \code{5e+8}, half a gigabyte.}
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
-Character string representing the full path the downloaded file
+A character string representing the full path of the downloaded file
 }
 \description{
-Download the input file if it's not already present in \code{oe_download_directory()}
-or the specified \code{download_directory}.
+This function is used to download a .osm.pbf file from one of the providers.
+The url of the file is specified through the parameter \code{file_url}.
+}
+\details{
+Firstly, the function builds the path of the file associated to the
+input \code{file_url} using the following convention. The path is created by
+pasting the download_directory, the chosen provider and the basename of the
+url. So, for example, if \code{provider = "geofabrik"}, \code{file_url = "https://download.geofabrik.de/.../italy-latest.osm.pbf"}, and
+\verb{download_directory = "/tmp/}, then the file path is built as
+\verb{/tmp/geofabrik_italy-latest.osm.pbf}. Then the function checks that the
+file is not already present in the \code{download_directory}.
 }
 \examples{
 its_match = oe_match("ITS Leeds", provider = "test")

@@ -1,7 +1,16 @@
-#' Download file containing OSM data
+#' Download a .osm.pbf file given a url
 #'
-#' Download the input file if it's not already present in `oe_download_directory()`
-#' or the specified `download_directory`.
+#' This function is used to download a .osm.pbf file from one of the providers.
+#' The url of the file is specified through the parameter `file_url`.
+#'
+#' @details Firstly, the function generates the path of the file associated to the
+#'   input `file_url` using the following convention. The path is created by
+#'   pasting the download_directory, the chosen provider and the basename of the
+#'   url. So, for example, if `provider = "geofabrik"`, `file_url =
+#'   "https://download.geofabrik.de/.../italy-latest.osm.pbf"`, and
+#'   `download_directory = "/tmp/`, then the file path is built as
+#'   `/tmp/geofabrik_italy-latest.osm.pbf`. Then the function checks that the
+#'   file is not already present in the `download_directory`.
 #'
 #' @inheritParams oe_get
 #' @param file_url A URL containing OSM data (e.g. as a .pbf file)
@@ -12,7 +21,7 @@
 #'   then an interactive menu is displayed, asking for permission for
 #'   downloading the file.
 #'
-#' @return Character string representing the full path the downloaded file
+#' @return A character string representing the full path of the downloaded file
 #' @export
 #'
 #' @examples
@@ -93,20 +102,6 @@ oe_download = function(
   }
 
   file_path
-}
-
-
-# The following function is used to extract the OSMEXT_DOWNLOAD_DIRECTORY
-# environment variable.
-oe_download_directory = function() {
-  download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", "")
-  if (download_directory == "") {
-    download_directory = tempdir()
-  }
-  if (!dir.exists(download_directory)) {
-    dir.create(download_directory)
-  }
-  download_directory
 }
 
 # Infer the chosen provider from the file_url
