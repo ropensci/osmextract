@@ -9,6 +9,8 @@
 
 [![R build
 status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/itsleeds/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/itsleeds/osmextract?branch=master)
 <!-- badges: end -->
 
 The goal of `osmextract` is to make it easier for people to access
@@ -127,9 +129,9 @@ any layer can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight")
 osm_points = oe_get("Isle of Wight", layer = "points")
 nrow(osm_lines)
-#> [1] 44424
+#> [1] 44521
 nrow(osm_points)
-#> [1] 58971
+#> [1] 59041
 plot(osm_lines$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(osm_points$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 ```
