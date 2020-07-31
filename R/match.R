@@ -13,7 +13,7 @@
 #'   `NULL` or `NA`)
 #' @export
 #'
-#' @seealso `oe_providers()` and `oe_explore_pattern()`.
+#' @seealso `oe_providers()` and `oe_match_pattern()`.
 #'
 #' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
@@ -290,7 +290,7 @@ oe_match.character = function(
   result
 }
 
-#' Explore patterns in the provider's databases
+#' Check patterns in the provider's databases
 #'
 #' This function is used to explore the provider's databases and look for
 #' patterns. This function can be useful in combination with `oe_match()` and
@@ -311,11 +311,11 @@ oe_match.character = function(
 #' @examples
 #' \dontrun{
 #' oe_match("Yorkshire", quiet = FALSE)}
-#' oe_explore_pattern("Yorkshire")
+#' oe_match_pattern("Yorkshire")
 #'
-#' res = oe_explore_pattern("Yorkshire", full_row = TRUE)
+#' res = oe_match_pattern("Yorkshire", full_row = TRUE)
 #' sf::st_drop_geometry(res)[1:3]
-oe_explore_pattern = function(
+oe_match_pattern = function(
   pattern,
   provider = "geofabrik",
   match_by = "name",

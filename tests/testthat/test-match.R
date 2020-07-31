@@ -71,7 +71,7 @@ test_that("oe_match: Cannot specify more than one place", {
 
 test_that("oe_check_pattern: simplest examples work", {
   # regexp = NA is used to test that the function runs without any error
-  expect_error(oe_explore_pattern("Yorkshire"), regexp = NA)
-  expect_error(oe_explore_pattern("Yorkshire", full_row = TRUE), regexp = NA)
-  expect_error(oe_explore_pattern("Yorkshire", match_by = "XXX"))
+  expect_error(oe_match_pattern("Yorkshire"), regexp = NA)
+  expect_error(oe_match_pattern("Yorkshire", full_row = TRUE), regexp = NA)
+  expect_error(oe_match_pattern("Yorkshire", match_by = "XXX"))
 })

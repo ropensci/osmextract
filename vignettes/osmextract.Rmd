@@ -126,14 +126,14 @@ oe_match("IL", match_by = "iso3166_1_alpha2")
 <!-- For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:  -->
 
 ```{r, eval=FALSE, echo=FALSE}
-oe_explore_pattern("London")
-oe_explore_pattern("Russia")
-oe_explore_pattern("Korea")
-oe_explore_pattern("Yorkshire")
-oe_explore_pattern("US")
-oe_explore_pattern("US", match_by = "iso3166_2")
-oe_explore_pattern("Palestine")
-israel_sf = oe_explore_pattern("Israel", full_row = TRUE)
+oe_match_pattern("London")
+oe_match_pattern("Russia")
+oe_match_pattern("Korea")
+oe_match_pattern("Yorkshire")
+oe_match_pattern("US")
+oe_match_pattern("US", match_by = "iso3166_2")
+oe_match_pattern("Palestine")
+israel_sf = oe_match_pattern("Israel", full_row = TRUE)
 ```
 
 ### Finding zones based on geographic inputs
