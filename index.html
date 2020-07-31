@@ -150,9 +150,9 @@
 <span class="kw">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>)
 <span class="kw">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, layer = <span class="st">"points"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_lines</span>)
-<span class="co">#&gt; [1] 44424</span>
+<span class="co">#&gt; [1] 44521</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_points</span>)
-<span class="co">#&gt; [1] 58971</span>
+<span class="co">#&gt; [1] 59041</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_lines</span><span class="op">$</span><span class="kw">geometry</span>, xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.5</span>, <span class="fl">50.8</span>))
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_points</span><span class="op">$</span><span class="kw">geometry</span>, xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.5</span>, <span class="fl">50.8</span>))
 </pre></div>
@@ -247,6 +247,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/itsleeds/osmextract/actions"><img src="https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/itsleeds/osmextract?branch=master"><img src="https://codecov.io/gh/itsleeds/osmextract/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 </div>
