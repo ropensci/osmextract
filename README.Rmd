@@ -22,8 +22,11 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
 <!-- badges: end -->
 
-The goal of `osmextract` is to make it easier for people access freely available, community created geographic data using free and open software that is conducive to reproducible and transparent research in the public interest.
-`osmextract` downloads, converts and imports bulk OpenSteetMap data extracted by providers such as [Geofabrik
+The goal of `osmextract` is to make it easier for people to access OpenStreetMap (OSM) data for reproducible research.
+OSM data is the premier source of freely available, community created geographic data worldwide.
+We aim to enable you to extract it for data-driven work in the public interest.
+
+`osmextract` downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik
 GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
 For information on alternatives and how to add them see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
 
@@ -151,9 +154,7 @@ test_malta = oe_get("Malta", quiet = FALSE)
 test_andorra = oe_get("Andorra", extra_attributes = "ref", quiet = FALSE)
 ```
 
-For further details on using the package, see the introductory vignette.
-
-<!-- Todo: add link to it -->
+For further details on using the package, see the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
 
 ## Next steps
 
