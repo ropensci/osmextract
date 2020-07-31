@@ -119,3 +119,5 @@ infer_provider_from_url = function(file_url) {
   }
   stop("Cannot infer the provider from the url, please specify it")
 }
+
+# :)
