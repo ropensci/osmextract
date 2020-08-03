@@ -106,7 +106,7 @@ library(sf)
 
 ## Basic usage
 
-Give `osmextract` a place name and it will try to 'find' it in a list of place names.
+Give `osmextract` a place name and it will try to find it in a list of names in the specified provider (Geofabrik by default).
 If the name you give it matches a place, it will download and import the associated data into R.
 The function `oe_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object.
 By default `oe_get()` imports the 'lines' layer, but any layer can be read-in by changing the `layer` argument:
@@ -136,7 +136,7 @@ names(osm_lines) # default variable names
 
 Once imported, you can use all the functions for data frames in base R and other packages.
 We can also use functions from the `sf` package for spatial analysis and visualisation.
-Let's plot all the major and minor roads, for example:
+Let's plot all the major, secondary and residential roads, for example:
 
 ```{r, echo=FALSE}
 osm_lines$highway = as.character(osm_lines$highway)
@@ -144,7 +144,8 @@ osm_lines$highway = as.character(osm_lines$highway)
 
 
 ```{r iow1}
-osm_major_roads = osm_lines[osm_lines$highway %in% c("primary", "secondary"), ]
+ht = c("primary", "secondary", "residential", "tertiary") # highway types of interest
+osm_major_roads = osm_lines[osm_lines$highway %in% ht, ]
 plot(osm_major_roads["highway"], key.pos = 1)
 ```
 
