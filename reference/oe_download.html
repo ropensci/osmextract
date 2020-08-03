@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download file containing OSM data — oe_download • osmextract</title>
+<title>Download a file given a url — oe_download • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Download file containing OSM data — oe_download" />
-<meta property="og:description" content="Download the input file if it's not already present in oe_download_directory()
-or the specified download_directory." />
+<meta property="og:title" content="Download a file given a url — oe_download" />
+<meta property="og:description" content="This function is used to download a file given a url. It focuses on OSM
+extracts with .osm.pbf format stored by one of the providers implemented in
+the package. The url is specified through the parameter file_url." />
 
 
 
@@ -124,20 +125,21 @@ or the specified download_directory." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download file containing OSM data</h1>
+    <h1>Download a file given a url</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/download.R'><code>R/download.R</code></a></small>
     <div class="hidden name"><code>oe_download.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Download the input file if it's not already present in <code>oe_download_directory()</code>
-or the specified <code>download_directory</code>.</p>
+    <p>This function is used to download a file given a url. It focuses on OSM
+extracts with <code>.osm.pbf</code> format stored by one of the providers implemented in
+the package. The url is specified through the parameter <code>file_url</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>oe_download</span>(
   <span class='kw'>file_url</span>,
+  provider = <span class='kw'>NULL</span>,
   file_basename = <span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span>(<span class='kw'>file_url</span>),
-  provider = <span class='fu'>infer_provider_from_url</span>(<span class='kw'>file_url</span>),
   download_directory = <span class='fu'>oe_download_directory</span>(),
   file_size = <span class='fl'>NA</span>,
   force_download = <span class='fl'>FALSE</span>,
@@ -150,17 +152,18 @@ or the specified <code>download_directory</code>.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file_url</th>
-      <td><p>A URL containing OSM data (e.g. as a .pbf file)</p></td>
-    </tr>
-    <tr>
-      <th>file_basename</th>
-      <td><p>The base name of the file. Default behaviour:
-auto generated from the URL.</p></td>
+      <td><p>A url pointing to a <code>.osm.pbf</code> file that should be downloaded.</p></td>
     </tr>
     <tr>
       <th>provider</th>
-      <td><p>Which provider should be used to download the data? Available
-providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>.</p></td>
+      <td><p>Which provider stores the file that is specified using its
+url? If NULL (the default), it is inferred from the url but it must be
+specified for non-standard cases. See details and examples.</p></td>
+    </tr>
+    <tr>
+      <th>file_basename</th>
+      <td><p>The base name of the file. The default behaviour is to
+auto-generate it from the URL using <code><a href='https://rdrr.io/r/base/basename.html'>basename()</a></code>.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -180,7 +183,8 @@ downloading the file.</p></td>
     <tr>
       <th>force_download</th>
       <td><p>Should the file be updated if it has already been
-downloaded? <code>FALSE</code> by default.</p></td>
+downloaded? <code>FALSE</code> by default. This parameter is used to update old
+<code>.osm.pbf</code> files.</p></td>
     </tr>
     <tr>
       <th>max_file_size</th>
@@ -195,17 +199,33 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Character string representing the full path the downloaded file</p>
+    <p>A character string representing the file's path.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function runs several checks before actually downloading a new
+file, to avoid overloading the OSM providers. The first step is the
+definition of the file's path associated to the input <code>file_url</code>. The path
+is created by pasting together the <code>download_directory</code>, the name of chosen
+provider (which may be inferred from the url) and the <code><a href='https://rdrr.io/r/base/basename.html'>basename()</a></code> of the
+url. For example, if <code>file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and
+<code>download_directory = "/tmp/</code>, then the path is built as
+<code>/tmp/geofabrik_italy-latest.osm.pbf</code>. Then, the function tests the
+existence of a file with the same file's path and, in that case, it simply
+returns the path. The parameter <code>force_download</code> is used to modify this
+behaviour. If there exists no file associated to the file's path, then the
+function downloads a new file using <code><a href='https://rdrr.io/r/utils/download.file.html'>download.file()</a></code> with <code>mode = "wb"</code>
+and it returns the path.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>url</span>,
   file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
-  <span class='co'># for the moment we always need to specify the provider for files</span>
-  <span class='co'># matched with test provider</span>
+  <span class='co'># test data are stored on github which is not a standard provider, so we</span>
+  <span class='co'># need to specify the provider parameter. See oe_providers() for a list of</span>
+  <span class='co'># all available providers.</span>
   provider = <span class='st'>"test"</span>
-)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpp3fsOw/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpMxRiFr/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,
