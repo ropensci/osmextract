@@ -1,9 +1,18 @@
-#' Translate the .osm.pbf format into .gpkg
+#' Translate an OSM file with `.osm.pbf` format into `.gpkg` format
+#'
+#' This function is used to convert a `.osm.pbf` file into `.gpkg` format. The
+#' conversion is performed using
+#' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through
+#' `sf::gdal_utils()`.
+#'
+#' @details The .gpkg file is created in the same directory as the input .osm.pbf
+#'   file. The conversion is skipped if the function detects a file . This
+#'   behaviour can be overwritten with the parameter `force_vectortranslate`.
 #'
 #' @inheritParams oe_get
 #' @param file_path Character string representing the full path the .osm.pbf file
 #'
-#' @return Character string representing the full path the .gpkg file
+#' @return Character string representing the path of the .gpkg file.
 #' @export
 #'
 #' @examples
@@ -30,6 +39,18 @@ oe_vectortranslate = function(
   force_vectortranslate = FALSE,
   quiet = TRUE
 ) {
+  # Check that the input file was specified using the format
+  # ".../something.osm.pbf" format. This is important for creating the .gpkg file
+  # path.
+  if (
+    tools::file_ext(file_path) != "pbf" ||
+    tools::file_ext(tools::file_path_sans_ext(file_path)) != "osm"
+    ) {
+    stop(
+      "The input file must be specified using the format '.../something.osm.pbf'"
+    )
+  }
+
   # First we need to build the file path of the .gpkg using the following
   # convention: it is the same file path of the .osm.pbf file but with .gpkg
   # extension

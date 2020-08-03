@@ -2,7 +2,7 @@
 % Please edit documentation in R/vectortranslate.R
 \name{oe_vectortranslate}
 \alias{oe_vectortranslate}
-\title{Translate the .osm.pbf format into .gpkg}
+\title{Translate an OSM file with \code{.osm.pbf} format into \code{.gpkg} format}
 \usage{
 oe_vectortranslate(
   file_path,
@@ -37,10 +37,18 @@ already exists.}
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
-Character string representing the full path the .gpkg file
+Character string representing the path of the .gpkg file.
 }
 \description{
-Translate the .osm.pbf format into .gpkg
+This function is used to convert a \code{.osm.pbf} file into \code{.gpkg} format. The
+conversion is performed using
+\href{https://gdal.org/programs/ogr2ogr.html#ogr2ogr}{ogr2ogr} through
+\code{sf::gdal_utils()}.
+}
+\details{
+The .gpkg file is created in the same directory as the input .osm.pbf
+file. The conversion is skipped if the function detects a file . This
+behaviour can be overwritten with the parameter \code{force_vectortranslate}.
 }
 \examples{
 # First we need to match an input zone with a .osm.pbf file
