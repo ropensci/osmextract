@@ -213,7 +213,7 @@ its_lines = oe_get("ITS Leeds", provider = "test")
 plot(its_lines)
 ```
 
-## Queries
+# Queries
 
 Some files from providers such as geofabrik are large.
 You may therefore want to check the contents before importing them.
@@ -286,7 +286,7 @@ its_active_travel = oe_get(
 plot(its_active_travel["highway"], key.pos = 1)
 ```
 
-## Other providers
+# Other providers
 
 At present `geofabrik` and `bbbike` providers are supported.
 An example showing how to use an alternative provider is shown in the example below.
@@ -310,8 +310,7 @@ The first provider supported was [Geofabrik](http://download.geofabrik.de/).
 The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
 The package can be extended to support additional providers, as seen in [code](https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d) that adds a working test provider.
 
-Providers break the world into zones.
-These zones are represented as `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.
+Providers break the world into zones and, as described in the 'List providers' section above, these zones are represented as `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.
 
 ```{r}
 names(geofabrik_zones)
@@ -319,9 +318,27 @@ st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
 bbbike_zones$name[1:20]
 ```
 
-The function `oe_get` is a wrapper around all of them. 
 
-Behind the scenes, the function `oe_read()` is used to translate and read-in `.pbf` files using `sf::st_read()`.
-Various configuration options can be used to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set
-with `attributes` argument)
+<!-- Behind the scenes, the function `oe_read()` is used to translate and read-in `.pbf` files using `sf::st_read()`. -->
+<!-- Various configuration options can be used to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set -->
+<!-- with `attributes` argument). -->
+For information on adding new providers to the package, see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
+
+# More on OpenStreetMap
+
+There is a world of knowledge, convention and wisdom contained in OSM data that we hope this package helps you discover and use this knowledge for public benefit.
+To learn more about the structure of OSM data and the various tagging systems and conventions, the [Elements page on the OSM wiki](https://wiki.openstreetmap.org/wiki/Elements) is an ideal place to start.
+You will find much more excellent content on the OSM wiki pages.
+
+# Contributing to OSM
+
+The final thing to say in this introductory vignette is that as a citizen-led project like Wikipedia, OSM relies on a participatory culture, where people not only consume but contribute data, to survive.
+On that note we urge anyone reading this to at least sign-up to get an OSM account at [osm.org](https://www.openstreetmap.org).
+
+We highly recommend contributing to the world's geographic commons.
+The step from being a user to being a contributor of OSM data is a small one and can be highly rewarding.
+If you find any issues with OSM data, people in the OpenStreetMap will be very happy for you to correct the data.
+Once logged-in, you can contribute by using editors such as the excellent ID editor, which you can get to by zooming into anywhere you want at [www.openstreetmap.org](https://www.openstreetmap.org/) and clicking "Edit".
+
+To learn more about contributing to the amazing OSM community, we recommend checking out the [OSM Beginners Guide](https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3).
 
