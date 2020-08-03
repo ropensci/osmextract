@@ -67,7 +67,8 @@ to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{force_download}{Should the file be updated if it has already been
-downloaded? \code{FALSE} by default.}
+downloaded? \code{FALSE} by default. This parameter is used to update old
+\code{.osm.pbf} files.}
 
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}

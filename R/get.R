@@ -33,7 +33,8 @@
 #' to your `.Renviron` file (e.g. with `usethis::edit_r_environ()`):
 #' `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
 #' @param force_download Should the file be updated if it has already been
-#' downloaded? `FALSE` by default.
+#'   downloaded? `FALSE` by default. This parameter is used to update old
+#'   `.osm.pbf` files.
 #' @param max_file_size The maximum file size to download without asking in
 #'   interactive mode. Default: `5e+8`, half a gigabyte.
 #' @param vectortranslate_options Options to pass to the [`sf::gdal_utils()`]
