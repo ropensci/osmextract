@@ -330,9 +330,10 @@
 </pre></div>
 <p><img src="osmextract_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
-<div id="queries" class="section level2">
-<h2 class="hasAnchor">
-<a href="#queries" class="anchor"></a>Queries</h2>
+</div>
+<div id="queries" class="section level1">
+<h1 class="hasAnchor">
+<a href="#queries" class="anchor"></a>Queries</h1>
 <p>Some files from providers such as geofabrik are large. You may therefore want to check the contents before importing them. To do this you can use an SQL query that is passed to GDAL via <code>sf</code>. To check the values stored in the highway column for our Isle of Wight example, for example, run the following command:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="kw">its_highway_values</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
@@ -370,7 +371,7 @@
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpkJRdhT/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpPmiV3P/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 21 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -405,7 +406,7 @@
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpkJRdhT/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpPmiV3P/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 77 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -415,9 +416,9 @@
 </pre></div>
 <p><img src="osmextract_files/figure-html/iow4-1.png" width="700"></p>
 </div>
-<div id="other-providers" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-providers" class="anchor"></a>Other providers</h2>
+<div id="other-providers" class="section level1">
+<h1 class="hasAnchor">
+<a href="#other-providers" class="anchor"></a>Other providers</h1>
 <p>At present <code>geofabrik</code> and <code>bbbike</code> providers are supported. An example showing how to use an alternative provider is shown in the example below.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="kw">leeds</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(place = <span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>, quiet = <span class="fl">FALSE</span>)
@@ -427,7 +428,7 @@
 </pre></div>
 <p><img src="https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png"><!-- --></p>
 <p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. The second was <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The package can be extended to support additional providers, as seen in <a href="https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d">code</a> that adds a working test provider.</p>
-<p>Providers break the world into zones. These zones are represented as <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.</p>
+<p>Providers break the world into zones and, as described in the ‘List providers’ section above, these zones are represented as <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">geofabrik_zones</span>)
 <span class="co">#&gt;  [1] "id"               "name"             "parent"           "level"           </span>
@@ -445,9 +446,22 @@
 <span class="co">#&gt; [11] "Austin"      "Baghdad"     "Baku"        "Balaton"     "Bamberg"    </span>
 <span class="co">#&gt; [16] "Bangkok"     "Barcelona"   "Basel"       "Beijing"     "Beirut"</span>
 </pre></div>
-<p>The function <code>oe_get</code> is a wrapper around all of them.</p>
-<p>Behind the scenes, the function <code><a href="../reference/oe_read.html">oe_read()</a></code> is used to translate and read-in <code>.pbf</code> files using <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code>. Various configuration options can be used to import additional columns from the <code>.pbf</code> files not imported by default, including <code>maxspeed</code>, <code>lanes</code> and <code>oneway</code> (the attributes to include can be set with <code>attributes</code> argument)</p>
+<!-- Behind the scenes, the function `oe_read()` is used to translate and read-in `.pbf` files using `sf::st_read()`. -->
+<!-- Various configuration options can be used to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set -->
+<!-- with `attributes` argument). -->
+<p>For information on adding new providers to the package, see the <a href="https://itsleeds.github.io/osmextract/articles/providers.html">providers vignette</a>.</p>
 </div>
+<div id="more-on-openstreetmap" class="section level1">
+<h1 class="hasAnchor">
+<a href="#more-on-openstreetmap" class="anchor"></a>More on OpenStreetMap</h1>
+<p>There is a world of knowledge, convention and wisdom contained in OSM data that we hope this package helps you discover and use this knowledge for public benefit. To learn more about the structure of OSM data and the various tagging systems and conventions, the <a href="https://wiki.openstreetmap.org/wiki/Elements">Elements page on the OSM wiki</a> is an ideal place to start. You will find much more excellent content on the OSM wiki pages.</p>
+</div>
+<div id="contributing-to-osm" class="section level1">
+<h1 class="hasAnchor">
+<a href="#contributing-to-osm" class="anchor"></a>Contributing to OSM</h1>
+<p>The final thing to say in this introductory vignette is that as a citizen-led project like Wikipedia, OSM relies on a participatory culture, where people not only consume but contribute data, to survive. On that note we urge anyone reading this to at least sign-up to get an OSM account at <a href="https://www.openstreetmap.org">osm.org</a>.</p>
+<p>We highly recommend contributing to the world’s geographic commons. The step from being a user to being a contributor of OSM data is a small one and can be highly rewarding. If you find any issues with OSM data, people in the OpenStreetMap will be very happy for you to correct the data. Once logged-in, you can contribute by using editors such as the excellent ID editor, which you can get to by zooming into anywhere you want at <a href="https://www.openstreetmap.org/">www.openstreetmap.org</a> and clicking “Edit”.</p>
+<p>To learn more about contributing to the amazing OSM community, we recommend checking out the <a href="https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3">OSM Beginners Guide</a>.</p>
 </div>
   </div>
 

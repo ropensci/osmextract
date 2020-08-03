@@ -145,14 +145,14 @@
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic usage</h2>
-<p>Give <code>osmextract</code> a place name and it will try to ‘find’ it in a list of place names. If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the ‘lines’ layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
+<p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (Geofabrik by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the ‘lines’ layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>)
 <span class="kw">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, layer = <span class="st">"points"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_lines</span>)
-<span class="co">#&gt; [1] 44521</span>
+<span class="co">#&gt; [1] 44424</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_points</span>)
-<span class="co">#&gt; [1] 59041</span>
+<span class="co">#&gt; [1] 58971</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_lines</span><span class="op">$</span><span class="kw">geometry</span>, xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.5</span>, <span class="fl">50.8</span>))
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_points</span><span class="op">$</span><span class="kw">geometry</span>, xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.5</span>, <span class="fl">50.8</span>))
 </pre></div>
@@ -163,9 +163,10 @@
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span>
 </pre></div>
-<p>Once imported, you can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major and minor roads, for example:</p>
+<p>Once imported, you can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major, secondary and residential roads, for example:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="kw">osm_major_roads</span> <span class="op">=</span> <span class="kw">osm_lines</span>[<span class="kw">osm_lines</span><span class="op">$</span><span class="kw">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"primary"</span>, <span class="st">"secondary"</span>), ]
+<span class="kw">ht</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"primary"</span>, <span class="st">"secondary"</span>, <span class="st">"residential"</span>, <span class="st">"tertiary"</span>) <span class="co"># highway types of interest</span>
+<span class="kw">osm_major_roads</span> <span class="op">=</span> <span class="kw">osm_lines</span>[<span class="kw">osm_lines</span><span class="op">$</span><span class="kw">highway</span> <span class="op">%in%</span> <span class="kw">ht</span>, ]
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_major_roads</span>[<span class="st">"highway"</span>], key.pos = <span class="fl">1</span>)
 </pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
