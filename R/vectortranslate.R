@@ -1,16 +1,35 @@
-#' Translate an OSM file with `.osm.pbf` format into `.gpkg` format
+#' Translate a `.osm.pbf` file into `.gpkg` format
 #'
-#' This function is used to convert a `.osm.pbf` file into `.gpkg` format. The
+#' This function is used to translate a `.osm.pbf` file into `.gpkg` format. The
 #' conversion is performed using
 #' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through
-#' `sf::gdal_utils()`.
+#' `sf::gdal_utils()`. It was created following [the
+#' suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053)
+#' of the maintainers of GDAL. See Details and Examples and check the
+#' introductory vignette for more complex use-cases.
 #'
-#' @details The .gpkg file is created in the same directory as the input .osm.pbf
-#'   file. The conversion is skipped if the function detects a file . This
-#'   behaviour can be overwritten with the parameter `force_vectortranslate`.
+#' @details The new `.gpkg` file is created in the same directory as the input
+#'   `.osm.pbf` file. The translation process is performed using the
+#'   `sf::gdal_utils()` function, setting `util = "vectortranslate"`. This
+#'   operation can be customized in several ways modifying the parameters
+#'   `vectortranslate_options`, `layer`, `osmconf_ini` and `extra_attributes`.
+#'
+#'   The OSM extract files that are read using GDAL are usually categorized into
+#'   5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
+#'   `other_relations`. Check the first paragraphs
+#'   [here](https://gdal.org/drivers/vector/osm.html) for more details.  The
+#'   parameter `layer` is used to specify which layer of the `.osm.pbf` file
+#'   should be converted into the `.gpkg` file. Several layers can be stored in
+#'   the same file. We can convert only one layer at time. If the parameter
+#'   `layer` is equal to `NULL` (the default), then the function will convert
+#'   the `lines` layer (which is the most common one according to our
+#'   experience). The vectortranslate operation is skipped if the function
+#'   detects a file having the same name as the `.gpkg` file and with the same
+#'   layer as `layer`.
 #'
 #' @inheritParams oe_get
-#' @param file_path Character string representing the full path the .osm.pbf file
+#' @param file_path Character string representing the path of the input
+#'   `.osm.pbf` file
 #'
 #' @return Character string representing the path of the .gpkg file.
 #' @export
@@ -47,7 +66,8 @@ oe_vectortranslate = function(
     tools::file_ext(tools::file_path_sans_ext(file_path)) != "osm"
     ) {
     stop(
-      "The input file must be specified using the format '.../something.osm.pbf'"
+      "The input file must be specified using the appropriate extension, i.e. ",
+      "'.../something.osm.pbf'."
     )
   }
 
@@ -63,6 +83,17 @@ oe_vectortranslate = function(
   # TODO: document this part
   if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
     force_vectortranslate = TRUE
+    if (file.exists(gpkg_file_path)) {
+      old_attributes <- names(st_read(
+        gpkg_file_path,
+        quiet = TRUE,
+        paste0("select * from \"", layer, "\" limit 0")
+      ))
+
+      if (all(extra_attributes %in% old_attributes)) {
+        force_vectortranslate = FALSE
+      }
+    }
   }
 
   # If the gpgk file already exists and force_vectortranslate is FALSE then we
