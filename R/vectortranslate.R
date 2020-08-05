@@ -182,9 +182,6 @@ oe_vectortranslate = function(
   gpkg_file_path
 }
 
-
-
-
 get_ini_layer_defaults = function(layer) {
   def_layers = list(
     points = c(
@@ -234,3 +231,75 @@ get_ini_layer_defaults = function(layer) {
   )
   def_layers[[layer]]
 }
+
+
+#' Return all keys stored in "other_tags" column
+#'
+#' This function is used to return the names of all keys that are stored in
+#' "other_tags" column since they were not explicitly included in the file. See
+#' Details.
+#'
+#' @details OSM data are typically documented using several
+#'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags). A `tag` is a pair of
+#'   two items, namely a `key` and a `value`. As we documented in
+#'   `oe_vectortranslate()`, the conversion between `.osm.pbf` and `.gpkg`
+#'   formats is governed by a CONFIG file that indicates which keys are
+#'   explicitly added to the `.gpkg` file. All the other keys stored in the
+#'   `.osm.pbf` file are automatically appended in an "other_tags" field, with a
+#'   syntax compatible with the PostgreSQL HSTORE type. This function is used to
+#'   display the names of all the keys stored in the "other_tags" column. See
+#'   examples.
+#'
+#' @seealso `oe_vectortranslate()` and
+#'   [#107](https://github.com/ITSLeeds/osmextract/issues/107).
+#'
+#' @inheritParams oe_get
+#' @param file_path The path of `.gpkg` file, typically created using
+#'   `oe_vectortranslate()` or `oe_get()`.
+#'
+#' @return A character vector indicating the name of all keys stored in
+#'   "other_tags" field.
+#' @export
+#'
+#' @examples
+#' itsleeds_gpkg <- oe_get("itsleeds", provider = "test", download_only = TRUE)
+#' oe_get_keys(itsleeds_gpkg)
+oe_get_keys <- function(
+  file_path,
+  layer = "lines"
+) {
+  if (!file.exists(file_path)) {
+    stop("The input file does not exist.")
+  }
+
+  if (tools::file_ext(file_path) != "gpkg") {
+    stop("The input file must have a .gpkg extension.")
+  }
+
+  # Read the gpkg file selecting only the other_tags column
+  other_tags <- sf::st_read(
+    file_path,
+    layer = layer,
+    query = paste0("select other_tags, geometry from ", layer),
+    quiet = TRUE
+  )
+
+  # Create regex
+  osm_matches <- gregexpr(pattern = '[^\"=>,\\]+', other_tags[["other_tags"]])
+  key_value_matches <- regmatches(other_tags[["other_tags"]], osm_matches)
+
+  keys_per_feature <- lapply(key_value_matches, function(x) {
+    # character(0) occurs when other_tags is equal to NA
+    if (identical(x, character(0))) {
+      return(NULL)
+    }
+    x[seq(1, length(x), by = 2)]
+  })
+
+  unique_keys <- unique(unlist(keys_per_feature))
+  unique_keys
+}
+
+
+
+
