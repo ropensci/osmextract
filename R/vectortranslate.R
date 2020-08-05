@@ -5,8 +5,9 @@
 #' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through
 #' `sf::gdal_utils()`. It was created following [the
 #' suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053)
-#' of the maintainers of GDAL. See Details and Examples and check the
-#' introductory vignette for more complex use-cases.
+#' of the maintainers of GDAL. See Details and Examples to understand the basic
+#' functionalities, and check the introductory vignette for more complex
+#' use-cases.
 #'
 #' @details The new `.gpkg` file is created in the same directory as the input
 #'   `.osm.pbf` file. The translation process is performed using the
@@ -14,18 +15,24 @@
 #'   operation can be customized in several ways modifying the parameters
 #'   `vectortranslate_options`, `layer`, `osmconf_ini` and `extra_attributes`.
 #'
-#'   The OSM extract files that are read using GDAL are usually categorized into
+#'   The `.osm.pbf` files that are read using GDAL are usually categorized into
 #'   5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
 #'   `other_relations`. Check the first paragraphs
 #'   [here](https://gdal.org/drivers/vector/osm.html) for more details.  The
 #'   parameter `layer` is used to specify which layer of the `.osm.pbf` file
-#'   should be converted into the `.gpkg` file. Several layers can be stored in
-#'   the same file. We can convert only one layer at time. If the parameter
-#'   `layer` is equal to `NULL` (the default), then the function will convert
-#'   the `lines` layer (which is the most common one according to our
-#'   experience). The vectortranslate operation is skipped if the function
-#'   detects a file having the same name as the `.gpkg` file and with the same
-#'   layer as `layer`.
+#'   should be converted into the `.gpkg` file. Several layers with different
+#'   names can be stored in the same `.gpkg` file. We can convert only one layer
+#'   at time. By default, the function will convert the `lines` layer (which is
+#'   the most common one according to our experience). The vectortranslate
+#'   operation is skipped if the function detects a file having the same name as
+#'   the input file, `.gpkg` extension and a layer with the same name as the
+#'   parameter `layer`. This behaviour can be overwritten by setting
+#'   `force_vectortranslate = TRUE`.
+#'
+#'   The arguments `osmconf_ini` and `extra_attributes` are used to modify how
+#'   GDAL reads the `.osm.pbf` file. More precisely, the parameter `osmconf_ini`
+#'   must be a character string specifying the path of the `.ini` file used by
+#'   GDAL.
 #'
 #' @inheritParams oe_get
 #' @param file_path Character string representing the path of the input
@@ -52,10 +59,10 @@
 oe_vectortranslate = function(
   file_path,
   vectortranslate_options = NULL,
-  layer = NULL,
+  layer = "lines",
   osmconf_ini = NULL,
   extra_attributes = NULL,
-  force_vectortranslate = FALSE,
+  force_vectortranslate = NULL,
   quiet = TRUE
 ) {
   # Check that the input file was specified using the format
