@@ -7,10 +7,10 @@
 oe_vectortranslate(
   file_path,
   vectortranslate_options = NULL,
-  layer = NULL,
+  layer = "lines",
   osmconf_ini = NULL,
   extra_attributes = NULL,
-  force_vectortranslate = FALSE,
+  force_vectortranslate = NULL,
   quiet = TRUE
 )
 }
@@ -45,8 +45,9 @@ This function is used to translate a \code{.osm.pbf} file into \code{.gpkg} form
 conversion is performed using
 \href{https://gdal.org/programs/ogr2ogr.html#ogr2ogr}{ogr2ogr} through
 \code{sf::gdal_utils()}. It was created following \href{https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053}{the suggestions}
-of the maintainers of GDAL. See Details and Examples and check the
-introductory vignette for more complex use-cases.
+of the maintainers of GDAL. See Details and Examples to understand the basic
+functionalities, and check the introductory vignette for more complex
+use-cases.
 }
 \details{
 The new \code{.gpkg} file is created in the same directory as the input
@@ -55,18 +56,24 @@ The new \code{.gpkg} file is created in the same directory as the input
 operation can be customized in several ways modifying the parameters
 \code{vectortranslate_options}, \code{layer}, \code{osmconf_ini} and \code{extra_attributes}.
 
-The OSM extract files that are read using GDAL are usually categorized into
+The \code{.osm.pbf} files that are read using GDAL are usually categorized into
 5 layers, named \code{points}, \code{lines}, \code{multilinestrings}, \code{multipolygons} and
 \code{other_relations}. Check the first paragraphs
 \href{https://gdal.org/drivers/vector/osm.html}{here} for more details.  The
 parameter \code{layer} is used to specify which layer of the \code{.osm.pbf} file
-should be converted into the \code{.gpkg} file. Several layers can be stored in
-the same file. We can convert only one layer at time. If the parameter
-\code{layer} is equal to \code{NULL} (the default), then the function will convert
-the \code{lines} layer (which is the most common one according to our
-experience). The vectortranslate operation is skipped if the function
-detects a file having the same name as the \code{.gpkg} file and with the same
-layer as \code{layer}.
+should be converted into the \code{.gpkg} file. Several layers with different
+names can be stored in the same \code{.gpkg} file. We can convert only one layer
+at time. By default, the function will convert the \code{lines} layer (which is
+the most common one according to our experience). The vectortranslate
+operation is skipped if the function detects a file having the same name as
+the input file, \code{.gpkg} extension and a layer with the same name as the
+parameter \code{layer}. This behaviour can be overwritten by setting
+\code{force_vectortranslate = TRUE}.
+
+The arguments \code{osmconf_ini} and \code{extra_attributes} are used to modify how
+GDAL reads the \code{.osm.pbf} file. More precisely, the parameter \code{osmconf_ini}
+must be a character string specifying the path of the \code{.ini} file used by
+GDAL.
 }
 \examples{
 # First we need to match an input zone with a .osm.pbf file
