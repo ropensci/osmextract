@@ -91,10 +91,11 @@ oe_vectortranslate = function(
   if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
     force_vectortranslate = TRUE
     if (file.exists(gpkg_file_path)) {
-      old_attributes <- names(st_read(
+      old_attributes <- names(sf::st_read(
         gpkg_file_path,
+        layer = layer,
         quiet = TRUE,
-        paste0("select * from \"", layer, "\" limit 0")
+        query = paste0("select * from \"", layer, "\" limit 0")
       ))
 
       if (all(extra_attributes %in% old_attributes)) {
