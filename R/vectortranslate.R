@@ -144,7 +144,10 @@ oe_vectortranslate = function(
       "points", "lines", "multipolygons", "multilinestrings", "other_relations"
     )
   ) {
-    stop("You need to specify the layer parameter!")
+    stop(
+      "You need to specify the layer parameter and it must be one of",
+      " points, lines, multipolygons, multilinestrings or other_relations."
+    )
   }
 
   # We need to build the file path of the .gpkg using the following convention:

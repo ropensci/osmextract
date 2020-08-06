@@ -1,3 +1,33 @@
+# Prepare for the tests
+its_match = oe_match("ITS Leeds", provider = "test")
+its_pbf = oe_download(
+  file_url = its_match$url,
+  file_size = its_match$file_size,
+  download_directory = tempdir(),
+  provider = "test"
+)
+
+test_that("oe_vectortranslate: simplest examples work", {
+  its_gpkg = oe_vectortranslate(its_pbf)
+  expect_equal(tools::file_ext(its_gpkg), "gpkg")
+})
+
+test_that("oe_vectortranslate returns file_path is .gpkg exists", {
+  its_gpkg = oe_vectortranslate(its_pbf)
+  new_its_gpkg = oe_vectortranslate(its_pbf)
+  expect_equal(its_gpkg, new_its_gpkg)
+})
+
+test_that("oe_vectortranslate adds new attributes", {
+  its_gpkg = oe_vectortranslate(its_pbf, extra_attributes = "oneway", force_vectortranslate = TRUE)
+  expect_match(paste(names(sf::st_read(its_gpkg, quiet = TRUE)), collapse = "-"), "oneway")
+})
+
+test_that("oe_vectortranslate adds new attributes to existing file", {
+  new_its_gpkg = oe_vectortranslate(its_pbf, extra_attributes = c("oneway"))
+  expect_match(paste(names(sf::st_read(new_its_gpkg, quiet = TRUE)), collapse = "-"), "oneway")
+})
+
 test_that("oe_get_keys: simplest examples work", {
   skip_if_offline()
   itsleeds_gpkg <- oe_get("itsleeds", provider = "test", download_only = TRUE)
