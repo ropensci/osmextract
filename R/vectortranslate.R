@@ -1,45 +1,91 @@
 #' Translate a `.osm.pbf` file into `.gpkg` format
 #'
-#' This function is used to translate a `.osm.pbf` file into `.gpkg` format. The
-#' conversion is performed using
+#' This function is used to translate a `.osm.pbf` file into `.gpkg` format.
+#' The conversion is performed using
 #' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through
-#' `sf::gdal_utils()`. It was created following [the
+#' `vectortranslate` utility in `sf::gdal_utils()`. It was created following
+#' [the
 #' suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053)
 #' of the maintainers of GDAL. See Details and Examples to understand the basic
-#' functionalities, and check the introductory vignette for more complex
-#' use-cases.
+#' usage, and check the introductory vignette for more complex use-cases.
 #'
 #' @details The new `.gpkg` file is created in the same directory as the input
 #'   `.osm.pbf` file. The translation process is performed using the
-#'   `sf::gdal_utils()` function, setting `util = "vectortranslate"`. This
-#'   operation can be customized in several ways modifying the parameters
-#'   `vectortranslate_options`, `layer`, `osmconf_ini` and `extra_attributes`.
+#'   `vectortranslate` utility in `sf::gdal_utils()`. This operation can be
+#'   customized in several ways modifying the parameters
+#'   `vectortranslate_options`, `layer`, `osmconf_ini`, and `extra_attributes`.
 #'
-#'   The `.osm.pbf` files that are read using GDAL are usually categorized into
-#'   5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
+#'   The `.osm.pbf` files processed using GDAL are usually categorized into 5
+#'   layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
 #'   `other_relations`. Check the first paragraphs
-#'   [here](https://gdal.org/drivers/vector/osm.html) for more details.  The
-#'   parameter `layer` is used to specify which layer of the `.osm.pbf` file
-#'   should be converted into the `.gpkg` file. Several layers with different
-#'   names can be stored in the same `.gpkg` file. We can convert only one layer
-#'   at time. By default, the function will convert the `lines` layer (which is
-#'   the most common one according to our experience). The vectortranslate
-#'   operation is skipped if the function detects a file having the same name as
-#'   the input file, `.gpkg` extension and a layer with the same name as the
-#'   parameter `layer`. This behaviour can be overwritten by setting
-#'   `force_vectortranslate = TRUE`.
+#'   [here](https://gdal.org/drivers/vector/osm.html) for more details. This
+#'   function can covert only one later at a time, and the parameter `layer` is
+#'   used to specify which layer of the `.osm.pbf` file should be converted into
+#'   the `.gpkg` file. Several layers with different names can be stored in the
+#'   same `.gpkg` file. By default, the function will convert the `lines` layer
+#'   (which is the most common one according to our experience).
 #'
 #'   The arguments `osmconf_ini` and `extra_attributes` are used to modify how
-#'   GDAL reads the `.osm.pbf` file. More precisely, the parameter `osmconf_ini`
-#'   must be a character string specifying the path of the `.ini` file used by
-#'   GDAL.
+#'   GDAL read and work on a `.osm.pbf` file. More precisely, several operations
+#'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
+#'   file, that you can check at the following
+#'   [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini).
+#'   The basic components of OSM data are called
+#'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
+#'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
+#'   line 7 is used to determine which *ways* are assumed to be polygons if they
+#'   are closed. Moreover, OSM data is usually described using several
+#'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e a pair of two
+#'   items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
+#'   used to determine, for each layer, which keys should be explicitly reported
+#'   as fields (while all the other keys are stored in the `other_tags` column,
+#'   see `oe_get_keys()`). The parameter `extra_attributes` is used to determine
+#'   which extra tags (i.e. key/value pairs) should be added to the `.gpkg`
+#'   file. By default, the vectortranslate operations are skipped if the
+#'   function detects a file having the same path as the input file, `.gpkg`
+#'   extension and a layer with the same name as the parameter `layer` with all
+#'   `extra_attributes`. In that case the function will simply return the path
+#'   of the `.gpkg` file. This behaviour can be overwritten by setting
+#'   `force_vectortranslate = TRUE`. The parameter `osmconf_ini` is used to pass
+#'   your own `CONFIG` file in case you need more control over the GDAL
+#'   operations. In that case the vectortranslate operations are never skipped.
+#'   Check the package introductory vignette for an example. If `osmconf_ini` is
+#'   equal to `NULL` (the default), then the function uses default `osmconf.ini`
+#'   file defined by GDAL (but for the extra attributes).
+#'
+#'   The parameter `vectortranslate_options` is used to control the arguments
+#'   that are passed to `ogr2ogr` via `sf::gdal_utils()` when converting between
+#'   `.pbf` and `.gpkg` formats. `ogr2ogr` can perform various operations during
+#'   the conversion process, such as spatial filters or SQL queries. These
+#'   operations are determined by the `vectortranslate_options` argument. If
+#'   `NULL` (default value), then `vectortranslate_options` is set equal to
+#'   `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),
+#'   "-lco", "GEOMETRY_NAME=geometry", layer)`. Explanation:
+#'   \itemize{
+#'       \item `"-f", "GPKG"` says that the output format is `GPKG`;
+#'       \item `"-overwrite` is used to delete an existing layer and recreate
+#'       it empty;
+#'       \item `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to set the
+#'       [Open Options](https://gdal.org/drivers/vector/osm.html#open-options)
+#'       for the `.osm.pbf` file and change the `CONFIG` file (in case the user
+#'        asks for any extra attribute or a totally different CONFIG file);
+#'        \item `"-lco", "GEOMETRY_NAME=geometry"` is used to change the
+#'        [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options)
+#'        for the `.gpkg` file and modify the name of the geometry column;
+#'        \item `layer` indicates which layer should be converted.
+#'   }
+#'   Check the introductory vignette, the help page of `sf::gdal_utils()` and
+#'   [here](https://gdal.org/programs/ogr2ogr.html) for an extensive
+#'   documentation on all available options.
 #'
 #' @inheritParams oe_get
 #' @param file_path Character string representing the path of the input
-#'   `.osm.pbf` file
+#'   `.osm.pbf` file.
 #'
 #' @return Character string representing the path of the .gpkg file.
 #' @export
+#'
+#' @seealso `oe_get_keys()`
 #'
 #' @examples
 #' # First we need to match an input zone with a .osm.pbf file
@@ -51,53 +97,104 @@
 #'   download_directory = tempdir(),
 #'   provider = "test"
 #' )
+#' # Check that the file was downloaded
 #' list.files(tempdir(), pattern = "pbf|gpkg")
+#' # Convert to gpkg format
+#' its_gpkg = oe_vectortranslate(its_pbf)
+#' list.files(tempdir(), pattern = "pbf|gpkg")
+#'
+#' # Check the layers of the .gpkg file
+#' sf::st_layers(its_gpkg, do_count = TRUE)
+#' # Add points layer
+#' its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
+#' sf::st_layers(its_gpkg, do_count = TRUE)
+#'
+#' # Add extra attributes to the lines layer
+#' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #' its_gpkg = oe_vectortranslate(
-#'  its_pbf
-#' )
-#' list.files(tempdir(), pattern = "pbf|gpkg")
+#'   its_pbf,
+#'   extra_attributes = c("oneway", "maxspeed")
+#'  )
+#' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 oe_vectortranslate = function(
   file_path,
-  vectortranslate_options = NULL,
   layer = "lines",
+  vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_attributes = NULL,
-  force_vectortranslate = NULL,
+  force_vectortranslate = FALSE,
   quiet = TRUE
 ) {
   # Check that the input file was specified using the format
-  # ".../something.osm.pbf" format. This is important for creating the .gpkg file
-  # path.
-  if (
-    tools::file_ext(file_path) != "pbf" ||
-    tools::file_ext(tools::file_path_sans_ext(file_path)) != "osm"
-    ) {
+  # ".../something.pbf". This is important for creating the .gpkg file path.
+  if (tools::file_ext(file_path) != "pbf") {
     stop(
       "The input file must be specified using the appropriate extension, i.e. ",
-      "'.../something.osm.pbf'."
+      "'.../something.pbf'."
     )
   }
 
-  # First we need to build the file path of the .gpkg using the following
-  # convention: it is the same file path of the .osm.pbf file but with .gpkg
-  # extension
-  gpkg_file_path = paste0(
-    # I need the double file_path_san_ext to cancel the .osm and the .pbf
-    tools::file_path_sans_ext(tools::file_path_sans_ext(file_path)),
-    ".gpkg"
-  )
+  # Check that the layer param is not NA or NULL
+  if (
+    is.null(layer) ||
+    is.na(layer) ||
+    # I need the following condition to check that the function
+    # get_ini_layer_defaults does not return NULL
+    layer %!in% c(
+      "points", "lines", "multipolygons", "multilinestrings", "other_relations"
+    )
+  ) {
+    stop("You need to specify the layer parameter!")
+  }
 
-  # TODO: document this part
-  if(!is.null(extra_attributes) && is.null(force_vectortranslate)) {
+  # We need to build the file path of the .gpkg using the following convention:
+  # it is the same file path of the .pbf/.osm.pbf file but with .gpkg extension.
+  # I need to use the if clause to check if the input file is something.osm.pbf
+  # or something.pbf
+  if (tools::file_ext(tools::file_path_sans_ext(file_path)) == "osm") {
+    gpkg_file_path = paste0(
+      # I need the double file_path_san_ext to cancel the .osm and the .pbf
+      tools::file_path_sans_ext(tools::file_path_sans_ext(file_path)),
+      ".gpkg"
+    )
+  } else {
+    # Just change the extensions
+    gpkg_file_path = paste0(tools::file_path_sans_ext(file_path), ".gpkg")
+  }
+
+  # Check if the user passed its own osmconf.ini file since, in that case, we
+  # always need to perform the vectortranslate operations (since it's too
+  # difficult to determine if an existing .gpkg file was generated following a
+  # particular .ini file)
+  if (!is.null(osmconf_ini)) {
     force_vectortranslate = TRUE
-    if (file.exists(gpkg_file_path)) {
+  }
+
+  # Check if an existing .gpkg file contains the selected layer
+  if (file.exists(gpkg_file_path)) {
+    if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
+      # Try to add the new layer from the .osm.pbf file to the .gpkg file
+      if (isFALSE(quiet)) {
+        message("Adding a new layer to the .gpkg file")
+      }
+
+      force_vectortranslate = TRUE
+    }
+  }
+
+  # Check if the user choose to add some extra attribute / key
+  if (!is.null(extra_attributes)) {
+    force_vectortranslate = TRUE
+    # Check if all extra keys are already present into an existing .gpkg file I
+    # set is.null(osmconf_ini) since if the user pass its own osmconf.ini file
+    # then the vectortranslate operations must be performed in any case
+    if (file.exists(gpkg_file_path) && is.null(osmconf_ini)) {
       old_attributes <- names(sf::st_read(
         gpkg_file_path,
         layer = layer,
         quiet = TRUE,
         query = paste0("select * from \"", layer, "\" limit 0")
       ))
-
       if (all(extra_attributes %in% old_attributes)) {
         force_vectortranslate = FALSE
       }
@@ -105,7 +202,7 @@ oe_vectortranslate = function(
   }
 
   # If the gpgk file already exists and force_vectortranslate is FALSE then we
-  # raise a message and we return the path of the .gpkg file.
+  # raise a message and return the path of the .gpkg file.
   if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
     if (isFALSE(quiet)) {
       message(
@@ -119,22 +216,24 @@ oe_vectortranslate = function(
   # Otherwise we are going to convert the input .osm.pbf file using the
   # vectortranslate utils from sf::gdal_util.
 
-  # First we need to set the values for the parameters vectortranslate_options
-  # and osmconf_ini (if they are set to NULL, i.e. the default).
-
-  if (is.null(osmconf_ini) && is.null(extra_attributes)) {
+  # First we need to set the values for the parameter osmconf_ini (if it is not
+  # set to NULL, i.e. the default).
+  if (is.null(osmconf_ini)) {
     # The file osmconf.ini stored in the package is the default osmconf.ini used
     # by GDAL at stored at the following link:
     # https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini
     # It was saved on the 9th of July 2020.
     osmconf_ini = system.file("osmconf.ini", package = "osmextract")
   }
-  if (is.null(osmconf_ini) && !is.null(extra_attributes)) {
-    if (is.null(layer)) {
-      stop("You need to specify the layer parameter!")
-    }
 
-    temp_ini = readLines(system.file("osmconf.ini", package = "osmextract"))
+  # Add the extra attributes to the default osmconf.ini. If the user set its own
+  # osmconf.ini file we need to skip this step.
+  if (
+    !is.null(extra_attributes) &&
+    # The following condition checks whether the user set its own CONFIG file
+    osmconf_ini == system.file("osmconf.ini", package = "osmextract")
+  ) {
+    temp_ini = readLines(osmconf_ini)
     id_old = grep(
       paste0("attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")),
       temp_ini
@@ -145,17 +244,16 @@ oe_vectortranslate = function(
     osmconf_ini = temp_ini_file
   }
 
+  # Set the vectortranslate options:
   if (is.null(vectortranslate_options)) {
     vectortranslate_options = c(
-      "-f", "GPKG",
-      "-overwrite",
-      "-oo", paste0("CONFIG_FILE=", osmconf_ini),
-      "-lco", "GEOMETRY_NAME=geometry"
+      "-f", "GPKG", #output file format
+      "-overwrite", # overwrite an existing file
+      "-oo", paste0("CONFIG_FILE=", osmconf_ini), # open options
+      "-lco", "GEOMETRY_NAME=geometry" # layer creation options
     )
 
-    if (!is.null(layer)) {
-      vectortranslate_options = c(vectortranslate_options, layer)
-    }
+    vectortranslate_options = c(vectortranslate_options, layer)
   }
 
   if (isFALSE(quiet)) {
