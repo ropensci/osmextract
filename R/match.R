@@ -154,7 +154,7 @@ oe_match.sfc_POINT = function(
       place,
       sf::st_centroid(sf::st_geometry(matched_zones))
     )
-    matched_zones <- matched_zones[nearest_id_centroid,]
+    matched_zones = matched_zones[nearest_id_centroid,]
   }
 
   # Return a list with the URL and the file_size of the matched place
@@ -241,7 +241,7 @@ oe_match.character = function(
       ". Selecting the first match.",
       call. = FALSE
     )
-    best_match_id <- best_match_id[1L]
+    best_match_id = best_match_id[1L]
   }
   best_matched_place = provider_data[best_match_id, ]
 

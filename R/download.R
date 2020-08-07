@@ -79,7 +79,7 @@ oe_download = function(
 
   ## Try to infer the provider from URL
   if (is.null(provider)) {
-    provider <- infer_provider_from_url(file_url)
+    provider = infer_provider_from_url(file_url)
   }
 
   # We need to build the file_path combining the download_directory,

@@ -201,7 +201,7 @@ oe_vectortranslate = function(
       # )
       layer %!in% sf::st_layers(gpkg_file_path)[["name"]]
     ) {
-      old_attributes <- names(sf::st_read(
+      old_attributes = names(sf::st_read(
         gpkg_file_path,
         layer = layer,
         quiet = TRUE,
@@ -374,7 +374,7 @@ get_ini_layer_defaults = function(layer) {
 #' @examples
 #' itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
 #' oe_get_keys(itsleeds_gpkg)
-oe_get_keys <- function(
+oe_get_keys = function(
   file_path,
   layer = "lines"
 ) {
@@ -387,7 +387,7 @@ oe_get_keys <- function(
   }
 
   # Read the gpkg file selecting only the other_tags column
-  other_tags <- sf::st_read(
+  other_tags = sf::st_read(
     file_path,
     layer = layer,
     query = paste0("select other_tags, geometry from ", layer),
@@ -395,10 +395,10 @@ oe_get_keys <- function(
   )
 
   # Create regex
-  osm_matches <- gregexpr(pattern = '[^\"=>,\\]+', other_tags[["other_tags"]])
-  key_value_matches <- regmatches(other_tags[["other_tags"]], osm_matches)
+  osm_matches = gregexpr(pattern = '[^\"=>,\\]+', other_tags[["other_tags"]])
+  key_value_matches = regmatches(other_tags[["other_tags"]], osm_matches)
 
-  keys_per_feature <- lapply(key_value_matches, function(x) {
+  keys_per_feature = lapply(key_value_matches, function(x) {
     # character(0) occurs when other_tags is equal to NA
     if (identical(x, character(0))) {
       return(NULL)
@@ -406,7 +406,7 @@ oe_get_keys <- function(
     x[seq(1, length(x), by = 2)]
   })
 
-  unique_keys <- unique(unlist(keys_per_feature))
+  unique_keys = unique(unlist(keys_per_feature))
   unique_keys
 }
 
