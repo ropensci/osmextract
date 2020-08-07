@@ -100,13 +100,13 @@ an existing \code{.pbf} or \code{.gpkg} file.
 \examples{
 # Read an existing .pbf file
 my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
-oe_read(my_pbf)
-oe_read(my_pbf, layer = "points") # Read a new layer
-oe_read(my_pbf, extra_attributes = c("oneway", "ref")) # Add new tags
+oe_read(my_pbf, quiet = FALSE)
+oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
+oe_read(my_pbf, extra_attributes = c("oneway", "ref"), quiet = FALSE) # Add new tags
 
 # Read an existing .gpkg file. This file was created by oe_read
 my_gpkg = system.file("its-example.gpkg", package = "osmextract")
-oe_read(my_gpkg)
+oe_read(my_gpkg, quiet = FALSE)
 # You cannot add any layer to an existing .gpkg file but you can extract some
 # of the tags in other_tags. Check oe_get_keys() for more details.
 names(oe_read(my_gpkg, extra_attributes = c("maxspeed")))
@@ -118,6 +118,6 @@ my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm
 # Please note that if you read from a URL which is not linked to one of the
 # supported providers, you need to specify the provider parameter:
 \dontrun{
-oe_read(my_url, provider = "test")
+oe_read(my_url, provider = "test", quiet = FALSE)
 }
 }

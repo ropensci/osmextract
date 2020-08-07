@@ -354,12 +354,16 @@ get_ini_layer_defaults = function(layer) {
 #'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags). A `tag` is a pair of
 #'   two items, namely a `key` and a `value`. As we documented in
 #'   `oe_vectortranslate()`, the conversion between `.osm.pbf` and `.gpkg`
-#'   formats is governed by a CONFIG file that indicates which keys are
+#'   formats is governed by a CONFIG file that indicates which tags are
 #'   explicitly added to the `.gpkg` file. All the other keys stored in the
 #'   `.osm.pbf` file are automatically appended in an "other_tags" field, with a
 #'   syntax compatible with the PostgreSQL HSTORE type. This function is used to
 #'   display the names of all the keys stored in the "other_tags" column. See
 #'   examples.
+#'
+#'   You can also use the `hstore_get_value` function from GDAL to extract one
+#'   particular tag from an existing .gpkg file. Check the introductory vignette
+#'   for a more detailed explanation and see examples.
 #'
 #' @seealso `oe_vectortranslate()` and
 #'   [#107](https://github.com/ITSLeeds/osmextract/issues/107).
@@ -375,6 +379,14 @@ get_ini_layer_defaults = function(layer) {
 #' @examples
 #' itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
 #' oe_get_keys(itsleeds_gpkg)
+#'
+#' # Add an extra key to an existing .gpkg file without the .pbf
+#' names(oe_read(itsleeds_gpkg, extra_attributes = c("oneway"))) # doesn't work
+#' # we need a different approach
+#' names(oe_read(
+#'   itsleeds_gpkg,
+#'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
+#' ))
 oe_get_keys = function(
   file_path,
   layer = "lines"
