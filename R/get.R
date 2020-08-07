@@ -1,11 +1,16 @@
-#' Download, translate and read OSM extracts
+#' Download, translate and read OSM extracts from several providers
+#'
+#' This function is used to download, translate and read OSM extracts downloaded
+#' from several providers. It is a wrapper around `oe_match()` and `oe_read()`.
+#' Check the introductory vignette, the examples and the help pages of the
+#' wrapped functions to understand the details behind all parameters.
 #'
 #' @param place Description of the geographical area that should be matched to a
-#'   .osm.pbf file through the chosen `provider`. Can be either a length-1
+#'   `.osm.pbf` file through the chosen `provider`. Can be either a length-1
 #'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
 #'   coordinates with length 2. In the latter case it is assumed that the EPSG
 #'   code is 4326, while you can use any EPSG code with an `sfc_POINT` object.
-#'   See details and examples.
+#'   See details and examples of `oe_match()`.
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
 #' @param provider Which provider should be used to download the data? Available
@@ -60,32 +65,47 @@
 #' @param ... Arguments that should  be passed to [`sf::st_read()`], like
 #'   `query` or `stringsAsFactors`.
 #'
-#' @return An sf object related to the input place.
+#' @return An sf object.
 #' @export
-#' @details This function is a wrapper around ...
 #'
 #' @examples
-#' its_leeds = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
-#' class(its_leeds)
-#' summary(sf::st_geometry_type(its_leeds))
-#' # Add another layer to the .gpkg file
-#' its_leeds_points = oe_get("ITS Leeds", provider = "test", layer = "points")
-#' summary(sf::st_geometry_type(its_leeds_points))
+#' # Download OSM extracts associated to a simple test.
+#' its = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
+#' class(its)
+#' summary(sf::st_geometry_type(its))
+#'
+#' # Add another layer to the test file
+#' its_points = oe_get("ITS Leeds", provider = "test", layer = "points", quiet = FALSE)
+#' summary(sf::st_geometry_type(its_points))
+#'
 #' # Get the .osm.pbf and .gpkg file path
 #' oe_get("ITS Leeds", provider = "test", download_only = TRUE)
 #' oe_get("ITS Leeds", provider = "test", download_only = TRUE, skip_vectortranslate = TRUE)
-#' # add additional attributes
-#' im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway")
+#'
+#' # Add additional attributes
+#' im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway", quiet = FALSE)
 #' names(im)
+#'
+#' # The ITS Leeds file is stored on the github page of the package, so we
+#' # need to manually set the provider. This is not the case with other
+#' # standards providers.
 #' \dontrun{
+#' west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+#' # If you run it again, the function will not download the file or convert it
+#' west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+#' # match with coordinates (any EPSG)
+#' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+#' # Warning: the .pbf file is 400MB
+#' oe_get(milan_duomo, quiet = FALSE)
+#' # match with numeric coordinates (EPSG = 4326)
+#' oe_match(c(9.1916, 45.4650), quiet = FALSE)
 #' # alternative providers
-#' baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)
-#' }
+#' baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)}
 oe_get = function(
   place,
   layer = "lines",
-  provider = "geofabrik",
   ...,
+  provider = "geofabrik",
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
@@ -95,7 +115,7 @@ oe_get = function(
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_attributes = NULL,
-  force_vectortranslate = NULL,
+  force_vectortranslate = FALSE,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   quiet = TRUE
@@ -115,69 +135,21 @@ oe_get = function(
   # osmext-download function.
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]
-  file_path = oe_download(
-    file_url = file_url,
-    download_directory = download_directory,
+
+  oe_read(
+    file_path = file_url,
+    layer = layer,
     provider = provider,
+    download_directory = download_directory,
     file_size = file_size,
     force_download = force_download,
     max_file_size = max_file_size,
-    quiet = quiet
-  )
-
-  # Check for skip_vectortranslate since, in that case, we don't need the
-  # vectortranslate process
-  if (isTRUE(skip_vectortranslate) && isTRUE(download_only)) {
-    return(file_path)
-  }
-  if (isTRUE(skip_vectortranslate)) {
-    return(sf::st_read(file_path, layer = layer, quiet = quiet, ...))
-  }
-
-  # Pass the file_path to oe_vectortranslate
-  gpkg_file_path = oe_vectortranslate(
-    file_path = file_path,
+    download_only = download_only,
+    skip_vectortranslate = skip_vectortranslate,
     vectortranslate_options = vectortranslate_options,
-    layer = layer,
     osmconf_ini = osmconf_ini,
     extra_attributes = extra_attributes,
     force_vectortranslate = force_vectortranslate,
-    quiet = quiet
-  )
-
-  # Should we read the file or simply return its path?
-  if (isTRUE(download_only)) {
-    return(gpkg_file_path)
-  }
-
-  # Check if the layer is not present in the gpkg file
-  if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
-    if (layer %!in% sf::st_layers(file_path)[["name"]]) {
-      stop(
-        "You selected the layer ", layer,
-        ", which is not present in the .gpkg file or the .pbf file"
-      )
-    }
-    # Try to add the new layer from the .osm.pbf file to the .gpkg file
-    if (isFALSE(quiet)) {
-      message("Adding a new layer to the .gpkg file")
-    }
-
-    gpkg_file_path = oe_vectortranslate(
-      file_path = file_path,
-      vectortranslate_options = vectortranslate_options,
-      layer = layer,
-      osmconf_ini = osmconf_ini,
-      extra_attributes = extra_attributes,
-      force_vectortranslate = TRUE,
-      quiet = quiet
-    )
-  }
-
-  # Read the translated file with sf::st_read
-  sf::st_read(
-    dsn = gpkg_file_path,
-    layer = layer,
     quiet = quiet,
     ...
   )

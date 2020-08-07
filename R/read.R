@@ -67,6 +67,11 @@ oe_read = function(
   # If the input file_path is an existing .gpkg file is the easiest case since
   # we only need to read it:
   if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
+    # I need the following if to return the .gpkg file path in oe_get
+    if (isTRUE(download_only)) {
+      return(file_path)
+    }
+
     sf::st_read(file_path, layer, quiet = quiet, ...)
   }
 
@@ -74,10 +79,6 @@ oe_read = function(
   # assume that if file.exists(file_path) is FALSE then file_path is a URL and I
   # need to download the file
   if (!file.exists(file_path)) {
-    if (isFALSE(quiet)) {
-      message("The input file_path does not exist so we assume it is a URL.")
-    }
-
     file_path = oe_download(
       file_url = file_path,
       provider = provider,
@@ -126,6 +127,11 @@ oe_read = function(
     force_vectortranslate = force_vectortranslate,
     quiet = quiet
   )
+
+  # This is just for returning the .gpkg file path in case I need it for something
+  if (isTRUE(download_only)) {
+    return(gpkg_file_path)
+  }
 
 
   # Read the translated file with sf::st_read

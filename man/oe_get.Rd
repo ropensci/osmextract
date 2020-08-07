@@ -2,13 +2,13 @@
 % Please edit documentation in R/get.R
 \name{oe_get}
 \alias{oe_get}
-\title{Download, translate and read OSM extracts}
+\title{Download, translate and read OSM extracts from several providers}
 \usage{
 oe_get(
   place,
   layer = "lines",
-  provider = "geofabrik",
   ...,
+  provider = "geofabrik",
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
@@ -18,7 +18,7 @@ oe_get(
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_attributes = NULL,
-  force_vectortranslate = NULL,
+  force_vectortranslate = FALSE,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   quiet = TRUE
@@ -26,20 +26,20 @@ oe_get(
 }
 \arguments{
 \item{place}{Description of the geographical area that should be matched to a
-.osm.pbf file through the chosen \code{provider}. Can be either a length-1
+\code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
 code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
-See details and examples.}
+See details and examples of \code{oe_match()}.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{oe_providers()}.}
-
 \item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
 \code{query} or \code{stringsAsFactors}.}
+
+\item{provider}{Which provider should be used to download the data? Available
+providers can be found with the following command: \code{oe_providers()}.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a .osm.pbf file? The default is "name".
@@ -102,27 +102,39 @@ the \code{.osm.pbf} file. \code{FALSE} by default.}
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
-An sf object related to the input place.
+An sf object.
 }
 \description{
-Download, translate and read OSM extracts
-}
-\details{
-This function is a wrapper around ...
+This function is used to download, translate and read OSM extracts downloaded
+from several providers. It is a wrapper around \code{oe_match()} and \code{oe_read()}.
+Check the introductory vignette, the examples and the help pages of the
+wrapped functions to understand the details behind all parameters.
 }
 \examples{
-its_leeds = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
-class(its_leeds)
-summary(sf::st_geometry_type(its_leeds))
-# Add another layer to the .gpkg file
-its_leeds_points = oe_get("ITS Leeds", provider = "test", layer = "points")
-summary(sf::st_geometry_type(its_leeds_points))
+# Download OSM extracts associated to a simple test.
+its = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
+class(its)
+summary(sf::st_geometry_type(its))
+
+# Add another layer to the test file
+its_points = oe_get("ITS Leeds", provider = "test", layer = "points", quiet = FALSE)
+summary(sf::st_geometry_type(its_points))
+
 # Get the .osm.pbf and .gpkg file path
 oe_get("ITS Leeds", provider = "test", download_only = TRUE)
 oe_get("ITS Leeds", provider = "test", download_only = TRUE, skip_vectortranslate = TRUE)
-# add additional attributes
+
+# Add additional attributes
 im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway")
 names(im)
+
+# The ITS Leeds file is stored on the github page of the package, so we
+# need to manually set the provider. This is not the case with other
+# standards providers.
+\dontrun{
+west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+oe_match(milan_duomo, quiet = FALSE)}
 \dontrun{
 # alternative providers
 baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)

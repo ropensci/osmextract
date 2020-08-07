@@ -200,7 +200,7 @@ oe_vectortranslate = function(
       #   layer = "points",
       #   extra_attributes = "oneway"
       # )
-      layer %!in% sf::st_layers(gpkg_file_path)[["name"]]
+      layer %in% sf::st_layers(gpkg_file_path)[["name"]]
     ) {
       old_attributes = names(sf::st_read(
         gpkg_file_path,

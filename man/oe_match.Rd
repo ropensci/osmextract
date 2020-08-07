@@ -28,11 +28,11 @@ oe_match(place, ...)
 }
 \arguments{
 \item{place}{Description of the geographical area that should be matched to a
-.osm.pbf file through the chosen \code{provider}. Can be either a length-1
+\code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
 code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
-See details and examples.}
+See details and examples of \code{oe_match()}.}
 
 \item{...}{arguments passed to other methods}
 
