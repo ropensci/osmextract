@@ -1,3 +1,3 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("oe_get: simplest examples work", {
+  expect_s3_class(oe_get("ITS Leeds", provider = "test"), "sf")
 })
