@@ -33,22 +33,25 @@ to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
-argument \code{options}. Set by default. Check details and examples.}
+argument \code{options}. Set by default. Check Details at
+\code{oe_vectortranslate()}.}
 
 \item{osmconf_ini}{The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org} for details.}
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details at
+\code{oe_vectortranslate()}.}
 
 \item{extra_attributes}{Which addition columns, corresponding to OSM keys,
-should be in the resulting dataset? \code{NULL} by default.}
+should be in the resulting dataset? \code{FALSE} by default. Check Details at
+\code{oe_vectortranslate()} and \code{oe_get_keys()}.}
 
-\item{force_vectortranslate}{Force the original \code{.pbf} file to be translated
-into a \code{.gpkg} file, even if a \code{.gpkg} associated with the \code{provider} zone
-already exists.}
+\item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
+translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
+already exists? Check Details at \code{oe_vectortranslate()}.}
 
 \item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
 the vectortranslate operations and it reads (or simply returns the path) of
-the .osm.pbf file. \code{FALSE} by default.}
+the \code{.osm.pbf} file. \code{FALSE} by default.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }

@@ -38,18 +38,21 @@
 #' @param max_file_size The maximum file size to download without asking in
 #'   interactive mode. Default: `5e+8`, half a gigabyte.
 #' @param vectortranslate_options Options to pass to the [`sf::gdal_utils()`]
-#' argument `options`. Set by default. Check details and examples.
+#'   argument `options`. Set by default. Check Details at
+#'   `oe_vectortranslate()`.
 #' @param osmconf_ini The configuration file specifying which columns should be
-#' in the resulting data frame. See documentation at
-#' [gdal.org](https://gdal.org/drivers/vector/osm.html) for details.
+#'   in the resulting data frame. See documentation at
+#'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check Details at
+#'   `oe_vectortranslate()`.
 #' @param extra_attributes Which addition columns, corresponding to OSM keys,
-#' should be in the resulting dataset? `NULL` by default.
-#' @param force_vectortranslate Force the original `.pbf` file to be translated
-#' into a `.gpkg` file, even if a `.gpkg` associated with the `provider` zone
-#' already exists.
+#'   should be in the resulting dataset? `FALSE` by default. Check Details at
+#'   `oe_vectortranslate()` and `oe_get_keys()`.
+#' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
+#'   translated into a `.gpkg` file, even if a `.gpkg` with the same name
+#'   already exists? Check Details at `oe_vectortranslate()`.
 #' @param skip_vectortranslate Boolean. If `TRUE` then the function skips all
 #'   the vectortranslate operations and it reads (or simply returns the path) of
-#'   the .osm.pbf file. `FALSE` by default.
+#'   the `.osm.pbf` file. `FALSE` by default.
 #' @param quiet Boolean. If `FALSE` the function prints informative messages.
 #' @param download_only Boolean. If `TRUE` then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
