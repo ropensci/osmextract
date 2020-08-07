@@ -87,8 +87,8 @@ should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{oe_vectortranslate()} and \code{oe_get_keys()}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
-translated into a \code{.gpkg} file, even if a \code{.gpkg} associated with the
-\code{provider} zone already exists? Check Details at \code{oe_vectortranslate()}.}
+translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
+already exists? Check Details at \code{oe_vectortranslate()}.}
 
 \item{download_only}{Boolean. If \code{TRUE} then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by

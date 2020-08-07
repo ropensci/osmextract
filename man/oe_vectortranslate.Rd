@@ -35,8 +35,8 @@ should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{oe_vectortranslate()} and \code{oe_get_keys()}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
-translated into a \code{.gpkg} file, even if a \code{.gpkg} associated with the
-\code{provider} zone already exists? Check Details at \code{oe_vectortranslate()}.}
+translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
+already exists? Check Details at \code{oe_vectortranslate()}.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
@@ -56,8 +56,8 @@ usage, and check the introductory vignette for more complex use-cases.
 The new \code{.gpkg} file is created in the same directory as the input
 \code{.osm.pbf} file. The translation process is performed using the
 \code{vectortranslate} utility in \code{sf::gdal_utils()}. This operation can be
-customized in several ways modifying the parameters
-\code{vectortranslate_options}, \code{layer}, \code{osmconf_ini}, and \code{extra_attributes}.
+customized in several ways modifying the parameters \code{layer},
+\code{extra_attributes}, \code{osmconf_ini}, and \code{vectortranslate_options}.
 
 The \code{.osm.pbf} files processed using GDAL are usually categorized into 5
 layers, named \code{points}, \code{lines}, \code{multilinestrings}, \code{multipolygons} and
@@ -70,7 +70,7 @@ same \code{.gpkg} file. By default, the function will convert the \code{lines} l
 (which is the most common one according to our experience).
 
 The arguments \code{osmconf_ini} and \code{extra_attributes} are used to modify how
-GDAL read and work on a \code{.osm.pbf} file. More precisely, several operations
+GDAL read and process a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
 file, that you can check at the following
 \href{https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini}{link}.
@@ -81,8 +81,8 @@ line 7 is used to determine which \emph{ways} are assumed to be polygons if they
 are closed. Moreover, OSM data is usually described using several
 \href{https://wiki.openstreetmap.org/wiki/Tags}{\emph{tags}}, i.e a pair of two
 items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
-used to determine, for each layer, which keys should be explicitly reported
-as fields (while all the other keys are stored in the \code{other_tags} column,
+used to determine, for each layer, which tags should be explicitly reported
+as fields (while all the other tags are stored in the \code{other_tags} column,
 see \code{oe_get_keys()}). The parameter \code{extra_attributes} is used to determine
 which extra tags (i.e. key/value pairs) should be added to the \code{.gpkg}
 file. By default, the vectortranslate operations are skipped if the

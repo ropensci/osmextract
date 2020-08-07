@@ -11,11 +11,15 @@ oe_available_providers = function() {
 # This is an internal function that is used to load the correct provider
 # database
 load_provider_data = function(provider) {
-  if (provider %!in% oe_available_providers()) {
+  if (
+    is.numeric(provider) ||
+    inherits(provider, "sfc_POINT") ||
+    provider %!in% oe_available_providers()
+  ) {
     stop(
       "You can only select one of the following providers: ",
       paste(setdiff(oe_available_providers(), "test"), collapse = " - "),
-      ". Did you pass more than one place to oe_match?",
+      ". Did you pass more than one place to oe_match or oe_get?",
       call. = FALSE
     )
   }
