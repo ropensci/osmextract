@@ -38,7 +38,8 @@ See details and examples.}
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{oe_providers()}.}
 
-\item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}}
+\item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
+\code{query} or \code{stringsAsFactors}.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a .osm.pbf file? The default is "name".

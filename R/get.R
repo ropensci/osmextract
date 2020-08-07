@@ -57,7 +57,8 @@
 #' @param download_only Boolean. If `TRUE` then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
-#' @param ... Arguments that should  be passed to [`sf::st_read()`]
+#' @param ... Arguments that should  be passed to [`sf::st_read()`], like
+#'   `query` or `stringsAsFactors`.
 #'
 #' @return An sf object related to the input place.
 #' @export
