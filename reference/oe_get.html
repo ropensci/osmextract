@@ -226,24 +226,27 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     <tr>
       <th>vectortranslate_options</th>
       <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
-argument <code>options</code>. Set by default. Check details and examples.</p></td>
+argument <code>options</code>. Set by default. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
       <td><p>The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
-<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a> for details.</p></td>
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>extra_attributes</th>
       <td><p>Which addition columns, corresponding to OSM keys,
-should be in the resulting dataset? <code>NULL</code> by default.</p></td>
+should be in the resulting dataset? <code>FALSE</code> by default. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
-      <td><p>Force the original <code>.pbf</code> file to be translated
-into a <code>.gpkg</code> file, even if a <code>.gpkg</code> associated with the <code>provider</code> zone
-already exists.</p></td>
+      <td><p>Boolean. Force the original <code>.pbf</code> file to be
+translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
+already exists? Check Details at <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>download_only</th>
@@ -255,7 +258,7 @@ default.</p></td>
       <th>skip_vectortranslate</th>
       <td><p>Boolean. If <code>TRUE</code> then the function skips all
 the vectortranslate operations and it reads (or simply returns the path) of
-the .osm.pbf file. <code>FALSE</code> by default.</p></td>
+the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -271,7 +274,7 @@ the .osm.pbf file. <code>FALSE</code> by default.</p></td>
     <p>This function is a wrapper around ...</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>its_leeds</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpeEZeUc/test_its-example.gpkg' using driver `GPKG'
+    <pre class="examples"><div class='input'><span class='kw'>its_leeds</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpVk6rW3/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -297,7 +300,7 @@ the .osm.pbf file. <code>FALSE</code> by default.</p></td>
 #&gt;                  0                  0                  0                  0 
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'><span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpeEZeUc/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpeEZeUc/test_its-example.osm.pbf"</div><div class='input'><span class='co'># add additional attributes</span>
+<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpVk6rW3/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpVk6rW3/test_its-example.osm.pbf"</div><div class='input'><span class='co'># add additional attributes</span>
 <span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"oneway"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"

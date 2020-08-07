@@ -173,30 +173,33 @@ to your <code>.Renviron</code> file (e.g. with <code>usethis::edit_r_environ()</
     <tr>
       <th>vectortranslate_options</th>
       <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
-argument <code>options</code>. Set by default. Check details and examples.</p></td>
+argument <code>options</code>. Set by default. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
       <td><p>The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
-<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a> for details.</p></td>
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>extra_attributes</th>
       <td><p>Which addition columns, corresponding to OSM keys,
-should be in the resulting dataset? <code>NULL</code> by default.</p></td>
+should be in the resulting dataset? <code>FALSE</code> by default. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
-      <td><p>Force the original <code>.pbf</code> file to be translated
-into a <code>.gpkg</code> file, even if a <code>.gpkg</code> associated with the <code>provider</code> zone
-already exists.</p></td>
+      <td><p>Boolean. Force the original <code>.pbf</code> file to be
+translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
+already exists? Check Details at <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>skip_vectortranslate</th>
       <td><p>Boolean. If <code>TRUE</code> then the function skips all
 the vectortranslate operations and it reads (or simply returns the path) of
-the .osm.pbf file. <code>FALSE</code> by default.</p></td>
+the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
