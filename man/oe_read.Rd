@@ -2,35 +2,63 @@
 % Please edit documentation in R/read.R
 \name{oe_read}
 \alias{oe_read}
-\title{Read a .pbf or .gpkg object}
+\title{Read a \code{.pbf} or \code{.gpkg} object from file or URL}
 \usage{
 oe_read(
   file_path,
   layer = "lines",
   ...,
+  provider = NULL,
   download_directory = oe_download_directory(),
+  file_size = NULL,
+  force_download = FALSE,
+  max_file_size = 5e+08,
+  download_only = FALSE,
+  skip_vectortranslate = FALSE,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_attributes = NULL,
   force_vectortranslate = NULL,
-  skip_vectortranslate = FALSE,
   quiet = TRUE
 )
 }
 \arguments{
-\item{file_path}{The path of the .gpkg or .osm.pbf file that should be
-read-in.}
+\item{file_path}{A url or the path of a \code{.osm.pbf} or \code{.gpkg} file.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}}
+\item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
+\code{query} or \code{stringsAsFactors}.}
+
+\item{provider}{Which provider should be used to download the data? Available
+providers can be found with the following command: \code{oe_providers()}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is \code{tempdir()}, which changes each time you restart R.
 You can set a persistent \code{download_directory} by adding the following
 to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
+
+\item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
+bigger than \code{max_file_size} and the function is run in interactive mode,
+then an interactive menu is displayed, asking for permission for
+downloading the file.}
+
+\item{force_download}{Should the file be updated if it has already been
+downloaded? \code{FALSE} by default. This parameter is used to update old
+\code{.osm.pbf} files.}
+
+\item{max_file_size}{The maximum file size to download without asking in
+interactive mode. Default: \code{5e+8}, half a gigabyte.}
+
+\item{download_only}{Boolean. If \code{TRUE} then the function only returns the
+path where the matched file is stored, instead of reading it. \code{FALSE} by
+default.}
+
+\item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
+the vectortranslate operations and it reads (or simply returns the path) of
+the \code{.osm.pbf} file. \code{FALSE} by default.}
 
 \item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
 argument \code{options}. Set by default. Check Details at
@@ -49,28 +77,47 @@ should be in the resulting dataset? \code{FALSE} by default. Check Details at
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
 already exists? Check Details at \code{oe_vectortranslate()}.}
 
-\item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
-the vectortranslate operations and it reads (or simply returns the path) of
-the \code{.osm.pbf} file. \code{FALSE} by default.}
-
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
-An sf object related to the input path.
+An \code{sf} object.
 }
 \description{
-Read a .pbf or .gpkg object
+This function is used to read a \code{.pbf} or \code{.gpkg} object from file or URL. It
+is a wrapper around \code{oe_download()}, \code{oe_vectortranslate()} and
+\code{sf::st_read()}, creating an easy way to download, convert, and read a \code{.pbf}
+or \code{.gpkg} file. Check the introductory vignette and the help pages of the
+wrapped function for more details.
 }
 \details{
-For the moment I will consider only .gpkg or .osm.pbf file. The
-approach is more or less the same as for oe_get() but we need to skip the
-matching operations. In the near future I think I could merge the two
-approaches i.e. oe_get will be oe_match + oe_read to avoid a lot of
-duplication.
+You cannot add any layer to an existing .gpkg file but you can extract some
+of the tags in other_tags. Check \code{oe_get_keys()} for more details.
+
+The arguments \code{provider}, \code{download_directory}, \code{file_size},
+\code{force_download}, and \code{max_file_size} are ignored if \code{file_path} points to
+an existing \code{.pbf} or \code{.gpkg} file.
 }
 \examples{
-oe_read(
-  file_path = system.file("its-example.osm.pbf", package = "osmextract"),
-  download_directory = tempdir()
-)
+# Read an existing .pbf file
+my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
+oe_read(my_pbf)
+oe_read(my_pbf, layer = "points") # Read a new layer
+oe_read(my_pbf, extra_attributes = c("oneway", "ref")) # Add new tags
+
+# Read an existing .gpkg file. This file was created by oe_read
+my_gpkg = system.file("its-example.gpkg", package = "osmextract")
+oe_read(my_gpkg)
+# You cannot add any layer to an existing .gpkg file but you can extract some
+# of the tags in other_tags. Check oe_get_keys() for more details.
+names(oe_read(my_gpkg, extra_attributes = c("maxspeed")))
+# Delete the .gpkg file not to mess with other examples
+file.remove(my_gpkg)
+
+# Read from a URL
+my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+# Please note that if you read from a URL which is not linked to one of the
+# supported providers, you need to specify the provider parameter:
+\dontrun{
+oe_read(my_url, provider = "test")
+}
 }

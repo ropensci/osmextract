@@ -151,6 +151,7 @@ its_gpkg = oe_vectortranslate(
   extra_attributes = c("oneway", "maxspeed")
  )
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
+# Check the introductory vignette for more complex examples.
 }
 \seealso{
 \code{oe_get_keys()}
