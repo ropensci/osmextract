@@ -263,206 +263,36 @@ an existing <code>.pbf</code> or <code>.gpkg</code> file.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Read an existing .pbf file</span>
 <span class='kw'>my_pbf</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"its-example.osm.pbf"</span>, package = <span class='st'>"osmextract"</span>)
-<span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>)</div><div class='output co'>#&gt; Simple feature collection with 189 features and 9 fields
+<span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84
-#&gt; First 10 features:
-#&gt;     osm_id           name     highway waterway aerialway barrier man_made
-#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt;    z_order
-#&gt; 1        0
-#&gt; 2        0
-#&gt; 3        0
-#&gt; 4        0
-#&gt; 5        3
-#&gt; 6        8
-#&gt; 7        0
-#&gt; 8        0
-#&gt; 9        0
-#&gt; 10       0
-#&gt;                                                                                                                        other_tags
-#&gt; 1                                                                                                                            &lt;NA&gt;
-#&gt; 2                                                                                    "bicycle"=&gt;"designated","foot"=&gt;"designated"
-#&gt; 3                                                               "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"
-#&gt; 4                                                                             "access"=&gt;"permissive","lanes"=&gt;"1","oneway"=&gt;"yes"
-#&gt; 5                                                                                                    "lanes"=&gt;"1","oneway"=&gt;"yes"
-#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"
-#&gt; 7                                                                                                                            &lt;NA&gt;
-#&gt; 8                                                                                                                            &lt;NA&gt;
-#&gt; 9                                                                                                                            &lt;NA&gt;
-#&gt; 10                                                                                                                           &lt;NA&gt;
-#&gt;                          geometry
-#&gt; 1  LINESTRING (-1.560083 53.80...
-#&gt; 2  LINESTRING (-1.559709 53.80...
-#&gt; 3  LINESTRING (-1.5609 53.8085...
-#&gt; 4  LINESTRING (-1.552587 53.80...
-#&gt; 5  LINESTRING (-1.551771 53.80...
-#&gt; 6  LINESTRING (-1.552894 53.80...
-#&gt; 7  LINESTRING (-1.554698 53.80...
-#&gt; 8  LINESTRING (-1.557451 53.80...
-#&gt; 9  LINESTRING (-1.556508 53.80...
-#&gt; 10 LINESTRING (-1.558149 53.80...</div><div class='input'><span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, layer = <span class='st'>"points"</span>) <span class='co'># Read a new layer</span></div><div class='output co'>#&gt; Simple feature collection with 186 features and 10 fields
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, layer = <span class='st'>"points"</span>, quiet = <span class='fl'>FALSE</span>) <span class='co'># Read a new layer</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 186 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.568766 ymin: 53.80569 xmax: -1.549451 ymax: 53.81136
-#&gt; geographic CRS: WGS 84
-#&gt; First 10 features:
-#&gt;      osm_id                         name barrier         highway      ref
-#&gt; 1  21069418                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;
-#&gt; 2  21093230                         &lt;NA&gt;    &lt;NA&gt; mini_roundabout     &lt;NA&gt;
-#&gt; 3  26653419 Statue of Duke of Wellington    &lt;NA&gt;            &lt;NA&gt;     &lt;NA&gt;
-#&gt; 4  31004252                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;
-#&gt; 5  31004259                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;
-#&gt; 6  31004270                         &lt;NA&gt;    &lt;NA&gt;        crossing     &lt;NA&gt;
-#&gt; 7  31004287                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;
-#&gt; 8  52905112                         &lt;NA&gt;    &lt;NA&gt;            &lt;NA&gt;   LS2 54
-#&gt; 9  52905119                         &lt;NA&gt;    &lt;NA&gt;            &lt;NA&gt;     &lt;NA&gt;
-#&gt; 10 52905122       Leeds University Steps    &lt;NA&gt;        bus_stop 45011386
-#&gt;    address is_in place man_made
-#&gt; 1     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 2     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 3     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 4     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 5     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 6     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 7     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 8     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 9     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt; 10    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        other_tags
-#&gt; 1                                                                                                                                                                                                                                                                                                                                                                                                                                                         "crossing"=&gt;"traffic_signals","crossing_ref"=&gt;"pelican"
-#&gt; 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            &lt;NA&gt;
-#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                       "historic"=&gt;"memorial","tourism"=&gt;"artwork","url"=&gt;"http://www.leodis.net/display.aspx?resourceIdentifier=2008118_165852"
-#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                  "crossing"=&gt;"traffic_signals","crossing_ref"=&gt;"toucan","kerb"=&gt;"flush","tactile_paving"=&gt;"yes"
-#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            &lt;NA&gt;
-#&gt; 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           "crossing"=&gt;"pelican"
-#&gt; 7                                                                                                                                                                                                                                                                                                                                                                                                                                                         "crossing"=&gt;"traffic_signals","crossing_ref"=&gt;"pelican"
-#&gt; 8                                                                                                                                                                                                                                                                                                                                                                                                                                         "amenity"=&gt;"post_box","operator"=&gt;"Royal Mail","post_box:type"=&gt;"meter"
-#&gt; 9                                                                                                                                                                                                                                                                                                                                                                                                                                    "amenity"=&gt;"telephone","booth"=&gt;"KXPlus","covered"=&gt;"booth","operator"=&gt;"BT"
-#&gt; 10 "bus"=&gt;"yes","local_ref"=&gt;"45011386","naptan:AtcoCode"=&gt;"450011386","naptan:Bearing"=&gt;"N","naptan:CommonName"=&gt;"Leeds University","naptan:Crossing"=&gt;"Back Blenheim Terrace","naptan:Indicator"=&gt;"Stop 45011386","naptan:Landmark"=&gt;"Leeds University","naptan:Notes"=&gt;"New TF shelter and 3P fitted awaiting survey","naptan:PlusbusZoneRef"=&gt;"LEEDS","naptan:ShortCommonName"=&gt;"Leeds University","naptan:Street"=&gt;"Woodhouse Lane","naptan:verified"=&gt;"yes","public_transport"=&gt;"platform","shelter"=&gt;"yes"
-#&gt;                      geometry
-#&gt; 1   POINT (-1.552508 53.8086)
-#&gt; 2   POINT (-1.56583 53.81002)
-#&gt; 3  POINT (-1.559813 53.80819)
-#&gt; 4   POINT (-1.56048 53.80638)
-#&gt; 5  POINT (-1.559558 53.80796)
-#&gt; 6  POINT (-1.559285 53.80795)
-#&gt; 7  POINT (-1.551964 53.80751)
-#&gt; 8   POINT (-1.55062 53.80642)
-#&gt; 9  POINT (-1.552372 53.80799)
-#&gt; 10 POINT (-1.552314 53.80809)</div><div class='input'><span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"ref"</span>)) <span class='co'># Add new tags</span></div><div class='output co'>#&gt; Simple feature collection with 189 features and 11 fields
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"ref"</span>), quiet = <span class='fl'>FALSE</span>) <span class='co'># Add new tags</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 189 features and 11 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84
-#&gt; First 10 features:
-#&gt;     osm_id           name     highway waterway aerialway barrier man_made
-#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt;    oneway  ref z_order
-#&gt; 1    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 2    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 3    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 4     yes &lt;NA&gt;       0
-#&gt; 5     yes &lt;NA&gt;       3
-#&gt; 6     yes A660       8
-#&gt; 7    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 8    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 9    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 10   &lt;NA&gt; &lt;NA&gt;       0
-#&gt;                                                                                          other_tags
-#&gt; 1                                                                                              &lt;NA&gt;
-#&gt; 2                                                      "bicycle"=&gt;"designated","foot"=&gt;"designated"
-#&gt; 3                                 "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"
-#&gt; 4                                                               "access"=&gt;"permissive","lanes"=&gt;"1"
-#&gt; 5                                                                                      "lanes"=&gt;"1"
-#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","turn:lanes"=&gt;"left;through|through;slight_right"
-#&gt; 7                                                                                              &lt;NA&gt;
-#&gt; 8                                                                                              &lt;NA&gt;
-#&gt; 9                                                                                              &lt;NA&gt;
-#&gt; 10                                                                                             &lt;NA&gt;
-#&gt;                          geometry
-#&gt; 1  LINESTRING (-1.560083 53.80...
-#&gt; 2  LINESTRING (-1.559709 53.80...
-#&gt; 3  LINESTRING (-1.5609 53.8085...
-#&gt; 4  LINESTRING (-1.552587 53.80...
-#&gt; 5  LINESTRING (-1.551771 53.80...
-#&gt; 6  LINESTRING (-1.552894 53.80...
-#&gt; 7  LINESTRING (-1.554698 53.80...
-#&gt; 8  LINESTRING (-1.557451 53.80...
-#&gt; 9  LINESTRING (-1.556508 53.80...
-#&gt; 10 LINESTRING (-1.558149 53.80...</div><div class='input'>
+#&gt; geographic CRS: WGS 84</div><div class='input'>
 <span class='co'># Read an existing .gpkg file. This file was created by oe_read</span>
 <span class='kw'>my_gpkg</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"its-example.gpkg"</span>, package = <span class='st'>"osmextract"</span>)
-<span class='fu'>oe_read</span>(<span class='kw'>my_gpkg</span>)</div><div class='output co'>#&gt; Simple feature collection with 189 features and 11 fields
+<span class='fu'>oe_read</span>(<span class='kw'>my_gpkg</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 189 features and 11 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #&gt; geographic CRS: WGS 84
-#&gt; First 10 features:
-#&gt;     osm_id           name     highway waterway aerialway barrier man_made
-#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;
-#&gt;    oneway  ref z_order
-#&gt; 1    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 2    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 3    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 4     yes &lt;NA&gt;       0
-#&gt; 5     yes &lt;NA&gt;       3
-#&gt; 6     yes A660       8
-#&gt; 7    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 8    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 9    &lt;NA&gt; &lt;NA&gt;       0
-#&gt; 10   &lt;NA&gt; &lt;NA&gt;       0
-#&gt;                                                                                          other_tags
-#&gt; 1                                                                                              &lt;NA&gt;
-#&gt; 2                                                      "bicycle"=&gt;"designated","foot"=&gt;"designated"
-#&gt; 3                                 "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"
-#&gt; 4                                                               "access"=&gt;"permissive","lanes"=&gt;"1"
-#&gt; 5                                                                                      "lanes"=&gt;"1"
-#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","turn:lanes"=&gt;"left;through|through;slight_right"
-#&gt; 7                                                                                              &lt;NA&gt;
-#&gt; 8                                                                                              &lt;NA&gt;
-#&gt; 9                                                                                              &lt;NA&gt;
-#&gt; 10                                                                                             &lt;NA&gt;
-#&gt;                          geometry
-#&gt; 1  LINESTRING (-1.560083 53.80...
-#&gt; 2  LINESTRING (-1.559709 53.80...
-#&gt; 3  LINESTRING (-1.5609 53.8085...
-#&gt; 4  LINESTRING (-1.552587 53.80...
-#&gt; 5  LINESTRING (-1.551771 53.80...
-#&gt; 6  LINESTRING (-1.552894 53.80...
-#&gt; 7  LINESTRING (-1.554698 53.80...
-#&gt; 8  LINESTRING (-1.557451 53.80...
-#&gt; 9  LINESTRING (-1.556508 53.80...
-#&gt; 10 LINESTRING (-1.558149 53.80...</div><div class='input'><span class='co'># You cannot add any layer to an existing .gpkg file but you can extract some</span>
+#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 189 features and 11 fields
+#&gt; geometry type:  LINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='co'># You cannot add any layer to an existing .gpkg file but you can extract some</span>
 <span class='co'># of the tags in other_tags. Check oe_get_keys() for more details.</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'>oe_read</span>(<span class='kw'>my_gpkg</span>, extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"maxspeed"</span>)))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "ref"        "z_order"   
@@ -473,7 +303,7 @@ an existing <code>.pbf</code> or <code>.gpkg</code> file.</p>
 <span class='co'># Please note that if you read from a URL which is not linked to one of the</span>
 <span class='co'># supported providers, you need to specify the provider parameter:</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>oe_read</span>(<span class='kw'>my_url</span>, provider = <span class='st'>"test"</span>)
+<span class='fu'>oe_read</span>(<span class='kw'>my_url</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
