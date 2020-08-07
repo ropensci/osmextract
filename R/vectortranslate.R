@@ -61,19 +61,18 @@
 #'   `NULL` (default value), then `vectortranslate_options` is set equal to
 #'   `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),
 #'   "-lco", "GEOMETRY_NAME=geometry", layer)`. Explanation:
-#'   \itemize{
-#'       \item `"-f", "GPKG"` says that the output format is `GPKG`;
-#'       \item `"-overwrite` is used to delete an existing layer and recreate
-#'       it empty;
-#'       \item `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to set the
-#'       [Open Options](https://gdal.org/drivers/vector/osm.html#open-options)
-#'       for the `.osm.pbf` file and change the `CONFIG` file (in case the user
-#'        asks for any extra attribute or a totally different CONFIG file);
-#'        \item `"-lco", "GEOMETRY_NAME=geometry"` is used to change the
-#'        [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options)
-#'        for the `.gpkg` file and modify the name of the geometry column;
-#'        \item `layer` indicates which layer should be converted.
-#'   }
+#'   * `"-f", "GPKG"` says that the output format is `GPKG`;
+#'   * `"-overwrite` is used to delete an existing layer and recreate
+#'   it empty;
+#'   * `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to set the
+#'   [Open Options](https://gdal.org/drivers/vector/osm.html#open-options)
+#'   for the `.osm.pbf` file and change the `CONFIG` file (in case the user
+#'   asks for any extra attribute or a totally different CONFIG file);
+#'   * `"-lco", "GEOMETRY_NAME=geometry"` is used to change the
+#'   [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options)
+#'   for the `.gpkg` file and modify the name of the geometry column;
+#'   * `layer` indicates which layer should be converted.
+#'
 #'   Check the introductory vignette, the help page of `sf::gdal_utils()` and
 #'   [here](https://gdal.org/programs/ogr2ogr.html) for an extensive
 #'   documentation on all available options.
@@ -82,7 +81,7 @@
 #' @param file_path Character string representing the path of the input
 #'   `.osm.pbf` file.
 #'
-#' @return Character string representing the path of the .gpkg file.
+#' @return Character string representing the path of the `.gpkg` file.
 #' @export
 #'
 #' @seealso `oe_get_keys()`
@@ -128,10 +127,7 @@ oe_vectortranslate = function(
   # Check that the input file was specified using the format
   # ".../something.pbf". This is important for creating the .gpkg file path.
   if (tools::file_ext(file_path) != "pbf") {
-    stop(
-      "The input file must be specified using the appropriate extension, i.e. ",
-      "'.../something.pbf'."
-    )
+    stop("The parameter file_path must correspond to a .pbf file")
   }
 
   # Check that the layer param is not NA or NULL
@@ -355,7 +351,7 @@ get_ini_layer_defaults = function(layer) {
 #'   [#107](https://github.com/ITSLeeds/osmextract/issues/107).
 #'
 #' @inheritParams oe_get
-#' @param file_path The path of `.gpkg` file, typically created using
+#' @param file_path The path of a `.gpkg` file, typically created using
 #'   `oe_vectortranslate()` or `oe_get()`.
 #'
 #' @return A character vector indicating the name of all keys stored in
@@ -363,7 +359,7 @@ get_ini_layer_defaults = function(layer) {
 #' @export
 #'
 #' @examples
-#' itsleeds_gpkg <- oe_get("itsleeds", provider = "test", download_only = TRUE)
+#' itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
 #' oe_get_keys(itsleeds_gpkg)
 oe_get_keys <- function(
   file_path,

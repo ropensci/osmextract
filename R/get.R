@@ -45,7 +45,7 @@
 #'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check Details at
 #'   `oe_vectortranslate()`.
 #' @param extra_attributes Which addition columns, corresponding to OSM keys,
-#'   should be in the resulting dataset? `NULL` by default. Check Details at
+#'   should be in the resulting dataset? `FALSE` by default. Check Details at
 #'   `oe_vectortranslate()` and `oe_get_keys()`.
 #' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
 #'   translated into a `.gpkg` file, even if a `.gpkg` associated with the

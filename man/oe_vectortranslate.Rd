@@ -31,7 +31,7 @@ in the resulting data frame. See documentation at
 \code{oe_vectortranslate()}.}
 
 \item{extra_attributes}{Which addition columns, corresponding to OSM keys,
-should be in the resulting dataset? \code{NULL} by default. Check Details at
+should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{oe_vectortranslate()} and \code{oe_get_keys()}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
@@ -41,7 +41,7 @@ translated into a \code{.gpkg} file, even if a \code{.gpkg} associated with the
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
-Character string representing the path of the .gpkg file.
+Character string representing the path of the \code{.gpkg} file.
 }
 \description{
 This function is used to translate a \code{.osm.pbf} file into \code{.gpkg} format.
@@ -117,6 +117,7 @@ asks for any extra attribute or a totally different CONFIG file);
 for the \code{.gpkg} file and modify the name of the geometry column;
 \item \code{layer} indicates which layer should be converted.
 }
+
 Check the introductory vignette, the help page of \code{sf::gdal_utils()} and
 \href{https://gdal.org/programs/ogr2ogr.html}{here} for an extensive
 documentation on all available options.

@@ -83,7 +83,7 @@ in the resulting data frame. See documentation at
 \code{oe_vectortranslate()}.}
 
 \item{extra_attributes}{Which addition columns, corresponding to OSM keys,
-should be in the resulting dataset? \code{NULL} by default. Check Details at
+should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{oe_vectortranslate()} and \code{oe_get_keys()}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be

@@ -7,7 +7,7 @@
 oe_get_keys(file_path, layer = "lines")
 }
 \arguments{
-\item{file_path}{The path of \code{.gpkg} file, typically created using
+\item{file_path}{The path of a \code{.gpkg} file, typically created using
 \code{oe_vectortranslate()} or \code{oe_get()}.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
@@ -35,7 +35,7 @@ display the names of all the keys stored in the "other_tags" column. See
 examples.
 }
 \examples{
-itsleeds_gpkg <- oe_get("itsleeds", provider = "test", download_only = TRUE)
+itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
 oe_get_keys(itsleeds_gpkg)
 }
 \seealso{
