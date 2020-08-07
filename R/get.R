@@ -48,8 +48,8 @@
 #'   should be in the resulting dataset? `FALSE` by default. Check Details at
 #'   `oe_vectortranslate()` and `oe_get_keys()`.
 #' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
-#'   translated into a `.gpkg` file, even if a `.gpkg` associated with the
-#'   `provider` zone already exists? Check Details at `oe_vectortranslate()`.
+#'   translated into a `.gpkg` file, even if a `.gpkg` with the same name
+#'   already exists? Check Details at `oe_vectortranslate()`.
 #' @param skip_vectortranslate Boolean. If `TRUE` then the function skips all
 #'   the vectortranslate operations and it reads (or simply returns the path) of
 #'   the `.osm.pbf` file. `FALSE` by default.

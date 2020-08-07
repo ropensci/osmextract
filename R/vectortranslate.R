@@ -12,8 +12,8 @@
 #' @details The new `.gpkg` file is created in the same directory as the input
 #'   `.osm.pbf` file. The translation process is performed using the
 #'   `vectortranslate` utility in `sf::gdal_utils()`. This operation can be
-#'   customized in several ways modifying the parameters
-#'   `vectortranslate_options`, `layer`, `osmconf_ini`, and `extra_attributes`.
+#'   customized in several ways modifying the parameters `layer`,
+#'   `extra_attributes`, `osmconf_ini`, and `vectortranslate_options`.
 #'
 #'   The `.osm.pbf` files processed using GDAL are usually categorized into 5
 #'   layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
@@ -26,7 +26,7 @@
 #'   (which is the most common one according to our experience).
 #'
 #'   The arguments `osmconf_ini` and `extra_attributes` are used to modify how
-#'   GDAL read and work on a `.osm.pbf` file. More precisely, several operations
+#'   GDAL read and process a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
 #'   file, that you can check at the following
 #'   [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini).
@@ -37,8 +37,8 @@
 #'   are closed. Moreover, OSM data is usually described using several
 #'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e a pair of two
 #'   items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
-#'   used to determine, for each layer, which keys should be explicitly reported
-#'   as fields (while all the other keys are stored in the `other_tags` column,
+#'   used to determine, for each layer, which tags should be explicitly reported
+#'   as fields (while all the other tags are stored in the `other_tags` column,
 #'   see `oe_get_keys()`). The parameter `extra_attributes` is used to determine
 #'   which extra tags (i.e. key/value pairs) should be added to the `.gpkg`
 #'   file. By default, the vectortranslate operations are skipped if the
@@ -187,7 +187,20 @@ oe_vectortranslate = function(
     # Check if all extra keys are already present into an existing .gpkg file I
     # set is.null(osmconf_ini) since if the user pass its own osmconf.ini file
     # then the vectortranslate operations must be performed in any case
-    if (file.exists(gpkg_file_path) && is.null(osmconf_ini)) {
+    if (
+      file.exists(gpkg_file_path) &&
+      is.null(osmconf_ini) &&
+      # The next test is used to check that the function is not looking for old
+      # attributes in a non-existing layer, otherwise the following code
+      # will fail with an error:
+      # its_gpkg = oe_vectortranslate(its_pbf)
+      # oe_vectortranslate(
+      #   its_pbf,
+      #   layer = "points",
+      #   extra_attributes = "oneway"
+      # )
+      layer %!in% sf::st_layers(gpkg_file_path)[["name"]]
+    ) {
       old_attributes <- names(sf::st_read(
         gpkg_file_path,
         layer = layer,
