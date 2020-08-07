@@ -180,26 +180,27 @@ for a more detailed explanation and see examples.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>itsleeds_gpkg</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span>(<span class='st'>"itsleeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)
 <span class='fu'>oe_get_keys</span>(<span class='kw'>itsleeds_gpkg</span>)</div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
-#&gt;  [4] "access"              "lanes"               "oneway"             
-#&gt;  [7] "lit"                 "maxspeed"            "ref"                
-#&gt; [10] "turn:lanes"          "service"             "surface"            
-#&gt; [13] "motor_vehicle"       "source:name"         "lanes:psv"          
-#&gt; [16] "lanes:backward"      "lanes:forward"       "lanes:psv:backward" 
-#&gt; [19] "turn:lanes:forward"  "covered"             "layer"              
-#&gt; [22] "lcn"                 "natural"             "step_count"         
-#&gt; [25] "frequency"           "operator"            "power"              
-#&gt; [28] "source:geometry"     "substation"          "voltage"            
-#&gt; [31] "tunnel"              "indoor"              "level"              
-#&gt; [34] "maxheight"           "incline"             "bridge"             
-#&gt; [37] "alt_name"            "turn:lanes:backward"</div><div class='input'>
+#&gt;  [4] "access"              "lanes"               "lit"                
+#&gt;  [7] "maxspeed"            "ref"                 "turn:lanes"         
+#&gt; [10] "service"             "surface"             "motor_vehicle"      
+#&gt; [13] "source:name"         "lanes:psv"           "lanes:backward"     
+#&gt; [16] "lanes:forward"       "lanes:psv:backward"  "turn:lanes:forward" 
+#&gt; [19] "covered"             "layer"               "lcn"                
+#&gt; [22] "natural"             "step_count"          "frequency"          
+#&gt; [25] "operator"            "power"               "source:geometry"    
+#&gt; [28] "substation"          "voltage"             "tunnel"             
+#&gt; [31] "indoor"              "level"               "maxheight"          
+#&gt; [34] "incline"             "bridge"              "alt_name"           
+#&gt; [37] "turn:lanes:backward"</div><div class='input'>
 <span class='co'># Add an extra key to an existing .gpkg file without the .pbf</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(<span class='kw'>itsleeds_gpkg</span>, extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>))) <span class='co'># doesn't work</span></div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </div><div class='input'><span class='co'># we need a different approach</span>
+#&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
+#&gt; [11] "geometry"  </div><div class='input'><span class='co'># we need a different approach</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(
   <span class='kw'>itsleeds_gpkg</span>,
   query = <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
 ))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    
+#&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

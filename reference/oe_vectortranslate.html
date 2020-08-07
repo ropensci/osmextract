@@ -290,16 +290,17 @@ documentation on all available options.</p>
 #&gt; Available layers:
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
-#&gt; 2      lines   Line String      189      9</div><div class='input'><span class='co'># Add points layer</span>
+#&gt; 2      lines   Line String      189     10</div><div class='input'><span class='co'># Add points layer</span>
 <span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(<span class='kw'>its_pbf</span>, layer = <span class='st'>"points"</span>)
 <span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Driver: GPKG 
 #&gt; Available layers:
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
-#&gt; 2      lines   Line String      189      9</div><div class='input'>
+#&gt; 2      lines   Line String      189     10</div><div class='input'>
 <span class='co'># Add extra attributes to the lines layer</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(
+#&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
+#&gt; [11] "geometry"  </div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(
   <span class='kw'>its_pbf</span>,
   extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"maxspeed"</span>)
  )
