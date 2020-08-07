@@ -26,13 +26,13 @@
 #' @examples
 #' # Read an existing .pbf file
 #' my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
-#' oe_read(my_pbf)
-#' oe_read(my_pbf, layer = "points") # Read a new layer
-#' oe_read(my_pbf, extra_attributes = c("oneway", "ref")) # Add new tags
+#' oe_read(my_pbf, quiet = FALSE)
+#' oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
+#' oe_read(my_pbf, extra_attributes = c("oneway", "ref"), quiet = FALSE) # Add new tags
 #'
 #' # Read an existing .gpkg file. This file was created by oe_read
 #' my_gpkg = system.file("its-example.gpkg", package = "osmextract")
-#' oe_read(my_gpkg)
+#' oe_read(my_gpkg, quiet = FALSE)
 #' # You cannot add any layer to an existing .gpkg file but you can extract some
 #' # of the tags in other_tags. Check oe_get_keys() for more details.
 #' names(oe_read(my_gpkg, extra_attributes = c("maxspeed")))
@@ -44,7 +44,7 @@
 #' # Please note that if you read from a URL which is not linked to one of the
 #' # supported providers, you need to specify the provider parameter:
 #' \dontrun{
-#' oe_read(my_url, provider = "test")
+#' oe_read(my_url, provider = "test", quiet = FALSE)
 #' }
 oe_read = function(
   file_path,
@@ -67,9 +67,6 @@ oe_read = function(
   # If the input file_path is an existing .gpkg file is the easiest case since
   # we only need to read it:
   if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
-    if (isFALSE(quiet)) {
-      message("ABC :)")
-    }
     sf::st_read(file_path, layer, quiet = quiet, ...)
   }
 
@@ -77,6 +74,10 @@ oe_read = function(
   # assume that if file.exists(file_path) is FALSE then file_path is a URL and I
   # need to download the file
   if (!file.exists(file_path)) {
+    if (isFALSE(quiet)) {
+      message("The input file_path does not exist so we assume it is a URL.")
+    }
+
     file_path = oe_download(
       file_url = file_path,
       provider = provider,
@@ -96,7 +97,6 @@ oe_read = function(
     }
 
     return(sf::st_read(file_path, layer, quiet = quiet, ...))
-
   }
 
   # Now file_path should always point to an existing .pbf file. If the user set
