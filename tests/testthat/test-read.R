@@ -11,6 +11,6 @@ test_that("oe_read: simplest examples work", {
 
 test_that("or_read: simplest example with a URL works", {
   skip_if_offline()
-  my_url <- "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+  my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
   oe_read(my_url, provider = "test", quiet = FALSE, download_directory = tempdir())
 })
