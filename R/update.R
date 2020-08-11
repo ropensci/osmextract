@@ -46,7 +46,16 @@
 #' @return The path(s) of the .osm.pbf file(s) that were updated invisibly.
 #' @export
 #' @examples
-#' 1 + 1
+#' \dontrun{
+#' # Set up a fake directory with .pbf and .gpkg files
+#' fake_dir <- tempdir()
+#' # Fill the directory
+#' oe_get("andorra", download_directory = fake_dir, download_only = TRUE)
+#' # Check the directory
+#' list.files(fake_dir, "gpkg|pbf")
+#' # Update all .pbf files and delete .gpkg files
+#' oe_update(fake_dir)
+#' list.files(fake_dir, "gpkg|pbf")}
 oe_update = function(
   download_directory = oe_download_directory(),
   quiet = FALSE,
@@ -57,7 +66,7 @@ oe_update = function(
   all_files = list.files(download_directory)
 
   # Save all providers but test
-  all_providers = setdiff(oe_available_providers(), "test")
+  all_providers = oe_available_providers()
 
   # The following is used to check if the directory is empty since list.files
   # returns character(0) in case of empty dir
@@ -74,22 +83,23 @@ oe_update = function(
   if (isFALSE(quiet)) {
     old_files_info = file.info(file.path(download_directory, all_files))
     cat(
-      "This is a short description of some characteristics of the files",
-      "stored in the download_directory: \n"
+      "This is a short description of some characteristics of all the files",
+      "saved in the download_directory: \n"
     )
     print(old_files_info[, c(1, 4, 5)])
-    cat("\n The .osm.pbf files are going to be updated.\n")
+    cat("\nThe .osm.pbf files are going to be updated.\n")
   }
 
   # Check if the .gpkg files should be deleted
   if (isTRUE(delete_gpkg)) {
-    file.remove(grep("\\.gpkg", all_files, value = TRUE))
+    cat("The .gpkg files are going to be removed.\n")
+    file.remove(
+      file.path(download_directory, grep("\\.gpkg", all_files, value = TRUE))
+    )
     if (isFALSE(quiet)) {
       message("The .gpkg files in download_directory were removed.")
     }
   }
-
-
 
   # Find all files with the following pattern: provider_whatever.osm.pbf
   providers_regex = paste0(all_providers, collapse = "|")
@@ -138,7 +148,7 @@ oe_update = function(
     print(new_files_info[, c(1, 4, 5)])
   }
 
-  invisible(osmpbf_files)
+  osmpbf_files
 }
 
 
