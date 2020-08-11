@@ -113,7 +113,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
 ```
 
 ## Basic usage
@@ -130,9 +130,9 @@ read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight")
 osm_points = oe_get("Isle of Wight", layer = "points")
 nrow(osm_lines)
-#> [1] 44424
+#> [1] 44845
 nrow(osm_points)
-#> [1] 58971
+#> [1] 59009
 plot(osm_lines$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(osm_points$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 ```
