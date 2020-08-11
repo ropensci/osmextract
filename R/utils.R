@@ -1,8 +1,14 @@
 # Auxiliary functions (not exported)
 '%!in%' = function(x, y) !('%in%'(x,y))
 
-# The following function is used to extract the OSMEXT_DOWNLOAD_DIRECTORY
-# environment variable.
+#' Return the download directory used by the package
+#'
+#' @return A character vector representing the path for the download directory
+#'   used by the package.
+#' @export
+#'
+#' @examples
+#' oe_download_directory()
 oe_download_directory = function() {
   download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", "")
   if (download_directory == "") {

@@ -125,7 +125,7 @@ oe_get("ITS Leeds", provider = "test", download_only = TRUE)
 oe_get("ITS Leeds", provider = "test", download_only = TRUE, skip_vectortranslate = TRUE)
 
 # Add additional attributes
-im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway")
+im = oe_get("ITS Leeds", provider = "test", extra_attributes = "oneway", quiet = FALSE)
 names(im)
 
 # The ITS Leeds file is stored on the github page of the package, so we
@@ -133,10 +133,14 @@ names(im)
 # standards providers.
 \dontrun{
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+# If you run it again, the function will not download the file or convert it
+west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+# match with coordinates (any EPSG)
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-oe_match(milan_duomo, quiet = FALSE)}
-\dontrun{
+# Warning: the .pbf file is 400MB
+oe_get(milan_duomo, quiet = FALSE)
+# match with numeric coordinates (EPSG = 4326)
+oe_match(c(9.1916, 45.4650), quiet = FALSE)
 # alternative providers
-baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)
-}
+baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)}
 }
