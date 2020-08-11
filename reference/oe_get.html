@@ -146,7 +146,7 @@ wrapped functions to understand the details behind all parameters.</p>
   match_by = <span class='st'>"name"</span>,
   max_string_dist = <span class='fl'>1</span>,
   interactive_ask = <span class='fl'>FALSE</span>,
-  download_directory = <span class='fu'>oe_download_directory</span>(),
+  download_directory = <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span>(),
   force_download = <span class='fl'>FALSE</span>,
   max_file_size = <span class='fl'>5e+08</span>,
   vectortranslate_options = <span class='kw'>NULL</span>,
@@ -279,7 +279,7 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download OSM extracts associated to a simple test.</span>
-<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplYmsCe/test_its-example.gpkg' using driver `GPKG'
+<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0YQNit/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -295,7 +295,7 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'>
 <span class='co'># Add another layer to the test file</span>
-<span class='kw'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplYmsCe/test_its-example.gpkg' using driver `GPKG'
+<span class='kw'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0YQNit/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 186 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
@@ -311,10 +311,14 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'>
 <span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmplYmsCe/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmplYmsCe/test_its-example.osm.pbf"</div><div class='input'>
+<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp0YQNit/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp0YQNit/test_its-example.osm.pbf"</div><div class='input'>
 <span class='co'># Add additional attributes</span>
-<span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"oneway"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+<span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"oneway"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0YQNit/test_its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 189 features and 10 fields
+#&gt; geometry type:  LINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'>
 <span class='co'># The ITS Leeds file is stored on the github page of the package, so we</span>
@@ -322,12 +326,16 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 <span class='co'># standards providers.</span>
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"West Yorkshire"</span>, quiet = <span class='fl'>FALSE</span>)
+<span class='co'># If you run it again, the function will not download the file or convert it</span>
+<span class='kw'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"West Yorkshire"</span>, quiet = <span class='fl'>FALSE</span>)
+<span class='co'># match with coordinates (any EPSG)</span>
 <span class='kw'>milan_duomo</span> <span class='op'>=</span> <span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/sfc.html'>st_sfc</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st.html'>st_point</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1514924</span>, <span class='fl'>5034552</span>)), crs = <span class='fl'>3003</span>)
-<span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='kw'>milan_duomo</span>, quiet = <span class='fl'>FALSE</span>)}
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Warning: the .pbf file is 400MB</span>
+<span class='fu'>oe_get</span>(<span class='kw'>milan_duomo</span>, quiet = <span class='fl'>FALSE</span>)
+<span class='co'># match with numeric coordinates (EPSG = 4326)</span>
+<span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9.1916</span>, <span class='fl'>45.4650</span>), quiet = <span class='fl'>FALSE</span>)
 <span class='co'># alternative providers</span>
-<span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, quiet = <span class='fl'>FALSE</span>)
-}</div></pre>
+<span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, quiet = <span class='fl'>FALSE</span>)}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

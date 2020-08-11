@@ -137,7 +137,7 @@ details.</p>
     </div>
 
     <pre class="usage"><span class='fu'>oe_update</span>(
-  download_directory = <span class='fu'>oe_download_directory</span>(),
+  download_directory = <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span>(),
   quiet = <span class='fl'>FALSE</span>,
   delete_gpkg = <span class='fl'>TRUE</span>,
   <span class='kw'>...</span>
@@ -201,7 +201,16 @@ the meaning of <code>mtime</code> and <code>ctime</code> depends on the OS and t
 Check <code><a href='https://rdrr.io/r/base/file.info.html'>?file.info</a></code>. See examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fl'>1</span> <span class='op'>+</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] 2</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Set up a fake directory with .pbf and .gpkg files</span>
+<span class='kw'>fake_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
+<span class='co'># Fill the directory</span>
+<span class='fu'><a href='oe_get.html'>oe_get</a></span>(<span class='st'>"andorra"</span>, download_directory = <span class='kw'>fake_dir</span>, download_only = <span class='fl'>TRUE</span>)
+<span class='co'># Check the directory</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>fake_dir</span>, <span class='st'>"gpkg|pbf"</span>)
+<span class='co'># Update all .pbf files and delete .gpkg files</span>
+<span class='fu'>oe_update</span>(<span class='kw'>fake_dir</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='kw'>fake_dir</span>, <span class='st'>"gpkg|pbf"</span>)}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
