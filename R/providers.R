@@ -31,7 +31,7 @@ load_provider_data = function(provider) {
     "bbbike" = osmextract::bbbike_zones
     # , "another" = another_provider
   )
-  if (is.null(sf::st_crs(provider_data))) {
+  if (is.na(sf::st_crs(provider_data))) {
     sf::st_crs(provider_data) = 4326
   }
   provider_data
