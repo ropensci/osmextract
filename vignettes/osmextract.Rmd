@@ -188,7 +188,7 @@ its_details = oe_match("ITS Leeds", provider = "test")
 its_details
 ```
 
-## Download OSM data with `oe_download()`
+## `oe_download()`: download OSM data 
 
 The purpose of `oe_download()` is to download `.pbf` files representing OSM extracts for regions listed in the provider zones that can be found with functions such as `oe_match()` outlined in the previous section.
 The function takes a URL as input and downloads the file in the directory specified by the parameter `download_directory`:
@@ -202,7 +202,7 @@ oe_download(
 )
 ```
 
-The argument `provider` can be omitted if the input `url` is associated with one of the regular OSM extract providers (such as Geofabrik or Bbbike).
+The argument `provider` can be omitted if the input `url` is associated with one of the regular providers (such as Geofabrik or Bbbike).
 The default value for `download_directory` is `tempdir()`, but, if you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
 
 ```{r, eval = FALSE}
@@ -216,17 +216,122 @@ You can always check the default `download_directory` used by `oe_download()` wi
 oe_download_directory()
 ```
 
-We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` file are expensive operations, that can be avoided by `oe_*()` function if they detect that the input `.pbf` file was already downloaded. 
+We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` file are expensive operations, that are skipped by `oe_*()` function if they detect that the input `.pbf` file was already downloaded. 
 
-## Convert OSM files with `oe_vectortranslate()`
+More precisely, `oe_download()` runs several checks before actually downloading a new file, to avoid overloading the OSM providers. 
+The first step when running the function is the definition of the file's path associated with the input `file_url` where the `.pbf` file will be saved. 
+The path is created by pasting together the `download_directory`, the name of chosen provider, `provider`, which may be inferred from the input url, and the `basename()` of the url. 
+For example, if `file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and `download_directory = "/tmp/`, then the path is built as `/tmp/geofabrik_italy-latest.osm.pbf`. 
+Then, the function checks if there exists a file with the same path and, in that case, it returns the path without downloading anything. 
+The parameter `force_download` is used to modify this behaviour.
+If there is no file associated with the file's path, then the function downloads a new file using `download.file()` with `destfile` equal to the new path and `mode = "wb"`, and, again, it returns the path. 
 
-## Read-in OSM datasets with `oe_read()`
+## `oe_vectortranslate()`: convert to gpkg format
 
-## Do it all with `oe_get()`
+`oe_vectortranslate()` function was defined to translate a `.osm.pbf` file into `.gpkg` format. 
+The new `.gpkg` file is created in the same directory as the input `.pbf` file.
+The conversion is performed using [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in [sf::gdal_utils()] . 
+It was created following [the suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053) of the maintainers of GDAL.
+
+Let's start with an example.
+First we download the `.pbf` file associated to the ITS test file: 
+
+```{r}
+its_pbf = oe_download(its_details$url, provider = "test")
+```
+
+and then we convert it to `.gpkg` format: 
+
+```{r}
+its_gpkg = oe_vectortranslate(its_pbf)
+list.files(oe_download_directory())
+```
+
+The translation process is performed using the `vectortranslate` utility in `sf::gdal_utils()`. 
+This operation can be customized in several ways modifying the parameters `layer`, `extra_tags`, `osmconf_ini`, and `vectortranslate_options`.
+
+### `layer`
+
+The `.pbf` files processed using GDAL are usually categorized into 5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and `other_relations`. 
+Check the first paragraphs [here](https://gdal.org/drivers/vector/osm.html) for more details.
+The `oe_vectortranslate()` function can covert only one later at a time, and the parameter `layer` is used to specify which layer of the `.pbf` file should be converted into `.gpkg` file. 
+Several layers with different names can be stored in the same `.gpkg` file.
+By default, the function will convert the `lines` layer (which is the most common one according to our experience).
+
+So, for example, 
+
+```{r}
+st_layers(its_pbf, do_count = TRUE)
+```
+
+while
+
+```{r}
+st_layers(its_gpkg, do_count = TRUE)
+```
+
+but we can add another layer: 
+
+```{r}
+its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
+st_layers(its_gpkg, do_count = TRUE)
+```
+
+### `osmconf_ini` and `extra_tags`
+
+The arguments `osmconf_ini` and `extra_tags` are used to modify how GDAL reads and processes a `.pbf` file. 
+More precisely, several operations that GDAL performs on the input `.pbf` file are governed by a `CONFIG` file, that you can check at the following [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
+The basic components of OSM data are called [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are divided into *nodes*, *ways* or *relations*. 
+So, for example, the code at line 7 of the CONFIG file is used to determine which *ways* are assumed to be polygons (according to the simple-feature definition of polygon) if they are closed.
+The parameter `osmconf_ini` is used to pass your own `CONFIG` file in case you need great control over the GDAL operations. 
+If `osmconf_ini` is equal to `NULL` (the default), then the function uses default `osmconf.ini` file defined by GDAL (but for the extra tags, see below).
+OSM data is usually described using several [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e a pair of two items: a *key* and a *value*.
+The code at lines 33, 53, 85, 103, and 121 is used to determine, for each layer, which tags should be explicitly reported as fields (while all the other tags are stored in the `other_tags` column). 
+The parameter `extra_tags` is used to determine which extra tags (i.e. key/value pairs) should be added to the `.gpkg` file.
+
+The `oe_get_keys()` function can be used to check all the `keys` that are stored in the `other_tags` field for a given `.gpkg` file: 
+
+```{r}
+oe_get_keys(its_gpkg, layer = "lines")
+```
+
+Now we can also re-create the `.gpkg` file adding new `tags` (i.e. key/value pairs): 
+
+```{r}
+its_gpkg = oe_vectortranslate(its_pbf, extra_tags = c("oneway", "maxspeed"))
+```
+
+We will present more complex use-cases in the `oe_get()` section. 
+
+### `vectortranslate_options`
+
+The parameter `vectortranslate_options` is used to control the arguments that are passed to `ogr2ogr` via `sf::gdal_utils()` when converting between `.pbf` and `.gpkg` formats. 
+`ogr2ogr` can perform various operations during the conversion process, such as spatial filters or SQL queries. 
+These operations are determined by the `vectortranslate_options` argument. 
+If `NULL` (default value), then `vectortranslate_options` is set equal to `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),  "-lco", "GEOMETRY_NAME=geometry", layer)`. Explanation:
+
+* `"-f", "GPKG"` says that the output format is `GPKG`;
+* `"-overwrite` is used to delete an existing layer and recreate it empty;
+* `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to set the [Open Options](https://gdal.org/drivers/vector/osm.html#open-options) for the `.osm.pbf` file and change the `CONFIG` file (in case the user  asks for any extra tag or a totally different CONFIG file);
+* `"-lco", "GEOMETRY_NAME=geometry"` is used to change the [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options) for the `.gpkg` file and modify the name of the geometry column; 
+* `layer` indicates which layer should be converted.
+
+Check the following sections to see a few examples with different vectortranslate options. 
+
+### Other notes
+
+By default, the vectortranslate operations are skipped if the function detects a file having the same path as the input file, `.gpkg` extension and a layer with the same name as the parameter `layer` with all `extra_tags`. 
+In that case the function will simply return the path of the `.gpkg` file. 
+This behaviour can be overwritten by setting `force_vectortranslate = TRUE`. 
+If `osmconf_ini` parameter is not NULL, the vectortranslate operations are never skipped.
+
+## `oe_read()`: read-in OSM data 
+
+## `oe_get()`: Do it all in one step 
 
 To simplify the steps outlined above, while enabling modularity if needs be, we packaged them all into a single function that works as follows:
 
-```{r}
+```{r, eval = FALSE}
 its_lines = oe_get("ITS Leeds", provider = "test")
 plot(its_lines)
 ```
@@ -238,7 +343,7 @@ You may therefore want to check the contents before importing them.
 To do this you can use an SQL query that is passed to GDAL via `sf`.
 To check the values stored in the highway column for our Isle of Wight example, for example, run the following command: 
 
-```{r}
+```{r, eval = FALSE}
 its_highway_values = oe_get(
   "ITS Leeds",
   provider = "test",
@@ -251,7 +356,7 @@ its_highway_values$highway
 The values will vary depending on how many types of highway are in the particular extract of interest.
 There are more types of highway in the Andorra dataset, for example:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 andorra_highway_values = oe_get(
   "Andorra", 
   query = "SELECT DISTINCT highway FROM \"lines\" "
@@ -262,7 +367,7 @@ nrow(andorra_highway_values)
 
 The same `query` argument can be used to read-in only certain features, all residential highway segments in the `its_lines` dataset for example: 
 
-```{r, iow2}
+```{r, iow2, eval = FALSE}
 # and select only one of them: 
 its_residential = oe_get(
   "ITS Leeds",
@@ -330,7 +435,7 @@ The package can be extended to support additional providers, as seen in [code](h
 
 Providers break the world into zones and, as described in the 'List providers' section above, these zones are represented as `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.
 
-```{r}
+```{r, eval = FALSE}
 names(geofabrik_zones)
 st_drop_geometry(geofabrik_zones[1:3, c(2, 8)])
 bbbike_zones$name[1:20]
