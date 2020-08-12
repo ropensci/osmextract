@@ -40,17 +40,17 @@ See the [License/Use Cases page on the OSM wiki](https://wiki.openstreetmap.org/
 
 The packages is composed of the following main functions: 
 
-1. `oe_providers()`: Show which providers of OSM extracts are available
-1. `oe_match()`: Match the input zone with one of the files stored by the OSM providers
-2. `oe_download()`: Download the chosen file
-3. `oe_vectortranslate()`: Convert the .pbf files into .gpkg files
-4. `oe_read()`: Read the `.gpkg` files
-5. `oe_get()`: Match, download, translate and import data in one step
+1. `oe_providers()`: Show which providers of OSM extracts are available;
+1. `oe_match()`: Match the input zone with one of the files stored by the OSM providers;
+1. `oe_download()`: Download the chosen file;
+1. `oe_vectortranslate()`: Convert `.pbf` files into `.gpkg` files;
+1. `oe_read()`: Read `.pbf` and `.gpkg` files;
+1. `oe_get()`: Match, download, translate and import data in one step.
 
 For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
 We will demonstrate each function in turn.
 
-## List providers with `oe_providers()`
+## `oe_providers()`:list providers
 
 `oe_providers()` lists the providers that are currently available with the version of `osmextract` you have installed.
 
@@ -77,7 +77,7 @@ Each row of data in an `sf` object contains a geometry, representing the area co
 
 ```{r}
 par(mar = rep(0.1, 4))
-plot(geofabrik_zones$geometry)
+plot(st_geometry(geofabrik_zones))
 ```
 
 The plot above shows how the provider divides geographic space into discrete chunks.
@@ -85,13 +85,13 @@ Different providers have other zoning systems.
 
 ```{r}
 par(mar = rep(0.1, 4))
-plot(bbbike_zones$geometry, xlim = c(-2, 10), ylim = c(30, 60))
+plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(30, 60))
 ```
 
 As shown in the above visualisation of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of major cities.
 You can also download manually selected regions of interest from the BBBike website.
 
-## Finding OSM extracts with `oe_match()`
+## `oe_match()`: finding OSM extracts
 
 `oe_match()` takes character strings and returns matching zones based on the `name` column in the provider data objects such as `geofabrik_zones`.
 By default it returns a named list with the URL and file size of the corresponding `pbf` file hosted by the provider, as shown below.
