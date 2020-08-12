@@ -119,23 +119,22 @@
 <p>The packages is composed of the following main functions:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code><a href="../reference/oe_providers.html">oe_providers()</a></code>: Show which providers of OSM extracts are available</li>
+<code><a href="../reference/oe_providers.html">oe_providers()</a></code>: Show which providers of OSM extracts are available;</li>
 <li>
-<code><a href="../reference/oe_match.html">oe_match()</a></code>: Match the input zone with one of the files stored by the OSM providers</li>
+<code><a href="../reference/oe_match.html">oe_match()</a></code>: Match the input zone with one of the files stored by the OSM providers;</li>
 <li>
-<code><a href="../reference/oe_download.html">oe_download()</a></code>: Download the chosen file</li>
+<code><a href="../reference/oe_download.html">oe_download()</a></code>: Download the chosen file;</li>
 <li>
-<code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code>: Convert the .pbf files into .gpkg files</li>
+<code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code>: Convert <code>.pbf</code> files into <code>.gpkg</code> files;</li>
 <li>
-<code><a href="../reference/oe_read.html">oe_read()</a></code>: Read the <code>.gpkg</code> files</li>
+<code><a href="../reference/oe_read.html">oe_read()</a></code>: Read <code>.pbf</code> and <code>.gpkg</code> files;</li>
 <li>
-<code><a href="../reference/oe_get.html">oe_get()</a></code>: Match, download, translate and import data in one step</li>
+<code><a href="../reference/oe_get.html">oe_get()</a></code>: Match, download, translate and import data in one step.</li>
 </ol>
 <p>For many users who just want to get OSM data quickly <code><a href="../reference/oe_get.html">oe_get()</a></code> may be sufficient, as covered in the README. We will demonstrate each function in turn.</p>
-<div id="list-providers-with-oe_providers" class="section level2">
+<div id="oe_providerslist-providers" class="section level2">
 <h2 class="hasAnchor">
-<a href="#list-providers-with-oe_providers" class="anchor"></a>List providers with <code>oe_providers()</code>
-</h2>
+<a href="#oe_providerslist-providers" class="anchor"></a><code>oe_providers()</code>:list providers</h2>
 <p><code><a href="../reference/oe_providers.html">oe_providers()</a></code> lists the providers that are currently available with the version of <code>osmextract</code> you have installed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span>()
@@ -157,21 +156,20 @@
 <p>That gives you access to many geographic functions for working with geographic vector data of the type provided by <code>osmextract</code>. Each row of data in an <code>sf</code> object contains a geometry, representing the area covered by each provider zone, meaning you can plot the data as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">geofabrik_zones</span><span class="op">$</span><span class="kw">geometry</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">geofabrik_zones</span>))
 </pre></div>
 <p><img src="osmextract_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>The plot above shows how the provider divides geographic space into discrete chunks. Different providers have other zoning systems.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">bbbike_zones</span><span class="op">$</span><span class="kw">geometry</span>, xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">30</span>, <span class="fl">60</span>))
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">bbbike_zones</span>), xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">30</span>, <span class="fl">60</span>))
 </pre></div>
 <p><img src="osmextract_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As shown in the above visualisation of <a href="https://download.bbbike.org/osm/">BBBike.org</a> zones in Europe, the provider offers rectangular extracts of major cities. You can also download manually selected regions of interest from the BBBike website.</p>
 </div>
-<div id="finding-osm-extracts-with-oe_match" class="section level2">
+<div id="oe_match-finding-osm-extracts" class="section level2">
 <h2 class="hasAnchor">
-<a href="#finding-osm-extracts-with-oe_match" class="anchor"></a>Finding OSM extracts with <code>oe_match()</code>
-</h2>
+<a href="#oe_match-finding-osm-extracts" class="anchor"></a><code>oe_match()</code>: finding OSM extracts</h2>
 <p><code><a href="../reference/oe_match.html">oe_match()</a></code> takes character strings and returns matching zones based on the <code>name</code> column in the provider data objects such as <code>geofabrik_zones</code>. By default it returns a named list with the URL and file size of the corresponding <code>pbf</code> file hosted by the provider, as shown below.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Italy"</span>)
@@ -372,7 +370,7 @@
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpyWlD27/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpFMh3zr/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 21 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -406,7 +404,7 @@
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpyWlD27/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpFMh3zr/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 77 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
