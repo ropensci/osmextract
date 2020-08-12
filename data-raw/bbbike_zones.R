@@ -73,6 +73,9 @@ bbbike_zones$id = bbbike_zones$name
 # Add the level variable
 bbbike_zones$level = 3L
 
+# Transform
+bbbike_zones = st_transform(bbbike_zones, 4326)
+
 usethis::use_data(bbbike_zones, version = 3, overwrite = TRUE)
 
 # tidy up
