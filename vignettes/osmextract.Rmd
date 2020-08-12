@@ -189,7 +189,6 @@ its_details = oe_match("ITS Leeds", provider = "test")
 its_details
 ```
 
-
 ## Download OSM data with `oe_download()`
 
 The purpose of `oe_download()` is to download `.pbf` files representing OSM extracts for regions listed in the provider zones that can be found with functions such as `oe_match()` outlined in the previous section.
@@ -204,22 +203,22 @@ oe_download(
 )
 ```
 
-The argument `provider` can be omitted if the input `url` is associated with one of the regular OSM extract providers (such as Geofabrik or Bbbike). 
-If you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+The argument `provider` can be omitted if the input `url` is associated with one of the regular OSM extract providers (such as Geofabrik or Bbbike).
+The default value for `download_directory` is `tempdir()`, but, if you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
 
 ```{r, eval = FALSE}
 usethis::edit_r_environ()
 # Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
 ```
 
-You can always check the default `download_directory` for `oe_download()` using: 
+You can always check the default `download_directory` used by `oe_download()` with: 
 
 ```{r}
 oe_download_directory()
 ```
 
+We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` file are expensive operations, that can be avoided by `oe_*()` function if they detect that the input `.pbf` file was already downloaded. 
 
-We strongly advise you set
 ## Convert OSM files with `oe_vectortranslate()`
 
 ## Read-in OSM datasets with `oe_read()`

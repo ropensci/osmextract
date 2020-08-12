@@ -62,7 +62,7 @@ oe_read = function(
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_tags = NULL,
-  force_vectortranslate = NULL,
+  force_vectortranslate = FALSE,
   quiet = TRUE
 ) {
 
@@ -74,7 +74,7 @@ oe_read = function(
       return(file_path)
     }
 
-    sf::st_read(file_path, layer, quiet = quiet, ...)
+    return(sf::st_read(file_path, layer, quiet = quiet, ...))
   }
 
   # Now I think I can assume that file_path is a URL or points to a .pbf file. I

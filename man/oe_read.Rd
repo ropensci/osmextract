@@ -18,7 +18,7 @@ oe_read(
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
   extra_tags = NULL,
-  force_vectortranslate = NULL,
+  force_vectortranslate = FALSE,
   quiet = TRUE
 )
 }
