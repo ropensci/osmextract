@@ -154,6 +154,24 @@ test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
 
 For further details on using the package, see the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
 
+## Persistent download directory
+
+The default behaviour of `oe_get()` is to save all the files in a temporary directory, which is erased every time you restart your R session. 
+If you want to set a directory that will persist, you can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+
+```{r, eval = FALSE}
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+We strongly advise you setting a persistent directory since working with `.pbf` files is an expensive operation, that is skipped by `oe_*()` functions if they detect that the input `.pbf` file was already downloaded.
+
+You can always check the default `download_directory` used by `oe_get()` with: 
+
+```{r, eval = FALSE}
+oe_download_directory()
+```
+
 ## Warnings: 
 
 The functions may return a Warning message like 

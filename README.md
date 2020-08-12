@@ -118,7 +118,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.7.1, GDAL 2.2.2, PROJ 4.9.2
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
 ```
 
 ## Basic usage
@@ -134,11 +134,7 @@ layer can be read-in by changing the `layer` argument:
 
 ``` r
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
-#> Warning: st_crs<- : replacing crs does not reproject data; use st_transform for
-#> that
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
-#> Warning: st_crs<- : replacing crs does not reproject data; use st_transform for
-#> that
 nrow(osm_lines)
 #> [1] 44849
 nrow(osm_points)
@@ -163,8 +159,7 @@ names(osm_lines) # default variable names
 Once imported, you can use all the functions for data frames in base R
 and other packages. We can also use functions from the `sf` package for
 spatial analysis and visualisation. Let’s plot all the major, secondary
-and residential roads, for
-example:
+and residential roads, for example:
 
 ``` r
 ht = c("primary", "secondary", "residential", "tertiary") # highway types of interest
@@ -186,10 +181,34 @@ For further details on using the package, see the [Introducing
 osmextract
 vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
 
+## Persistent download directory
+
+The default behaviour of `oe_get()` is to save all the files in a
+temporary directory, which is erased every time you restart your R
+session. If you want to set a directory that will persist, you can add
+`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
+e.g. with:
+
+``` r
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+We strongly advise you setting a persistent directory since working with
+`.pbf` files is an expensive operation, that is skipped by `oe_*()`
+functions if they detect that the input `.pbf` file was already
+downloaded.
+
+You can always check the default `download_directory` used by `oe_get()`
+with:
+
+``` r
+oe_download_directory()
+```
+
 ## Warnings:
 
-The functions may return a Warning message
-    like
+The functions may return a Warning message like
 
     st_crs<- : replacing crs does not reproject data; use st_transform for that 
 
@@ -231,8 +250,7 @@ states that
   - [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
     package for reading .pbf files
   - [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
-    a Julia package for reading and analysing .osm
-    files
+    a Julia package for reading and analysing .osm files
   - [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
     is an established spatial database that works well with large OSM
     datasets
