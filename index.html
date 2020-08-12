@@ -101,10 +101,11 @@
 <span class="co"># Error in check_for_error(doc) : General overpass server error; returned:</span>
 <span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span>
 </pre></div>
-<p>The query stops with an error message after around 10 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds (after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format, not evaluated):</p>
+<p>The query stops with an error message after around 30 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format. The download-conversion operation of the OSM extract associated to England takes approximately a few minutes, and this operation must be executed only once. The following code chunk is not evaluated:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span>)
-<span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright</span>
+<span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
+<span class="co">#&gt; Any product made from OpenStreetMap must cite OSM as the data source.</span>
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
 <span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
 </pre></div>
@@ -114,9 +115,10 @@
   quiet = <span class="fl">FALSE</span>,
   query = <span class="st">"SELECT * FROM 'lines' WHERE highway = 'cycleway'"</span>
 )
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">cycleways_england</span>))
 </pre></div>
-<p><img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%"></p>
+<p><img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%"></p>
 <p>The package is designed to complement <code>osmdata</code>, which has advantages over <code>osmextract</code> for small datasets: <code>osmdata</code> is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an intuitive interface. <code>osmdata</code> can provide data in a range of formats, while <code>osmextract</code> only returns <a href="https://github.com/r-spatial/sf"><code>sf</code></a> objects.</p>
 <p><code>osmextract</code>’s niche is that it provides a fast way to download large OSM datasets in the highly compressed <code>pbf</code> format and read them in via the fast C library <a href="https://gdal.org/drivers/vector/osm.html">GDAL</a> and the popular R package for working with geographic data, <a href="https://github.com/r-spatial/sf"><code>sf</code></a>.</p>
 </div>
@@ -145,12 +147,12 @@
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic usage</h2>
-<p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (Geofabrik by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the ‘lines’ layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
+<p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (<a href="https://www.geofabrik.de/data/download.html">Geofabrik</a> by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the ‘lines’ layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>)
-<span class="kw">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, layer = <span class="st">"points"</span>)
+<span class="kw">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
+<span class="kw">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, layer = <span class="st">"points"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_lines</span>)
-<span class="co">#&gt; [1] 44845</span>
+<span class="co">#&gt; [1] 44849</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_points</span>)
 <span class="co">#&gt; [1] 59009</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_lines</span><span class="op">$</span><span class="kw">geometry</span>, xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.5</span>, <span class="fl">50.8</span>))
@@ -170,7 +172,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">osm_major_roads</span>[<span class="st">"highway"</span>], key.pos = <span class="fl">1</span>)
 </pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
-<p>The same steps can be used to get other OSM datasets (note use of <code>quiet = FALSE</code> to show additional message, examples not run):</p>
+<p>The same steps can be used to get other OSM datasets (note use of <code>quiet = FALSE</code> to show additional message, examples, not run):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="kw">test_malta</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Malta"</span>, quiet = <span class="fl">FALSE</span>)
 <span class="kw">test_andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, extra_tags = <span class="st">"ref"</span>, quiet = <span class="fl">FALSE</span>)
