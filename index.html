@@ -141,7 +141,7 @@
 <p>To use alongside functionality in the <code>sf</code> package we also recommend attaching this geographic data package as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatial.github.io/sf">sf</a></span>)
-<span class="co">#&gt; Linking to GEOS 3.7.1, GDAL 2.2.2, PROJ 4.9.2</span>
+<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</span>
 </pre></div>
 </div>
 <div id="basic-usage" class="section level2">
@@ -150,11 +150,7 @@
 <p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (<a href="https://www.geofabrik.de/data/download.html">Geofabrik</a> by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the ‘lines’ layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="kw">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
-<span class="co">#&gt; Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for</span>
-<span class="co">#&gt; that</span>
 <span class="kw">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span>(<span class="st">"Isle of Wight"</span>, layer = <span class="st">"points"</span>, stringsAsFactors = <span class="fl">FALSE</span>)
-<span class="co">#&gt; Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for</span>
-<span class="co">#&gt; that</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_lines</span>)
 <span class="co">#&gt; [1] 44849</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">osm_points</span>)
@@ -183,11 +179,25 @@
 </pre></div>
 <p>For further details on using the package, see the <a href="https://itsleeds.github.io/osmextract/articles/osmextract.html">Introducing osmextract vignette</a>.</p>
 </div>
+<div id="persistent-download-directory" class="section level2">
+<h2 class="hasAnchor">
+<a href="#persistent-download-directory" class="anchor"></a>Persistent download directory</h2>
+<p>The default behaviour of <code><a href="reference/oe_get.html">oe_get()</a></code> is to save all the files in a temporary directory, which is erased every time you restart your R session. If you want to set a directory that will persist, you can add <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="kw">usethis</span>::<span class="fu">edit_r_environ</span>()
+<span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span>
+</pre></div>
+<p>We strongly advise you setting a persistent directory since working with <code>.pbf</code> files is an expensive operation, that is skipped by <code>oe_*()</code> functions if they detect that the input <code>.pbf</code> file was already downloaded.</p>
+<p>You can always check the default <code>download_directory</code> used by <code><a href="reference/oe_get.html">oe_get()</a></code> with:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu"><a href="reference/oe_download_directory.html">oe_download_directory</a></span>()
+</pre></div>
+</div>
 <div id="warnings" class="section level2">
 <h2 class="hasAnchor">
 <a href="#warnings" class="anchor"></a>Warnings:</h2>
 <p>The functions may return a Warning message like</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>st_crs&lt;-<span class="st"> </span><span class="er">:</span><span class="st"> </span>replacing crs does not reproject data; use st_transform <span class="cf">for</span> that </span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>st_crs&lt;-<span class="st"> </span><span class="er">:</span><span class="st"> </span>replacing crs does not reproject data; use st_transform <span class="cf">for</span> that </span></code></pre></div>
 <p>if the user is running old version of GDAL/PROJ. See <a href="https://github.com/r-spatial/sf/issues/1419">here</a> for more details.</p>
 </div>
 <div id="next-steps" class="section level2">
