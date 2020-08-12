@@ -143,7 +143,7 @@
 <span class="co">#&gt; 1           geofabrik geofabrik_zones             430               14</span>
 <span class="co">#&gt; 2              bbbike    bbbike_zones             235               10</span>
 </pre></div>
-<p>Each element in <code>database_name</code> is a data object that is packaged with <code>osmextract</code>. Perhaps the best known bulk OSM data provider is Geofabrik, represented as data frame in the packaged object <code>geofabrik_zones</code>.</p>
+<p>You can read a detailed description of each provider data running, for example, <code><a href="../reference/geofabrik_zones.html">?geofabrik_zones</a></code> or <code><a href="../reference/bbbike_zones.html">?bbbike_zones</a></code>. Each element in <code>database_name</code> is a data object that is packaged with <code>osmextract</code>. Perhaps the best known bulk OSM data provider is Geofabrik, represented as data frame in the packaged object <code>geofabrik_zones</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">geofabrik_zones</span>)
 <span class="co">#&gt; [1] "sf"         "data.frame"</span>
@@ -158,19 +158,19 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">geofabrik_zones</span>))
 </pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-5-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The plot above shows how the provider divides geographic space into discrete chunks. Different providers have other zoning systems.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">bbbike_zones</span>), xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">30</span>, <span class="fl">60</span>))
 </pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>As shown in the above visualisation of <a href="https://download.bbbike.org/osm/">BBBike.org</a> zones in Europe, the provider offers rectangular extracts of major cities. You can also download manually selected regions of interest from the BBBike website.</p>
 </div>
 <div id="oe_match-finding-osm-extracts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#oe_match-finding-osm-extracts" class="anchor"></a><code>oe_match()</code>: finding OSM extracts</h2>
-<p><code><a href="../reference/oe_match.html">oe_match()</a></code> takes character strings and returns matching zones based on the <code>name</code> column in the provider data objects such as <code>geofabrik_zones</code>. By default it returns a named list with the URL and file size of the corresponding <code>pbf</code> file hosted by the provider, as shown below.</p>
+<p><code><a href="../reference/oe_match.html">oe_match()</a></code> takes one character string and returns one matching zone based on the minimum Approximate String Distance (<code><a href="https://rdrr.io/r/utils/adist.html">?adist</a></code>) between the input <code>place</code> and the <code>name</code> column in the provider data objects, such as <code>geofabrik_zones</code> (the default). By default it returns a named list with the URL and file size (in bytes) of the corresponding <code>pbf</code> file hosted by the provider, as shown below.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Italy"</span>)
 <span class="co">#&gt; $url</span>
@@ -178,33 +178,23 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
 <span class="co">#&gt; [1] 1544340778</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Isle of wight"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>)
 <span class="co">#&gt; $url</span>
-<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"</span>
+<span class="co">#&gt; [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 6877468</span>
+<span class="co">#&gt; [1] 19376705</span>
 </pre></div>
-<p>There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names:</p>
+<p>There are several situations where it could be difficult to find the appropriate data source:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Korea"</span>)
-<span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: Azores -</span>
-<span class="co">#&gt; Corse - Dorset - Jordan - Kenya - norte - Norway - Syria - Tonga. Selecting the</span>
-<span class="co">#&gt; first match.</span>
-<span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Russia"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Russia"</span>, quiet = <span class="fl">FALSE</span>)
 <span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: Asia -</span>
 <span class="co">#&gt; Austria - Tunisia. Selecting the first match.</span>
+<span class="co">#&gt; No exact matching found for place = Russia. Best match is Asia.</span>
 <span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 </pre></div>
-<p>We therefore enable search using <a href="https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2">iso3166-1 alpha2</a> codes:</p>
+<p>We therefore enable search using alternative fields in the provider’s data that can be specified using the <code>match_by</code> parameter. For example, working with <code>geofabrik_data</code>, we implemented the possibility of looking for a match with <a href="https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2">iso3166-1 alpha2</a> codes:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"KP"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
-<span class="co">#&gt; $url</span>
-<span class="co">#&gt; [1] "https://download.geofabrik.de/asia/north-korea-latest.osm.pbf"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 33241783</span>
 <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"RU"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/russia-latest.osm.pbf"</span>
@@ -218,7 +208,7 @@
 <span class="co">#&gt; $file_size</span>
 <span class="co">#&gt; [1] 6982945396</span>
 </pre></div>
-<p>The are a few cases where the <code>iso3166-1 alpha2</code> codes can fail because there are no per-country extracts (e.g. Israel and Palestine)</p>
+<p>The are a few cases where the <code>iso3166-1 alpha2</code> codes in <code>geofabrik_data</code> do not work because there are no per-country extracts (e.g. Israel and Palestine):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"PS"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
 <span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: IS - LS</span>
@@ -231,34 +221,35 @@
 <span class="co">#&gt; match.</span>
 <span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
 </pre></div>
-<!-- For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:  -->
-<div id="finding-zones-based-on-geographic-inputs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#finding-zones-based-on-geographic-inputs" class="anchor"></a>Finding zones based on geographic inputs</h3>
-<p>The input <code>place</code> can be also specified using an <code>sfc_POINT</code> object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the <code>level</code> variable).</p>
-<!-- I would ignore the CRS warning for the moment.  -->
+<p>For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="kw">coords_milan</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1514924.21</span>, <span class="fl">5034552.92</span>)) <span class="co"># Duomo di Milano</span>
-<span class="kw">st_sfc_milan</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="kw">coords_milan</span>, crs = <span class="fl">3003</span>)
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="kw">st_sfc_milan</span>)
-<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
-<span class="co">#&gt; $url</span>
-<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 416306623</span>
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"London"</span>)
+<span class="co">#&gt; [1] "Greater London"</span>
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Russia"</span>)
+<span class="co">#&gt; [1] "Russian Federation"</span>
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Palestine"</span>)
+<span class="co">#&gt; [1] "Israel and Palestine"</span>
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_2"</span>)
+<span class="co">#&gt;  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC"</span>
+<span class="co">#&gt; [10] "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS" "US-KY"</span>
+<span class="co">#&gt; [19] "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT"</span>
+<span class="co">#&gt; [28] "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC" "US-ND" "US-OH"</span>
+<span class="co">#&gt; [37] "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX"</span>
+<span class="co">#&gt; [46] "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI" "US-WY"</span>
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Washington"</span>, provider = <span class="st">"bbbike"</span>)
+<span class="co">#&gt; [1] "WashingtonDC"</span>
+<span class="kw">israel_sf</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
 </pre></div>
-<p>The input <code>place</code> can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:</p>
+<p>This information can be used for selecting the appropriate match:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">9.1916</span>, <span class="fl">45.4650</span>)) <span class="co"># Duomo di Milano using EPSG: 4326</span>
-<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Greater London"</span>)
 <span class="co">#&gt; $url</span>
-<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/greater-london-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 416306623</span>
+<span class="co">#&gt; [1] 59746355</span>
 </pre></div>
-<p>If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance:</p>
+<p>The function returns an error if the minimum approximate string distance between the input <code>place</code> and the closest match is greater than the parameter <code>max_string_dist</code> (which defaults to 1). You can always increase this value, but be aware that it can be be dangerous:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Isle Wight"</span>)
 <span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
@@ -268,11 +259,59 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
 <span class="co">#&gt; [1] 6877468</span>
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"London"</span>, max_string_dist = <span class="fl">3</span>, quiet = <span class="fl">FALSE</span>)
+<span class="co">#&gt; The input place was matched with: Jordan</span>
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/asia/jordan-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 27400228</span>
+</pre></div>
+<p>The parameter <code>max_string_dist</code> is set equal to 0 if <code>match_by</code> is equal to <em>iso3166_1_alpha2</em> or <em>iso3166_2</em> to avoid matching with the wrong iso3166 code.</p>
+<p>The function returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input <code>place</code>. In that case, it selects the first match:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Belin"</span>)
+<span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: Benin -</span>
+<span class="co">#&gt; Berlin. Selecting the first match.</span>
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/africa/benin-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 34426444</span>
+</pre></div>
+<div id="finding-zones-based-on-geographic-inputs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#finding-zones-based-on-geographic-inputs" class="anchor"></a>Finding zones based on geographic inputs</h3>
+<p>The input <code>place</code> can be also specified using an <code>sfc_POINT</code> object with arbitrary CRS as documented in the following example. The function will return a zone intersecting the <code>sfc_POINT</code> object (or an error, if the input point does not intersect any area). If the input <code>place</code> intersects multiple nested zones, the function returns the area with the highest <code>level</code>. Check the help page of <code><a href="../reference/geofabrik_zones.html">?geofabrik_zones</a></code> to understand the meaning of the <code>level</code> field.<br>
+If there are multiple matches with the same level, then <code><a href="../reference/oe_match.html">oe_match()</a></code> function will return the area whose centroid is closest to the input <code>place</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="kw">milan_duomo</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1514924</span>, <span class="fl">5034552</span>)), crs = <span class="fl">3003</span>)
+
+<span class="co"># Check all geographical matches: </span>
+<span class="kw">all_matches_with_milan</span> <span class="op">=</span> <span class="kw">geofabrik_zones</span>[<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(<span class="kw">milan_duomo</span>, <span class="fl">4326</span>), ]
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="kw">milan_duomo</span>) <span class="co"># returns only the zone with highest level</span>
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 416306623</span>
+</pre></div>
+<p>The input <code>place</code> can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">9.1916</span>, <span class="fl">45.4650</span>)) <span class="co"># Duomo di Milano using EPSG: 4326</span>
+<span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
+<span class="co">#&gt; $url</span>
+<span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $file_size</span>
+<span class="co">#&gt; [1] 416306623</span>
 </pre></div>
 <p>To reduce unnecessary computational resources and save bandwidth/electricity, we will use a small OSM extract in subsequent sections that can be found as follows:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">iow_details</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>)
-<span class="kw">iow_details</span>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="kw">its_details</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>)
+<span class="kw">its_details</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"</span>
 <span class="co">#&gt; </span>
@@ -285,33 +324,26 @@
 <h2 class="hasAnchor">
 <a href="#download-osm-data-with-oe_download" class="anchor"></a>Download OSM data with <code>oe_download()</code>
 </h2>
-<p>The purpose of <code><a href="../reference/oe_download.html">oe_download()</a></code> is to download .pbf files representing OSM extracts for regions listed in the provider zones can can be found with functions such as <code><a href="../reference/oe_match.html">oe_match()</a></code> outlined in the previous section. The function takes a URL as an input and downloads the file:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
+<p>The purpose of <code><a href="../reference/oe_download.html">oe_download()</a></code> is to download <code>.pbf</code> files representing OSM extracts for regions listed in the provider zones that can be found with functions such as <code><a href="../reference/oe_match.html">oe_match()</a></code> outlined in the previous section. The function takes a URL as input and downloads the file in the directory specified by the parameter <code>download_directory</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_download.html">oe_download</a></span>(
-  file_url = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">url</span>, 
-  file_size = <span class="kw">iow_details</span><span class="op">$</span><span class="kw">file_size</span>,
+  file_url = <span class="kw">its_details</span><span class="op">$</span><span class="kw">url</span>, 
+  file_size = <span class="kw">its_details</span><span class="op">$</span><span class="kw">file_size</span>,
+  provider = <span class="st">"test"</span>,
   download_directory = <span class="st">"."</span>
 )
 </pre></div>
-<p>If you want to download your data into a specific folder once, you can set the download directory:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span>(<span class="st">"OSMEXT_DOWNLOAD_DIRECTORY"</span> = <span class="st">"/home/andrea/Downloads"</span>)
-<span class="fu"><a href="../reference/oe_download.html">oe_download</a></span>(
-  file_url = <span class="kw">iow</span><span class="op">$</span><span class="kw">url</span>, 
-  file_size = <span class="kw">iow</span><span class="op">$</span><span class="kw">file_size</span>
-)
-<span class="co">#&gt; /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf</span>
-</pre></div>
-<p>If you want to set a directory that will persist, you can set <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
+<p>The argument <code>provider</code> can be omitted if the input <code>url</code> is associated with one of the regular OSM extract providers (such as Geofabrik or Bbbike). If you want to set a directory that will persist, you can set <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="kw">usethis</span>::<span class="fu">edit_r_environ</span>()
 <span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span>
 </pre></div>
-</div>
-<div id="convert-osm-files-with-oe_vectortranslate" class="section level2">
-<h2 class="hasAnchor">
-<a href="#convert-osm-files-with-oe_vectortranslate" class="anchor"></a>Convert OSM files with <code>oe_vectortranslate()</code>
-</h2>
+<p>You can always check the default <code>download_directory</code> for <code><a href="../reference/oe_download.html">oe_download()</a></code> using:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span>()
+<span class="co">#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpKdIhu4"</span>
+</pre></div>
+<p>We strongly advise you set ## Convert OSM files with <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code></p>
 </div>
 <div id="read-in-osm-datasets-with-oe_read" class="section level2">
 <h2 class="hasAnchor">
@@ -323,18 +355,18 @@
 <a href="#do-it-all-with-oe_get" class="anchor"></a>Do it all with <code>oe_get()</code>
 </h2>
 <p>To simplify the steps outlined above, while enabling modularity if needs be, we packaged them all into a single function that works as follows:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
+<div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="kw">its_lines</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">its_lines</span>)
 </pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-21-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="queries" class="section level1">
 <h1 class="hasAnchor">
 <a href="#queries" class="anchor"></a>Queries</h1>
 <p>Some files from providers such as geofabrik are large. You may therefore want to check the contents before importing them. To do this you can use an SQL query that is passed to GDAL via <code>sf</code>. To check the values stored in the highway column for our Isle of Wight example, for example, run the following command:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
+<div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="kw">its_highway_values</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
   <span class="st">"ITS Leeds"</span>,
   provider = <span class="st">"test"</span>,
@@ -348,7 +380,7 @@
 <span class="co">#&gt; [11] "tertiary"     NA             "corridor"</span>
 </pre></div>
 <p>The values will vary depending on how many types of highway are in the particular extract of interest. There are more types of highway in the Andorra dataset, for example:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
+<div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="kw">andorra_highway_values</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
   <span class="st">"Andorra"</span>, 
   query = <span class="st">"SELECT DISTINCT highway FROM \"lines\" "</span>
@@ -357,7 +389,7 @@
 <span class="co">#&gt; [1] 22</span>
 </pre></div>
 <p>The same <code>query</code> argument can be used to read-in only certain features, all residential highway segments in the <code>its_lines</code> dataset for example:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
+<div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="co"># and select only one of them: </span>
 <span class="kw">its_residential</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
   <span class="st">"ITS Leeds"</span>,
@@ -370,7 +402,7 @@
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpFMh3zr/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKdIhu4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 21 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -380,10 +412,10 @@
 <span class="co">#&gt; [1] "sf"         "data.frame"</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">its_residential</span><span class="op">$</span><span class="kw">geometry</span>)
 </pre></div>
-<p><img src="osmextract_files/figure-html/iow2-1.png" width="700"></p>
+<p><img src="osmextract_files/figure-html/iow2-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This is substantially faster and less memory intensive than reading-in the whole dataset and filtering with R. Computational efficiency is important when working with large OSM datasets provided by the package.</p>
 <p>You can use <a href="https://gdal.org/user/ogr_sql_dialect.html">GDAL’s SQL syntax</a> to get the result you need. Let’s get all primary and secondary roads in the Isle of Wight, for example (result not shown):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
+<div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="kw">iow_major_roads2</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
   <span class="st">"Isle of Wight"</span>, 
   extra_tags = <span class="st">"ref"</span>, 
@@ -393,7 +425,7 @@
 <span class="co"># plot(iow_major_roads2["highway"])</span>
 </pre></div>
 <p>You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
+<div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="kw">its_active_travel</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
   <span class="st">"ITS Leeds"</span>,
   provider = <span class="st">"test"</span>,
@@ -404,7 +436,7 @@
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpFMh3zr/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKdIhu4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 77 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -412,22 +444,22 @@
 <span class="co">#&gt; geographic CRS: WGS 84</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">its_active_travel</span>[<span class="st">"highway"</span>], key.pos = <span class="fl">1</span>)
 </pre></div>
-<p><img src="osmextract_files/figure-html/iow4-1.png" width="700"></p>
+<p><img src="osmextract_files/figure-html/iow4-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="other-providers" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-providers" class="anchor"></a>Other providers</h1>
 <p>At present <code>geofabrik</code> and <code>bbbike</code> providers are supported. An example showing how to use an alternative provider is shown in the example below.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
+<div class="sourceCode" id="cb27"><pre class="downlit">
 <span class="kw">leeds</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(place = <span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>, quiet = <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">leeds</span>)
 <span class="co">#&gt; [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </span>
 <span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">leeds</span><span class="op">$</span><span class="kw">geometry</span>)
 </pre></div>
-<p><img src="https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png"><!-- --></p>
+<p><img src="https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png" style="display: block; margin: auto;"></p>
 <p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. The second was <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The package can be extended to support additional providers, as seen in <a href="https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d">code</a> that adds a working test provider.</p>
 <p>Providers break the world into zones and, as described in the ‘List providers’ section above, these zones are represented as <code>sf</code> objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
+<div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">geofabrik_zones</span>)
 <span class="co">#&gt;  [1] "id"               "name"             "parent"           "level"           </span>
 <span class="co">#&gt;  [5] "iso3166_1_alpha2" "iso3166_2"        "pbf_file_size"    "pbf"             </span>
