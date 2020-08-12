@@ -99,7 +99,7 @@
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
 <span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
 </pre></div>
-<p>As of summer 2020 there are 7 services providing bulk OSM datasets listed at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">https://wiki.openstreetmap.org/wiki/Processed_data_providers</a>. This package is designed to make it easy to add new providers. To add a new provider there are three main steps, creating the zones, adding the provider and documentation, outlined below.</p>
+<p>As of summer 2020 there are 7 services providing bulk OSM datasets listed <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">here</a>. This package is designed to make it easy to add new providers. To add a new provider there are three main steps, creating the zones, adding the provider and documentation, outlined below.</p>
 <div id="adding-a-provider_zones-object-to-the-package" class="section level1">
 <h1 class="hasAnchor">
 <a href="#adding-a-provider_zones-object-to-the-package" class="anchor"></a>Adding a <code>provider_zones</code> object to the package</h1>
@@ -118,11 +118,12 @@
 </pre></div>
 <p>The output shows the three most important column names in dataset:</p>
 <ol style="list-style-type: decimal">
-<li>The dataset name</li>
-<li>The url endpoint where .pbf files associated with each zone can be downloaded</li>
+<li>The dataset name (that is used for matching the input <code>place</code>)</li>
+<li>The url endpoint where <code>.pbf</code> files associated with each zone can be downloaded</li>
 <li>The geometry, representing the spatial extent of the dataset</li>
 </ol>
-<p>The best way to start creating a new <code>_zones</code> object for a new provider is probably by looking at the code we wrote for the first and <a href="https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d">test</a> providers in <a href="https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R"><code>data-raw/geofabrik_zones.R</code></a> The following commands will clone this repo and open the relevant file:</p>
+<p>You also must include <code>level</code> and <code>id</code> fields, which are used, respectively, for spatial matching and updating files. See <a href="https://itsleeds.github.io/osmextract/reference/oe_match.html">oe_match()</a> and <a href="https://itsleeds.github.io/osmextract/reference/oe_update.html">oe_update()</a>.</p>
+<p>The best way to start creating a new <code>_zones</code> object for a new provider is probably by looking at the code we wrote for the first and <a href="https://github.com/ITSLeeds/osmextract/commit/dc7d4ca5f62d8164901fa01863cae2cba3e0b213">test</a> providers in <a href="https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R"><code>data-raw/geofabrik_zones.R</code></a> The following commands will clone this repo and open the relevant file:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> clone git@github.com:itsleeds/osmextract</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
 <p>Then in RStudio:</p>
@@ -141,11 +142,11 @@
 <p>Once you have created your overview <code>_zones</code> file as outlined in the previous step, you need to modify the following files for the provider to be available for others:</p>
 <ul>
 <li>
-<a href="https://github.com/ITSLeeds/osmextract/blob/master/R/data.R">data.R</a>, where you’ll need to document the new dataset</li>
+<a href="https://github.com/ITSLeeds/osmextract/blob/master/R/data.R">data.R</a>, where you’ll need to document the new dataset;</li>
 <li>
-<a href="https://github.com/ITSLeeds/osmextract/blob/master/R/globals.R">globals.R</a>, where you’ll need to add the new object name</li>
+<a href="https://github.com/ITSLeeds/osmextract/blob/master/R/globals.R">globals.R</a>, where you’ll need to add the new object name;</li>
 <li>
-<a href="https://github.com/ITSLeeds/osmextract/blob/master/R/match.RR">match.RR</a>, where you’ll need to add the new object name</li>
+<a href="https://github.com/ITSLeeds/osmextract/blob/master/R/providers.R">providers.R</a>, where you’ll need to add the new object name in <code>oe_available_providers()</code> and <code>load_provider_data()</code>.</li>
 </ul>
 </div>
 <div id="documenting-the-provider" class="section level1">
