@@ -43,9 +43,9 @@
 <meta property="og:description" content="This function is used to translate a .osm.pbf file into .gpkg format.
 The conversion is performed using
 ogr2ogr through
-vectortranslate utility in sf::gdal_utils(). It was created following
+vectortranslate utility in sf::gdal_utils() . It was created following
 the suggestions
-of the maintainers of GDAL. See Details and Examples to understand the basic
+of the maintainers of GDAL. See Details and examples to understand the basic
 usage, and check the introductory vignette for more complex use-cases." />
 
 
@@ -138,9 +138,9 @@ usage, and check the introductory vignette for more complex use-cases." />
     <p>This function is used to translate a <code>.osm.pbf</code> file into <code>.gpkg</code> format.
 The conversion is performed using
 <a href='https://gdal.org/programs/ogr2ogr.html#ogr2ogr'>ogr2ogr</a> through
-<code>vectortranslate</code> utility in <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>. It was created following
+<code>vectortranslate</code> utility in <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code> . It was created following
 <a href='https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053'>the suggestions</a>
-of the maintainers of GDAL. See Details and Examples to understand the basic
+of the maintainers of GDAL. See Details and examples to understand the basic
 usage, and check the introductory vignette for more complex use-cases.</p>
     </div>
 
@@ -149,7 +149,7 @@ usage, and check the introductory vignette for more complex use-cases.</p>
   layer = <span class='st'>"lines"</span>,
   vectortranslate_options = <span class='kw'>NULL</span>,
   osmconf_ini = <span class='kw'>NULL</span>,
-  extra_attributes = <span class='kw'>NULL</span>,
+  extra_tags = <span class='kw'>NULL</span>,
   force_vectortranslate = <span class='fl'>FALSE</span>,
   quiet = <span class='fl'>TRUE</span>
 )</pre>
@@ -170,27 +170,27 @@ usage, and check the introductory vignette for more complex use-cases.</p>
     <tr>
       <th>vectortranslate_options</th>
       <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
-argument <code>options</code>. Set by default. Check Details at
-<code>oe_vectortranslate()</code>.</p></td>
+argument <code>options</code>. Set by default. Check Details in the introductory
+vignette and in <code>oe_vectortranslate()</code>.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
       <td><p>The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
-<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details at
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details in
 <code>oe_vectortranslate()</code>.</p></td>
     </tr>
     <tr>
-      <th>extra_attributes</th>
-      <td><p>Which addition columns, corresponding to OSM keys,
+      <th>extra_tags</th>
+      <td><p>Which addition columns, corresponding to OSM tags,
 should be in the resulting dataset? <code>FALSE</code> by default. Check Details at
-<code>oe_vectortranslate()</code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>.</p></td>
+<code>oe_vectortranslate()</code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code> .</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
       <td><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
-already exists? Check Details at <code>oe_vectortranslate()</code>.</p></td>
+already exists? Check Details at <code>oe_vectortranslate()</code> .</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -207,7 +207,7 @@ already exists? Check Details at <code>oe_vectortranslate()</code>.</p></td>
 <code>.osm.pbf</code> file. The translation process is performed using the
 <code>vectortranslate</code> utility in <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>. This operation can be
 customized in several ways modifying the parameters <code>layer</code>,
-<code>extra_attributes</code>, <code>osmconf_ini</code>, and <code>vectortranslate_options</code>.</p>
+<code>extra_tags</code>, <code>osmconf_ini</code>, and <code>vectortranslate_options</code>.</p>
 <p>The <code>.osm.pbf</code> files processed using GDAL are usually categorized into 5
 layers, named <code>points</code>, <code>lines</code>, <code>multilinestrings</code>, <code>multipolygons</code> and
 <code>other_relations</code>. Check the first paragraphs
@@ -217,7 +217,7 @@ used to specify which layer of the <code>.osm.pbf</code> file should be converte
 the <code>.gpkg</code> file. Several layers with different names can be stored in the
 same <code>.gpkg</code> file. By default, the function will convert the <code>lines</code> layer
 (which is the most common one according to our experience).</p>
-<p>The arguments <code>osmconf_ini</code> and <code>extra_attributes</code> are used to modify how
+<p>The arguments <code>osmconf_ini</code> and <code>extra_tags</code> are used to modify how
 GDAL read and process a <code>.osm.pbf</code> file. More precisely, several operations
 that GDAL performs on the input <code>.osm.pbf</code> file are governed by a <code>CONFIG</code>
 file, that you can check at the following
@@ -225,25 +225,27 @@ file, that you can check at the following
 The basic components of OSM data are called
 <a href='https://wiki.openstreetmap.org/wiki/Elements'><em>elements</em></a> and they are
 divided into <em>nodes</em>, <em>ways</em> or <em>relations</em>, so, for example, the code at
-line 7 is used to determine which <em>ways</em> are assumed to be polygons if they
-are closed. Moreover, OSM data is usually described using several
+line 7 is used to determine which <em>ways</em> are assumed to be polygons
+(according to the simple-feature definition of polygon) if they are closed.
+Moreover, OSM data is usually described using several
 <a href='https://wiki.openstreetmap.org/wiki/Tags'><em>tags</em></a>, i.e a pair of two
 items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
 used to determine, for each layer, which tags should be explicitly reported
 as fields (while all the other tags are stored in the <code>other_tags</code> column,
-see <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>). The parameter <code>extra_attributes</code> is used to determine
+see <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>). The parameter <code>extra_tags</code> is used to determine
 which extra tags (i.e. key/value pairs) should be added to the <code>.gpkg</code>
-file. By default, the vectortranslate operations are skipped if the
+file.</p>
+<p>By default, the vectortranslate operations are skipped if the
 function detects a file having the same path as the input file, <code>.gpkg</code>
 extension and a layer with the same name as the parameter <code>layer</code> with all
-<code>extra_attributes</code>. In that case the function will simply return the path
+<code>extra_tags</code>. In that case the function will simply return the path
 of the <code>.gpkg</code> file. This behaviour can be overwritten by setting
 <code>force_vectortranslate = TRUE</code>. The parameter <code>osmconf_ini</code> is used to pass
 your own <code>CONFIG</code> file in case you need more control over the GDAL
 operations. In that case the vectortranslate operations are never skipped.
 Check the package introductory vignette for an example. If <code>osmconf_ini</code> is
 equal to <code>NULL</code> (the default), then the function uses default <code>osmconf.ini</code>
-file defined by GDAL (but for the extra attributes).</p>
+file defined by GDAL (but for the extra tags).</p>
 <p>The parameter <code>vectortranslate_options</code> is used to control the arguments
 that are passed to <code>ogr2ogr</code> via <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code> when converting between
 <code>.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations during
@@ -257,7 +259,7 @@ it empty;</p></li>
 <li><p><code>"-oo", paste0("CONFIG_FILE=", osmconf_ini)</code> is used to set the
 <a href='https://gdal.org/drivers/vector/osm.html#open-options'>Open Options</a>
 for the <code>.osm.pbf</code> file and change the <code>CONFIG</code> file (in case the user
-asks for any extra attribute or a totally different CONFIG file);</p></li>
+asks for any extra tag or a totally different CONFIG file);</p></li>
 <li><p><code>"-lco", "GEOMETRY_NAME=geometry"</code> is used to change the
 <a href='https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options'>layer creation options</a>
 for the <code>.gpkg</code> file and modify the name of the geometry column;</p></li>
@@ -297,12 +299,12 @@ documentation on all available options.</p>
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
 #&gt; 2      lines   Line String      189     10</div><div class='input'>
-<span class='co'># Add extra attributes to the lines layer</span>
+<span class='co'># Add extra tags to the lines layer</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(
   <span class='kw'>its_pbf</span>,
-  extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"maxspeed"</span>)
+  extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"maxspeed"</span>)
  )
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "maxspeed"   "z_order"   

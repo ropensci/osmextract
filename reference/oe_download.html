@@ -157,20 +157,21 @@ the package. The url is specified through the parameter <code>file_url</code>.</
     <tr>
       <th>provider</th>
       <td><p>Which provider stores the file that is specified using its
-url? If NULL (the default), it is inferred from the url but it must be
+url? If `NULL`` (the default), it is inferred from the url but it must be
 specified for non-standard cases. See details and examples.</p></td>
     </tr>
     <tr>
       <th>file_basename</th>
-      <td><p>The base name of the file. The default behaviour is to
+      <td><p>The basename of the file. The default behaviour is to
 auto-generate it from the URL using <code><a href='https://rdrr.io/r/base/basename.html'>basename()</a></code>.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
       <td><p>Where to download the file containing the OSM data?
-By default this is <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>, which changes each time you restart R.
-You can set a persistent <code>download_directory</code> by adding the following
-to your <code>.Renviron</code> file (e.g. with <code>usethis::edit_r_environ()</code>):
+By default this is equal to <code><a href='oe_download_directory.html'>oe_download_directory()</a></code>, which is equal to
+<code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> and it changes each time you restart R. You can set a
+persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
+file (e.g. with <code>usethis::edit_r_environ()</code>):
 <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
     </tr>
     <tr>
@@ -182,8 +183,8 @@ downloading the file.</p></td>
     </tr>
     <tr>
       <th>force_download</th>
-      <td><p>Should the file be updated if it has already been
-downloaded? <code>FALSE</code> by default. This parameter is used to update old
+      <td><p>Should the <code>.osm.pbf</code> file be updated if it has already
+been downloaded? <code>FALSE</code> by default. This parameter is used to update old
 <code>.osm.pbf</code> files.</p></td>
     </tr>
     <tr>
@@ -209,12 +210,12 @@ is created by pasting together the <code>download_directory</code>, the name of 
 provider (which may be inferred from the url) and the <code><a href='https://rdrr.io/r/base/basename.html'>basename()</a></code> of the
 url. For example, if <code>file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and
 <code>download_directory = "/tmp/</code>, then the path is built as
-<code>/tmp/geofabrik_italy-latest.osm.pbf</code>. Then, the function tests the
-existence of a file with the same file's path and, in that case, it simply
-returns the path. The parameter <code>force_download</code> is used to modify this
-behaviour. If there exists no file associated to the file's path, then the
-function downloads a new file using <code><a href='https://rdrr.io/r/utils/download.file.html'>download.file()</a></code> with <code>mode = "wb"</code>
-and it returns the path.</p>
+<code>/tmp/geofabrik_italy-latest.osm.pbf</code>. Then, the function checks the
+existence of a file with the same file's path and, in that case, it returns
+the path. The parameter <code>force_download</code> is used to modify this behaviour.
+If there is no file associated with the file's path, then the function
+downloads a new file using <code><a href='https://rdrr.io/r/utils/download.file.html'>download.file()</a></code> with <code>mode = "wb"</code> and it
+returns the path.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
@@ -225,7 +226,7 @@ and it returns the path.</p>
   <span class='co'># need to specify the provider parameter. See oe_providers() for a list of</span>
   <span class='co'># all available providers.</span>
   provider = <span class='st'>"test"</span>
-)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp0YQNit/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmptUEIV8/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,

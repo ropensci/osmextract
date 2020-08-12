@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Download, translate and read OSM extracts from several providers — oe_get" />
-<meta property="og:description" content="This function is used to download, translate and read OSM extracts downloaded
+<meta property="og:description" content="This function is used to download, translate and read OSM extracts obtained
 from several providers. It is a wrapper around oe_match() and oe_read().
 Check the introductory vignette, the examples and the help pages of the
 wrapped functions to understand the details behind all parameters." />
@@ -132,7 +132,7 @@ wrapped functions to understand the details behind all parameters." />
     </div>
 
     <div class="ref-description">
-    <p>This function is used to download, translate and read OSM extracts downloaded
+    <p>This function is used to download, translate and read OSM extracts obtained
 from several providers. It is a wrapper around <code><a href='oe_match.html'>oe_match()</a></code> and <code><a href='oe_read.html'>oe_read()</a></code>.
 Check the introductory vignette, the examples and the help pages of the
 wrapped functions to understand the details behind all parameters.</p>
@@ -151,7 +151,7 @@ wrapped functions to understand the details behind all parameters.</p>
   max_file_size = <span class='fl'>5e+08</span>,
   vectortranslate_options = <span class='kw'>NULL</span>,
   osmconf_ini = <span class='kw'>NULL</span>,
-  extra_attributes = <span class='kw'>NULL</span>,
+  extra_tags = <span class='kw'>NULL</span>,
   force_vectortranslate = <span class='fl'>FALSE</span>,
   download_only = <span class='fl'>FALSE</span>,
   skip_vectortranslate = <span class='fl'>FALSE</span>,
@@ -163,12 +163,12 @@ wrapped functions to understand the details behind all parameters.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>place</th>
-      <td><p>Description of the geographical area that should be matched to a
-<code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
+      <td><p>Description of the geographical area that should be matched with
+a <code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
 character vector, a length-1 <code>sfc_POINT</code> object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
 code is 4326, while you can use any EPSG code with an <code>sfc_POINT</code> object.
-See details and examples of <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
+See Details and examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
     </tr>
     <tr>
       <th>layer</th>
@@ -177,8 +177,9 @@ See details and examples of <code><a href='oe_match.html'>oe_match()</a></code>.
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments that should  be passed to <code><a href='https://rdrr.io/pkg/sf/man/st_read.html'>sf::st_read()</a></code>, like
-<code>query</code> or <code>stringsAsFactors</code>.</p></td>
+      <td><p>Arguments that will be passed to <code><a href='https://rdrr.io/pkg/sf/man/st_read.html'>sf::st_read()</a></code>, like <code>query</code>
+or <code>stringsAsFactors</code>.  Check the introductory vignette to understand how
+to create your own (SQL-like) queries.</p></td>
     </tr>
     <tr>
       <th>provider</th>
@@ -188,41 +189,44 @@ providers can be found with the following command: <code><a href='oe_providers.h
     <tr>
       <th>match_by</th>
       <td><p>Which column of the provider's database should be used for
-matching the input <code>place</code> with a .osm.pbf file? The default is "name".
-Check details and examples to understand how this parameter works. Ignored
-if <code>place</code> is not a character vector since the matching is performed
-through a spatial operation.</p></td>
+matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is "name".
+Check details and examples in <code><a href='oe_match.html'>oe_match()</a></code> to understand how this parameter
+works. Ignored if <code>place</code> is not a character vector since the matching is
+performed through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>max_string_dist</th>
       <td><p>Numerical value greater or equal than 0. What is the
-maximum distance in fuzzy matching to tolerate before asking the user to
-select which zone to download? This parameter is set equal to 0 if
-<code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>. Check details and
-examples to understand why this parameter is important. Ignored if <code>place</code>
-is not a character vector since the matching is performed through a spatial
-operation.</p></td>
+maximum distance in fuzzy matching (i.e. Approximate String Distance, see
+<code><a href='https://rdrr.io/r/utils/adist.html'>adist()</a></code>) between input <code>place</code> and <code>match_by</code> column to tolerate before
+asking the user to select which zone to download? This parameter is set
+equal to 0 if <code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>.
+Check Details and examples in <code><a href='oe_match.html'>oe_match()</a></code> to understand why this parameter
+is important. Ignored if <code>place</code> is not a character vector since the
+matching is performed through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>interactive_ask</th>
-      <td><p>Boolean. If <code>TRUE</code> the function creates and
-interactive menu in case the best match is further than <code>max_string_dist</code>,
-otherwise it fails with <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>. Check details and examples to understand
-why this parameter is important. Ignored if <code>place</code> is not a character
-vector since the matching is performed through a spatial operation.</p></td>
+      <td><p>Boolean. If <code>TRUE</code> the function creates an interactive
+menu in case the best match is further than <code>max_string_dist</code>, otherwise it
+fails with <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>. Check details and examples in <code><a href='oe_match.html'>oe_match()</a></code> to
+understand why this parameter is important. Ignored if <code>place</code> is not a
+character vector since the matching is performed through a spatial
+operation.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
       <td><p>Where to download the file containing the OSM data?
-By default this is <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>, which changes each time you restart R.
-You can set a persistent <code>download_directory</code> by adding the following
-to your <code>.Renviron</code> file (e.g. with <code>usethis::edit_r_environ()</code>):
+By default this is equal to <code><a href='oe_download_directory.html'>oe_download_directory()</a></code>, which is equal to
+<code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> and it changes each time you restart R. You can set a
+persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
+file (e.g. with <code>usethis::edit_r_environ()</code>):
 <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
     </tr>
     <tr>
       <th>force_download</th>
-      <td><p>Should the file be updated if it has already been
-downloaded? <code>FALSE</code> by default. This parameter is used to update old
+      <td><p>Should the <code>.osm.pbf</code> file be updated if it has already
+been downloaded? <code>FALSE</code> by default. This parameter is used to update old
 <code>.osm.pbf</code> files.</p></td>
     </tr>
     <tr>
@@ -233,27 +237,27 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     <tr>
       <th>vectortranslate_options</th>
       <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
-argument <code>options</code>. Set by default. Check Details at
-<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
+argument <code>options</code>. Set by default. Check Details in the introductory
+vignette and in <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
       <td><p>The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
-<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details at
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details in
 <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>extra_attributes</th>
-      <td><p>Which addition columns, corresponding to OSM keys,
+      <th>extra_tags</th>
+      <td><p>Which addition columns, corresponding to OSM tags,
 should be in the resulting dataset? <code>FALSE</code> by default. Check Details at
-<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>.</p></td>
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code> .</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
       <td><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
-already exists? Check Details at <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
+already exists? Check Details at <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> .</p></td>
     </tr>
     <tr>
       <th>download_only</th>
@@ -264,7 +268,7 @@ default.</p></td>
     <tr>
       <th>skip_vectortranslate</th>
       <td><p>Boolean. If <code>TRUE</code> then the function skips all
-the vectortranslate operations and it reads (or simply returns the path) of
+vectortranslate operations and it reads (or simply returns the path) of
 the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
     </tr>
     <tr>
@@ -276,10 +280,23 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An sf object.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The algorithm that we use for importing an OSM extract data into R
+is divided into 4 steps: 1) Matching the input <code>place</code> with the url of a
+<code>.pbf</code> file; 2) download the <code>.pbf</code> file; 3) convert it into <code>.gpkg</code> format
+and 4) read-in the <code>.gpkg</code> file. The function <code><a href='oe_match.html'>oe_match()</a></code> is used to
+perform the first operation and the function <code><a href='oe_read.html'>oe_read()</a></code> (which is a
+wrapper around <code><a href='oe_download.html'>oe_download()</a></code>, <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='https://rdrr.io/pkg/sf/man/st_read.html'>sf::st_read()</a></code>)
+performs the other three operations.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='oe_match.html'>oe_match()</a></code>, <code><a href='oe_download.html'>oe_download()</a></code>, <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>,
+and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download OSM extracts associated to a simple test.</span>
-<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0YQNit/test_its-example.gpkg' using driver `GPKG'
+<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmptUEIV8/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -295,7 +312,12 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'>
 <span class='co'># Add another layer to the test file</span>
-<span class='kw'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, layer = <span class='st'>"points"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0YQNit/test_its-example.gpkg' using driver `GPKG'
+<span class='kw'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(
+<span class='st'>"ITS Leeds"</span>,
+provider = <span class='st'>"test"</span>,
+layer = <span class='st'>"points"</span>,
+quiet = <span class='fl'>FALSE</span>
+)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmptUEIV8/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 186 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
@@ -311,9 +333,19 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'>
 <span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp0YQNit/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp0YQNit/test_its-example.osm.pbf"</div><div class='input'>
-<span class='co'># Add additional attributes</span>
-<span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, extra_attributes = <span class='st'>"oneway"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0YQNit/test_its-example.gpkg' using driver `GPKG'
+<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmptUEIV8/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(
+<span class='st'>"ITS Leeds"</span>,
+provider = <span class='st'>"test"</span>,
+download_only = <span class='fl'>TRUE</span>,
+skip_vectortranslate = <span class='fl'>TRUE</span>
+)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmptUEIV8/test_its-example.osm.pbf"</div><div class='input'>
+<span class='co'># Add additional tags</span>
+<span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(
+<span class='st'>"ITS Leeds"</span>,
+provider = <span class='st'>"test"</span>,
+extra_tags = <span class='st'>"oneway"</span>,
+quiet = <span class='fl'>FALSE</span>
+)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmptUEIV8/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -324,6 +356,7 @@ the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
 <span class='co'># The ITS Leeds file is stored on the github page of the package, so we</span>
 <span class='co'># need to manually set the provider. This is not the case with other</span>
 <span class='co'># standards providers.</span>
+
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"West Yorkshire"</span>, quiet = <span class='fl'>FALSE</span>)
 <span class='co'># If you run it again, the function will not download the file or convert it</span>

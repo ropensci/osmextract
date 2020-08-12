@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A data.frame of geographical zones taken from bbbike.org — bbbike_zones • osmextract</title>
+<title>An sf object of geographical zones taken from bbbike.org — bbbike_zones • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="A data.frame of geographical zones taken from bbbike.org — bbbike_zones" />
+<meta property="og:title" content="An sf object of geographical zones taken from bbbike.org — bbbike_zones" />
 <meta property="og:description" content="Start bicycle routing for... everywhere!" />
 
 
@@ -123,7 +123,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A <code>data.frame</code> of geographical zones taken from bbbike.org</h1>
+    <h1>An <code>sf</code> object of geographical zones taken from bbbike.org</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>bbbike_zones.Rd</code></div>
     </div>
@@ -137,20 +137,21 @@
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A sf dataframe with 430 rows and 14 columns:</p><dl>
-<dt>name</dt><dd><p>The, usually English, long-form name of the city</p></dd>
+    <p>An <code>sf</code> object with 235 rows and
+11 columns:</p><dl>
+<dt>name</dt><dd><p>The, usually English, long-form name of the city.</p></dd>
 <dt>last_modified</dt><dd><p>When was it last modified?</p></dd>
 <dt>type</dt><dd><p>empty</p></dd>
 <dt>pbf_size_size</dt><dd><p>Size of the pbf file in bytes.</p></dd>
-<dt>base_url</dt><dd><p>The base URL for the city</p></dd>
-<dt>poly_url</dt><dd><p>The .poly file location</p></dd>
-<dt>pbf</dt><dd><p>Link to the latest .osm.pbf file for this region.</p></dd>
+<dt>base_url</dt><dd><p>The base URL for the city.</p></dd>
+<dt>poly_url</dt><dd><p>The <code>.poly</code> file location.</p></dd>
+<dt>pbf</dt><dd><p>Link to the latest <code>.osm.pbf</code> file for this region.</p></dd>
 <dt>level</dt><dd><p>An integer code which is always equal to 3L since the bbbike
 data represent non-hierarchical geographical zones. This is used only for
 matching operations in case of spatial input. The oe_* functions will
 select the geographical area closest to the input place with the highest
-"level". See <code><a href='geofabrik_zones.html'>?geofabrik_zones</a></code> for an example of hierarchical structure.</p></dd>
-<dt>geometry</dt><dd><p>The sfc for that geographical region, rectangular.</p></dd>
+"level". See <a href='geofabrik_zones.html'>geofabrik_zones</a> for an example of a hierarchical structure.</p></dd>
+<dt>geometry</dt><dd><p>The `sfc`` for that geographical region, rectangular.</p></dd>
 
 </dl>
 
@@ -159,8 +160,11 @@ select the geographical area closest to the input place with the highest
     <p><a href='https://download.bbbike.org/osm/'>https://download.bbbike.org/osm/</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A <code>sf</code> <code>data.frame</code> containing the URLs, names and file_size of the OSM extracts.
-See <a href='https://download.bbbike.org/osm/'>https://download.bbbike.org/osm/</a>.</p>
+    <p>An <code>sf</code> object containing the URLs, names and file_size of the OSM extracts.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other provider's-database: 
+<code><a href='geofabrik_zones.html'>geofabrik_zones</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

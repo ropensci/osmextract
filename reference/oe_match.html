@@ -131,7 +131,7 @@ provider's databases. See oe_providers() and examples." />
     </div>
 
     <div class="ref-description">
-    <p>This function is used to match an input <code>place</code> with the URL of a .osm.pbf
+    <p>This function is used to match an input <code>place</code> with the URL of a <code>.osm.pbf</code>
 file (and its file-size, if present). The URLs are stored in several
 provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></code> and examples.</p>
     </div>
@@ -163,12 +163,12 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>place</th>
-      <td><p>Description of the geographical area that should be matched to a
-<code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
+      <td><p>Description of the geographical area that should be matched with
+a <code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
 character vector, a length-1 <code>sfc_POINT</code> object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
 code is 4326, while you can use any EPSG code with an <code>sfc_POINT</code> object.
-See details and examples of <code>oe_match()</code>.</p></td>
+See Details and examples in <code>oe_match()</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -186,43 +186,45 @@ providers can be found with the following command: <code><a href='oe_providers.h
     <tr>
       <th>match_by</th>
       <td><p>Which column of the provider's database should be used for
-matching the input <code>place</code> with a .osm.pbf file? The default is "name".
-Check details and examples to understand how this parameter works. Ignored
-if <code>place</code> is not a character vector since the matching is performed
-through a spatial operation.</p></td>
+matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is "name".
+Check details and examples in <code>oe_match()</code> to understand how this parameter
+works. Ignored if <code>place</code> is not a character vector since the matching is
+performed through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>max_string_dist</th>
       <td><p>Numerical value greater or equal than 0. What is the
-maximum distance in fuzzy matching to tolerate before asking the user to
-select which zone to download? This parameter is set equal to 0 if
-<code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>. Check details and
-examples to understand why this parameter is important. Ignored if <code>place</code>
-is not a character vector since the matching is performed through a spatial
-operation.</p></td>
+maximum distance in fuzzy matching (i.e. Approximate String Distance, see
+<code><a href='https://rdrr.io/r/utils/adist.html'>adist()</a></code>) between input <code>place</code> and <code>match_by</code> column to tolerate before
+asking the user to select which zone to download? This parameter is set
+equal to 0 if <code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>.
+Check Details and examples in <code>oe_match()</code> to understand why this parameter
+is important. Ignored if <code>place</code> is not a character vector since the
+matching is performed through a spatial operation.</p></td>
     </tr>
     <tr>
       <th>interactive_ask</th>
-      <td><p>Boolean. If <code>TRUE</code> the function creates and
-interactive menu in case the best match is further than <code>max_string_dist</code>,
-otherwise it fails with <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>. Check details and examples to understand
-why this parameter is important. Ignored if <code>place</code> is not a character
-vector since the matching is performed through a spatial operation.</p></td>
+      <td><p>Boolean. If <code>TRUE</code> the function creates an interactive
+menu in case the best match is further than <code>max_string_dist</code>, otherwise it
+fails with <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>. Check details and examples in <code>oe_match()</code> to
+understand why this parameter is important. Ignored if <code>place</code> is not a
+character vector since the matching is performed through a spatial
+operation.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with two elements, named <code>url</code> and <code>file_size</code>. The first
-element is the URL of the .osm.pbf file associated with the input <code>place</code>,
-while the second element is the size of the file in bytes (which may be
-<code>NULL</code> or <code>NA</code>)</p>
+element is the URL of the <code>.osm.pbf</code> file associated with the input
+<code>place</code>, while the second element is the size of the file in bytes (which
+may be <code>NULL</code> or <code>NA</code>)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by geofabrik
-provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a>. See <code><a href='geofabrik_zones.html'>?geofabrik_zones</a></code>
+provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a>. See <a href='geofabrik_zones.html'>geofabrik_zones</a>
 for more details.</p>
-<p>If the input place is specified as a spatial point (either sfc_POINT or
+<p>If the input place is specified as a spatial point (either <code>sfc_POINT</code> or
 numeric coordinates), then the function will return the geographical area
 with the highest "level" intersecting the point. See the help pages of the
 chosen provider database for understanding the meaning of the "level"

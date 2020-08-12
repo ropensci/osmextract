@@ -42,7 +42,7 @@
 <meta property="og:title" content="Update all the .osm.pbf files saved in a directory — oe_update" />
 <meta property="og:description" content="This function is used to re-download all .osm.pbf files stored in
 download_directory that were firstly downloaded through oe_get(). See
-details." />
+Details." />
 
 
 
@@ -133,7 +133,7 @@ details." />
     <div class="ref-description">
     <p>This function is used to re-download all <code>.osm.pbf</code> files stored in
 <code>download_directory</code> that were firstly downloaded through <code><a href='oe_get.html'>oe_get()</a></code>. See
-details.</p>
+Details.</p>
     </div>
 
     <pre class="usage"><span class='fu'>oe_update</span>(
@@ -154,34 +154,35 @@ where the <code>.osm.pbf</code> files are saved.</p></td>
     <tr>
       <th>quiet</th>
       <td><p>Boolean. If <code>FALSE</code> the function prints informative
-messages. Default to <code>FALSE</code>. See Details.</p></td>
+messages. See Details.</p></td>
     </tr>
     <tr>
       <th>delete_gpkg</th>
       <td><p>Boolean. if <code>TRUE</code> the function deletes the old <code>.gpkg</code>
 files. We added this parameter to minimize the probability of accidentally
-reading-in old and not-synchronized <code>.gpkg</code> files. See details. Defaults to
+reading-in old and not-synchronized <code>.gpkg</code> files. See Details. Defaults to
 <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameter that will be passed to <code><a href='oe_get.html'>oe_get()</a></code>.</p></td>
+      <td><p>Additional parameter that will be passed to <code><a href='oe_get.html'>oe_get()</a></code> (such as
+<code>stringsAsFactors</code> or <code>query</code>).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The path(s) of the .osm.pbf file(s) that were updated invisibly.</p>
+    <p>The path(s) of the <code>.osm.pbf</code> file(s) that were updated.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is used to re-download <code>.osm.pbf</code> files that are
 stored in a directory (specified by <code>download_directory</code> param) and that
-were firstly downloaded through <code><a href='oe_get.html'>oe_get()</a></code>. The name of the files must
+were firstly downloaded through <code><a href='oe_get.html'>oe_get()</a></code> . The name of the files must
 begin with the name of one of the supported providers (see
-<code>oe_available_providers()</code>) and it must end with <code>".osm.pbf"</code>. All other
+<code><a href='oe_providers.html'>oe_providers()</a></code>) and it must end with <code>.osm.pbf</code>. All other
 files in the directory that do not match this format are ignored.</p>
 <p>The process for re-downloading the <code>.osm.pbf</code> files is performed using the
-function <code><a href='oe_get.html'>oe_get()</a></code>. The appropriate provider is determined by looking at
+function <code><a href='oe_get.html'>oe_get()</a></code> . The appropriate provider is determined by looking at
 the first word in the path of the <code>.osm.pbf</code> file. The place is determined
 by looking at the second word in the file path and the matching is
 performed through the <code>id</code> column in the provider's database. So, for
@@ -191,14 +192,14 @@ the column <code>id</code> in <code>geofabrik_zones</code>.</p>
 <p>The parameter <code>delete_gpkg</code> is used to delete all <code>.gpkg</code> files in
 <code>download_directory</code>. We decided to set its default value to <code>TRUE</code> to
 minimize the possibility of reading-in old and non-synchonized <code>.gpkg</code>
-files. If you set <code>delete_gpkg = TRUE</code>, then you need to manually reconvert
-all files using <code><a href='oe_get.html'>oe_get()</a></code> or <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>. See examples.</p>
+files. If you set <code>delete_gpkg = FALSE</code>, then you need to manually reconvert
+all files using <code><a href='oe_get.html'>oe_get()</a></code> or <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> .</p>
 <p>If you set the parameter <code>quiet</code> to <code>FALSE</code>, then the function will print
 some useful messages regarding the characteristics of the files before and
 after updating them. More precisely, it will print the output of the
 columns <code>size</code>, <code>mtime</code> and <code>ctime</code> from <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></code>. Please note that
 the meaning of <code>mtime</code> and <code>ctime</code> depends on the OS and the file system.
-Check <code><a href='https://rdrr.io/r/base/file.info.html'>?file.info</a></code>. See examples.</p>
+Check <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {

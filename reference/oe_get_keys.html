@@ -193,7 +193,7 @@ for a more detailed explanation and see examples.</p>
 #&gt; [34] "incline"             "bridge"              "alt_name"           
 #&gt; [37] "turn:lanes:backward"</div><div class='input'>
 <span class='co'># Add an extra key to an existing .gpkg file without the .pbf</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(<span class='kw'>itsleeds_gpkg</span>, extra_attributes = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>))) <span class='co'># doesn't work</span></div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(<span class='kw'>itsleeds_gpkg</span>, extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>))) <span class='co'># doesn't work</span></div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'><span class='co'># we need a different approach</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(
