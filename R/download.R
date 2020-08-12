@@ -105,7 +105,7 @@ oe_download = function(
     # double check if we really want to download the file.
     continue = 1L
     if (interactive() && !is.null(file_size) && !is.na(file_size) && file_size >= max_file_size ) {
-      message("This is a large file (", round(file_size / 1e+6), " MB)!")
+      message("This is a large file (", round(file_size / 1048576), " MB)!")
       continue = utils::menu(
         choices = c("Yes", "No"),
         title = "Are you sure that you want to download it?"

@@ -170,7 +170,7 @@ oe_vectortranslate = function(
   # difficult to determine if an existing .gpkg file was generated following a
   # particular .ini file)
   never_skip_vectortranslate = FALSE
-  if (!is.null(osmconf_ini)) {
+  if (!is.null(osmconf_ini) || !is.null(vectortranslate_options)) {
     force_vectortranslate = TRUE
     never_skip_vectortranslate = TRUE
   }

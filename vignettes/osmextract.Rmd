@@ -321,7 +321,7 @@ Check the following sections to see a few examples with different vectortranslat
 By default, the vectortranslate operations are skipped if the function detects a file having the same path as the input file, `.gpkg` extension and a layer with the same name as the parameter `layer` with all `extra_tags`. 
 In that case the function will simply return the path of the `.gpkg` file. 
 This behaviour can be overwritten by setting `force_vectortranslate = TRUE`. 
-If `osmconf_ini` parameter is not `NULL`, the vectortranslate operations are never skipped.
+If `osmconf_ini` or `vectortranslate_options` parameters are not `NULL`, the vectortranslate operations are never skipped.
 
 ## `oe_read()`: read-in OSM data 
 
@@ -423,6 +423,46 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini)
 ```
 
 ### vectortranslate_options
+
+The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr). 
+This is extremely important since, if we tune the `vectortranslate_options` parameter, then we can analyze very big `.pbf` files without reading them in. 
+
+The following code shows how to modify the CRS of the `.gpkg` object while vectortranslating: 
+
+```{r}
+my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+my_vectortranslate = c(
+  "-f", "GPKG", #output file format
+  "-overwrite", # overwrite an existing file
+  "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
+  "-lco", "GEOMETRY_NAME=geometry", # layer creation options, 
+  "-t_srs", "EPSG:27700", # British National Grid CRS
+  "lines" #layer
+)
+# Check the CRS
+oe_get("ITS Leeds", provider = "test", vectortranslate_options = my_vectortranslate, quiet = FALSE)
+```
+
+The following chunk (not evaluated in the vignette) shows how to create a spatial query while vectortranslating: 
+
+```{r, eval = FALSE}
+lavalletta_buffer <- st_sfc(st_buffer(st_point(c(456207.4, 3972935)), 5000), crs = 32633) %>% 
+  st_transform(crs = 4326)
+lavalletta_buffer_wkt = st_as_text(lavalletta_buffer)
+
+my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+my_vectortranslate = c(
+  "-f", "GPKG", #output file format
+  "-overwrite", # overwrite an existing file
+  "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
+  "-lco", "GEOMETRY_NAME=geometry", # layer creation options, 
+  "-t_srs", "EPSG:32633", # British National Grid CRS
+  "-clipsrc", lavalletta_buffer_wkt,
+  "lines"
+)
+malta_sf = oe_get("Malta", vectortranslate_options = my_vectortranslate, quiet = FALSE)
+plot(st_geometry(malta_sf))
+```
 
 ### query
 
