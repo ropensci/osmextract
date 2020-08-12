@@ -171,7 +171,6 @@ If there are multiple matches with the same level, then `oe_match()` function wi
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 
 # Check all geographical matches: 
-all_matches_with_milan = geofabrik_zones[st_transform(milan_duomo, st_crs(geofabrik_zones)), ]
 oe_match(milan_duomo) # returns only the zone with highest level
 ```
 

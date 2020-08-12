@@ -154,6 +154,16 @@ test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
 
 For further details on using the package, see the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
 
+## Warnings: 
+
+The functions may return a Warning message like 
+
+```
+st_crs<- : replacing crs does not reproject data; use st_transform for that 
+```
+
+if the user is running old version of GDAL/PROJ. See [here](https://github.com/r-spatial/sf/issues/1419) for more details. 
+
 ## Next steps
 
 We hope to make the user interface to the SQL syntax more user friendly.
