@@ -23,21 +23,23 @@ oe_read(
 )
 }
 \arguments{
-\item{file_path}{A url or the path of a \code{.osm.pbf} or \code{.gpkg} file.}
+\item{file_path}{A url or the path of a \code{.pbf} or \code{.gpkg} file.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{...}{Arguments that should  be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
-\code{query} or \code{stringsAsFactors}.}
+\item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query}
+or \code{stringsAsFactors}.  Check the introductory vignette to understand how
+to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{oe_providers()}.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
-By default this is \code{tempdir()}, which changes each time you restart R.
-You can set a persistent \code{download_directory} by adding the following
-to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
+By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
+\code{tempdir()} and it changes each time you restart R. You can set a
+persistent \code{download_directory} by adding the following to your \code{.Renviron}
+file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
@@ -45,8 +47,8 @@ bigger than \code{max_file_size} and the function is run in interactive mode,
 then an interactive menu is displayed, asking for permission for
 downloading the file.}
 
-\item{force_download}{Should the file be updated if it has already been
-downloaded? \code{FALSE} by default. This parameter is used to update old
+\item{force_download}{Should the \code{.osm.pbf} file be updated if it has already
+been downloaded? \code{FALSE} by default. This parameter is used to update old
 \code{.osm.pbf} files.}
 
 \item{max_file_size}{The maximum file size to download without asking in
@@ -57,25 +59,25 @@ path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
 \item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
-the vectortranslate operations and it reads (or simply returns the path) of
+vectortranslate operations and it reads (or simply returns the path) of
 the \code{.osm.pbf} file. \code{FALSE} by default.}
 
 \item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
-argument \code{options}. Set by default. Check Details at
-\code{oe_vectortranslate()}.}
+argument \code{options}. Set by default. Check Details in the introductory
+vignette and in \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{osmconf_ini}{The configuration file specifying which columns should be
 in the resulting data frame. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details at
-\code{oe_vectortranslate()}.}
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
+\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{extra_attributes}{Which addition columns, corresponding to OSM keys,
 should be in the resulting dataset? \code{FALSE} by default. Check Details at
-\code{oe_vectortranslate()} and \code{oe_get_keys()}.}
+\code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}} .}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
-already exists? Check Details at \code{oe_vectortranslate()}.}
+already exists? Check Details at \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
@@ -84,18 +86,19 @@ An \code{sf} object.
 }
 \description{
 This function is used to read a \code{.pbf} or \code{.gpkg} object from file or URL. It
-is a wrapper around \code{oe_download()}, \code{oe_vectortranslate()} and
-\code{sf::st_read()}, creating an easy way to download, convert, and read a \code{.pbf}
+is a wrapper around \code{\link[=oe_download]{oe_download()}}, \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and
+\code{\link[sf:st_read]{sf::st_read()}}, creating an easy way to download, convert, and read a \code{.pbf}
 or \code{.gpkg} file. Check the introductory vignette and the help pages of the
 wrapped function for more details.
 }
 \details{
-You cannot add any layer to an existing .gpkg file but you can extract some
-of the tags in other_tags. Check \code{oe_get_keys()} for more details.
-
 The arguments \code{provider}, \code{download_directory}, \code{file_size},
 \code{force_download}, and \code{max_file_size} are ignored if \code{file_path} points to
 an existing \code{.pbf} or \code{.gpkg} file.
+
+You cannot add any layer to an existing \code{.gpkg} file but you can extract
+some of the tags in \code{other_tags} field. Check \code{\link[=oe_get_keys]{oe_get_keys()}} for more
+details.
 }
 \examples{
 # Read an existing .pbf file

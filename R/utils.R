@@ -3,6 +3,11 @@
 
 #' Return the download directory used by the package
 #'
+#' By default, the download directory is equal to `tempdir()`. You can set a
+#' persistent download directory by adding the following command to your
+#' `.Renviron` file (e.g. with [usethis::edit_r_environ()]):
+#' `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
+#'
 #' @return A character vector representing the path for the download directory
 #'   used by the package.
 #' @export

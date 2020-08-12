@@ -1,20 +1,22 @@
 #' Read a `.pbf` or `.gpkg` object from file or URL
 #'
 #' This function is used to read a `.pbf` or `.gpkg` object from file or URL. It
-#' is a wrapper around `oe_download()`, `oe_vectortranslate()` and
-#' `sf::st_read()`, creating an easy way to download, convert, and read a `.pbf`
+#' is a wrapper around [oe_download()], [oe_vectortranslate()] and
+#' [sf::st_read()], creating an easy way to download, convert, and read a `.pbf`
 #' or `.gpkg` file. Check the introductory vignette and the help pages of the
 #' wrapped function for more details.
 #'
-#' You cannot add any layer to an existing .gpkg file but you can extract some
-#' of the tags in other_tags. Check `oe_get_keys()` for more details.
 #'
 #' @details The arguments `provider`, `download_directory`, `file_size`,
 #'   `force_download`, and `max_file_size` are ignored if `file_path` points to
 #'   an existing `.pbf` or `.gpkg` file.
 #'
+#'   You cannot add any layer to an existing `.gpkg` file but you can extract
+#'   some of the tags in `other_tags` field. Check [oe_get_keys()] for more
+#'   details.
+#'
 #' @inheritParams oe_get
-#' @param file_path A url or the path of a `.osm.pbf` or `.gpkg` file.
+#' @param file_path A url or the path of a `.pbf` or `.gpkg` file.
 #' @param file_size How big is the file? Optional. `NA` by default. If it's
 #'   bigger than `max_file_size` and the function is run in interactive mode,
 #'   then an interactive menu is displayed, asking for permission for

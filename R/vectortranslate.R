@@ -3,15 +3,15 @@
 #' This function is used to translate a `.osm.pbf` file into `.gpkg` format.
 #' The conversion is performed using
 #' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through
-#' `vectortranslate` utility in `sf::gdal_utils()`. It was created following
+#' `vectortranslate` utility in [sf::gdal_utils()] . It was created following
 #' [the
 #' suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053)
-#' of the maintainers of GDAL. See Details and Examples to understand the basic
+#' of the maintainers of GDAL. See Details and examples to understand the basic
 #' usage, and check the introductory vignette for more complex use-cases.
 #'
 #' @details The new `.gpkg` file is created in the same directory as the input
 #'   `.osm.pbf` file. The translation process is performed using the
-#'   `vectortranslate` utility in `sf::gdal_utils()`. This operation can be
+#'   `vectortranslate` utility in [sf::gdal_utils()]. This operation can be
 #'   customized in several ways modifying the parameters `layer`,
 #'   `extra_attributes`, `osmconf_ini`, and `vectortranslate_options`.
 #'
@@ -33,15 +33,18 @@
 #'   The basic components of OSM data are called
 #'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
 #'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
-#'   line 7 is used to determine which *ways* are assumed to be polygons if they
-#'   are closed. Moreover, OSM data is usually described using several
+#'   line 7 is used to determine which *ways* are assumed to be polygons
+#'   (according to the simple-feature definition of polygon) if they are closed.
+#'   Moreover, OSM data is usually described using several
 #'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e a pair of two
 #'   items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
 #'   used to determine, for each layer, which tags should be explicitly reported
 #'   as fields (while all the other tags are stored in the `other_tags` column,
-#'   see `oe_get_keys()`). The parameter `extra_attributes` is used to determine
+#'   see [oe_get_keys()]). The parameter `extra_attributes` is used to determine
 #'   which extra tags (i.e. key/value pairs) should be added to the `.gpkg`
-#'   file. By default, the vectortranslate operations are skipped if the
+#'   file.
+#'
+#'   By default, the vectortranslate operations are skipped if the
 #'   function detects a file having the same path as the input file, `.gpkg`
 #'   extension and a layer with the same name as the parameter `layer` with all
 #'   `extra_attributes`. In that case the function will simply return the path
@@ -54,7 +57,7 @@
 #'   file defined by GDAL (but for the extra attributes).
 #'
 #'   The parameter `vectortranslate_options` is used to control the arguments
-#'   that are passed to `ogr2ogr` via `sf::gdal_utils()` when converting between
+#'   that are passed to `ogr2ogr` via [sf::gdal_utils()] when converting between
 #'   `.pbf` and `.gpkg` formats. `ogr2ogr` can perform various operations during
 #'   the conversion process, such as spatial filters or SQL queries. These
 #'   operations are determined by the `vectortranslate_options` argument. If
@@ -84,7 +87,7 @@
 #' @return Character string representing the path of the `.gpkg` file.
 #' @export
 #'
-#' @seealso `oe_get_keys()`
+#' @seealso [oe_get_keys()]
 #'
 #' @examples
 #' # First we need to match an input zone with a .osm.pbf file
@@ -166,8 +169,10 @@ oe_vectortranslate = function(
   # always need to perform the vectortranslate operations (since it's too
   # difficult to determine if an existing .gpkg file was generated following a
   # particular .ini file)
+  never_skip_vectortranslate = FALSE
   if (!is.null(osmconf_ini)) {
     force_vectortranslate = TRUE
+    never_skip_vectortranslate = TRUE
   }
 
   # Check if an existing .gpkg file contains the selected layer
@@ -200,7 +205,8 @@ oe_vectortranslate = function(
       #   layer = "points",
       #   extra_attributes = "oneway"
       # )
-      layer %in% sf::st_layers(gpkg_file_path)[["name"]]
+      layer %in% sf::st_layers(gpkg_file_path)[["name"]] &&
+      !never_skip_vectortranslate
     ) {
       old_attributes = names(sf::st_read(
         gpkg_file_path,

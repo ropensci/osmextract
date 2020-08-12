@@ -1,27 +1,27 @@
 #' Match input place with a URL
 #'
-#' This function is used to match an input `place` with the URL of a .osm.pbf
+#' This function is used to match an input `place` with the URL of a `.osm.pbf`
 #' file (and its file-size, if present). The URLs are stored in several
-#' provider's databases. See `oe_providers()` and examples.
+#' provider's databases. See [oe_providers()] and examples.
 #'
 #' @inheritParams oe_get
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
-#'   element is the URL of the .osm.pbf file associated with the input `place`,
-#'   while the second element is the size of the file in bytes (which may be
-#'   `NULL` or `NA`)
+#'   element is the URL of the `.osm.pbf` file associated with the input
+#'   `place`, while the second element is the size of the file in bytes (which
+#'   may be `NULL` or `NA`)
 #' @export
 #'
-#' @seealso `oe_providers()` and `oe_match_pattern()`.
+#' @seealso [oe_providers()] and [oe_match_pattern()].
 #'
 #' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
 #'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
-#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See `?geofabrik_zones`
+#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See [geofabrik_zones]
 #'   for more details.
 #'
-#'   If the input place is specified as a spatial point (either sfc_POINT or
+#'   If the input place is specified as a spatial point (either `sfc_POINT` or
 #'   numeric coordinates), then the function will return the geographical area
 #'   with the highest "level" intersecting the point. See the help pages of the
 #'   chosen provider database for understanding the meaning of the "level"

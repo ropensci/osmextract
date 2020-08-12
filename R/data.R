@@ -1,10 +1,12 @@
 #' A `data.frame` of geographical zones taken from Geofabrik
 #'
-#' A `sf` `data.frame` containing the URLs, names and file-size of the OSM extracts
-#' stored at \url{https://download.geofabrik.de/}. You can read more details
-#' about these data at the following link: \url{https://download.geofabrik.de/technical.html}.
+#' An `sf` object containing the URLs, names and file-sizes of the OSM
+#' extracts stored at <https://download.geofabrik.de/>. You can read more
+#' details about these data at the following link:
+#' <https://download.geofabrik.de/technical.html>.
 #'
-#' @format A sf dataframe with 430 rows and 14 columns:
+#' @format An sf object with `r nrow(geofabrik_zones)` rows and
+#' `r ncol(geofabrik_zones)` columns:
 #' \describe{
 #'   \item{id}{A unique identifier, contains letters, numbers and potentially
 #'   the characters "-" and "/".}
@@ -34,13 +36,13 @@
 #'   IL" for "Palestine and Israel").}
 #'   \item{iso3166_2}{A character vector of usually five-character [ISO3166-2
 #'   codes](https://en.wikipedia.org/wiki/ISO_3166-2). The same rules as above
-#'   apply. Some entities have both an iso3166-1 and and iso3166-2 code. For
-#'   example, the iso3166_2 code of each US State is "US - " plus the code of
+#'   apply. Some entities have both an *iso3166-1* and *iso3166-2* code. For
+#'   example, the *iso3166_2* code of each US State is "US - " plus the code of
 #'   the state.}
-#'   \item{pbf}{Link to the latest .osm.pbf file for this region.}
-#'   \item{bz2}{Link to the latest .osm.bz2 file for this region.}
+#'   \item{pbf}{Link to the latest `.osm.pbf` file for this region.}
+#'   \item{bz2}{Link to the latest `.osm.bz2` file for this region.}
 #'   \item{shp}{Link to the latest shape file for this region.}
-#'   \item{pbf.internal}{Link to the latest .osm.pbf file with user data for
+#'   \item{pbf.internal}{Link to the latest `.osm.pbf` file with user data for
 #'   this region (requires OSM login).}
 #'   \item{history}{Link to the latest history file for this region (requires
 #'   OSM login).}
@@ -49,37 +51,39 @@
 #'   file).}
 #'   \item{geometry}{The sfc for that geographical region. These are not the
 #'   country boundaries but a buffer around countries.}
-#'   \item{pbf_size_size}{Size of the pbf file in bytes.}
+#'   \item{pbf_size_size}{Size of the `.pbf` file in bytes.}
 #' }
 #'
-#' @source \url{https://download.geofabrik.de/}
+#' @family provider's-database
+#' @source <https://download.geofabrik.de/>
 #' @aliases test_zones
 "geofabrik_zones"
 
-#' A `data.frame` of geographical zones taken from bbbike.org
+#' An `sf` object of geographical zones taken from bbbike.org
 #'
 #' Start bicycle routing for... everywhere!
 #'
-#' A `sf` `data.frame` containing the URLs, names and file_size of the OSM extracts.
-#' See \url{https://download.bbbike.org/osm/}.
+#' An `sf` object containing the URLs, names and file_size of the OSM extracts.
 #'
-#' @format A sf dataframe with 430 rows and 14 columns:
+#' @format An `sf` object with `r nrow(bbbike_zones)` rows and
+#' `r ncol(bbbike_zones)` columns:
 #' \describe{
-#'   \item{name}{The, usually English, long-form name of the city}
+#'   \item{name}{The, usually English, long-form name of the city.}
 #'   \item{last_modified}{When was it last modified?}
 #'   \item{type}{empty}
 #'   \item{pbf_size_size}{Size of the pbf file in bytes.}
-#'   \item{base_url}{The base URL for the city}
-#'   \item{poly_url}{The .poly file location}
-#'   \item{pbf}{Link to the latest .osm.pbf file for this region.}
+#'   \item{base_url}{The base URL for the city.}
+#'   \item{poly_url}{The `.poly` file location.}
+#'   \item{pbf}{Link to the latest `.osm.pbf` file for this region.}
 #'   \item{level}{An integer code which is always equal to 3L since the bbbike
 #'   data represent non-hierarchical geographical zones. This is used only for
 #'   matching operations in case of spatial input. The oe_* functions will
 #'   select the geographical area closest to the input place with the highest
-#'   "level". See `?geofabrik_zones` for an example of hierarchical structure.}
-#'   \item{geometry}{The sfc for that geographical region, rectangular.}
+#'   "level". See [geofabrik_zones] for an example of a hierarchical structure.}
+#'   \item{geometry}{The `sfc`` for that geographical region, rectangular.}
 #' }
 #'
+#' @family provider's-database
 #' @source \url{https://download.bbbike.org/osm/}
 "bbbike_zones"
 

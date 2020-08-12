@@ -12,19 +12,19 @@
 #'   url. For example, if `file_url =
 #'   "https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and
 #'   `download_directory = "/tmp/`, then the path is built as
-#'   `/tmp/geofabrik_italy-latest.osm.pbf`. Then, the function tests the
-#'   existence of a file with the same file's path and, in that case, it simply
-#'   returns the path. The parameter `force_download` is used to modify this
-#'   behaviour. If there exists no file associated to the file's path, then the
-#'   function downloads a new file using `download.file()` with `mode = "wb"`
-#'   and it returns the path.
+#'   `/tmp/geofabrik_italy-latest.osm.pbf`. Then, the function checks the
+#'   existence of a file with the same file's path and, in that case, it returns
+#'   the path. The parameter `force_download` is used to modify this behaviour.
+#'   If there is no file associated with the file's path, then the function
+#'   downloads a new file using [download.file()] with `mode = "wb"` and it
+#'   returns the path.
 #'
 #' @inheritParams oe_get
 #' @param file_url A url pointing to a `.osm.pbf` file that should be downloaded.
 #' @param provider Which provider stores the file that is specified using its
-#'   url? If NULL (the default), it is inferred from the url but it must be
+#'   url? If `NULL`` (the default), it is inferred from the url but it must be
 #'   specified for non-standard cases. See details and examples.
-#' @param file_basename The base name of the file. The default behaviour is to
+#' @param file_basename The basename of the file. The default behaviour is to
 #'   auto-generate it from the URL using `basename()`.
 #' @param file_size How big is the file? Optional. `NA` by default. If it's
 #'   bigger than `max_file_size` and the function is run in interactive mode,
