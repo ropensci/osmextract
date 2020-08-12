@@ -154,7 +154,7 @@ wrapped function for more details.</p>
   vectortranslate_options = <span class='kw'>NULL</span>,
   osmconf_ini = <span class='kw'>NULL</span>,
   extra_tags = <span class='kw'>NULL</span>,
-  force_vectortranslate = <span class='kw'>NULL</span>,
+  force_vectortranslate = <span class='fl'>FALSE</span>,
   quiet = <span class='fl'>TRUE</span>
 )</pre>
 
@@ -285,12 +285,6 @@ details.</p>
 <span class='co'># Read an existing .gpkg file. This file was created by oe_read</span>
 <span class='kw'>my_gpkg</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"its-example.gpkg"</span>, package = <span class='st'>"osmextract"</span>)
 <span class='fu'>oe_read</span>(<span class='kw'>my_gpkg</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
-#&gt; Simple feature collection with 189 features and 11 fields
-#&gt; geometry type:  LINESTRING
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84
-#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 11 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
