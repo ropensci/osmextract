@@ -84,7 +84,8 @@ oe_match.default = function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
-    " Feel free to open a new issue at github.com/itsleeds/osmextract", call. = FALSE
+    " Feel free to open a new issue at github.com/itsleeds/osmextract",
+    call. = FALSE
   )
 }
 
@@ -239,7 +240,8 @@ oe_match.character = function(
       "The input place was matched with multiple geographical zones: ",
       paste(provider_data[[match_by]][best_match_id], collapse = " - "),
       ". Selecting the first match.",
-      call. = FALSE
+      call. = FALSE,
+      immediate. = TRUE
     )
     best_match_id = best_match_id[1L]
   }
@@ -274,7 +276,8 @@ oe_match.character = function(
         max_string_dist,
         ". You should increase the max_string_dist parameter, ",
         "look for a closer match in the chosen provider database",
-        " or consider using a different match_by variable.", call. = FALSE
+        " or consider using a different match_by variable.",
+        call. = FALSE
       )
     }
   }

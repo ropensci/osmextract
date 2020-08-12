@@ -10,7 +10,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>", 
+  fig.align = "center"
 )
 ```
 
@@ -58,6 +59,7 @@ We will demonstrate each function in turn.
 oe_providers()
 ```
 
+You can read a detailed description of each provider data running, for example, `?geofabrik_zones` or `?bbbike_zones`. 
 Each element in `database_name` is a data object that is packaged with `osmextract`.
 Perhaps the best known bulk OSM data provider is Geofabrik, represented as data frame in the packaged object `geofabrik_zones`.
 
@@ -93,113 +95,131 @@ You can also download manually selected regions of interest from the BBBike webs
 
 ## `oe_match()`: finding OSM extracts
 
-`oe_match()` takes character strings and returns matching zones based on the `name` column in the provider data objects such as `geofabrik_zones`.
-By default it returns a named list with the URL and file size of the corresponding `pbf` file hosted by the provider, as shown below.
+`oe_match()` takes one character string and returns one matching zone based on the minimum Approximate String Distance (`?adist`) between the input `place` and the `name` column in the provider data objects, such as `geofabrik_zones` (the default).
+By default it returns a named list with the URL and file size (in bytes) of the corresponding `pbf` file hosted by the provider, as shown below.
 
 ```{r}
 oe_match("Italy")
-oe_match("Isle of wight")
+oe_match("Leeds", provider = "bbbike")
 ```
 
-There are several situations where it could be difficult to find the appropriate data source due to several small differences in the official names: 
+There are several situations where it could be difficult to find the appropriate data source:
 
-```{r, error=TRUE}
-oe_match("Korea")
-oe_match("Russia")
+```{r, error = TRUE}
+oe_match("Russia", quiet = FALSE)
 ```
 
-We therefore enable search using [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes: 
+We therefore enable search using alternative fields in the provider's data that can be specified using the `match_by` parameter. 
+For example, working with `geofabrik_data`, we implemented the possibility of looking for a match with [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes: 
 
 ```{r}
-oe_match("KP", match_by = "iso3166_1_alpha2")
 oe_match("RU", match_by = "iso3166_1_alpha2")
 oe_match("US", match_by = "iso3166_1_alpha2")
 ```
 
-The are a few cases where the `iso3166-1 alpha2` codes can fail because there are no per-country extracts (e.g. Israel and Palestine)
+The are a few cases where the `iso3166-1 alpha2` codes in `geofabrik_data` do not work because there are no per-country extracts (e.g. Israel and Palestine):
 
 ```{r, error = TRUE}
 oe_match("PS", match_by = "iso3166_1_alpha2")
 oe_match("IL", match_by = "iso3166_1_alpha2")
 ```
 
-<!-- For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:  -->
+For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:
 
-```{r, eval=FALSE, echo=FALSE}
+```{r}
 oe_match_pattern("London")
 oe_match_pattern("Russia")
-oe_match_pattern("Korea")
-oe_match_pattern("Yorkshire")
-oe_match_pattern("US")
-oe_match_pattern("US", match_by = "iso3166_2")
 oe_match_pattern("Palestine")
+oe_match_pattern("US", match_by = "iso3166_2")
+oe_match_pattern("Washington", provider = "bbbike")
 israel_sf = oe_match_pattern("Israel", full_row = TRUE)
 ```
 
-### Finding zones based on geographic inputs
-
-The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. If there are multiple matches, the function returns the smallest area (according to the `level` variable). 
-
-<!-- I would ignore the CRS warning for the moment.  -->
+This information can be used for selecting the appropriate match: 
 
 ```{r}
-coords_milan = sf::st_point(c(1514924.21, 5034552.92)) # Duomo di Milano
-st_sfc_milan = sf::st_sfc(coords_milan, crs = 3003)
-oe_match(st_sfc_milan)
+oe_match("Greater London")
 ```
 
-The input `place` can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:
-
-```{r, error = TRUE}
-oe_match(c(9.1916, 45.4650)) # Duomo di Milano using EPSG: 4326
-```
-
-If there are several error matching the input place with one of the zone, you can also try increasing the maximum allowed string distance: 
+The function returns an error if the minimum approximate string distance between the input `place` and the closest match is greater than the parameter `max_string_dist` (which defaults to 1). 
+You can always increase this value, but be aware that it can be be dangerous: 
 
 ```{r, error = TRUE}
 oe_match("Isle Wight")
 oe_match("Isle Wight", max_string_dist = 3)
+oe_match("London", max_string_dist = 3, quiet = FALSE)
+```
+
+The parameter `max_string_dist` is set equal to 0 if `match_by` is equal to *iso3166_1_alpha2* or *iso3166_2* to avoid matching with the wrong iso3166 code. 
+
+The function returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input `place`. 
+In that case, it selects the first match: 
+
+```{r, warning = TRUE}
+oe_match("Belin")
+```
+
+### Finding zones based on geographic inputs
+
+The input `place` can be also specified using an `sfc_POINT` object with arbitrary CRS as documented in the following example. 
+The function will return a zone intersecting the `sfc_POINT` object (or an error, if the input point does not intersect any area). 
+If the input `place` intersects multiple nested zones, the function returns the area with the highest `level`. 
+Check the help page of `?geofabrik_zones` to understand the meaning of the `level` field.  
+If there are multiple matches with the same level, then `oe_match()` function will return the area whose centroid is closest to the input `place`. 
+
+```{r}
+milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+
+# Check all geographical matches: 
+all_matches_with_milan = geofabrik_zones[st_transform(milan_duomo, 4326), ]
+oe_match(milan_duomo) # returns only the zone with highest level
+```
+
+The input `place` can be also specified using a numeric vector of coordinates. 
+In that case the CRS is assumed to be 4326:
+
+```{r}
+oe_match(c(9.1916, 45.4650)) # Duomo di Milano using EPSG: 4326
 ```
 
 To reduce unnecessary computational resources and save bandwidth/electricity, we will use a small OSM extract in subsequent sections that can be found as follows:
 
 ```{r}
-iow_details = oe_match("ITS Leeds", provider = "test")
-iow_details
+its_details = oe_match("ITS Leeds", provider = "test")
+its_details
 ```
 
 
 ## Download OSM data with `oe_download()`
 
-The purpose of `oe_download()` is to download .pbf files representing OSM extracts for regions listed in the provider zones can can be found with functions such as `oe_match()` outlined in the previous section.
-The function takes a URL as an input and downloads the file:
+The purpose of `oe_download()` is to download `.pbf` files representing OSM extracts for regions listed in the provider zones that can be found with functions such as `oe_match()` outlined in the previous section.
+The function takes a URL as input and downloads the file in the directory specified by the parameter `download_directory`:
 
 ```{r, eval = FALSE}
 oe_download(
-  file_url = iow_details$url, 
-  file_size = iow_details$file_size,
+  file_url = its_details$url, 
+  file_size = its_details$file_size,
+  provider = "test",
   download_directory = "."
 )
 ```
 
-If you want to download your data into a specific folder once, you can set the download directory: 
-
-```{r, eval = FALSE}
-Sys.setenv("OSMEXT_DOWNLOAD_DIRECTORY" = "/home/andrea/Downloads")
-oe_download(
-  file_url = iow$url, 
-  file_size = iow$file_size
-)
-#> /home/andrea/Downloads/geofabrik_isle-of-wight-latest.osm.pbf
-```
-
+The argument `provider` can be omitted if the input `url` is associated with one of the regular OSM extract providers (such as Geofabrik or Bbbike). 
 If you want to set a directory that will persist, you can set `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 usethis::edit_r_environ()
 # Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
 ```
 
+You can always check the default `download_directory` for `oe_download()` using: 
+
+```{r}
+oe_download_directory()
+```
+
+
+We strongly advise you set
 ## Convert OSM files with `oe_vectortranslate()`
 
 ## Read-in OSM datasets with `oe_read()`
