@@ -385,7 +385,7 @@ oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # lik
 
 The arguments `osmconf_ini`, `vectortranslate_options` and `query` (in `sf::st_read`) can be used to further optimize the process.  
 
-### osmconf_ini 
+### `osmconf_ini`
 
 The following example shows how to create an ad-hoc `osmconf.ini` file, which can be used to read a `.pbf` file in a customized way. 
 
@@ -422,12 +422,12 @@ and read the ITS Leeds file with the new `osmconf.ini` file:
 oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini)
 ```
 
-### vectortranslate_options
+### `vectortranslate_options`
 
 The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr). 
-This is extremely important since, if we tune the `vectortranslate_options` parameter, then we can analyze very big `.pbf` files without reading them in. 
+This is extremely important since, if we tune the `vectortranslate_options` parameter, then we can analyze very big `.pbf` files creating spatial queries without reading them in. 
 
-The following code shows how to modify the CRS of the `.gpkg` object while vectortranslating: 
+The following code shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object while vectortranslating: 
 
 ```{r}
 my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
@@ -443,7 +443,9 @@ my_vectortranslate = c(
 oe_get("ITS Leeds", provider = "test", vectortranslate_options = my_vectortranslate, quiet = FALSE)
 ```
 
-The following chunk (not evaluated in the vignette) shows how to create a spatial query while vectortranslating: 
+The following chunk (not evaluated in the vignette) shows how to use the argument `-t_clipsrc` to create a spatial filter while vectortranslating. 
+The query is defined with the WKT representation of a 5km buffer around the capital of Malta. 
+The most important part is that type code is much faster than reading in the complete `.gpkg` and then performing the spatial filter. 
 
 ```{r, eval = FALSE}
 lavalletta_buffer <- st_sfc(st_buffer(st_point(c(456207.4, 3972935)), 5000), crs = 32633) %>% 
@@ -464,79 +466,42 @@ malta_sf = oe_get("Malta", vectortranslate_options = my_vectortranslate, quiet =
 plot(st_geometry(malta_sf))
 ```
 
-### query
+### `query`
 
-### Queries
+The `query` argument can be used to check the contents of a `.gpkg` file or to create an SQL-like query. 
+For example, the following code is used to calculate the values stored in the `highway` column for the ITS test data: 
 
-Some files from providers such as geofabrik are large.
-You may therefore want to check the contents before importing them.
-To do this you can use an SQL query that is passed to GDAL via `sf`.
-To check the values stored in the highway column for our Isle of Wight example, for example, run the following command: 
-
-```{r, eval = FALSE}
-its_highway_values = oe_get(
-  "ITS Leeds",
-  provider = "test",
-  query = "SELECT DISTINCT highway FROM \"lines\" "
+```{r}
+oe_get(
+  "ITS Leed", 
+  provider = "test", 
+  query = "SELECT DISTINCT highway FROM \"lines\""
 )
-nrow(its_highway_values)
-its_highway_values$highway
 ```
 
-The values will vary depending on how many types of highway are in the particular extract of interest.
-There are more types of highway in the Andorra dataset, for example:
+The same `query` argument can be used to read-in only certain features, like all residential highways: 
 
-```{r, eval = FALSE}
-andorra_highway_values = oe_get(
-  "Andorra", 
-  query = "SELECT DISTINCT highway FROM \"lines\" "
-)
-nrow(andorra_highway_values)
-#> [1] 22
-```
-
-The same `query` argument can be used to read-in only certain features, all residential highway segments in the `its_lines` dataset for example: 
-
-```{r, iow2, eval = FALSE}
-# and select only one of them: 
-its_residential = oe_get(
+```{r,}
+oe_get(
   "ITS Leeds",
   provider = "test",
-  extra_tags = "ref", 
   quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('residential')"
 )
-class(its_residential)
-plot(its_residential$geometry)
 ```
 
 This is substantially faster and less memory intensive than reading-in the whole dataset and filtering with R.
 Computational efficiency is important when working with large OSM datasets provided by the package.
 
-You can use [GDAL's SQL syntax](https://gdal.org/user/ogr_sql_dialect.html) to get the result you need.
-Let's get all primary and secondary roads in the Isle of Wight, for example (result not shown):
+Last but not least, we can use the function `hstore_get_value` to extract one of the tags saved in the `other_tags` column: 
 
-```{r, iow3, eval=FALSE}
-iow_major_roads2 = oe_get(
-  "Isle of Wight", 
-  extra_tags = "ref", 
+```{r}
+oe_get(
+  "ITS Leeds", 
+  provider = "test", 
   quiet = FALSE, 
-  query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
+  query = "SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"
 )
-# plot(iow_major_roads2["highway"])
-```
-
-You can also use regex, as shown in the following command that gets roads that are likely to be walking and cycling friendly:
-
-```{r, iow4}
-its_active_travel = oe_get(
-  "ITS Leeds",
-  provider = "test",
-  extra_tags = "ref", 
-  quiet = FALSE, 
-  query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'pedestrian', 'footway')"
-)
-plot(its_active_travel["highway"], key.pos = 1)
 ```
 
 # Other providers
