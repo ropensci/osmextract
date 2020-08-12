@@ -327,16 +327,62 @@ If `osmconf_ini` parameter is not NULL, the vectortranslate operations are never
 
 ## `oe_read()`: read-in OSM data 
 
+The `oe_read()` function is wrapper around `oe_download()`, `oe_vector()`, and `sf::st_read()`. 
+It is used for reading-in a `.pbf` or `.gpkg` file that is specified using its path or its url. 
+
+So, for example, the following code can be used for reading-in the `its-gpkg` file: 
+
+```{r}
+oe_read(its_pbf, quiet = FALSE)
+```
+
+The vectortranslate operations can be skipped with the parameter `skip_vectortranslate`: 
+
+```{r}
+oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = FALSE)
+```
+
+We can see that the second example includes 9 fields (the default tags) while the first example includes 11 fields (the default tags + `oneway` and `maxspeed`, that were added a few chunks above). 
+
 ## `oe_get()`: Do it all in one step 
 
 To simplify the steps outlined above, while enabling modularity if needs be, we packaged them all into a single function that works as follows:
 
 ```{r, eval = FALSE}
 its_lines = oe_get("ITS Leeds", provider = "test")
-plot(its_lines)
+plot(its_lines["osm_id"], lwd = 2)
 ```
 
-# Queries
+The function `oe_get` is a wrapper around `oe_match()` and `oe_read()` and it summarizes the algorithm that we use for importing OSM extracts: 
+
+1. Match the input `place` with the url of a `.pbf` file through `oe_match()`;
+2. Download the corresponding `.pbf` file using `oe_download()`; 
+3) Convert it into `.gpkg` format using `oe_vectortranslate()`; 
+4) Read-in the `.gpkg` file using `sf::st_read()`. 
+
+The following expressiong (not evaluated) can be used to get the OSM extracts associated with the input `place`, after downloading the `.pbf` file and performing the vectortranslate operations: 
+
+```{r, eval = FALSE}
+oe_get("Andorra", quiet = FALSE)
+oe_get("Leeds", provider = "bbbike", quiet = FALSE)
+oe_get("Malta", layer = "points", quiet = FALSE)
+oe_get("RU",match_by = "iso3166_1_alpha2", quiet = FALSE)
+
+oe_get("Andorra", download_only = TRUE)
+oe_get_keys(oe_get("Andorra", download_only = TRUE))
+oe_get("Andorra", extra_tags = c("maxspeed", "oneway", "ref", "junction"), quiet = FALSE)
+oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # like read_sf
+```
+
+The arguments `osmconf_ini`, `vectortranslate_options` and `query` (in `sf::st_read`) can be used to further optimize the process.  
+
+### osmconf_ini 
+
+### vectortranslate_options
+
+### query
+
+### Queries
 
 Some files from providers such as geofabrik are large.
 You may therefore want to check the contents before importing them.
