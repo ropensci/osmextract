@@ -47,15 +47,19 @@ cycleways_england = opq("England") %>%
 # The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. 
 ```
 
-The query stops with an error message after around 10 seconds. The same
+The query stops with an error message after around 30 seconds. The same
 query can be made with `osmextract` as follows, which reads-in almost
-100k linestrings in less than 10 seconds (after the data has been
+100k linestrings in less than 10 seconds, after the data has been
 downloaded in the compressed `.pbf` format and converted to the open
-standard `.gpkg` format, not evaluated):
+standard `.gpkg` format. The download-conversion operation of the OSM
+extract associated to England takes approximately a few minutes, and
+this operation must be executed only once. The following code chunk is
+not evaluated:
 
 ``` r
 library(osmextract)
-#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
+#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
+#> Any product made from OpenStreetMap must cite OSM as the data source.
 #> Geofabrik data are taken from https://download.geofabrik.de/
 #> For usage details of bbbike data see https://download.bbbike.org/osm/
 ```
@@ -66,10 +70,11 @@ cycleways_england = oe_get(
   quiet = FALSE,
   query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
 )
+par(mar = rep(0.1, 4))
 plot(sf::st_geometry(cycleways_england))
 ```
 
-<img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%" />
+<img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%" />
 
 The package is designed to complement `osmdata`, which has advantages
 over `osmextract` for small datasets: `osmdata` is likely to be quicker
@@ -119,18 +124,19 @@ library(sf)
 ## Basic usage
 
 Give `osmextract` a place name and it will try to find it in a list of
-names in the specified provider (Geofabrik by default). If the name you
-give it matches a place, it will download and import the associated data
-into R. The function `oe_get()` downloads (if not already downloaded)
-and reads-in data from OSM extract providers as an `sf` object. By
-default `oe_get()` imports the ‘lines’ layer, but any layer can be
-read-in by changing the `layer` argument:
+names in the specified provider
+([Geofabrik](https://www.geofabrik.de/data/download.html) by default).
+If the name you give it matches a place, it will download and import the
+associated data into R. The function `oe_get()` downloads (if not
+already downloaded) and reads-in data from OSM extract providers as an
+`sf` object. By default `oe_get()` imports the ‘lines’ layer, but any
+layer can be read-in by changing the `layer` argument:
 
 ``` r
-osm_lines = oe_get("Isle of Wight")
-osm_points = oe_get("Isle of Wight", layer = "points")
+osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
+osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
 nrow(osm_lines)
-#> [1] 44845
+#> [1] 44849
 nrow(osm_points)
 #> [1] 59009
 plot(osm_lines$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -164,7 +170,7 @@ plot(osm_major_roads["highway"], key.pos = 1)
 <img src="man/figures/README-iow1-1.png" width="100%" />
 
 The same steps can be used to get other OSM datasets (note use of `quiet
-= FALSE` to show additional message, examples not run):
+= FALSE` to show additional message, examples, not run):
 
 ``` r
 test_malta = oe_get("Malta", quiet = FALSE)
