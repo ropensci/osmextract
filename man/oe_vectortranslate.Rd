@@ -9,7 +9,7 @@ oe_vectortranslate(
   layer = "lines",
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
-  extra_attributes = NULL,
+  extra_tags = NULL,
   force_vectortranslate = FALSE,
   quiet = TRUE
 )
@@ -30,7 +30,7 @@ in the resulting data frame. See documentation at
 \href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{extra_attributes}{Which addition columns, corresponding to OSM keys,
+\item{extra_tags}{Which addition columns, corresponding to OSM tags,
 should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}} .}
 
@@ -57,7 +57,7 @@ The new \code{.gpkg} file is created in the same directory as the input
 \code{.osm.pbf} file. The translation process is performed using the
 \code{vectortranslate} utility in \code{\link[sf:gdal_utils]{sf::gdal_utils()}}. This operation can be
 customized in several ways modifying the parameters \code{layer},
-\code{extra_attributes}, \code{osmconf_ini}, and \code{vectortranslate_options}.
+\code{extra_tags}, \code{osmconf_ini}, and \code{vectortranslate_options}.
 
 The \code{.osm.pbf} files processed using GDAL are usually categorized into 5
 layers, named \code{points}, \code{lines}, \code{multilinestrings}, \code{multipolygons} and
@@ -69,7 +69,7 @@ the \code{.gpkg} file. Several layers with different names can be stored in the
 same \code{.gpkg} file. By default, the function will convert the \code{lines} layer
 (which is the most common one according to our experience).
 
-The arguments \code{osmconf_ini} and \code{extra_attributes} are used to modify how
+The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how
 GDAL read and process a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
 file, that you can check at the following
@@ -84,21 +84,21 @@ Moreover, OSM data is usually described using several
 items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
 used to determine, for each layer, which tags should be explicitly reported
 as fields (while all the other tags are stored in the \code{other_tags} column,
-see \code{\link[=oe_get_keys]{oe_get_keys()}}). The parameter \code{extra_attributes} is used to determine
+see \code{\link[=oe_get_keys]{oe_get_keys()}}). The parameter \code{extra_tags} is used to determine
 which extra tags (i.e. key/value pairs) should be added to the \code{.gpkg}
 file.
 
 By default, the vectortranslate operations are skipped if the
 function detects a file having the same path as the input file, \code{.gpkg}
 extension and a layer with the same name as the parameter \code{layer} with all
-\code{extra_attributes}. In that case the function will simply return the path
+\code{extra_tags}. In that case the function will simply return the path
 of the \code{.gpkg} file. This behaviour can be overwritten by setting
 \code{force_vectortranslate = TRUE}. The parameter \code{osmconf_ini} is used to pass
 your own \code{CONFIG} file in case you need more control over the GDAL
 operations. In that case the vectortranslate operations are never skipped.
 Check the package introductory vignette for an example. If \code{osmconf_ini} is
 equal to \code{NULL} (the default), then the function uses default \code{osmconf.ini}
-file defined by GDAL (but for the extra attributes).
+file defined by GDAL (but for the extra tags).
 
 The parameter \code{vectortranslate_options} is used to control the arguments
 that are passed to \code{ogr2ogr} via \code{\link[sf:gdal_utils]{sf::gdal_utils()}} when converting between
@@ -114,7 +114,7 @@ it empty;
 \item \verb{"-oo", paste0("CONFIG_FILE=", osmconf_ini)} is used to set the
 \href{https://gdal.org/drivers/vector/osm.html#open-options}{Open Options}
 for the \code{.osm.pbf} file and change the \code{CONFIG} file (in case the user
-asks for any extra attribute or a totally different CONFIG file);
+asks for any extra tag or a totally different CONFIG file);
 \item \verb{"-lco", "GEOMETRY_NAME=geometry"} is used to change the
 \href{https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options}{layer creation options}
 for the \code{.gpkg} file and modify the name of the geometry column;
@@ -147,11 +147,11 @@ sf::st_layers(its_gpkg, do_count = TRUE)
 its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
 sf::st_layers(its_gpkg, do_count = TRUE)
 
-# Add extra attributes to the lines layer
+# Add extra tags to the lines layer
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 its_gpkg = oe_vectortranslate(
   its_pbf,
-  extra_attributes = c("oneway", "maxspeed")
+  extra_tags = c("oneway", "maxspeed")
  )
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 # Check the introductory vignette for more complex examples.

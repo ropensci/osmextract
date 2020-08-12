@@ -13,7 +13,7 @@
 #'   `.osm.pbf` file. The translation process is performed using the
 #'   `vectortranslate` utility in [sf::gdal_utils()]. This operation can be
 #'   customized in several ways modifying the parameters `layer`,
-#'   `extra_attributes`, `osmconf_ini`, and `vectortranslate_options`.
+#'   `extra_tags`, `osmconf_ini`, and `vectortranslate_options`.
 #'
 #'   The `.osm.pbf` files processed using GDAL are usually categorized into 5
 #'   layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
@@ -25,7 +25,7 @@
 #'   same `.gpkg` file. By default, the function will convert the `lines` layer
 #'   (which is the most common one according to our experience).
 #'
-#'   The arguments `osmconf_ini` and `extra_attributes` are used to modify how
+#'   The arguments `osmconf_ini` and `extra_tags` are used to modify how
 #'   GDAL read and process a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
 #'   file, that you can check at the following
@@ -40,21 +40,21 @@
 #'   items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
 #'   used to determine, for each layer, which tags should be explicitly reported
 #'   as fields (while all the other tags are stored in the `other_tags` column,
-#'   see [oe_get_keys()]). The parameter `extra_attributes` is used to determine
+#'   see [oe_get_keys()]). The parameter `extra_tags` is used to determine
 #'   which extra tags (i.e. key/value pairs) should be added to the `.gpkg`
 #'   file.
 #'
 #'   By default, the vectortranslate operations are skipped if the
 #'   function detects a file having the same path as the input file, `.gpkg`
 #'   extension and a layer with the same name as the parameter `layer` with all
-#'   `extra_attributes`. In that case the function will simply return the path
+#'   `extra_tags`. In that case the function will simply return the path
 #'   of the `.gpkg` file. This behaviour can be overwritten by setting
 #'   `force_vectortranslate = TRUE`. The parameter `osmconf_ini` is used to pass
 #'   your own `CONFIG` file in case you need more control over the GDAL
 #'   operations. In that case the vectortranslate operations are never skipped.
 #'   Check the package introductory vignette for an example. If `osmconf_ini` is
 #'   equal to `NULL` (the default), then the function uses default `osmconf.ini`
-#'   file defined by GDAL (but for the extra attributes).
+#'   file defined by GDAL (but for the extra tags).
 #'
 #'   The parameter `vectortranslate_options` is used to control the arguments
 #'   that are passed to `ogr2ogr` via [sf::gdal_utils()] when converting between
@@ -70,7 +70,7 @@
 #'   * `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to set the
 #'   [Open Options](https://gdal.org/drivers/vector/osm.html#open-options)
 #'   for the `.osm.pbf` file and change the `CONFIG` file (in case the user
-#'   asks for any extra attribute or a totally different CONFIG file);
+#'   asks for any extra tag or a totally different CONFIG file);
 #'   * `"-lco", "GEOMETRY_NAME=geometry"` is used to change the
 #'   [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options)
 #'   for the `.gpkg` file and modify the name of the geometry column;
@@ -111,11 +111,11 @@
 #' its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
 #' sf::st_layers(its_gpkg, do_count = TRUE)
 #'
-#' # Add extra attributes to the lines layer
+#' # Add extra tags to the lines layer
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #' its_gpkg = oe_vectortranslate(
 #'   its_pbf,
-#'   extra_attributes = c("oneway", "maxspeed")
+#'   extra_tags = c("oneway", "maxspeed")
 #'  )
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #' # Check the introductory vignette for more complex examples.
@@ -124,7 +124,7 @@ oe_vectortranslate = function(
   layer = "lines",
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
-  extra_attributes = NULL,
+  extra_tags = NULL,
   force_vectortranslate = FALSE,
   quiet = TRUE
 ) {
@@ -187,8 +187,8 @@ oe_vectortranslate = function(
     }
   }
 
-  # Check if the user choose to add some extra attribute / key
-  if (!is.null(extra_attributes)) {
+  # Check if the user choose to add some extra tags
+  if (!is.null(extra_tags)) {
     force_vectortranslate = TRUE
     # Check if all extra keys are already present into an existing .gpkg file I
     # set is.null(osmconf_ini) since if the user pass its own osmconf.ini file
@@ -196,25 +196,25 @@ oe_vectortranslate = function(
     if (
       file.exists(gpkg_file_path) &&
       is.null(osmconf_ini) &&
-      # The next test is used to check that the function is not looking for old
-      # attributes in a non-existing layer, otherwise the following code
+      # The next condition is used to check that the function is not looking for old
+      # tags in a non-existing layer, otherwise the following code
       # will fail with an error:
       # its_gpkg = oe_vectortranslate(its_pbf)
       # oe_vectortranslate(
       #   its_pbf,
       #   layer = "points",
-      #   extra_attributes = "oneway"
+      #   extra_tags = "oneway"
       # )
       layer %in% sf::st_layers(gpkg_file_path)[["name"]] &&
       !never_skip_vectortranslate
     ) {
-      old_attributes = names(sf::st_read(
+      old_tags = names(sf::st_read(
         gpkg_file_path,
         layer = layer,
         quiet = TRUE,
         query = paste0("select * from \"", layer, "\" limit 0")
       ))
-      if (all(extra_attributes %in% old_attributes)) {
+      if (all(extra_tags %in% old_tags)) {
         force_vectortranslate = FALSE
       }
     }
@@ -245,10 +245,10 @@ oe_vectortranslate = function(
     osmconf_ini = system.file("osmconf.ini", package = "osmextract")
   }
 
-  # Add the extra attributes to the default osmconf.ini. If the user set its own
+  # Add the extra tags to the default osmconf.ini. If the user set its own
   # osmconf.ini file we need to skip this step.
   if (
-    !is.null(extra_attributes) &&
+    !is.null(extra_tags) &&
     # The following condition checks whether the user set its own CONFIG file
     osmconf_ini == system.file("osmconf.ini", package = "osmextract")
   ) {
@@ -257,7 +257,7 @@ oe_vectortranslate = function(
       paste0("attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")),
       temp_ini
     )
-    temp_ini[[id_old]] = paste(c(temp_ini[[id_old]], extra_attributes), collapse = ",")
+    temp_ini[[id_old]] = paste(c(temp_ini[[id_old]], extra_tags), collapse = ",")
     temp_ini_file = paste0(tempfile(), ".ini")
     writeLines(temp_ini, con = temp_ini_file)
     osmconf_ini = temp_ini_file
@@ -387,7 +387,7 @@ get_ini_layer_defaults = function(layer) {
 #' oe_get_keys(itsleeds_gpkg)
 #'
 #' # Add an extra key to an existing .gpkg file without the .pbf
-#' names(oe_read(itsleeds_gpkg, extra_attributes = c("oneway"))) # doesn't work
+#' names(oe_read(itsleeds_gpkg, extra_tags = c("oneway"))) # doesn't work
 #' # we need a different approach
 #' names(oe_read(
 #'   itsleeds_gpkg,

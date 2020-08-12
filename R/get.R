@@ -52,7 +52,7 @@
 #'   in the resulting data frame. See documentation at
 #'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check Details in
 #'   [oe_vectortranslate()].
-#' @param extra_attributes Which addition columns, corresponding to OSM keys,
+#' @param extra_tags Which addition columns, corresponding to OSM tags,
 #'   should be in the resulting dataset? `FALSE` by default. Check Details at
 #'   [oe_vectortranslate()] and [oe_get_keys()] .
 #' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
@@ -107,11 +107,11 @@
 #' skip_vectortranslate = TRUE
 #' )
 #'
-#' # Add additional attributes
+#' # Add additional tags
 #' im = oe_get(
 #' "ITS Leeds",
 #' provider = "test",
-#' extra_attributes = "oneway",
+#' extra_tags = "oneway",
 #' quiet = FALSE
 #')
 #' names(im)
@@ -145,7 +145,7 @@ oe_get = function(
   max_file_size = 5e+8,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
-  extra_attributes = NULL,
+  extra_tags = NULL,
   force_vectortranslate = FALSE,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
@@ -179,7 +179,7 @@ oe_get = function(
     skip_vectortranslate = skip_vectortranslate,
     vectortranslate_options = vectortranslate_options,
     osmconf_ini = osmconf_ini,
-    extra_attributes = extra_attributes,
+    extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
     quiet = quiet,
     ...

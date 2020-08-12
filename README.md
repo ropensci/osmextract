@@ -168,7 +168,7 @@ The same steps can be used to get other OSM datasets (note use of `quiet
 
 ``` r
 test_malta = oe_get("Malta", quiet = FALSE)
-test_andorra = oe_get("Andorra", extra_attributes = "ref", quiet = FALSE)
+test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
 ```
 
 For further details on using the package, see the [Introducing

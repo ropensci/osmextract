@@ -17,7 +17,7 @@ oe_read(
   skip_vectortranslate = FALSE,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
-  extra_attributes = NULL,
+  extra_tags = NULL,
   force_vectortranslate = NULL,
   quiet = TRUE
 )
@@ -71,7 +71,7 @@ in the resulting data frame. See documentation at
 \href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{extra_attributes}{Which addition columns, corresponding to OSM keys,
+\item{extra_tags}{Which addition columns, corresponding to OSM tags,
 should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}} .}
 
@@ -105,14 +105,14 @@ details.
 my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
 oe_read(my_pbf, quiet = FALSE)
 oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
-oe_read(my_pbf, extra_attributes = c("oneway", "ref"), quiet = FALSE) # Add new tags
+oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE) # Add new tags
 
 # Read an existing .gpkg file. This file was created by oe_read
 my_gpkg = system.file("its-example.gpkg", package = "osmextract")
 oe_read(my_gpkg, quiet = FALSE)
 # You cannot add any layer to an existing .gpkg file but you can extract some
 # of the tags in other_tags. Check oe_get_keys() for more details.
-names(oe_read(my_gpkg, extra_attributes = c("maxspeed")))
+names(oe_read(my_gpkg, extra_tags = c("maxspeed")))
 # Delete the .gpkg file not to mess with other examples
 file.remove(my_gpkg)
 

@@ -249,7 +249,7 @@ The same `query` argument can be used to read-in only certain features, all resi
 its_residential = oe_get(
   "ITS Leeds",
   provider = "test",
-  extra_attributes = "ref", 
+  extra_tags = "ref", 
   quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('residential')"
 )
@@ -266,7 +266,7 @@ Let's get all primary and secondary roads in the Isle of Wight, for example (res
 ```{r, iow3, eval=FALSE}
 iow_major_roads2 = oe_get(
   "Isle of Wight", 
-  extra_attributes = "ref", 
+  extra_tags = "ref", 
   quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('primary', 'secondary')"
 )
@@ -279,7 +279,7 @@ You can also use regex, as shown in the following command that gets roads that a
 its_active_travel = oe_get(
   "ITS Leeds",
   provider = "test",
-  extra_attributes = "ref", 
+  extra_tags = "ref", 
   quiet = FALSE, 
   query = "SELECT * FROM 'lines' WHERE highway IN ('cycleway', 'pedestrian', 'footway')"
 )

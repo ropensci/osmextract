@@ -43,7 +43,7 @@ itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
 oe_get_keys(itsleeds_gpkg)
 
 # Add an extra key to an existing .gpkg file without the .pbf
-names(oe_read(itsleeds_gpkg, extra_attributes = c("oneway"))) # doesn't work
+names(oe_read(itsleeds_gpkg, extra_tags = c("oneway"))) # doesn't work
 # we need a different approach
 names(oe_read(
   itsleeds_gpkg,

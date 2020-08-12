@@ -17,7 +17,7 @@ oe_get(
   max_file_size = 5e+08,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
-  extra_attributes = NULL,
+  extra_tags = NULL,
   force_vectortranslate = FALSE,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
@@ -87,7 +87,7 @@ in the resulting data frame. See documentation at
 \href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{extra_attributes}{Which addition columns, corresponding to OSM keys,
+\item{extra_tags}{Which addition columns, corresponding to OSM tags,
 should be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}} .}
 
@@ -147,11 +147,11 @@ download_only = TRUE,
 skip_vectortranslate = TRUE
 )
 
-# Add additional attributes
+# Add additional tags
 im = oe_get(
 "ITS Leeds",
 provider = "test",
-extra_attributes = "oneway",
+extra_tags = "oneway",
 quiet = FALSE
 )
 names(im)
