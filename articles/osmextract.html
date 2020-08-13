@@ -336,7 +336,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <p>You can always check the default <code>download_directory</code> used by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span>()
-<span class="co">#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpYhpIn4"</span>
+<span class="co">#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpJLD8P1"</span>
 </pre></div>
 <p>We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) <code>.pbf</code> file are expensive operations, that are skipped by <code>oe_*()</code> functions if they detect that the input <code>.pbf</code> file was already downloaded.</p>
 <p>More precisely, <code><a href="../reference/oe_download.html">oe_download()</a></code> runs several checks before actually downloading a new file, to avoid overloading the OSM providers. The first step when running the function is the definition of the file’s path associated with the input <code>file_url</code> where the <code>.pbf</code> file will be saved. The path is created by pasting together the <code>download_directory</code>, the name of chosen provider, <code>provider</code>, which may be inferred from the input url, and the <code><a href="https://rdrr.io/r/base/basename.html">basename()</a></code> of the url. For example, if <code>file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and <code>download_directory = "/tmp/</code>, then the path is built as <code>/tmp/geofabrik_italy-latest.osm.pbf</code>. Then, the function checks if there exists a file with the same path and, in that case, it returns the path without downloading anything. The parameter <code>force_download</code> is used to modify this behaviour. If there is no file associated with the file’s path, then the function downloads a new file using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> with <code>destfile</code> equal to the new path and <code>mode = "wb"</code>, and, again, it returns the path.</p>
@@ -453,7 +453,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_read.html">oe_read</a></span>(<span class="kw">its_pbf</span>, quiet = <span class="fl">FALSE</span>)
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -463,7 +463,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <p>The vectortranslate operations can be skipped with the parameter <code>skip_vectortranslate</code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit">
 <span class="fu"><a href="../reference/oe_read.html">oe_read</a></span>(<span class="kw">its_pbf</span>, skip_vectortranslate = <span class="fl">TRUE</span>, quiet = <span class="fl">FALSE</span>)
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.osm.pbf' using driver `OSM'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.osm.pbf' using driver `OSM'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -478,7 +478,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="co">#&gt; File downloaded!</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -496,7 +496,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -524,17 +524,16 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, extra_tags = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"maxspeed"</span>, <span class="st">"oneway"</span>, <span class="st">"ref"</span>, <span class="st">"junction"</span>), quiet = <span class="fl">FALSE</span>)
 <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andora"</span>, stringsAsFactors = <span class="fl">FALSE</span>, quiet = <span class="fl">TRUE</span>, as_tibble = <span class="fl">TRUE</span>) <span class="co"># like read_sf</span>
 </pre></div>
-<p>The arguments <code>osmconf_ini</code>, <code>vectortranslate_options</code> and <code>query</code> (in <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read</a></code>) can be used to further optimize the process.</p>
+<p>The arguments <code>osmconf_ini</code>, <code>vectortranslate_options</code> and <code>query</code> (in <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read</a></code>) can be used to further optimize the process of getting OSM extracts into R.</p>
 <div id="osmconf_ini" class="section level3">
 <h3 class="hasAnchor">
 <a href="#osmconf_ini" class="anchor"></a><code>osmconf_ini</code>
 </h3>
-<p>The following example shows how to create an ad-hoc <code>osmconf.ini</code> file, which can be used to read a <code>.pbf</code> file in a customized way.</p>
-<p>First of all we load the default <code>osmconf.ini</code> file, which is also stored <a href="https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini">here</a>.</p>
+<p>The following example shows how to create an ad-hoc <code>osmconf.ini</code> file, which is used by GDAL to read a <code>.pbf</code> file in a customized way. First of all, we load a local copy of the default <code>osmconf.ini</code> file, taken from <a href="https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini">here</a>.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit">
 <span class="kw">custom_osmconf_ini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>))
 </pre></div>
-<p>Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways:</p>
+<p>Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways even without any significant tag:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit">
 <span class="kw">custom_osmconf_ini</span>[[<span class="fl">18</span>]] <span class="op">=</span> <span class="st">"report_all_nodes=yes"</span>
 <span class="kw">custom_osmconf_ini</span>[[<span class="fl">21</span>]] <span class="op">=</span> <span class="st">"report_all_ways=yes"</span>
@@ -544,61 +543,43 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="kw">custom_osmconf_ini</span>[[<span class="fl">45</span>]] <span class="op">=</span> <span class="st">"osm_id=no"</span>
 <span class="kw">custom_osmconf_ini</span>[[<span class="fl">53</span>]] <span class="op">=</span> <span class="st">"attributes=highway,lanes"</span>
 </pre></div>
-<p>We can now save the <code>custom_osmconf_ini</code> file:</p>
+<p>Another important parameter that can be modified creating a custom <code>osmconf.ini</code> file is <code>closed_ways_area_polygons</code> (see line 7 of the default CONFIG file). We can now save the <code>custom_osmconf_ini</code> file:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit">
 <span class="kw">temp_ini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(), <span class="st">".ini"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw">custom_osmconf_ini</span>, <span class="kw">temp_ini</span>)
 </pre></div>
 <p>and read the ITS Leeds file with the new <code>osmconf.ini</code> file:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, osmconf_ini = <span class="kw">temp_ini</span>)
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, quiet = <span class="fl">FALSE</span>)
+<span class="co">#&gt; The input place was matched with: ITS Leeds</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, osmconf_ini = <span class="kw">temp_ini</span>, quiet = <span class="fl">FALSE</span>)
+<span class="co">#&gt; The input place was matched with: ITS Leeds</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="co">#&gt; First 10 features:</span>
-<span class="co">#&gt;        highway lanes z_order</span>
-<span class="co">#&gt; 1      footway  &lt;NA&gt;       0</span>
-<span class="co">#&gt; 2     cycleway  &lt;NA&gt;       0</span>
-<span class="co">#&gt; 3      footway  &lt;NA&gt;       0</span>
-<span class="co">#&gt; 4      service     1       0</span>
-<span class="co">#&gt; 5  residential     1       3</span>
-<span class="co">#&gt; 6        trunk     2       8</span>
-<span class="co">#&gt; 7      footway  &lt;NA&gt;       0</span>
-<span class="co">#&gt; 8      footway  &lt;NA&gt;       0</span>
-<span class="co">#&gt; 9      footway  &lt;NA&gt;       0</span>
-<span class="co">#&gt; 10     service  &lt;NA&gt;       0</span>
-<span class="co">#&gt;                                                                                                                                   other_tags</span>
-<span class="co">#&gt; 1                                                                                                                                       &lt;NA&gt;</span>
-<span class="co">#&gt; 2                                                                                               "bicycle"=&gt;"designated","foot"=&gt;"designated"</span>
-<span class="co">#&gt; 3                                                    "name"=&gt;"Cannon Walk","website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span>
-<span class="co">#&gt; 4                                                                            "access"=&gt;"permissive","name"=&gt;"Cavendish Road","oneway"=&gt;"yes"</span>
-<span class="co">#&gt; 5                                                                                                   "name"=&gt;"Cavendish Road","oneway"=&gt;"yes"</span>
-<span class="co">#&gt; 6  "lit"=&gt;"yes","maxspeed"=&gt;"30 mph","name"=&gt;"Blenheim Walk","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span>
-<span class="co">#&gt; 7                                                                                                                                       &lt;NA&gt;</span>
-<span class="co">#&gt; 8                                                                                                                                       &lt;NA&gt;</span>
-<span class="co">#&gt; 9                                                                                                                                       &lt;NA&gt;</span>
-<span class="co">#&gt; 10                                                                                                                   "name"=&gt;"Cemetery Road"</span>
-<span class="co">#&gt;                          geometry</span>
-<span class="co">#&gt; 1  LINESTRING (-1.560083 53.80...</span>
-<span class="co">#&gt; 2  LINESTRING (-1.559709 53.80...</span>
-<span class="co">#&gt; 3  LINESTRING (-1.5609 53.8085...</span>
-<span class="co">#&gt; 4  LINESTRING (-1.552587 53.80...</span>
-<span class="co">#&gt; 5  LINESTRING (-1.551771 53.80...</span>
-<span class="co">#&gt; 6  LINESTRING (-1.552894 53.80...</span>
-<span class="co">#&gt; 7  LINESTRING (-1.554698 53.80...</span>
-<span class="co">#&gt; 8  LINESTRING (-1.557451 53.80...</span>
-<span class="co">#&gt; 9  LINESTRING (-1.556508 53.80...</span>
-<span class="co">#&gt; 10 LINESTRING (-1.558149 53.80...</span>
 </pre></div>
+<p>We can see that there are 3 extra features in the <code>sf</code> data frame read-in using the customized CONFIG file (since we set <code>"report_all_nodes=yes"</code> and <code>"report_all_ways=yes"</code>) and just 4 field: <code>highway</code>, <code>lanes</code>, (see the code a few chunks above), <code>z_order</code> (see <a href="https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71">here</a>), and <code>other_tags</code>.</p>
 </div>
 <div id="vectortranslate_options-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#vectortranslate_options-1" class="anchor"></a><code>vectortranslate_options</code>
 </h3>
-<p>The parameter <code>vectortranslate_options</code> is used to modify the options that are passed to <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a>. This is extremely important since, if we tune the <code>vectortranslate_options</code> parameter, then we can analyze very big <code>.pbf</code> files creating spatial queries without reading them in.</p>
-<p>The following code shows how to use the argument <code>-t_srs</code> to modify the CRS of the output <code>.gpkg</code> object while vectortranslating:</p>
+<p>The parameter <code>vectortranslate_options</code> is used to modify the options that are passed to <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a>. This is extremely important because if we tune the <code>vectortranslate_options</code> parameter, then we can analyze big <code>.pbf</code> files without reading them in memory.</p>
+<p>The first example is reported in the following chunk that shows how to use the argument <code>-t_srs</code> to modify the CRS of the output <code>.gpkg</code> object while performing vectortranslate operations:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit">
 <span class="kw">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>)
 <span class="kw">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
@@ -615,7 +596,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -679,7 +660,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 21 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -698,7 +679,7 @@ If there are multiple matches with the same level, then <code><a href="../refere
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpYhpIn4/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpJLD8P1/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
