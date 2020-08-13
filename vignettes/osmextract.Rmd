@@ -393,7 +393,7 @@ The following example shows how to create an ad-hoc `osmconf.ini` file, which is
 custom_osmconf_ini <- readLines(system.file("osmconf.ini", package = "osmextract"))
 ```
 
-Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways even without any significant tag:
+Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways even without any significant tag,
 
 ```{r}
 custom_osmconf_ini[[18]] = "report_all_nodes=yes"
@@ -407,7 +407,7 @@ custom_osmconf_ini[[45]] = "osm_id=no"
 custom_osmconf_ini[[53]] = "attributes=highway,lanes"
 ```
 
-Another important parameter that can be modified creating a custom `osmconf.ini` file is `closed_ways_area_polygons` (see line 7 of the default CONFIG file). 
+Another important parameter that can be customized creating an ad-hoc `osmconf.ini` file is `closed_ways_area_polygons` (see lines 5-7 of the default CONFIG file). 
 We can now save the `custom_osmconf_ini` file: 
 
 ```{r}
@@ -422,20 +422,20 @@ oe_get("ITS Leeds", provider = "test", quiet = FALSE)
 oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE)
 ```
 
-We can see that there are 3 extra features in the `sf` data frame read-in using the customized CONFIG file (since we set `"report_all_nodes=yes"` and `"report_all_ways=yes"`) and just 4 field: `highway`, `lanes`, (see the code a few chunks above), `z_order` (see [here](https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71)), and `other_tags`.
+We can see that there are 3 extra features in the `sf` object that was read-in using the customized CONFIG file (since we set `"report_all_nodes=yes"` and `"report_all_ways=yes"`) and just 4 field: `highway`, `lanes`, (see the code a few chunks above), `z_order` (see [here](https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71)), and `other_tags`.
 
 ### `vectortranslate_options`
 
 The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr). 
-This is extremely important because if we tune the `vectortranslate_options` parameter, then we can analyze big `.pbf` files without reading them in memory. 
+This is extremely important because if we tune the  options of `vectortranslate_options` parameter, then we can analyze big `.pbf` files without fully reading them in memory. 
 
-The first example is reported in the following chunk that shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object while performing vectortranslate operations: 
+The first example is reported in the following chunk of code and it shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object (from `EPSG:4326` to [`EPSG:27700`](https://epsg.io/27700)) while performing vectortranslate operations: 
 
 ```{r}
 my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
 my_vectortranslate = c(
   "-f", "GPKG", #output file format
-  "-overwrite", # overwrite an existing file
+  "-overwrite", # overwrite an existing layer
   "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
   "-lco", "GEOMETRY_NAME=geometry", # layer creation options, 
   "-t_srs", "EPSG:27700", # British National Grid CRS
@@ -445,30 +445,190 @@ my_vectortranslate = c(
 oe_get("ITS Leeds", provider = "test", vectortranslate_options = my_vectortranslate, quiet = FALSE)
 ```
 
-The following chunk (not evaluated in the vignette) shows how to use the argument `-t_clipsrc` to create a spatial filter while vectortranslating. 
-The query is defined with the WKT representation of a 5km buffer around the capital of Malta. 
-The most important part is that type code is much faster than reading in the complete `.gpkg` and then performing the spatial filter. 
+The next example demonstrates that it's possible to apply an SQL-like query during the vectortranslate process. 
+More precisely, we can use the arguments `-select` and `-where` to create an SQL-like query that is applied during the vectortranslate process. 
+First of all we need to build a character vector with the options that will be passed to `ogr2ogr: `
 
-```{r, eval = FALSE}
-lavalletta_buffer <- st_sfc(st_buffer(st_point(c(456207.4, 3972935)), 5000), crs = 32633) %>% 
-  st_transform(crs = 4326)
-lavalletta_buffer_wkt = st_as_text(lavalletta_buffer)
-
+```{r}
 my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
 my_vectortranslate = c(
   "-f", "GPKG", #output file format
   "-overwrite", # overwrite an existing file
   "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
-  "-lco", "GEOMETRY_NAME=geometry", # layer creation options, 
-  "-t_srs", "EPSG:32633", # British National Grid CRS
-  "-clipsrc", lavalletta_buffer_wkt,
-  "lines"
+  "-lco", "GEOMETRY_NAME=geometry", # layer creation options,
+  "-t_srs", "EPSG:27700", # British National Grid CRS
+  # SQL-like query where we select only a few fields
+  "-select", "osm_id,highway", 
+  # SQL-like query where we select only the features where highway in (footway, cycleway)
+  "-where", "highway IN ('footway', 'cycleway')",
+  "lines" #layer
 )
-malta_sf = oe_get("Malta", vectortranslate_options = my_vectortranslate, quiet = FALSE)
-plot(st_geometry(malta_sf))
 ```
 
+and then we can process the file: : 
+
+```{r}
+its_leeds = oe_get(
+  "ITS Leeds", 
+  provider = "test", 
+  vectortranslate_options = my_vectortranslate, 
+  quiet = FALSE
+)
+its_leeds
+```
+
+The same procedure can be repeated using an ad-hoc `osmconf.ini` file and extra tags. 
+These arguments are extremely important if you need to work with a small portion of a bigger `.pbf` file. 
+For example (not run in the vignette), the following code is used to extract all `primary`, `secondary` and `tertiary` roads from the `.pbf` file of Portugal stored by Geofabrik servers.  
+
+```{r, eval = FALSE}
+my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+my_vectortranslate = c(
+  "-f", "GPKG", #output file format
+  "-overwrite", # overwrite an existing file
+  "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
+  "-lco", "GEOMETRY_NAME=geometry", # layer creation options,
+  "-t_srs", "EPSG:27700", # British National Grid CRS
+  # SQL-like query where we select only a few fields
+  # SQL-like query where we select only the features where highway in (footway, cycleway)
+  "-where", "highway IN ('primary', 'secondary', 'tertiary')",
+  "lines" #layer
+)
+system.time({
+  portugal1 = oe_get("Portugal", vectortranslate_options = my_vectortranslate, quiet = FALSE)
+})
+#>    user  system elapsed 
+#>   96.30   58.97  166.75 
+```
+
+while the classical approach (not run in the vignette) is slower and it provides identical results: 
+
+```{r, eval = FALSE}
+system.time({
+  portugal2 = oe_get("Portugal", quiet = FALSE, force_download = TRUE, force_vectortranslate = TRUE)
+  portugal2 = portugal2 %>% 
+    dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary'))
+})
+#>   user  system elapsed 
+#> 210.84   76.09  302.89
+nrow(portugal1) == nrow(portugal2)
+#> TRUE
+```
+
+The last example shows how to use the argument `-clipsrc` to clip the input layer using a bounding box or a polygon (defined as WKT). 
+First I defined a polygon centered in the area of ITS Leeds and create its WKT representation 
+
+```{r}
+# Define a really small POLYGON in the area of ITS Leeds
+its_small_poly = st_sfc(
+  st_polygon(
+    list(
+      rbind(
+        c(-1.559184, 53.807739), 
+        c(-1.557895, 53.807571), 
+        c(-1.557375, 53.808094), 
+        c(-1.558524, 53.808192),
+        c(-1.559184, 53.807739)
+      )
+    )
+  )
+)
+its_small_wkt = st_as_text(its_small_poly)
+```
+
+then I define the `vectortranslate_options`
+
+```{r}
+my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+my_vectortranslate = c(
+  "-f", "GPKG", #output file format
+  "-overwrite", # overwrite an existing file
+  "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
+  "-lco", "GEOMETRY_NAME=geometry", # layer creation options
+  "-clipsrc", its_small_wkt,
+  "lines" #layer
+)
+```
+
+and run `oe_get()`:
+
+```{r]}
+its_small_sf = oe_get(
+  "ITS Leeds", 
+  provider = "test", 
+  vectortranslate_options = my_vectortranslate, 
+  quiet = FALSE
+)
+plot(its_small_sf["osm_id"])
+```
+
+If you compare this plot with the figure at the beginning of this Section, you can see that it represents a small part of the streets in the middle-left of the plot. 
+
+This approach is faster than translating, reading and filtering a full `.pbf` file, especially for larger areas. 
+For example (not run in the vignette): 
+
+```{r, eval = FALSE}
+# Define a 15Km circular buffer around Rome
+rome_buffer <- st_sfc(st_buffer(st_point(c(291187, 4640996)), 15000), crs = 32633) %>% 
+  st_transform(crs = 4326)
+
+# vectortranslate approach
+system.time({
+  rome_buffer_wkt = st_as_text(rome_buffer)
+  my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+  my_vectortranslate = c(
+  "-f", "GPKG", #output file format
+  "-overwrite", # overwrite an existing file
+  "-oo", paste0("CONFIG_FILE=", my_osmconf_ini), # open options
+  "-lco", "GEOMETRY_NAME=geometry", # layer creation options
+  "-clipsrc", rome_buffer_wkt,
+  "lines" #layer
+  )
+  rome1 = oe_get(
+    st_sfc(st_point(c(291187, 4640996)), crs = 32633), 
+    force_download = TRUE, 
+    quiet = FALSE, 
+    vectortranslate_options = my_vectortranslate
+  )
+})
+
+#>    user  system elapsed 
+#>  109.26  110.10  274.10 
+
+# Classical approach
+system.time({
+  center_italy = oe_get(
+    st_sfc(st_point(c(291187, 4640996)), crs = 32633), 
+    quiet = FALSE, 
+    force_download = TRUE, 
+    force_vectortranslate = TRUE
+  )
+  rome2 = center_italy[rome_buffer, ]
+})
+
+#>   user  system elapsed 
+#> 207.78   90.58  322.94 
+```
+
+Please notice the following warning message that may be returned by `ogr2ogr` with argument `-clipsrc`: 
+
+```
+Warning message:
+In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
+  GDAL Message 1: A geometry of type MULTILINESTRING is inserted into layer lines of geometry type LINESTRING, which is not normally allowed by the GeoPackage specification, but the driver will however do it. To create a conformant GeoPackage, if using ogr2ogr, the -nlt option can be used to override the layer geometry type. This warning will no longer be emitted for this combination of layer and feature geometry type.
+```
+
+I think that the errors returned by `sf::gdal_utils()` and `ogr2ogr2` are usually hard to understand and non-informative, so I suggest you start building your own vectortranslate options from these examples, changing only one step at a time. 
+
 ### `query`
+
+The main drawback of the vectortranslate approach is that you need to rerun the `ogr2ogr` utility everytime you want to change your query. 
+This is probably the optimal approach if you are working with very big `.pbf` files (like continent scale), but, if you are dealing with smaller problems, the easier solution may be converting all the fields and all the features from the `.pbf` file into `.gpkg` format and then using the `query` parameter of `sf::st_read()`
+
+```{r}
+
+```
+
 
 The `query` argument can be used to check the contents of a `.gpkg` file or to create an SQL-like query. 
 For example, the following code is used to calculate the values stored in the `highway` column for the ITS test data: 
