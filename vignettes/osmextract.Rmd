@@ -625,7 +625,7 @@ I think that the errors returned by `sf::gdal_utils()` and `ogr2ogr2` are usuall
 The main drawback of the vectortranslate approach is that you need to rerun the `ogr2ogr` utility everytime you want to change your query. 
 This is probably the optimal approach if you are working with very big `.pbf` files (like continent scale), but, if you are dealing with smaller problems, the easier solution may be converting all the fields and all the features from the `.pbf` file into `.gpkg` format and then using the `query` parameter of `sf::st_read()`
 
-```{r}
+```{r, eval = FALSE}
 
 ```
 
@@ -633,7 +633,7 @@ This is probably the optimal approach if you are working with very big `.pbf` fi
 The `query` argument can be used to check the contents of a `.gpkg` file or to create an SQL-like query. 
 For example, the following code is used to calculate the values stored in the `highway` column for the ITS test data: 
 
-```{r}
+```{r, eval = FALSE}
 oe_get(
   "ITS Leed", 
   provider = "test", 
@@ -643,7 +643,7 @@ oe_get(
 
 The same `query` argument can be used to read-in only certain features, like all residential highways: 
 
-```{r,}
+```{r, eval = FALSE}
 oe_get(
   "ITS Leeds",
   provider = "test",
@@ -657,7 +657,7 @@ Computational efficiency is important when working with large OSM datasets provi
 
 Last but not least, we can use the function `hstore_get_value` to extract one of the tags saved in the `other_tags` column: 
 
-```{r}
+```{r, eval = FALSE}
 oe_get(
   "ITS Leeds", 
   provider = "test", 
