@@ -383,19 +383,17 @@ oe_get("Andorra", extra_tags = c("maxspeed", "oneway", "ref", "junction"), quiet
 oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # like read_sf
 ```
 
-The arguments `osmconf_ini`, `vectortranslate_options` and `query` (in `sf::st_read`) can be used to further optimize the process.  
+The arguments `osmconf_ini`, `vectortranslate_options` and `query` (in `sf::st_read`) can be used to further optimize the process of getting OSM extracts into R.  
 
 ### `osmconf_ini`
 
-The following example shows how to create an ad-hoc `osmconf.ini` file, which can be used to read a `.pbf` file in a customized way. 
-
-First of all we load the default `osmconf.ini` file, which is also stored [here](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
+The following example shows how to create an ad-hoc `osmconf.ini` file, which is used by GDAL to read a `.pbf` file in a customized way. First of all, we load a local copy of the default `osmconf.ini` file, taken from [here](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
 
 ```{r}
 custom_osmconf_ini <- readLines(system.file("osmconf.ini", package = "osmextract"))
 ```
 
-Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways:
+Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways even without any significant tag:
 
 ```{r}
 custom_osmconf_ini[[18]] = "report_all_nodes=yes"
@@ -409,6 +407,7 @@ custom_osmconf_ini[[45]] = "osm_id=no"
 custom_osmconf_ini[[53]] = "attributes=highway,lanes"
 ```
 
+Another important parameter that can be modified creating a custom `osmconf.ini` file is `closed_ways_area_polygons` (see line 7 of the default CONFIG file). 
 We can now save the `custom_osmconf_ini` file: 
 
 ```{r}
@@ -419,15 +418,18 @@ writeLines(custom_osmconf_ini, temp_ini)
 and read the ITS Leeds file with the new `osmconf.ini` file: 
 
 ```{r}
-oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini)
+oe_get("ITS Leeds", provider = "test", quiet = FALSE)
+oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE)
 ```
+
+We can see that there are 3 extra features in the `sf` data frame read-in using the customized CONFIG file (since we set `"report_all_nodes=yes"` and `"report_all_ways=yes"`) and just 4 field: `highway`, `lanes`, (see the code a few chunks above), `z_order` (see [here](https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71)), and `other_tags`.
 
 ### `vectortranslate_options`
 
 The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr). 
-This is extremely important since, if we tune the `vectortranslate_options` parameter, then we can analyze very big `.pbf` files creating spatial queries without reading them in. 
+This is extremely important because if we tune the `vectortranslate_options` parameter, then we can analyze big `.pbf` files without reading them in memory. 
 
-The following code shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object while vectortranslating: 
+The first example is reported in the following chunk that shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object while performing vectortranslate operations: 
 
 ```{r}
 my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
