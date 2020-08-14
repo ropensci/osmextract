@@ -395,7 +395,7 @@ The arguments `osmconf_ini`, `vectortranslate_options` and `query` (defined in `
 The following example shows how to create an ad-hoc `osmconf.ini` file, which is used by GDAL to read a `.pbf` file in a customized way. First of all, we load a local copy of the default `osmconf.ini` file, taken from [here](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
 
 ```{r}
-custom_osmconf_ini <- readLines(system.file("osmconf.ini", package = "osmextract"))
+custom_osmconf_ini = readLines(system.file("osmconf.ini", package = "osmextract"))
 ```
 
 Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways even without any significant tag,
@@ -416,7 +416,7 @@ Another important parameter that can be customized creating an ad-hoc `osmconf.i
 We can now save the `custom_osmconf_ini` file: 
 
 ```{r}
-temp_ini <- paste0(tempfile(), ".ini")
+temp_ini = paste0(tempfile(), ".ini")
 writeLines(custom_osmconf_ini, temp_ini)
 ```
 
@@ -579,7 +579,7 @@ For example (not run in the vignette):
 
 ```{r, eval = FALSE}
 # Define a 15Km circular buffer around Rome
-rome_buffer <- st_sfc(st_buffer(st_point(c(291187, 4640996)), 15000), crs = 32633) %>% 
+rome_buffer = st_sfc(st_buffer(st_point(c(291187, 4640996)), 15000), crs = 32633) %>% 
   st_transform(crs = 4326)
 
 # vectortranslate approach

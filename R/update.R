@@ -49,7 +49,7 @@
 #' @examples
 #' \dontrun{
 #' # Set up a fake directory with .pbf and .gpkg files
-#' fake_dir <- tempdir()
+#' fake_dir = tempdir()
 #' # Fill the directory
 #' oe_get("andorra", download_directory = fake_dir, download_only = TRUE)
 #' # Check the directory
