@@ -115,7 +115,8 @@ oe_match.sfc_POINT = function(
     place = sf::st_transform(place, crs = sf::st_crs(provider_data))
   }
 
-  # Spatial subset according to sf::st_intersects (maybe add a parameter for that)
+  # Spatial subset according to sf::st_intersects (maybe add a parameter for
+  # that)
   matched_zones = provider_data[place, ]
 
   # Check that the input zone intersects at least 1 area
@@ -138,7 +139,9 @@ oe_match.sfc_POINT = function(
 
     # Select the zones with the highest level. I do not use which.max since I
     # want to select all occurrences, not only the first one
-    matched_zones = matched_zones[matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE), ]
+    matched_zones = matched_zones[
+      matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE),
+    ]
   }
 
   # If, again, there are multiple matches with the same "level", we will select
@@ -233,7 +236,11 @@ oe_match.character = function(
 
   # Look for the best match between the input 'place' and the data column
   # selected with the match_by argument.
-  matching_dists = utils::adist(provider_data[[match_by]], place, ignore.case = TRUE)
+  matching_dists = utils::adist(
+    provider_data[[match_by]],
+    place,
+    ignore.case = TRUE
+  )
   best_match_id = which(matching_dists == min(matching_dists, na.rm = TRUE))
   if (length(best_match_id) > 1L) {
     warning(
@@ -283,7 +290,10 @@ oe_match.character = function(
   }
 
   if (isFALSE(quiet)) {
-    message("The input place was matched with: ", best_matched_place[[match_by]])
+    message(
+      "The input place was matched with: ",
+      best_matched_place[[match_by]]
+    )
   }
 
   result = list(

@@ -196,9 +196,9 @@ oe_vectortranslate = function(
     if (
       file.exists(gpkg_file_path) &&
       is.null(osmconf_ini) &&
-      # The next condition is used to check that the function is not looking for old
-      # tags in a non-existing layer, otherwise the following code
-      # will fail with an error:
+      # The next condition is used to check that the function is not looking for
+      # old tags in a non-existing layer, otherwise the following code will fail
+      # with an error:
       # its_gpkg = oe_vectortranslate(its_pbf)
       # oe_vectortranslate(
       #   its_pbf,

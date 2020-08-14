@@ -130,7 +130,8 @@ oe_read = function(
     quiet = quiet
   )
 
-  # This is just for returning the .gpkg file path in case I need it for something
+  # This is just for returning the .gpkg file path in case I need it for
+  # something
   if (isTRUE(download_only)) {
     return(gpkg_file_path)
   }

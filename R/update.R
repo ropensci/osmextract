@@ -33,9 +33,9 @@
 #'
 #'   The parameter `delete_gpkg` is used to delete all `.gpkg` files in
 #'   `download_directory`. We decided to set its default value to `TRUE` to
-#'   minimize the possibility of reading-in old and non-synchonized `.gpkg`
-#'   files. If you set `delete_gpkg = FALSE`, then you need to manually reconvert
-#'   all files using [oe_get()] or [oe_vectortranslate()] .
+#'   minimize the possibility of reading-in old and non-synchronized `.gpkg`
+#'   files. If you set `delete_gpkg = FALSE`, then you need to manually
+#'   reconvert all files using [oe_get()] or [oe_vectortranslate()] .
 #'
 #'   If you set the parameter `quiet` to `FALSE`, then the function will print
 #'   some useful messages regarding the characteristics of the files before and
@@ -116,7 +116,13 @@ oe_update = function(
   # For all the files matched with the previous regex
   for (file in osmpbf_files) {
     # Match it's provider
-    matching_providers = vapply(all_providers, grepl, FUN.VALUE = logical(1), x = file, fixed = TRUE)
+    matching_providers = vapply(
+      all_providers,
+      grepl,
+      FUN.VALUE = logical(1),
+      x = file,
+      fixed = TRUE
+    )
     provider = all_providers[matching_providers]
     # Match the id of the place (the id is the alphabetic string right  after
     # the provider, for example if file is equal to

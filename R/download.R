@@ -20,7 +20,8 @@
 #'   returns the path.
 #'
 #' @inheritParams oe_get
-#' @param file_url A url pointing to a `.osm.pbf` file that should be downloaded.
+#' @param file_url A url pointing to a `.osm.pbf` file that should be
+#'   downloaded.
 #' @param provider Which provider stores the file that is specified using its
 #'   url? If `NULL`` (the default), it is inferred from the url but it must be
 #'   specified for non-standard cases. See details and examples.
@@ -84,7 +85,10 @@ oe_download = function(
 
   # We need to build the file_path combining the download_directory,
   # the provider and the file_basename
-  file_path = file.path(download_directory, paste(provider, file_basename, sep = "_"))
+  file_path = file.path(
+    download_directory,
+    paste(provider, file_basename, sep = "_")
+  )
 
   # If the file exists and force_download is FALSE, then raise a message and
   # return the file_path. Otherwise we download it after checking for the
@@ -104,7 +108,12 @@ oe_download = function(
     # If working in interactive session and file_size > max_file_size, then we
     # double check if we really want to download the file.
     continue = 1L
-    if (interactive() && !is.null(file_size) && !is.na(file_size) && file_size >= max_file_size ) {
+    if (
+      interactive() &&
+      !is.null(file_size) &&
+      !is.na(file_size) &&
+      file_size >= max_file_size
+    ) {
       message("This is a large file (", round(file_size / 1048576), " MB)!")
       continue = utils::menu(
         choices = c("Yes", "No"),
@@ -136,7 +145,10 @@ oe_download = function(
 
 # Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
-  providers_regex = paste(setdiff(oe_available_providers(), "test"), collapse = "|")
+  providers_regex = paste(
+    setdiff(oe_available_providers(), "test"),
+    collapse = "|"
+  )
   m = regexpr(pattern = providers_regex, file_url)
   if (m == -1L) {
     stop("Cannot infer the provider from the url, please specify it.")

@@ -31,7 +31,7 @@ England, is a level 3 zone.}
 on the smallest extract that still fully (or mostly) contains the entity
 with that code; e.g. the code "DE" will be given for the Germany extract
 and not for Europe even though Europe contains Germany. If an extract
-covers several countries and no per-contry extracts are available (e.g.
+covers several countries and no per-country extracts are available (e.g.
 Israel and Palestine), then several ISO codes will be given (such as "PS
 IL" for "Palestine and Israel").}
 \item{iso3166_2}{A character vector of usually five-character \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO3166-2 codes}. The same rules as above

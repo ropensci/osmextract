@@ -16,7 +16,8 @@ oe_download(
 )
 }
 \arguments{
-\item{file_url}{A url pointing to a \code{.osm.pbf} file that should be downloaded.}
+\item{file_url}{A url pointing to a \code{.osm.pbf} file that should be
+downloaded.}
 
 \item{provider}{Which provider stores the file that is specified using its
 url? If `NULL`` (the default), it is inferred from the url but it must be

@@ -629,7 +629,7 @@ In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
 
 ### `query`
 
-The main drawback of the vectortranslate approach is that you need to rerun the `ogr2ogr` utility everytime you change your query. 
+The main drawback of the vectortranslate approach is that you need to rerun the `ogr2ogr` utility every time you change your query. 
 This is probably the optimal approach if you are working with very big `.pbf` files (like continent-scale), but, if you are dealing with smaller data, the easier (and perhaps faster) solution may be converting all the fields and all the features from the `.pbf` file into `.gpkg` format and then using the `query` parameter of `sf::st_read()`. 
 See [here](https://gdal.org/user/ogr_sql_dialect.html) for more details on the SQL dialect. 
 

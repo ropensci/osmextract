@@ -1,7 +1,12 @@
 test_that("oe_update(): simplest example works", {
   skip_if_offline()
   fake_dir = tempdir()
-  oe_get("its leeds", provider = "test", download_directory = fake_dir, download_only = TRUE)
+  oe_get(
+    "its leeds",
+    provider = "test",
+    download_directory = fake_dir,
+    download_only = TRUE
+  )
   expect_error(oe_update(fake_dir), NA)
 })
 

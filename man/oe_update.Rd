@@ -53,9 +53,9 @@ the column \code{id} in \code{geofabrik_zones}.
 
 The parameter \code{delete_gpkg} is used to delete all \code{.gpkg} files in
 \code{download_directory}. We decided to set its default value to \code{TRUE} to
-minimize the possibility of reading-in old and non-synchonized \code{.gpkg}
-files. If you set \code{delete_gpkg = FALSE}, then you need to manually reconvert
-all files using \code{\link[=oe_get]{oe_get()}} or \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .
+minimize the possibility of reading-in old and non-synchronized \code{.gpkg}
+files. If you set \code{delete_gpkg = FALSE}, then you need to manually
+reconvert all files using \code{\link[=oe_get]{oe_get()}} or \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .
 
 If you set the parameter \code{quiet} to \code{FALSE}, then the function will print
 some useful messages regarding the characteristics of the files before and

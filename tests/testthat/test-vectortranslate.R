@@ -19,13 +19,22 @@ test_that("oe_vectortranslate returns file_path is .gpkg exists", {
 })
 
 test_that("oe_vectortranslate adds new tags", {
-  its_gpkg = oe_vectortranslate(its_pbf, extra_tags = "oneway", force_vectortranslate = TRUE)
-  expect_match(paste(names(sf::st_read(its_gpkg, quiet = TRUE)), collapse = "-"), "oneway")
+  its_gpkg = oe_vectortranslate(
+    its_pbf,
+    extra_tags = "oneway", force_vectortranslate = TRUE
+  )
+  expect_match(
+    paste(names(sf::st_read(its_gpkg, quiet = TRUE)), collapse = "-"),
+    "oneway"
+  )
 })
 
 test_that("oe_vectortranslate adds new tags to existing file", {
   new_its_gpkg = oe_vectortranslate(its_pbf, extra_tags = c("oneway"))
-  expect_match(paste(names(sf::st_read(new_its_gpkg, quiet = TRUE)), collapse = "-"), "oneway")
+  expect_match(
+    paste(names(sf::st_read(new_its_gpkg, quiet = TRUE)), collapse = "-"),
+    "oneway"
+  )
 })
 
 test_that("oe_get_keys: simplest examples work", {
@@ -37,6 +46,11 @@ test_that("oe_get_keys: simplest examples work", {
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
   skip_if_offline()
-  itsleeds_pbf = oe_get("itsleeds", provider = "test", download_only = TRUE, skip_vectortranslate = TRUE)
+  itsleeds_pbf = oe_get(
+    "itsleeds",
+    provider = "test",
+    download_only = TRUE,
+    skip_vectortranslate = TRUE
+  )
   expect_error(oe_get_keys(itsleeds_pbf)) # wrong format
 })
