@@ -191,9 +191,9 @@ with the provider <code>"geofabrik"</code> and the geographical zone <code>italy
 the column <code>id</code> in <code>geofabrik_zones</code>.</p>
 <p>The parameter <code>delete_gpkg</code> is used to delete all <code>.gpkg</code> files in
 <code>download_directory</code>. We decided to set its default value to <code>TRUE</code> to
-minimize the possibility of reading-in old and non-synchonized <code>.gpkg</code>
-files. If you set <code>delete_gpkg = FALSE</code>, then you need to manually reconvert
-all files using <code><a href='oe_get.html'>oe_get()</a></code> or <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> .</p>
+minimize the possibility of reading-in old and non-synchronized <code>.gpkg</code>
+files. If you set <code>delete_gpkg = FALSE</code>, then you need to manually
+reconvert all files using <code><a href='oe_get.html'>oe_get()</a></code> or <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> .</p>
 <p>If you set the parameter <code>quiet</code> to <code>FALSE</code>, then the function will print
 some useful messages regarding the characteristics of the files before and
 after updating them. More precisely, it will print the output of the
@@ -204,7 +204,7 @@ Check <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></cod
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># Set up a fake directory with .pbf and .gpkg files</span>
-<span class='kw'>fake_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
+<span class='kw'>fake_dir</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
 <span class='co'># Fill the directory</span>
 <span class='fu'><a href='oe_get.html'>oe_get</a></span>(<span class='st'>"andorra"</span>, download_directory = <span class='kw'>fake_dir</span>, download_only = <span class='fl'>TRUE</span>)
 <span class='co'># Check the directory</span>
