@@ -110,7 +110,11 @@ oe_download = function(
         choices = c("Yes", "No"),
         title = "Are you sure that you want to download it?"
       )
+
+      # It think it's always useful to see the progress bar for large files
+      quiet = FALSE
     }
+
     if (continue != 1L) {
       stop("Aborted by user.")
     }

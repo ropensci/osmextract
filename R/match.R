@@ -129,7 +129,7 @@ oe_match.sfc_POINT = function(
     if (isFALSE(quiet)) {
       message(
         "The input place was matched with multiple geographical areas. ",
-        "Selecting the areas with the biggest \"level\". See the help page ",
+        "Selecting the areas with the highest \"level\". See the help page ",
         " associated to the chosen provider for an explanation of the ",
         "meaning of the \"level\" field"
       )
