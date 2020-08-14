@@ -25,8 +25,3 @@ test_that("or_read: simplest example with a URL works", {
     download_directory = tempdir()
   )
 })
-
-test_that("oe_read: can read .pbf or .gpkg" {
-  oe_get("ITS Leeds", provider = "test", download_directory = tempdir())
-
-})
