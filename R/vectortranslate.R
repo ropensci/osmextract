@@ -258,7 +258,7 @@ oe_vectortranslate = function(
       temp_ini
     )
     temp_ini[[id_old]] = paste(c(temp_ini[[id_old]], extra_tags), collapse = ",")
-    temp_ini_file = paste0(tempfile(), ".ini")
+    temp_ini_file = tempfile(fileext = ".ini")
     writeLines(temp_ini, con = temp_ini_file)
     osmconf_ini = temp_ini_file
   }

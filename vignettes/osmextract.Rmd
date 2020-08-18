@@ -416,7 +416,7 @@ Another important parameter that can be customized creating an ad-hoc `osmconf.i
 We can now save the `custom_osmconf_ini` file: 
 
 ```{r}
-temp_ini = paste0(tempfile(), ".ini")
+temp_ini = tempfile(fileext = ".ini")
 writeLines(custom_osmconf_ini, temp_ini)
 ```
 
