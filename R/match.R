@@ -1,27 +1,27 @@
 #' Match input place with a URL
 #'
-#' This function is used to match an input `place` with the URL of a .osm.pbf
+#' This function is used to match an input `place` with the URL of a `.osm.pbf`
 #' file (and its file-size, if present). The URLs are stored in several
-#' provider's databases. See `oe_providers()` and examples.
+#' provider's databases. See [oe_providers()] and examples.
 #'
 #' @inheritParams oe_get
 #' @param ... arguments passed to other methods
 #'
 #' @return A list with two elements, named `url` and `file_size`. The first
-#'   element is the URL of the .osm.pbf file associated with the input `place`,
-#'   while the second element is the size of the file in bytes (which may be
-#'   `NULL` or `NA`)
+#'   element is the URL of the `.osm.pbf` file associated with the input
+#'   `place`, while the second element is the size of the file in bytes (which
+#'   may be `NULL` or `NA`)
 #' @export
 #'
-#' @seealso `oe_providers()` and `oe_explore_pattern()`.
+#' @seealso [oe_providers()] and [oe_match_pattern()].
 #'
 #' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
 #'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
-#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See `?geofabrik_zones`
+#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See [geofabrik_zones]
 #'   for more details.
 #'
-#'   If the input place is specified as a spatial point (either sfc_POINT or
+#'   If the input place is specified as a spatial point (either `sfc_POINT` or
 #'   numeric coordinates), then the function will return the geographical area
 #'   with the highest "level" intersecting the point. See the help pages of the
 #'   chosen provider database for understanding the meaning of the "level"
@@ -84,7 +84,8 @@ oe_match.default = function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
-    " Feel free to open a new issue at github.com/itsleeds/osmextract", call. = FALSE
+    " Feel free to open a new issue at github.com/itsleeds/osmextract",
+    call. = FALSE
   )
 }
 
@@ -114,7 +115,8 @@ oe_match.sfc_POINT = function(
     place = sf::st_transform(place, crs = sf::st_crs(provider_data))
   }
 
-  # Spatial subset according to sf::st_intersects (maybe add a parameter for that)
+  # Spatial subset according to sf::st_intersects (maybe add a parameter for
+  # that)
   matched_zones = provider_data[place, ]
 
   # Check that the input zone intersects at least 1 area
@@ -128,7 +130,7 @@ oe_match.sfc_POINT = function(
     if (isFALSE(quiet)) {
       message(
         "The input place was matched with multiple geographical areas. ",
-        "Selecting the areas with the biggest \"level\". See the help page ",
+        "Selecting the areas with the highest \"level\". See the help page ",
         " associated to the chosen provider for an explanation of the ",
         "meaning of the \"level\" field"
       )
@@ -137,7 +139,9 @@ oe_match.sfc_POINT = function(
 
     # Select the zones with the highest level. I do not use which.max since I
     # want to select all occurrences, not only the first one
-    matched_zones = matched_zones[matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE), ]
+    matched_zones = matched_zones[
+      matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE),
+    ]
   }
 
   # If, again, there are multiple matches with the same "level", we will select
@@ -154,7 +158,7 @@ oe_match.sfc_POINT = function(
       place,
       sf::st_centroid(sf::st_geometry(matched_zones))
     )
-    matched_zones <- matched_zones[nearest_id_centroid,]
+    matched_zones = matched_zones[nearest_id_centroid,]
   }
 
   # Return a list with the URL and the file_size of the matched place
@@ -232,16 +236,21 @@ oe_match.character = function(
 
   # Look for the best match between the input 'place' and the data column
   # selected with the match_by argument.
-  matching_dists = utils::adist(provider_data[[match_by]], place, ignore.case = TRUE)
+  matching_dists = utils::adist(
+    provider_data[[match_by]],
+    place,
+    ignore.case = TRUE
+  )
   best_match_id = which(matching_dists == min(matching_dists, na.rm = TRUE))
   if (length(best_match_id) > 1L) {
     warning(
       "The input place was matched with multiple geographical zones: ",
       paste(provider_data[[match_by]][best_match_id], collapse = " - "),
       ". Selecting the first match.",
-      call. = FALSE
+      call. = FALSE,
+      immediate. = TRUE
     )
-    best_match_id <- best_match_id[1L]
+    best_match_id = best_match_id[1L]
   }
   best_matched_place = provider_data[best_match_id, ]
 
@@ -274,13 +283,17 @@ oe_match.character = function(
         max_string_dist,
         ". You should increase the max_string_dist parameter, ",
         "look for a closer match in the chosen provider database",
-        " or consider using a different match_by variable.", call. = FALSE
+        " or consider using a different match_by variable.",
+        call. = FALSE
       )
     }
   }
 
   if (isFALSE(quiet)) {
-    message("The input place was matched with: ", best_matched_place[[match_by]])
+    message(
+      "The input place was matched with: ",
+      best_matched_place[[match_by]]
+    )
   }
 
   result = list(
@@ -290,7 +303,7 @@ oe_match.character = function(
   result
 }
 
-#' Explore patterns in the provider's databases
+#' Check patterns in the provider's databases
 #'
 #' This function is used to explore the provider's databases and look for
 #' patterns. This function can be useful in combination with `oe_match()` and
@@ -311,11 +324,11 @@ oe_match.character = function(
 #' @examples
 #' \dontrun{
 #' oe_match("Yorkshire", quiet = FALSE)}
-#' oe_explore_pattern("Yorkshire")
+#' oe_match_pattern("Yorkshire")
 #'
-#' res = oe_explore_pattern("Yorkshire", full_row = TRUE)
+#' res = oe_match_pattern("Yorkshire", full_row = TRUE)
 #' sf::st_drop_geometry(res)[1:3]
-oe_explore_pattern = function(
+oe_match_pattern = function(
   pattern,
   provider = "geofabrik",
   match_by = "name",

@@ -1,76 +1,141 @@
-#' Read a .pbf or .gpkg object
+#' Read a `.pbf` or `.gpkg` object from file or URL
+#'
+#' This function is used to read a `.pbf` or `.gpkg` object from file or URL. It
+#' is a wrapper around [oe_download()], [oe_vectortranslate()] and
+#' [sf::st_read()], creating an easy way to download, convert, and read a `.pbf`
+#' or `.gpkg` file. Check the introductory vignette and the help pages of the
+#' wrapped function for more details.
+#'
+#'
+#' @details The arguments `provider`, `download_directory`, `file_size`,
+#'   `force_download`, and `max_file_size` are ignored if `file_path` points to
+#'   an existing `.pbf` or `.gpkg` file.
+#'
+#'   You cannot add any layer to an existing `.gpkg` file but you can extract
+#'   some of the tags in `other_tags` field. Check [oe_get_keys()] for more
+#'   details.
 #'
 #' @inheritParams oe_get
-#' @param file_path The path of the .gpkg or .osm.pbf file that should be
-#'   read-in.
+#' @param file_path A url or the path of a `.pbf` or `.gpkg` file.
+#' @param file_size How big is the file? Optional. `NA` by default. If it's
+#'   bigger than `max_file_size` and the function is run in interactive mode,
+#'   then an interactive menu is displayed, asking for permission for
+#'   downloading the file.
 #'
-#' @return An sf object related to the input path.
+#' @return An `sf` object.
 #' @export
 #'
-#' @details For the moment I will consider only .gpkg or .osm.pbf file. The
-#'   approach is more or less the same as for oe_get() but we need to skip the
-#'   matching operations. In the near future I think I could merge the two
-#'   approaches i.e. oe_get will be oe_match + oe_read to avoid a lot of
-#'   duplication.
-#'
 #' @examples
-#' oe_read(
-#'   file_path = system.file("its-example.osm.pbf", package = "osmextract"),
-#'   download_directory = tempdir()
-#' )
+#' # Read an existing .pbf file
+#' my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
+#' oe_read(my_pbf, quiet = FALSE)
+#' oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
+#' oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE) # Add new tags
+#'
+#' # Read an existing .gpkg file. This file was created by oe_read
+#' my_gpkg = system.file("its-example.gpkg", package = "osmextract")
+#' oe_read(my_gpkg, quiet = FALSE)
+#' # You cannot add any layer to an existing .gpkg file but you can extract some
+#' # of the tags in other_tags. Check oe_get_keys() for more details.
+#' names(oe_read(my_gpkg, extra_tags = c("maxspeed")))
+#' # Delete the .gpkg file not to mess with other examples
+#' file.remove(my_gpkg)
+#'
+#' # Read from a URL
+#' my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+#' # Please note that if you read from a URL which is not linked to one of the
+#' # supported providers, you need to specify the provider parameter:
+#' \dontrun{
+#' oe_read(my_url, provider = "test", quiet = FALSE)
+#' }
 oe_read = function(
   file_path,
   layer = "lines",
   ...,
+  provider = NULL,
   download_directory = oe_download_directory(),
+  file_size = NULL,
+  force_download = FALSE,
+  max_file_size = 5e+8,
+  download_only = FALSE,
+  skip_vectortranslate = FALSE,
   vectortranslate_options = NULL,
   osmconf_ini = NULL,
-  extra_attributes = NULL,
-  force_vectortranslate = NULL,
-  skip_vectortranslate = FALSE,
+  extra_tags = NULL,
+  force_vectortranslate = FALSE,
   quiet = TRUE
 ) {
 
-  # If the user set skip_vectortranslate = TRUE or the file extension is .gpkg
-  # then we do not need to do anything but sf::st_read the input file
-  if (isTRUE(skip_vectortranslate) || tools::file_ext(file_path) == "gpkg") {
-    return(sf::st_read(file_path, layer = layer, quiet = quiet, ...))
+  # If the input file_path is an existing .gpkg file is the easiest case since
+  # we only need to read it:
+  if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
+    # I need the following if to return the .gpkg file path in oe_get
+    if (isTRUE(download_only)) {
+      return(file_path)
+    }
+
+    return(sf::st_read(file_path, layer, quiet = quiet, ...))
   }
 
-  # Pass the .osm.pbf file_path to oe_vectortranslate
+  # Now I think I can assume that file_path is a URL or points to a .pbf file. I
+  # assume that if file.exists(file_path) is FALSE then file_path is a URL and I
+  # need to download the file
+  if (!file.exists(file_path)) {
+    file_path = oe_download(
+      file_url = file_path,
+      provider = provider,
+      download_directory = download_directory,
+      file_size = file_size,
+      force_download = force_download,
+      max_file_size = max_file_size,
+      quiet = quiet
+    )
+  }
+
+  # Now file_path should always be the path to an existing .pbf or .gpkg file
+  # Again, if file_path points to an existing .gpkg file:
+  if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
+    if (isTRUE(download_only)) {
+      return(file_path)
+    }
+
+    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+  }
+
+  # Now file_path should always point to an existing .pbf file. If the user set
+  # skip_vectortranslate = TRUE, then we just need to return the pbf path or
+  # read it.
+  if (
+    file.exists(file_path) &&
+    tools::file_ext(file_path) == "pbf" &&
+    isTRUE(skip_vectortranslate)
+  ) {
+    if (isTRUE(download_only)) {
+      return(file_path)
+    }
+
+    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+  }
+
+  # Now I think we can assume that file_path points to an existing .pbf file and
+  # skip_vectortranslate is equal to FALSE so we need to use
+  # oe_vectortranslate():
   gpkg_file_path = oe_vectortranslate(
     file_path = file_path,
     vectortranslate_options = vectortranslate_options,
     layer = layer,
     osmconf_ini = osmconf_ini,
-    extra_attributes = extra_attributes,
+    extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
     quiet = quiet
   )
 
-  # Check if the layer is not present in the gpkg file
-  if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
-    if (layer %!in% sf::st_layers(file_path)[["name"]]) {
-      stop(
-        "You selected the layer ", layer,
-        ", which is not present in the .gpkg file or the .pbf file"
-      )
-    }
-    # Try to add the new layer from the .osm.pbf file to the .gpkg file
-    if (isFALSE(quiet)) {
-      message("Adding a new layer to the .gpkg file")
-    }
-
-    gpkg_file_path = oe_vectortranslate(
-      file_path = file_path,
-      vectortranslate_options = vectortranslate_options,
-      layer = layer,
-      osmconf_ini = osmconf_ini,
-      extra_attributes = extra_attributes,
-      force_vectortranslate = TRUE,
-      quiet = quiet
-    )
+  # This is just for returning the .gpkg file path in case I need it for
+  # something
+  if (isTRUE(download_only)) {
+    return(gpkg_file_path)
   }
+
 
   # Read the translated file with sf::st_read
   sf::st_read(

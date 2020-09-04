@@ -14,7 +14,7 @@ oe_get(
 piggyback::pb_upload("geofabrik_isle-of-wight-latest.osm.pbf")
 iow_url = piggyback::pb_download_url("geofabrik_isle-of-wight-latest.osm.pbf")
 test_zones = geofabrik_zones[geofabrik_zones$name == "Isle of Wight", c(1, 2, 3, 4, 7, 8)]
-test_zones$pbf <- iow_url # so we do not download from geofabrik
+test_zones$pbf = iow_url # so we do not download from geofabrik
 file.remove("geofabrik_isle-of-wight-latest.osm.pbf")
 
 # Now we want an even smaller example
@@ -41,14 +41,14 @@ file.remove("geofabrik_isle-of-wight-latest.osm.pbf")
 # system("ls -hal *.pbf") # 40 kb
 # file.copy("its-example.osm.pbf", "inst/")
 
-its_url <- "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
-test_zones[2, "id"] <- "its"
-test_zones[2, "name"] <- "ITS Leeds"
-test_zones[2, "parent"] <- NA
-test_zones[2, "level"] <- NA
-test_zones[2, "pbf_file_size"] <- as.numeric(httr::headers(httr::HEAD(its_url))$`content-length`)
-test_zones[2, "pbf"] <- its_url
-sf::st_geometry(test_zones)[2] <- sf::st_as_sfc(sf::st_bbox(sf::st_read(its_url, "lines", quiet = TRUE)))
+its_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+test_zones[2, "id"] = "its"
+test_zones[2, "name"] = "ITS Leeds"
+test_zones[2, "parent"] = NA
+test_zones[2, "level"] = NA
+test_zones[2, "pbf_file_size"] = as.numeric(httr::headers(httr::HEAD(its_url))$`content-length`)
+test_zones[2, "pbf"] = its_url
+sf::st_geometry(test_zones)[2] = sf::st_as_sfc(sf::st_bbox(sf::st_read(its_url, "lines", quiet = TRUE)))
 
 usethis::use_data(test_zones, overwrite = TRUE, version = 3)
 

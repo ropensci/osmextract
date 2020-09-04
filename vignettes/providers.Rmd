@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(osmextract)
 ```
 
-As of summer 2020 there are 7 services providing bulk OSM datasets listed at [https://wiki.openstreetmap.org/wiki/Processed_data_providers](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
+As of summer 2020 there are 7 services providing bulk OSM datasets listed  [here](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
 This package is designed to make it easy to add new providers.
 To add a new provider there are three main steps, creating the zones, adding the provider and documentation, outlined below.
 
@@ -33,27 +33,28 @@ test_zones[c(2, 6)]
 
 The output shows the three most important column names in dataset:
 
-1. The dataset name
-2. The url endpoint where .pbf files associated with each zone can be downloaded
+1. The dataset name (that is used for matching the input `place`)
+2. The url endpoint where `.pbf` files associated with each zone can be downloaded
 3. The geometry, representing the spatial extent of the dataset
 
-The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first and [test](https://github.com/ITSLeeds/osmextract/commit/be3b48e7ed7ccd957e988bacad053161247b206d) providers in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R)
+You also must include `level` and `id` fields, which are used, respectively, for spatial matching and updating files. See [oe_match()](https://itsleeds.github.io/osmextract/reference/oe_match.html) and [oe_update()](https://itsleeds.github.io/osmextract/reference/oe_update.html). 
+
+The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first and [test](https://github.com/ITSLeeds/osmextract/commit/dc7d4ca5f62d8164901fa01863cae2cba3e0b213) providers in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R)
 The following commands will clone this repo and open the relevant file:
 
 ```bash
 git clone git@github.com:itsleeds/osmextract
 rstudio osmextract/osmextract.Rproj
 ```
-
 Then in RStudio:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 file.edit("data-raw/geofabrik_zones.R")
 ```
 
 Create a new script to document the code that generates the new object, e.g. for `bbbike`:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 file.edit("data-raw/bbbike_zones.R")
 ```
 
@@ -63,9 +64,9 @@ After you have created the new provider `_zones` file it's time to add the provi
 
 Once you have created your overview `_zones` file as outlined in the previous step, you need to modify the following files for the provider to be available for others:
 
-- [data.R](https://github.com/ITSLeeds/osmextract/blob/master/R/data.R), where you'll need to document the new dataset
-- [globals.R](https://github.com/ITSLeeds/osmextract/blob/master/R/globals.R), where you'll need to add the new object name
-- [match.RR](https://github.com/ITSLeeds/osmextract/blob/master/R/match.RR), where you'll need to add the new object name
+- [data.R](https://github.com/ITSLeeds/osmextract/blob/master/R/data.R), where you'll need to document the new dataset;
+- [globals.R](https://github.com/ITSLeeds/osmextract/blob/master/R/globals.R), where you'll need to add the new object name;
+- [providers.R](https://github.com/ITSLeeds/osmextract/blob/master/R/providers.R), where you'll need to add the new object name in `oe_available_providers()` and `load_provider_data()`. 
 
 # Documenting the provider
 

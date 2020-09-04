@@ -16,33 +16,34 @@ oe_update(
 where the \code{.osm.pbf} files are saved.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative
-messages. Default to \code{FALSE}. See Details.}
+messages. See Details.}
 
 \item{delete_gpkg}{Boolean. if \code{TRUE} the function deletes the old \code{.gpkg}
 files. We added this parameter to minimize the probability of accidentally
-reading-in old and not-synchronized \code{.gpkg} files. See details. Defaults to
+reading-in old and not-synchronized \code{.gpkg} files. See Details. Defaults to
 \code{TRUE}.}
 
-\item{...}{Additional parameter that will be passed to \code{oe_get()}.}
+\item{...}{Additional parameter that will be passed to \code{\link[=oe_get]{oe_get()}} (such as
+\code{stringsAsFactors} or \code{query}).}
 }
 \value{
-The path(s) of the .osm.pbf file(s) that were updated invisibly.
+The path(s) of the \code{.osm.pbf} file(s) that were updated.
 }
 \description{
 This function is used to re-download all \code{.osm.pbf} files stored in
-\code{download_directory} that were firstly downloaded through \code{oe_get()}. See
-details.
+\code{download_directory} that were firstly downloaded through \code{\link[=oe_get]{oe_get()}}. See
+Details.
 }
 \details{
 This function is used to re-download \code{.osm.pbf} files that are
 stored in a directory (specified by \code{download_directory} param) and that
-were firstly downloaded through \code{oe_get()}. The name of the files must
+were firstly downloaded through \code{\link[=oe_get]{oe_get()}} . The name of the files must
 begin with the name of one of the supported providers (see
-\code{oe_available_providers()}) and it must end with \code{".osm.pbf"}. All other
+\code{\link[=oe_providers]{oe_providers()}}) and it must end with \code{.osm.pbf}. All other
 files in the directory that do not match this format are ignored.
 
 The process for re-downloading the \code{.osm.pbf} files is performed using the
-function \code{oe_get()}. The appropriate provider is determined by looking at
+function \code{\link[=oe_get]{oe_get()}} . The appropriate provider is determined by looking at
 the first word in the path of the \code{.osm.pbf} file. The place is determined
 by looking at the second word in the file path and the matching is
 performed through the \code{id} column in the provider's database. So, for
@@ -52,17 +53,26 @@ the column \code{id} in \code{geofabrik_zones}.
 
 The parameter \code{delete_gpkg} is used to delete all \code{.gpkg} files in
 \code{download_directory}. We decided to set its default value to \code{TRUE} to
-minimize the possibility of reading-in old and non-synchonized \code{.gpkg}
-files. If you set \code{delete_gpkg = TRUE}, then you need to manually reconvert
-all files using \code{oe_get()} or \code{oe_vectortranslate()}. See examples.
+minimize the possibility of reading-in old and non-synchronized \code{.gpkg}
+files. If you set \code{delete_gpkg = FALSE}, then you need to manually
+reconvert all files using \code{\link[=oe_get]{oe_get()}} or \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .
 
 If you set the parameter \code{quiet} to \code{FALSE}, then the function will print
 some useful messages regarding the characteristics of the files before and
 after updating them. More precisely, it will print the output of the
-columns \code{size}, \code{mtime} and \code{ctime} from \code{file.info()}. Please note that
+columns \code{size}, \code{mtime} and \code{ctime} from \code{\link[=file.info]{file.info()}}. Please note that
 the meaning of \code{mtime} and \code{ctime} depends on the OS and the file system.
-Check \code{?file.info}. See examples.
+Check \code{\link[=file.info]{file.info()}}.
 }
 \examples{
-1 + 1
+\dontrun{
+# Set up a fake directory with .pbf and .gpkg files
+fake_dir = tempdir()
+# Fill the directory
+oe_get("andorra", download_directory = fake_dir, download_only = TRUE)
+# Check the directory
+list.files(fake_dir, "gpkg|pbf")
+# Update all .pbf files and delete .gpkg files
+oe_update(fake_dir)
+list.files(fake_dir, "gpkg|pbf")}
 }

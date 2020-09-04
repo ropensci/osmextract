@@ -27,57 +27,59 @@ oe_match(place, ...)
 )
 }
 \arguments{
-\item{place}{Description of the geographical area that should be matched to a
-.osm.pbf file through the chosen \code{provider}. Can be either a length-1
+\item{place}{Description of the geographical area that should be matched with
+a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
 code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
-See details and examples.}
+See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{...}{arguments passed to other methods}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{oe_providers()}.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 
 \item{match_by}{Which column of the provider's database should be used for
-matching the input \code{place} with a .osm.pbf file? The default is "name".
-Check details and examples to understand how this parameter works. Ignored
-if \code{place} is not a character vector since the matching is performed
-through a spatial operation.}
+matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".
+Check details and examples in \code{\link[=oe_match]{oe_match()}} to understand how this parameter
+works. Ignored if \code{place} is not a character vector since the matching is
+performed through a spatial operation.}
 
 \item{max_string_dist}{Numerical value greater or equal than 0. What is the
-maximum distance in fuzzy matching to tolerate before asking the user to
-select which zone to download? This parameter is set equal to 0 if
-\code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}. Check details and
-examples to understand why this parameter is important. Ignored if \code{place}
-is not a character vector since the matching is performed through a spatial
-operation.}
+maximum distance in fuzzy matching (i.e. Approximate String Distance, see
+\code{\link[=adist]{adist()}}) between input \code{place} and \code{match_by} column to tolerate before
+asking the user to select which zone to download? This parameter is set
+equal to 0 if \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}.
+Check Details and examples in \code{\link[=oe_match]{oe_match()}} to understand why this parameter
+is important. Ignored if \code{place} is not a character vector since the
+matching is performed through a spatial operation.}
 
-\item{interactive_ask}{Boolean. If \code{TRUE} the function creates and
-interactive menu in case the best match is further than \code{max_string_dist},
-otherwise it fails with \code{stop()}. Check details and examples to understand
-why this parameter is important. Ignored if \code{place} is not a character
-vector since the matching is performed through a spatial operation.}
+\item{interactive_ask}{Boolean. If \code{TRUE} the function creates an interactive
+menu in case the best match is further than \code{max_string_dist}, otherwise it
+fails with \code{stop()}. Check details and examples in \code{\link[=oe_match]{oe_match()}} to
+understand why this parameter is important. Ignored if \code{place} is not a
+character vector since the matching is performed through a spatial
+operation.}
 }
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first
-element is the URL of the .osm.pbf file associated with the input \code{place},
-while the second element is the size of the file in bytes (which may be
-\code{NULL} or \code{NA})
+element is the URL of the \code{.osm.pbf} file associated with the input
+\code{place}, while the second element is the size of the file in bytes (which
+may be \code{NULL} or \code{NA})
 }
 \description{
-This function is used to match an input \code{place} with the URL of a .osm.pbf
+This function is used to match an input \code{place} with the URL of a \code{.osm.pbf}
 file (and its file-size, if present). The URLs are stored in several
-provider's databases. See \code{oe_providers()} and examples.
+provider's databases. See \code{\link[=oe_providers]{oe_providers()}} and examples.
 }
 \details{
 The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by geofabrik
-provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2}. See \code{?geofabrik_zones}
+provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2}. See \link{geofabrik_zones}
 for more details.
 
-If the input place is specified as a spatial point (either sfc_POINT or
+If the input place is specified as a spatial point (either \code{sfc_POINT} or
 numeric coordinates), then the function will return the geographical area
 with the highest "level" intersecting the point. See the help pages of the
 chosen provider database for understanding the meaning of the "level"
@@ -133,5 +135,5 @@ if (interactive()) {
 oe_match("Berin", quiet = FALSE)
 }
 \seealso{
-\code{oe_providers()} and \code{oe_explore_pattern()}.
+\code{\link[=oe_providers]{oe_providers()}} and \code{\link[=oe_match_pattern]{oe_match_pattern()}}.
 }

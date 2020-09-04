@@ -29,11 +29,21 @@ test_that("oe_match: sfc_POINT objects", {
   # See https://github.com/ITSLeeds/osmextract/issues/98
   # an sfc_POINT that does intersect two cities with bbbike
   # the problem is (or, at least, it should be) less severe with geofabrik
-  amsterdam_utrecht = sf::st_sfc(sf::st_point(c(4.988327, 52.260453)), crs = 4326)
+  amsterdam_utrecht = sf::st_sfc(
+    sf::st_point(c(4.988327, 52.260453)),
+    crs = 4326
+  )
   # the point is midway between amsterdam and utrecth, closer to Amsterdam, and
   # it intersects both bboxes
-  expect_message(oe_match(amsterdam_utrecht, provider = "bbbike", quiet = FALSE))
-  expect_match(oe_match(amsterdam_utrecht, provider = "bbbike")$url, "Amsterdam")
+  expect_message(oe_match(
+    amsterdam_utrecht,
+    provider = "bbbike",
+    quiet = FALSE
+  ))
+  expect_match(
+    oe_match(amsterdam_utrecht, provider = "bbbike")$url,
+    "Amsterdam"
+  )
 })
 
 test_that("oe_match: numeric input", {
@@ -71,7 +81,7 @@ test_that("oe_match: Cannot specify more than one place", {
 
 test_that("oe_check_pattern: simplest examples work", {
   # regexp = NA is used to test that the function runs without any error
-  expect_error(oe_explore_pattern("Yorkshire"), regexp = NA)
-  expect_error(oe_explore_pattern("Yorkshire", full_row = TRUE), regexp = NA)
-  expect_error(oe_explore_pattern("Yorkshire", match_by = "XXX"))
+  expect_error(oe_match_pattern("Yorkshire"), regexp = NA)
+  expect_error(oe_match_pattern("Yorkshire", full_row = TRUE), regexp = NA)
+  expect_error(oe_match_pattern("Yorkshire", match_by = "XXX"))
 })

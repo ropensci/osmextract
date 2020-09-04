@@ -9,6 +9,8 @@
 
 [![R build
 status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/itsleeds/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/itsleeds/osmextract?branch=master)
 <!-- badges: end -->
 
 The goal of `osmextract` is to make it easier for people to access
@@ -45,15 +47,19 @@ cycleways_england = opq("England") %>%
 # The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. 
 ```
 
-The query stops with an error message after around 10 seconds. The same
+The query stops with an error message after around 30 seconds. The same
 query can be made with `osmextract` as follows, which reads-in almost
-100k linestrings in less than 10 seconds (after the data has been
+100k linestrings in less than 10 seconds, after the data has been
 downloaded in the compressed `.pbf` format and converted to the open
-standard `.gpkg` format, not evaluated):
+standard `.gpkg` format. The download-conversion operation of the OSM
+extract associated to England takes approximately a few minutes, and
+this operation must be executed only once. The following code chunk is
+not evaluated:
 
 ``` r
 library(osmextract)
-#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
+#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
+#> Any product made from OpenStreetMap must cite OSM as the data source.
 #> Geofabrik data are taken from https://download.geofabrik.de/
 #> For usage details of bbbike data see https://download.bbbike.org/osm/
 ```
@@ -64,10 +70,11 @@ cycleways_england = oe_get(
   quiet = FALSE,
   query = "SELECT * FROM 'lines' WHERE highway = 'cycleway'"
 )
+par(mar = rep(0.1, 4))
 plot(sf::st_geometry(cycleways_england))
 ```
 
-<img src="https://user-images.githubusercontent.com/1825120/87085554-f77e8b00-c227-11ea-914a-936b8be23132.png" width="100%" />
+<img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%" />
 
 The package is designed to complement `osmdata`, which has advantages
 over `osmextract` for small datasets: `osmdata` is likely to be quicker
@@ -111,25 +118,27 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
 ```
 
 ## Basic usage
 
-Give `osmextract` a place name and it will try to ‘find’ it in a list of
-place names. If the name you give it matches a place, it will download
-and import the associated data into R. The function `oe_get()` downloads
-(if not already downloaded) and reads-in data from OSM extract providers
-as an `sf` object. By default `oe_get()` imports the ‘lines’ layer, but
-any layer can be read-in by changing the `layer` argument:
+Give `osmextract` a place name and it will try to find it in a list of
+names in the specified provider
+([Geofabrik](https://www.geofabrik.de/data/download.html) by default).
+If the name you give it matches a place, it will download and import the
+associated data into R. The function `oe_get()` downloads (if not
+already downloaded) and reads-in data from OSM extract providers as an
+`sf` object. By default `oe_get()` imports the ‘lines’ layer, but any
+layer can be read-in by changing the `layer` argument:
 
 ``` r
-osm_lines = oe_get("Isle of Wight")
-osm_points = oe_get("Isle of Wight", layer = "points")
+osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
+osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
 nrow(osm_lines)
-#> [1] 44424
+#> [1] 44849
 nrow(osm_points)
-#> [1] 58971
+#> [1] 59009
 plot(osm_lines$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(osm_points$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 ```
@@ -149,27 +158,62 @@ names(osm_lines) # default variable names
 
 Once imported, you can use all the functions for data frames in base R
 and other packages. We can also use functions from the `sf` package for
-spatial analysis and visualisation. Let’s plot all the major and minor
-roads, for example:
+spatial analysis and visualisation. Let’s plot all the major, secondary
+and residential roads, for example:
 
 ``` r
-osm_major_roads = osm_lines[osm_lines$highway %in% c("primary", "secondary"), ]
+ht = c("primary", "secondary", "residential", "tertiary") # highway types of interest
+osm_major_roads = osm_lines[osm_lines$highway %in% ht, ]
 plot(osm_major_roads["highway"], key.pos = 1)
 ```
 
 <img src="man/figures/README-iow1-1.png" width="100%" />
 
 The same steps can be used to get other OSM datasets (note use of `quiet
-= FALSE` to show additional message, examples not run):
+= FALSE` to show additional message, examples, not run):
 
 ``` r
 test_malta = oe_get("Malta", quiet = FALSE)
-test_andorra = oe_get("Andorra", extra_attributes = "ref", quiet = FALSE)
+test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
 ```
 
 For further details on using the package, see the [Introducing
 osmextract
 vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
+
+## Persistent download directory
+
+The default behaviour of `oe_get()` is to save all the files in a
+temporary directory, which is erased every time you restart your R
+session. If you want to set a directory that will persist, you can add
+`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
+e.g. with:
+
+``` r
+usethis::edit_r_environ()
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+```
+
+We strongly advise you setting a persistent directory since working with
+`.pbf` files is an expensive operation, that is skipped by `oe_*()`
+functions if they detect that the input `.pbf` file was already
+downloaded.
+
+You can always check the default `download_directory` used by `oe_get()`
+with:
+
+``` r
+oe_download_directory()
+```
+
+## Warnings:
+
+The functions may return a Warning message like
+
+    st_crs<- : replacing crs does not reproject data; use st_transform for that 
+
+if the user is running old version of GDAL/PROJ. See
+[here](https://github.com/r-spatial/sf/issues/1419) for more details.
 
 ## Next steps
 

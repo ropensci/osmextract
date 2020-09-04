@@ -2,12 +2,12 @@
 % Please edit documentation in R/download.R
 \name{oe_download}
 \alias{oe_download}
-\title{Download file containing OSM data}
+\title{Download a file given a url}
 \usage{
 oe_download(
   file_url,
+  provider = NULL,
   file_basename = basename(file_url),
-  provider = infer_provider_from_url(file_url),
   download_directory = oe_download_directory(),
   file_size = NA,
   force_download = FALSE,
@@ -16,18 +16,21 @@ oe_download(
 )
 }
 \arguments{
-\item{file_url}{A URL containing OSM data (e.g. as a .pbf file)}
+\item{file_url}{A url pointing to a \code{.osm.pbf} file that should be
+downloaded.}
 
-\item{file_basename}{The base name of the file. Default behaviour:
-auto generated from the URL.}
+\item{provider}{Which provider stores the file that is specified using its
+url? If `NULL`` (the default), it is inferred from the url but it must be
+specified for non-standard cases. See details and examples.}
 
-\item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{oe_providers()}.}
+\item{file_basename}{The basename of the file. The default behaviour is to
+auto-generate it from the URL using \code{basename()}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
-By default this is \code{tempdir()}, which changes each time you restart R.
-You can set a persistent \code{download_directory} by adding the following
-to your \code{.Renviron} file (e.g. with \code{usethis::edit_r_environ()}):
+By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
+\code{tempdir()} and it changes each time you restart R. You can set a
+persistent \code{download_directory} by adding the following to your \code{.Renviron}
+file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
@@ -35,8 +38,9 @@ bigger than \code{max_file_size} and the function is run in interactive mode,
 then an interactive menu is displayed, asking for permission for
 downloading the file.}
 
-\item{force_download}{Should the file be updated if it has already been
-downloaded? \code{FALSE} by default.}
+\item{force_download}{Should the \code{.osm.pbf} file be updated if it has already
+been downloaded? \code{FALSE} by default. This parameter is used to update old
+\code{.osm.pbf} files.}
 
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
@@ -44,19 +48,36 @@ interactive mode. Default: \code{5e+8}, half a gigabyte.}
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 }
 \value{
-Character string representing the full path the downloaded file
+A character string representing the file's path.
 }
 \description{
-Download the input file if it's not already present in \code{oe_download_directory()}
-or the specified \code{download_directory}.
+This function is used to download a file given a url. It focuses on OSM
+extracts with \code{.osm.pbf} format stored by one of the providers implemented in
+the package. The url is specified through the parameter \code{file_url}.
+}
+\details{
+This function runs several checks before actually downloading a new
+file, to avoid overloading the OSM providers. The first step is the
+definition of the file's path associated to the input \code{file_url}. The path
+is created by pasting together the \code{download_directory}, the name of chosen
+provider (which may be inferred from the url) and the \code{basename()} of the
+url. For example, if \code{file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"}, and
+\verb{download_directory = "/tmp/}, then the path is built as
+\verb{/tmp/geofabrik_italy-latest.osm.pbf}. Then, the function checks the
+existence of a file with the same file's path and, in that case, it returns
+the path. The parameter \code{force_download} is used to modify this behaviour.
+If there is no file associated with the file's path, then the function
+downloads a new file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"} and it
+returns the path.
 }
 \examples{
 its_match = oe_match("ITS Leeds", provider = "test")
 oe_download(
   file_url = its_match$url,
   file_size = its_match$file_size,
-  # for the moment we always need to specify the provider for files
-  # matched with test provider
+  # test data are stored on github which is not a standard provider, so we
+  # need to specify the provider parameter. See oe_providers() for a list of
+  # all available providers.
   provider = "test"
 )
 \dontrun{
