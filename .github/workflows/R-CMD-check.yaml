@@ -86,7 +86,8 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          install.packages("sf") # reinstall sf matching new OSGeo packages
+          # reinstall sf matching new OSGeo packages
+          install.packages("sf", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
       - name: Session info
