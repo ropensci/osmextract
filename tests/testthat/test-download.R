@@ -1,15 +1,16 @@
 test_that("oe_download: simplest examples work", {
   skip_if_offline()
   its_match = oe_match("ITS Leeds", provider = "test")
-  expect_message(
+  expect_error(
     oe_download(
       file_url = its_match$url,
       provider = "test",
       download_directory = tempdir(),
       quiet = FALSE
     ),
-    "File downloaded!"
+    NA
   )
+
   expect_message(
     oe_download(
       file_url = its_match$url,
