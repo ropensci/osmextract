@@ -1,68 +1,102 @@
 #' Get the location of files downloaded by osmextractr
 #'
 #' This function takes a `place` name and it returns the path of `.pbf` and
-#' `.gpkg` files associated with it
+#' `.gpkg` files associated with it.
 #'
-#' @details The matching operation between the existing files (downloaded by
-#'   osmextract and stored in `oe_download_directory()`) and the input `place`
-#'   is performed using a regular expression with a pattern equal to the input
-#'   `place`. If the function finds no file associated with the input `place`
-#'   and `download` parameter is equal to `TRUE`, then it tries to download and
-#'   translate a new file from the chosen provider
+#' @details The matching between the existing files (saved in a directory
+#'   specified by `download_directory` parameter) and the input `place` is
+#'   performed using `list.files`, setting a pattern equal to the basename of
+#'   the URL associated to the input `place`. For example, if you specify
+#'   `place = "Isle of Wight"`, then the input `place` is matched with a URL of
+#'   a `.osm.pbf` file (via `oe_match`) and the matching is performed setting a
+#'   pattern equal to the basename of that URL.
 #'
-#' @param place Description of the geographical area that should be matched with
-#'   an existing `.pbf` and `.gpkg` file. Must be a character vector of length
-#'   one.
-#' @param download Attempt to download the file if it cannot be found?
-#' `FALSE` by default.
+#'   If there is no file in `download_directory` that can be matched with the
+#'   basename and `download_if_missing` parameter is equal to `TRUE`, then the
+#'   function tries to download and translate a new file from the chosen
+#'   provider (`geofabrik` is the default provider). If `download_if_missing`
+#'   parameter is equal to `FALSE` (default value), then the function stops with
+#'   an error.
+#'
 #' @param download_directory Directory where the files downloaded by osmextract
 #'   are stored. By default it is equal to `oe_download_directory()`.
-#' @param ... Extra arguments that are passed to `oe_get()` in case `download`
-#'   is `TRUE` and the input `place` is matched with no existing file. Please
-#'   note that you cannot modify the argument `download_only`.
+#' @param download_if_missing Attempt to download the file if it cannot be found? `FALSE`
+#'   by default.
+#' @param ... Extra arguments that are passed to `oe_match` and `oe_get()`.
+#'   Please note that you cannot modify the argument `download_only`.
+#' @inheritParams oe_get
+#'
 #' @export
 #' @examples
 #' res = oe_get("ITS Leeds", provider = "test")
-#' oe_find("ITS")
-#' oe_find("Isle of Wight")
+#' oe_find("ITS Leeds", provider = "test")
 #' \dontrun{
-#' oe_find("Isle of Wight", download = TRUE)}
-#' oe_find("Non-existant-place")
+#' oe_find("Isle of Wight")
+#' oe_find("Isle of Wight", download_if_missing = TRUE)
+#' oe_find("Leeds", provider = "bbbike", download_if_missing = TRUE)}
 oe_find = function(
   place,
-  download = FALSE,
+  provider = "geofabrik",
   download_directory = oe_download_directory(),
+  download_if_missing = FALSE,
   ...
   ) {
+  # I decided the approach described in @details since I cannot simply use
+  # list.files(pattern = place) because the names of the files could be
+  # different from the input place.
+  # See https://github.com/ITSLeeds/osmextract/pull/123 to check the original
+  # approach adopted with the code.
 
-  if (!is.character(place) || length(place) > 1) {
-    stop(
-      "The input place parameter must be a character vector of length one.",
-      call. = FALSE
-    )
+  # First I need to match the input place with a URL
+  matched_place = oe_match(place, provider = provider, ...)
+  matched_URL = matched_place[["url"]]
+
+  # Then I extract from the URL the file name
+  if (tools::file_ext(tools::file_path_sans_ext(matched_URL)) == "osm") {
+  # I need the double file_path_san_ext to cancel the .osm and the .pbf
+    pattern = tools::file_path_sans_ext(tools::file_path_sans_ext(basename(matched_URL)))
+  } else {
+    pattern = tools::file_path_sans_ext(basename(matched_URL))
   }
 
+  # Extract the files that match the pattern
   downloads = list.files(
     download_directory,
     full.names = TRUE,
-    pattern = gsub(" ", "-", place),
+    pattern = pattern,
     ignore.case = TRUE
   )
 
+  # Return the matched paths (if any)
   if (length(downloads) > 0) {
-    if (length(downloads <= 10)) {
-      return(downloads)
-    } else {
-      message("More than 10 files found. Returning the first 10")
-      return(download[1:10])
-    }
+    return(downloads)
   }
 
-  message("No file associated with that place name could be found.")
-  if (download) {
-    message("Trying to download osm data for the place with oe_get()")
-    oe_get(place, ..., download_only = TRUE)
+  if (download_if_missing) {
+    message(
+      "No file associated with that place name could be found.\n",
+      "Trying to download osm data with oe_get()."
+      )
+    oe_get(
+      place,
+      download_directory = download_directory,
+      provider = provider,
+      download_only = TRUE,
+      ...
+    )
+    return(oe_find(
+      place,
+      provider = provider,
+      download_directory = download_directory,
+      download_if_missing = FALSE,
+      ...
+    ))
   }
+
+  stop(
+    "No file associated with that place name could be found.",
+    call. = FALSE
+  )
 }
 
 
