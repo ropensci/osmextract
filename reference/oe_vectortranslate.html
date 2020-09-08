@@ -284,31 +284,38 @@ documentation on all available options.</p>
   provider = <span class='st'>"test"</span>
 )
 <span class='co'># Check that the file was downloaded</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'><span class='co'># Convert to gpkg format</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)
+</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'><span class='co'># Convert to gpkg format</span>
 <span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(<span class='kw'>its_pbf</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)
+</div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'>
 <span class='co'># Check the layers of the .gpkg file</span>
-<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Driver: GPKG 
+<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; Driver: GPKG 
 #&gt; Available layers:
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
 #&gt; 2      lines   Line String      189     10</div><div class='input'><span class='co'># Add points layer</span>
 <span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(<span class='kw'>its_pbf</span>, layer = <span class='st'>"points"</span>)
-<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Driver: GPKG 
+<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; Driver: GPKG 
 #&gt; Available layers:
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
 #&gt; 2      lines   Line String      189     10</div><div class='input'>
 <span class='co'># Add extra tags to the lines layer</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))
+</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(
   <span class='kw'>its_pbf</span>,
   extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"maxspeed"</span>)
  )
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))
+</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "maxspeed"   "z_order"   
-#&gt; [11] "other_tags" "geometry"  </div><div class='input'><span class='co'># Check the introductory vignette for more complex examples.</span></div></pre>
+#&gt; [11] "other_tags" "geometry"  </div><div class='input'><span class='co'># Check the introductory vignette for more complex examples.</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -324,7 +331,7 @@ documentation on all available options.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

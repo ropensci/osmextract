@@ -179,7 +179,8 @@ for a more detailed explanation and see examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>itsleeds_gpkg</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span>(<span class='st'>"itsleeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)
-<span class='fu'>oe_get_keys</span>(<span class='kw'>itsleeds_gpkg</span>)</div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
+<span class='fu'>oe_get_keys</span>(<span class='kw'>itsleeds_gpkg</span>)
+</div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
 #&gt;  [4] "access"              "lanes"               "lit"                
 #&gt;  [7] "maxspeed"            "ref"                 "turn:lanes"         
 #&gt; [10] "service"             "surface"             "motor_vehicle"      
@@ -193,13 +194,15 @@ for a more detailed explanation and see examples.</p>
 #&gt; [34] "incline"             "bridge"              "alt_name"           
 #&gt; [37] "turn:lanes:backward"</div><div class='input'>
 <span class='co'># Add an extra key to an existing .gpkg file without the .pbf</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(<span class='kw'>itsleeds_gpkg</span>, extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>))) <span class='co'># doesn't work</span></div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(<span class='kw'>itsleeds_gpkg</span>, extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>))) <span class='co'># doesn't work</span>
+</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'><span class='co'># we need a different approach</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='oe_read.html'>oe_read</a></span>(
   <span class='kw'>itsleeds_gpkg</span>,
   query = <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
-))</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+))
+</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div></pre>
   </div>
@@ -217,7 +220,7 @@ for a more detailed explanation and see examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>

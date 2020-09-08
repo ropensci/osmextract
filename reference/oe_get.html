@@ -296,12 +296,15 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download OSM extracts associated to a simple test.</span>
-<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp7zlAFg/test_its-example.gpkg' using driver `GPKG'
+<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, quiet = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuFhLUE/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>its</span>)</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>its</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>its</span>)
+</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>its</span>))
+</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
 #&gt;                  0                  0                189                  0 
 #&gt;         MULTIPOINT    MULTILINESTRING       MULTIPOLYGON GEOMETRYCOLLECTION 
 #&gt;                  0                  0                  0                  0 
@@ -317,12 +320,14 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 provider = <span class='st'>"test"</span>,
 layer = <span class='st'>"points"</span>,
 quiet = <span class='fl'>FALSE</span>
-)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp7zlAFg/test_its-example.gpkg' using driver `GPKG'
+)
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuFhLUE/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 186 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.568766 ymin: 53.80569 xmax: -1.549451 ymax: 53.81136
-#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>its_points</span>))</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>its_points</span>))
+</div><div class='output co'>#&gt;           GEOMETRY              POINT         LINESTRING            POLYGON 
 #&gt;                  0                186                  0                  0 
 #&gt;         MULTIPOINT    MULTILINESTRING       MULTIPOLYGON GEOMETRYCOLLECTION 
 #&gt;                  0                  0                  0                  0 
@@ -333,24 +338,28 @@ quiet = <span class='fl'>FALSE</span>
 #&gt;                TIN           TRIANGLE 
 #&gt;                  0                  0 </div><div class='input'>
 <span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp7zlAFg/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(
+<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>, download_only = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpuFhLUE/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(
 <span class='st'>"ITS Leeds"</span>,
 provider = <span class='st'>"test"</span>,
 download_only = <span class='fl'>TRUE</span>,
 skip_vectortranslate = <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp7zlAFg/test_its-example.osm.pbf"</div><div class='input'>
+)
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpuFhLUE/test_its-example.osm.pbf"</div><div class='input'>
 <span class='co'># Add additional tags</span>
 <span class='kw'>im</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(
 <span class='st'>"ITS Leeds"</span>,
 provider = <span class='st'>"test"</span>,
 extra_tags = <span class='st'>"oneway"</span>,
 quiet = <span class='fl'>FALSE</span>
-)</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp7zlAFg/test_its-example.gpkg' using driver `GPKG'
+)
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuFhLUE/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>im</span>)
+</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
 #&gt; [11] "geometry"  </div><div class='input'>
 <span class='co'># The ITS Leeds file is stored on the github page of the package, so we</span>
@@ -368,7 +377,8 @@ quiet = <span class='fl'>FALSE</span>
 <span class='co'># match with numeric coordinates (EPSG = 4326)</span>
 <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9.1916</span>, <span class='fl'>45.4650</span>), quiet = <span class='fl'>FALSE</span>)
 <span class='co'># alternative providers</span>
-<span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, quiet = <span class='fl'>FALSE</span>)}</div></pre>
+<span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, quiet = <span class='fl'>FALSE</span>)}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -384,7 +394,7 @@ quiet = <span class='fl'>FALSE</span>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
 </div>
 
       </footer>
