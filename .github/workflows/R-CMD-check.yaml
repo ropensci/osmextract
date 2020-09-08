@@ -65,7 +65,7 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
           # install spatial dependencies
-          sudo add-apt-repository ppa:ubuntugis/ppa
+          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo apt update
           sudo apt install \
             libudunits2-dev \
@@ -86,6 +86,8 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          # reinstall sf matching new OSGeo packages
+          install.packages("sf", repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
       - name: Session info

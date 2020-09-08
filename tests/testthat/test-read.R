@@ -13,6 +13,11 @@ test_that("oe_read: simplest examples work", {
     as.character(unique(sf::st_geometry_type(osm_data_points))),
     "POINT"
   )
+
+  f_gpkg = system.file("its-example.osm.pbf", package = "osmextract")
+  if (f_gpkg != "") {
+    file.remove(f_gpkg)
+  }
 })
 
 test_that("or_read: simplest example with a URL works", {
@@ -21,7 +26,7 @@ test_that("or_read: simplest example with a URL works", {
   oe_read(
     my_url,
     provider = "test",
-    quiet = FALSE,
+    quiet = TRUE,
     download_directory = tempdir()
   )
 })
