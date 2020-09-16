@@ -125,40 +125,21 @@ performs the other three operations.
 }
 \examples{
 # Download OSM extracts associated to a simple test.
-its = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
+its = oe_get("ITS Leeds", quiet = FALSE)
 class(its)
-summary(sf::st_geometry_type(its))
+unique(sf::st_geometry_type(its))
 
-# Add another layer to the test file
-its_points = oe_get(
-"ITS Leeds",
-provider = "test",
-layer = "points",
-quiet = FALSE
-)
-summary(sf::st_geometry_type(its_points))
+# Get another layer from the test extract
+its_points = oe_get("ITS Leeds", layer = "points")
+unique(sf::st_geometry_type(its_points))
 
 # Get the .osm.pbf and .gpkg file path
 oe_get("ITS Leeds", provider = "test", download_only = TRUE)
-oe_get(
-"ITS Leeds",
-provider = "test",
-download_only = TRUE,
-skip_vectortranslate = TRUE
-)
+oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 
 # Add additional tags
-im = oe_get(
-"ITS Leeds",
-provider = "test",
-extra_tags = "oneway",
-quiet = FALSE
-)
+im = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
 names(im)
-
-# The ITS Leeds file is stored on the github page of the package, so we
-# need to manually set the provider. This is not the case with other
-# standards providers.
 
 \dontrun{
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
