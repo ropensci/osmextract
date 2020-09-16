@@ -138,8 +138,14 @@ oe_get("ITS Leeds", provider = "test", download_only = TRUE)
 oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 
 # Add additional tags
-im = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
-names(im)
+its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
+names(its_with_oneway)
+table(its_with_oneway$oneway)
+
+# use the query argument to get only oneway streets:
+q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
+its_residential = oe_get("ITS Leeds", query = q)
+its_residential
 
 \dontrun{
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
