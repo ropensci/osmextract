@@ -115,6 +115,9 @@ Check the introductory vignette, the examples and the help pages of the
 wrapped functions to understand the details behind all parameters.
 }
 \details{
+To learn how to use the \code{query} argument, for example, see the
+\href{https://itsleeds.github.io/osmextract/articles/osmextract.html#query}{query section of the osmextract vignette}.
+
 The algorithm that we use for importing an OSM extract data into R
 is divided into 4 steps: 1) Matching the input \code{place} with the url of a
 \code{.pbf} file; 2) download the \code{.pbf} file; 3) convert it into \code{.gpkg} format

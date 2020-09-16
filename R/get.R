@@ -5,6 +5,9 @@
 #' Check the introductory vignette, the examples and the help pages of the
 #' wrapped functions to understand the details behind all parameters.
 #'
+#' To learn how to use the `query` argument, for example, see the
+#' [query section of the osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html#query).
+#'
 #' @param place Description of the geographical area that should be matched with
 #'   a `.osm.pbf` file through the chosen `provider`. Can be either a length-1
 #'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
