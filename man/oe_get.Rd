@@ -40,7 +40,9 @@ or \code{stringsAsFactors}.  Check the introductory vignette to understand how
 to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. If
+\code{place} is equal to \verb{ITS Leeds}, then \code{provider} is set equal to \code{test}.
+This is just for simple examples and internal testings.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".
@@ -137,7 +139,7 @@ its_points = oe_get("ITS Leeds", layer = "points")
 unique(sf::st_geometry_type(its_points))
 
 # Get the .osm.pbf and .gpkg file path
-oe_get("ITS Leeds", provider = "test", download_only = TRUE)
+oe_get("ITS Leeds", download_only = TRUE)
 oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 
 # Add additional tags
@@ -145,7 +147,7 @@ its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
 names(its_with_oneway)
 table(its_with_oneway$oneway)
 
-# use the query argument to get only oneway streets:
+# Use the query argument to get only oneway streets:
 q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
 its_residential = oe_get("ITS Leeds", query = q)
 its_residential

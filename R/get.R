@@ -17,7 +17,9 @@
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
 #' @param provider Which provider should be used to download the data? Available
-#'   providers can be found with the following command: [oe_providers()].
+#'   providers can be found with the following command: [oe_providers()]. If
+#'   `place` is equal to `ITS Leeds`, then `provider` is set equal to `test`.
+#'   This is just for simple examples and internal testings.
 #' @param match_by Which column of the provider's database should be used for
 #'   matching the input `place` with a `.osm.pbf` file? The default is "name".
 #'   Check details and examples in [oe_match()] to understand how this parameter
@@ -97,7 +99,7 @@
 #' unique(sf::st_geometry_type(its_points))
 #'
 #' # Get the .osm.pbf and .gpkg file path
-#' oe_get("ITS Leeds", provider = "test", download_only = TRUE)
+#' oe_get("ITS Leeds", download_only = TRUE)
 #' oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 #'
 #' # Add additional tags
@@ -105,7 +107,7 @@
 #' names(its_with_oneway)
 #' table(its_with_oneway$oneway)
 #'
-#' # use the query argument to get only oneway streets:
+#' # Use the query argument to get only oneway streets:
 #' q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
 #' its_residential = oe_get("ITS Leeds", query = q)
 #' its_residential
@@ -142,7 +144,8 @@ oe_get = function(
   quiet = TRUE
 ) {
 
-  if(place == "ITS Leeds") {
+  # See https://github.com/ITSLeeds/osmextract/pull/125
+  if (place == "ITS Leeds") {
     provider = "test"
   }
 
