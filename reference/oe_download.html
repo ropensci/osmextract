@@ -220,15 +220,15 @@ returns the path.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
+<span class='co'># ITS Leeds test data are stored on github, which is not a standard provider. So we</span>
+<span class='co'># need to specify the provider parameter. See oe_providers() for a list of</span>
+<span class='co'># all available providers.</span>
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>url</span>,
   file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
-  <span class='co'># test data are stored on github which is not a standard provider, so we</span>
-  <span class='co'># need to specify the provider parameter. See oe_providers() for a list of</span>
-  <span class='co'># all available providers.</span>
   provider = <span class='st'>"test"</span>
 )
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpuFhLUE/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp5DK0RV/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,
@@ -257,7 +257,7 @@ returns the path.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

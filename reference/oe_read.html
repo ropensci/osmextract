@@ -144,7 +144,7 @@ wrapped function for more details.</p>
   <span class='kw'>file_path</span>,
   layer = <span class='st'>"lines"</span>,
   <span class='kw'>...</span>,
-  provider = <span class='kw'>NULL</span>,
+  provider = <span class='st'>"geofabrik"</span>,
   download_directory = <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span>(),
   file_size = <span class='kw'>NULL</span>,
   force_download = <span class='fl'>FALSE</span>,
@@ -179,7 +179,9 @@ to create your own (SQL-like) queries.</p></td>
     <tr>
       <th>provider</th>
       <td><p>Which provider should be used to download the data? Available
-providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>.</p></td>
+providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>. If
+<code>place</code> is equal to <code>ITS Leeds</code>, then <code>provider</code> is set equal to <code>test</code>.
+This is just for simple examples and internal testings.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -324,7 +326,7 @@ details.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
