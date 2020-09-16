@@ -40,7 +40,9 @@ or \code{stringsAsFactors}.  Check the introductory vignette to understand how
 to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. If
+\code{place} is equal to \verb{ITS Leeds}, then \code{provider} is set equal to \code{test}.
+This is just for simple examples and internal testings.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".
@@ -115,6 +117,9 @@ Check the introductory vignette, the examples and the help pages of the
 wrapped functions to understand the details behind all parameters.
 }
 \details{
+To learn how to use the \code{query} argument, for example, see the
+\href{https://itsleeds.github.io/osmextract/articles/osmextract.html#query}{query section of the osmextract vignette}.
+
 The algorithm that we use for importing an OSM extract data into R
 is divided into 4 steps: 1) Matching the input \code{place} with the url of a
 \code{.pbf} file; 2) download the \code{.pbf} file; 3) convert it into \code{.gpkg} format
@@ -125,40 +130,27 @@ performs the other three operations.
 }
 \examples{
 # Download OSM extracts associated to a simple test.
-its = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
+its = oe_get("ITS Leeds", quiet = FALSE)
 class(its)
-summary(sf::st_geometry_type(its))
+unique(sf::st_geometry_type(its))
 
-# Add another layer to the test file
-its_points = oe_get(
-"ITS Leeds",
-provider = "test",
-layer = "points",
-quiet = FALSE
-)
-summary(sf::st_geometry_type(its_points))
+# Get another layer from the test extract
+its_points = oe_get("ITS Leeds", layer = "points")
+unique(sf::st_geometry_type(its_points))
 
 # Get the .osm.pbf and .gpkg file path
-oe_get("ITS Leeds", provider = "test", download_only = TRUE)
-oe_get(
-"ITS Leeds",
-provider = "test",
-download_only = TRUE,
-skip_vectortranslate = TRUE
-)
+oe_get("ITS Leeds", download_only = TRUE)
+oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 
 # Add additional tags
-im = oe_get(
-"ITS Leeds",
-provider = "test",
-extra_tags = "oneway",
-quiet = FALSE
-)
-names(im)
+its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
+names(its_with_oneway)
+table(its_with_oneway$oneway)
 
-# The ITS Leeds file is stored on the github page of the package, so we
-# need to manually set the provider. This is not the case with other
-# standards providers.
+# Use the query argument to get only oneway streets:
+q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
+its_residential = oe_get("ITS Leeds", query = q)
+its_residential
 
 \dontrun{
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)

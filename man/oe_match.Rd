@@ -37,7 +37,9 @@ See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 \item{...}{arguments passed to other methods}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. If
+\code{place} is equal to \verb{ITS Leeds}, then \code{provider} is set equal to \code{test}.
+This is just for simple examples and internal testings.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
 

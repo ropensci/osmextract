@@ -5,6 +5,9 @@
 #' Check the introductory vignette, the examples and the help pages of the
 #' wrapped functions to understand the details behind all parameters.
 #'
+#' To learn how to use the `query` argument, for example, see the
+#' [query section of the osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html#query).
+#'
 #' @param place Description of the geographical area that should be matched with
 #'   a `.osm.pbf` file through the chosen `provider`. Can be either a length-1
 #'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
@@ -14,7 +17,9 @@
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
 #' @param provider Which provider should be used to download the data? Available
-#'   providers can be found with the following command: [oe_providers()].
+#'   providers can be found with the following command: [oe_providers()]. If
+#'   `place` is equal to `ITS Leeds`, then `provider` is set equal to `test`.
+#'   This is just for simple examples and internal testings.
 #' @param match_by Which column of the provider's database should be used for
 #'   matching the input `place` with a `.osm.pbf` file? The default is "name".
 #'   Check details and examples in [oe_match()] to understand how this parameter
@@ -85,40 +90,27 @@
 #'
 #' @examples
 #' # Download OSM extracts associated to a simple test.
-#' its = oe_get("ITS Leeds", provider = "test", quiet = FALSE)
+#' its = oe_get("ITS Leeds", quiet = FALSE)
 #' class(its)
-#' summary(sf::st_geometry_type(its))
+#' unique(sf::st_geometry_type(its))
 #'
-#' # Add another layer to the test file
-#' its_points = oe_get(
-#' "ITS Leeds",
-#' provider = "test",
-#' layer = "points",
-#' quiet = FALSE
-#' )
-#' summary(sf::st_geometry_type(its_points))
+#' # Get another layer from the test extract
+#' its_points = oe_get("ITS Leeds", layer = "points")
+#' unique(sf::st_geometry_type(its_points))
 #'
 #' # Get the .osm.pbf and .gpkg file path
-#' oe_get("ITS Leeds", provider = "test", download_only = TRUE)
-#' oe_get(
-#' "ITS Leeds",
-#' provider = "test",
-#' download_only = TRUE,
-#' skip_vectortranslate = TRUE
-#' )
+#' oe_get("ITS Leeds", download_only = TRUE)
+#' oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 #'
 #' # Add additional tags
-#' im = oe_get(
-#' "ITS Leeds",
-#' provider = "test",
-#' extra_tags = "oneway",
-#' quiet = FALSE
-#')
-#' names(im)
+#' its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
+#' names(its_with_oneway)
+#' table(its_with_oneway$oneway)
 #'
-#' # The ITS Leeds file is stored on the github page of the package, so we
-#' # need to manually set the provider. This is not the case with other
-#' # standards providers.
+#' # Use the query argument to get only oneway streets:
+#' q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
+#' its_residential = oe_get("ITS Leeds", query = q)
+#' its_residential
 #'
 #' \dontrun{
 #' west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
@@ -151,6 +143,11 @@ oe_get = function(
   skip_vectortranslate = FALSE,
   quiet = TRUE
 ) {
+
+  # See https://github.com/ITSLeeds/osmextract/pull/125
+  if (place == "ITS Leeds") {
+    provider = "test"
+  }
 
   # Match the input place with the provider's data.
   matched_zone = oe_match(

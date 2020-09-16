@@ -215,6 +215,11 @@ oe_match.character = function(
     )
   }
 
+  # See https://github.com/ITSLeeds/osmextract/pull/125
+  if (place == "ITS Leeds") {
+    provider = "test"
+  }
+
   # Load the data associated with the chosen provider.
   provider_data = load_provider_data(provider)
 

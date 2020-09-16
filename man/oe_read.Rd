@@ -8,7 +8,7 @@ oe_read(
   file_path,
   layer = "lines",
   ...,
-  provider = NULL,
+  provider = "geofabrik",
   download_directory = oe_download_directory(),
   file_size = NULL,
   force_download = FALSE,
@@ -33,7 +33,9 @@ or \code{stringsAsFactors}.  Check the introductory vignette to understand how
 to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. If
+\code{place} is equal to \verb{ITS Leeds}, then \code{provider} is set equal to \code{test}.
+This is just for simple examples and internal testings.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
