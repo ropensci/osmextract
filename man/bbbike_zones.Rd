@@ -15,8 +15,8 @@ An \code{sf} object with 235 rows and
 \item{base_url}{The base URL for the city.}
 \item{poly_url}{The \code{.poly} file location.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
-\item{level}{An integer code which is always equal to 3L since the bbbike
-data represent non-hierarchical geographical zones. This is used only for
+\item{level}{An integer code always equal to 3 (since the bbbike
+data represent non-hierarchical geographical zones). This is used only for
 matching operations in case of spatial input. The oe_* functions will
 select the geographical area closest to the input place with the highest
 "level". See \link{geofabrik_zones} for an example of a hierarchical structure.}
@@ -37,7 +37,8 @@ An \code{sf} object containing the URLs, names and file_size of the OSM extracts
 }
 \seealso{
 Other provider's-database: 
-\code{\link{geofabrik_zones}}
+\code{\link{geofabrik_zones}},
+\code{\link{openstreetmap_fr_zones}}
 }
 \concept{provider's-database}
 \keyword{datasets}
