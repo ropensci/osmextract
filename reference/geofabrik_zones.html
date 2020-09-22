@@ -82,12 +82,6 @@ https://download.geofabrik.de/technical.html." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/osmextract.html">Get started</a>
 </li>
 <li>
@@ -150,19 +144,22 @@ the characters "-" and "/".</p></dd>
 <dt>name</dt><dd><p>The, usually English, long-form name of the area.</p></dd>
 <dt>parent</dt><dd><p>The identifier of the next larger excerpts that contains this
 one, if present.</p></dd>
-<dt>level</dt><dd><p>An integer code between 1 and 3. If level = 1 then the
-zone corresponds to one of the continents plus the Russian Federation:
-Africa, Antartica, Asia, Australia and Oceania, Central America, Europe,
-North America, Russian Federation and South America. If level = 2 then
-the zone corresponds to the continent's subregions (i.e. the countries,
-such as Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and
-so on). There are also some exceptions that correspond to the Special Sub
-Regions (according to their geofabrik definition), which are: South Africa
+<dt>level</dt><dd><p>An integer code between 1 and 3. If level = 1 then the zone
+corresponds to one of the continents plus the Russian Federation: Africa,
+Antartica, Asia, Australia and Oceania, Central America, Europe, North
+America, Russian Federation and South America. If level = 2 then the zone
+corresponds to the continent's subregions (i.e. the countries, such as
+Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and so on).
+There are also some exceptions that correspond to the Special Sub Regions
+(according to their geofabrik definition), which are: South Africa
 (includes Lesotho), Alps, Britain and Ireland, Germany + Austria +
-Switzerland, US Midwest, US Northeast, US Pacific, US South, US West and all
-US states. level = 3L correspond to the subregions of each state (or each
-level 2 zone). For example the West Yorkshire, which is a subregion of
-England, is a level 3 zone.</p></dd>
+Switzerland, US Midwest, US Northeast, US Pacific, US South, US West and
+all US states. Finally, level = 3L correspond to the subregions of each
+state (or each level 2 zone). For example the West Yorkshire, which is a
+subregion of England, is a level 3 zone. This field is used only for
+matching operations in case of spatial input. The oe_* functions will
+select the geographical area closest to the input place with the highest
+"level"</p></dd>
 <dt>iso3166-1_alpha2</dt><dd><p>A character vector of two-letter <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO3166-1 codes</a>. This will be set
 on the smallest extract that still fully (or mostly) contains the entity
 with that code; e.g. the code "DE" will be given for the Germany extract
@@ -196,7 +193,8 @@ country boundaries but a buffer around countries.</p></dd>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other provider's-database: 
-<code><a href='bbbike_zones.html'>bbbike_zones</a></code></p></div>
+<code><a href='bbbike_zones.html'>bbbike_zones</a></code>,
+<code><a href='openstreetmap_fr_zones.html'>openstreetmap_fr_zones</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

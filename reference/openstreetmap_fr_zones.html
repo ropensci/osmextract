@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • osmextract</title>
+<title>An sf object of geographical zones taken from download.openstreetmap.fr — openstreetmap_fr_zones • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="An sf object of geographical zones taken from download.openstreetmap.fr — openstreetmap_fr_zones" />
+<meta property="og:description" content="An sf object containing the URLs, names and file-sizes of the OSM
+extracts stored at http://download.openstreetmap.fr/." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -116,20 +118,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>An <code>sf</code> object of geographical zones taken from download.openstreetmap.fr</h1>
+    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>openstreetmap_fr_zones.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="osmextract.html">Introducing osmextract</a></dt>
-        <dd></dt>
-        <dt><a href="providers.html">Add new OpenStreetMap providers</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p>An <code>sf</code> object containing the URLs, names and file-sizes of the OSM
+extracts stored at <a href='http://download.openstreetmap.fr/'>http://download.openstreetmap.fr/</a>.</p>
     </div>
+
+    <pre class="usage"><span class='kw'>openstreetmap_fr_zones</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>An <code>sf</code> object with 835 rows and
+7 columns:</p><dl>
+<dt>id</dt><dd><p>A unique ID for each area. It is used by <code><a href='oe_update.html'>oe_update()</a></code>.</p></dd>
+<dt>name</dt><dd><p>The, usually English, long-form name of the city.</p></dd>
+<dt>parent</dt><dd><p>The ID identifier of the next larger excerpts that contains
+this one, if present.</p></dd>
+<dt>level</dt><dd><p>An integer code between 1 and 4. Check
+<a href='http://download.openstreetmap.fr/polygons/'>http://download.openstreetmap.fr/polygons/</a> to see the hierarchical
+structure of the zones. 1L correspond to the biggest areas. This is used
+only for matching operations in case of spatial input. The oe_* functions
+will select the geographical area closest to the input place with the
+highest "level"</p></dd>
+<dt>pbf</dt><dd><p>Link to the latest <code>.osm.pbf</code> file for this region.</p></dd>
+<dt>pbf_size_size</dt><dd><p>Size of the pbf file in bytes.</p></dd>
+<dt>geometry</dt><dd><p>The `sfc`` for that geographical region, rectangular.</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://download.bbbike.org/osm/'>https://download.bbbike.org/osm/</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other provider's-database: 
+<code><a href='bbbike_zones.html'>bbbike_zones</a></code>,
+<code><a href='geofabrik_zones.html'>geofabrik_zones</a></code></p></div>
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
