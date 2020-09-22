@@ -4,6 +4,7 @@
     "Any product made from OpenStreetMap must cite OSM as the data source.",
     "Geofabrik data are taken from https://download.geofabrik.de/",
     "For usage details of bbbike data see https://download.bbbike.org/osm/",
+    "OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/",
     sep = "\n"
   ))
 }

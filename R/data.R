@@ -13,19 +13,22 @@
 #'   \item{name}{The, usually English, long-form name of the area.}
 #'   \item{parent}{The identifier of the next larger excerpts that contains this
 #'   one, if present.}
-#'   \item{level}{An integer code between 1 and 3. If level = 1 then the
-#'   zone corresponds to one of the continents plus the Russian Federation:
-#'   Africa, Antartica, Asia, Australia and Oceania, Central America, Europe,
-#'   North America, Russian Federation and South America. If level = 2 then
-#'   the zone corresponds to the continent's subregions (i.e. the countries,
-#'   such as Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and
-#'   so on). There are also some exceptions that correspond to the Special Sub
-#'   Regions (according to their geofabrik definition), which are: South Africa
+#'   \item{level}{An integer code between 1 and 3. If level = 1 then the zone
+#'   corresponds to one of the continents plus the Russian Federation: Africa,
+#'   Antartica, Asia, Australia and Oceania, Central America, Europe, North
+#'   America, Russian Federation and South America. If level = 2 then the zone
+#'   corresponds to the continent's subregions (i.e. the countries, such as
+#'   Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and so on).
+#'   There are also some exceptions that correspond to the Special Sub Regions
+#'   (according to their geofabrik definition), which are: South Africa
 #'   (includes Lesotho), Alps, Britain and Ireland, Germany + Austria +
-#'   Switzerland, US Midwest, US Northeast, US Pacific, US South, US West and all
-#'   US states. level = 3L correspond to the subregions of each state (or each
-#'   level 2 zone). For example the West Yorkshire, which is a subregion of
-#'   England, is a level 3 zone.}
+#'   Switzerland, US Midwest, US Northeast, US Pacific, US South, US West and
+#'   all US states. Finally, level = 3L correspond to the subregions of each
+#'   state (or each level 2 zone). For example the West Yorkshire, which is a
+#'   subregion of England, is a level 3 zone. This field is used only for
+#'   matching operations in case of spatial input. The oe_* functions will
+#'   select the geographical area closest to the input place with the highest
+#'   "level"}
 #'   \item{iso3166-1_alpha2}{A character vector of two-letter [ISO3166-1
 #'   codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This will be set
 #'   on the smallest extract that still fully (or mostly) contains the entity
@@ -75,8 +78,8 @@
 #'   \item{base_url}{The base URL for the city.}
 #'   \item{poly_url}{The `.poly` file location.}
 #'   \item{pbf}{Link to the latest `.osm.pbf` file for this region.}
-#'   \item{level}{An integer code which is always equal to 3L since the bbbike
-#'   data represent non-hierarchical geographical zones. This is used only for
+#'   \item{level}{An integer code always equal to 3 (since the bbbike
+#'   data represent non-hierarchical geographical zones). This is used only for
 #'   matching operations in case of spatial input. The oe_* functions will
 #'   select the geographical area closest to the input place with the highest
 #'   "level". See [geofabrik_zones] for an example of a hierarchical structure.}
@@ -86,4 +89,33 @@
 #' @family provider's-database
 #' @source \url{https://download.bbbike.org/osm/}
 "bbbike_zones"
+
+#' An `sf` object of geographical zones taken from download.openstreetmap.fr
+#'
+#' An `sf` object containing the URLs, names and file-sizes of the OSM
+#' extracts stored at <http://download.openstreetmap.fr/>.
+#'
+#' @format An `sf` object with `r nrow(openstreetmap_fr_zones)` rows and
+#' `r ncol(openstreetmap_fr_zones)` columns:
+#' \describe{
+#'   \item{id}{A unique ID for each area. It is used by `oe_update()`.}
+#'   \item{name}{The, usually English, long-form name of the city.}
+#'   \item{parent}{The ID identifier of the next larger excerpts that contains
+#'   this one, if present.}
+#'   \item{level}{An integer code between 1 and 4. Check
+#'   <http://download.openstreetmap.fr/polygons/> to see the hierarchical
+#'   structure of the zones. 1L correspond to the biggest areas. This is used
+#'   only for matching operations in case of spatial input. The oe_* functions
+#'   will select the geographical area closest to the input place with the
+#'   highest "level"}
+#'   \item{pbf}{Link to the latest `.osm.pbf` file for this region.}
+#'   \item{pbf_size_size}{Size of the pbf file in bytes.}
+#'   \item{geometry}{The `sfc`` for that geographical region, rectangular.}
+#' }
+#'
+#' @family provider's-database
+#' @source \url{https://download.bbbike.org/osm/}
+"openstreetmap_fr_zones"
+
+
 

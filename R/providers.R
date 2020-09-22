@@ -4,7 +4,8 @@ oe_available_providers = function() {
   c(
     "geofabrik",
     "test",
-    "bbbike"
+    "bbbike",
+    "openstreetmap_fr"
   )
 }
 
@@ -28,7 +29,8 @@ load_provider_data = function(provider) {
     provider,
     "geofabrik" = osmextract::geofabrik_zones,
     "test" = osmextract::test_zones,
-    "bbbike" = osmextract::bbbike_zones
+    "bbbike" = osmextract::bbbike_zones,
+    "openstreetmap_fr" = osmextract::openstreetmap_fr_zones
     # , "another" = another_provider
   )
   # See https://github.com/r-spatial/sf/issues/1419
