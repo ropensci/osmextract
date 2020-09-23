@@ -40,9 +40,10 @@ or \code{stringsAsFactors}.  Check the introductory vignette to understand how
 to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. If
-\code{place} is equal to \verb{ITS Leeds}, then \code{provider} is set equal to \code{test}.
-This is just for simple examples and internal testings.}
+providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
+\code{oe_get()} and \code{oe_match()}, if \code{place} is equal to \verb{ITS Leeds}, then
+\code{provider} is set equal to \code{test}. This is just for simple examples and
+internal testings.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".
