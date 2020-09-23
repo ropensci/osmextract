@@ -71,7 +71,8 @@ my_organize_osm_data <- function(poly_folder, level, parent = NA, verbose = TRUE
     }
   )
 
-  # Check if there is any sub-zone
+  # Check if there is any sub-zone and repeat the same stuff (i.e. this function
+  # has a recursive structure)
   sub_folders <- grep("/", my_data[["name"]], value = TRUE)
   if (length(sub_folders) > 0L) {
     for (i in sub_folders) {
