@@ -38,7 +38,11 @@ should be in the resulting dataset? \code{FALSE} by default. Check Details at
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
 already exists? Check Details at \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 }
 \value{
 Character string representing the path of the \code{.gpkg} file.

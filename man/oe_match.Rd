@@ -42,7 +42,11 @@ providers can be found with the following command: \code{\link[=oe_providers]{oe
 \code{provider} is set equal to \code{test}. This is just for simple examples and
 internal testings.}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".

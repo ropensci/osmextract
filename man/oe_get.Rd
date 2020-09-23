@@ -106,7 +106,11 @@ default.}
 vectortranslate operations and it reads (or simply returns the path) of
 the \code{.osm.pbf} file. \code{FALSE} by default.}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 }
 \value{
 An sf object.

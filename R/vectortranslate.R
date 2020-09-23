@@ -286,7 +286,8 @@ oe_vectortranslate = function(
     util = "vectortranslate",
     source = file_path,
     destination = gpkg_file_path,
-    options = vectortranslate_options
+    options = vectortranslate_options,
+    quiet = quiet
   )
 
   if (isFALSE(quiet)) {

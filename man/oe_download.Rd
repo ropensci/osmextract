@@ -45,7 +45,11 @@ been downloaded? \code{FALSE} by default. This parameter is used to update old
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.}
+\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 }
 \value{
 A character string representing the file's path.

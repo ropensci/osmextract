@@ -68,6 +68,10 @@
 #'   vectortranslate operations and it reads (or simply returns the path) of
 #'   the `.osm.pbf` file. `FALSE` by default.
 #' @param quiet Boolean. If `FALSE` the function prints informative messages.
+#'   Starting from `sf` version
+#'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
+#'    if `quiet` is equal to `FALSE`, then vectortranslate operations will
+#'   display a progress bar.
 #' @param download_only Boolean. If `TRUE` then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
