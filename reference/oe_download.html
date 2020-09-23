@@ -189,7 +189,11 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.</p></td>
+      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
+Starting from <code>sf</code> version
+<a href='https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13'>0.9.6</a>,
+if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
+display a progress bar.</p></td>
     </tr>
     </table>
 
@@ -222,7 +226,7 @@ returns the path.</p>
   file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
   provider = <span class='st'>"test"</span>
 )
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpsofo9G/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpLHuC9D/test_its-example.osm.pbf"</div><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>iow_details</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"Isle of Wight"</span>)
 <span class='fu'>oe_download</span>(
   file_url = <span class='kw'>iow_details</span><span class='op'>$</span><span class='kw'>url</span>,

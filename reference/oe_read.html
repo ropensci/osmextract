@@ -173,9 +173,10 @@ to create your own (SQL-like) queries.</p></td>
     <tr>
       <th>provider</th>
       <td><p>Which provider should be used to download the data? Available
-providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>. If
-<code>place</code> is equal to <code>ITS Leeds</code>, then <code>provider</code> is set equal to <code>test</code>.
-This is just for simple examples and internal testings.</p></td>
+providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>. For
+<code><a href='oe_get.html'>oe_get()</a></code> and <code><a href='oe_match.html'>oe_match()</a></code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
+<code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
+internal testings.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -243,7 +244,11 @@ already exists? Check Details at <code><a href='oe_vectortranslate.html'>oe_vect
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.</p></td>
+      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
+Starting from <code>sf</code> version
+<a href='https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13'>0.9.6</a>,
+if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
+display a progress bar.</p></td>
     </tr>
     </table>
 
@@ -263,19 +268,19 @@ details.</p>
     <pre class="examples"><div class='input'><span class='co'># Read an existing .pbf file</span>
 <span class='kw'>my_pbf</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"its-example.osm.pbf"</span>, package = <span class='st'>"osmextract"</span>)
 <span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, quiet = <span class='fl'>FALSE</span>)
-</div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, layer = <span class='st'>"points"</span>, quiet = <span class='fl'>FALSE</span>) <span class='co'># Read a new layer</span>
-</div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 186 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.568766 ymin: 53.80569 xmax: -1.549451 ymax: 53.81136
 #&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'>oe_read</span>(<span class='kw'>my_pbf</span>, extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"ref"</span>), quiet = <span class='fl'>FALSE</span>) <span class='co'># Add new tags</span>
-</div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 11 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY

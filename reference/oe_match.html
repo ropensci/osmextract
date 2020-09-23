@@ -171,13 +171,18 @@ See Details and examples in <code>oe_match()</code>.</p></td>
     <tr>
       <th>provider</th>
       <td><p>Which provider should be used to download the data? Available
-providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>. If
-<code>place</code> is equal to <code>ITS Leeds</code>, then <code>provider</code> is set equal to <code>test</code>.
-This is just for simple examples and internal testings.</p></td>
+providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>. For
+<code><a href='oe_get.html'>oe_get()</a></code> and <code>oe_match()</code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
+<code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
+internal testings.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.</p></td>
+      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
+Starting from <code>sf</code> version
+<a href='https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13'>0.9.6</a>,
+if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
+display a progress bar.</p></td>
     </tr>
     <tr>
       <th>match_by</th>
