@@ -27,8 +27,7 @@ The goal of `osmextract` is to make it easier for people to access OpenStreetMap
 OSM data is the premier source of freely available, community created geographic data worldwide.
 We aim to enable you to extract it for data-driven work in the public interest.
 
-`osmextract` downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik
-GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
+`osmextract` downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
 For information on alternatives and how to add them see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
 
 ## Why osmextract?
@@ -71,7 +70,8 @@ plot(sf::st_geometry(cycleways_england))
 <img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%" />
 
 The package is designed to complement `osmdata`, which has advantages over `osmextract` for small datasets: `osmdata` is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an
-intuitive interface. `osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects.
+intuitive interface. 
+`osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects.
 
 `osmextract`'s niche is that it provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R package for working with geographic data, [`sf`](https://github.com/r-spatial/sf).
 
@@ -85,7 +85,7 @@ intuitive interface. `osmdata` can provide data in a range of formats, while `os
 
 <!-- ``` -->
 
-You can install the development version from
+You can install the development version from 
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -99,7 +99,7 @@ Load the package with:
 library(osmextract)
 ```
 
-To use alongside functionality in the `sf` package we also recommend attaching this geographic data package as follows:
+To use alongside functionality in the `sf` package, we also recommend attaching this geographic data package as follows:
 
 ```{r}
 library(sf)
@@ -111,7 +111,7 @@ library(sf)
 Give `osmextract` a place name and it will try to find it in a list of names in the specified provider ([Geofabrik](https://www.geofabrik.de/data/download.html) by default).
 If the name you give it matches a place, it will download and import the associated data into R.
 The function `oe_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object.
-By default `oe_get()` imports the 'lines' layer, but any layer can be read-in by changing the `layer` argument:
+By default `oe_get()` imports the `lines` layer, but any layer can be read-in by changing the `layer` argument:
 
 ```{r, eval = FALSE, echo = FALSE}
 # get bb of iow
@@ -123,8 +123,9 @@ osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
 nrow(osm_lines)
 nrow(osm_points)
-plot(osm_lines$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
-plot(osm_points$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
+par(mar = rep(0, 4))
+plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
+plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 ```
 
 The figures above give an insight into the volume and richness of data contained in OSM extracts.
@@ -145,11 +146,13 @@ osm_major_roads = osm_lines[osm_lines$highway %in% ht, ]
 plot(osm_major_roads["highway"], key.pos = 1)
 ```
 
-The same steps can be used to get other OSM datasets (note use of `quiet = FALSE` to show additional message, examples, not run):
+The same steps can be used to get other OSM datasets (note use of `quiet = FALSE` to show additional message, examples not run):
 
 ```{r, eval = FALSE}
 test_malta = oe_get("Malta", quiet = FALSE)
 test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
+test_leeds <- oe_get("Leeds", provider = "bbbike", quiet = FALSE)
+test_india_region <- oe_get("Goa", provider = "openstreetmap_fr", quiet = FALSE)
 ```
 
 For further details on using the package, see the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
@@ -174,13 +177,14 @@ oe_download_directory()
 
 ## Warnings: 
 
-The functions may return a Warning message like 
+The functions may return a warning message like 
 
 ```
 st_crs<- : replacing crs does not reproject data; use st_transform for that 
 ```
 
-if the user is running old version of GDAL/PROJ. See [here](https://github.com/r-spatial/sf/issues/1419) for more details. 
+if the user is running old version of GDAL/PROJ. 
+See [here](https://github.com/r-spatial/sf/issues/1419) for more details. 
 
 ## Next steps
 
