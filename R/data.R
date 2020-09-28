@@ -59,7 +59,6 @@
 #'
 #' @family provider's-database
 #' @source <https://download.geofabrik.de/>
-#' @aliases test_zones
 "geofabrik_zones"
 
 #' An `sf` object of geographical zones taken from bbbike.org
