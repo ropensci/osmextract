@@ -117,5 +117,11 @@
 #' @source \url{https://download.bbbike.org/osm/}
 "openstreetmap_fr_zones"
 
+#' An `sf` object of geographical zones taken from download.openstreetmap.fr
+#'
+#' This object represent a minimal provider's database and it should be used
+#' only for examples and tests.
+"test_zones"
+
 
 
