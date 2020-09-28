@@ -130,8 +130,8 @@ oe_vectortranslate = function(
 ) {
   # Check that the input file was specified using the format
   # ".../something.pbf". This is important for creating the .gpkg file path.
-  if (tools::file_ext(file_path) != "pbf") {
-    stop("The parameter file_path must correspond to a .pbf file")
+  if (tools::file_ext(file_path) != "pbf" || !file.exists(file_path)) {
+    stop("The parameter file_path must correspond to an existing .pbf file")
   }
 
   # Check that the layer param is not NA or NULL
