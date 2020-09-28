@@ -78,7 +78,7 @@ oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
 
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.default = function(place, ...) {
   stop(
@@ -90,7 +90,7 @@ oe_match.default = function(place, ...) {
 }
 
 #' @inheritParams oe_get
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.sfc_POINT = function(
   place,
@@ -171,7 +171,7 @@ oe_match.sfc_POINT = function(
 }
 
 #' @inheritParams oe_get
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.numeric = function(
   place,
@@ -195,7 +195,7 @@ oe_match.numeric = function(
 }
 
 #' @inheritParams oe_get
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.character = function(
   place,
