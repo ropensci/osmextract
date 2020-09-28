@@ -157,7 +157,7 @@ oe_get = function(
 ) {
 
   # See https://github.com/ITSLeeds/osmextract/pull/125
-  if (place == "ITS Leeds") {
+  if (is.character(place) && place == "ITS Leeds") {
     provider = "test"
   }
 
