@@ -58,9 +58,10 @@
 #'   in the resulting data frame. See documentation at
 #'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check Details in
 #'   [oe_vectortranslate()].
-#' @param extra_tags Which addition columns, corresponding to OSM tags,
-#'   should be in the resulting dataset? `FALSE` by default. Check Details at
-#'   [oe_vectortranslate()] and [oe_get_keys()] .
+#' @param extra_tags Which addition columns, corresponding to OSM tags, should
+#'   be in the resulting dataset? `FALSE` by default. Check Details at
+#'   [oe_vectortranslate()] and [oe_get_keys()]. Ignored when `osmconf_ini` is
+#'   not `NULL`.
 #' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
 #'   translated into a `.gpkg` file, even if a `.gpkg` with the same name
 #'   already exists? Check Details at [oe_vectortranslate()] .

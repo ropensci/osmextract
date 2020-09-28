@@ -165,11 +165,12 @@ oe_vectortranslate = function(
     gpkg_file_path = paste0(tools::file_path_sans_ext(file_path), ".gpkg")
   }
 
-  # Check if the user passed its own osmconf.ini file since, in that case, we
-  # always need to perform the vectortranslate operations (since it's too
-  # difficult to determine if an existing .gpkg file was generated following a
-  # particular .ini file)
+  # Check if the user passed its own osmconf.ini file or vectortranslate_options
+  # since, in that case, we always need to perform the vectortranslate
+  # operations (since it's too difficult to determine if an existing .gpkg file
+  # was generated following a particular .ini file with some options)
   never_skip_vectortranslate = FALSE
+
   if (!is.null(osmconf_ini) || !is.null(vectortranslate_options)) {
     force_vectortranslate = TRUE
     never_skip_vectortranslate = TRUE
@@ -235,8 +236,20 @@ oe_vectortranslate = function(
   # Otherwise we are going to convert the input .osm.pbf file using the
   # vectortranslate utils from sf::gdal_util.
 
-  # First we need to set the values for the parameter osmconf_ini (if it is not
-  # set to NULL, i.e. the default).
+  # The extra_tags argument is ignored if the user set its own osmconf_ini file
+  # (since we do not know how it was generated):
+  # See https://github.com/ITSLeeds/osmextract/issues/117
+  if (!is.null(osmconf_ini) && !is.null(extra_tags)) {
+    warning(
+      "The argument extra_tags is ignored when osmconf_ini is not NULL",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    extra_tags <- NULL
+  }
+
+  # First we need to set the values for the parameter osmconf_ini (if it is set
+  # to NULL, i.e. the default).
   if (is.null(osmconf_ini)) {
     # The file osmconf.ini stored in the package is the default osmconf.ini used
     # by GDAL at stored at the following link:
