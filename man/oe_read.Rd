@@ -8,7 +8,7 @@ oe_read(
   file_path,
   layer = "lines",
   ...,
-  provider = "geofabrik",
+  provider = NULL,
   download_directory = oe_download_directory(),
   file_size = NULL,
   force_download = FALSE,
