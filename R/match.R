@@ -200,10 +200,10 @@ oe_match.numeric = function(
 oe_match.character = function(
   place,
   provider = "geofabrik",
+  quiet = TRUE,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  quiet = TRUE,
   ...
   ) {
   # For the moment we support only length-one character vectors
