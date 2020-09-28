@@ -1,4 +1,4 @@
-#' A `data.frame` of geographical zones taken from Geofabrik
+#' An `sf` object of geographical zones taken from Geofabrik
 #'
 #' An `sf` object containing the URLs, names and file-sizes of the OSM
 #' extracts stored at <https://download.geofabrik.de/>. You can read more
