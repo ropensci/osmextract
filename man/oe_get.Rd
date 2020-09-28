@@ -147,6 +147,7 @@ unique(sf::st_geometry_type(its_points))
 # Get the .osm.pbf and .gpkg file path
 oe_get("ITS Leeds", download_only = TRUE)
 oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
+# See also ?oe_find()
 
 # Add additional tags
 its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
@@ -159,17 +160,22 @@ its_residential = oe_get("ITS Leeds", query = q)
 its_residential
 
 \dontrun{
+# A more complex example
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
 # If you run it again, the function will not download the file or convert it
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
-# match with coordinates (any EPSG)
+# Match with coordinates (any EPSG)
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-# Warning: the .pbf file is 400MB
-oe_get(milan_duomo, quiet = FALSE)
-# match with numeric coordinates (EPSG = 4326)
+oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
+# Match with numeric coordinates (EPSG = 4326)
 oe_match(c(9.1916, 45.4650), quiet = FALSE)
-# alternative providers
-baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)}
+# Alternative providers
+baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)
+
+# Other examples:
+oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
+oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # like read_sf
+}
 }
 \seealso{
 \code{\link[=oe_match]{oe_match()}}, \code{\link[=oe_download]{oe_download()}}, \code{\link[=oe_vectortranslate]{oe_vectortranslate()}},
