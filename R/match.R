@@ -117,7 +117,7 @@ oe_match.sfc_POINT = function(
 
   # Spatial subset according to sf::st_intersects (maybe add a parameter for
   # that)
-  matched_zones = provider_data[place, ]
+  matched_zones = provider_data[place, op = sf::st_intersects]
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
@@ -130,7 +130,7 @@ oe_match.sfc_POINT = function(
     if (isFALSE(quiet)) {
       message(
         "The input place was matched with multiple geographical areas. ",
-        "Selecting the areas with the highest \"level\". See the help page ",
+        "Selecting the areas with the highest \"level\". See the help page",
         " associated to the chosen provider for an explanation of the ",
         "meaning of the \"level\" field"
       )
