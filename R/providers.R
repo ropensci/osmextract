@@ -6,6 +6,7 @@ oe_available_providers = function() {
     "test",
     "bbbike",
     "openstreetmap_fr"
+    # "another_provider"
   )
 }
 
