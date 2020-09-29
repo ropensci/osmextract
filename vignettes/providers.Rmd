@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The aim of this vignette is to provide a simple guide on adding a new provider to `osmextract`. 
+This vignette aims to provide a simple guide on adding a new provider to `osmextract`. 
 Let' start loading the package: 
 
 ```{r setup}
@@ -29,7 +29,7 @@ oe_providers()
 ```
 
 This package is designed to make it easy to add new providers. 
-There are three main steps to add a new provider: creating the zones, adding the provider and documentating it. 
+There are three main steps to add a new provider: creating the zones, adding the provider and documenting it. 
 They are outlined below. 
 
 # Adding a `provider_zones` object to the package
@@ -44,7 +44,7 @@ str(test_zones[, c(2, 6, 7)])
 The output shows the three most important column names:
 
 1. The zone `name` (that is used for matching the input `place`, see `oe_match()`); 
-1. The url endpoint where `.pbf` files associated with each zone can be downloaded; 
+1. The URL endpoint where `.pbf` files associated with each zone can be downloaded; 
 1. The geometry, representing the spatial extent of the dataset.
 
 The object must also include the fields `level` and `id`, which are used, respectively, for spatial matching and updating. 
@@ -71,7 +71,7 @@ file.edit("data-raw/bbbike_zones.R")
 usethis::use_data_raw("bbbike_zones")
 ```
 
-After you have created the new provider `_zones` file it's time to add the provider to the package.
+After you have created the new provider `_zones` file, it's time to add the provider to the package.
 
 # Adding the new provider to the package
 
