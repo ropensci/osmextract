@@ -28,6 +28,8 @@ At the moment, we support the following providers:
 oe_providers()
 ```
 
+Check the "Comparing the supported OSM providers" for more details on the existing providers. 
+
 This package is designed to make it easy to add new providers. 
 There are three main steps to add a new provider: creating the zones, adding the provider and documenting it. 
 They are outlined below. 

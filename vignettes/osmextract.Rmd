@@ -98,8 +98,7 @@ plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkr
 As shown in the above visualisation of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of major cities.
 We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ITSLeeds/osmextract/issues/100).
 
-Check **ADD LINK** for a more detailed comparison between the supported providers. 
-
+Check the "Comparing the supported OSM providers" vignette for some simple guidance on how to choose the best provider. 
 ## `oe_match()`: finding OSM extracts
 
 `oe_match()` takes in input a string (through the parameter `place`), and it returns a named list of length two with the URL and the size (in bytes) of a `.osm.pbf` file representing a geographical zone stored by one of the supported providers. 
