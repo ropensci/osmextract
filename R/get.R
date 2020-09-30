@@ -58,7 +58,7 @@
 #'   in the resulting data frame. See documentation at
 #'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check Details in
 #'   [oe_vectortranslate()].
-#' @param extra_tags Which addition columns, corresponding to OSM tags, should
+#' @param extra_tags Which additional columns, corresponding to OSM tags, should
 #'   be in the resulting dataset? `FALSE` by default. Check Details at
 #'   [oe_vectortranslate()] and [oe_get_keys()]. Ignored when `osmconf_ini` is
 #'   not `NULL`.
