@@ -53,6 +53,9 @@
 <li>
       <a href="../articles/providers.html">Add new OpenStreetMap providers</a>
     </li>
+    <li>
+      <a href="../articles/providers_comparisons.html">Comparing the supported OSM providers</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -89,29 +92,31 @@
 <p>This vignette provides an introduction to using the package, building on the README which covers installation and our motivations for creating it.</p>
 <p>Loading the package generates important messages about the license associated with OSM data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span><span class="op">)</span>
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
 <span class="co">#&gt; Any product made from OpenStreetMap must cite OSM as the data source.</span>
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
 <span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
-<span class="co">#&gt; OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/</span>
-</pre></div>
+<span class="co">#&gt; OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/</span></pre></div>
 <p>The first thing to say is: <strong>do not ignore this message</strong>! There are important legal considerations that you should be aware of before using OSM data, especially if you are working in a for-profit capacity.</p>
 <div id="legal-considerations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#legal-considerations" class="anchor"></a>Legal considerations</h1>
-<p>Anyone using OSM data is bound by law to adhere to the <a href="https://opendatacommons.org/licenses/odbl/summary/">ODbL</a> which means that you must:</p>
+<p>Anyone using OSM data is bound by law to adhere to the <a href="https://opendatacommons.org/licenses/odbl/summary/">ODbL</a>, which means that you must:</p>
 <ul>
-<li>Attribute: You must attribute any public use of the database, or works produced from the database, in the manner specified in the ODbL. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database.</li>
-<li>Share-Alike: If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL.</li>
-<li>Keep open: If you redistribute the database, or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.</li>
+<li>
+<strong>Attribute</strong>: You must attribute any public use of the database, or works produced from the database, in the manner specified in the ODbL. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database.</li>
+<li>
+<strong>Share-Alike</strong>: If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL.</li>
+<li>
+<strong>Keep open</strong>: If you redistribute the database or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.</li>
 </ul>
 <p>In short, publicly using OSM data without attribution or selling datasets derived from it is illegal. See the <a href="https://wiki.openstreetmap.org/wiki/License/Use_Cases">License/Use Cases page on the OSM wiki</a> for detailed use cases.</p>
 </div>
 <div id="main-package-functions" class="section level1">
 <h1 class="hasAnchor">
 <a href="#main-package-functions" class="anchor"></a>Main package functions</h1>
-<p>The packages is composed of the following main functions:</p>
+<p>The package is composed of the following main functions:</p>
 <ol style="list-style-type: decimal">
 <li>
 <code><a href="../reference/oe_providers.html">oe_providers()</a></code>: Show which providers of OSM extracts are available;</li>
@@ -124,7 +129,7 @@
 <li>
 <code><a href="../reference/oe_read.html">oe_read()</a></code>: Read <code>.pbf</code> and <code>.gpkg</code> files;</li>
 <li>
-<code><a href="../reference/oe_get.html">oe_get()</a></code>: Match, download, translate and import data, all in one step.</li>
+<code><a href="../reference/oe_get.html">oe_get()</a></code>: Match, download, translate, and import data, all in one step.</li>
 </ol>
 <p>For many users who just want to get OSM data quickly <code><a href="../reference/oe_get.html">oe_get()</a></code> may be sufficient, as covered in the README. We will demonstrate each function in turn.</p>
 <div id="oe_providerslist-providers" class="section level2">
@@ -132,237 +137,231 @@
 <a href="#oe_providerslist-providers" class="anchor"></a><code>oe_providers()</code>:list providers</h2>
 <p><code><a href="../reference/oe_providers.html">oe_providers()</a></code> lists the providers that are currently available with the version of <code>osmextract</code> you have installed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span>()
-<span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database</span>
+<span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</span>
 <span class="co">#&gt;   available_providers          database_name number_of_zones number_of_fields</span>
 <span class="co">#&gt; 1           geofabrik        geofabrik_zones             430               14</span>
 <span class="co">#&gt; 2              bbbike           bbbike_zones             235               10</span>
-<span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             835                6</span>
-</pre></div>
+<span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             835                6</span></pre></div>
 <p>Each element in the column <code>database_name</code> is a data object that is packaged with <code>osmextract</code>. You can read a detailed description of each provider data running, for example, <code><a href="../reference/geofabrik_zones.html">?geofabrik_zones</a></code> or <code><a href="../reference/bbbike_zones.html">?bbbike_zones</a></code>.</p>
-<p>Perhaps the best known bulk OSM data provider is Geofabrik, represented as data frame in the packaged object <code>geofabrik_zones</code>.</p>
+<p>Perhaps the best known bulk OSM data provider is Geofabrik, represented as <code>data.frame</code> in the packaged object <code>geofabrik_zones</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="kw">geofabrik_zones</span>)
-<span class="co">#&gt; [1] "sf"         "data.frame"</span>
-</pre></div>
-<p>Note that in addition to being a data frame with rows and columns, the object is also an <code>sf</code> object, as defined in the <a href="https://r-spatial.github.io/sf/">package</a> of the same name. When working with <code>sf</code> objects it makes sense to have the package loaded:</p>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">)</span>
+<span class="co">#&gt; [1] "sf"         "data.frame"</span></pre></div>
+<p>Note that in addition to being a data frame with rows and columns, <code>geofabrik_zones</code> is also an <code>sf</code> object, as defined in the <a href="https://r-spatial.github.io/sf/">package</a> of the same name. When working with <code>sf</code> objects, it makes sense to have the package loaded:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-spatial.github.io/sf">sf</a></span>)
-<span class="co">#&gt; Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 6.3.1</span>
-</pre></div>
-<p>That gives you access to many geographic functions for working with geographic vector data of the type provided by <code>osmextract</code>. Each row of data in an <code>sf</code> object contains a geometry, representing the area covered by each provider zone, meaning you can plot the data as follows:</p>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
+<span class="co">#&gt; Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 6.3.1</span></pre></div>
+<p>That gives you access to many functions for working with geographic vector data of the type provided by <code>osmextract</code>. Each row of data in an <code>sf</code> object contains a geometry, representing the area covered by each provider zone, meaning you can plot the data as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">geofabrik_zones</span>))
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="osmextract_files/figure-html/unnamed-chunk-5-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>The plot above shows how the provider divides geographic space into discrete chunks. Different providers have other zoning systems.</p>
+<p>The plot above shows how the provider divides geographic space into discrete chunks. Different providers have other zoning systems. For example:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(mar = <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.1</span>, <span class="fl">4</span>))
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_geometry</a></span>(<span class="kw">bbbike_zones</span>), xlim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span>), ylim = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">30</span>, <span class="fl">60</span>))
-</pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>As shown in the above visualisation of <a href="https://download.bbbike.org/osm/">BBBike.org</a> zones in Europe, the provider offers rectangular extracts of major cities. You can also download manually selected regions of interest from the BBBike website (see also <a href="https://github.com/ITSLeeds/osmextract/issues/100" class="uri">https://github.com/ITSLeeds/osmextract/issues/100</a>).</p>
-</div>
-<div id="oe_match-finding-osm-extracts" class="section level2">
-<h2 class="hasAnchor">
-<a href="#oe_match-finding-osm-extracts" class="anchor"></a><code>oe_match()</code>: finding OSM extracts</h2>
-<p><code><a href="../reference/oe_match.html">oe_match()</a></code> takes one character string representing a <code>place</code> and returns one matching zone based on the minimum Approximate String Distance (<code><a href="https://rdrr.io/r/utils/adist.html">?adist</a></code>) between the input <code>place</code> and the names of the zones of the provider. The matching is performed using the <code>name</code> field of the provider data and the default provider is Geofabrik. The function returns a named list with the URL and file size (in bytes) of the corresponding <code>pbf</code> file hosted by the provider, as shown below.</p>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="fu">spData</span><span class="fu">::</span><span class="va">world</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">60</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">bbbike_zones</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">60</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<p><img src="https://user-images.githubusercontent.com/22221146/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png" width="100%"></p>
+<p>As shown in the above visualisation of <a href="https://download.bbbike.org/osm/">BBBike.org</a> zones in Europe, the provider offers rectangular extracts of major cities. We are working on adding support for manually selected regions from the BBBike website (see <a href="https://github.com/ITSLeeds/osmextract/issues/100" class="uri">https://github.com/ITSLeeds/osmextract/issues/100</a>).</p>
+<p>Check the “Comparing the supported OSM providers” vignette for some simple guidance on how to choose the best provider. ## <code><a href="../reference/oe_match.html">oe_match()</a></code>: finding OSM extracts</p>
+<p><code><a href="../reference/oe_match.html">oe_match()</a></code> takes in input a string (through the parameter <code>place</code>), and it returns a named list of length two with the URL and the size (in bytes) of a <code>.osm.pbf</code> file representing a geographical zone stored by one of the supported providers. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Italy"</span>, provider = <span class="st">"geofabrik"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Italy"</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
 <span class="co">#&gt; [1] 1544340778</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Leeds"</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 19376705</span>
-</pre></div>
-<p>There are several situations where it could be difficult to find the appropriate data source:</p>
+<span class="co">#&gt; [1] 19376705</span></pre></div>
+<p>The operations for matching a string with a geographical zone are based on the minimum Approximate String Distance (<code><a href="https://rdrr.io/r/utils/adist.html">?adist</a></code>) between the input <code>place</code> and one of the fields in the provider’s database. By default, the function uses the <code>name</code> field and Geofabrik provider.</p>
+<p>Nevertheless, there are several situations where it could be challenging to find the appropriate data source:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Russia"</span>, quiet = <span class="fl">FALSE</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Russia"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: Asia -</span>
 <span class="co">#&gt; Austria - Tunisia. Selecting the first match.</span>
 <span class="co">#&gt; No exact matching found for place = Russia. Best match is Asia.</span>
-<span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
-</pre></div>
-<p>We therefore enable search using alternative fields in the provider’s data that can be specified using the <code>match_by</code> parameter. For example, working with <code>geofabrik_data</code>, we implemented the possibility of looking for a match with <a href="https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2">iso3166-1 alpha2</a> codes:</p>
+<span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span></pre></div>
+<p>Therefore, you can select alternative fields in the provider’s data (instead of the default field, i.e. <code>name</code>) using the <code>match_by</code> parameter. For example, if you work with <code>geofabrik_data</code>, you can look for a match using <a href="https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2">iso3166-1 alpha2</a> codes:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"RU"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"RU"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/russia-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
 <span class="co">#&gt; [1] 2820253009</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"US"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/north-america/us-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 6982945396</span>
-</pre></div>
-<p>The are a few cases where the <code>iso3166-1 alpha2</code> codes in <code>geofabrik_data</code> do not work because there are no per-country extracts (e.g. Israel and Palestine):</p>
+<span class="co">#&gt; [1] 6982945396</span></pre></div>
+<p>There are a few situations where the <code>iso3166-1 alpha2</code> codes in <code>geofabrik_data</code> cannot be used since there are no per-country extracts (e.g. Israel and Palestine):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"PS"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"PS"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span><span class="op">)</span>
 <span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: IS - LS</span>
 <span class="co">#&gt; - PK - PW - PG - PY - PE - PH - PL - PT - WS - RS - SS - ES - US - PR. Selecting</span>
 <span class="co">#&gt; the first match.</span>
 <span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"IL"</span>, match_by = <span class="st">"iso3166_1_alpha2"</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"IL"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span><span class="op">)</span>
 <span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: AL - CL</span>
 <span class="co">#&gt; - GL - IS - IN - ID - IR - IQ - IE - IT - ML - NL - PL - SL. Selecting the first</span>
 <span class="co">#&gt; match.</span>
-<span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
-</pre></div>
-<p>For this reason we also created a function that let you explore the matching variables according to a chosen pattern, for example:</p>
+<span class="co">#&gt; Error: String distance between best match and the input place is 1, while the maximum threshold distance is equal to 0. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span></pre></div>
+<p>For this reason, we coded a function that let you explore the matching operations according to a pre-defined pattern: For example:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"London"</span>)
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"London"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Greater London"</span>
-<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Russia"</span>)
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"Russia"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "Russian Federation"</span>
-<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Palestine"</span>)
-<span class="co">#&gt; [1] "Israel and Palestine"</span>
-<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"US"</span>, match_by = <span class="st">"iso3166_2"</span>)
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"Palestine"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Israel and Palestine"</span></pre></div>
+<p>The default field is <code>name</code>, but we can change that as follows:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"US"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_2"</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "US-AL" "US-AK" "US-AZ" "US-AR" "US-CA" "US-CO" "US-CT" "US-DE" "US-DC"</span>
 <span class="co">#&gt; [10] "US-FL" "US-GA" "US-HI" "US-ID" "US-IL" "US-IN" "US-IA" "US-KS" "US-KY"</span>
 <span class="co">#&gt; [19] "US-LA" "US-ME" "US-MD" "US-MA" "US-MI" "US-MN" "US-MS" "US-MO" "US-MT"</span>
 <span class="co">#&gt; [28] "US-NE" "US-NV" "US-NH" "US-NJ" "US-NM" "US-NY" "US-NC" "US-ND" "US-OH"</span>
 <span class="co">#&gt; [37] "US-OK" "US-OR" "US-PA" "US-PR" "US-RI" "US-SC" "US-SD" "US-TN" "US-TX"</span>
-<span class="co">#&gt; [46] "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI" "US-WY"</span>
-<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Washington"</span>, provider = <span class="st">"bbbike"</span>)
-<span class="co">#&gt; [1] "WashingtonDC"</span>
-<span class="kw">israel_sf</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span>(<span class="st">"Israel"</span>, full_row = <span class="fl">TRUE</span>)
-</pre></div>
-<p>This information can be used for selecting the appropriate match:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Greater London"</span>)
+<span class="co">#&gt; [46] "US-UT" "US-VT" "US-VA" "US-WA" "US-WV" "US-WI" "US-WY"</span></pre></div>
+<p>The default provider is <code>Geofabrik</code>, but we can also change that:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"Washington"</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "WashingtonDC"</span></pre></div>
+<p>If we set <code>full_row = TRUE</code>, then <code><a href="../reference/oe_match_pattern.html">oe_match_pattern()</a></code> will return the complete row(s) of the provider’s data:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"Israel"</span>, full_row <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>
+<span class="co">#&gt; Simple feature collection with 1 feature and 3 fields</span>
+<span class="co">#&gt; geometry type:  MULTIPOLYGON</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: 34.07929 ymin: 29.37711 xmax: 35.91531 ymax: 33.35091</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span>
+<span class="co">#&gt;                       id                 name parent</span>
+<span class="co">#&gt; 151 israel-and-palestine Israel and Palestine   asia</span>
+<span class="co">#&gt;                           geometry</span>
+<span class="co">#&gt; 151 MULTIPOLYGON (((34.64563 32...</span></pre></div>
+<p>You can use the returned values to select a geographical area:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"London"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Greater London"</span>
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Greater London"</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/greater-london-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 59746355</span>
-</pre></div>
-<p>The function returns an error if the minimum approximate string distance between the input <code>place</code> and the closest match is greater than the parameter <code>max_string_dist</code> (which defaults to 1). You can always increase this value, but be aware that it can be be dangerous:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Isle Wight"</span>)
+<span class="co">#&gt; [1] 59746355</span></pre></div>
+<p><code><a href="../reference/oe_match.html">oe_match()</a></code> function returns an error if the minimum approximate string distance between the input <code>place</code> and the closest match is greater than the parameter <code>max_string_dist</code> (which defaults to 1). You can increase this value, but you should always check for erroneous matches:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Isle Wight"</span><span class="op">)</span>
 <span class="co">#&gt; Error: String distance between best match and the input place is 3, while the maximum threshold distance is equal to 1. You should increase the max_string_dist parameter, look for a closer match in the chosen provider database or consider using a different match_by variable.</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Isle Wight"</span>, max_string_dist = <span class="fl">3</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Isle Wight"</span>, max_string_dist <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
 <span class="co">#&gt; [1] 6877468</span>
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"London"</span>, max_string_dist = <span class="fl">3</span>, quiet = <span class="fl">FALSE</span>)
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"London"</span>, max_string_dist <span class="op">=</span> <span class="fl">3</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># erroneous atch</span>
 <span class="co">#&gt; The input place was matched with: Jordan</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/asia/jordan-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 27400228</span>
-</pre></div>
-<p>The parameter <code>max_string_dist</code> is set equal to 0 if <code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code> to avoid matching with the wrong iso3166 code.</p>
-<p>The function returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input <code>place</code>. In that case, it selects the first match:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"Belin"</span>)
+<span class="co">#&gt; [1] 27400228</span></pre></div>
+<p>The parameter <code>max_string_dist</code> is always set to 0 if <code>match_by</code> argument is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code> to avoid matches with the wrong iso3166 code.</p>
+<p><code><a href="../reference/oe_match.html">oe_match()</a></code> function returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input <code>place</code>. In that case, it selects the first match:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Belin"</span><span class="op">)</span>
 <span class="co">#&gt; Warning: The input place was matched with multiple geographical zones: Benin -</span>
 <span class="co">#&gt; Berlin. Selecting the first match.</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/africa/benin-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 34426444</span>
-</pre></div>
+<span class="co">#&gt; [1] 34426444</span></pre></div>
 <div id="finding-zones-based-on-geographic-inputs" class="section level3">
 <h3 class="hasAnchor">
 <a href="#finding-zones-based-on-geographic-inputs" class="anchor"></a>Finding zones based on geographic inputs</h3>
-<p>The input <code>place</code> can be also specified using an <code>sfc_POINT</code> object with arbitrary CRS as documented in the following example. The function will return a zone intersecting the <code>sfc_POINT</code> object (or an error, if the input point does not intersect any area). If the input <code>place</code> intersects multiple geographically nested zones, the function returns the area with the highest <code>level</code>. Check the help page of <code><a href="../reference/geofabrik_zones.html">?geofabrik_zones</a></code> to understand the meaning of the <code>level</code> field. If there are multiple matches within the same level, then <code><a href="../reference/oe_match.html">oe_match()</a></code> function will return the area whose centroid is closest to the input <code>place</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">milan_duomo</span> <span class="op">=</span> <span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="kw">sf</span>::<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1514924</span>, <span class="fl">5034552</span>)), crs = <span class="fl">3003</span>)
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="kw">milan_duomo</span>)
+<p>The input <code>place</code> can also be specified using an <code>sfc_POINT</code> object with arbitrary CRS, as documented in the following example. The function will return a named list of length two with the URL and the size of a <code>.osm.pbf</code> file representing a zone that geographically intersects the <code>sfc_POINT</code> (or an error, if the input point does not cross any area). If the input <code>place</code> intersects multiple geographically nested zones, the function returns the area with the highest <code>level</code> <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. If there are multiple matches with the same <code>level</code>, then <code><a href="../reference/oe_match.html">oe_match()</a></code> function will return the area whose centroid is closest to the input <code>place</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="va">milan_duomo</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1514924</span>, <span class="fl">5034552</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">3003</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">milan_duomo</span><span class="op">)</span>
 <span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 416306623</span>
-</pre></div>
-<p>The input <code>place</code> can be also specified using a numeric vector of coordinates. In that case the CRS is assumed to be 4326:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">9.1916</span>, <span class="fl">45.4650</span>)) <span class="co"># Duomo di Milano using EPSG: 4326</span>
+<span class="co">#&gt; [1] 416306623</span></pre></div>
+<p>Finally, you can specify the input <code>place</code> using a numeric vector of coordinates. In that case, the CRS is assumed to be <a href="https://spatialreference.org/ref/epsg/4326/">EPSG:4326</a>:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">9.1916</span>, <span class="fl">45.4650</span><span class="op">)</span><span class="op">)</span> <span class="co"># Duomo di Milano using EPSG: 4326</span>
 <span class="co">#&gt; although coordinates are longitude/latitude, st_intersects assumes that they are planar</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 416306623</span>
-</pre></div>
+<span class="co">#&gt; [1] 416306623</span></pre></div>
 <p>To reduce unnecessary computational resources and save bandwidth/electricity, we will use a small OSM extract in subsequent sections that can be found as follows:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="kw">its_details</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>)
-<span class="kw">its_details</span>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="co"># ITS stands for Institute for Transport Studies: https://environment.leeds.ac.uk/transport</span>
+<span class="op">(</span><span class="va">its_details</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; $url</span>
 <span class="co">#&gt; [1] "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $file_size</span>
-<span class="co">#&gt; [1] 40792</span>
-</pre></div>
+<span class="co">#&gt; [1] 40792</span></pre></div>
 </div>
 </div>
 <div id="oe_download-download-osm-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#oe_download-download-osm-data" class="anchor"></a><code>oe_download()</code>: download OSM data</h2>
-<!-- The purpose of `oe_download()` is to download `.pbf` files representing OSM extracts for regions listed in the provider zones that can be found with functions such as `oe_match()` outlined in the previous section. -->
-<p>The purpose of <code><a href="../reference/oe_download.html">oe_download()</a></code> is to download <code>.pbf</code> files representing OSM extracts. The function takes a URL as input and downloads the file in the directory specified by the parameter <code>download_directory</code>:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_download.html">oe_download</a></span>(
-  file_url = <span class="kw">its_details</span><span class="op">$</span><span class="kw">url</span>, 
-  file_size = <span class="kw">its_details</span><span class="op">$</span><span class="kw">file_size</span>,
-  provider = <span class="st">"test"</span>,
-  download_directory = <span class="st">"."</span>
-)
-</pre></div>
-<p>The argument <code>provider</code> can be omitted if the input <code>url</code> is associated with one of the regular providers (such as Geofabrik or Bbbike). The default value for <code>download_directory</code> is <code><a href="https://rdrr.io/r/base/tempfile.html">tempdir()</a></code>, but, if you want to set a directory that will persist, you can add <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="kw">usethis</span>::<span class="fu">edit_r_environ</span>()
-<span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span>
-</pre></div>
+<p>The purpose of <code><a href="../reference/oe_download.html">oe_download()</a></code> is to download <code>.osm.pbf</code> files representing OSM extracts. This function takes in input a URL, and it downloads the requested file in a directory (specified by the parameter <code>download_directory</code>):</p>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_download.html">oe_download</a></span><span class="op">(</span>
+  file_url <span class="op">=</span> <span class="va">its_details</span><span class="op">$</span><span class="va">url</span>, 
+  file_size <span class="op">=</span> <span class="va">its_details</span><span class="op">$</span><span class="va">file_size</span>,
+  provider <span class="op">=</span> <span class="st">"test"</span>,
+  download_directory <span class="op">=</span> <span class="st">"."</span>
+<span class="op">)</span></pre></div>
+<p>The argument <code>provider</code> can be omitted if the input <code>file_url</code> is associated with one of the supported providers. The standard value for <code>download_directory</code> is <code><a href="https://rdrr.io/r/base/tempfile.html">tempdir()</a></code>, but, if you want to set a directory that will persist, you can add <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span>
+<span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span></pre></div>
 <p>You can always check the default <code>download_directory</code> used by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span>()
-<span class="co">#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpZ4uxWE"</span>
-</pre></div>
-<p>We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) <code>.pbf</code> file are expensive operations, that are skipped by <code>oe_*()</code> functions if they detect that the input <code>.pbf</code> file was already downloaded and/or converted.</p>
-<p>More precisely, <code><a href="../reference/oe_download.html">oe_download()</a></code> runs several checks before actually downloading a new file, to avoid overloading the OSM providers. The first step when running the function is the definition of the file’s path associated with the input <code>file_url</code> where the <code>.pbf</code> file will be saved. The path is created by pasting together the <code>download_directory</code>, the name of chosen provider, specified by <code>provider</code> argument or inferred from the input url, and the <code><a href="https://rdrr.io/r/base/basename.html">basename()</a></code> of the url. For example, if <code>file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and <code>download_directory = "/tmp/</code>, then the path is built as <code>/tmp/geofabrik_italy-latest.osm.pbf</code>. Then, the function checks if there exists a file with the same path and, in that case, it returns the path without downloading anything. The parameter <code>force_download</code> is used to modify this behaviour. If there is no file associated with the file path, then the function downloads a new file using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> with <code>destfile</code> equal to the new path and <code>mode = "wb"</code>. Then it returns the path.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpY3YPIo"</span></pre></div>
+<p>We strongly advise you set a persistent directory since downloading and converting (see the next sub-section) <code>.pbf</code> file are expensive operations, that are skipped by all <code>oe_*()</code> functions if they detect that the input <code>.pbf</code> file was already downloaded and/or converted.</p>
+<p>More precisely, <code><a href="../reference/oe_download.html">oe_download()</a></code> runs several checks before actually downloading a new file, to avoid overloading the OSM providers. The first step is the definition of the file’s path associated with the input <code>file_url</code>. The path is created by pasting together the <code>download_directory</code>, the name of the chosen provider (specified by <code>provider</code> argument or inferred from the input URL), and the <code><a href="https://rdrr.io/r/base/basename.html">basename()</a></code> of the URL. For example, if <code>file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and <code>download_directory = "/tmp/</code>, then the path is built as <code>/tmp/geofabrik_italy-latest.osm.pbf</code>. Then, the function checks if the new path already exists (using <code><a href="https://rdrr.io/r/base/files.html">file.exists()</a></code>) and, in that case, it returns it (without downloading anything<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>). Otherwise, it downloads a new file (using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> and setting the argument <code>destfile</code> equal to the new path and <code>mode = "wb"</code>), and then it returns the path.</p>
 </div>
 <div id="oe_vectortranslate-convert-to-gpkg-format" class="section level2">
 <h2 class="hasAnchor">
 <a href="#oe_vectortranslate-convert-to-gpkg-format" class="anchor"></a><code>oe_vectortranslate()</code>: convert to gpkg format</h2>
-<p><code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function was defined to translate a <code>.pbf</code> file into <code>.gpkg</code> format. The new <code>.gpkg</code> file is created in the same directory as the input <code>.pbf</code> file. The conversion is performed using <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a> through <code>vectortranslate</code> utility in <code><a href="https://rdrr.io/pkg/sf/man/gdal_utils.html">sf::gdal_utils()</a></code>. It was created following <a href="https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053">the suggestions</a> of the maintainers of GDAL.</p>
-<p>Let’s start with an example. First we download the <code>.pbf</code> file associated with the ITS test file:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="kw">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_download.html">oe_download</a></span>(<span class="kw">its_details</span><span class="op">$</span><span class="kw">url</span>, provider = <span class="st">"test"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span>(), pattern = <span class="st">"pbf|gpkg"</span>)
-<span class="co">#&gt; [1] "test_its-example.osm.pbf"</span>
-</pre></div>
+<p><code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function translates a <code>.pbf</code> file into <code>.gpkg</code> format. It takes in input a string representing the path to an existing <code>.pbf</code> file, and it returns the path to the newly generated <code>.gpkg</code> file. The <code>.gpkg</code> file is created in the same directory as the input <code>.pbf</code> file and with the same name. The conversion is performed using <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a> through <code>vectortranslate</code> utility in <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html">sf::gdal_utils()</a></code>.</p>
+<p>We decided to adopt this approach and create this function following <a href="https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053">the suggestions</a> of the maintainers of GDAL. Let’s start with an example. First, we download the <code>.pbf</code> file associated with ITS example:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_download.html">oe_download</a></span><span class="op">(</span><span class="va">its_details</span><span class="op">$</span><span class="va">url</span>, provider <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "test_its-example.osm.pbf"</span></pre></div>
 <p>and then we convert it to <code>.gpkg</code> format:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="kw">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span>(<span class="kw">its_pbf</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span>(), pattern = <span class="st">"pbf|gpkg"</span>)
-<span class="co">#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</span>
-</pre></div>
-<p>The translation process is performed using the <code>vectortranslate</code> utility in <code><a href="https://rdrr.io/pkg/sf/man/gdal_utils.html">sf::gdal_utils()</a></code>. This operation can be customized in several ways modifying the parameters <code>layer</code>, <code>extra_tags</code>, <code>osmconf_ini</code>, and <code>vectortranslate_options</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit">
+<span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span><span class="op">(</span><span class="va">its_pbf</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</span></pre></div>
+<p>The vectortranslate operation can be customised in several ways modifying the parameters <code>layer</code>, <code>extra_tags</code>, <code>osmconf_ini</code>, and <code>vectortranslate_options</code>.</p>
 <div id="layer" class="section level3">
 <h3 class="hasAnchor">
 <a href="#layer" class="anchor"></a><code>layer</code>
 </h3>
-<p>The <code>.pbf</code> files processed using GDAL are usually categorized into 5 layers, named <code>points</code>, <code>lines</code>, <code>multilinestrings</code>, <code>multipolygons</code> and <code>other_relations</code>. Check the first paragraphs <a href="https://gdal.org/drivers/vector/osm.html">here</a> for more details. The <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function can covert only one later at a time, and the parameter <code>layer</code> is used to specify which layer of the <code>.pbf</code> file should be converted into <code>.gpkg</code>. Several layers with different names can be stored in the same <code>.gpkg</code> file. By default, the function will convert the <code>lines</code> layer (which is the most common one according to our experience).</p>
-<p>So, for example,</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_layers.html">st_layers</a></span>(<span class="kw">its_pbf</span>, do_count = <span class="fl">TRUE</span>)
+<p>The <code>.pbf</code> files processed by GDAL are usually categorized into 5 layers, named <code>points</code>, <code>lines</code>, <code>multilinestrings</code>, <code>multipolygons</code> and <code>other_relations</code> <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. The <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function can covert only one layer at a time. Nevertheless, several layers with different names can be stored in the same <code>.gpkg</code> file. By default, the function will convert the <code>lines</code> layer (which is the most common one according to our experience), but you can change it using the parameter <code>layer</code>.</p>
+<p>The <code>.pbf</code> files always contain all five layers:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html">st_layers</a></span><span class="op">(</span><span class="va">its_pbf</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Driver: OSM </span>
 <span class="co">#&gt; Available layers:</span>
 <span class="co">#&gt;         layer_name       geometry_type features fields</span>
@@ -370,35 +369,34 @@
 <span class="co">#&gt; 2            lines         Line String      189      9</span>
 <span class="co">#&gt; 3 multilinestrings   Multi Line String       10      4</span>
 <span class="co">#&gt; 4    multipolygons       Multi Polygon      104     25</span>
-<span class="co">#&gt; 5  other_relations Geometry Collection        3      4</span>
-</pre></div>
-<p>while</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_layers.html">st_layers</a></span>(<span class="kw">its_gpkg</span>, do_count = <span class="fl">TRUE</span>)
+<span class="co">#&gt; 5  other_relations Geometry Collection        3      4</span></pre></div>
+<p>while, by default, <code>oe_vectortranslate</code> convert only the <code>lines</code> layer:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit">
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Driver: GPKG </span>
+<span class="co">#&gt; Available layers:</span>
+<span class="co">#&gt;   layer_name geometry_type features fields</span>
+<span class="co">#&gt; 1      lines   Line String      189      9</span></pre></div>
+<p>We can add another layer as follows:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span><span class="op">(</span><span class="va">its_pbf</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Driver: GPKG </span>
 <span class="co">#&gt; Available layers:</span>
 <span class="co">#&gt;   layer_name geometry_type features fields</span>
 <span class="co">#&gt; 1      lines   Line String      189      9</span>
-</pre></div>
-<p>but we can add another layer:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
-<span class="kw">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span>(<span class="kw">its_pbf</span>, layer = <span class="st">"points"</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_layers.html">st_layers</a></span>(<span class="kw">its_gpkg</span>, do_count = <span class="fl">TRUE</span>)
-<span class="co">#&gt; Driver: GPKG </span>
-<span class="co">#&gt; Available layers:</span>
-<span class="co">#&gt;   layer_name geometry_type features fields</span>
-<span class="co">#&gt; 1      lines   Line String      189      9</span>
-<span class="co">#&gt; 2     points         Point      186     10</span>
-</pre></div>
+<span class="co">#&gt; 2     points         Point      186     10</span></pre></div>
 </div>
 <div id="osmconf_ini-and-extra_tags" class="section level3">
 <h3 class="hasAnchor">
 <a href="#osmconf_ini-and-extra_tags" class="anchor"></a><code>osmconf_ini</code> and <code>extra_tags</code>
 </h3>
-<p>The arguments <code>osmconf_ini</code> and <code>extra_tags</code> are used to modify how GDAL reads and processes a <code>.pbf</code> file. More precisely, several operations that GDAL performs on the input <code>.pbf</code> file are governed by a <code>CONFIG</code> file, that you can check <a href="https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini">here</a>. So, for example, the basic components of OSM data are called <a href="https://wiki.openstreetmap.org/wiki/Elements"><em>elements</em></a> and they are divided into <em>nodes</em>, <em>ways</em> or <em>relations</em>, and the code at line 7 of the CONFIG file is used to determine which <em>ways</em> are assumed to be polygons (according to the simple-feature definition of polygon) if they are closed. The parameter <code>osmconf_ini</code> is used to pass your own <code>CONFIG</code> file in case you need great control over the GDAL operations. If <code>osmconf_ini</code> is equal to <code>NULL</code> (the default), then the function uses default <code>osmconf.ini</code> file defined by GDAL (but for the extra tags, see next sentences). OSM data is usually described using several <a href="https://wiki.openstreetmap.org/wiki/Tags"><em>tags</em></a>, i.e a pair of two items: a <em>key</em> and a <em>value</em>. The code at lines 33, 53, 85, 103, and 121 is used to determine, for each layer, which tags are explicitly reported as fields (while all the other tags are stored in the <code>other_tags</code> column). The parameter <code>extra_tags</code> in <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> is used to determine which tags (i.e. key/value pairs) should be reported as fields in the <code>.gpkg</code> file, along with the default tags.</p>
-<p>The <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> function can be used to check all the <code>keys</code> that are stored in the <code>other_tags</code> field for a given <code>.gpkg</code> file:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get_keys.html">oe_get_keys</a></span>(<span class="kw">its_gpkg</span>, layer = <span class="st">"lines"</span>)
+<p>The arguments <code>osmconf_ini</code> and <code>extra_tags</code> are used to modify how GDAL reads and processes a <code>.pbf</code> file. More precisely, several operations that GDAL performs on a <code>.pbf</code> file are governed by a <code>CONFIG</code> file, that you can check at the following <a href="https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini">link</a>. For example, the basic components of OSM data are called <a href="https://wiki.openstreetmap.org/wiki/Elements"><em>elements</em></a> and they are divided into <em>nodes</em>, <em>ways</em> or <em>relations</em>. The code at line 7 of that CONFIG file is used to determine which <em>ways</em> are assumed to be <em>polygons</em> if they are closed.</p>
+<p>The parameter <code>osmconf_ini</code> can be used to specify the path to an existing ad-hoc <code>CONFIG</code> file, in case you need full control over GDAL operations. See the next sub-sections for an example. If <code>osmconf_ini</code> is equal to <code>NULL</code> (the default), then <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function uses the standard <code>CONFIG</code> file.</p>
+<p>OSM data is usually described using several <a href="https://wiki.openstreetmap.org/wiki/Tags"><em>tags</em></a>, i.e. pairs of two items: a <em>key</em> and a <em>value</em>. The code at lines 33, 53, 85, 103, and 121 of default <code>CONFIG</code> file determines, for each layer, which tags are explicitly reported as fields (while all the other tags are stored in the <code>other_tags</code> column, see <a href="https://gdal.org/drivers/vector/osm.html#other-tags-field">here</a> for more details). The parameter <code>extra_tags</code> (default value: <code>NULL</code>) governs which tags are explicitly reported in the <code>.gpkg</code> file and are omitted from the <code>other_tags</code> field. The default tags are always included (unless you modify the <code>CONFIG</code> file). Please note that the argument <code>extra_tags</code> is ignored if <code>osmconf_ini</code> is not <code>NULL</code> (since we do not know how you generated the new <code>.ini</code> file).</p>
+<p>Lastly, the <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> function can be used to check all <code>keys</code> that are stored in the <code>other_tags</code> field for a given <code>.gpkg</code> file. For example,</p>
+<div class="sourceCode" id="cb29"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get_keys.html">oe_get_keys</a></span><span class="op">(</span><span class="va">its_gpkg</span>, layer <span class="op">=</span> <span class="st">"lines"</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "bicycle"             "foot"                "website"            </span>
 <span class="co">#&gt;  [4] "access"              "lanes"               "oneway"             </span>
 <span class="co">#&gt;  [7] "lit"                 "maxspeed"            "ref"                </span>
@@ -411,392 +409,379 @@
 <span class="co">#&gt; [28] "source:geometry"     "substation"          "voltage"            </span>
 <span class="co">#&gt; [31] "tunnel"              "indoor"              "level"              </span>
 <span class="co">#&gt; [34] "maxheight"           "incline"             "bridge"             </span>
-<span class="co">#&gt; [37] "alt_name"            "turn:lanes:backward"</span>
-</pre></div>
-<p>Now we can also re-create the <code>.gpkg</code> file adding new <code>tags</code> (i.e. key/value pairs):</p>
-<div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="kw">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span>(<span class="kw">its_pbf</span>, extra_tags = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"bicycle"</span>, <span class="st">"foot"</span>))
-</pre></div>
-<p>We will present more complex use-cases in the <code><a href="../reference/oe_get.html">oe_get()</a></code> section.</p>
+<span class="co">#&gt; [37] "alt_name"            "turn:lanes:backward"</span></pre></div>
+<p>We can always re-create the <code>.gpkg</code> file adding new <code>tags</code> (i.e. key/value pairs):</p>
+<div class="sourceCode" id="cb30"><pre class="downlit">
+<span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span><span class="op">(</span><span class="va">its_pbf</span>, extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bicycle"</span>, <span class="st">"foot"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<p>See the <code><a href="../reference/oe_get.html">oe_get()</a></code> section for more complex use-cases.</p>
 </div>
 <div id="vectortranslate_options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#vectortranslate_options" class="anchor"></a><code>vectortranslate_options</code>
 </h3>
-<p>The parameter <code>vectortranslate_options</code> is used to control the arguments that are passed to <code>ogr2ogr</code> via <code><a href="https://rdrr.io/pkg/sf/man/gdal_utils.html">sf::gdal_utils()</a></code> when converting between <code>.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations during the conversion process, such as spatial filters or SQL queries. These operations are determined by the <code>vectortranslate_options</code> argument. If <code>NULL</code> (default value), then <code>vectortranslate_options</code> is set equal to <code><a href="https://rdrr.io/r/base/c.html">c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),  "-lco", "GEOMETRY_NAME=geometry", layer)</a></code>. Explanation:</p>
+<p>The parameter <code>vectortranslate_options</code> is used to control the arguments that are passed to <code>ogr2ogr</code> via <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html">sf::gdal_utils()</a></code> when converting between <code>.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations during the translation process, such as spatial filters or SQL queries, and these operations are determined by the <code>vectortranslate_options</code> argument. If <code>NULL</code> (default value), then <code>vectortranslate_options</code> is set equal to <code><a href="https://rdrr.io/r/base/c.html">c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),  "-lco", "GEOMETRY_NAME=geometry", layer)</a></code>. Explanation:</p>
 <ul>
 <li>
-<code>"-f", "GPKG"</code> says that the output format is <code>GPKG</code>;</li>
+<code>"-f", "GPKG"</code> says that the output format is <code>GPKG</code>. This is mandatory for GDAL &lt; 2.3;</li>
 <li>
 <code>"-overwrite</code> is used to delete an existing layer and recreate it empty;</li>
 <li>
-<code>"-oo", paste0("CONFIG_FILE=", osmconf_ini)</code> is used to set the <a href="https://gdal.org/drivers/vector/osm.html#open-options">Open Options</a> for the <code>.osm.pbf</code> file and change the <code>CONFIG</code> file (in case the user asks for any extra tag or a totally different CONFIG file);</li>
+<code>"-oo", paste0("CONFIG_FILE=", osmconf_ini)</code> is used to modify the <a href="https://gdal.org/drivers/vector/osm.html#open-options">open options</a> for the <code>.osm.pbf</code> file and set the <code>CONFIG</code> file;</li>
 <li>
-<code>"-lco", "GEOMETRY_NAME=geometry"</code> is used to change the <a href="https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options">layer creation options</a> for the <code>.gpkg</code> file and modify the name of the geometry column;</li>
+<code>"-lco", "GEOMETRY_NAME=geometry"</code> adjust the <a href="https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options">layer creation options</a> for the <code>.gpkg</code> file, modifying the name of the geometry column;</li>
 <li>
 <code>layer</code> indicates which layer should be converted.</li>
 </ul>
-<p>Check the following sections to see a few examples with different vectortranslate options. It should be immediately noted that the arguments that are passed to <code>vectortranslate_options</code> can be used to perform queries during the vectortranslate process, which is extremely useful for large <code>.pbf</code> files.</p>
+<p>The arguments that are passed to <code>vectortranslate_options</code> can also be used to perform queries during the vectortranslate process. Check the following sections to see more examples with different vectortranslate options.</p>
 </div>
 <div id="other-notes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#other-notes" class="anchor"></a>Other notes</h3>
-<p>By default, the vectortranslate operations are skipped if the function detects a file having the same path as the input file, <code>.gpkg</code> extension and a layer with the same name as the parameter <code>layer</code> with all <code>extra_tags</code>. In that case the function will simply return the path of the <code>.gpkg</code> file. This behaviour can be overwritten by setting <code>force_vectortranslate = TRUE</code>. If <code>osmconf_ini</code> or <code>vectortranslate_options</code> parameters are not <code>NULL</code>, the vectortranslate operations are never skipped.</p>
+<p>By default, vectortranslate operations are skipped if <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function detects a file having the same path as the input file, <code>.gpkg</code> extension and a layer with the same name as the parameter <code>layer</code> with all <code>extra_tags</code>. In that case, the function will return the path of the <code>.gpkg</code> file. This behaviour can be overwritten by setting <code>force_vectortranslate = TRUE</code>. If <code>osmconf_ini</code> or <code>vectortranslate_options</code> parameters are not <code>NULL</code>, the vectortranslate operations are never skipped.</p>
+<p>Starting from <code>sf</code> version <a href="https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13">0.9.6</a>, if <code>quiet</code> argument is equal to <code>FALSE</code>, then <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> will display a progress bar.</p>
 </div>
 </div>
 <div id="oe_read-read-in-osm-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#oe_read-read-in-osm-data" class="anchor"></a><code>oe_read()</code>: read-in OSM data</h2>
-<p>The <code><a href="../reference/oe_read.html">oe_read()</a></code> function is wrapper around <code><a href="../reference/oe_download.html">oe_download()</a></code>, <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code>, and <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code>. It is used for reading-in a <code>.pbf</code> or <code>.gpkg</code> file that is specified using its path or its url.</p>
+<p>The <code><a href="../reference/oe_read.html">oe_read()</a></code> function is wrapper around <code><a href="../reference/oe_download.html">oe_download()</a></code>, <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code>, and <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::st_read()</a></code>. It is used for reading-in a <code>.pbf</code> or <code>.gpkg</code> file that is specified using its path or a URL.</p>
 <p>So, for example, the following code can be used for reading-in the <code>its-gpkg</code> file:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span>(<span class="kw">its_pbf</span>, quiet = <span class="fl">FALSE</span>)
-<span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<div class="sourceCode" id="cb31"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-</pre></div>
-<p>The vectortranslate operations can be skipped with the parameter <code>skip_vectortranslate</code>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span>(<span class="kw">its_pbf</span>, skip_vectortranslate = <span class="fl">TRUE</span>, quiet = <span class="fl">FALSE</span>)
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.osm.pbf' using driver `OSM'</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
+<p>If the input <code>file_path</code> points to a <code>.osm.pbf</code> file, the vectortranslate operations can be skipped using the parameter <code>skip_vectortranslate</code>. In that case, <code><a href="../reference/oe_read.html">oe_read()</a></code> will ignore the conversion step.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.osm.pbf' using driver `OSM'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-</pre></div>
-<p>We can see that the second example includes 9 fields (the default tags) while the first example includes 11 fields (the default tags + <code>bicycle</code> and <code>foot</code>, that were added a few chunks above).</p>
-<p>We can also read from a URL:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="kw">my_url</span> <span class="op">=</span> <span class="st">"https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"</span>
-<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span>(<span class="kw">my_url</span>, provider = <span class="st">"test"</span>, quiet = <span class="fl">FALSE</span>, force_download = <span class="fl">TRUE</span>, force_vectortranslate = <span class="fl">TRUE</span>)
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
+<p>We can see that the output data includes nine fields (i.e. the default tags), while the previous example had 11 fields (i.e. the default tags + <code>bicycle</code> and <code>foot</code> tags, that were added to the <code>.gpkg</code> file a few chunks above).</p>
+<p>We can also read an object starting from a URL:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit">
+<span class="va">my_url</span> <span class="op">=</span> <span class="st">"https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"</span>
+<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">my_url</span>, provider <span class="op">=</span> <span class="st">"test"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, force_download <span class="op">=</span> <span class="cn">TRUE</span>, force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; File downloaded!</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-</pre></div>
-<p>Please note that if you reading from a URL which is not linked to one of the supported providers, you need to specify the provider parameter. The <code>test_its-example.osm.pbf</code> file already exists in the <code>download_directory</code> but we forced the download and vectortranslate operations.</p>
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
+<p>Please note that if you are reading from a URL which is not linked with any of the supported providers, you need to specify the <code>provider</code> parameter. The <code>test_its-example.osm.pbf</code> file already exists in the <code>download_directory</code>, but we forced the download and vectortranslate operations.</p>
 </div>
 <div id="oe_get-do-it-all-in-one-step" class="section level2">
 <h2 class="hasAnchor">
 <a href="#oe_get-do-it-all-in-one-step" class="anchor"></a><code>oe_get()</code>: Do it all in one step</h2>
 <p>To simplify the steps outlined above, while enabling modularity if needs be, we packaged them all into a single function that works as follows:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit">
-<span class="kw">its_lines</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, quiet = <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb34"><pre class="downlit">
+<span class="va">its_lines</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">its_lines</span>[<span class="st">"osm_id"</span>], lwd = <span class="fl">2</span>)
-</pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-31-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>The function <code><a href="../reference/oe_get.html">oe_get()</a></code> is a wrapper around <code><a href="../reference/oe_match.html">oe_match()</a></code> and <code><a href="../reference/oe_read.html">oe_read()</a></code> and it summarizes the algorithm that we use for importing OSM extracts:</p>
+<span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">its_lines</span><span class="op">[</span><span class="st">"osm_id"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-34-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>The function <code><a href="../reference/oe_get.html">oe_get()</a></code> is a wrapper around <code><a href="../reference/oe_match.html">oe_match()</a></code> and <code><a href="../reference/oe_read.html">oe_read()</a></code>, and it summarizes the algorithm that we use for importing OSM extracts:</p>
 <ol style="list-style-type: decimal">
-<li>Match the input <code>place</code> with the url of a <code>.pbf</code> file through <code><a href="../reference/oe_match.html">oe_match()</a></code>;</li>
+<li>Match the input <code>place</code> with the URL of a <code>.pbf</code> file through <code><a href="../reference/oe_match.html">oe_match()</a></code>;</li>
 <li>Download the corresponding <code>.pbf</code> file using <code><a href="../reference/oe_download.html">oe_download()</a></code>;</li>
 <li>Convert it into <code>.gpkg</code> format using <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code>;</li>
-<li>Read-in the <code>.gpkg</code> file using <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code>.</li>
+<li>Read-in the <code>.gpkg</code> file using <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::st_read()</a></code>.</li>
 </ol>
-<p>The following commands (not evaluated here) show how <code><a href="../reference/oe_get.html">oe_get()</a></code> can be used to import the OSM extracts associated with the desired input <code>place</code>, after downloading the <code>.pbf</code> file and performing the vectortranslate operations. We suggest you running the commands and check the output.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, quiet = <span class="fl">FALSE</span>)
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Leeds"</span>, provider = <span class="st">"bbbike"</span>, quiet = <span class="fl">FALSE</span>)
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Malta"</span>, layer = <span class="st">"points"</span>, quiet = <span class="fl">FALSE</span>)
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"RU"</span>,match_by = <span class="st">"iso3166_1_alpha2"</span>, quiet = <span class="fl">FALSE</span>)
+<p>The following commands (not evaluated here) show how <code><a href="../reference/oe_get.html">oe_get()</a></code> can be used to import the OSM extracts associated with the desired input <code>place</code>, after downloading the <code>.pbf</code> file and performing the vectortranslate operations. We suggest you run the commands and check the output.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andorra"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Leeds"</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Goa"</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Malta"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"RU"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, download_only = <span class="fl">TRUE</span>)
-<span class="fu"><a href="../reference/oe_get_keys.html">oe_get_keys</a></span>(<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, download_only = <span class="fl">TRUE</span>))
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andorra"</span>, extra_tags = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"maxspeed"</span>, <span class="st">"oneway"</span>, <span class="st">"ref"</span>, <span class="st">"junction"</span>), quiet = <span class="fl">FALSE</span>)
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Andora"</span>, stringsAsFactors = <span class="fl">FALSE</span>, quiet = <span class="fl">TRUE</span>, as_tibble = <span class="fl">TRUE</span>) <span class="co"># like read_sf</span>
-</pre></div>
-<p>The arguments <code>osmconf_ini</code>, <code>vectortranslate_options</code> and <code>query</code> (defined in <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read</a></code>) can be used to further optimize the process of getting OSM extracts into R.</p>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andorra"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># See also ?oe_find</span>
+<span class="fu"><a href="../reference/oe_get_keys.html">oe_get_keys</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andorra"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andorra"</span>, extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"maxspeed"</span>, <span class="st">"oneway"</span>, <span class="st">"ref"</span>, <span class="st">"junction"</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andora"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, as_tibble <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># like read_sf</span>
+
+<span class="co"># Geocode the capital of Goa, India</span>
+<span class="op">(</span><span class="va">geocode_panaji</span> <span class="op">=</span> <span class="fu">tmaptools</span><span class="fu">::</span><span class="fu">geocode_OSM</span><span class="op">(</span><span class="st">"Panaji, India"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="va">geocode_panaji</span><span class="op">$</span><span class="va">coords</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="co"># Spatial match starting from the coordinates of Arequipa, Peru</span>
+<span class="va">geocode_arequipa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">71.537005</span>, <span class="op">-</span><span class="fl">16.398874</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="va">geocode_arequipa</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="va">geocode_arequipa</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Error</span>
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="va">geocode_arequipa</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># No county extract</span></pre></div>
+<p>The arguments <code>osmconf_ini</code>, <code>vectortranslate_options</code> and <code>query</code> (defined in <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::st_read</a></code>) can be used to further optimize the process of getting OSM extracts into R.</p>
 <div id="osmconf_ini" class="section level3">
 <h3 class="hasAnchor">
 <a href="#osmconf_ini" class="anchor"></a><code>osmconf_ini</code>
 </h3>
-<p>The following example shows how to create an ad-hoc <code>osmconf.ini</code> file, which is used by GDAL to read a <code>.pbf</code> file in a customized way. First of all, we load a local copy of the default <code>osmconf.ini</code> file, taken from <a href="https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini">here</a>.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit">
-<span class="kw">custom_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>))
-</pre></div>
-<p>Then we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and ways even without any significant tag,</p>
-<div class="sourceCode" id="cb34"><pre class="downlit">
-<span class="kw">custom_osmconf_ini</span>[[<span class="fl">18</span>]] <span class="op">=</span> <span class="st">"report_all_nodes=yes"</span>
-<span class="kw">custom_osmconf_ini</span>[[<span class="fl">21</span>]] <span class="op">=</span> <span class="st">"report_all_ways=yes"</span>
-</pre></div>
-<p>and the code at lines 45 and 53, removing the <code>osm_id</code> field and changing the default attributes:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit">
-<span class="kw">custom_osmconf_ini</span>[[<span class="fl">45</span>]] <span class="op">=</span> <span class="st">"osm_id=no"</span>
-<span class="kw">custom_osmconf_ini</span>[[<span class="fl">53</span>]] <span class="op">=</span> <span class="st">"attributes=highway,lanes"</span>
-</pre></div>
-<p>Another important parameter that can be customized creating an ad-hoc <code>osmconf.ini</code> file is <code>closed_ways_area_polygons</code> (see lines 5-7 of the default CONFIG file). We can now save the <code>custom_osmconf_ini</code> file:</p>
+<p>The following example shows how to create an ad-hoc <code>osmconf.ini</code> file, which is used by GDAL to read a <code>.pbf</code> file in a customised way. First of all, we load a local copy of the default <code>osmconf.ini</code> file, taken from the following <a href="https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini">link</a>.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit">
-<span class="kw">temp_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(fileext = <span class="st">".ini"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw">custom_osmconf_ini</span>, <span class="kw">temp_ini</span>)
-</pre></div>
-<p>and read the ITS Leeds file with the new <code>osmconf.ini</code> file:</p>
+<span class="va">custom_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"osmconf.ini"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<p>Then, we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and all ways (even without any significant tag),</p>
 <div class="sourceCode" id="cb37"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, osmconf_ini = <span class="kw">temp_ini</span>, quiet = <span class="fl">FALSE</span>)
+<span class="va">custom_osmconf_ini</span><span class="op">[[</span><span class="fl">18</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="st">"report_all_nodes=yes"</span>
+<span class="va">custom_osmconf_ini</span><span class="op">[[</span><span class="fl">21</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="st">"report_all_ways=yes"</span></pre></div>
+<p>and the code at lines 45 and 53, removing the <code>osm_id</code> field and changing the default attributes:</p>
+<div class="sourceCode" id="cb38"><pre class="downlit">
+<span class="va">custom_osmconf_ini</span><span class="op">[[</span><span class="fl">45</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="st">"osm_id=no"</span>
+<span class="va">custom_osmconf_ini</span><span class="op">[[</span><span class="fl">53</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="st">"attributes=highway,lanes"</span></pre></div>
+<p>Another significant parameter that can be customised during the creating of an ad-hoc <code>osmconf.ini</code> file is <code>closed_ways_area_polygons</code> (see lines 5-7 of the default CONFIG file). We can now write the <code>custom_osmconf_ini</code> file:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit">
+<span class="va">temp_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".ini"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span><span class="op">(</span><span class="va">custom_osmconf_ini</span>, <span class="va">temp_ini</span><span class="op">)</span></pre></div>
+<p>and read the ITS Leeds file with the new <code>osmconf.ini</code> file:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, osmconf_ini <span class="op">=</span> <span class="va">temp_ini</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-</pre></div>
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
 <p>If we compare it with the default output:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, quiet = <span class="fl">FALSE</span>, force_vectortranslate = <span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb41"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-</pre></div>
-<p>we can see that there are 3 extra features in the <code>sf</code> object that was read-in using the customized CONFIG file (since we set <code>"report_all_nodes=yes"</code> and <code>"report_all_ways=yes"</code>) and just 4 field: i.e. <code>highway</code>, <code>lanes</code>, (see the code a few chunks above), <code>z_order</code> (see <a href="https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71">here</a>), and <code>other_tags</code>.</p>
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
+<p>we can see that there are 2 extra features in the <code>sf</code> object that was read-in using the customized <code>CONFIG</code> file (i.e. 191 features instead of 189 since we set <code>"report_all_nodes=yes"</code> and <code>"report_all_ways=yes"</code>) and just 4 field: <code>highway</code>, <code>lanes</code> (see the code a few chunks above), <code>z_order</code> (check the code <a href="https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71">here</a>), and <code>other_tags</code>.</p>
+<p>Please note that the argument <code>extra_tags</code> is always ignored (with a warning message), if you are using an ad-hoc <code>osmconf.ini</code> file:</p>
+<div class="sourceCode" id="cb42"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, osmconf_ini <span class="op">=</span> <span class="va">temp_ini</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, extra_tags <span class="op">=</span> <span class="st">"foot"</span><span class="op">)</span>
+<span class="co">#&gt; The input place was matched with: ITS Leeds</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; Warning: The argument extra_tags is ignored when osmconf_ini is not NULL.</span>
+<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
+<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span>
+<span class="co">#&gt; geometry type:  LINESTRING</span>
+<span class="co">#&gt; dimension:      XY</span>
+<span class="co">#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
 </div>
 <div id="vectortranslate_options-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#vectortranslate_options-1" class="anchor"></a><code>vectortranslate_options</code>
 </h3>
-<p>The parameter <code>vectortranslate_options</code> is used to modify the options that are passed to <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a>. This is extremely important because if we tune the options of <code>vectortranslate_options</code> parameter, then we can analyze small parts of enormous <code>.pbf</code> files without fully reading them in memory.</p>
-<p>The first example is reported in the following chunk of code and it shows how to use the argument <code>-t_srs</code> to modify the CRS of the output <code>.gpkg</code> object (from <code>EPSG:4326</code> to <a href="https://epsg.io/27700"><code>EPSG:27700</code></a>) while performing vectortranslate operations:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit">
-<span class="kw">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>)
-<span class="kw">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<p>The parameter <code>vectortranslate_options</code> is used to modify the options that are passed to <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a>. This is extremely important because if we tune the <code>vectortranslate_options</code> parameter, then we can analyse small parts of an enormous <code>.pbf</code> files without fully reading it in memory.</p>
+<p>The first example, reported in the following chunk, shows how to use the argument <code>-t_srs</code> to modify the CRS of the output <code>.gpkg</code> object (from <a href="https://epsg.io/4326"><code>EPSG:4326</code></a> to <a href="https://epsg.io/27700"><code>EPSG:27700</code></a>) while performing vectortranslate operations:</p>
+<div class="sourceCode" id="cb43"><pre class="downlit">
+<span class="va">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"-f"</span>, <span class="st">"GPKG"</span>, <span class="co">#output file format</span>
   <span class="st">"-overwrite"</span>, <span class="co"># overwrite an existing layer</span>
-  <span class="st">"-oo"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"CONFIG_FILE="</span>, <span class="kw">my_osmconf_ini</span>), <span class="co"># open options</span>
   <span class="st">"-lco"</span>, <span class="st">"GEOMETRY_NAME=geometry"</span>, <span class="co"># layer creation options, </span>
   <span class="st">"-t_srs"</span>, <span class="st">"EPSG:27700"</span>, <span class="co"># British National Grid CRS</span>
   <span class="st">"lines"</span> <span class="co">#layer</span>
-)
+<span class="op">)</span>
 <span class="co"># Check the CRS</span>
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, vectortranslate_options = <span class="kw">my_vectortranslate</span>, quiet = <span class="fl">FALSE</span>)
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, vectortranslate_options <span class="op">=</span> <span class="va">my_vectortranslate</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: 428911.1 ymin: 434356.9 xmax: 429858.1 ymax: 435067</span>
-<span class="co">#&gt; projected CRS:  OSGB 1936 / British National Grid</span>
-</pre></div>
-<p>The next example demonstrates that it’s possible to apply an SQL-like query during the vectortranslate process. More precisely, we can use the arguments <code>-select</code> and <code>-where</code> to create an SQL-like query that is applied during the vectortranslate process. First of all we need to build a character vector with the options that will be passed to <code>ogr2ogr:</code></p>
-<div class="sourceCode" id="cb40"><pre class="downlit">
-<span class="kw">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>)
-<span class="kw">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<span class="co">#&gt; projected CRS:  OSGB 1936 / British National Grid</span></pre></div>
+<p>The next example illustrates how to apply an SQL-like query during the vectortranslate process. More precisely, we can use the arguments <code>-select</code> and <code>-where</code> to create an SQL-like query, that is run during the vectortranslate process. Check <a href="https://gdal.org/user/ogr_sql_dialect.html">here</a> for more details on the OGR SQL dialect.</p>
+<p>First of all, we need to build a character vector with the options that will be passed to <code>ogr2ogr:</code></p>
+<div class="sourceCode" id="cb44"><pre class="downlit">
+<span class="va">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"-f"</span>, <span class="st">"GPKG"</span>, <span class="co">#output file format</span>
   <span class="st">"-overwrite"</span>, <span class="co"># overwrite an existing file</span>
-  <span class="st">"-oo"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"CONFIG_FILE="</span>, <span class="kw">my_osmconf_ini</span>), <span class="co"># open options</span>
   <span class="st">"-lco"</span>, <span class="st">"GEOMETRY_NAME=geometry"</span>, <span class="co"># layer creation options,</span>
   <span class="st">"-t_srs"</span>, <span class="st">"EPSG:27700"</span>, <span class="co"># British National Grid CRS</span>
-  <span class="co"># SQL-like query where we select only a few fields</span>
+  <span class="co"># SQL-like query where we select only two fields</span>
   <span class="st">"-select"</span>, <span class="st">"osm_id,highway"</span>, 
-  <span class="co"># SQL-like query where we select only the features where highway in (footway, cycleway)</span>
+  <span class="co"># SQL-like query where we select only the features where highway is in (footway, cycleway)</span>
   <span class="st">"-where"</span>, <span class="st">"highway IN ('footway', 'cycleway')"</span>,
   <span class="st">"lines"</span> <span class="co">#layer</span>
-)
-</pre></div>
+<span class="op">)</span></pre></div>
 <p>and then we can process the file: :</p>
-<div class="sourceCode" id="cb41"><pre class="downlit">
-<span class="kw">its_leeds</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
-  <span class="st">"ITS Leeds"</span>, 
-  provider = <span class="st">"test"</span>, 
-  vectortranslate_options = <span class="kw">my_vectortranslate</span>
-)
-<span class="kw">its_leeds</span>
+<div class="sourceCode" id="cb45"><pre class="downlit">
+<span class="va">its_leeds</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, vectortranslate_options <span class="op">=</span> <span class="va">my_vectortranslate</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; The input place was matched with: ITS Leeds</span>
+<span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
+<span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: 428932.4 ymin: 434479.2 xmax: 429673.2 ymax: 435059.5</span>
-<span class="co">#&gt; projected CRS:  OSGB 1936 / British National Grid</span>
-<span class="co">#&gt; First 10 features:</span>
-<span class="co">#&gt;      osm_id  highway                       geometry</span>
-<span class="co">#&gt; 1   4371081  footway LINESTRING (429066.9 434784...</span>
-<span class="co">#&gt; 2   4371084 cycleway LINESTRING (429091.8 434741...</span>
-<span class="co">#&gt; 3   4419868  footway LINESTRING (429013 434780.2...</span>
-<span class="co">#&gt; 4   6962430  footway LINESTRING (429421.4 434797...</span>
-<span class="co">#&gt; 5   6962433  footway LINESTRING (429239.5 434903...</span>
-<span class="co">#&gt; 6   6962435  footway LINESTRING (429301.7 434875...</span>
-<span class="co">#&gt; 7   6962457  footway LINESTRING (429286.2 434678...</span>
-<span class="co">#&gt; 8  22951913  footway LINESTRING (429390.3 434611...</span>
-<span class="co">#&gt; 9  22951916  footway LINESTRING (429389 434589.4...</span>
-<span class="co">#&gt; 10 23000232  footway LINESTRING (429441.5 434527...</span>
-</pre></div>
-<p>The same procedure can be repeated using an ad-hoc <code>osmconf.ini</code> file and extra tags. These arguments are extremely important if you need to work with a small portion of a bigger <code>.pbf</code> file. For example, the following code (not run in the vignette) is used to extract all <code>primary</code>, <code>secondary</code> and <code>tertiary</code> roads from the <code>.pbf</code> file of Portugal stored by Geofabrik servers.</p>
-<p>It takes approximately 170 seconds to run on an HP ENVY Notebook with Intel i7-7500U processor and 8GB of RAM running Windows 10:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit">
-<span class="kw">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>)
-<span class="kw">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<span class="co">#&gt; projected CRS:  OSGB 1936 / British National Grid</span></pre></div>
+<p>The same procedure can be repeated using an ad-hoc <code>osmconf.ini</code> file.</p>
+<p>These arguments are fundamental if you need to work with a small portion of a bigger <code>.pbf</code> file. For example, the following code (not run in the vignette) is used to extract all <code>primary</code>, <code>secondary</code> and <code>tertiary</code> roads from the <code>.pbf</code> file of Portugal stored by Geofabrik servers. It takes approximately 170 seconds to run it using an HP ENVY Notebook with Intel i7-7500U processor and 8GB of RAM using Windows 10:</p>
+<div class="sourceCode" id="cb46"><pre class="downlit">
+<span class="va">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"-f"</span>, <span class="st">"GPKG"</span>, <span class="co">#output file format</span>
   <span class="st">"-overwrite"</span>, <span class="co"># overwrite an existing file</span>
-  <span class="st">"-oo"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"CONFIG_FILE="</span>, <span class="kw">my_osmconf_ini</span>), <span class="co"># open options</span>
   <span class="st">"-lco"</span>, <span class="st">"GEOMETRY_NAME=geometry"</span>, <span class="co"># layer creation options,</span>
   <span class="st">"-t_srs"</span>, <span class="st">"EPSG:27700"</span>, <span class="co"># British National Grid CRS</span>
   <span class="co"># SQL-like query where we select only the features where highway in (primary, secondary, tertiary)</span>
   <span class="st">"-where"</span>, <span class="st">"highway IN ('primary', 'secondary', 'tertiary')"</span>,
   <span class="st">"lines"</span> <span class="co">#layer</span>
-)
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="kw">portugal1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Portugal"</span>, vectortranslate_options = <span class="kw">my_vectortranslate</span>, quiet = <span class="fl">FALSE</span>)
-})
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="va">portugal1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Portugal"</span>, vectortranslate_options <span class="op">=</span> <span class="va">my_vectortranslate</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   96.30   58.97  166.75 </span>
-</pre></div>
+<span class="co">#&gt;   96.30   58.97  166.75 </span></pre></div>
 <p>while the classical approach (not run in the vignette) is slower and it provides identical results:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="kw">portugal2</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"Portugal"</span>, quiet = <span class="fl">FALSE</span>, force_download = <span class="fl">TRUE</span>, force_vectortranslate = <span class="fl">TRUE</span>)
-  <span class="kw">portugal2</span> <span class="op">=</span> <span class="kw">portugal2</span> <span class="op">%&gt;%</span> 
-    <span class="kw">dplyr</span>::<span class="fu">filter</span>(<span class="kw">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'primary'</span>, <span class="st">'secondary'</span>, <span class="st">'tertiary'</span>))
-})
+<div class="sourceCode" id="cb47"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="va">portugal2</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Portugal"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, force_download <span class="op">=</span> <span class="cn">TRUE</span>, force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="va">portugal2</span> <span class="op">=</span> <span class="va">portugal2</span> <span class="op">%&gt;%</span> 
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span><span class="va">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'primary'</span>, <span class="st">'secondary'</span>, <span class="st">'tertiary'</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt;   user  system elapsed </span>
 <span class="co">#&gt; 210.84   76.09  302.89</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">portugal1</span>) <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="kw">portugal2</span>)
-<span class="co">#&gt; TRUE</span>
-</pre></div>
-<p>The last example shows how to use the argument <code>-clipsrc</code> to clip the input layer using a bounding box or a polygon (defined as WKT, see <code><a href="https://rdrr.io/pkg/sf/man/st_as_text.html">sf::st_as_text()</a></code>). First I defined a polygon centered in the area around ITS Leeds and create its WKT representation</p>
-<div class="sourceCode" id="cb44"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">portugal1</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">portugal2</span><span class="op">)</span>
+<span class="co">#&gt; TRUE</span></pre></div>
+<p>The following example shows how to use the argument <code>-clipsrc</code> to clip the input data using a bounding box or a polygon (defined as WKT, see <code><a href="https://r-spatial.github.io/sf/reference/st_as_text.html">sf::st_as_text()</a></code>). First we need to define a polygon centered in the area around ITS Leeds and create its WKT representation:</p>
+<div class="sourceCode" id="cb48"><pre class="downlit">
 <span class="co"># Define a really small POLYGON in the area of ITS Leeds</span>
-<span class="kw">its_small_poly</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(
-  <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_polygon</a></span>(
-    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(
-        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.559184</span>, <span class="fl">53.807739</span>), 
-        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.557895</span>, <span class="fl">53.807571</span>), 
-        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.557375</span>, <span class="fl">53.808094</span>), 
-        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.558524</span>, <span class="fl">53.808192</span>),
-        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.559184</span>, <span class="fl">53.807739</span>)
-      )
-    )
-  )
-)
-<span class="kw">its_small_wkt</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_as_text.html">st_as_text</a></span>(<span class="kw">its_small_poly</span>)
-</pre></div>
-<p>then I define the <code>vectortranslate_options</code></p>
-<div class="sourceCode" id="cb45"><pre class="downlit">
-<span class="kw">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>)
-<span class="kw">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<span class="va">its_small_poly</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_polygon</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.559184</span>, <span class="fl">53.807739</span><span class="op">)</span>, 
+        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.557895</span>, <span class="fl">53.807571</span><span class="op">)</span>, 
+        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.557375</span>, <span class="fl">53.808094</span><span class="op">)</span>, 
+        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.558524</span>, <span class="fl">53.808192</span><span class="op">)</span>,
+        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.559184</span>, <span class="fl">53.807739</span><span class="op">)</span>
+      <span class="op">)</span>
+    <span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span>
+<span class="va">its_small_wkt</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_text.html">st_as_text</a></span><span class="op">(</span><span class="va">its_small_poly</span><span class="op">)</span></pre></div>
+<p>Then we set the <code>vectortranslate_options</code>:</p>
+<div class="sourceCode" id="cb49"><pre class="downlit">
+<span class="va">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"-f"</span>, <span class="st">"GPKG"</span>, <span class="co">#output file format</span>
   <span class="st">"-overwrite"</span>, <span class="co"># overwrite an existing file</span>
-  <span class="st">"-oo"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"CONFIG_FILE="</span>, <span class="kw">my_osmconf_ini</span>), <span class="co"># open options</span>
   <span class="st">"-lco"</span>, <span class="st">"GEOMETRY_NAME=geometry"</span>, <span class="co"># layer creation options</span>
-  <span class="st">"-clipsrc"</span>, <span class="kw">its_small_wkt</span>,
+  <span class="st">"-clipsrc"</span>, <span class="va">its_small_wkt</span>,
   <span class="st">"lines"</span> <span class="co">#layer</span>
-)
-</pre></div>
+<span class="op">)</span></pre></div>
 <p>and run <code><a href="../reference/oe_get.html">oe_get()</a></code>:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit">
-<span class="kw">its_small_sf</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
+<div class="sourceCode" id="cb50"><pre class="downlit">
+<span class="va">its_small_sf</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
   <span class="st">"ITS Leeds"</span>, 
-  provider = <span class="st">"test"</span>, 
-  vectortranslate_options = <span class="kw">my_vectortranslate</span>, 
-  quiet = <span class="fl">FALSE</span>
-)
+  vectortranslate_options <span class="op">=</span> <span class="va">my_vectortranslate</span>, 
+  quiet <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span>
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 5 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.559064 ymin: 53.80772 xmax: -1.55752 ymax: 53.80814</span>
 <span class="co">#&gt; geographic CRS: WGS 84</span>
-<span class="fu"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(<span class="kw">its_small_sf</span>[<span class="st">"osm_id"</span>])
-</pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-46-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>If you compare this plot with the figure at the beginning of this Subsection, you can see that it represents a small part of the streets in the middle-left of the plot.</p>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">its_small_sf</span><span class="op">[</span><span class="st">"osm_id"</span><span class="op">]</span><span class="op">)</span></pre></div>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-50-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>The plot above represents a small portion of the ITS Leeds area:</p>
+<div class="sourceCode" id="cb51"><pre class="downlit">
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">its_lines</span><span class="op">[</span><span class="st">"osm_id"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span>, reset <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">its_small_poly</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-51-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This approach is faster than translating, reading and applying a spatial filter to a full <code>.pbf</code> file, especially for larger areas. For example (not run in the vignette):</p>
-<div class="sourceCode" id="cb47"><pre class="downlit">
+<div class="sourceCode" id="cb52"><pre class="downlit">
 <span class="co"># Define a 15Km circular buffer around Rome</span>
-<span class="kw">rome_buffer</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/geos_unary.html">st_buffer</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">291187</span>, <span class="fl">4640996</span>)), <span class="fl">15000</span>), crs = <span class="fl">32633</span>) <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(crs = <span class="fl">4326</span>)
+<span class="va">rome_buffer</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_buffer</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">291187</span>, <span class="fl">4640996</span><span class="op">)</span><span class="op">)</span>, <span class="fl">15000</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">32633</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
 
 <span class="co"># vectortranslate approach</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="kw">rome_buffer_wkt</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_as_text.html">st_as_text</a></span>(<span class="kw">rome_buffer</span>)
-  <span class="kw">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"osmconf.ini"</span>, package = <span class="st">"osmextract"</span>)
-  <span class="kw">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="va">rome_buffer_wkt</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_text.html">st_as_text</a></span><span class="op">(</span><span class="va">rome_buffer</span><span class="op">)</span>
+  <span class="va">my_osmconf_ini</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"osmconf.ini"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>
+  <span class="va">my_vectortranslate</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   <span class="st">"-f"</span>, <span class="st">"GPKG"</span>, <span class="co">#output file format</span>
   <span class="st">"-overwrite"</span>, <span class="co"># overwrite an existing file</span>
-  <span class="st">"-oo"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"CONFIG_FILE="</span>, <span class="kw">my_osmconf_ini</span>), <span class="co"># open options</span>
   <span class="st">"-lco"</span>, <span class="st">"GEOMETRY_NAME=geometry"</span>, <span class="co"># layer creation options</span>
-  <span class="st">"-clipsrc"</span>, <span class="kw">rome_buffer_wkt</span>,
+  <span class="st">"-clipsrc"</span>, <span class="va">rome_buffer_wkt</span>,
   <span class="st">"lines"</span> <span class="co">#layer</span>
-  )
-  <span class="kw">rome1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
-    <span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">291187</span>, <span class="fl">4640996</span>)), crs = <span class="fl">32633</span>), 
-    force_download = <span class="fl">TRUE</span>, 
-    quiet = <span class="fl">FALSE</span>, 
-    vectortranslate_options = <span class="kw">my_vectortranslate</span>
-  )
-})
-<span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;  109.26  110.10  274.10 </span>
+  <span class="op">)</span>
+  <span class="va">rome1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">291187</span>, <span class="fl">4640996</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">32633</span><span class="op">)</span>, 
+    force_download <span class="op">=</span> <span class="cn">TRUE</span>, 
+    quiet <span class="op">=</span> <span class="cn">FALSE</span>, 
+    vectortranslate_options <span class="op">=</span> <span class="va">my_vectortranslate</span>
+  <span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
+<span class="co">#&gt;    user   system  elapsed </span>
+<span class="co">#&gt;   71.36    69.95   162.36</span>
 
 <span class="co"># Classical approach</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="kw">center_italy</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
-    <span class="fu"><a href="https://rdrr.io/pkg/sf/man/sfc.html">st_sfc</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st.html">st_point</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">291187</span>, <span class="fl">4640996</span>)), crs = <span class="fl">32633</span>), 
-    quiet = <span class="fl">FALSE</span>, 
-    force_download = <span class="fl">TRUE</span>, 
-    force_vectortranslate = <span class="fl">TRUE</span>
-  )
-  <span class="kw">rome2</span> <span class="op">=</span> <span class="kw">center_italy</span>[<span class="kw">rome_buffer</span>, ]
-})
-<span class="co">#&gt;   user  system elapsed </span>
-<span class="co">#&gt; 207.78   90.58  322.94 </span>
-</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="va">center_italy</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">291187</span>, <span class="fl">4640996</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">32633</span><span class="op">)</span>, 
+    quiet <span class="op">=</span> <span class="cn">FALSE</span>, 
+    force_download <span class="op">=</span> <span class="cn">TRUE</span>, 
+    force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>
+  <span class="op">)</span>
+  <span class="va">rome2</span> <span class="op">=</span> <span class="va">center_italy</span><span class="op">[</span><span class="va">rome_buffer</span>, <span class="op">]</span>
+<span class="op">}</span><span class="op">)</span>
+<span class="co">#&gt;    user  system  elapsed </span>
+<span class="co">#&gt;  119.59   56.94   251.75</span></pre></div>
 <p>Please notice the following warning message that may be returned by <code>ogr2ogr</code> with argument <code>-clipsrc</code>:</p>
-<pre><code>Warning message:
-In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
-  GDAL Message 1: A geometry of type MULTILINESTRING is inserted into layer lines of geometry type LINESTRING, which is not normally allowed by the GeoPackage specification, but the driver will however do it. To create a conformant GeoPackage, if using ogr2ogr, the -nlt option can be used to override the layer geometry type. This warning will no longer be emitted for this combination of layer and feature geometry type.</code></pre>
-<!-- I think that the errors returned by `sf::gdal_utils()` and `ogr2ogr2` are usually hard to understand and non-informative, so I suggest you start building your own vectortranslate options from these examples, changing only one step at a time.  -->
+<blockquote>
+<p>Warning message: In CPL_gdalvectortranslate(source, destination, options, oo, doo) : GDAL Message 1: A geometry of type MULTILINESTRING is inserted into layer lines of geometry type LINESTRING, which is not normally allowed by the GeoPackage specification, but the driver will however do it. To create a conformant GeoPackage, if using ogr2ogr, the -nlt option can be used to override the layer geometry type. This warning will no longer be emitted for this combination of layer and feature geometry type.</p>
+</blockquote>
 </div>
 <div id="query" class="section level3">
 <h3 class="hasAnchor">
 <a href="#query" class="anchor"></a><code>query</code>
 </h3>
-<p>The main drawback of the vectortranslate approach is that you need to rerun the <code>ogr2ogr</code> utility every time you change your query. This is probably the optimal approach if you are working with very big <code>.pbf</code> files (like continent-scale), but, if you are dealing with smaller data, the easier (and perhaps faster) solution may be converting all the fields and all the features from the <code>.pbf</code> file into <code>.gpkg</code> format and then using the <code>query</code> parameter of <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">sf::st_read()</a></code>. See <a href="https://gdal.org/user/ogr_sql_dialect.html">here</a> for more details on the SQL dialect.</p>
-<p>For example, the following code is used to calculate the values stored in the <code>highway</code> column for the ITS test data:</p>
-<div class="sourceCode" id="cb49"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
-  <span class="st">"ITS Leed"</span>, 
-  provider = <span class="st">"test"</span>, 
-  query = <span class="st">"SELECT DISTINCT highway FROM \"lines\""</span>, 
-  force_vectortranslate = <span class="fl">TRUE</span> <span class="co"># Clean the spatial query applied by previous chunks</span>
-)
+<p>The main drawback of the vectortranslate approach is that you need to rerun the <code>ogr2ogr</code> utility every time you change your query. If you are dealing with medium-size <code>.osm.pbf</code> data, the easier (and perhaps faster) solution may be converting all the fields and all the features from <code>.pbf</code> to <code>.gpkg</code> format, and then use the <code>query</code> parameter from <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::st_read()</a></code>.</p>
+<p>For example, the following code is used to calculate the frequency table of the values stored in the <code>highway</code> column of ITS test data:</p>
+<div class="sourceCode" id="cb53"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
+  <span class="st">"ITS Leeds"</span>, 
+  query <span class="op">=</span> <span class="st">"SELECT DISTINCT highway FROM \"lines\""</span>, 
+  force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># Clean the spatial query applied before</span>
+<span class="op">)</span>
 <span class="co">#&gt;         highway</span>
 <span class="co">#&gt; 1       footway</span>
 <span class="co">#&gt; 2      cycleway</span>
@@ -810,63 +795,59 @@ In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
 <span class="co">#&gt; 10   trunk_link</span>
 <span class="co">#&gt; 11     tertiary</span>
 <span class="co">#&gt; 12         &lt;NA&gt;</span>
-<span class="co">#&gt; 13     corridor</span>
-</pre></div>
+<span class="co">#&gt; 13     corridor</span></pre></div>
 <p>The same <code>query</code> argument can be used to read-in only certain features, like all residential highways:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit">
-<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
+<div class="sourceCode" id="cb54"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
   <span class="st">"ITS Leeds"</span>,
-  provider = <span class="st">"test"</span>,
-  quiet = <span class="fl">FALSE</span>, 
-  query = <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('residential')"</span>
-)
+  quiet <span class="op">=</span> <span class="cn">FALSE</span>, 
+  query <span class="op">=</span> <span class="st">"SELECT * FROM 'lines' WHERE highway IN ('residential')"</span>
+<span class="op">)</span>
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpZ4uxWE/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpY3YPIo/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 21 features and 9 fields</span>
 <span class="co">#&gt; geometry type:  LINESTRING</span>
 <span class="co">#&gt; dimension:      XY</span>
 <span class="co">#&gt; bbox:           xmin: -1.561712 ymin: 53.80541 xmax: -1.548076 ymax: 53.80988</span>
-<span class="co">#&gt; geographic CRS: WGS 84</span>
-</pre></div>
-<p>Again, this is faster (check the following chunk of code, not evaluated in the vignette) and less memory intensive than reading-in the whole dataset and filtering with R. Computational efficiency is important when working with large OSM datasets provided by the package.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="kw">portugal1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
+<span class="co">#&gt; geographic CRS: WGS 84</span></pre></div>
+<p>This is faster and less memory intensive than reading-in the whole dataset and filtering with R. Computational efficiency is an important topic if you are working with large OSM datasets.</p>
+<div class="sourceCode" id="cb55"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="va">portugal1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
     <span class="st">"Portugal"</span>, 
-    quiet = <span class="fl">FALSE</span>, 
-    force_download = <span class="fl">TRUE</span>, 
-    force_vectortranslate = <span class="fl">TRUE</span>, 
-    query = <span class="st">"SELECT * from 'lines' WHERE highway IN ('primary', 'secondary', 'tertiary')"</span>
-  )
-})
+    quiet <span class="op">=</span> <span class="cn">FALSE</span>, 
+    force_download <span class="op">=</span> <span class="cn">TRUE</span>, 
+    force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, 
+    query <span class="op">=</span> <span class="st">"SELECT * from 'lines' WHERE highway IN ('primary', 'secondary', 'tertiary')"</span>
+  <span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt;    user  system elapsed </span>
 <span class="co">#&gt;   71.17   39.57  135.22 </span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>({
-  <span class="kw">portugal2</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
+  <span class="va">portugal2</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
     <span class="st">"Portugal"</span>, 
-    quiet = <span class="fl">FALSE</span>, 
-    force_download = <span class="fl">TRUE</span>, 
-    force_vectortranslate = <span class="fl">TRUE</span>, 
-  )
+    quiet <span class="op">=</span> <span class="cn">FALSE</span>, 
+    force_download <span class="op">=</span> <span class="cn">TRUE</span>, 
+    force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, 
+  <span class="op">)</span>
   
-  <span class="kw">portugal2</span> <span class="op">=</span> <span class="kw">portugal2</span> <span class="op">%&gt;%</span> 
-    <span class="kw">dplyr</span>::<span class="fu">filter</span>(<span class="kw">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'primary'</span>, <span class="st">'secondary'</span>, <span class="st">'tertiary'</span>))
-})
+  <span class="va">portugal2</span> <span class="op">=</span> <span class="va">portugal2</span> <span class="op">%&gt;%</span> 
+    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span><span class="va">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'primary'</span>, <span class="st">'secondary'</span>, <span class="st">'tertiary'</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;  116.05   44.28  190.00 </span>
-</pre></div>
+<span class="co">#&gt;  116.05   44.28  190.00 </span></pre></div>
 <p>Last but not least, we can use the function <code>hstore_get_value</code> to extract one of the tags saved in the <code>other_tags</code> column without using <code>ogr2ogr</code> and rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function::</p>
-<div class="sourceCode" id="cb52"><pre class="downlit">
+<div class="sourceCode" id="cb56"><pre class="downlit">
 <span class="co"># No extra tag</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span>
 
 <span class="co"># One extra tag</span>
-<span class="fu"><a href="../reference/oe_get_keys.html">oe_get_keys</a></span>(<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(<span class="st">"ITS Leeds"</span>, provider = <span class="st">"test"</span>, download_only = <span class="fl">TRUE</span>))
+<span class="fu"><a href="../reference/oe_get_keys.html">oe_get_keys</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "bicycle"             "foot"                "website"            </span>
 <span class="co">#&gt;  [4] "access"              "lanes"               "oneway"             </span>
 <span class="co">#&gt;  [7] "lit"                 "maxspeed"            "ref"                </span>
@@ -880,42 +861,21 @@ In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
 <span class="co">#&gt; [31] "tunnel"              "indoor"              "level"              </span>
 <span class="co">#&gt; [34] "maxheight"           "incline"             "bridge"             </span>
 <span class="co">#&gt; [37] "alt_name"            "turn:lanes:backward"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="fu"><a href="../reference/oe_get.html">oe_get</a></span>(
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span>
   <span class="st">"ITS Leeds"</span>, 
-  provider = <span class="st">"test"</span>, 
-  query = <span class="st">"SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines"</span>
-))
+  provider <span class="op">=</span> <span class="st">"test"</span>, 
+  query <span class="op">=</span> <span class="st">"SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines"</span>
+<span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "bicycle"   </span>
-<span class="co">#&gt; [11] "geometry"</span>
-</pre></div>
+<span class="co">#&gt; [11] "geometry"</span></pre></div>
 </div>
 </div>
 </div>
 <div id="other-providers" class="section level1">
 <h1 class="hasAnchor">
 <a href="#other-providers" class="anchor"></a>Other providers</h1>
-<!-- At present [`Geofabrik`](http://download.geofabrik.de/) and [`bbbike`](https://download.bbbike.org/osm/bbbike/) providers are supported. -->
-<!-- The following example shows a map created by using OSM data for Leeds:  -->
-<!-- ```{r, eval=FALSE} -->
-<!-- leeds = oe_get(place = "Leeds", provider = "bbbike", quiet = FALSE) -->
-<!-- names(leeds) -->
-<!-- #> [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"   "z_order"    "other_tags" "geometry"   -->
-<!-- plot(leeds$geometry) -->
-<!-- ``` -->
-<!-- ```{r, echo=FALSE} -->
-<!-- knitr::include_graphics("https://user-images.githubusercontent.com/1825120/87104595-46d8b180-c250-11ea-878f-8936c0a7bd30.png") -->
-<!-- ``` -->
-<p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. The second was <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The package can be extended to support additional providers, as seen in <a href="https://github.com/ITSLeeds/osmextract/commit/dc7d4ca5f62d8164901fa01863cae2cba3e0b213">code</a> that adds a working test provider.</p>
-<!-- Providers break the world into zones and, as described in the 'List providers' section above, these zones are represented as `sf` objects that summarize the most important characteristics of each geographic zone, such as the name and the url of the pbf file, as illustrated in the code chunk below. -->
-<!-- ```{r, eval = FALSE} -->
-<!-- names(geofabrik_zones) -->
-<!-- st_drop_geometry(geofabrik_zones[1:3, c(2, 8)]) -->
-<!-- bbbike_zones$name[1:20] -->
-<!-- ``` -->
-<!-- Behind the scenes, the function `oe_read()` is used to translate and read-in `.pbf` files using `sf::st_read()`. -->
-<!-- Various configuration options can be used to import additional columns from the `.pbf` files not imported by default, including `maxspeed`, `lanes` and `oneway` (the attributes to include can be set -->
-<!-- with `attributes` argument). -->
+<p>The package supports downloading, reading and extracting OpenStreetMap data from various providers. A list of providers can be found at <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">wiki.openstreetmap.org</a>. The first provider supported was <a href="http://download.geofabrik.de/">Geofabrik</a>. The second was <a href="https://download.bbbike.org/osm/bbbike/">bbbike</a>. The package can be extended to support additional providers, as seen in the following <a href="https://github.com/ITSLeeds/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16">commit</a> that adds a working provider.</p>
 <p>For information on adding new providers to the package, see the <a href="https://itsleeds.github.io/osmextract/articles/providers.html">providers vignette</a>.</p>
 </div>
 <div id="more-on-openstreetmap" class="section level1">
@@ -926,9 +886,17 @@ In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
 <div id="contributing-to-osm" class="section level1">
 <h1 class="hasAnchor">
 <a href="#contributing-to-osm" class="anchor"></a>Contributing to OSM</h1>
-<p>The final thing to say in this introductory vignette is that as a citizen-led project like Wikipedia, OSM relies on a participatory culture, where people not only consume but contribute data, to survive. On that note we urge anyone reading this to at least sign-up to get an OSM account at <a href="https://www.openstreetmap.org">osm.org</a>.</p>
-<p>We highly recommend contributing to the world’s geographic commons. The step from being a user to being a contributor of OSM data is a small one and can be highly rewarding. If you find any issues with OSM data, people in the OpenStreetMap will be very happy for you to correct the data. Once logged-in, you can contribute by using editors such as the excellent ID editor, which you can get to by zooming into anywhere you want at <a href="https://www.openstreetmap.org/">www.openstreetmap.org</a> and clicking “Edit”.</p>
+<p>The final thing to say in this introductory vignette is that as a citizen-led project like Wikipedia, OSM relies on a participatory culture, where people not only consume but contribute data, to survive. On that note, we urge anyone reading this to at least sign-up to get an OSM account at <a href="https://www.openstreetmap.org">osm.org</a>.</p>
+<p>We highly recommend contributing to the world’s geographic commons. The step from being a user to being a contributor to OSM data is a small one and can be highly rewarding. If you find any issues with OSM data, people in the OpenStreetMap will be very happy for you to correct the data. Once logged-in, you can contribute by using editors such as the excellent ID editor, which you can get to by zooming into anywhere you want at <a href="https://www.openstreetmap.org/">www.openstreetmap.org</a> and clicking “Edit”.</p>
 <p>To learn more about contributing to the amazing OSM community, we recommend checking out the <a href="https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3">OSM Beginners Guide</a>.</p>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Check the help page of the chosen provider to understand the meaning of the <code>level</code> field.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>The parameter <code>force_download</code> is used to override this behaviour.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Check the first paragraphs <a href="https://gdal.org/drivers/vector/osm.html">here</a> for more details.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
   </div>
 

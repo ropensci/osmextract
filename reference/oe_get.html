@@ -97,6 +97,9 @@ wrapped functions to understand the details behind all parameters." />
     <li>
       <a href="../articles/providers.html">Add new OpenStreetMap providers</a>
     </li>
+    <li>
+      <a href="../articles/providers_comparisons.html">Comparing the supported OSM providers</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -132,25 +135,25 @@ Check the introductory vignette, the examples and the help pages of the
 wrapped functions to understand the details behind all parameters.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>oe_get</span>(
-  <span class='kw'>place</span>,
-  layer = <span class='st'>"lines"</span>,
-  <span class='kw'>...</span>,
-  provider = <span class='st'>"geofabrik"</span>,
-  match_by = <span class='st'>"name"</span>,
-  max_string_dist = <span class='fl'>1</span>,
-  interactive_ask = <span class='fl'>FALSE</span>,
-  download_directory = <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span>(),
-  force_download = <span class='fl'>FALSE</span>,
-  max_file_size = <span class='fl'>5e+08</span>,
-  vectortranslate_options = <span class='kw'>NULL</span>,
-  osmconf_ini = <span class='kw'>NULL</span>,
-  extra_tags = <span class='kw'>NULL</span>,
-  force_vectortranslate = <span class='fl'>FALSE</span>,
-  download_only = <span class='fl'>FALSE</span>,
-  skip_vectortranslate = <span class='fl'>FALSE</span>,
-  quiet = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>oe_get</span><span class='op'>(</span>
+  <span class='va'>place</span>,
+  layer <span class='op'>=</span> <span class='st'>"lines"</span>,
+  <span class='va'>...</span>,
+  provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>,
+  match_by <span class='op'>=</span> <span class='st'>"name"</span>,
+  max_string_dist <span class='op'>=</span> <span class='fl'>1</span>,
+  interactive_ask <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  download_directory <span class='op'>=</span> <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span><span class='op'>(</span><span class='op'>)</span>,
+  force_download <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  max_file_size <span class='op'>=</span> <span class='fl'>5e+08</span>,
+  vectortranslate_options <span class='op'>=</span> <span class='cn'>NULL</span>,
+  osmconf_ini <span class='op'>=</span> <span class='cn'>NULL</span>,
+  extra_tags <span class='op'>=</span> <span class='cn'>NULL</span>,
+  force_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  download_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  skip_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,7 +174,7 @@ See Details and examples in <code><a href='oe_match.html'>oe_match()</a></code>.
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments that will be passed to <code><a href='https://rdrr.io/pkg/sf/man/st_read.html'>sf::st_read()</a></code>, like <code>query</code>
+      <td><p>Arguments that will be passed to <code><a href='https://r-spatial.github.io/sf/reference/st_read.html'>sf::st_read()</a></code>, like <code>query</code>
 or <code>stringsAsFactors</code>.  Check the introductory vignette to understand how
 to create your own (SQL-like) queries.</p></td>
     </tr>
@@ -233,7 +236,7 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
       <th>vectortranslate_options</th>
-      <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
+      <td><p>Options to pass to the <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code>
 argument <code>options</code>. Set by default. Check Details in the introductory
 vignette and in <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
@@ -246,9 +249,10 @@ in the resulting data frame. See documentation at
     </tr>
     <tr>
       <th>extra_tags</th>
-      <td><p>Which addition columns, corresponding to OSM tags,
-should be in the resulting dataset? <code>FALSE</code> by default. Check Details at
-<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code> .</p></td>
+      <td><p>Which addition columns, corresponding to OSM tags, should
+be in the resulting dataset? <code>FALSE</code> by default. Check Details at
+<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>. Ignored when <code>osmconf_ini</code> is
+not <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
@@ -290,7 +294,7 @@ is divided into 4 steps: 1) Matching the input <code>place</code> with the url o
 <code>.pbf</code> file; 2) download the <code>.pbf</code> file; 3) convert it into <code>.gpkg</code> format
 and 4) read-in the <code>.gpkg</code> file. The function <code><a href='oe_match.html'>oe_match()</a></code> is used to
 perform the first operation and the function <code><a href='oe_read.html'>oe_read()</a></code> (which is a
-wrapper around <code><a href='oe_download.html'>oe_download()</a></code>, <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='https://rdrr.io/pkg/sf/man/st_read.html'>sf::st_read()</a></code>)
+wrapper around <code><a href='oe_download.html'>oe_download()</a></code>, <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and <code><a href='https://r-spatial.github.io/sf/reference/st_read.html'>sf::st_read()</a></code>)
 performs the other three operations.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -299,43 +303,44 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download OSM extracts associated to a simple test.</span>
-<span class='kw'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, quiet = <span class='fl'>FALSE</span>)
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpLHuC9D/test_its-example.gpkg' using driver `GPKG'
+<span class='va'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpSrnN9p/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>its</span>)
-</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>its</span>))
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>its</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "sf"         "data.frame"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry_type.html'>st_geometry_type</a></span><span class='op'>(</span><span class='va'>its</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] LINESTRING
 #&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</div><div class='input'>
 <span class='co'># Get another layer from the test extract</span>
-<span class='kw'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, layer = <span class='st'>"points"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_geometry_type.html'>st_geometry_type</a></span>(<span class='kw'>its_points</span>))
+<span class='va'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, layer <span class='op'>=</span> <span class='st'>"points"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry_type.html'>st_geometry_type</a></span><span class='op'>(</span><span class='va'>its_points</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] POINT
 #&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</div><div class='input'>
 <span class='co'># Get the .osm.pbf and .gpkg file path</span>
-<span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, download_only = <span class='fl'>TRUE</span>)
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpLHuC9D/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, download_only = <span class='fl'>TRUE</span>, skip_vectortranslate = <span class='fl'>TRUE</span>)
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpLHuC9D/test_its-example.osm.pbf"</div><div class='input'>
+<span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpSrnN9p/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpSrnN9p/test_its-example.osm.pbf"</div><div class='input'><span class='co'># See also ?oe_find()</span>
+
 <span class='co'># Add additional tags</span>
-<span class='kw'>its_with_oneway</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, extra_tags = <span class='st'>"oneway"</span>, quiet = <span class='fl'>FALSE</span>)
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpLHuC9D/test_its-example.gpkg' using driver `GPKG'
+<span class='va'>its_with_oneway</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, extra_tags <span class='op'>=</span> <span class='st'>"oneway"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpSrnN9p/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>its_with_oneway</span>)
+#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>its_with_oneway</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
-#&gt; [11] "geometry"  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>its_with_oneway</span><span class='op'>$</span><span class='kw'>oneway</span>)
+#&gt; [11] "geometry"  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>its_with_oneway</span><span class='op'>$</span><span class='va'>oneway</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; yes 
 #&gt;  13 </div><div class='input'>
 <span class='co'># Use the query argument to get only oneway streets:</span>
-<span class='kw'>q</span> <span class='op'>=</span> <span class='st'>"SELECT * FROM 'lines' WHERE oneway IN ('yes')"</span>
-<span class='kw'>its_residential</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"ITS Leeds"</span>, query = <span class='kw'>q</span>)
-<span class='kw'>its_residential</span>
+<span class='va'>q</span> <span class='op'>=</span> <span class='st'>"SELECT * FROM 'lines' WHERE oneway IN ('yes')"</span>
+<span class='va'>its_residential</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, query <span class='op'>=</span> <span class='va'>q</span><span class='op'>)</span>
+<span class='va'>its_residential</span>
 </div><div class='output co'>#&gt; Simple feature collection with 13 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -386,18 +391,23 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 #&gt; 8  LINESTRING (-1.552181 53.80...
 #&gt; 9  LINESTRING (-1.553221 53.80...
 #&gt; 10 LINESTRING (-1.551952 53.80...</div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"West Yorkshire"</span>, quiet = <span class='fl'>FALSE</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># A more complex example</span>
+<span class='va'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"West Yorkshire"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='co'># If you run it again, the function will not download the file or convert it</span>
-<span class='kw'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(<span class='st'>"West Yorkshire"</span>, quiet = <span class='fl'>FALSE</span>)
-<span class='co'># match with coordinates (any EPSG)</span>
-<span class='kw'>milan_duomo</span> <span class='op'>=</span> <span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/sfc.html'>st_sfc</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st.html'>st_point</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1514924</span>, <span class='fl'>5034552</span>)), crs = <span class='fl'>3003</span>)
-<span class='co'># Warning: the .pbf file is 400MB</span>
-<span class='fu'>oe_get</span>(<span class='kw'>milan_duomo</span>, quiet = <span class='fl'>FALSE</span>)
-<span class='co'># match with numeric coordinates (EPSG = 4326)</span>
-<span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9.1916</span>, <span class='fl'>45.4650</span>), quiet = <span class='fl'>FALSE</span>)
-<span class='co'># alternative providers</span>
-<span class='kw'>baku</span> <span class='op'>=</span> <span class='fu'>oe_get</span>(place = <span class='st'>"Baku"</span>, provider = <span class='st'>"bbbike"</span>, quiet = <span class='fl'>FALSE</span>)}
+<span class='va'>west_yorkshire</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"West Yorkshire"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='co'># Match with coordinates (any EPSG)</span>
+<span class='va'>milan_duomo</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1514924</span>, <span class='fl'>5034552</span><span class='op'>)</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>3003</span><span class='op'>)</span>
+<span class='fu'>oe_get</span><span class='op'>(</span><span class='va'>milan_duomo</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='co'># Warning: the .pbf file is 400MB</span>
+<span class='co'># Match with numeric coordinates (EPSG = 4326)</span>
+<span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>9.1916</span>, <span class='fl'>45.4650</span><span class='op'>)</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='co'># Alternative providers</span>
+<span class='va'>baku</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span>place <span class='op'>=</span> <span class='st'>"Baku"</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='co'># Other examples:</span>
+<span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"RU"</span>, match_by <span class='op'>=</span> <span class='st'>"iso3166_1_alpha2"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"Andora"</span>, stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, as_tibble <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='co'># like read_sf</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

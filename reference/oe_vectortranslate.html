@@ -100,6 +100,9 @@ usage, and check the introductory vignette for more complex use-cases." />
     <li>
       <a href="../articles/providers.html">Add new OpenStreetMap providers</a>
     </li>
+    <li>
+      <a href="../articles/providers_comparisons.html">Comparing the supported OSM providers</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -132,21 +135,21 @@ usage, and check the introductory vignette for more complex use-cases." />
     <p>This function is used to translate a <code>.osm.pbf</code> file into <code>.gpkg</code> format.
 The conversion is performed using
 <a href='https://gdal.org/programs/ogr2ogr.html#ogr2ogr'>ogr2ogr</a> through
-<code>vectortranslate</code> utility in <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code> . It was created following
+<code>vectortranslate</code> utility in <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code> . It was created following
 <a href='https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053'>the suggestions</a>
 of the maintainers of GDAL. See Details and examples to understand the basic
 usage, and check the introductory vignette for more complex use-cases.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>oe_vectortranslate</span>(
-  <span class='kw'>file_path</span>,
-  layer = <span class='st'>"lines"</span>,
-  vectortranslate_options = <span class='kw'>NULL</span>,
-  osmconf_ini = <span class='kw'>NULL</span>,
-  extra_tags = <span class='kw'>NULL</span>,
-  force_vectortranslate = <span class='fl'>FALSE</span>,
-  quiet = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>oe_vectortranslate</span><span class='op'>(</span>
+  <span class='va'>file_path</span>,
+  layer <span class='op'>=</span> <span class='st'>"lines"</span>,
+  vectortranslate_options <span class='op'>=</span> <span class='cn'>NULL</span>,
+  osmconf_ini <span class='op'>=</span> <span class='cn'>NULL</span>,
+  extra_tags <span class='op'>=</span> <span class='cn'>NULL</span>,
+  force_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,7 +166,7 @@ usage, and check the introductory vignette for more complex use-cases.</p>
     </tr>
     <tr>
       <th>vectortranslate_options</th>
-      <td><p>Options to pass to the <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>
+      <td><p>Options to pass to the <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code>
 argument <code>options</code>. Set by default. Check Details in the introductory
 vignette and in <code>oe_vectortranslate()</code>.</p></td>
     </tr>
@@ -176,9 +179,10 @@ in the resulting data frame. See documentation at
     </tr>
     <tr>
       <th>extra_tags</th>
-      <td><p>Which addition columns, corresponding to OSM tags,
-should be in the resulting dataset? <code>FALSE</code> by default. Check Details at
-<code>oe_vectortranslate()</code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code> .</p></td>
+      <td><p>Which addition columns, corresponding to OSM tags, should
+be in the resulting dataset? <code>FALSE</code> by default. Check Details at
+<code>oe_vectortranslate()</code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>. Ignored when <code>osmconf_ini</code> is
+not <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
@@ -203,7 +207,7 @@ display a progress bar.</p></td>
 
     <p>The new <code>.gpkg</code> file is created in the same directory as the input
 <code>.osm.pbf</code> file. The translation process is performed using the
-<code>vectortranslate</code> utility in <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code>. This operation can be
+<code>vectortranslate</code> utility in <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code>. This operation can be
 customized in several ways modifying the parameters <code>layer</code>,
 <code>extra_tags</code>, <code>osmconf_ini</code>, and <code>vectortranslate_options</code>.</p>
 <p>The <code>.osm.pbf</code> files processed using GDAL are usually categorized into 5
@@ -245,7 +249,7 @@ Check the package introductory vignette for an example. If <code>osmconf_ini</co
 equal to <code>NULL</code> (the default), then the function uses default <code>osmconf.ini</code>
 file defined by GDAL (but for the extra tags).</p>
 <p>The parameter <code>vectortranslate_options</code> is used to control the arguments
-that are passed to <code>ogr2ogr</code> via <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code> when converting between
+that are passed to <code>ogr2ogr</code> via <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code> when converting between
 <code>.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations during
 the conversion process, such as spatial filters or SQL queries. These
 operations are determined by the <code>vectortranslate_options</code> argument. If
@@ -264,7 +268,7 @@ for the <code>.gpkg</code> file and modify the name of the geometry column;</p><
 <li><p><code>layer</code> indicates which layer should be converted.</p></li>
 </ul>
 
-<p>Check the introductory vignette, the help page of <code><a href='https://rdrr.io/pkg/sf/man/gdal_utils.html'>sf::gdal_utils()</a></code> and
+<p>Check the introductory vignette, the help page of <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code> and
 <a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for an extensive
 documentation on all available options.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -273,43 +277,43 @@ documentation on all available options.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># First we need to match an input zone with a .osm.pbf file</span>
-<span class='kw'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span>(<span class='st'>"ITS Leeds"</span>, provider = <span class='st'>"test"</span>)
+<span class='va'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span>
 <span class='co'># The we can download the .osm.pbf files</span>
-<span class='kw'>its_pbf</span> <span class='op'>=</span> <span class='fu'><a href='oe_download.html'>oe_download</a></span>(
-  file_url = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>url</span>,
-  file_size = <span class='kw'>its_match</span><span class='op'>$</span><span class='kw'>file_size</span>,
-  download_directory = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  provider = <span class='st'>"test"</span>
-)
+<span class='va'>its_pbf</span> <span class='op'>=</span> <span class='fu'><a href='oe_download.html'>oe_download</a></span><span class='op'>(</span>
+  file_url <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>url</span>,
+  file_size <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>file_size</span>,
+  download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
+  provider <span class='op'>=</span> <span class='st'>"test"</span>
+<span class='op'>)</span>
 <span class='co'># Check that the file was downloaded</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'><span class='co'># Convert to gpkg format</span>
-<span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(<span class='kw'>its_pbf</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), pattern = <span class='st'>"pbf|gpkg"</span>)
+<span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span><span class='va'>its_pbf</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'>
 <span class='co'># Check the layers of the .gpkg file</span>
-<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)
+<span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Driver: GPKG 
 #&gt; Available layers:
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
 #&gt; 2      lines   Line String      189     10</div><div class='input'><span class='co'># Add points layer</span>
-<span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(<span class='kw'>its_pbf</span>, layer = <span class='st'>"points"</span>)
-<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_layers.html'>st_layers</a></span>(<span class='kw'>its_gpkg</span>, do_count = <span class='fl'>TRUE</span>)
+<span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span><span class='va'>its_pbf</span>, layer <span class='op'>=</span> <span class='st'>"points"</span><span class='op'>)</span>
+<span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Driver: GPKG 
 #&gt; Available layers:
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
 #&gt; 2      lines   Line String      189     10</div><div class='input'>
 <span class='co'># Add extra tags to the lines layer</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
-#&gt; [11] "geometry"  </div><div class='input'><span class='kw'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span>(
-  <span class='kw'>its_pbf</span>,
-  extra_tags = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"oneway"</span>, <span class='st'>"maxspeed"</span>)
- )
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='kw'>sf</span>::<span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_read.html'>st_read</a></span>(<span class='kw'>its_gpkg</span>, layer = <span class='st'>"lines"</span>, quiet = <span class='fl'>TRUE</span>))
+#&gt; [11] "geometry"  </div><div class='input'><span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span>
+  <span class='va'>its_pbf</span>,
+  extra_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"oneway"</span>, <span class='st'>"maxspeed"</span><span class='op'>)</span>
+ <span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "maxspeed"   "z_order"   
 #&gt; [11] "other_tags" "geometry"  </div><div class='input'><span class='co'># Check the introductory vignette for more complex examples.</span>

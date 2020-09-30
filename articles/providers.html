@@ -53,6 +53,9 @@
 <li>
       <a href="../articles/providers.html">Add new OpenStreetMap providers</a>
     </li>
+    <li>
+      <a href="../articles/providers_comparisons.html">Comparing the supported OSM providers</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -86,50 +89,62 @@
 
     
     
+<p>This vignette aims to provide a simple guide on adding a new provider to <code>osmextract</code>. Let’ start loading the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span><span class="op">)</span>
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
 <span class="co">#&gt; Any product made from OpenStreetMap must cite OSM as the data source.</span>
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
 <span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
-<span class="co">#&gt; OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/</span>
-</pre></div>
-<p>As of summer 2020 there are 7 services providing bulk OSM datasets listed <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">here</a>. This package is designed to make it easy to add new providers. To add a new provider there are three main steps, creating the zones, adding the provider and documentation, outlined below.</p>
+<span class="co">#&gt; OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/</span></pre></div>
+<p>As of summer 2020, there are several services providing bulk OSM datasets listed <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers">here</a> and <a href="https://wiki.openstreetmap.org/wiki/Planet.osm#Country_and_area_extracts">here</a>. At the moment, we support the following providers:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</span>
+<span class="co">#&gt;   available_providers          database_name number_of_zones number_of_fields</span>
+<span class="co">#&gt; 1           geofabrik        geofabrik_zones             430               14</span>
+<span class="co">#&gt; 2              bbbike           bbbike_zones             235               10</span>
+<span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             835                6</span></pre></div>
+<p>Check the “Comparing the supported OSM providers” for more details on the existing providers.</p>
+<p>This package is designed to make it easy to add new providers. There are three main steps to add a new provider: creating the zones, adding the provider and documenting it. They are outlined below.</p>
 <div id="adding-a-provider_zones-object-to-the-package" class="section level1">
 <h1 class="hasAnchor">
 <a href="#adding-a-provider_zones-object-to-the-package" class="anchor"></a>Adding a <code>provider_zones</code> object to the package</h1>
-<p>The first and hardest step is to create an R object analogous to the <code>test_zones</code> object shown below:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw">test_zones</span>)
+<p>The first and hardest step is to create an <code>sf</code> object analogous to the <code>test_zones</code> object shown below:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">)</span>
 <span class="co">#&gt; [1] "id"            "name"          "parent"        "level"        </span>
 <span class="co">#&gt; [5] "pbf_file_size" "pbf"           "geometry"</span>
-<span class="kw">test_zones</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">6</span>)]
-<span class="co">#&gt;              name</span>
-<span class="co">#&gt; 149 Isle of Wight</span>
-<span class="co">#&gt; 2       ITS Leeds</span>
-<span class="co">#&gt;                                                                                                       pbf</span>
-<span class="co">#&gt; 149 https://github.com/ITSLeeds/osmextract/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf</span>
-<span class="co">#&gt; 2                              https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf</span>
-</pre></div>
-<p>The output shows the three most important column names in dataset:</p>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; Classes 'sf' and 'data.frame':   2 obs. of  3 variables:</span>
+<span class="co">#&gt;  $ name    : chr  "Isle of Wight" "ITS Leeds"</span>
+<span class="co">#&gt;  $ pbf     : chr  "https://github.com/ITSLeeds/osmextract/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf" "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"</span>
+<span class="co">#&gt;  $ geometry:sfc_GEOMETRY of length 2; first list element: List of 1</span>
+<span class="co">#&gt;   ..$ :List of 1</span>
+<span class="co">#&gt;   .. ..$ : num [1:7, 1:2] -1.25 -1.03 -1.11 -1.31 -1.66 ...</span>
+<span class="co">#&gt;   ..- attr(*, "class")= chr [1:3] "XY" "MULTIPOLYGON" "sfg"</span>
+<span class="co">#&gt;  - attr(*, "sf_column")= chr "geometry"</span>
+<span class="co">#&gt;  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "name" "pbf"</span></pre></div>
+<p>The output shows the three most important column names:</p>
 <ol style="list-style-type: decimal">
-<li>The dataset name (that is used for matching the input <code>place</code>)</li>
-<li>The url endpoint where <code>.pbf</code> files associated with each zone can be downloaded</li>
-<li>The geometry, representing the spatial extent of the dataset</li>
+<li>The zone <code>name</code> (that is used for matching the input <code>place</code>, see <code><a href="../reference/oe_match.html">oe_match()</a></code>);</li>
+<li>The URL endpoint where <code>.pbf</code> files associated with each zone can be downloaded;</li>
+<li>The geometry, representing the spatial extent of the dataset.</li>
 </ol>
-<p>You also must include <code>level</code> and <code>id</code> fields, which are used, respectively, for spatial matching and updating files. See <a href="https://itsleeds.github.io/osmextract/reference/oe_match.html">oe_match()</a> and <a href="https://itsleeds.github.io/osmextract/reference/oe_update.html">oe_update()</a>.</p>
-<p>The best way to start creating a new <code>_zones</code> object for a new provider is probably by looking at the code we wrote for the first and <a href="https://github.com/ITSLeeds/osmextract/commit/dc7d4ca5f62d8164901fa01863cae2cba3e0b213">test</a> providers in <a href="https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R"><code>data-raw/geofabrik_zones.R</code></a> The following commands will clone this repo and open the relevant file:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> clone git@github.com:itsleeds/osmextract</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
+<p>The object must also include the fields <code>level</code> and <code>id</code>, which are used, respectively, for spatial matching and updating. See <code><a href="../reference/oe_match.html">oe_match()</a></code> and <code><a href="../reference/oe_update.html">oe_update()</a></code>.</p>
+<p>The best way to start creating a new <code>_zones</code> object for a new provider is probably by looking at the code we wrote for the first supported provider in <a href="https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R"><code>data-raw/geofabrik_zones.R</code></a>. The following commands will clone this repo and open the relevant file:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">git</span> clone git@github.com:itsleeds/osmextract</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
 <p>Then in RStudio:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html">file.edit</a></span>(<span class="st">"data-raw/geofabrik_zones.R"</span>)
-</pre></div>
-<p>Create a new script to document the code that generates the new object, e.g. for <code>bbbike</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html">file.edit</a></span>(<span class="st">"data-raw/bbbike_zones.R"</span>)
-</pre></div>
-<p>After you have created the new provider <code>_zones</code> file it’s time to add the provider to the package.</p>
+<span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/geofabrik_zones.R"</span><span class="op">)</span></pre></div>
+<p>Create a new script to document the code that generates the new object, e.g. for <code>bbbike</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/bbbike_zones.R"</span><span class="op">)</span>
+<span class="co"># or, even better, use</span>
+<span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_data_raw</span><span class="op">(</span><span class="st">"bbbike_zones"</span><span class="op">)</span></pre></div>
+<p>After you have created the new provider <code>_zones</code> file, it’s time to add the provider to the package.</p>
 </div>
 <div id="adding-the-new-provider-to-the-package" class="section level1">
 <h1 class="hasAnchor">
@@ -147,12 +162,12 @@
 <div id="documenting-the-provider" class="section level1">
 <h1 class="hasAnchor">
 <a href="#documenting-the-provider" class="anchor"></a>Documenting the provider</h1>
-<p>The final step is also the most fun: documenting and using the provider. Add an example, mention it in the README and tell others about what this new provider can do!</p>
+<p>The final step is also the most fun: documenting and using the provider. Add an example, mention it in the README and tell others about what this new provider can do! If you want to ask for help on adding a new provider, feel free to open in a new issue in the <a href="https://github.com/ITSLeeds/osmextract">github repository</a>!</p>
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h1>
-<p>This vignette talks through the main steps needed to extend <code>osmextract</code> by adding new OSM data providers. To see the same information in code form, see the PR that implemented the <code>bbike</code> provider here: <a href="https://github.com/ITSLeeds/osmextract/pull/57/files" class="uri">https://github.com/ITSLeeds/osmextract/pull/57/files</a></p>
+<p>This vignette talks through the main steps needed to extend <code>osmextract</code> by adding new OSM data providers. To see the same information in code form, see the PR that implemented the <code>openstreetmap_fr</code> provider here: <a href="https://github.com/ITSLeeds/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16" class="uri">https://github.com/ITSLeeds/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16</a></p>
 </div>
   </div>
 

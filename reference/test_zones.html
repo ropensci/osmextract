@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check patterns in the provider's databases — oe_match_pattern • osmextract</title>
+<title>An sf object of geographical zones taken from download.openstreetmap.fr — test_zones • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="Check patterns in the provider's databases — oe_match_pattern" />
-<meta property="og:description" content="This function is used to explore the provider's databases and look for
-patterns. This function can be useful in combination with oe_match() and
-oe_get() for an easy match. See examples." />
+<meta property="og:title" content="An sf object of geographical zones taken from download.openstreetmap.fr — test_zones" />
+<meta property="og:description" content="This object represent a minimal provider's database and it should be used
+only for examples and tests." />
 
 
 
@@ -122,66 +121,23 @@ oe_get() for an easy match. See examples." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check patterns in the provider's databases</h1>
-    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/match.R'><code>R/match.R</code></a></small>
-    <div class="hidden name"><code>oe_match_pattern.Rd</code></div>
+    <h1>An <code>sf</code> object of geographical zones taken from download.openstreetmap.fr</h1>
+    <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>test_zones.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is used to explore the provider's databases and look for
-patterns. This function can be useful in combination with <code><a href='oe_match.html'>oe_match()</a></code> and
-<code><a href='oe_get.html'>oe_get()</a></code> for an easy match. See examples.</p>
+    <p>This object represent a minimal provider's database and it should be used
+only for examples and tests.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>oe_match_pattern</span><span class='op'>(</span>
-  <span class='va'>pattern</span>,
-  provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>,
-  match_by <span class='op'>=</span> <span class='st'>"name"</span>,
-  full_row <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>test_zones</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>pattern</th>
-      <td><p>Character string representing the pattern that should be
-explored.</p></td>
-    </tr>
-    <tr>
-      <th>provider</th>
-      <td><p>Which provider should be used? Check a summary of all
-available providers with <code><a href='oe_providers.html'>oe_providers()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>match_by</th>
-      <td><p>Column name of the provider's database that will be used to
-find the match.</p></td>
-    </tr>
-    <tr>
-      <th>full_row</th>
-      <td><p>Boolean. Return all columns for the matching rows? <code>FALSE</code> by
-default.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A character vector or a subset of the provider's database.</p>
+    <p>An object of class <code>sf</code> (inherits from <code>data.frame</code>) with 2 rows and 7 columns.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"Yorkshire"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>}</span>
-<span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"         
-#&gt; [3] "South Yorkshire"          "West Yorkshire"          </div><div class='input'>
-<span class='va'>res</span> <span class='op'>=</span> <span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span>, full_row <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_drop_geometry</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;                           id                     name  parent
-#&gt; 94  east-yorkshire-with-hull East Yorkshire with Hull england
-#&gt; 245          north-yorkshire          North Yorkshire england
-#&gt; 315          south-yorkshire          South Yorkshire england
-#&gt; 420           west-yorkshire           West Yorkshire england</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
