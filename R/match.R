@@ -78,7 +78,7 @@ oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
 
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.default = function(place, ...) {
   stop(
@@ -90,7 +90,7 @@ oe_match.default = function(place, ...) {
 }
 
 #' @inheritParams oe_get
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.sfc_POINT = function(
   place,
@@ -117,7 +117,7 @@ oe_match.sfc_POINT = function(
 
   # Spatial subset according to sf::st_intersects (maybe add a parameter for
   # that)
-  matched_zones = provider_data[place, ]
+  matched_zones = provider_data[place, op = sf::st_intersects]
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
@@ -130,7 +130,7 @@ oe_match.sfc_POINT = function(
     if (isFALSE(quiet)) {
       message(
         "The input place was matched with multiple geographical areas. ",
-        "Selecting the areas with the highest \"level\". See the help page ",
+        "Selecting the areas with the highest \"level\". See the help page",
         " associated to the chosen provider for an explanation of the ",
         "meaning of the \"level\" field"
       )
@@ -171,7 +171,7 @@ oe_match.sfc_POINT = function(
 }
 
 #' @inheritParams oe_get
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.numeric = function(
   place,
@@ -195,15 +195,15 @@ oe_match.numeric = function(
 }
 
 #' @inheritParams oe_get
-#' @rdname oe_match
+#' @name oe_match
 #' @export
 oe_match.character = function(
   place,
   provider = "geofabrik",
+  quiet = TRUE,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  quiet = TRUE,
   ...
   ) {
   # For the moment we support only length-one character vectors

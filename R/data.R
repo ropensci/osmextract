@@ -1,4 +1,4 @@
-#' A `data.frame` of geographical zones taken from Geofabrik
+#' An `sf` object of geographical zones taken from Geofabrik
 #'
 #' An `sf` object containing the URLs, names and file-sizes of the OSM
 #' extracts stored at <https://download.geofabrik.de/>. You can read more
@@ -59,7 +59,6 @@
 #'
 #' @family provider's-database
 #' @source <https://download.geofabrik.de/>
-#' @aliases test_zones
 "geofabrik_zones"
 
 #' An `sf` object of geographical zones taken from bbbike.org
@@ -116,6 +115,12 @@
 #' @family provider's-database
 #' @source \url{https://download.bbbike.org/osm/}
 "openstreetmap_fr_zones"
+
+#' An `sf` object of geographical zones taken from download.openstreetmap.fr
+#'
+#' This object represent a minimal provider's database and it should be used
+#' only for examples and tests.
+"test_zones"
 
 
 

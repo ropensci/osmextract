@@ -114,6 +114,7 @@ oe_download = function(
       !is.na(file_size) &&
       file_size >= max_file_size
     ) {
+      message("You are trying to download a file from ", file_url)
       message("This is a large file (", round(file_size / 1048576), " MB)!")
       continue = utils::menu(
         choices = c("Yes", "No"),

@@ -6,6 +6,7 @@ oe_available_providers = function() {
     "test",
     "bbbike",
     "openstreetmap_fr"
+    # "another_provider"
   )
 }
 
@@ -70,7 +71,7 @@ oe_providers = function(quiet = FALSE) {
   if (isFALSE(quiet)) {
     message(
       "Check the corresponding help pages to read more details about the ",
-      "fields in each database"
+      "fields in each database (e.g. ?geofabrik_zones)"
     )
   }
 

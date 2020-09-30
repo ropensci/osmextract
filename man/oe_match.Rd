@@ -19,10 +19,10 @@ oe_match(place, ...)
 \method{oe_match}{character}(
   place,
   provider = "geofabrik",
+  quiet = TRUE,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,
-  quiet = TRUE,
   ...
 )
 }

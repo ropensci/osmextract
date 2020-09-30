@@ -62,6 +62,7 @@ library(osmextract)
 #> Any product made from OpenStreetMap must cite OSM as the data source.
 #> Geofabrik data are taken from https://download.geofabrik.de/
 #> For usage details of bbbike data see https://download.bbbike.org/osm/
+#> OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/
 ```
 
 ``` r
@@ -113,7 +114,7 @@ Load the package with:
 library(osmextract)
 ```
 
-To use alongside functionality in the `sf` package we also recommend
+To use alongside functionality in the `sf` package, we also recommend
 attaching this geographic data package as follows:
 
 ``` r
@@ -129,18 +130,19 @@ names in the specified provider
 If the name you give it matches a place, it will download and import the
 associated data into R. The function `oe_get()` downloads (if not
 already downloaded) and reads-in data from OSM extract providers as an
-`sf` object. By default `oe_get()` imports the ‘lines’ layer, but any
+`sf` object. By default `oe_get()` imports the `lines` layer, but any
 layer can be read-in by changing the `layer` argument:
 
 ``` r
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
 nrow(osm_lines)
-#> [1] 44849
+#> [1] 45154
 nrow(osm_points)
-#> [1] 59009
-plot(osm_lines$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
-plot(osm_points$geometry, xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
+#> [1] 59129
+par(mar = rep(0, 4))
+plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
+plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 ```
 
 <img src="man/figures/README-points-lines-iow-1.png" width="50%" /><img src="man/figures/README-points-lines-iow-2.png" width="50%" />
@@ -170,11 +172,13 @@ plot(osm_major_roads["highway"], key.pos = 1)
 <img src="man/figures/README-iow1-1.png" width="100%" />
 
 The same steps can be used to get other OSM datasets (note use of `quiet
-= FALSE` to show additional message, examples, not run):
+= FALSE` to show additional message, examples not run):
 
 ``` r
 test_malta = oe_get("Malta", quiet = FALSE)
 test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
+test_leeds <- oe_get("Leeds", provider = "bbbike", quiet = FALSE)
+test_india_region <- oe_get("Goa", provider = "openstreetmap_fr", quiet = FALSE)
 ```
 
 For further details on using the package, see the [Introducing
@@ -208,7 +212,7 @@ oe_download_directory()
 
 ## Warnings:
 
-The functions may return a Warning message like
+The functions may return a warning message like
 
     st_crs<- : replacing crs does not reproject data; use st_transform for that 
 

@@ -14,32 +14,45 @@ knitr::opts_chunk$set(
 )
 ```
 
+This vignette aims to provide a simple guide on adding a new provider to `osmextract`. 
+Let' start loading the package: 
+
 ```{r setup}
 library(osmextract)
 ```
 
-As of summer 2020 there are 7 services providing bulk OSM datasets listed  [here](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
-This package is designed to make it easy to add new providers.
-To add a new provider there are three main steps, creating the zones, adding the provider and documentation, outlined below.
+As of summer 2020, there are several services providing bulk OSM datasets listed  [here](https://wiki.openstreetmap.org/wiki/Processed_data_providers) and [here](https://wiki.openstreetmap.org/wiki/Planet.osm#Country_and_area_extracts). 
+At the moment, we support the following providers: 
+
+```{r}
+oe_providers()
+```
+
+Check the "Comparing the supported OSM providers" for more details on the existing providers. 
+
+This package is designed to make it easy to add new providers. 
+There are three main steps to add a new provider: creating the zones, adding the provider and documenting it. 
+They are outlined below. 
 
 # Adding a `provider_zones` object to the package
 
-The first and hardest step is to create an R object analogous to the `test_zones` object shown below:
+The first and hardest step is to create an `sf` object analogous to the `test_zones` object shown below:
 
 ```{r}
 names(test_zones)
-test_zones[c(2, 6)]
+str(test_zones[, c(2, 6, 7)])
 ```
 
-The output shows the three most important column names in dataset:
+The output shows the three most important column names:
 
-1. The dataset name (that is used for matching the input `place`)
-2. The url endpoint where `.pbf` files associated with each zone can be downloaded
-3. The geometry, representing the spatial extent of the dataset
+1. The zone `name` (that is used for matching the input `place`, see `oe_match()`); 
+1. The URL endpoint where `.pbf` files associated with each zone can be downloaded; 
+1. The geometry, representing the spatial extent of the dataset.
 
-You also must include `level` and `id` fields, which are used, respectively, for spatial matching and updating files. See [oe_match()](https://itsleeds.github.io/osmextract/reference/oe_match.html) and [oe_update()](https://itsleeds.github.io/osmextract/reference/oe_update.html). 
+The object must also include the fields `level` and `id`, which are used, respectively, for spatial matching and updating. 
+See `oe_match()` and `oe_update()`. 
 
-The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first and [test](https://github.com/ITSLeeds/osmextract/commit/dc7d4ca5f62d8164901fa01863cae2cba3e0b213) providers in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R)
+The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first supported provider in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R). 
 The following commands will clone this repo and open the relevant file:
 
 ```bash
@@ -56,9 +69,11 @@ Create a new script to document the code that generates the new object, e.g. for
 
 ```{r, eval = FALSE}
 file.edit("data-raw/bbbike_zones.R")
+# or, even better, use
+usethis::use_data_raw("bbbike_zones")
 ```
 
-After you have created the new provider `_zones` file it's time to add the provider to the package.
+After you have created the new provider `_zones` file, it's time to add the provider to the package.
 
 # Adding the new provider to the package
 
@@ -72,8 +87,9 @@ Once you have created your overview `_zones` file as outlined in the previous st
 
 The final step is also the most fun: documenting and using the provider.
 Add an example, mention it in the README and tell others about what this new provider can do!
+If you want to ask for help on adding a new provider, feel free to open in a new issue in the [github repository](https://github.com/ITSLeeds/osmextract)! 
 
 # Conclusion
 
 This vignette talks through the main steps needed to extend `osmextract` by adding new OSM data providers.
-To see the same information in code form, see the PR that implemented the `bbike` provider here: https://github.com/ITSLeeds/osmextract/pull/57/files
+To see the same information in code form, see the PR that implemented the `openstreetmap_fr` provider here: https://github.com/ITSLeeds/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16
