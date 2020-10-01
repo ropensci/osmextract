@@ -8,3 +8,18 @@
     sep = "\n"
   ))
 }
+
+.onLoad = function(libname, pkgname) {
+  if (
+    sf::sf_extSoftVersion()["GDAL"] < "3.0.0" ||
+    sf::sf_extSoftVersion()["proj.4"] < "6.0.0"
+  ) {
+    warning(
+      "The package may return several warning messages like\n",
+      "'st_crs<- : replacing crs does not reproject data; use st_transform for that'\n",
+      "They are caused by a version of GDAL that does not support WKT.",
+      " The functions defined in this package should still work.",
+      " Check the README for more details."
+    )
+  }
+}

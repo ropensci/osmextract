@@ -74,7 +74,7 @@ in the resulting data frame. See documentation at
 \href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{extra_tags}{Which addition columns, corresponding to OSM tags, should
+\item{extra_tags}{Which additional columns, corresponding to OSM tags, should
 be in the resulting dataset? \code{FALSE} by default. Check Details at
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}. Ignored when \code{osmconf_ini} is
 not \code{NULL}.}
