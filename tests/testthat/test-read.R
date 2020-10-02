@@ -30,3 +30,14 @@ test_that("or_read: simplest example with a URL works", {
     download_directory = tempdir()
   )
 })
+
+
+test_that("oe_read fails with a clear error message with wrong URL of file path", {
+  expect_error(
+    oe_read("geofabrik_typo-in-path.osm.pbf"),
+    "it doesn't look like a URL"
+  )
+})
+
+
+

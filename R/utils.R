@@ -1,6 +1,16 @@
 # Auxiliary functions (not exported)
 '%!in%' = function(x, y) !('%in%'(x,y))
 
+# See https://github.com/ITSLeeds/osmextract/issues/134
+is_like_url = function(URL) {
+  grepl(
+    pattern = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
+    x = URL,
+    perl = TRUE
+  )
+}
+
+
 #' Return the download directory used by the package
 #'
 #' By default, the download directory is equal to `tempdir()`. You can set a
