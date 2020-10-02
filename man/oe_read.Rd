@@ -23,7 +23,8 @@ oe_read(
 )
 }
 \arguments{
-\item{file_path}{A url or the path of a \code{.pbf} or \code{.gpkg} file.}
+\item{file_path}{A url or the path of a \code{.pbf} or \code{.gpkg} file. If it is a
+URL it must be specified using HTTP/HTTPS protocol.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}

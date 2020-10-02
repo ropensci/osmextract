@@ -16,7 +16,8 @@
 #'   details.
 #'
 #' @inheritParams oe_get
-#' @param file_path A url or the path of a `.pbf` or `.gpkg` file.
+#' @param file_path A url or the path of a `.pbf` or `.gpkg` file. If it is a
+#'   URL it must be specified using HTTP/HTTPS protocol.
 #' @param file_size How big is the file? Optional. `NA` by default. If it's
 #'   bigger than `max_file_size` and the function is run in interactive mode,
 #'   then an interactive menu is displayed, asking for permission for
@@ -81,6 +82,25 @@ oe_read = function(
   # assume that if file.exists(file_path) is FALSE then file_path is a URL and I
   # need to download the file
   if (!file.exists(file_path)) {
+
+    # Add an if clause to check if file_path "looks like" a URL
+    # See https://github.com/ITSLeeds/osmextract/issues/134 and
+    # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+    looks_like_url <- grepl(
+      pattern = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
+      x = file_path,
+      perl = TRUE
+      )
+
+    if (!looks_like_url) {
+      stop(
+        "The input file_path does not correspond to any existing file ",
+        "and it doesn't look like a URL.",
+        call. = FALSE
+      )
+    }
+
+
     file_path = oe_download(
       file_url = file_path,
       provider = provider,
