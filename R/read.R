@@ -86,13 +86,9 @@ oe_read = function(
     # Add an if clause to check if file_path "looks like" a URL
     # See https://github.com/ITSLeeds/osmextract/issues/134 and
     # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
-    looks_like_url <- grepl(
-      pattern = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",
-      x = file_path,
-      perl = TRUE
-      )
+    like_url <- is_like_url(file_path)
 
-    if (!looks_like_url) {
+    if (!like_url) {
       stop(
         "The input file_path does not correspond to any existing file ",
         "and it doesn't look like a URL.",
