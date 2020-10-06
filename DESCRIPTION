@@ -30,3 +30,4 @@ Suggests:
     rmarkdown,
     covr
 VignetteBuilder: knitr
+Language: en_GB
