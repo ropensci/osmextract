@@ -29,8 +29,8 @@ internal testings.}
 \item{download_directory}{Directory where the files downloaded by osmextract
 are stored. By default it is equal to \code{oe_download_directory()}.}
 
-\item{download_if_missing}{Attempt to download the file if it cannot be found? \code{FALSE}
-by default.}
+\item{download_if_missing}{Attempt to download the file if it cannot be
+found? \code{FALSE} by default.}
 
 \item{...}{Extra arguments that are passed to \code{oe_match} and \code{oe_get()}.
 Please note that you cannot modify the argument \code{download_only}.}

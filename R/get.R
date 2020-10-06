@@ -134,7 +134,8 @@
 #'
 #' # Other examples:
 #' oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
-#' oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # like read_sf
+#' # The following example mimics read_sf
+#' oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)
 #' }
 oe_get = function(
   place,

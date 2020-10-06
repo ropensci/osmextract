@@ -20,8 +20,8 @@
 #'
 #' @param download_directory Directory where the files downloaded by osmextract
 #'   are stored. By default it is equal to `oe_download_directory()`.
-#' @param download_if_missing Attempt to download the file if it cannot be found? `FALSE`
-#'   by default.
+#' @param download_if_missing Attempt to download the file if it cannot be
+#'   found? `FALSE` by default.
 #' @param ... Extra arguments that are passed to `oe_match` and `oe_get()`.
 #'   Please note that you cannot modify the argument `download_only`.
 #' @inheritParams oe_get
@@ -54,7 +54,9 @@ oe_find = function(
   # Then I extract from the URL the file name
   if (tools::file_ext(tools::file_path_sans_ext(matched_URL)) == "osm") {
   # I need the double file_path_san_ext to cancel the .osm and the .pbf
-    pattern = tools::file_path_sans_ext(tools::file_path_sans_ext(basename(matched_URL)))
+    pattern = tools::file_path_sans_ext(
+      tools::file_path_sans_ext(basename(matched_URL))
+    )
   } else {
     pattern = tools::file_path_sans_ext(basename(matched_URL))
   }

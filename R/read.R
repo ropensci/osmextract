@@ -31,7 +31,8 @@
 #' my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
 #' oe_read(my_pbf, quiet = FALSE)
 #' oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
-#' oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE) # Add new tags
+#' # The following example shows how to add new tags
+#' oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE)
 #'
 #' # Read an existing .gpkg file. This file was created by oe_read
 #' my_gpkg = system.file("its-example.gpkg", package = "osmextract")

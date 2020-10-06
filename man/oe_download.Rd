@@ -76,9 +76,9 @@ returns the path.
 }
 \examples{
 its_match = oe_match("ITS Leeds", provider = "test")
-# ITS Leeds test data are stored on github, which is not a standard provider. So we
-# need to specify the provider parameter. See oe_providers() for a list of
-# all available providers.
+# ITS Leeds data are stored on github, which is not a standard provider.
+# So we need to specify the provider parameter.
+# See oe_providers() for a list of all available providers.
 oe_download(
   file_url = its_match$url,
   file_size = its_match$file_size,

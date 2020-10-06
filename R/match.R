@@ -101,8 +101,9 @@ oe_match.sfc_POINT = function(
   # For the moment we support only length-one sfc_POINT objects
   if (length(place) > 1L) {
     stop(
-      "At the moment we support only length-one sfc_POINT objects for 'place' parameter.",
-      " Feel free to open a new issue at github.com/itsleeds/osmextract",
+      "At the moment we support only length-one sfc_POINT objects for 'place'",
+      " parameter. Feel free to open a new issue at ",
+      "https://github.com/ITSLeeds/osmextract",
       call. = FALSE
     )
   }
@@ -149,8 +150,9 @@ oe_match.sfc_POINT = function(
   if (nrow(matched_zones) > 1L) {
     if (isFALSE(quiet)) {
       message(
-        "The input place was matched with multiple geographical areas with the same \"level\". ",
-        "Selecting the area whose centroid is closer to the input place"
+        "The input place was matched with multiple geographical areas with",
+        " the same \"level\". Selecting the area whose centroid is closer ",
+        "to the input place"
       )
     }
 
@@ -209,8 +211,9 @@ oe_match.character = function(
   # For the moment we support only length-one character vectors
   if (length(place) > 1L) {
     stop(
-      "At the moment we support only length-one character vectors for 'place' parameter.",
-      " Feel free to open a new issue at https://github.com/ITSLeeds/osmextract",
+      "At the moment we support only length-one character vectors for",
+      " 'place' parameter. Feel free to open a new issue at ",
+      "https://github.com/ITSLeeds/osmextract",
       call. = FALSE
     )
   }

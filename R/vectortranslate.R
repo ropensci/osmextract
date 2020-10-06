@@ -266,10 +266,15 @@ oe_vectortranslate = function(
   ) {
     temp_ini = readLines(osmconf_ini)
     id_old = grep(
-      paste0("attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")),
+      paste0(
+        "attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")
+      ),
       temp_ini
     )
-    temp_ini[[id_old]] = paste(c(temp_ini[[id_old]], extra_tags), collapse = ",")
+    temp_ini[[id_old]] = paste(
+      c(temp_ini[[id_old]], extra_tags),
+      collapse = ","
+    )
     temp_ini_file = tempfile(fileext = ".ini")
     writeLines(temp_ini, con = temp_ini_file)
     osmconf_ini = temp_ini_file
