@@ -15,7 +15,7 @@ the characters "-" and "/".}
 one, if present.}
 \item{level}{An integer code between 1 and 3. If level = 1 then the zone
 corresponds to one of the continents plus the Russian Federation: Africa,
-Antartica, Asia, Australia and Oceania, Central America, Europe, North
+Antarctica, Asia, Australia and Oceania, Central America, Europe, North
 America, Russian Federation and South America. If level = 2 then the zone
 corresponds to the continent's subregions (i.e. the countries, such as
 Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and so on).
