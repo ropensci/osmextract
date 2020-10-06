@@ -105,6 +105,18 @@ To use alongside functionality in the `sf` package, we also recommend attaching 
 library(sf)
 ```
 
+### Warnings: 
+
+The functions defined in this package may return a warning message like 
+
+```
+st_crs<- : replacing crs does not reproject data; use st_transform for that 
+```
+
+if the user is running an old version of GDAL (<= 3.0.0) or PROJ (<= 6.0.0). 
+See [here](https://github.com/r-spatial/sf/issues/1419) for more details. 
+Nevertheless, every function should still work correctly. 
+Please, raise a new issue if you find any odd behaviour. 
 
 ## Basic usage
 
@@ -174,17 +186,6 @@ You can always check the default `download_directory` used by `oe_get()` with:
 ```{r, eval = FALSE}
 oe_download_directory()
 ```
-
-## Warnings: 
-
-The functions may return a warning message like 
-
-```
-st_crs<- : replacing crs does not reproject data; use st_transform for that 
-```
-
-if the user is running old version of GDAL/PROJ. 
-See [here](https://github.com/r-spatial/sf/issues/1419) for more details. 
 
 ## Next steps
 

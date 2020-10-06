@@ -122,6 +122,17 @@ library(sf)
 #> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
 ```
 
+### Warnings:
+
+The functions defined in this package may return a warning message like
+
+    st_crs<- : replacing crs does not reproject data; use st_transform for that 
+
+if the user is running an old version of GDAL (\<= 3.0.0) or PROJ (\<=
+6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419) for more
+details. Nevertheless, every function should still work correctly.
+Please, raise a new issue if you find any odd behaviour.
+
 ## Basic usage
 
 Give `osmextract` a place name and it will try to find it in a list of
@@ -137,9 +148,9 @@ layer can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
 nrow(osm_lines)
-#> [1] 45154
+#> [1] 45203
 nrow(osm_points)
-#> [1] 59129
+#> [1] 59149
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -209,15 +220,6 @@ with:
 ``` r
 oe_download_directory()
 ```
-
-## Warnings:
-
-The functions may return a warning message like
-
-    st_crs<- : replacing crs does not reproject data; use st_transform for that 
-
-if the user is running old version of GDAL/PROJ. See
-[here](https://github.com/r-spatial/sf/issues/1419) for more details.
 
 ## Next steps
 
