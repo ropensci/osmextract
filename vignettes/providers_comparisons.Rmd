@@ -131,9 +131,13 @@ plot(openstreetmap_fr_zones[ids_2 | ids_3, "name"], key.pos = NULL, main = NULL)
 `bbbike` provider is based on https://download.bbbike.org/osm/bbbike/. 
 It is quite different from any other provider supported in `osmextract` since it contains OSM data for more than 200 cities worldwide. 
 
-```{r}
-plot(bbbike_zones["name"], col = "black", main = NULL)
+```{r, eval = FALSE}
+par(mar = rep(0, 4))
+plot(sf::st_geometry(spData::world))
+plot(sf::st_geometry(bbbike_zones), border = "darkred", add = TRUE, lwd = 3)
 ```
+
+<img src="https://user-images.githubusercontent.com/22221146/96640949-3f7f7480-1324-11eb-9dca-a971c8103a4e.png" width="100%" />
 
 `bbbike` provider is the safest choice if you are looking for OSM data relative to a particular city in the world.
 
