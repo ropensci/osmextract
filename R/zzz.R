@@ -14,7 +14,7 @@
     sf::sf_extSoftVersion()["GDAL"] < "3.0.0" ||
     sf::sf_extSoftVersion()["proj.4"] < "6.0.0"
   ) {
-    warning(
+    message(
       "The package may return several warning messages like\n",
       "'st_crs<- : replacing crs does not reproject data; use st_transform for that'\n",
       "They are caused by a version of GDAL that does not support WKT.",
