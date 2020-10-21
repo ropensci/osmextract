@@ -83,14 +83,14 @@ oe_read = function(
     # use names(formals("st_read.character", envir = getNamespace("sf")))
     any(
       names(list(...)) %!in%
-      names(formals("st_read.character", envir = getNamespace("sf")))
+      names(formals(get("st_read.character", envir = getNamespace("sf"))))
     )
   ) {
     warning(
       "The following arguments are probably misspelled: ",
       setdiff(
         names(list(...)),
-        names(formals("st_read.character", envir = getNamespace("sf")))
+        names(formals(get("st_read.character", envir = getNamespace("sf"))))
       ),
       call. = FALSE,
       immediate. = TRUE
