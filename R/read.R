@@ -73,18 +73,25 @@ oe_read = function(
     # The following condition checks if the user passed down one or more
     # arguments using ...
     ...length() > 0L &&
-    # At the moment, the only function that uses ... is sf::st_read, so I'm
-    # going to check which arguments in ... are not inlucded in the formals of
-    # sf::st_read. Moreover, at the moment, oe_read will always use
-    # sf:::st_read.character, so I will check the formals of that method.
+    # At the moment, the only function that uses ... is sf::st_read, so I can
+    # simply check which arguments in ... are not inlucded in the formals of
+    # sf::st_read. Moreover, st_read should always use sf:::st_read.character,
+    # so I need to check the formals of that method.
+    #
+    # The classical way should be names(formals(sf:::st_read.character)), but it
+    # returns a notes in the R CMD checks related to :::. Hence, I decided to
+    # use names(formals("st_read.character", envir = getNamespace("sf")))
     any(
-      names(list(...)) %!in% names(formals(sf:::st_read.character))
+      names(list(...)) %!in%
+      names(formals("st_read.character", envir = getNamespace("sf")))
     )
   ) {
-    methods(sf::st_read)
     warning(
       "The following arguments are probably misspelled: ",
-      setdiff(names(list(...)), names(formals(sf:::st_read.character))),
+      setdiff(
+        names(list(...)),
+        names(formals("st_read.character", envir = getNamespace("sf")))
+      ),
       call. = FALSE,
       immediate. = TRUE
     )
