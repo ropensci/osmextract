@@ -68,6 +68,36 @@ oe_read = function(
   quiet = TRUE
 ) {
 
+  # See https://github.com/ITSLeeds/osmextract/issues/114
+  if (
+    # The following condition checks if the user passed down one or more
+    # arguments using ...
+    ...length() > 0L &&
+    # At the moment, the only function that uses ... is sf::st_read, so I can
+    # simply check which arguments in ... are not inlucded in the formals of
+    # sf::st_read. Moreover, st_read should always use sf:::st_read.character,
+    # so I need to check the formals of that method.
+    #
+    # The classical way should be names(formals(sf:::st_read.character)), but it
+    # returns a notes in the R CMD checks related to :::. Hence, I decided to
+    # use names(formals("st_read.character", envir = getNamespace("sf")))
+    any(
+      names(list(...)) %!in%
+      names(formals(get("st_read.character", envir = getNamespace("sf"))))
+    )
+  ) {
+    warning(
+      "The following arguments are probably misspelled: ",
+      setdiff(
+        names(list(...)),
+        names(formals(get("st_read.character", envir = getNamespace("sf"))))
+      ),
+      call. = FALSE,
+      immediate. = TRUE
+    )
+  }
+
+
   # If the input file_path is an existing .gpkg file is the easiest case since
   # we only need to read it:
   if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
