@@ -244,7 +244,7 @@ oe_vectortranslate = function(
       "The argument extra_tags is ignored when osmconf_ini is not NULL.",
       call. = FALSE
     )
-    extra_tags <- NULL
+    extra_tags = NULL
   }
 
   # First we need to set the values for the parameter osmconf_ini (if it is set
@@ -380,60 +380,100 @@ get_ini_layer_defaults = function(layer) {
 #'   `oe_vectortranslate()`, the conversion between `.osm.pbf` and `.gpkg`
 #'   formats is governed by a CONFIG file that indicates which tags are
 #'   explicitly added to the `.gpkg` file. All the other keys stored in the
-#'   `.osm.pbf` file are automatically appended in an "other_tags" field, with a
-#'   syntax compatible with the PostgreSQL HSTORE type. This function is used to
-#'   display the names of all the keys stored in the "other_tags" column. See
-#'   examples.
+#'   `.osm.pbf` file are automatically appended using an "other_tags" field,
+#'   with a syntax compatible with the PostgreSQL HSTORE type. This function is
+#'   used to display the names of all keys stored in the "other_tags"
+#'   column.
 #'
-#'   You can also use the `hstore_get_value` function from GDAL to extract one
-#'   particular tag from an existing .gpkg file. Check the introductory vignette
-#'   for a more detailed explanation and see examples.
+#'   You can also use the `hstore_get_value()` function from GDAL to extract one
+#'   particular tag from an existing `.gpkg` file. Check the introductory
+#'   vignette and see examples.
+#'
+#'   The definition of a generic S3 implementation started in
+#'   [osmextract/issues/138](https://github.com/ITSLeeds/osmextract/issues/138).
 #'
 #' @seealso `oe_vectortranslate()` and
-#'   [#107](https://github.com/ITSLeeds/osmextract/issues/107).
+#'   [osmextract/issues/107](https://github.com/ITSLeeds/osmextract/issues/107).
 #'
 #' @inheritParams oe_get
-#' @param file_path The path of a `.gpkg` file, typically created using
-#'   `oe_vectortranslate()` or `oe_get()`.
+#' @param zone An `sf` object (typically read-in with `oe_read()` or `oe_get()`)
+#'   with an `other_tags` field, or a character vector (of length 1) that points
+#'   to a `.gpkg` file (typically created using `oe_vectortranslate()` or
+#'   `oe_get()`).
 #'
 #' @return A character vector indicating the name of all keys stored in
 #'   "other_tags" field.
 #' @export
 #'
 #' @examples
-#' itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
-#' oe_get_keys(itsleeds_gpkg)
+#' itsleeds_gpkg_path = oe_get("ITS Leeds", download_only = TRUE)
+#' oe_get_keys(itsleeds_gpkg_path)
 #'
-#' # Add an extra key to an existing .gpkg file without the .pbf
-#' names(oe_read(itsleeds_gpkg, extra_tags = c("oneway"))) # doesn't work
-#' # we need a different approach
+#' itsleeds = oe_get("ITS Leeds")
+#' oe_get_keys(itsleeds)
+#'
+#' # Add an extra key to an existing .gpkg file without vectortranslate
 #' names(oe_read(
-#'   itsleeds_gpkg,
+#'   itsleeds_gpkg_path,
 #'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
 #' ))
-oe_get_keys = function(
-  file_path,
-  layer = "lines"
-) {
-  if (!file.exists(file_path)) {
-    stop("The input file does not exist.")
+oe_get_keys = function(zone, layer = "lines") {
+  UseMethod("oe_get_keys")
+}
+
+#' @name oe_get_keys
+#' @export
+oe_get_keys.default = function(zone, layer = "lines") {
+  stop(
+    "At the moment there is no support for objects of class ",
+    class(zone)[1], ".",
+    " Feel free to open a new issue at github.com/itsleeds/osmextract",
+    call. = FALSE
+  )
+}
+
+#' @name oe_get_keys
+#' @export
+oe_get_keys.character = function(zone, layer = "lines") {
+  if (length(zone) != 1L) {
+    stop("The input zone must have length 1", call. = FALSE)
   }
 
-  if (tools::file_ext(file_path) != "gpkg") {
-    stop("The input file must have a .gpkg extension.")
+  if (!file.exists(zone)) {
+    stop("The input zone does not exist.", call. = FALSE)
+  }
+
+  if (tools::file_ext(zone) != "gpkg") {
+    stop("The input zone must have a .gpkg extension.", call. = FALSE)
   }
 
   # Read the gpkg file selecting only the other_tags column
   other_tags = sf::st_read(
-    file_path,
+    dsn = zone,
     layer = layer,
     query = paste0("select other_tags, geometry from ", layer),
     quiet = TRUE
   )
 
+  get_keys(other_tags)
+}
+
+#' @name oe_get_keys
+#' @export
+oe_get_keys.sf = function(zone, layer = "lines") {
+  if ("other_tags" %!in% names(zone)) {
+    stop("The input zone must have an other_tags field.", call. = FALSE)
+  }
+
+  get_keys(zone)
+}
+
+
+# The following is an internal function used to extract the new keys from an "other_tags" field
+get_keys = function(x) {
   # Create regex
-  osm_matches = gregexpr(pattern = '[^\"=>,\\]+', other_tags[["other_tags"]])
-  key_value_matches = regmatches(other_tags[["other_tags"]], osm_matches)
+  osm_matches = gregexpr(pattern = '[^\"=>,\\]+', x[["other_tags"]])
+  key_value_matches = regmatches(x[["other_tags"]], osm_matches)
 
   keys_per_feature = lapply(key_value_matches, function(x) {
     # character(0) occurs when other_tags is equal to NA
@@ -446,7 +486,5 @@ oe_get_keys = function(
   unique_keys = unique(unlist(keys_per_feature))
   unique_keys
 }
-
-
 
 
