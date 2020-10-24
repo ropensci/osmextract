@@ -133,15 +133,26 @@ Details." />
 Details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>file_path</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span><span class='op'>)</span>
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span><span class='op'>)</span>
+
+<span class='co'># S3 method for character</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span><span class='op'>)</span>
+
+<span class='co'># S3 method for sf</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file_path</th>
-      <td><p>The path of a <code>.gpkg</code> file, typically created using
-<code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> or <code><a href='oe_get.html'>oe_get()</a></code>.</p></td>
+      <th>zone</th>
+      <td><p>An <code>sf</code> object (typically read-in with <code><a href='oe_read.html'>oe_read()</a></code> or <code><a href='oe_get.html'>oe_get()</a></code>)
+with an <code>other_tags</code> field, or a character vector (of length 1) that points
+to a <code>.gpkg</code> file (typically created using <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> or
+<code><a href='oe_get.html'>oe_get()</a></code>).</p></td>
     </tr>
     <tr>
       <th>layer</th>
@@ -162,21 +173,23 @@ two items, namely a <code>key</code> and a <code>value</code>. As we documented 
 <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>, the conversion between <code>.osm.pbf</code> and <code>.gpkg</code>
 formats is governed by a CONFIG file that indicates which tags are
 explicitly added to the <code>.gpkg</code> file. All the other keys stored in the
-<code>.osm.pbf</code> file are automatically appended in an "other_tags" field, with a
-syntax compatible with the PostgreSQL HSTORE type. This function is used to
-display the names of all the keys stored in the "other_tags" column. See
-examples.</p>
-<p>You can also use the <code>hstore_get_value</code> function from GDAL to extract one
-particular tag from an existing .gpkg file. Check the introductory vignette
-for a more detailed explanation and see examples.</p>
+<code>.osm.pbf</code> file are automatically appended using an "other_tags" field,
+with a syntax compatible with the PostgreSQL HSTORE type. This function is
+used to display the names of all keys stored in the "other_tags"
+column.</p>
+<p>You can also use the <code>hstore_get_value()</code> function from GDAL to extract one
+particular tag from an existing <code>.gpkg</code> file. Check the introductory
+vignette and see examples.</p>
+<p>The definition of a generic S3 implementation started in
+<a href='https://github.com/ITSLeeds/osmextract/issues/138'>osmextract/issues/138</a>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> and
-<a href='https://github.com/ITSLeeds/osmextract/issues/107'>#107</a>.</p></div>
+<a href='https://github.com/ITSLeeds/osmextract/issues/107'>osmextract/issues/107</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>itsleeds_gpkg</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"itsleeds"</span>, provider <span class='op'>=</span> <span class='st'>"test"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_gpkg</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>itsleeds_gpkg_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_gpkg_path</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
 #&gt;  [4] "access"              "lanes"               "lit"                
 #&gt;  [7] "maxspeed"            "ref"                 "turn:lanes"         
@@ -190,13 +203,24 @@ for a more detailed explanation and see examples.</p>
 #&gt; [31] "indoor"              "level"               "maxheight"          
 #&gt; [34] "incline"             "bridge"              "alt_name"           
 #&gt; [37] "turn:lanes:backward"</div><div class='input'>
-<span class='co'># Add an extra key to an existing .gpkg file without the .pbf</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span><span class='va'>itsleeds_gpkg</span>, extra_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"oneway"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># doesn't work</span>
-</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
-#&gt; [11] "geometry"  </div><div class='input'><span class='co'># we need a different approach</span>
+<span class='va'>itsleeds</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
+#&gt;  [4] "access"              "lanes"               "lit"                
+#&gt;  [7] "maxspeed"            "ref"                 "turn:lanes"         
+#&gt; [10] "service"             "surface"             "motor_vehicle"      
+#&gt; [13] "source:name"         "lanes:psv"           "lanes:backward"     
+#&gt; [16] "lanes:forward"       "lanes:psv:backward"  "turn:lanes:forward" 
+#&gt; [19] "covered"             "layer"               "lcn"                
+#&gt; [22] "natural"             "step_count"          "frequency"          
+#&gt; [25] "operator"            "power"               "source:geometry"    
+#&gt; [28] "substation"          "voltage"             "tunnel"             
+#&gt; [31] "indoor"              "level"               "maxheight"          
+#&gt; [34] "incline"             "bridge"              "alt_name"           
+#&gt; [37] "turn:lanes:backward"</div><div class='input'>
+<span class='co'># Add an extra key to an existing .gpkg file without vectortranslate</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span>
-  <span class='va'>itsleeds_gpkg</span>,
+  <span class='va'>itsleeds_gpkg_path</span>,
   query <span class='op'>=</span> <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
 <span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
