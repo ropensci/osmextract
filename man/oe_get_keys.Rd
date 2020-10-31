@@ -2,13 +2,24 @@
 % Please edit documentation in R/vectortranslate.R
 \name{oe_get_keys}
 \alias{oe_get_keys}
+\alias{oe_get_keys.default}
+\alias{oe_get_keys.character}
+\alias{oe_get_keys.sf}
 \title{Return all keys stored in "other_tags" column}
 \usage{
-oe_get_keys(file_path, layer = "lines")
+oe_get_keys(zone, layer = "lines")
+
+\method{oe_get_keys}{default}(zone, layer = "lines")
+
+\method{oe_get_keys}{character}(zone, layer = "lines")
+
+\method{oe_get_keys}{sf}(zone, layer = "lines")
 }
 \arguments{
-\item{file_path}{The path of a \code{.gpkg} file, typically created using
-\code{oe_vectortranslate()} or \code{oe_get()}.}
+\item{zone}{An \code{sf} object (typically read-in with \code{oe_read()} or \code{oe_get()})
+with an \code{other_tags} field, or a character vector (of length 1) that points
+to a \code{.gpkg} file (typically created using \code{oe_vectortranslate()} or
+\code{oe_get()}).}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
@@ -29,28 +40,32 @@ two items, namely a \code{key} and a \code{value}. As we documented in
 \code{oe_vectortranslate()}, the conversion between \code{.osm.pbf} and \code{.gpkg}
 formats is governed by a CONFIG file that indicates which tags are
 explicitly added to the \code{.gpkg} file. All the other keys stored in the
-\code{.osm.pbf} file are automatically appended in an "other_tags" field, with a
-syntax compatible with the PostgreSQL HSTORE type. This function is used to
-display the names of all the keys stored in the "other_tags" column. See
-examples.
+\code{.osm.pbf} file are automatically appended using an "other_tags" field,
+with a syntax compatible with the PostgreSQL HSTORE type. This function is
+used to display the names of all keys stored in the "other_tags"
+column.
 
-You can also use the \code{hstore_get_value} function from GDAL to extract one
-particular tag from an existing .gpkg file. Check the introductory vignette
-for a more detailed explanation and see examples.
+You can also use the \code{hstore_get_value()} function from GDAL to extract one
+particular tag from an existing \code{.gpkg} file. Check the introductory
+vignette and see examples.
+
+The definition of a generic S3 implementation started in
+\href{https://github.com/ITSLeeds/osmextract/issues/138}{osmextract/issues/138}.
 }
 \examples{
-itsleeds_gpkg = oe_get("itsleeds", provider = "test", download_only = TRUE)
-oe_get_keys(itsleeds_gpkg)
+itsleeds_gpkg_path = oe_get("ITS Leeds", download_only = TRUE)
+oe_get_keys(itsleeds_gpkg_path)
 
-# Add an extra key to an existing .gpkg file without the .pbf
-names(oe_read(itsleeds_gpkg, extra_tags = c("oneway"))) # doesn't work
-# we need a different approach
+itsleeds = oe_get("ITS Leeds")
+oe_get_keys(itsleeds)
+
+# Add an extra key to an existing .gpkg file without vectortranslate
 names(oe_read(
-  itsleeds_gpkg,
+  itsleeds_gpkg_path,
   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
 ))
 }
 \seealso{
 \code{oe_vectortranslate()} and
-\href{https://github.com/ITSLeeds/osmextract/issues/107}{#107}.
+\href{https://github.com/ITSLeeds/osmextract/issues/107}{osmextract/issues/107}.
 }
