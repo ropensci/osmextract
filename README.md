@@ -148,9 +148,9 @@ layer can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
 nrow(osm_lines)
-#> [1] 45203
+#> [1] 45265
 nrow(osm_points)
-#> [1] 59149
+#> [1] 59251
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -253,8 +253,15 @@ states that
 
   - [osmdata](https://github.com/ropensci/osmdata) is an R package for
     importing small datasets directly from OSM servers
+  - [geofabrik](https://cran.r-project.org/web/packages/geofabrik/index.html)
+    is an R package to download OSM data from
+    [Geofabrik](https://download.geofabrik.de/)
   - [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
     package for reading .pbf files
+  - [pydriosm](https://pypi.org/project/pydriosm/) is a Python package
+    to download, read and import OSM extracts
+  - [osmium](https://pypi.org/project/osmium/) provides python bindings
+    for the Libosmium C++ library
   - [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
     a Julia package for reading and analysing .osm files
   - [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)

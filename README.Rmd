@@ -206,7 +206,10 @@ We hope this package will provide easy access to OSM data for reproducible resea
 
 <!-- todo: add links to other packages -->
 - [osmdata](https://github.com/ropensci/osmdata) is an R package for importing small datasets directly from OSM servers
+- [geofabrik](https://cran.r-project.org/web/packages/geofabrik/index.html) is an R package to download OSM data from [Geofabrik](https://download.geofabrik.de/)
 - [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python package for reading .pbf files
+- [pydriosm](https://pypi.org/project/pydriosm/) is a Python package to download, read and import OSM extracts
+- [osmium](https://pypi.org/project/osmium/) provides python bindings for the Libosmium C++ library
 - [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is a Julia package for reading and analysing .osm files
 - [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis) is an established spatial database that works well with large OSM datasets
 - Any others? Let us know!
