@@ -14,7 +14,7 @@ test_that("oe_read: simplest examples work", {
     "POINT"
   )
 
-  f_gpkg = system.file("its-example.osm.pbf", package = "osmextract")
+  f_gpkg = system.file("its-example.gpkg", package = "osmextract")
   if (f_gpkg != "") {
     file.remove(f_gpkg)
   }
@@ -23,11 +23,14 @@ test_that("oe_read: simplest examples work", {
 test_that("or_read: simplest example with a URL works", {
   skip_if_offline()
   my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
-  oe_read(
-    my_url,
-    provider = "test",
-    quiet = TRUE,
-    download_directory = tempdir()
+  expect_error(
+    oe_read(
+      my_url,
+      provider = "test",
+      quiet = TRUE,
+      download_directory = tempdir()
+    ),
+    NA
   )
 })
 
