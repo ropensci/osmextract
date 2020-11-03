@@ -31,13 +31,27 @@ test_that("or_read: simplest example with a URL works", {
   )
 })
 
-
 test_that("oe_read fails with a clear error message with wrong URL of file path", {
   expect_error(
     oe_read("geofabrik_typo-in-path.osm.pbf"),
     "it doesn't look like a URL"
   )
 })
+
+test_that("oe_read fails with misspelled arguments", {
+  f = system.file("its-example.osm.pbf", package = "osmextract")
+  expect_error(
+    oe_read(
+      f,
+      stringasfactor = FALSE,
+    ),
+    "no simple features"
+  )
+
+  # Remove the .gpkg file from the inst/ directory
+  file.remove(oe_read(f, download_only = TRUE))
+})
+
 
 
 

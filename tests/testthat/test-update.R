@@ -8,7 +8,5 @@ test_that("oe_update(): simplest example works", {
     download_only = TRUE
   )
   expect_error(oe_update(fake_dir, quiet = TRUE), NA)
+  expect_message(oe_update(fake_dir, quiet = FALSE))
 })
-
-
-
