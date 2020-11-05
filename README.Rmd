@@ -219,4 +219,4 @@ We hope this package will provide easy access to OSM data for reproducible resea
 - Any others? Let us know!
 
 <!-- :) -->
-
+<!-- :) -->
