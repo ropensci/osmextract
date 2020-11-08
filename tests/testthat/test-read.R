@@ -54,7 +54,3 @@ test_that("oe_read fails with misspelled arguments", {
   # Remove the .gpkg file from the inst/ directory
   file.remove(oe_read(f, download_only = TRUE))
 })
-
-
-
-

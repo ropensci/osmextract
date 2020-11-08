@@ -11,6 +11,7 @@ oe_vectortranslate(
   osmconf_ini = NULL,
   extra_tags = NULL,
   force_vectortranslate = FALSE,
+  never_skip_vectortranslate = FALSE,
   quiet = TRUE
 )
 }
@@ -38,6 +39,11 @@ not \code{NULL}.}
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
 already exists? Check Details at \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .}
+
+\item{never_skip_vectortranslate}{Boolean. This is used in case the user
+passed its own \code{.ini} file or vectortranslate options (since, in those case,
+it's too difficult to determine if an existing \code{.gpkg} file was generated
+following the same options.)}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
 Starting from \code{sf} version

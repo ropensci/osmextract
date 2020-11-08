@@ -65,6 +65,7 @@ oe_read = function(
   osmconf_ini = NULL,
   extra_tags = NULL,
   force_vectortranslate = FALSE,
+  never_skip_vectortranslate = FALSE,
   quiet = TRUE
 ) {
 
@@ -163,6 +164,14 @@ oe_read = function(
     return(sf::st_read(file_path, layer, quiet = quiet, ...))
   }
 
+  # See https://github.com/ITSLeeds/osmextract/issues/144. The vectortranslate
+  # operation should never be skipped if the user is going to download a new
+  # .osm.pbf file.
+  if (isTRUE(force_download)) {
+    never_skip_vectortranslate = TRUE
+    force_vectortranslate = TRUE
+  }
+
   # Now I think we can assume that file_path points to an existing .pbf file and
   # skip_vectortranslate is equal to FALSE so we need to use
   # oe_vectortranslate():
@@ -173,6 +182,7 @@ oe_read = function(
     osmconf_ini = osmconf_ini,
     extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
+    never_skip_vectortranslate = never_skip_vectortranslate,
     quiet = quiet
   )
 

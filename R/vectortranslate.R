@@ -126,6 +126,7 @@ oe_vectortranslate = function(
   osmconf_ini = NULL,
   extra_tags = NULL,
   force_vectortranslate = FALSE,
+  never_skip_vectortranslate = FALSE,
   quiet = TRUE
 ) {
   # Check that the input file was specified using the format
@@ -169,8 +170,6 @@ oe_vectortranslate = function(
   # since, in that case, we always need to perform the vectortranslate
   # operations (since it's too difficult to determine if an existing .gpkg file
   # was generated following a particular .ini file with some options)
-  never_skip_vectortranslate = FALSE
-
   if (!is.null(osmconf_ini) || !is.null(vectortranslate_options)) {
     force_vectortranslate = TRUE
     never_skip_vectortranslate = TRUE

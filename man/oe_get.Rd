@@ -21,6 +21,7 @@ oe_get(
   force_vectortranslate = FALSE,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
+  never_skip_vectortranslate = FALSE,
   quiet = TRUE
 )
 }
@@ -106,6 +107,11 @@ default.}
 \item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
 vectortranslate operations and it reads (or simply returns the path) of
 the \code{.osm.pbf} file. \code{FALSE} by default.}
+
+\item{never_skip_vectortranslate}{Boolean. This is used in case the user
+passed its own \code{.ini} file or vectortranslate options (since, in those case,
+it's too difficult to determine if an existing \code{.gpkg} file was generated
+following the same options.)}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
 Starting from \code{sf} version

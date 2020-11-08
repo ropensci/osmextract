@@ -68,6 +68,10 @@
 #' @param skip_vectortranslate Boolean. If `TRUE` then the function skips all
 #'   vectortranslate operations and it reads (or simply returns the path) of
 #'   the `.osm.pbf` file. `FALSE` by default.
+#' @param never_skip_vectortranslate Boolean. This is used in case the user
+#'   passed its own `.ini` file or vectortranslate options (since, in those case,
+#'   it's too difficult to determine if an existing `.gpkg` file was generated
+#'   following the same options.)
 #' @param quiet Boolean. If `FALSE` the function prints informative messages.
 #'   Starting from `sf` version
 #'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
@@ -154,6 +158,7 @@ oe_get = function(
   force_vectortranslate = FALSE,
   download_only = FALSE,
   skip_vectortranslate = FALSE,
+  never_skip_vectortranslate = FALSE,
   quiet = TRUE
 ) {
 
@@ -191,6 +196,7 @@ oe_get = function(
     osmconf_ini = osmconf_ini,
     extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
+    never_skip_vectortranslate = never_skip_vectortranslate,
     quiet = quiet,
     ...
   )
