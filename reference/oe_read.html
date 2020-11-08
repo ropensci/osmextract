@@ -152,6 +152,7 @@ wrapped function for more details.</p>
   osmconf_ini <span class='op'>=</span> <span class='cn'>NULL</span>,
   extra_tags <span class='op'>=</span> <span class='cn'>NULL</span>,
   force_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  never_skip_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
   quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
@@ -246,6 +247,13 @@ not <code>NULL</code>.</p></td>
       <td><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
 already exists? Check Details at <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> .</p></td>
+    </tr>
+    <tr>
+      <th>never_skip_vectortranslate</th>
+      <td><p>Boolean. This is used in case the user
+passed its own <code>.ini</code> file or vectortranslate options (since, in those case,
+it's too difficult to determine if an existing <code>.gpkg</code> file was generated
+following the same options.)</p></td>
     </tr>
     <tr>
       <th>quiet</th>

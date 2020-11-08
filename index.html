@@ -104,10 +104,7 @@
 <span class="co">#&gt; Any product made from OpenStreetMap must cite OSM as the data source.</span>
 <span class="co">#&gt; Geofabrik data are taken from https://download.geofabrik.de/</span>
 <span class="co">#&gt; For usage details of bbbike data see https://download.bbbike.org/osm/</span>
-<span class="co">#&gt; OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/</span>
-<span class="co">#&gt; The package may return several warning messages like</span>
-<span class="co">#&gt; 'st_crs&lt;- : replacing crs does not reproject data; use st_transform for that'</span>
-<span class="co">#&gt; They are caused by a version of GDAL that does not support WKT. The functions defined in this package should still work. Check the README for more details.</span></code></pre></div>
+<span class="co">#&gt; OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cycleways_england</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span>
   <span class="st">"England"</span>,
@@ -137,7 +134,7 @@
 <p>To use alongside functionality in the <code>sf</code> package, we also recommend attaching this geographic data package as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="co">#&gt; Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3</span></code></pre></div>
+<span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</span></code></pre></div>
 <div id="warnings" class="section level3">
 <h3 class="hasAnchor">
 <a href="#warnings" class="anchor"></a>Warnings:</h3>
@@ -152,15 +149,11 @@
 <p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (<a href="https://www.geofabrik.de/data/download.html">Geofabrik</a> by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the <code>lines</code> layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for</span>
-<span class="co">#&gt; that</span>
 <span class="va">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; Warning: st_crs&lt;- : replacing crs does not reproject data; use st_transform for</span>
-<span class="co">#&gt; that</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span>
-<span class="co">#&gt; [1] 45249</span>
+<span class="co">#&gt; [1] 45265</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">osm_points</span><span class="op">)</span>
-<span class="co">#&gt; [1] 58979</span>
+<span class="co">#&gt; [1] 59251</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50.5</span>, <span class="fl">50.8</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">osm_points</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50.5</span>, <span class="fl">50.8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -244,7 +237,7 @@
 <a href="https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis">PostGIS</a> is an established spatial database that works well with large OSM datasets</li>
 <li>Any others? Let us know!</li>
 </ul>
-<!-- :) -->
+<!-- :) --><!-- :) -->
 </div>
 </div>
   </div>

@@ -152,6 +152,7 @@ wrapped functions to understand the details behind all parameters.</p>
   force_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
   download_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
   skip_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  never_skip_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
   quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
@@ -273,6 +274,13 @@ vectortranslate operations and it reads (or simply returns the path) of
 the <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></td>
     </tr>
     <tr>
+      <th>never_skip_vectortranslate</th>
+      <td><p>Boolean. This is used in case the user
+passed its own <code>.ini</code> file or vectortranslate options (since, in those case,
+it's too difficult to determine if an existing <code>.gpkg</code> file was generated
+following the same options.)</p></td>
+    </tr>
+    <tr>
       <th>quiet</th>
       <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
 Starting from <code>sf</code> version
@@ -304,7 +312,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download OSM extracts associated to a simple test.</span>
 <span class='va'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpxCw0lX/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp1iOAuh/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -320,12 +328,12 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 #&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</div><div class='input'>
 <span class='co'># Get the .osm.pbf and .gpkg file path</span>
 <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpxCw0lX/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpxCw0lX/test_its-example.osm.pbf"</div><div class='input'><span class='co'># See also ?oe_find()</span>
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1iOAuh/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1iOAuh/test_its-example.osm.pbf"</div><div class='input'><span class='co'># See also ?oe_find()</span>
 
 <span class='co'># Add additional tags</span>
 <span class='va'>its_with_oneway</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, extra_tags <span class='op'>=</span> <span class='st'>"oneway"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpxCw0lX/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp1iOAuh/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
