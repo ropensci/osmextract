@@ -98,8 +98,8 @@ oe_read = function(
   }
 
 
-  # If the input file_path is an existing .gpkg file is the easiest case since
-  # we only need to read it:
+  # If the input file_path is an existing .gpkg file, then this is the easiest
+  # case since we only need to read it:
   if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
     # I need the following if to return the .gpkg file path in oe_get
     if (isTRUE(download_only)) {
@@ -126,7 +126,6 @@ oe_read = function(
         call. = FALSE
       )
     }
-
 
     file_path = oe_download(
       file_url = file_path,
