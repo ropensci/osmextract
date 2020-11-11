@@ -11,7 +11,7 @@
 status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/itsleeds/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/itsleeds/osmextract?branch=master)
-[![](https://badges.ropensci.org/395_status.svg)](https://github.com/ropensci/software-review/issues/395)
+[![peer-review](https://badges.ropensci.org/395_status.svg)](https://github.com/ropensci/software-review/issues/395)
 <!-- badges: end -->
 
 The goal of `osmextract` is to make it easier for people to access
