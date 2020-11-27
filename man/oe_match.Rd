@@ -12,14 +12,14 @@ oe_match(place, ...)
 
 \method{oe_match}{default}(place, ...)
 
-\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", quiet = TRUE, ...)
+\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", quiet = FALSE, ...)
 
-\method{oe_match}{numeric}(place, provider = "geofabrik", quiet = TRUE, ...)
+\method{oe_match}{numeric}(place, provider = "geofabrik", quiet = FALSE, ...)
 
 \method{oe_match}{character}(
   place,
   provider = "geofabrik",
-  quiet = TRUE,
+  quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,

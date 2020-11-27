@@ -20,7 +20,7 @@ oe_read(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
-  quiet = TRUE
+  quiet = FALSE
 )
 }
 \arguments{

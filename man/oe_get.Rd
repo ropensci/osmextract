@@ -22,7 +22,7 @@ oe_get(
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
-  quiet = TRUE
+  quiet = FALSE
 )
 }
 \arguments{

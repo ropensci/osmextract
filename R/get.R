@@ -159,7 +159,7 @@ oe_get = function(
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
-  quiet = TRUE
+  quiet = FALSE
 ) {
 
   # See https://github.com/ITSLeeds/osmextract/pull/125

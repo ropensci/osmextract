@@ -95,7 +95,7 @@ oe_match.default = function(place, ...) {
 oe_match.sfc_POINT = function(
   place,
   provider = "geofabrik",
-  quiet = TRUE,
+  quiet = FALSE,
   ...
 ) {
   # For the moment we support only length-one sfc_POINT objects
@@ -178,7 +178,7 @@ oe_match.sfc_POINT = function(
 oe_match.numeric = function(
   place,
   provider = "geofabrik",
-  quiet = TRUE,
+  quiet = FALSE,
   ...
 ) {
   # In this case I just need to build the appropriate object and create a
@@ -202,7 +202,7 @@ oe_match.numeric = function(
 oe_match.character = function(
   place,
   provider = "geofabrik",
-  quiet = TRUE,
+  quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
   interactive_ask = FALSE,

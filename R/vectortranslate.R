@@ -127,7 +127,7 @@ oe_vectortranslate = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
-  quiet = TRUE
+  quiet = FALSE
 ) {
   # Check that the input file was specified using the format
   # ".../something.pbf". This is important for creating the .gpkg file path.

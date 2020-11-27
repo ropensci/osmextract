@@ -41,8 +41,8 @@ See the [License/Use Cases page on the OSM wiki](https://wiki.openstreetmap.org/
 
 The package is composed of the following main functions: 
 
-1. `oe_providers()`: Show which providers of OSM extracts are available;
-1. `oe_match()`: Match one input place with one of the files stored by the OSM providers;
+1. `oe_providers()`: Show which OSM extracts' providers are available;
+1. `oe_match()`: Match an input place with one of the files stored by the OSM providers;
 1. `oe_download()`: Download the chosen file;
 1. `oe_vectortranslate()`: Convert between `.pbf` and `.gpkg` formats;
 1. `oe_read()`: Read `.pbf` and `.gpkg` files;
@@ -98,7 +98,8 @@ plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkr
 As shown in the above visualisation of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of major cities.
 We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ITSLeeds/osmextract/issues/100).
 
-Check the "Comparing the supported OSM providers" vignette for some simple guidance on how to choose the best provider. 
+Check the ["Comparing the supported OSM providers"](https://itsleeds.github.io/osmextract/articles/providers_comparisons.html) vignette for some simple guidance on how to choose the best provider. 
+
 ## `oe_match()`: finding OSM extracts
 
 `oe_match()` takes in input a string (through the parameter `place`), and it returns a named list of length two with the URL and the size (in bytes) of a `.osm.pbf` file representing a geographical zone stored by one of the supported providers. 
@@ -106,16 +107,16 @@ For example:
 
 ```{r}
 oe_match("Italy")
-oe_match("Leeds", provider = "bbbike")
+oe_match("Leeds", provider = "bbbike", quiet = TRUE)
 ```
 
-The operations for matching a string with a geographical zone are based on the minimum Approximate String Distance (`?adist`) between the input `place` and one of the fields in the provider's database. 
+The operations for matching a string with a geographical zone are based on the minimum Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider's database. 
 By default, the function uses the `name` field and Geofabrik provider. 
 
 Nevertheless, there are several situations where it could be challenging to find the appropriate data source:
 
 ```{r, error = TRUE}
-oe_match("Russia", quiet = FALSE)
+oe_match("Russia")
 ```
 
 Therefore, you can select alternative fields in the provider's data (instead of the default field, i.e. `name`) using the `match_by` parameter. 
@@ -173,7 +174,7 @@ You can increase this value, but you should always check for erroneous matches:
 ```{r, error = TRUE}
 oe_match("Isle Wight")
 oe_match("Isle Wight", max_string_dist = 3)
-oe_match("London", max_string_dist = 3, quiet = FALSE) # erroneous atch
+oe_match("London", max_string_dist = 3) # erroneous match
 ```
 
 The parameter `max_string_dist` is always set to 0 if `match_by` argument is equal to `iso3166_1_alpha2` or `iso3166_2` to avoid matches with the wrong iso3166 code. 

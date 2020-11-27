@@ -66,7 +66,7 @@ oe_read = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
-  quiet = TRUE
+  quiet = FALSE
 ) {
 
   # See https://github.com/ITSLeeds/osmextract/issues/114

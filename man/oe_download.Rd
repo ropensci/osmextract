@@ -12,7 +12,7 @@ oe_download(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+08,
-  quiet = TRUE
+  quiet = FALSE
 )
 }
 \arguments{

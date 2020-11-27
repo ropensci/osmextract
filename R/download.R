@@ -66,7 +66,7 @@ oe_download = function(
   file_size = NA,
   force_download = FALSE,
   max_file_size = 5e+8, # 5e+8 = 500MB in bytes
-  quiet = TRUE
+  quiet = FALSE
   ) {
 
   ## At the moment the function works only with a single URL
