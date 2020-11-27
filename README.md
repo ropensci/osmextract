@@ -59,14 +59,7 @@ not evaluated:
 
 ``` r
 library(osmextract)
-#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
-#> Any product made from OpenStreetMap must cite OSM as the data source.
-#> Geofabrik data are taken from https://download.geofabrik.de/
-#> For usage details of bbbike data see https://download.bbbike.org/osm/
-#> OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/
-```
 
-``` r
 cycleways_england = oe_get(
   "England",
   quiet = FALSE,
@@ -113,6 +106,11 @@ Load the package with:
 
 ``` r
 library(osmextract)
+#> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
+#> Any product made from OpenStreetMap must cite OSM as the data source.
+#> Geofabrik data are taken from https://download.geofabrik.de/
+#> For usage details of bbbike data see https://download.bbbike.org/osm/
+#> OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/
 ```
 
 To use alongside functionality in the `sf` package, we also recommend
@@ -183,14 +181,13 @@ plot(osm_major_roads["highway"], key.pos = 1)
 
 <img src="man/figures/README-iow1-1.png" width="100%" />
 
-The same steps can be used to get other OSM datasets (note use of `quiet
-= FALSE` to show additional message, examples not run):
+The same steps can be used to get other OSM datasets (examples not run):
 
 ``` r
-test_malta = oe_get("Malta", quiet = FALSE)
-test_andorra = oe_get("Andorra", extra_tags = "ref", quiet = FALSE)
-test_leeds <- oe_get("Leeds", provider = "bbbike", quiet = FALSE)
-test_india_region <- oe_get("Goa", provider = "openstreetmap_fr", quiet = FALSE)
+test_malta = oe_get("Malta", quiet = TRUE)
+test_andorra = oe_get("Andorra", extra_tags = "ref")
+test_leeds <- oe_get("Leeds", provider = "bbbike")
+test_india_region <- oe_get("Goa", provider = "openstreetmap_fr")
 ```
 
 For further details on using the package, see the [Introducing
@@ -229,7 +226,7 @@ experience an error stating `Timeout of 60 seconds was reached`. If so,
 before calling `oe_get()`, you can adjust the timeout using
 `options(timeout = 300)`, choosing an appropriate value. This setting
 affects all calls to
-[download.file](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file),
+[download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file),
 so you may need to reset it for the rest of your script.
 
 ## Next steps
