@@ -139,16 +139,16 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for sfc_POINT</span>
-<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for character</span>
 <span class='fu'>oe_match</span><span class='op'>(</span>
   <span class='va'>place</span>,
   provider <span class='op'>=</span> <span class='st'>"geofabrik"</span>,
-  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
   match_by <span class='op'>=</span> <span class='st'>"name"</span>,
   max_string_dist <span class='op'>=</span> <span class='fl'>1</span>,
   interactive_ask <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -246,7 +246,7 @@ See examples.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># The simplest example:</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Italy"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $url
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Italy</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size
@@ -254,7 +254,7 @@ See examples.</p>
 #&gt; </div><div class='input'>
 <span class='co'># The default provider is "geofabrik", but we can change that:</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $url
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Leeds</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"
 #&gt; 
 #&gt; $file_size
@@ -267,7 +267,7 @@ See examples.</p>
 <span class='co'># So you can perform the matching operations using other columns in the</span>
 <span class='co'># provider's database:</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"RU"</span>, match_by <span class='op'>=</span> <span class='st'>"iso3166_1_alpha2"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $url
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: RU</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size
@@ -311,7 +311,7 @@ See examples.</p>
 <span class='co'># Match the input zone using a numeric vector of coordinates</span>
 <span class='co'># (in which case crs = 4326 is assumed)</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>9.1916</span>, <span class='fl'>45.4650</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># Milan, Duomo using CRS = 4326</span>
-</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; $url
+</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with multiple geographical areas. Selecting the areas with the highest "level". See the help page associated to the chosen provider for an explanation of the meaning of the "level" field</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size
