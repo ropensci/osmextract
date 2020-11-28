@@ -30,9 +30,9 @@
 #'   closer to the input place.
 #'
 #'   If the input place is specified as a character vector and there are
-#'   multiple plausible matches between the input place and the match_by column,
-#'   then the function will return a warning and it will select the first match.
-#'   See examples.
+#'   multiple plausible matches between the input place and the `match_by`
+#'   column, then the function will return a warning and it will select the
+#'   first match. See Examples.
 #' @examples
 #' # The simplest example:
 #' oe_match("Italy")
@@ -44,7 +44,7 @@
 #' # in the provider's database but this can be a problem:
 #' \dontrun{
 #' oe_match("Russia", quiet = FALSE)}
-#' # So you can perform the matching operations using other columns in the
+#' # so you can perform the matching operations using other columns in the
 #' # provider's database:
 #' oe_match("RU", match_by = "iso3166_1_alpha2")
 #' # Run oe_providers() for a description of all providers and check the help
@@ -314,13 +314,13 @@ oe_match.character = function(
 #' Check patterns in the provider's databases
 #'
 #' This function is used to explore the provider's databases and look for
-#' patterns. This function can be useful in combination with `oe_match()` and
-#' `oe_get()` for an easy match. See examples.
+#' patterns. This function can be useful in combination with [`oe_match()`] and
+#' [`oe_get()`] for an easy match. See Examples.
 #'
 #' @param pattern Character string representing the pattern that should be
 #'   explored.
 #' @param provider Which provider should be used? Check a summary of all
-#'   available providers with `oe_providers()`.
+#'   available providers with [`oe_providers()`].
 #' @param match_by Column name of the provider's database that will be used to
 #'   find the match.
 #' @param full_row Boolean. Return all columns for the matching rows? `FALSE` by

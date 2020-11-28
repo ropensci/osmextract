@@ -1,4 +1,4 @@
-#' An `sf` object of geographical zones taken from Geofabrik
+#' An sf object of geographical zones taken from Geofabrik
 #'
 #' An `sf` object containing the URLs, names and file-sizes of the OSM
 #' extracts stored at <https://download.geofabrik.de/>. You can read more
@@ -61,7 +61,7 @@
 #' @source <https://download.geofabrik.de/>
 "geofabrik_zones"
 
-#' An `sf` object of geographical zones taken from bbbike.org
+#' An sf object of geographical zones taken from bbbike.org
 #'
 #' Start bicycle routing for... everywhere!
 #'
@@ -82,14 +82,14 @@
 #'   matching operations in case of spatial input. The oe_* functions will
 #'   select the geographical area closest to the input place with the highest
 #'   "level". See [geofabrik_zones] for an example of a hierarchical structure.}
-#'   \item{geometry}{The `sfc`` for that geographical region, rectangular.}
+#'   \item{geometry}{The `sfc` for that geographical region, rectangular.}
 #' }
 #'
 #' @family provider's-database
 #' @source \url{https://download.bbbike.org/osm/}
 "bbbike_zones"
 
-#' An `sf` object of geographical zones taken from download.openstreetmap.fr
+#' An sf object of geographical zones taken from download.openstreetmap.fr
 #'
 #' An `sf` object containing the URLs, names and file-sizes of the OSM
 #' extracts stored at <http://download.openstreetmap.fr/>.
@@ -116,7 +116,7 @@
 #' @source \url{https://download.bbbike.org/osm/}
 "openstreetmap_fr_zones"
 
-#' An `sf` object of geographical zones taken from download.openstreetmap.fr
+#' An sf object of geographical zones taken from download.openstreetmap.fr
 #'
 #' This object represent a minimal provider's database and it should be used
 #' only for examples and tests.

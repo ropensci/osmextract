@@ -11,19 +11,19 @@
 #'   provider (which may be inferred from the url) and the `basename()` of the
 #'   url. For example, if `file_url =
 #'   "https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and
-#'   `download_directory = "/tmp/`, then the path is built as
-#'   `/tmp/geofabrik_italy-latest.osm.pbf`. Then, the function checks the
+#'   `download_directory = "/tmp"`, then the path is built as
+#'   `"/tmp/geofabrik_italy-latest.osm.pbf"`. Then, the function checks the
 #'   existence of a file with the same file's path and, in that case, it returns
 #'   the path. The parameter `force_download` is used to modify this behaviour.
 #'   If there is no file associated with the file's path, then the function
-#'   downloads a new file using [download.file()] with `mode = "wb"` and it
+#'   downloads a new file using [download.file()] with `mode = "wb"`, and it
 #'   returns the path.
 #'
 #' @inheritParams oe_get
 #' @param file_url A url pointing to a `.osm.pbf` file that should be
 #'   downloaded.
 #' @param provider Which provider stores the file that is specified using its
-#'   url? If `NULL`` (the default), it is inferred from the url but it must be
+#'   url? If `NULL` (the default), it is inferred from the url, but it must be
 #'   specified for non-standard cases. See details and examples.
 #' @param file_basename The basename of the file. The default behaviour is to
 #'   auto-generate it from the URL using `basename()`.
@@ -56,8 +56,7 @@
 #'   file_url = Sucre_details$url,
 #'   file_size = Sucre_details$file_size,
 #'   download_directory = tempdir()
-#' )
-#' }
+#' )}
 oe_download = function(
   file_url,
   provider = NULL,

@@ -20,7 +20,7 @@ oe_download(
 downloaded.}
 
 \item{provider}{Which provider stores the file that is specified using its
-url? If `NULL`` (the default), it is inferred from the url but it must be
+url? If \code{NULL} (the default), it is inferred from the url, but it must be
 specified for non-standard cases. See details and examples.}
 
 \item{file_basename}{The basename of the file. The default behaviour is to
@@ -28,7 +28,7 @@ auto-generate it from the URL using \code{basename()}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
-\code{tempdir()} and it changes each time you restart R. You can set a
+\code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
 persistent \code{download_directory} by adding the following to your \code{.Renviron}
 file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
@@ -66,12 +66,12 @@ definition of the file's path associated to the input \code{file_url}. The path
 is created by pasting together the \code{download_directory}, the name of chosen
 provider (which may be inferred from the url) and the \code{basename()} of the
 url. For example, if \code{file_url = "https://download.geofabrik.de/europe/italy-latest.osm.pbf"}, and
-\verb{download_directory = "/tmp/}, then the path is built as
-\verb{/tmp/geofabrik_italy-latest.osm.pbf}. Then, the function checks the
+\code{download_directory = "/tmp"}, then the path is built as
+\code{"/tmp/geofabrik_italy-latest.osm.pbf"}. Then, the function checks the
 existence of a file with the same file's path and, in that case, it returns
 the path. The parameter \code{force_download} is used to modify this behaviour.
 If there is no file associated with the file's path, then the function
-downloads a new file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"} and it
+downloads a new file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"}, and it
 returns the path.
 }
 \examples{
@@ -95,6 +95,5 @@ oe_download(
   file_url = Sucre_details$url,
   file_size = Sucre_details$file_size,
   download_directory = tempdir()
-)
-}
+)}
 }

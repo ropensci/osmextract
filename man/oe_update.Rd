@@ -2,7 +2,7 @@
 % Please edit documentation in R/update.R
 \name{oe_update}
 \alias{oe_update}
-\title{Update all the \code{.osm.pbf} files saved in a directory}
+\title{Update all the .osm.pbf files saved in a directory}
 \usage{
 oe_update(
   download_directory = oe_download_directory(),

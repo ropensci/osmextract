@@ -1,4 +1,4 @@
-#' Update all the `.osm.pbf` files saved in a directory
+#' Update all the .osm.pbf files saved in a directory
 #'
 #' This function is used to re-download all `.osm.pbf` files stored in
 #' `download_directory` that were firstly downloaded through [oe_get()]. See

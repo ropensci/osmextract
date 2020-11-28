@@ -3,7 +3,7 @@
 \docType{data}
 \name{test_zones}
 \alias{test_zones}
-\title{An \code{sf} object of geographical zones taken from download.openstreetmap.fr}
+\title{An sf object of geographical zones taken from download.openstreetmap.fr}
 \format{
 An object of class \code{sf} (inherits from \code{data.frame}) with 2 rows and 7 columns.
 }

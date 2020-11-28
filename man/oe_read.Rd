@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{oe_read}
 \alias{oe_read}
-\title{Read a \code{.pbf} or \code{.gpkg} object from file or URL}
+\title{Read a .pbf or .gpkg object from file or URL}
 \usage{
 oe_read(
   file_path,
@@ -36,13 +36,13 @@ to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
-\code{oe_get()} and \code{oe_match()}, if \code{place} is equal to \verb{ITS Leeds}, then
+\code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
 internal testings.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
-\code{tempdir()} and it changes each time you restart R. You can set a
+\code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
 persistent \code{download_directory} by adding the following to your \code{.Renviron}
 file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}

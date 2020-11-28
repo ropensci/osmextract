@@ -31,14 +31,14 @@ oe_match(place, ...)
 a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
-code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
-See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
+an \code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{...}{arguments passed to other methods}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
-\code{oe_get()} and \code{oe_match()}, if \code{place} is equal to \verb{ITS Leeds}, then
+\code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
 internal testings.}
 
@@ -50,7 +50,7 @@ display a progress bar.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".
-Check details and examples in \code{\link[=oe_match]{oe_match()}} to understand how this parameter
+Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand how this parameter
 works. Ignored if \code{place} is not a character vector since the matching is
 performed through a spatial operation.}
 
@@ -59,7 +59,7 @@ maximum distance in fuzzy matching (i.e. Approximate String Distance, see
 \code{\link[=adist]{adist()}}) between input \code{place} and \code{match_by} column to tolerate before
 asking the user to select which zone to download? This parameter is set
 equal to 0 if \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}.
-Check Details and examples in \code{\link[=oe_match]{oe_match()}} to understand why this parameter
+Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand why this parameter
 is important. Ignored if \code{place} is not a character vector since the
 matching is performed through a spatial operation.}
 
@@ -95,9 +95,9 @@ input place, then the function will return the area whose centroid is
 closer to the input place.
 
 If the input place is specified as a character vector and there are
-multiple plausible matches between the input place and the match_by column,
-then the function will return a warning and it will select the first match.
-See examples.
+multiple plausible matches between the input place and the \code{match_by}
+column, then the function will return a warning and it will select the
+first match. See Examples.
 }
 \examples{
 # The simplest example:
@@ -110,7 +110,7 @@ oe_match("Leeds", provider = "bbbike")
 # in the provider's database but this can be a problem:
 \dontrun{
 oe_match("Russia", quiet = FALSE)}
-# So you can perform the matching operations using other columns in the
+# so you can perform the matching operations using other columns in the
 # provider's database:
 oe_match("RU", match_by = "iso3166_1_alpha2")
 # Run oe_providers() for a description of all providers and check the help

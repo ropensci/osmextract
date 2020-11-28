@@ -16,7 +16,7 @@ oe_match_pattern(
 explored.}
 
 \item{provider}{Which provider should be used? Check a summary of all
-available providers with \code{oe_providers()}.}
+available providers with \code{\link[=oe_providers]{oe_providers()}}.}
 
 \item{match_by}{Column name of the provider's database that will be used to
 find the match.}
@@ -29,8 +29,8 @@ A character vector or a subset of the provider's database.
 }
 \description{
 This function is used to explore the provider's databases and look for
-patterns. This function can be useful in combination with \code{oe_match()} and
-\code{oe_get()} for an easy match. See examples.
+patterns. This function can be useful in combination with \code{\link[=oe_match]{oe_match()}} and
+\code{\link[=oe_get]{oe_get()}} for an easy match. See Examples.
 }
 \examples{
 \dontrun{

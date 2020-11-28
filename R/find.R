@@ -1,4 +1,4 @@
-#' Get the location of files downloaded by osmextractr
+#' Get the location of files downloaded by "osmextractr"
 #'
 #' This function takes a `place` name and it returns the path of `.pbf` and
 #' `.gpkg` files associated with it.
@@ -8,7 +8,7 @@
 #'   performed using `list.files`, setting a pattern equal to the basename of
 #'   the URL associated to the input `place`. For example, if you specify
 #'   `place = "Isle of Wight"`, then the input `place` is matched with a URL of
-#'   a `.osm.pbf` file (via `oe_match`) and the matching is performed setting a
+#'   a `.osm.pbf` file (via [`oe_match()`]) and the matching is performed setting a
 #'   pattern equal to the basename of that URL.
 #'
 #'   If there is no file in `download_directory` that can be matched with the
@@ -19,10 +19,10 @@
 #'   an error.
 #'
 #' @param download_directory Directory where the files downloaded by osmextract
-#'   are stored. By default it is equal to `oe_download_directory()`.
+#'   are stored. By default it is equal to [`oe_download_directory()`].
 #' @param download_if_missing Attempt to download the file if it cannot be
 #'   found? `FALSE` by default.
-#' @param ... Extra arguments that are passed to `oe_match` and `oe_get()`.
+#' @param ... Extra arguments that are passed to [`oe_match()`] and [`oe_get()`].
 #'   Please note that you cannot modify the argument `download_only`.
 #' @inheritParams oe_get
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/vectortranslate.R
 \name{oe_vectortranslate}
 \alias{oe_vectortranslate}
-\title{Translate a \code{.osm.pbf} file into \code{.gpkg} format}
+\title{Translate a .osm.pbf file into .gpkg format}
 \usage{
 oe_vectortranslate(
   file_path,
@@ -117,7 +117,10 @@ that are passed to \code{ogr2ogr} via \code{\link[sf:gdal_utils]{sf::gdal_utils(
 the conversion process, such as spatial filters or SQL queries. These
 operations are determined by the \code{vectortranslate_options} argument. If
 \code{NULL} (default value), then \code{vectortranslate_options} is set equal to
-\code{c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)}. Explanation:
+
+\code{c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)}.
+
+Explanation:
 \itemize{
 \item \verb{"-f", "GPKG"} says that the output format is \code{GPKG};
 \item \verb{"-overwrite} is used to delete an existing layer and recreate
@@ -132,7 +135,7 @@ for the \code{.gpkg} file and modify the name of the geometry column;
 \item \code{layer} indicates which layer should be converted.
 }
 
-Check the introductory vignette, the help page of \code{sf::gdal_utils()} and
+Check the introductory vignette, the help page of \code{\link[sf:gdal_utils]{sf::gdal_utils()}} and
 \href{https://gdal.org/programs/ogr2ogr.html}{here} for an extensive
 documentation on all available options.
 }

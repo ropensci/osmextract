@@ -37,7 +37,7 @@ Details.
 OSM data are typically documented using several
 \href{https://wiki.openstreetmap.org/wiki/Tags}{\code{tags}}. A \code{tag} is a pair of
 two items, namely a \code{key} and a \code{value}. As we documented in
-\code{oe_vectortranslate()}, the conversion between \code{.osm.pbf} and \code{.gpkg}
+\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}, the conversion between \code{.osm.pbf} and \code{.gpkg}
 formats is governed by a CONFIG file that indicates which tags are
 explicitly added to the \code{.gpkg} file. All the other keys stored in the
 \code{.osm.pbf} file are automatically appended using an "other_tags" field,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/find.R
 \name{oe_find}
 \alias{oe_find}
-\title{Get the location of files downloaded by osmextractr}
+\title{Get the location of files downloaded by "osmextractr"}
 \usage{
 oe_find(
   place,
@@ -17,22 +17,22 @@ oe_find(
 a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
-code is 4326, while you can use any EPSG code with an \code{sfc_POINT} object.
-See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
+an \code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
-\code{oe_get()} and \code{oe_match()}, if \code{place} is equal to \verb{ITS Leeds}, then
+\code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
 internal testings.}
 
 \item{download_directory}{Directory where the files downloaded by osmextract
-are stored. By default it is equal to \code{oe_download_directory()}.}
+are stored. By default it is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}.}
 
 \item{download_if_missing}{Attempt to download the file if it cannot be
 found? \code{FALSE} by default.}
 
-\item{...}{Extra arguments that are passed to \code{oe_match} and \code{oe_get()}.
+\item{...}{Extra arguments that are passed to \code{\link[=oe_match]{oe_match()}} and \code{\link[=oe_get]{oe_get()}}.
 Please note that you cannot modify the argument \code{download_only}.}
 }
 \description{
@@ -45,7 +45,7 @@ specified by \code{download_directory} parameter) and the input \code{place} is
 performed using \code{list.files}, setting a pattern equal to the basename of
 the URL associated to the input \code{place}. For example, if you specify
 \code{place = "Isle of Wight"}, then the input \code{place} is matched with a URL of
-a \code{.osm.pbf} file (via \code{oe_match}) and the matching is performed setting a
+a \code{.osm.pbf} file (via \code{\link[=oe_match]{oe_match()}}) and the matching is performed setting a
 pattern equal to the basename of that URL.
 
 If there is no file in \code{download_directory} that can be matched with the

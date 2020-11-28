@@ -12,18 +12,18 @@
 #'   a `.osm.pbf` file through the chosen `provider`. Can be either a length-1
 #'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
 #'   coordinates with length 2. In the latter case it is assumed that the EPSG
-#'   code is 4326, while you can use any EPSG code with an `sfc_POINT` object.
-#'   See Details and examples in [oe_match()].
+#'   code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
+#'   an `sfc_POINT` object. See Details and examples in [oe_match()].
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
 #' @param provider Which provider should be used to download the data? Available
 #'   providers can be found with the following command: [oe_providers()]. For
-#'   `oe_get()` and `oe_match()`, if `place` is equal to `ITS Leeds`, then
+#'   [`oe_get()`] and [`oe_match()`], if `place` is equal to `ITS Leeds`, then
 #'   `provider` is set equal to `test`. This is just for simple examples and
 #'   internal testings.
 #' @param match_by Which column of the provider's database should be used for
 #'   matching the input `place` with a `.osm.pbf` file? The default is "name".
-#'   Check details and examples in [oe_match()] to understand how this parameter
+#'   Check Details and Examples in [oe_match()] to understand how this parameter
 #'   works. Ignored if `place` is not a character vector since the matching is
 #'   performed through a spatial operation.
 #' @param max_string_dist Numerical value greater or equal than 0. What is the
@@ -31,7 +31,7 @@
 #'   [adist()]) between input `place` and `match_by` column to tolerate before
 #'   asking the user to select which zone to download? This parameter is set
 #'   equal to 0 if `match_by` is equal to `iso3166_1_alpha2` or `iso3166_2`.
-#'   Check Details and examples in [oe_match()] to understand why this parameter
+#'   Check Details and Examples in [oe_match()] to understand why this parameter
 #'   is important. Ignored if `place` is not a character vector since the
 #'   matching is performed through a spatial operation.
 #' @param interactive_ask Boolean. If `TRUE` the function creates an interactive
@@ -42,7 +42,7 @@
 #'   operation.
 #' @param download_directory Where to download the file containing the OSM data?
 #'   By default this is equal to [oe_download_directory()], which is equal to
-#'   `tempdir()` and it changes each time you restart R. You can set a
+#'   [`tempdir()`] and it changes each time you restart R. You can set a
 #'   persistent `download_directory` by adding the following to your `.Renviron`
 #'   file (e.g. with [usethis::edit_r_environ()]):
 #'   `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
@@ -139,8 +139,7 @@
 #' # Other examples:
 #' oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
 #' # The following example mimics read_sf
-#' oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)
-#' }
+#' oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
 oe_get = function(
   place,
   layer = "lines",

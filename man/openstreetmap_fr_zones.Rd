@@ -3,7 +3,7 @@
 \docType{data}
 \name{openstreetmap_fr_zones}
 \alias{openstreetmap_fr_zones}
-\title{An \code{sf} object of geographical zones taken from download.openstreetmap.fr}
+\title{An sf object of geographical zones taken from download.openstreetmap.fr}
 \format{
 An \code{sf} object with 835 rows and
 7 columns:

@@ -1,4 +1,4 @@
-#' Read a `.pbf` or `.gpkg` object from file or URL
+#' Read a .pbf or .gpkg object from file or URL
 #'
 #' This function is used to read a `.pbf` or `.gpkg` object from file or URL. It
 #' is a wrapper around [oe_download()], [oe_vectortranslate()] and

@@ -1,4 +1,4 @@
-#' Translate a `.osm.pbf` file into `.gpkg` format
+#' Translate a .osm.pbf file into .gpkg format
 #'
 #' This function is used to translate a `.osm.pbf` file into `.gpkg` format.
 #' The conversion is performed using
@@ -62,8 +62,11 @@
 #'   the conversion process, such as spatial filters or SQL queries. These
 #'   operations are determined by the `vectortranslate_options` argument. If
 #'   `NULL` (default value), then `vectortranslate_options` is set equal to
+#'
 #'   `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),
-#'   "-lco", "GEOMETRY_NAME=geometry", layer)`. Explanation:
+#'   "-lco", "GEOMETRY_NAME=geometry", layer)`.
+#'
+#'   Explanation:
 #'   * `"-f", "GPKG"` says that the output format is `GPKG`;
 #'   * `"-overwrite` is used to delete an existing layer and recreate
 #'   it empty;
@@ -76,7 +79,7 @@
 #'   for the `.gpkg` file and modify the name of the geometry column;
 #'   * `layer` indicates which layer should be converted.
 #'
-#'   Check the introductory vignette, the help page of `sf::gdal_utils()` and
+#'   Check the introductory vignette, the help page of [`sf::gdal_utils()`] and
 #'   [here](https://gdal.org/programs/ogr2ogr.html) for an extensive
 #'   documentation on all available options.
 #'
@@ -376,7 +379,7 @@ get_ini_layer_defaults = function(layer) {
 #' @details OSM data are typically documented using several
 #'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags). A `tag` is a pair of
 #'   two items, namely a `key` and a `value`. As we documented in
-#'   `oe_vectortranslate()`, the conversion between `.osm.pbf` and `.gpkg`
+#'   [`oe_vectortranslate()`], the conversion between `.osm.pbf` and `.gpkg`
 #'   formats is governed by a CONFIG file that indicates which tags are
 #'   explicitly added to the `.gpkg` file. All the other keys stored in the
 #'   `.osm.pbf` file are automatically appended using an "other_tags" field,
