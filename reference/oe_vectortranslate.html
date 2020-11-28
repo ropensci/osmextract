@@ -126,7 +126,7 @@ usage, and check the introductory vignette for more complex use-cases." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Translate a <code>.osm.pbf</code> file into <code>.gpkg</code> format</h1>
+    <h1>Translate a .osm.pbf file into .gpkg format</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/vectortranslate.R'><code>R/vectortranslate.R</code></a></small>
     <div class="hidden name"><code>oe_vectortranslate.Rd</code></div>
     </div>
@@ -261,8 +261,9 @@ that are passed to <code>ogr2ogr</code> via <code><a href='https://r-spatial.git
 <code>.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations during
 the conversion process, such as spatial filters or SQL queries. These
 operations are determined by the <code>vectortranslate_options</code> argument. If
-<code>NULL</code> (default value), then <code>vectortranslate_options</code> is set equal to
-<code><a href='https://rdrr.io/r/base/c.html'>c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)</a></code>. Explanation:</p><ul>
+<code>NULL</code> (default value), then <code>vectortranslate_options</code> is set equal to</p>
+<p><code><a href='https://rdrr.io/r/base/c.html'>c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)</a></code>.</p>
+<p>Explanation:</p><ul>
 <li><p><code>"-f", "GPKG"</code> says that the output format is <code>GPKG</code>;</p></li>
 <li><p><code>"-overwrite</code> is used to delete an existing layer and recreate
 it empty;</p></li>
