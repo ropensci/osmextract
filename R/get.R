@@ -161,6 +161,9 @@ oe_get = function(
   quiet = FALSE
 ) {
 
+  # Test misspelt arguments
+  check_layer_provider(layer, provider)
+
   # See https://github.com/ITSLeeds/osmextract/pull/125
   if (is.character(place) && place == "ITS Leeds") {
     provider = "test"

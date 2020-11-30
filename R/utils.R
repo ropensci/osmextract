@@ -10,6 +10,19 @@ is_like_url = function(URL) {
   )
 }
 
+# Check if the provider argument was passed to the layer argument
+check_layer_provider = function(layer, provider) {
+  if (layer %in% oe_available_providers()) {
+    warning(
+      "You set layer = ",
+      layer,
+      " so you probably passed the provider to the layer argument!",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+  }
+  invisible(0)
+}
 
 #' Return the download directory used by the package
 #'

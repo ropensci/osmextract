@@ -69,6 +69,9 @@ oe_read = function(
   quiet = FALSE
 ) {
 
+  # Test misspelt arguments
+  check_layer_provider(layer, provider)
+
   # See https://github.com/ITSLeeds/osmextract/issues/114
   if (
     # The following condition checks if the user passed down one or more
