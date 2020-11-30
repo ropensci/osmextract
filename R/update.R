@@ -12,6 +12,8 @@
 #'   files. We added this parameter to minimize the probability of accidentally
 #'   reading-in old and not-synchronized `.gpkg` files. See Details. Defaults to
 #'   `TRUE`.
+#' @param max_file_size The maximum file size to download without asking in
+#'   interactive mode. Default: `5e+8`, half a gigabyte.
 #' @param ... Additional parameter that will be passed to [oe_get()] (such as
 #'   `stringsAsFactors` or `query`).
 #'
@@ -53,20 +55,21 @@
 #' # Fill the directory
 #' oe_get("andorra", download_directory = fake_dir, download_only = TRUE)
 #' # Check the directory
-#' list.files(fake_dir, "gpkg|pbf")
+#' list.files(fake_dir, pattern = "gpkg|pbf")
 #' # Update all .pbf files and delete .gpkg files
 #' oe_update(fake_dir)
-#' list.files(fake_dir, "gpkg|pbf")}
+#' list.files(fake_dir, pattern = "gpkg|pbf")}
 oe_update = function(
   download_directory = oe_download_directory(),
   quiet = FALSE,
   delete_gpkg = TRUE,
+  max_file_size = 5e+8,
   ...
 ) {
   # Extract all files in download_directory
   all_files = list.files(download_directory)
 
-  # Save all providers but test
+  # Save all providers
   all_providers = oe_available_providers()
 
   # The following is used to check if the directory is empty since list.files
@@ -98,7 +101,7 @@ oe_update = function(
       file.path(download_directory, grep("\\.gpkg", all_files, value = TRUE))
     )
     if (isFALSE(quiet)) {
-      message("The .gpkg files in download_directory were removed.")
+      cat("\nThe .gpkg files in download_directory were removed.\n")
     }
   }
 
@@ -113,25 +116,58 @@ oe_update = function(
   )
   osmpbf_files = grep(oe_regex, all_files, perl = TRUE, value = TRUE)
 
+  # Check if any file is bigger than 5e+8 bytes (500MB) and, in that case, it prompts an
+  # interactive menu or set max_file_size = Inf
+  if (any(file.size(file.path(download_directory, osmpbf_files)) > 5e+8)) {
+    continue = 1L
+    if (interactive()) {
+      message("You are going to download one or more file(s) bigger than 500MB")
+      continue = utils::menu(
+        choices = c("Yes", "No"),
+        title = "Are you sure that you want to proceed?"
+      )
+
+      if (continue != 1L) {
+        stop("Aborted by user.")
+      }
+    }
+
+    max_file_size = Inf
+  }
+
   # For all the files matched with the previous regex
   for (file in osmpbf_files) {
-    # Match it's provider
-    matching_providers = vapply(
-      all_providers,
-      grepl,
-      FUN.VALUE = logical(1),
-      x = file,
-      fixed = TRUE
+    # Match it's provider.
+    provider = regmatches(
+      file,
+      regexpr(paste0("^(", paste0(all_providers, collapse = "|"), ")"), text = file, perl = TRUE)
     )
-    provider = all_providers[matching_providers]
+
     # Match the id of the place (the id is the alphabetic string right  after
     # the provider, for example if file is equal to
     # geofabrik_italy-latest-update.osm.pbf then provider = geofabrik and id =
-    # italy)
-    id = regmatches(
-      file,
-      regexpr(paste0("(?<=", provider, "_)[a-zA-Z]+"), file, perl = TRUE)
-    )
+    # italy). The regex is different for bbbike provider since it doesn't use
+    # the term "-latest" before .osm.pbf.
+    # I added the term "-" and "_" to the second regex since they may be
+    # included in several id(s).
+    if (provider %in% c("bbbike", "test")) {
+      id = regmatches(
+        file,
+        regexpr(paste0("(?<=", provider, "_)[A-Za-z]+"), file, perl = TRUE)
+      )
+    } else {
+      id = regmatches(
+        file,
+        regexpr(paste0("(?<=", provider, "_)[a-zA-Z-_]+(?=-latest)"), file, perl = TRUE)
+      )
+    }
+
+    # The ID of the US states is "us/state" while the name is just "state", so I
+    # need to check if the id is one of the US states and then add the "us/"
+    # prefix.
+    if (id %in% gsub("us/", "", oe_match_pattern("us/"))) {
+      id = paste0("us/", id)
+    }
 
     # Update the .osm.pbf files, skipping the vectortranslate step
     oe_get(
@@ -141,6 +177,7 @@ oe_update = function(
       force_download = TRUE,
       download_only = TRUE,
       skip_vectortranslate = TRUE,
+      max_file_size = max_file_size,
       ...
     )
   }

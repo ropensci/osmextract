@@ -8,6 +8,7 @@ oe_update(
   download_directory = oe_download_directory(),
   quiet = FALSE,
   delete_gpkg = TRUE,
+  max_file_size = 5e+08,
   ...
 )
 }
@@ -22,6 +23,9 @@ messages. See Details.}
 files. We added this parameter to minimize the probability of accidentally
 reading-in old and not-synchronized \code{.gpkg} files. See Details. Defaults to
 \code{TRUE}.}
+
+\item{max_file_size}{The maximum file size to download without asking in
+interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
 \item{...}{Additional parameter that will be passed to \code{\link[=oe_get]{oe_get()}} (such as
 \code{stringsAsFactors} or \code{query}).}
@@ -71,8 +75,8 @@ fake_dir = tempdir()
 # Fill the directory
 oe_get("andorra", download_directory = fake_dir, download_only = TRUE)
 # Check the directory
-list.files(fake_dir, "gpkg|pbf")
+list.files(fake_dir, pattern = "gpkg|pbf")
 # Update all .pbf files and delete .gpkg files
 oe_update(fake_dir)
-list.files(fake_dir, "gpkg|pbf")}
+list.files(fake_dir, pattern = "gpkg|pbf")}
 }
