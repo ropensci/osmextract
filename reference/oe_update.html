@@ -137,6 +137,7 @@ Details.</p>
   download_directory <span class='op'>=</span> <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span><span class='op'>(</span><span class='op'>)</span>,
   quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
   delete_gpkg <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  max_file_size <span class='op'>=</span> <span class='fl'>5e+08</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -159,6 +160,11 @@ messages. See Details.</p></td>
 files. We added this parameter to minimize the probability of accidentally
 reading-in old and not-synchronized <code>.gpkg</code> files. See Details. Defaults to
 <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>max_file_size</th>
+      <td><p>The maximum file size to download without asking in
+interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -205,10 +211,10 @@ Check <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></cod
 <span class='co'># Fill the directory</span>
 <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"andorra"</span>, download_directory <span class='op'>=</span> <span class='va'>fake_dir</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># Check the directory</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, <span class='st'>"gpkg|pbf"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, pattern <span class='op'>=</span> <span class='st'>"gpkg|pbf"</span><span class='op'>)</span>
 <span class='co'># Update all .pbf files and delete .gpkg files</span>
 <span class='fu'>oe_update</span><span class='op'>(</span><span class='va'>fake_dir</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, <span class='st'>"gpkg|pbf"</span><span class='op'>)</span><span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, pattern <span class='op'>=</span> <span class='st'>"gpkg|pbf"</span><span class='op'>)</span><span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
