@@ -28,3 +28,16 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
 
   expect_gte(nrow(its_leeds), nrow(small_its_leeds))
 })
+
+test_that("can specify path using ~", {
+  dir.create("~/test_for_tilde_in_R_osmextract")
+  expect_s3_class(
+    object = oe_get(
+      place = "ITS Leeds",
+      download_directory = "~/test_for_tilde_in_R_osmextract",
+      quiet = TRUE
+    ),
+    class = "sf"
+  )
+  unlink("~/test_for_tilde_in_R_osmextract", recursive = TRUE)
+})
