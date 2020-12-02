@@ -300,11 +300,13 @@ oe_vectortranslate = function(
     )
   }
 
-  # Now we can apply the vectortranslate operation from gdal_utils:
+  # Now we can apply the vectortranslate operation from gdal_utils: See
+  # https://github.com/ITSLeeds/osmextract/issues/150 for a discussion on
+  # normalizePath
   sf::gdal_utils(
     util = "vectortranslate",
-    source = file_path,
-    destination = gpkg_file_path,
+    source = normalizePath(file_path),
+    destination = normalizePath(gpkg_file_path, mustWork = FALSE),
     options = vectortranslate_options,
     quiet = quiet
   )
