@@ -2,14 +2,26 @@
 % Please edit documentation in R/search.R
 \name{oe_search}
 \alias{oe_search}
-\title{Returns a single sf feature associated with a search term}
+\title{Search for a place and return an sf data frame locating it}
 \usage{
 oe_search(
-  query = "Leeds",
+  place = "Leeds",
   base_url = "https://nominatim.openstreetmap.org",
   destfile = tempfile(fileext = ".geojson")
 )
 }
+\arguments{
+\item{place}{Text string containing the name of a place the location of
+which is to be found, such as \code{"Leeds"} or \code{"Milan"}.}
+
+\item{base_url}{The URL of the nominatim server to use. The main
+open server hosted by OpenStreetMap is the default.}
+
+\item{destfile}{The name of the destination file where the output
+of the search query, a \code{.geojson} file, should be saved.}
+}
 \description{
-Documentation: wip, not yet exported
+This function provides a simple interface to the
+\href{https://nominatim.openstreetmap.org}{nominatim}
+service for finding the geographical location of place names.
 }
