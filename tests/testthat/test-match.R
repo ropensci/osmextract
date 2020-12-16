@@ -55,7 +55,7 @@ test_that("oe_match: different providers, match_by or max_string dist args", {
   expect_error(oe_match("Italy", match_by = "XXX"))
   expect_match(oe_match("RU", match_by = "iso3166_1_alpha2")$url, "russia")
 
-  expect_error(oe_match("Isle Wight"))
+  expect_null(oe_match("Isle Wight")) # no match found
   expect_match(oe_match("Isle Wight", max_string_dist = 3)$url, "isle-of-wight")
   expect_message(oe_match("London", max_string_dist = 3, quiet = FALSE))
 

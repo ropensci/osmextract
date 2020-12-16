@@ -128,6 +128,9 @@
 #' west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
 #' # If you run it again, the function will not download the file or convert it
 #' west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+#' # Match with place name
+#' oe_get("Milan", quiet = FALSE) # Warning: the .pbf file is 400MB
+#'
 #' # Match with coordinates (any EPSG)
 #' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 #' oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
@@ -178,6 +181,19 @@ oe_get = function(
     interactive_ask = interactive_ask,
     quiet = quiet
   )
+  if(is.null(matched_zone) && is.character(place)) {
+    if(isFALSE(quiet)) message("No match in the OSM provider data. Searching for the location online")
+    place_sf = oe_search(place)
+    if(isFALSE(quiet)) message("Got data for: ", place_sf$display_name, ", ", place_sf$geometry)
+    matched_zone = oe_match(
+      place = sf::st_geometry(place_sf),
+      provider = provider,
+      match_by = match_by,
+      max_string_dist = max_string_dist,
+      interactive_ask = interactive_ask,
+      quiet = quiet
+    )
+  }
 
   # Extract the matched URL and file size and pass these parameters to the
   # osmext-download function.

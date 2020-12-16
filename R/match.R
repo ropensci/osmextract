@@ -284,16 +284,17 @@ oe_match.character = function(
         )
       }
     } else {
-      stop(
+      # tell the user the location cannot be found (previously returned an error)
+      message(
         "String distance between best match and the input place is ",
         matching_dists[best_match_id, 1],
         ", while the maximum threshold distance is equal to ",
         max_string_dist,
-        ". You should increase the max_string_dist parameter, ",
+        ". You can try increasing the max_string_dist parameter, ",
         "look for a closer match in the chosen provider database",
-        " or consider using a different match_by variable.",
-        call. = FALSE
+        " or consider using a different match_by variable."
       )
+      return(NULL)
     }
   }
 

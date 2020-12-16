@@ -170,6 +170,9 @@ its_residential
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
 # If you run it again, the function will not download the file or convert it
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
+# Match with place name
+oe_get("Milan", quiet = FALSE) # Warning: the .pbf file is 400MB
+
 # Match with coordinates (any EPSG)
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
