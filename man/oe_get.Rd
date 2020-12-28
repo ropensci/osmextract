@@ -11,7 +11,6 @@ oe_get(
   provider = "geofabrik",
   match_by = "name",
   max_string_dist = 1,
-  interactive_ask = FALSE,
   download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+08,
@@ -60,13 +59,6 @@ equal to 0 if \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso31
 Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand why this parameter
 is important. Ignored if \code{place} is not a character vector since the
 matching is performed through a spatial operation.}
-
-\item{interactive_ask}{Boolean. If \code{TRUE} the function creates an interactive
-menu in case the best match is further than \code{max_string_dist}, otherwise it
-fails with \code{stop()}. Check details and examples in \code{\link[=oe_match]{oe_match()}} to
-understand why this parameter is important. Ignored if \code{place} is not a
-character vector since the matching is performed through a spatial
-operation.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to

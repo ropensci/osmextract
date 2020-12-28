@@ -22,7 +22,6 @@ oe_match(place, ...)
   quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
-  interactive_ask = FALSE,
   ...
 )
 }
@@ -62,13 +61,6 @@ equal to 0 if \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso31
 Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand why this parameter
 is important. Ignored if \code{place} is not a character vector since the
 matching is performed through a spatial operation.}
-
-\item{interactive_ask}{Boolean. If \code{TRUE} the function creates an interactive
-menu in case the best match is further than \code{max_string_dist}, otherwise it
-fails with \code{stop()}. Check details and examples in \code{\link[=oe_match]{oe_match()}} to
-understand why this parameter is important. Ignored if \code{place} is not a
-character vector since the matching is performed through a spatial
-operation.}
 }
 \value{
 A list with two elements, named \code{url} and \code{file_size}. The first
@@ -132,11 +124,6 @@ oe_match(leeds, provider = "bbbike")
 # Match the input zone using a numeric vector of coordinates
 # (in which case crs = 4326 is assumed)
 oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
-
-# Check interactive_ask:
-if (interactive()) {
-    oe_match("London", interactive_ask = TRUE)
-}
 
 # It returns a warning since Berin is matched both with Benin and Berlin
 oe_match("Berin", quiet = FALSE)

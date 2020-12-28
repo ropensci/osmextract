@@ -5,9 +5,10 @@
 \title{Search for a place and return an sf data frame locating it}
 \usage{
 oe_search(
-  place = "Leeds",
+  place,
   base_url = "https://nominatim.openstreetmap.org",
-  destfile = tempfile(fileext = ".geojson")
+  destfile = tempfile(fileext = ".geojson"),
+  ...
 )
 }
 \arguments{
@@ -19,9 +20,11 @@ open server hosted by OpenStreetMap is the default.}
 
 \item{destfile}{The name of the destination file where the output
 of the search query, a \code{.geojson} file, should be saved.}
+
+\item{...}{Extra arguments that are passed to \code{sf::st_read}.}
 }
 \description{
-This function provides a simple interface to the
-\href{https://nominatim.openstreetmap.org}{nominatim}
-service for finding the geographical location of place names.
+This (at the moment internal) function provides a simple interface to the
+\href{https://nominatim.openstreetmap.org}{nominatim} service for finding the
+geographical location of place names.
 }

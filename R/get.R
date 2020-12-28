@@ -34,12 +34,6 @@
 #'   Check Details and Examples in [oe_match()] to understand why this parameter
 #'   is important. Ignored if `place` is not a character vector since the
 #'   matching is performed through a spatial operation.
-#' @param interactive_ask Boolean. If `TRUE` the function creates an interactive
-#'   menu in case the best match is further than `max_string_dist`, otherwise it
-#'   fails with `stop()`. Check details and examples in [oe_match()] to
-#'   understand why this parameter is important. Ignored if `place` is not a
-#'   character vector since the matching is performed through a spatial
-#'   operation.
 #' @param download_directory Where to download the file containing the OSM data?
 #'   By default this is equal to [oe_download_directory()], which is equal to
 #'   [`tempdir()`] and it changes each time you restart R. You can set a
@@ -150,7 +144,6 @@ oe_get = function(
   provider = "geofabrik",
   match_by = "name",
   max_string_dist = 1,
-  interactive_ask = FALSE,
   download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+8,
@@ -178,22 +171,8 @@ oe_get = function(
     provider = provider,
     match_by = match_by,
     max_string_dist = max_string_dist,
-    interactive_ask = interactive_ask,
     quiet = quiet
   )
-  if(is.null(matched_zone) && is.character(place)) {
-    if(isFALSE(quiet)) message("No match in the OSM provider data. Searching for the location online")
-    place_sf = oe_search(place)
-    if(isFALSE(quiet)) message("Got data for: ", place_sf$display_name, ", ", place_sf$geometry)
-    matched_zone = oe_match(
-      place = sf::st_geometry(place_sf),
-      provider = provider,
-      match_by = match_by,
-      max_string_dist = max_string_dist,
-      interactive_ask = interactive_ask,
-      quiet = quiet
-    )
-  }
 
   # Extract the matched URL and file size and pass these parameters to the
   # osmext-download function.

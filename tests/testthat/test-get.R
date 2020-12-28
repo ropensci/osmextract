@@ -1,5 +1,5 @@
 test_that("oe_get: simplest examples work", {
-  expect_s3_class(oe_get("ITS Leeds", provider = "test"), "sf")
+  expect_s3_class(oe_get("ITS Leeds", provider = "test", quiet = TRUE), "sf")
 })
 
 test_that("vectortranslate is not skipped if force_download is TRUE", {
@@ -17,13 +17,16 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
     "-lco", "GEOMETRY_NAME=geometry",
     "-where", "highway IN ('service')",
     "lines"
-  ))
+    ),
+    quiet = TRUE
+  )
 
   # Download it again
   its_leeds <- oe_get(
     "ITS Leeds",
     download_directory = my_tempdir,
     force_vectortranslate = TRUE,
+    quiet = TRUE
   )
 
   expect_gte(nrow(its_leeds), nrow(small_its_leeds))

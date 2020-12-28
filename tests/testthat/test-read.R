@@ -1,6 +1,6 @@
 test_that("oe_read: simplest examples work", {
   f = system.file("its-example.osm.pbf", package = "osmextract")
-  osm_data = oe_read(f)
+  osm_data = oe_read(f, quiet = TRUE)
   # result is sf object:
   expect_s3_class(object = osm_data, class = "sf")
   # linestring geometry is default:
@@ -8,7 +8,7 @@ test_that("oe_read: simplest examples work", {
     as.character(unique(sf::st_geometry_type(osm_data))),
     "LINESTRING"
   )
-  osm_data_points = oe_read(f, layer = "points")
+  osm_data_points = oe_read(f, layer = "points", quiet = TRUE)
   expect_equal(
     as.character(unique(sf::st_geometry_type(osm_data_points))),
     "POINT"
@@ -47,6 +47,7 @@ test_that("oe_read fails with misspelled arguments", {
     oe_read(
       f,
       stringasfactor = FALSE,
+      quiet = TRUE
     ),
     "no simple features"
   )

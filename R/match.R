@@ -67,11 +67,6 @@
 #' # (in which case crs = 4326 is assumed)
 #' oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 #'
-#' # Check interactive_ask:
-#' if (interactive()) {
-#'     oe_match("London", interactive_ask = TRUE)
-#' }
-#'
 #' # It returns a warning since Berin is matched both with Benin and Berlin
 #' oe_match("Berin", quiet = FALSE)
 oe_match = function(place, ...) {
@@ -205,7 +200,6 @@ oe_match.character = function(
   quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
-  interactive_ask = FALSE,
   ...
   ) {
   # For the moment we support only length-one character vectors
@@ -250,6 +244,7 @@ oe_match.character = function(
     ignore.case = TRUE
   )
   best_match_id = which(matching_dists == min(matching_dists, na.rm = TRUE))
+
   if (length(best_match_id) > 1L) {
     warning(
       "The input place was matched with multiple geographical zones: ",
@@ -265,37 +260,74 @@ oe_match.character = function(
   # Check if the best match is still too far
   high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
+  # If the approximate string distance between the best match is greater than
+  # the max_string_dist threshold, then:
   if (isTRUE(high_distance)) {
-    if (isFALSE(quiet) || isTRUE(interactive_ask)) {
+
+    # 1. Raise a message
+    if (isFALSE(quiet)) {
       message(
-        "No exact matching found for place = ", place, ". ",
-        "Best match is ", best_matched_place[[match_by]], "."
+        "No exact match found for place = ", place, " and provider = ",
+        provider, ". ", "Best match is ", best_matched_place[[match_by]], ".",
+        " \nChecking the other providers."
       )
     }
-    if (interactive() && isTRUE(interactive_ask)) {
-      continue = utils::menu(
-        choices = c("Yes", "No"),
-        title = "Do you confirm that this is the right match?"
-      )
-      # since the options are Yes/No, then Yes == 1L
-      if (continue != 1L) {
-        stop("Search for a closer match in the chosen provider's database.",
-             call. = FALSE
+
+    # 2. Check the other providers and, if there is an exact match, just return
+    # the matched value from that other provider:
+    other_providers = setdiff(oe_available_providers(), provider)
+    exact_match = FALSE
+    for (other_provider in other_providers) {
+      if (match_by %!in% colnames(load_provider_data(other_provider))) {
+        next
+      }
+      all_match_by = load_provider_data(other_provider)[[match_by]]
+
+      if (any(tolower(place) == tolower(all_match_by))) {
+        exact_match = TRUE
+        break
+      }
+    }
+
+    if (exact_match) {
+      if (isFALSE(quiet)) {
+        message(
+          "I found an exact string match using provider = ", other_provider,
+          " so I'm going to return that. "
         )
       }
-    } else {
-      # tell the user the location cannot be found (previously returned an error)
-      message(
-        "String distance between best match and the input place is ",
-        matching_dists[best_match_id, 1],
-        ", while the maximum threshold distance is equal to ",
-        max_string_dist,
-        ". You can try increasing the max_string_dist parameter, ",
-        "look for a closer match in the chosen provider database",
-        " or consider using a different match_by variable."
+
+      return(
+       oe_match(
+         place = place,
+         provider = other_provider,
+         match_by = match_by,
+         quiet = TRUE,
+         max_string_dist = max_string_dist
+        )
       )
-      return(NULL)
     }
+
+    # 3. Otherwise, we can use oe_search to look for the lat/long coordinates of the input place
+    if (isFALSE(quiet)) {
+      message(
+        "No exact match found in any OSM provider data.",
+        " Searching for the location online."
+      )
+    }
+
+    place_online = oe_search(place = place)
+    # I added Sys.sleep(1) since the usage policty of OSM nominatim (see
+    # https://operations.osmfoundation.org/policies/nominatim/) requires max 1
+    # request per second.
+    Sys.sleep(1)
+    return(
+      oe_match(
+        place = sf::st_geometry(place_online),
+        provider = provider,
+        quiet = quiet
+      )
+    )
   }
 
   if (isFALSE(quiet)) {
@@ -368,7 +400,7 @@ oe_match_pattern = function(
 
   # Then we extract only the elements of the match_by_column that match the
   # input pattern.
-  match_ID = grep(pattern, match_by_column)
+  match_ID = grep(pattern, match_by_column, ignore.case = TRUE)
 
   # If full_row is TRUE than return the corresponding row of provider_data,
   # otherwise just the matched pattern.

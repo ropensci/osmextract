@@ -50,12 +50,14 @@ test_that("oe_match: numeric input", {
   expect_match(oe_match(c(9.1916, 45.4650))$url, "italy")
 })
 
-test_that("oe_match: different providers, match_by or max_string dist args", {
+test_that("oe_match: different providers, match_by or max_string_dist args", {
   expect_error(oe_match("Italy", provider = "XXX"))
   expect_error(oe_match("Italy", match_by = "XXX"))
   expect_match(oe_match("RU", match_by = "iso3166_1_alpha2")$url, "russia")
 
-  expect_null(oe_match("Isle Wight")) # no match found
+  # expect_null(oe_match("Isle Wight"))
+  # The previous test was removed in #155 since now oe_match calls nominatim servers in
+  # case it doesn't find an exact match, so it should never return NULL
   expect_match(oe_match("Isle Wight", max_string_dist = 3)$url, "isle-of-wight")
   expect_message(oe_match("London", max_string_dist = 3, quiet = FALSE))
 
