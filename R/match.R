@@ -292,8 +292,8 @@ oe_match.character = function(
     if (exact_match) {
       if (isFALSE(quiet)) {
         message(
-          "I found an exact string match using provider = ", other_provider,
-          " so I'm going to return that. "
+          "An exact string match was found using provider = ", other_provider,
+          ". Returning that. "
         )
       }
 

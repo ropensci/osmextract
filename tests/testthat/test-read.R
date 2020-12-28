@@ -32,6 +32,25 @@ test_that("or_read: simplest example with a URL works", {
     ),
     NA
   )
+
+  # clean tempdir
+  file.remove(
+    oe_read(
+      my_url,
+      download_only = TRUE,
+      download_directory = tempdir(),
+      provider = "test"
+    )
+  )
+  file.remove(
+    oe_read(
+      my_url,
+      download_only = TRUE,
+      download_directory = tempdir(),
+      provider = "test",
+      skip_vectortranslate = TRUE
+    )
+  )
 })
 
 test_that("oe_read fails with a clear error message with wrong URL of file path", {

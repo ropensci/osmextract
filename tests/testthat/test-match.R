@@ -33,7 +33,7 @@ test_that("oe_match: sfc_POINT objects", {
     sf::st_point(c(4.988327, 52.260453)),
     crs = 4326
   )
-  # the point is midway between amsterdam and utrecth, closer to Amsterdam, and
+  # The point is midway between amsterdam and utrecth, closer to Amsterdam, and
   # it intersects both bboxes
   expect_message(oe_match(
     amsterdam_utrecht,

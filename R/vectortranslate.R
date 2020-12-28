@@ -440,15 +440,15 @@ oe_get_keys.default = function(zone, layer = "lines") {
 #' @export
 oe_get_keys.character = function(zone, layer = "lines") {
   if (length(zone) != 1L) {
-    stop("The input zone must have length 1", call. = FALSE)
+    stop("The input file must have length 1", call. = FALSE)
   }
 
   if (!file.exists(zone)) {
-    stop("The input zone does not exist.", call. = FALSE)
+    stop("The input file does not exist.", call. = FALSE)
   }
 
   if (tools::file_ext(zone) != "gpkg") {
-    stop("The input zone must have a .gpkg extension.", call. = FALSE)
+    stop("The input file must have a .gpkg extension.", call. = FALSE)
   }
 
   # Read the gpkg file selecting only the other_tags column
@@ -466,7 +466,7 @@ oe_get_keys.character = function(zone, layer = "lines") {
 #' @export
 oe_get_keys.sf = function(zone, layer = "lines") {
   if ("other_tags" %!in% names(zone)) {
-    stop("The input zone must have an other_tags field.", call. = FALSE)
+    stop("The input object must have an other_tags field.", call. = FALSE)
   }
 
   get_keys(zone)

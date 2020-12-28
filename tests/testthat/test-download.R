@@ -6,7 +6,7 @@ test_that("oe_download: simplest examples work", {
       file_url = its_match$url,
       provider = "test",
       download_directory = tempdir(),
-      quiet = FALSE
+      quiet = TRUE
     ),
     NA
   )
@@ -19,6 +19,17 @@ test_that("oe_download: simplest examples work", {
       quiet = FALSE
     ),
     "Skip downloading."
+  )
+
+  # clean tempdir
+  file.remove(
+    oe_get(
+      "ITS Leeds",
+      download_only = TRUE,
+      download_directory = tempdir(),
+      skip_vectortranslate = TRUE,
+      quiet = TRUE
+    )
   )
 })
 
