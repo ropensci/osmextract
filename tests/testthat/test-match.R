@@ -87,3 +87,19 @@ test_that("oe_check_pattern: simplest examples work", {
   expect_error(oe_match_pattern("Yorkshire", full_row = TRUE), regexp = NA)
   expect_error(oe_match_pattern("Yorkshire", match_by = "XXX"))
 })
+
+test_that("oe_match can use different providers", {
+  expect_match(
+    oe_match("leeds", quiet = TRUE)$url,
+    "bbbike/Leeds/Leeds\\.osm\\.pbf"
+  )
+})
+
+test_that("oe_match looks for a place location online", {
+  expect_match(
+    oe_match("Olginate", quiet = TRUE)$url,
+    "italy/nord-ovest-latest\\.osm\\.pbf"
+  )
+})
+
+
