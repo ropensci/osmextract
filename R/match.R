@@ -18,21 +18,29 @@
 #' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
 #'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
-#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See [geofabrik_zones]
-#'   for more details.
+#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
+#'   [geofabrik_zones] for more details.
 #'
-#'   If the input place is specified as a spatial point (either `sfc_POINT` or
-#'   numeric coordinates), then the function will return the geographical area
-#'   with the highest "level" intersecting the point. See the help pages of the
-#'   chosen provider database for understanding the meaning of the "level"
-#'   field. If there are multiple areas at the same "level" intersecting the
-#'   input place, then the function will return the area whose centroid is
-#'   closer to the input place.
+#'   If the input place is specified as a spatial point (either as `sfc_POINT`
+#'   or a pair of numeric coordinates), then the function will return the
+#'   geographical area with the highest "level" intersecting the point. See the
+#'   help pages of the chosen provider database for understanding the meaning of
+#'   the "level" field. If there are multiple areas at the same "level"
+#'   intersecting the input place, then the function will return the area whose
+#'   centroid is closer to the input place.
 #'
 #'   If the input place is specified as a character vector and there are
 #'   multiple plausible matches between the input place and the `match_by`
 #'   column, then the function will return a warning and it will select the
-#'   first match. See Examples.
+#'   first match. See Examples. On the other hand, if the approximate string
+#'   distance between the input `place` and the best match in `match_by` column
+#'   is greater than `max_string_dist`, then the function will look for exact
+#'   matches (i.e. `max_string_dist = 0`) in the other supported providers. If
+#'   it finds an exact match, then it will return the corresponding URL for that
+#'   new provider, otherwise it will try to geolocate the input `place` using
+#'   [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/),
+#'   and then it will perform a spatial matching operation.
+#'
 #' @examples
 #' # The simplest example:
 #' oe_match("Italy")
@@ -40,21 +48,16 @@
 #' # The default provider is "geofabrik", but we can change that:
 #' oe_match("Leeds", provider = "bbbike")
 #'
-#' # By default the matching operations are performed through the column "name"
-#' # in the provider's database but this can be a problem:
-#' \dontrun{
-#' oe_match("Russia", quiet = FALSE)}
-#' # so you can perform the matching operations using other columns in the
-#' # provider's database:
+#' # By default, the matching operations are performed through the column "name"
+#' # in the provider's database but this can be a problem. Hence, you can
+#' # perform the matching operations using other columns:
 #' oe_match("RU", match_by = "iso3166_1_alpha2")
-#' # Run oe_providers() for a description of all providers and check the help
-#' # pages of the corresponding databases to learn which fields are present.
+#' # Run oe_providers() for reading a short description of all providers and
+#' # check the help pages of the corresponding databases to learn which fields
+#' # are present.
 #'
-#' # You can always increase the max_string_dist argument to help the function:
-#' \dontrun{
-#' oe_match("Isle Wight", quiet = FALSE)}
-#' oe_match("Isle Wight", max_string_dist = 3, quiet = FALSE)
-#' # but be aware that it can be dangerous:
+#' # You can always increase the max_string_dist argument, but it can be
+#' dangerous:
 #' oe_match("London", max_string_dist = 3, quiet = FALSE)
 #'
 #' # Match the input zone using an sfc_POINT object:
@@ -69,6 +72,15 @@
 #'
 #' # It returns a warning since Berin is matched both with Benin and Berlin
 #' oe_match("Berin", quiet = FALSE)
+#'
+#' # If the input place does not match any zone in the chosen provider, then the
+#' # function will test the other providers:
+#' oe_match("Leeds")
+#'
+#' # If the input place cannot be exactly matched with any zone in any provider,
+#' # then the function will try to geolocate the input and then it will perform a
+#' # spatial match:
+#' oe_match("Lecco")
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
@@ -128,7 +140,7 @@ oe_match.sfc_POINT = function(
         "The input place was matched with multiple geographical areas. ",
         "Selecting the areas with the highest \"level\". See the help page",
         " associated to the chosen provider for an explanation of the ",
-        "meaning of the \"level\" field"
+        "meaning of the \"level\" field."
       )
     }
 
@@ -147,7 +159,7 @@ oe_match.sfc_POINT = function(
       message(
         "The input place was matched with multiple geographical areas with",
         " the same \"level\". Selecting the area whose centroid is closer ",
-        "to the input place"
+        "to the input place."
       )
     }
 

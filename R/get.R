@@ -12,8 +12,8 @@
 #'   a `.osm.pbf` file through the chosen `provider`. Can be either a length-1
 #'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
 #'   coordinates with length 2. In the latter case it is assumed that the EPSG
-#'   code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
-#'   an `sfc_POINT` object. See Details and examples in [oe_match()].
+#'   code is 4326 specified as c(LON, LAT), while you can use any CRS with an
+#'   `sfc_POINT` object. See Details and examples in [oe_match()].
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
 #' @param provider Which provider should be used to download the data? Available
@@ -22,18 +22,19 @@
 #'   `provider` is set equal to `test`. This is just for simple examples and
 #'   internal testings.
 #' @param match_by Which column of the provider's database should be used for
-#'   matching the input `place` with a `.osm.pbf` file? The default is "name".
+#'   matching the input `place` with a `.osm.pbf` file? The default is `"name"`.
 #'   Check Details and Examples in [oe_match()] to understand how this parameter
 #'   works. Ignored if `place` is not a character vector since the matching is
 #'   performed through a spatial operation.
 #' @param max_string_dist Numerical value greater or equal than 0. What is the
 #'   maximum distance in fuzzy matching (i.e. Approximate String Distance, see
 #'   [adist()]) between input `place` and `match_by` column to tolerate before
-#'   asking the user to select which zone to download? This parameter is set
-#'   equal to 0 if `match_by` is equal to `iso3166_1_alpha2` or `iso3166_2`.
-#'   Check Details and Examples in [oe_match()] to understand why this parameter
-#'   is important. Ignored if `place` is not a character vector since the
-#'   matching is performed through a spatial operation.
+#'   testing alternative providers or looking for geographical matching with
+#'   Nominatim API? This parameter is set equal to 0 if `match_by` is equal to
+#'   `iso3166_1_alpha2` or `iso3166_2`. Check Details and Examples in
+#'   [oe_match()] to understand why this parameter is important. Ignored if
+#'   `place` is not a character vector since the matching is performed through a
+#'   spatial operation.
 #' @param download_directory Where to download the file containing the OSM data?
 #'   By default this is equal to [oe_download_directory()], which is equal to
 #'   [`tempdir()`] and it changes each time you restart R. You can set a

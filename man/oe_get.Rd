@@ -29,8 +29,8 @@ oe_get(
 a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
-code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
-an \code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+code is 4326 specified as c(LON, LAT), while you can use any CRS with an
+\code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
@@ -46,7 +46,7 @@ providers can be found with the following command: \code{\link[=oe_providers]{oe
 internal testings.}
 
 \item{match_by}{Which column of the provider's database should be used for
-matching the input \code{place} with a \code{.osm.pbf} file? The default is "name".
+matching the input \code{place} with a \code{.osm.pbf} file? The default is \code{"name"}.
 Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand how this parameter
 works. Ignored if \code{place} is not a character vector since the matching is
 performed through a spatial operation.}
@@ -54,11 +54,12 @@ performed through a spatial operation.}
 \item{max_string_dist}{Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching (i.e. Approximate String Distance, see
 \code{\link[=adist]{adist()}}) between input \code{place} and \code{match_by} column to tolerate before
-asking the user to select which zone to download? This parameter is set
-equal to 0 if \code{match_by} is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}.
-Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand why this parameter
-is important. Ignored if \code{place} is not a character vector since the
-matching is performed through a spatial operation.}
+testing alternative providers or looking for geographical matching with
+Nominatim API? This parameter is set equal to 0 if \code{match_by} is equal to
+\code{iso3166_1_alpha2} or \code{iso3166_2}. Check Details and Examples in
+\code{\link[=oe_match]{oe_match()}} to understand why this parameter is important. Ignored if
+\code{place} is not a character vector since the matching is performed through a
+spatial operation.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
