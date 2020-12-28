@@ -57,7 +57,7 @@
 #' # are present.
 #'
 #' # You can always increase the max_string_dist argument, but it can be
-#' dangerous:
+#' # dangerous:
 #' oe_match("London", max_string_dist = 3, quiet = FALSE)
 #'
 #' # Match the input zone using an sfc_POINT object:
