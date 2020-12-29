@@ -75,17 +75,17 @@ file (and its file-size, if present). The URLs are stored in several
 provider's databases. See \code{\link[=oe_providers]{oe_providers()}} and examples.
 }
 \details{
-The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by geofabrik
+The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by Geofabrik
 provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2} codes. See
 \link{geofabrik_zones} for more details.
 
 If the input place is specified as a spatial point (either as \code{sfc_POINT}
 or a pair of numeric coordinates), then the function will return the
 geographical area with the highest "level" intersecting the point. See the
-help pages of the chosen provider database for understanding the meaning of
-the "level" field. If there are multiple areas at the same "level"
-intersecting the input place, then the function will return the area whose
-centroid is closer to the input place.
+help pages of the chosen provider database to understand the meaning of the
+"level" field. If there are multiple areas at the same "level" intersecting
+the input place, then the function will return the area whose centroid is
+closer to the input place.
 
 If the input place is specified as a character vector and there are
 multiple plausible matches between the input place and the \code{match_by}
@@ -94,10 +94,11 @@ first match. See Examples. On the other hand, if the approximate string
 distance between the input \code{place} and the best match in \code{match_by} column
 is greater than \code{max_string_dist}, then the function will look for exact
 matches (i.e. \code{max_string_dist = 0}) in the other supported providers. If
-it finds an exact match, then it will return the corresponding URL for that
-new provider, otherwise it will try to geolocate the input \code{place} using
-\href{https://nominatim.org/release-docs/develop/api/Overview/}{Nominatim API},
-and then it will perform a spatial matching operation.
+it finds an exact match, then it will return the corresponding URL.
+Otherwise, if \code{match_by} is equal to \code{"name"}, then it will try to
+geolocate the input \code{place} using the \href{https://nominatim.org/release-docs/develop/api/Overview/}{Nominatim API}, and then it
+will perform a spatial matching operation (see examples and vignettes),
+while, if \code{match_by != "name"}, then it will return an error.
 }
 \examples{
 # The simplest example:
@@ -138,7 +139,7 @@ oe_match("Leeds")
 # If the input place cannot be exactly matched with any zone in any provider,
 # then the function will try to geolocate the input and then it will perform a
 # spatial match:
-oe_match("Lecco")
+oe_match("Milan")
 }
 \seealso{
 \code{\link[=oe_providers]{oe_providers()}} and \code{\link[=oe_match_pattern]{oe_match_pattern()}}.

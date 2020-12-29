@@ -15,7 +15,7 @@
 #'
 #' @seealso [oe_providers()] and [oe_match_pattern()].
 #'
-#' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
+#' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
 #'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
 #'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
@@ -24,10 +24,10 @@
 #'   If the input place is specified as a spatial point (either as `sfc_POINT`
 #'   or a pair of numeric coordinates), then the function will return the
 #'   geographical area with the highest "level" intersecting the point. See the
-#'   help pages of the chosen provider database for understanding the meaning of
-#'   the "level" field. If there are multiple areas at the same "level"
-#'   intersecting the input place, then the function will return the area whose
-#'   centroid is closer to the input place.
+#'   help pages of the chosen provider database to understand the meaning of the
+#'   "level" field. If there are multiple areas at the same "level" intersecting
+#'   the input place, then the function will return the area whose centroid is
+#'   closer to the input place.
 #'
 #'   If the input place is specified as a character vector and there are
 #'   multiple plausible matches between the input place and the `match_by`
@@ -36,10 +36,12 @@
 #'   distance between the input `place` and the best match in `match_by` column
 #'   is greater than `max_string_dist`, then the function will look for exact
 #'   matches (i.e. `max_string_dist = 0`) in the other supported providers. If
-#'   it finds an exact match, then it will return the corresponding URL for that
-#'   new provider, otherwise it will try to geolocate the input `place` using
-#'   [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/),
-#'   and then it will perform a spatial matching operation.
+#'   it finds an exact match, then it will return the corresponding URL.
+#'   Otherwise, if `match_by` is equal to `"name"`, then it will try to
+#'   geolocate the input `place` using the [Nominatim
+#'   API](https://nominatim.org/release-docs/develop/api/Overview/), and then it
+#'   will perform a spatial matching operation (see examples and vignettes),
+#'   while, if `match_by != "name"`, then it will return an error.
 #'
 #' @examples
 #' # The simplest example:
@@ -80,7 +82,7 @@
 #' # If the input place cannot be exactly matched with any zone in any provider,
 #' # then the function will try to geolocate the input and then it will perform a
 #' # spatial match:
-#' oe_match("Lecco")
+#' oe_match("Milan")
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
@@ -286,7 +288,7 @@ oe_match.character = function(
     }
 
     # 2. Check the other providers and, if there is an exact match, just return
-    # the matched value from that other provider:
+    # the matched value from the other provider:
     other_providers = setdiff(oe_available_providers(), provider)
     exact_match = FALSE
     for (other_provider in other_providers) {
@@ -320,25 +322,38 @@ oe_match.character = function(
       )
     }
 
-    # 3. Otherwise, we can use oe_search to look for the lat/long coordinates of the input place
-    if (isFALSE(quiet)) {
-      message(
-        "No exact match found in any OSM provider data.",
-        " Searching for the location online."
+    # 3. Otherwise, if match_by == name (since I think it doesn't make sense to
+    # use Nominatim with other fields), then we can use oe_search to look for
+    # the lat/long coordinates of the input place
+    if (match_by == "name") {
+      if (isFALSE(quiet)) {
+        message(
+          "No exact match found in any OSM provider data.",
+          " Searching for the location online."
+        )
+      }
+
+      place_online = oe_search(place = place)
+      # I added Sys.sleep(1) since the usage policty of OSM nominatim (see
+      # https://operations.osmfoundation.org/policies/nominatim/) requires max 1
+      # request per second.
+      Sys.sleep(1)
+      return(
+        oe_match(
+          place = sf::st_geometry(place_online),
+          provider = provider,
+          quiet = quiet
+        )
       )
     }
 
-    place_online = oe_search(place = place)
-    # I added Sys.sleep(1) since the usage policty of OSM nominatim (see
-    # https://operations.osmfoundation.org/policies/nominatim/) requires max 1
-    # request per second.
-    Sys.sleep(1)
-    return(
-      oe_match(
-        place = sf::st_geometry(place_online),
-        provider = provider,
-        quiet = quiet
-      )
+    # 4. Return an error
+    stop(
+      "No tolerable match was found. ",
+      "You should increase the max_string_dist parameter, ",
+      "look for a closer match in another provider ",
+      "or consider using a different match_by variable.",
+      call. = FALSE
     )
   }
 
