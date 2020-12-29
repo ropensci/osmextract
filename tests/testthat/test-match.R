@@ -102,4 +102,6 @@ test_that("oe_match looks for a place location online", {
   )
 })
 
-
+test_that("oe_match: error when input place is far from all zones and match_by != name", {
+  expect_error(oe_match("PS", match_by = "iso3166_1_alpha2"), "No tolerable match was found")
+})
