@@ -17,28 +17,29 @@ oe_vectortranslate(
 }
 \arguments{
 \item{file_path}{Character string representing the path of the input
-\code{.osm.pbf} file.}
+\code{.pbf} or \code{.osm.pbf} file.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
 
-\item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
-argument \code{options}. Set by default. Check Details in the introductory
-vignette and in \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
+\item{vectortranslate_options}{Options passed to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
+argument \code{options}. Set by default. Check details in the introductory
+vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{osmconf_ini}{The configuration file specifying which columns should be
-in the resulting data frame. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
-\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
+\item{osmconf_ini}{The configuration file. See documentation at
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check details in the
+introductory vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}. Set by
+default.}
 
 \item{extra_tags}{Which additional columns, corresponding to OSM tags, should
-be in the resulting dataset? \code{FALSE} by default. Check Details at
-\code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}. Ignored when \code{osmconf_ini} is
-not \code{NULL}.}
+be in the resulting dataset? \code{NULL} by default. Check the introductory
+vignette and the help pages of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}.
+Ignored when \code{osmconf_ini} is not \code{NULL}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
-already exists? Check Details at \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .}
+already exists? Check the introductory vignette and the help page of
+\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{never_skip_vectortranslate}{Boolean. This is used in case the user
 passed its own \code{.ini} file or vectortranslate options (since, in those case,
@@ -70,25 +71,25 @@ The new \code{.gpkg} file is created in the same directory as the input
 customized in several ways modifying the parameters \code{layer},
 \code{extra_tags}, \code{osmconf_ini}, and \code{vectortranslate_options}.
 
-The \code{.osm.pbf} files processed using GDAL are usually categorized into 5
+The \code{.osm.pbf} files processed by GDAL are usually categorized into 5
 layers, named \code{points}, \code{lines}, \code{multilinestrings}, \code{multipolygons} and
 \code{other_relations}. Check the first paragraphs
 \href{https://gdal.org/drivers/vector/osm.html}{here} for more details. This
-function can covert only one later at a time, and the parameter \code{layer} is
-used to specify which layer of the \code{.osm.pbf} file should be converted into
-the \code{.gpkg} file. Several layers with different names can be stored in the
-same \code{.gpkg} file. By default, the function will convert the \code{lines} layer
-(which is the most common one according to our experience).
+function can covert only one layer at a time, and the parameter \code{layer} is
+used to specify which layer of the \code{.osm.pbf} file should be converted.
+Several layers with different names can be stored in the same \code{.gpkg} file.
+By default, the function will convert the \code{lines} layer (which is the most
+common one according to our experience).
 
 The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how
-GDAL read and process a \code{.osm.pbf} file. More precisely, several operations
+GDAL reads and processes a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
 file, that you can check at the following
 \href{https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini}{link}.
 The basic components of OSM data are called
 \href{https://wiki.openstreetmap.org/wiki/Elements}{\emph{elements}} and they are
 divided into \emph{nodes}, \emph{ways} or \emph{relations}, so, for example, the code at
-line 7 is used to determine which \emph{ways} are assumed to be polygons
+line 7 of that link is used to determine which \emph{ways} are assumed to be polygons
 (according to the simple-feature definition of polygon) if they are closed.
 Moreover, OSM data is usually described using several
 \href{https://wiki.openstreetmap.org/wiki/Tags}{\emph{tags}}, i.e a pair of two
@@ -153,6 +154,7 @@ its_pbf = oe_download(
 list.files(tempdir(), pattern = "pbf|gpkg")
 # Convert to gpkg format
 its_gpkg = oe_vectortranslate(its_pbf)
+# Now there is an extra .gpkg file
 list.files(tempdir(), pattern = "pbf|gpkg")
 
 # Check the layers of the .gpkg file
@@ -161,7 +163,7 @@ sf::st_layers(its_gpkg, do_count = TRUE)
 its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
 sf::st_layers(its_gpkg, do_count = TRUE)
 
-# Add extra tags to the lines layer
+# Add extra tags to the lines layer. Check original fields
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 its_gpkg = oe_vectortranslate(
   its_pbf,

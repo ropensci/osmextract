@@ -1,7 +1,7 @@
 #' Read a .pbf or .gpkg object from file or URL
 #'
 #' This function is used to read a `.pbf` or `.gpkg` object from file or URL. It
-#' is a wrapper around [oe_download()], [oe_vectortranslate()] and
+#' is a wrapper around [oe_download()], [oe_vectortranslate()], and
 #' [sf::st_read()], creating an easy way to download, convert, and read a `.pbf`
 #' or `.gpkg` file. Check the introductory vignette and the help pages of the
 #' wrapped function for more details.
@@ -11,17 +11,18 @@
 #'   `force_download`, and `max_file_size` are ignored if `file_path` points to
 #'   an existing `.pbf` or `.gpkg` file.
 #'
-#'   You cannot add any layer to an existing `.gpkg` file but you can extract
-#'   some of the tags in `other_tags` field. Check [oe_get_keys()] for more
-#'   details.
+#'   You cannot add any field or layer to an existing `.gpkg` file (unless you
+#'   have the `.pbf` file and you convert it again with a different
+#'   configuration), but you can extract some of the tags in `other_tags` field.
+#'   Check examples and [oe_get_keys()] for more details.
 #'
 #' @inheritParams oe_get
-#' @param file_path A url or the path of a `.pbf` or `.gpkg` file. If it is a
-#'   URL it must be specified using HTTP/HTTPS protocol.
+#' @param file_path A URL or the path of a `.pbf` or `.gpkg` file. If a URL,
+#'   then it must be specified using HTTP/HTTPS protocol.
 #' @param file_size How big is the file? Optional. `NA` by default. If it's
 #'   bigger than `max_file_size` and the function is run in interactive mode,
-#'   then an interactive menu is displayed, asking for permission for
-#'   downloading the file.
+#'   then an interactive menu is displayed, asking for permission to download
+#'   the file.
 #'
 #' @return An `sf` object.
 #' @export
@@ -29,17 +30,27 @@
 #' @examples
 #' # Read an existing .pbf file
 #' my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
-#' oe_read(my_pbf, quiet = FALSE)
-#' oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
+#' oe_read(my_pbf)
+#' oe_read(my_pbf, layer = "points") # Read a new layer
 #' # The following example shows how to add new tags
 #' oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE)
 #'
 #' # Read an existing .gpkg file. This file was created by oe_read
 #' my_gpkg = system.file("its-example.gpkg", package = "osmextract")
-#' oe_read(my_gpkg, quiet = FALSE)
+#' oe_read(my_gpkg)
 #' # You cannot add any layer to an existing .gpkg file but you can extract some
 #' # of the tags in other_tags. Check oe_get_keys() for more details.
 #' names(oe_read(my_gpkg, extra_tags = c("maxspeed")))
+#' # Use the query argument
+#' names(oe_read(
+#'   my_gpkg,
+#'   quiet = TRUE,
+#'   query =
+#'   "SELECT *,
+#'   hstore_get_value(other_tags, 'maxspeed') AS maxspeed
+#'   FROM lines
+#'   "
+#' ))
 #' # Delete the .gpkg file not to mess with other examples
 #' file.remove(my_gpkg)
 #'

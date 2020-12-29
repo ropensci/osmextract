@@ -24,8 +24,8 @@ oe_read(
 )
 }
 \arguments{
-\item{file_path}{A url or the path of a \code{.pbf} or \code{.gpkg} file. If it is a
-URL it must be specified using HTTP/HTTPS protocol.}
+\item{file_path}{A URL or the path of a \code{.pbf} or \code{.gpkg} file. If a URL,
+then it must be specified using HTTP/HTTPS protocol.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
@@ -49,8 +49,8 @@ file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
 bigger than \code{max_file_size} and the function is run in interactive mode,
-then an interactive menu is displayed, asking for permission for
-downloading the file.}
+then an interactive menu is displayed, asking for permission to download
+the file.}
 
 \item{force_download}{Should the \code{.osm.pbf} file be updated if it has already
 been downloaded? \code{FALSE} by default. This parameter is used to update old
@@ -63,27 +63,28 @@ interactive mode. Default: \code{5e+8}, half a gigabyte.}
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
-\item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
-vectortranslate operations and it reads (or simply returns the path) of
-the \code{.osm.pbf} file. \code{FALSE} by default.}
+\item{skip_vectortranslate}{Boolean. If \code{TRUE}, then the function skips all
+vectortranslate operations and it reads (or simply returns the path) of the
+\code{.osm.pbf} file. \code{FALSE} by default.}
 
-\item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
-argument \code{options}. Set by default. Check Details in the introductory
-vignette and in \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
+\item{vectortranslate_options}{Options passed to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
+argument \code{options}. Set by default. Check details in the introductory
+vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{osmconf_ini}{The configuration file specifying which columns should be
-in the resulting data frame. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
-\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
+\item{osmconf_ini}{The configuration file. See documentation at
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check details in the
+introductory vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}. Set by
+default.}
 
 \item{extra_tags}{Which additional columns, corresponding to OSM tags, should
-be in the resulting dataset? \code{FALSE} by default. Check Details at
-\code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}. Ignored when \code{osmconf_ini} is
-not \code{NULL}.}
+be in the resulting dataset? \code{NULL} by default. Check the introductory
+vignette and the help pages of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}.
+Ignored when \code{osmconf_ini} is not \code{NULL}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
-already exists? Check Details at \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .}
+already exists? Check the introductory vignette and the help page of
+\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{never_skip_vectortranslate}{Boolean. This is used in case the user
 passed its own \code{.ini} file or vectortranslate options (since, in those case,
@@ -101,7 +102,7 @@ An \code{sf} object.
 }
 \description{
 This function is used to read a \code{.pbf} or \code{.gpkg} object from file or URL. It
-is a wrapper around \code{\link[=oe_download]{oe_download()}}, \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and
+is a wrapper around \code{\link[=oe_download]{oe_download()}}, \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}, and
 \code{\link[sf:st_read]{sf::st_read()}}, creating an easy way to download, convert, and read a \code{.pbf}
 or \code{.gpkg} file. Check the introductory vignette and the help pages of the
 wrapped function for more details.
@@ -111,24 +112,35 @@ The arguments \code{provider}, \code{download_directory}, \code{file_size},
 \code{force_download}, and \code{max_file_size} are ignored if \code{file_path} points to
 an existing \code{.pbf} or \code{.gpkg} file.
 
-You cannot add any layer to an existing \code{.gpkg} file but you can extract
-some of the tags in \code{other_tags} field. Check \code{\link[=oe_get_keys]{oe_get_keys()}} for more
-details.
+You cannot add any field or layer to an existing \code{.gpkg} file (unless you
+have the \code{.pbf} file and you convert it again with a different
+configuration), but you can extract some of the tags in \code{other_tags} field.
+Check examples and \code{\link[=oe_get_keys]{oe_get_keys()}} for more details.
 }
 \examples{
 # Read an existing .pbf file
 my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
-oe_read(my_pbf, quiet = FALSE)
-oe_read(my_pbf, layer = "points", quiet = FALSE) # Read a new layer
+oe_read(my_pbf)
+oe_read(my_pbf, layer = "points") # Read a new layer
 # The following example shows how to add new tags
 oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE)
 
 # Read an existing .gpkg file. This file was created by oe_read
 my_gpkg = system.file("its-example.gpkg", package = "osmextract")
-oe_read(my_gpkg, quiet = FALSE)
+oe_read(my_gpkg)
 # You cannot add any layer to an existing .gpkg file but you can extract some
 # of the tags in other_tags. Check oe_get_keys() for more details.
 names(oe_read(my_gpkg, extra_tags = c("maxspeed")))
+# Use the query argument
+names(oe_read(
+  my_gpkg,
+  quiet = TRUE,
+  query =
+  "SELECT *,
+  hstore_get_value(other_tags, 'maxspeed') AS maxspeed
+  FROM lines
+  "
+))
 # Delete the .gpkg file not to mess with other examples
 file.remove(my_gpkg)
 

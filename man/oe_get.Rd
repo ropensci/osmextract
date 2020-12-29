@@ -75,31 +75,32 @@ been downloaded? \code{FALSE} by default. This parameter is used to update old
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{vectortranslate_options}{Options to pass to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
-argument \code{options}. Set by default. Check Details in the introductory
-vignette and in \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
+\item{vectortranslate_options}{Options passed to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
+argument \code{options}. Set by default. Check details in the introductory
+vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{osmconf_ini}{The configuration file specifying which columns should be
-in the resulting data frame. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check Details in
-\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
+\item{osmconf_ini}{The configuration file. See documentation at
+\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check details in the
+introductory vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}. Set by
+default.}
 
 \item{extra_tags}{Which additional columns, corresponding to OSM tags, should
-be in the resulting dataset? \code{FALSE} by default. Check Details at
-\code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}. Ignored when \code{osmconf_ini} is
-not \code{NULL}.}
+be in the resulting dataset? \code{NULL} by default. Check the introductory
+vignette and the help pages of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} and \code{\link[=oe_get_keys]{oe_get_keys()}}.
+Ignored when \code{osmconf_ini} is not \code{NULL}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
-already exists? Check Details at \code{\link[=oe_vectortranslate]{oe_vectortranslate()}} .}
+already exists? Check the introductory vignette and the help page of
+\code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{download_only}{Boolean. If \code{TRUE} then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
-\item{skip_vectortranslate}{Boolean. If \code{TRUE} then the function skips all
-vectortranslate operations and it reads (or simply returns the path) of
-the \code{.osm.pbf} file. \code{FALSE} by default.}
+\item{skip_vectortranslate}{Boolean. If \code{TRUE}, then the function skips all
+vectortranslate operations and it reads (or simply returns the path) of the
+\code{.osm.pbf} file. \code{FALSE} by default.}
 
 \item{never_skip_vectortranslate}{Boolean. This is used in case the user
 passed its own \code{.ini} file or vectortranslate options (since, in those case,
@@ -122,11 +123,11 @@ Check the introductory vignette, the examples and the help pages of the
 wrapped functions to understand the details behind all parameters.
 }
 \details{
-To learn how to use the \code{query} argument, for example, see the
+To learn how to use the \code{query} argument see, for example, the
 \href{https://itsleeds.github.io/osmextract/articles/osmextract.html#query}{query section of the osmextract vignette}.
 
 The algorithm that we use for importing an OSM extract data into R
-is divided into 4 steps: 1) Matching the input \code{place} with the url of a
+is divided into 4 steps: 1) match the input \code{place} with the url of a
 \code{.pbf} file; 2) download the \code{.pbf} file; 3) convert it into \code{.gpkg} format
 and 4) read-in the \code{.gpkg} file. The function \code{oe_match()} is used to
 perform the first operation and the function \code{oe_read()} (which is a
@@ -151,20 +152,23 @@ oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
 # Add additional tags
 its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
 names(its_with_oneway)
-table(its_with_oneway$oneway)
+table(its_with_oneway$oneway, useNA = "ifany")
 
 # Use the query argument to get only oneway streets:
 q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
-its_residential = oe_get("ITS Leeds", query = q)
-its_residential
+its_oneway = oe_get("ITS Leeds", query = q)
+its_oneway
 
 \dontrun{
 # A more complex example
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
-# If you run it again, the function will not download the file or convert it
+# If you run it again, the function will not download the file
+# or convert it again
 west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
 # Match with place name
-oe_get("Milan", quiet = FALSE) # Warning: the .pbf file is 400MB
+oe_get("Milan") # Warning: the .pbf file is 400MB
+oe_get("Vatican City")
+oe_get("Zurich")
 
 # Match with coordinates (any EPSG)
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
