@@ -195,7 +195,7 @@ will select the smallest OSM extract intersecting the area. For example
 (not run):
 
 ``` r
-oe_get("Milan")
+oe_get("Milan") # Warning: It will download more than 400MB of data
 #> No exact match found for place = Milan and provider = geofabrik. Best match is Iran.
 #> Checking the other providers.
 #> No exact match found in any OSM provider data. Searching for the location online.
