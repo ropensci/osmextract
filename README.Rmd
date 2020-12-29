@@ -51,7 +51,7 @@ cycleways_england = opq("England") %>%
 
 The query stops with an error message after around 30 seconds.
 The same query can be made with `osmextract` as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed `.pbf` format and converted to the open standard `.gpkg` format. 
-The download-conversion operation of the OSM extract associated to England takes approximately a few minutes, and this operation must be executed only once. 
+The download-and-conversion operation of the OSM extract associated to England takes approximately a few minutes, but this operation must be executed only once. 
 The following code chunk is not evaluated:
 
 ```{r, eval = FALSE}
@@ -68,8 +68,7 @@ plot(sf::st_geometry(cycleways_england))
 
 <img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%" />
 
-The package is designed to complement `osmdata`, which has advantages over `osmextract` for small datasets: `osmdata` is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an
-intuitive interface. 
+The package is designed to complement `osmdata`, which has advantages over `osmextract` for small datasets: `osmdata` is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an intuitive interface. 
 `osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects.
 
 `osmextract`'s niche is that it provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R package for working with geographic data, [`sf`](https://github.com/r-spatial/sf).
@@ -130,8 +129,8 @@ tmaptools::geocode_OSM("isle of wight")
 ```
 
 ```{r points-lines-iow, fig.show = 'hold', out.width = "50%"}
-osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
-osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
+osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
+osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
 nrow(osm_points)
 par(mar = rep(0, 4))
@@ -160,10 +159,21 @@ plot(osm_major_roads["highway"], key.pos = 1)
 The same steps can be used to get other OSM datasets (examples not run):
 
 ```{r, eval = FALSE}
-test_malta = oe_get("Malta", quiet = TRUE)
-test_andorra = oe_get("Andorra", extra_tags = "ref")
-test_leeds <- oe_get("Leeds", provider = "bbbike")
-test_india_region <- oe_get("Goa", provider = "openstreetmap_fr")
+malta = oe_get("Malta", quiet = TRUE)
+andorra = oe_get("Andorra", extra_tags = "ref")
+leeds <- oe_get("Leeds", provider = "bbbike")
+goa <- oe_get("Goa", provider = "openstreetmap_fr")
+```
+
+If the input place does not match any of the existing names in the supported providers, then `oe_get()` will try to geocode it via [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/), and it will select the smallest OSM extract intersecting the area. 
+For example (not run): 
+
+```{r, eval = FALSE}
+oe_get("Milan")
+#> No exact match found for place = Milan and provider = geofabrik. Best match is Iran.
+#> Checking the other providers.
+#> No exact match found in any OSM provider data. Searching for the location online.
+#> ... (extra messages here)
 ```
 
 For further details on using the package, see the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
@@ -188,7 +198,9 @@ oe_download_directory()
 
 ## Troubleshooting
 
-Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`. If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value. This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script.
+Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`. 
+If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value. 
+This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script.
 
 ## Next steps
 
@@ -204,6 +216,8 @@ We hope this package will provide easy access to OSM data for reproducible resea
 
 - i. This License;
 - ii. A later version of this License similar in spirit to this
+
+See the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html) for more details.
 
 ## Other approaches
 
