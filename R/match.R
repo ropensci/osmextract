@@ -307,7 +307,7 @@ oe_match.character = function(
       if (isFALSE(quiet)) {
         message(
           "An exact string match was found using provider = ", other_provider,
-          ". Returning that. "
+          "."
         )
       }
 
