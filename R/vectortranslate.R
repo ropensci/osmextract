@@ -245,7 +245,8 @@ oe_vectortranslate = function(
   if (!is.null(osmconf_ini) && !is.null(extra_tags)) {
     warning(
       "The argument extra_tags is ignored when osmconf_ini is not NULL.",
-      call. = FALSE
+      call. = FALSE,
+      immediate. = TRUE
     )
     extra_tags = NULL
   }

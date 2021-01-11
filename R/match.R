@@ -350,7 +350,7 @@ oe_match.character = function(
     # 4. Return an error
     stop(
       "No tolerable match was found. ",
-      "You should increase the max_string_dist parameter, ",
+      "You should try increasing the max_string_dist parameter, ",
       "look for a closer match in another provider ",
       "or consider using a different match_by variable.",
       call. = FALSE

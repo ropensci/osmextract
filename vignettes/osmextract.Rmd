@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>", 
@@ -20,12 +20,12 @@ This vignette provides an introduction to using the package, building on the REA
 
 Loading the package generates important messages about the license associated with OSM data.
 
-```{r setup}
+```{r}
 library(osmextract)
 ```
 
 The first thing to say is: **do not ignore this message**!
-The Open Street Map (OSM) extracts linked with this packages are stored by external providers such as [Geofabrik](https://download.geofabrik.de/), [Bbbike](https://download.bbbike.org/osm/), or [OpenStreetMap.fr](http://download.openstreetmap.fr/). 
+The Open Street Map (OSM) extracts are stored by external providers such as [Geofabrik](https://download.geofabrik.de/), [Bbbike](https://download.bbbike.org/osm/), or [OpenStreetMap.fr](http://download.openstreetmap.fr/). 
 There are important legal considerations that you should be aware of before using OSM data, especially if you are working in a for-profit capacity.
 
 # Legal considerations
@@ -51,9 +51,8 @@ The package is composed of the following main functions:
 1. `oe_get()`: Match, download, translate, and import data, all in one step.
 
 For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
-We will demonstrate each function in turn. 
-As you can see, the name of the most important functions in this package start with `oe_*`.
-<!-- Mention auto-completion stuff -->
+We will demonstrate each function in turn, following the same order in which they are typically used. 
+As you can see, the name of the most important functions in this package start with `oe_*` prefix, which means that you can easily use auto-completion features (with Rstudio or similar IDE). 
 
 ## `oe_providers()`: List providers
 
@@ -66,7 +65,7 @@ oe_providers()
 Each element in the column `database_name` is a data object that is packaged with `osmextract`. 
 You can read a detailed description of each provider data running, for example, `?geofabrik_zones` or `?bbbike_zones`. 
 
-Perhaps the best known bulk OSM data provider is probably Geofabrik, represented as a `data.frame` in the packaged object `geofabrik_zones`.
+Perhaps, the best known bulk OSM data provider is Geofabrik, represented as a `data.frame` in the packaged object `geofabrik_zones`.
 
 ```{r}
 class(geofabrik_zones)
@@ -99,26 +98,26 @@ plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkr
 
 <img src="https://user-images.githubusercontent.com/22221146/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png" width="100%" />
 
-As shown in the above visualisation of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of major cities.
+As shown in the visualisation above of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of the major cities.
 We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ITSLeeds/osmextract/issues/100).
 
-Check the ["Comparing the supported OSM providers"](https://itsleeds.github.io/osmextract/articles/providers_comparisons.html) vignette for some simple guidance on how to choose the best provider. 
+Check the ["Comparing the supported OSM providers"](https://itsleeds.github.io/osmextract/articles/providers_comparisons.html) vignette for some simple guidelines on how to choose the best provider. 
 
 ## `oe_match()`: Match OSM extracts
 
-`oe_match()` takes in input a string (through the parameter `place`), and it returns a named list of length two with the URL and the size (in bytes) of a `.osm.pbf` file representing a geographical zone stored by one of the supported providers. 
-For example: 
+The function `oe_match()` takes in input a string through the parameter `place`, and it returns a named list of length two with the URL and the size (in bytes) of a `.osm.pbf` file representing a geographical zone stored by one of the supported providers. 
+The `.pbf` format is a highly optimised binary format used by OSM providers to store and share OSM extracts. For example: 
 
 ```{r}
 oe_match("Italy", quiet = TRUE)
 oe_match("Leeds", provider = "bbbike", quiet = TRUE)
 ```
 
-The operations for matching a string with a geographical zone are based on the minimum Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider's database. 
-By default, the function uses the field `name` and Geofabrik provider. 
-
-You can select alternative fields in the provider's data (instead of the default field, i.e. `name`) using the `match_by` parameter. 
-For example, if you work with `geofabrik_data`, then you can look for a match using [iso3166-1 alpha2](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes: 
+The geographical zone is chosen by calculating the Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider’s dataset. 
+Then, the function selects the closest match. 
+By default, it uses the `name` field and Geofabrik provider, but you can select a different column via the argument `match_by`. 
+We refer to providers' help pages for a detailed description of all available fields. 
+If you are using Geofabrik, a useful and interesting alternative field is represented by the (unique and unambiguous) `iso3166-1 alpha2` [codes](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2): 
 
 ```{r}
 oe_match("RU", match_by = "iso3166_1_alpha2")
@@ -132,11 +131,12 @@ oe_match("PS", match_by = "iso3166_1_alpha2")
 oe_match("IL", match_by = "iso3166_1_alpha2")
 ```
 
-For this reason, we coded a function that let you explore the matching operations according to a pre-defined pattern. 
+For this reason, we coded a function named `oe_match_pattern()` to explore the matching operations according to a pre-defined pattern. 
 For example:
 
 ```{r}
 oe_match_pattern("London", provider = "geofabrik")
+oe_match_pattern("Yorkshire")
 oe_match_pattern("Russia")
 oe_match_pattern("Palestine")
 ```
@@ -159,20 +159,19 @@ If we set `full_row = TRUE`, then `oe_match_pattern()` will return the complete 
 oe_match_pattern("Israel", full_row = TRUE)[, 1:3]
 ```
 
-You can combine the two approaches to select a geographical area: 
+You can combine the two approaches to (easily) select a geographical area: 
 
 ```{r}
 oe_match_pattern("London")
 oe_match("Greater London")
 ```
 
-<!-- `oe_match()` function returns an error if the minimum approximate string distance between the input `place` and the closest match is greater than the parameter `max_string_dist` (which defaults to 1).  -->
-The parameter `max_string_dist` (which defaults to 1) is used to test if the input place and the closest match in the provider's data are not similar enough. 
-You can always increase the value (and "help" the matching operations), but you should also check for erroneous matches. 
-For example: 
+The parameter `max_string_dist` (which defaults to `1`) represents the maximum tolerable distance between the input place and the closest match in `match_by` column before the function prints a warning message or stops with an error. 
+This value can always be increased to help the matching operations, but that can lead to false matches:
 
 ```{r, error = TRUE}
-oe_match("London", max_string_dist = 3) # erroneous match
+# erroneous match
+oe_match("London", max_string_dist = 3) 
 ```
 
 The parameter `max_string_dist` is always set to 0 if `match_by` argument is equal to `iso3166_1_alpha2` or `iso3166_2` to avoid matching with the wrong iso3166 code. 
@@ -184,14 +183,21 @@ For example:
 oe_match("leeds", provider = "geofabrik")
 ```
 
-If it doesn't an exact match with any supported provider and `match_by` parameter is equal to `name`, then the function will use the [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/) to geolocate the input `place` and perform a spatial matching operation (see below). 
-For example: 
+Finally, if there is no exact match with any of the supported providers and `match_by` argument is equal to `"name"`, then `oe_match()` will use the [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/) to geolocate the input place and perform a spatial matching operation (introduced below): 
 
-```{r}
+```{r, eval = FALSE}
 oe_match("Milan")
+#> No exact match found for place = Milan and provider = geofabrik. Best match is Iran. 
+#> Checking the other providers.
+#> No exact match found in any OSM provider data. Searching for the location online.
+#> .... (other messages explained below)
+#> $url
+#> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
+#> $file_size
+#> [1] 416306623
 ```
 
-`oe_match()` function returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input `place`. 
+`oe_match()` returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input `place`. 
 In that case, it selects the first match: 
 
 ```{r, warning = TRUE}
@@ -201,8 +207,10 @@ oe_match("Belin")
 ### Finding zones based on geographic inputs
 
 The input `place` can also be specified using an `sfc_POINT` object with arbitrary CRS, as documented in the following example. 
-The function will return a named list of length two with the URL and the size of a `.osm.pbf` file representing a zone that geographically intersects the `sfc_POINT` (or an error, if the input point does not cross any area). 
-If the input `place` intersects multiple geographically nested zones, the function returns the area with the highest `level` ^[Check the help page of the chosen provider to understand the meaning of the field `level`. Approximately, we could say that the higher is the level, the smaller is the geographical area.]. 
+`oe_match()` will return a named list of length two with the URL and the size of a `.pbf` file representing a zone that geographically intersects the `sfc_POINT` (or an error, if the input point does not cross any area). 
+If the input `place` intersects multiple geographically nested zones, the function returns the area with the highest `level`. 
+The meaning of the `level` fields depends on the chosen provider, so we refer to the help pages for more details. 
+We could roughly say that the higher is the `level`, the lower is the geographical area’s administrative unit.
 If there are multiple matches with the same `level`, then `oe_match()` function will return the area whose centroid is closest to the input `place`. 
 
 ```{r}
@@ -210,7 +218,7 @@ milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 oe_match(milan_duomo)
 ```
 
-Finally, you can specify the input `place` using a numeric vector of coordinates. 
+The input `place` can also be specified using a numeric vector of coordinates. 
 In that case, the CRS is assumed to be [EPSG:4326](https://spatialreference.org/ref/epsg/4326/):
 
 ```{r}
@@ -226,8 +234,8 @@ To reduce unnecessary computational resources and save bandwidth/electricity, we
 
 ## `oe_download()`: Download OSM extracts 
 
-The purpose of `oe_download()` is to download `.osm.pbf` files representing OSM extracts.
-This function takes in input a URL, and it downloads the requested file in a directory (specified by the parameter `download_directory`):
+The `oe_download()` function is used to download `.pbf` files representing OSM extracts.
+It takes in input a URL, through the parameter `file_url`, and it downloads the requested data in a directory (specified by the parameter `download_directory`):
 
 ```{r, eval = FALSE}
 oe_download(
@@ -239,7 +247,7 @@ oe_download(
 ```
 
 The argument `provider` can be omitted if the input `file_url` is associated with one of the supported providers.
-The standard value for `download_directory` is `tempdir()`, but, if you want to set a directory that will persist, you can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+The default value for `download_directory` is `tempdir()` (see `?tempdir`), but, if you want to point to a directory that will persist, you can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
 
 ```{r, eval = FALSE}
 usethis::edit_r_environ()
@@ -252,23 +260,25 @@ You can always check the default `download_directory` used by `oe_download()` wi
 oe_download_directory()
 ```
 
-We strongly advise you set a persistent directory since downloading and converting (see the next sub-section) `.pbf` file are expensive operations, that are skipped by all `oe_*()` functions if they detect that the input `.pbf` file was already downloaded and/or converted.
+We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` files are expensive operations, that are skipped by `oe_*()` functions if they detect that the requested extract was already downloaded and/or converted.
 
 More precisely, `oe_download()` runs several checks before actually downloading a new file, to avoid overloading the OSM providers. 
 The first step is the definition of the path associated with the input `file_url`. 
 The path is created by pasting together the `download_directory`, the name of the chosen provider (specified by `provider` argument or inferred from the input URL), and the `basename()` of the URL. 
 For example, if `file_url` is equal to `"https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and `download_directory = "/tmp/`, then the path is built as `/tmp/geofabrik_italy-latest.osm.pbf`. 
-Then, the function checks if the new path already exists (using `file.exists()`) and, in that case, it returns it (without downloading anything^[The parameter `force_download` is used to override this behaviour.]). 
-Otherwise, it downloads a new file (using `download.file()` and setting the argument `destfile` equal to the new path and `mode = "wb"`), and then it returns the path.
+In the second step, the function checks if the new path already exists (using `file.exists()`) and, in that case, it returns it, without downloading anything^[The parameter `force_download` is used to override this behaviour.]. 
+Otherwise, it downloads a new file (using `download.file()` with `mode = "wb"`), and then it returns the path.
 
 ## `oe_vectortranslate()`: Convert to gpkg format
 
-`oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format. 
+The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, compact format for transferring geospatial information*. See [here](http://www.geopackage.org/)]. 
 It takes in input a string representing the path to an existing `.pbf` file, and it returns the path to the newly generated `.gpkg` file. 
 The `.gpkg` file is created in the same directory as the input `.pbf` file and with the same name. 
 The conversion is performed using [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in `sf::gdal_utils()`.
 
-We decided to adopt this approach and create this function following [the suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053) of the maintainers of GDAL.
+We decided to adopt this approach following [the suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053) of the maintainers of GDAL.
+Moreover, GeoPackage files have database capabilities like random access and querying that are extremely important for OSM data (see below). 
+
 Let's start with an example.
 First, we download the `.pbf` file associated with ITS example: 
 
@@ -286,9 +296,9 @@ list.files(oe_download_directory(), pattern = "pbf|gpkg")
 
 The vectortranslate operation can be customised in several ways modifying the parameters `layer`, `extra_tags`, `osmconf_ini`, and `vectortranslate_options`.
 
-### `layer`
+### `layer` argument
 
-The `.pbf` files processed by GDAL are usually categorized into 5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and `other_relations` ^[Check the first paragraphs [here](https://gdal.org/drivers/vector/osm.html) for more details.]. 
+The `.pbf` files processed by GDAL are usually categorized into 5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and `other_relations`^[Check the first paragraphs [here](https://gdal.org/drivers/vector/osm.html) for more details.]. 
 The `oe_vectortranslate()` function can covert only one layer at a time. 
 Nevertheless, several layers with different names can be stored in the same `.gpkg` file. 
 By default, the function will convert the `lines` layer (which is the most common one according to our experience), but you can change it using the parameter `layer`. 
@@ -316,15 +326,18 @@ st_layers(its_gpkg, do_count = TRUE)
 
 The arguments `osmconf_ini` and `extra_tags` are used to modify how GDAL reads and processes a `.pbf` file. 
 More precisely, several operations that GDAL performs on a `.pbf` file are governed by a `CONFIG` file, that you can check at the following [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
-For example, the basic components of OSM data are called [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are divided into *nodes*, *ways* or *relations*. 
-The code at line 7 of that CONFIG file is used to determine which *ways* are assumed to be *polygons* if they are closed.
+The package stores a local copy which is used as the standard `CONFIG` file.
 
-The parameter `osmconf_ini` can be used to specify the path to an existing ad-hoc `CONFIG` file, in case you need full control over GDAL operations. 
+The basic components of OSM data are called [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are divided into *nodes*, *ways* or *relations*. 
+Hence, for example, the code at line 7 of that `CONFIG` file is used to determine which *ways* are assumed to be *polygons* if they are closed.
+
+The parameter `osmconf_ini` can be used to specify the path to a different `CONFIG` file, in case you need more control over GDAL operations. 
 See the next sub-sections for an example. 
 If `osmconf_ini` is equal to `NULL` (the default), then `oe_vectortranslate()` function uses the standard `CONFIG` file.
 
+Another example can be presented as follows. 
 OSM data is usually described using several [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two items: a *key* and a *value*.
-The code at lines 33, 53, 85, 103, and 121 of default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields (while all the other tags are stored in the `other_tags` column, see [here](https://gdal.org/drivers/vector/osm.html#other-tags-field) for more details). 
+The code at lines 33, 53, 85, 103, and 121 of the default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields, while all the other tags are stored in the `other_tags` column (see [here](https://gdal.org/drivers/vector/osm.html#other-tags-field) for more details). 
 The parameter `extra_tags` (default value: `NULL`) governs which tags are explicitly reported in the `.gpkg` file and are omitted from the `other_tags` field. 
 The default tags are always included (unless you modify the `CONFIG` file). 
 Please note that the argument `extra_tags` is ignored if `osmconf_ini` is not `NULL` (since we do not know how you generated the new `.ini` file). 
@@ -336,29 +349,28 @@ For example,
 oe_get_keys(its_gpkg, layer = "lines")
 ```
 
-We can always re-create the `.gpkg` file adding new `tags` (i.e. key/value pairs): 
+We can always re-create the `.gpkg` file adding new `tags`: 
 
 ```{r}
 its_gpkg = oe_vectortranslate(its_pbf, extra_tags = c("bicycle", "foot"))
 ```
 
-See the `oe_get()` section for more complex use-cases. 
+Check the `oe_get()` section for more complex, useful, and realistic use-cases. 
 
-### `vectortranslate_options`
+### `vectortranslate_options` argument
 
 The parameter `vectortranslate_options` is used to control the arguments that are passed to `ogr2ogr` via `sf::gdal_utils()` when converting between `.pbf` and `.gpkg` formats. 
-`ogr2ogr` can perform various operations during the translation process, such as spatial filters or SQL queries, and these operations are determined by the `vectortranslate_options` argument. 
+`ogr2ogr` can perform various operations during the translation process, such as spatial filters or queries, and these operations are determined by the `vectortranslate_options` argument. 
 If `NULL` (default value), then `vectortranslate_options` is set equal to `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),  "-lco", "GEOMETRY_NAME=geometry", layer)`. 
 Explanation:
 
 * `"-f", "GPKG"` says that the output format is `GPKG`. This is mandatory for GDAL < 2.3;
 * `"-overwrite` is used to delete an existing layer and recreate it empty;
-* `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to modify the [open options](https://gdal.org/drivers/vector/osm.html#open-options) for the `.osm.pbf` file and set the `CONFIG` file;
+* `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to modify the [open options](https://gdal.org/drivers/vector/osm.html#open-options) for the `.osm.pbf` file and set the path of the `CONFIG` file;
 * `"-lco", "GEOMETRY_NAME=geometry"` adjust the [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options) for the `.gpkg` file, modifying the name of the geometry column; 
 * `layer` indicates which layer should be converted.
 
-The arguments that are passed to `vectortranslate_options` can also be used to perform queries during the vectortranslate process. 
-Check the following sections to see more examples with different vectortranslate options. 
+The arguments that are passed to `vectortranslate_options` can also be used to perform queries during the vectortranslate process, as shown in the next Sections. 
 
 ### Other notes
 
@@ -371,8 +383,8 @@ Starting from `sf` version [0.9.6](https://r-spatial.github.io/sf/news/index.htm
 
 ## `oe_read()`: Read-in OSM data 
 
-The `oe_read()` function is wrapper around `oe_download()`, `oe_vectortranslate()`, and `sf::st_read()`. 
-It is used for reading-in a `.pbf` or `.gpkg` file that is specified using its path or a URL. 
+The `oe_read()` function is a wrapper around `oe_download()`, `oe_vectortranslate()`, and `sf::st_read()`. 
+It is used for reading-in a `.pbf` or `.gpkg` file that is specified using its path or URL. 
 
 So, for example, the following code can be used for reading-in the `its-gpkg` file: 
 
@@ -406,69 +418,70 @@ To simplify the steps outlined above, while enabling modularity if needs be, we 
 ```{r}
 its_lines = oe_get("ITS Leeds")
 par(mar = rep(0.1, 4))
-plot(its_lines["osm_id"], lwd = 2)
+plot(its_lines["highway"], lwd = 2, key.pos = NULL)
 ```
 
 The function `oe_get()` is a wrapper around `oe_match()` and `oe_read()`, and it summarizes the algorithm that we use for importing OSM extracts: 
 
 1. Match the input `place` with the URL of a `.pbf` file through `oe_match()`;
-2. Download the corresponding `.pbf` file using `oe_download()`; 
+2. If necessary, download the corresponding `.pbf` file using `oe_download()`; 
 3. Convert it into `.gpkg` format using `oe_vectortranslate()`; 
-4. Read-in the `.gpkg` file using `sf::st_read()`. 
+4. Read-in one layer of the `.gpkg` file using `sf::st_read()`. 
 
 The following commands (not evaluated here) show how `oe_get()` can be used to import the OSM extracts associated with the desired input `place`, after downloading the `.pbf` file and performing the vectortranslate operations. 
 We suggest you run the commands and check the output. 
 
 ```{r, eval = FALSE}
 oe_get("Andorra", quiet = FALSE)
-oe_get("Leeds", provider = "bbbike", quiet = FALSE)
-oe_get("Goa", provider = "openstreetmap_fr", quiet = FALSE)
+oe_get("Leeds", quiet = FALSE)
+oe_get("Goa", quiet = FALSE)
 oe_get("Malta", layer = "points", quiet = FALSE)
-oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
+oe_match("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
 
-oe_get("Andorra", download_only = TRUE) # See also ?oe_find
+oe_get("Andorra", download_only = TRUE)
 oe_get_keys(oe_get("Andorra", download_only = TRUE))
 oe_get("Andorra", extra_tags = c("maxspeed", "oneway", "ref", "junction"), quiet = FALSE)
 oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # like read_sf
 
 # Geocode the capital of Goa, India
 (geocode_panaji = tmaptools::geocode_OSM("Panaji, India"))
+oe_get(geocode_panaji$coords, quiet = FALSE)
 oe_get(geocode_panaji$coords, provider = "openstreetmap_fr", quiet = FALSE)
 
 # Spatial match starting from the coordinates of Arequipa, Peru
 geocode_arequipa <- c(-71.537005, -16.398874)
 oe_get(geocode_arequipa, quiet = FALSE)
 oe_get(geocode_arequipa, provider = "bbbike", quiet = FALSE) # Error
-oe_get(geocode_arequipa, provider = "openstreetmap_fr", quiet = FALSE) # No county extract
+oe_get(geocode_arequipa, provider = "openstreetmap_fr", quiet = FALSE) # No country-specific extract
 ```
 
-The arguments `osmconf_ini`, `vectortranslate_options` and `query` (defined in `sf::st_read`) can be used to further optimize the process of getting OSM extracts into R.  
+The arguments `osmconf_ini`, `vectortranslate_options`, `query` and `wkt_filter` (the last two arguments are defined in `sf::st_read`) can be used to further optimize the process of getting OSM extracts into R.  
 
 ### `osmconf_ini`
 
-The following example shows how to create an ad-hoc `osmconf.ini` file, which is used by GDAL to read a `.pbf` file in a customised way. 
-First of all, we load a local copy of the default `osmconf.ini` file, taken from the following [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
+The following example shows how to create an ad-hoc `CONFIG` file, which is used by GDAL to read a `.pbf` file in a customised way. 
+First, we load a local copy of the default `osmconf.ini` file, taken from the following [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini). 
 
 ```{r}
 custom_osmconf_ini = readLines(system.file("osmconf.ini", package = "osmextract"))
 ```
 
-Then, we modify the code at lines 18 and 21, setting the parameters for reporting all nodes and all ways (even without any significant tag),
+Then, we modify the code at lines 18 and 21 asking GDAL to report all nodes and ways (even without any significant tag).
 
 ```{r}
 custom_osmconf_ini[[18]] = "report_all_nodes=yes"
 custom_osmconf_ini[[21]] = "report_all_ways=yes"
 ```
 
-and the code at lines 45 and 53, removing the `osm_id` field and changing the default attributes: 
+We change also the code at lines 45 and 53, removing the `osm_id` field and changing the default attributes: 
 
 ```{r}
 custom_osmconf_ini[[45]] = "osm_id=no"
 custom_osmconf_ini[[53]] = "attributes=highway,lanes"
 ```
 
-Another significant parameter that can be customised during the creating of an ad-hoc `osmconf.ini` file is `closed_ways_area_polygons` (see lines 5-7 of the default CONFIG file). 
-We can now write the `custom_osmconf_ini` file: 
+Another relevant parameter that could be customised during the creating of an ad-hoc `osmconf.ini` file is `closed_ways_area_polygons` (see lines 5-7 of the default CONFIG file). 
+We can now write a local copy of the `custom_osmconf_ini` file: 
 
 ```{r}
 temp_ini = tempfile(fileext = ".ini")
@@ -514,6 +527,10 @@ my_vectortranslate = c(
 oe_get("ITS Leeds", vectortranslate_options = my_vectortranslate, quiet = FALSE)
 ```
 
+The default CRS of all OSM extracts obtained by Geofabrik and several other providers is `EPSG:4326`, i.e. latitude and longitude coordinates expressed via WGS84 ellipsoid, while the code `EPSG:27700` indicates the British National Grid. 
+Hence, the parameter `-t_srs` can be used to transform geographical data into projected coordinates, which may be essential for some statistical software like `spatstat`. 
+The same operation can also be performed in R with the `sf` package (e.g. `?st_transform`), but the conversion can be slow for large spatial objects.
+
 The next example illustrates how to apply an SQL-like query during the vectortranslate process. 
 More precisely, we can use the arguments `-select` and `-where` to create an SQL-like query, that is run during the vectortranslate process. 
 Check [here](https://gdal.org/user/ogr_sql_dialect.html) for more details on the OGR SQL dialect. 
@@ -522,15 +539,15 @@ First of all, we need to build a character vector with the options that will be 
 
 ```{r}
 my_vectortranslate = c(
-  "-f", "GPKG", #output file format
-  "-overwrite", # overwrite an existing file
+  "-f", "GPKG", # specify the output file format
+  "-overwrite", # overwrite an existing layer
   "-lco", "GEOMETRY_NAME=geometry", # layer creation options,
   "-t_srs", "EPSG:27700", # British National Grid CRS
-  # SQL-like query where we select only two fields
+  # SQL-like query where we select only the following fields
   "-select", "osm_id, highway", 
   # SQL-like query where we select only the features where highway is in (footway, cycleway)
   "-where", "highway IN ('footway', 'cycleway')",
-  "lines" #layer
+  "lines" # we want to read-in the lines layer
 )
 ```
 
@@ -544,9 +561,13 @@ The same procedure can be repeated using an ad-hoc `osmconf.ini` file.
 
 These arguments are fundamental if you need to work with a small portion of a bigger `.pbf` file. 
 For example, the following code (not run in the vignette) is used to extract all `primary`, `secondary` and `tertiary` roads from the `.pbf` file of Portugal stored by Geofabrik servers.
-It takes approximately 100 seconds to run it using an HP ENVY Notebook with Intel i7-7500U processor and 8GB of RAM using Windows 10:
+After downloading the data, it takes approximately 35 seconds to run the code using an HP ENVY Notebook with Intel i7-7500U processor and 8GB of RAM using Windows 10:
 
 ```{r, eval = FALSE}
+# 1. download the data and skip gpkg conversion
+oe_get("Portugal", download_only = TRUE, skip_vectortranslate = TRUE)
+
+# 2. Define the vectortranslate options
 my_vectortranslate = c(
   "-f", "GPKG", #output file format
   "-overwrite", # overwrite an existing file
@@ -556,14 +577,16 @@ my_vectortranslate = c(
   "-where", "highway IN ('primary', 'secondary', 'tertiary')",
   "lines" #layer
 )
+
+# 3. Convert and read-in
 system.time({
   portugal1 = oe_get("Portugal", vectortranslate_options = my_vectortranslate)
 })
-#>    user  system elapsed 
-#>   26.91   12.64   38.78 
+#>   user  system elapsed
+#>  26.77    9.53   35.18 
 ```
 
-while the classical approach (not run in the vignette) is slower and it provides identical results: 
+while the classical approach (also not run in the vignette) is slower and it provides identical results: 
 
 ```{r, eval = FALSE}
 system.time({
@@ -573,166 +596,168 @@ system.time({
     dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary'))
 })
 #>   user  system elapsed 
-#> 156.21   75.84  255.82
+#> 144.12   26.40  175.97
+
 nrow(portugal1) == nrow(portugal2)
 #> TRUE
 ```
 
-The following example shows how to use the argument `-clipsrc` to clip the input intdata using a bounding box or a polygon (defined as WKT, see `sf::st_as_text()`). 
-First we need to define a polygon centered in the area around ITS Leeds and create its WKT representation: 
-
-```{r}
-# Define a really small POLYGON in the area of ITS Leeds
-its_small_poly = st_sfc(
-  st_polygon(
-    list(
-      rbind(
-        c(-1.559184, 53.807739), 
-        c(-1.557895, 53.807571), 
-        c(-1.557375, 53.808094), 
-        c(-1.558524, 53.808192),
-        c(-1.559184, 53.807739)
-      )
-    )
-  )
-)
-its_small_wkt = st_as_text(its_small_poly)
-```
-
-Then we set the `vectortranslate_options`:
+The argument `vectortranslate_options` can also be tuned to perform spatial filter operations during the vectortranslate process. 
+The option `-spat`, illustrated in the following example, can be used to filter only those features that intersect a given rectangular bounding box, specified as `c(xmin, ymin, xmax, ymax)`. 
+For example:
 
 ```{r}
 my_vectortranslate = c(
-  "-f", "GPKG", #output file format
-  "-overwrite", # overwrite an existing file
-  "-lco", "GEOMETRY_NAME=geometry", # layer creation options
-  "-clipsrc", its_small_wkt,
-  "lines" #layer
+  "-f", "GPKG",
+  "-overwrite",
+  "-spat", c(-1.559184 , 53.807739 , -1.557375 , 53.808094 ),
+  "lines"
 )
+its_small = oe_get ("ITS Leeds", vectortranslate_options = my_vectortranslate)
 ```
 
-and run `oe_get()`:
+This is the output, where the bounding box was highlighted in black, the intersecting streets in red and all the other roads in grey. 
 
-```{r}
-its_small_sf = oe_get(
-  "ITS Leeds", 
-  vectortranslate_options = my_vectortranslate, 
-  quiet = FALSE
-)
-plot(its_small_sf["osm_id"])
+```{r, echo = FALSE}
+its_leeds = oe_get("ITS Leeds", force_vectortranslate = TRUE)
+
+plot(st_geometry(its_leeds), reset = FALSE, col = "grey")
+plot(st_geometry(its_small), lwd = 3, col = "darkred", add = TRUE)
+plot(st_as_sfc(st_bbox(c(xmin = -1.559184 , ymin = 53.807739 , xmax = -1.557375 , ymax = 53.808094), crs = 4326)), add = TRUE, lwd = 3)
 ```
 
-The plot above represents a small portion of the ITS Leeds area: 
-
-```{r}
-plot(its_lines["osm_id"], lwd = 2, reset = FALSE)
-plot(its_small_poly, add = TRUE, lwd = 2)
-```
-
-This approach is faster than translating, reading and applying a spatial filter to a full `.pbf` file, especially for larger areas. 
-For example (not run in the vignette): 
+Finally, the options `-clipsrc` and `-clipdst` can be used to perform more complex operations such as spatial filtering with generic polygons or clipping. 
+The former option crops the features considering a polygon specified in the original CRS, while the latter manipulates the data after the projection. 
+In both cases, the polygon must be specified using the Well Known Text format. 
+The following example shows how to download from Geofabrik servers the `.pbf` extract associated with Malta and apply a spatial filter while performing vectortranslate operations. 
+We select and clip only the road segments that intersect a 5 kilometers circular buffer centred in La Valletta, the capital. 
 
 ```{r, eval = FALSE}
-# Define a 15Km circular buffer around Rome
-rome_buffer = st_sfc(st_buffer(st_point(c(291187, 4640996)), 15000), crs = 32633) %>% 
-  st_transform(crs = 4326)
+# 1. Define the polygonal boundary
+la_valletta <- st_sfc(st_point(c(456113.1, 3972853)), crs = 32633) %>%
+  st_buffer(5000)
 
-# vectortranslate approach
-system.time({
-  rome_buffer_wkt = st_as_text(rome_buffer)
-  my_osmconf_ini = system.file("osmconf.ini", package = "osmextract")
-  my_vectortranslate = c(
-  "-f", "GPKG", #output file format
-  "-overwrite", # overwrite an existing file
-  "-lco", "GEOMETRY_NAME=geometry", # layer creation options
-  "-clipsrc", rome_buffer_wkt,
-  "lines" #layer
-  )
-  rome1 = oe_get(
-    st_sfc(st_point(c(291187, 4640996)), crs = 32633), 
-    force_download = TRUE, 
-    quiet = FALSE, 
-    vectortranslate_options = my_vectortranslate
-  )
-})
-#>    user   system  elapsed 
-#>   71.36    69.95   162.36
-
-# Classical approach
-system.time({
-  center_italy = oe_get(
-    st_sfc(st_point(c(291187, 4640996)), crs = 32633), 
-    quiet = FALSE, 
-    force_download = TRUE, 
-    force_vectortranslate = TRUE
-  )
-  rome2 = center_italy[rome_buffer, ]
-})
-#>    user  system  elapsed 
-#>  119.59   56.94   251.75
-```
-
-Please notice the following warning message that may be returned by `ogr2ogr` with argument `-clipsrc`: 
-
-> Warning message:
-In CPL_gdalvectortranslate(source, destination, options, oo, doo) :
-  GDAL Message 1: A geometry of type MULTILINESTRING is inserted into layer lines of geometry type LINESTRING, which is not normally allowed by the GeoPackage specification, but the driver will however do it. To create a conformant GeoPackage, if using ogr2ogr, the -nlt option can be used to override the layer geometry type. This warning will no longer be emitted for this combination of layer and feature geometry type.
-
-### `query`
-
-The main drawback of the vectortranslate approach is that you need to rerun the `ogr2ogr` utility every time you change your query. 
-If you are dealing with medium-size `.osm.pbf` data, the easier (and perhaps faster) solution may be converting all the fields and all the features from `.pbf` to `.gpkg` format, and then use the `query` parameter from `sf::st_read()`. 
-
-For example, the following code is used to calculate the frequency table of the values stored in the `highway` column of ITS test data: 
-
-```{r}
-oe_get(
-  "ITS Leeds", 
-  query = "SELECT DISTINCT highway FROM \"lines\"", 
-  force_vectortranslate = TRUE # Clean the spatial query applied before
+# 2. Define the vectortranslate options
+my_vectortranslate = c(
+  "-f", "GPKG", 
+  "-overwrite", 
+  "-t_srs", "EPSG:32633",
+  "-select", "highway",
+  "-where", "highway IN ('primary', 'secondary', 'tertiary', 'unclassified')",
+  "-clipdst", st_as_text(la_valletta),
+  "-nlt", "PROMOTE_TO_MULTI",
+  "lines"
 )
+
+# 3. Read-in data
+system.time({
+  oe_get("Malta", vectortranslate_options = my_vectortranslate)
+})
+#> The input place was matched with: Malta
+#> The chosen file was already detected in the download directory. Skip downloading.
+#> Start with the vectortranslate operations on the input file!
+#> 0...10...20...30...40...50...60...70...80...90...100 - done.
+#> Finished the vectortranslate operations on the input file!
+#> Reading layer `lines' from data source `...' using driver `GPKG'
+#> Simple feature collection with 1206 features and 1 field
+#> geometry type:  MULTILINESTRING
+#> dimension:      XY
+#> bbox:           xmin: 451113.3 ymin: 3967859 xmax: 460364.8 ymax: 3976642
+#> projected CRS:  WGS 84 / UTM zone 33N
+#>   user  system elapsed 
+#>   1.87    0.85    3.47 
 ```
 
-The same `query` argument can be used to read-in only certain features, like all residential highways: 
+The options `-t_srs`, `-select` and `-where` have the same interpretation as before. 
+The option `-clipdst` says that we want to clip the OSM extract after the reprojection to `EPSG:32633`. 
+The function `st_as_text()` converts an `sfg` polygon into Well Known Text format, which is mandatory for the spatial filter. 
+Hence, `st_as_text(la_valletta)` specifies the polygon used for clipping. 
+The last step may return invalid `LINESTRING` geometries. 
+For this reason, the `-nlt` and `PROMOTE_TO_MULTI` options are used to override the default geometry type and promote the `LINESTRING`(s) into `MULTILINESTRING`(s). 
+You can use `st_cast()` to convert the `MULTILINESTRING` into `LINESTRING` (which may be important for some packages or functions). 
 
-```{r}
-oe_get(
-  "ITS Leeds",
-  quiet = FALSE, 
-  query = "SELECT * FROM 'lines' WHERE highway IN ('residential')"
-)
+The following map represent the result, where we highlight the bounding circle and the road segments within using a dark-red colour, while all the other road segments are coloured in grey.
+
+```{r, echo = FALSE, eval = FALSE}
+malta_regular <- oe_get("Malta", force_vectortranslate = TRUE) %>% 
+  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
+  st_transform(32633)
+malta_small <- oe_get("Malta", vectortranslate_options = my_vectortranslate)
+
+par(mar = rep(0.1, 4))
+plot(st_geometry(malta_regular), col = "grey", reset = FALSE)
+plot(st_boundary(la_valletta), add = TRUE, lwd = 2)
+plot(st_geometry(malta_small), add = TRUE, col = "darkred", lwd = 2)
 ```
 
-This is faster and less memory intensive than reading-in the whole dataset and filtering with R.
-Computational efficiency is an important topic if you are working with large OSM datasets.
+<img src="https://user-images.githubusercontent.com/22221146/104240598-9d6fb400-545c-11eb-93b5-3563908ff4af.png" width="90%"/>
+
+The process takes approximately 5 seconds, while the equivalent R code, reported below, is slower: 
 
 ```{r, eval = FALSE}
 system.time({
-  portugal1 = oe_get(
-    "Portugal", 
-    quiet = FALSE, 
-    force_download = TRUE, 
-    force_vectortranslate = TRUE, 
-    query = "SELECT * from 'lines' WHERE highway IN ('primary', 'secondary', 'tertiary')"
-  )
+  malta_crop = oe_get("Malta", force_vectortranslate = TRUE, force_download = TRUE) %>% 
+    dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
+    st_transform(32633) %>% 
+    st_crop(la_valletta)
 })
-#>    user  system elapsed 
-#>   71.17   39.57  135.22 
-
-system.time({
-  portugal2 = oe_get(
-    "Portugal", 
-    quiet = FALSE, 
-    force_download = TRUE, 
-    force_vectortranslate = TRUE, 
-  )
-  
-  portugal2 = portugal2 %>% 
-    dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary'))
-})
-#>    user  system elapsed 
-#>  116.05   44.28  190.00 
 ```
+
+The time difference gets more and more relevant for larger OSM extracts. 
+Moreover, the R code crops the road segments using a rectangular boundary insted of the proper circular polygon: 
+
+```{r, echo = FALSE, eval = FALSE}
+malta_regular <- oe_get("Malta", force_vectortranslate = TRUE) %>% 
+  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
+  st_transform(32633)
+
+par(mar = rep(0.1, 4))
+plot(st_geometry(malta_regular), col = "grey", reset = FALSE)
+plot(st_boundary(la_valletta), add = TRUE, lwd = 2)
+plot(st_geometry(malta_crop), add = TRUE, col = "darkred", lwd = 2)
+```
+
+<img src="https://user-images.githubusercontent.com/22221146/104241581-32bf7800-545e-11eb-896b-3f535dd1af5e.png" width="90%"/>
+
+### `query` and `wkt_filter` arguments
+
+The last two options that we introduce are `query` and `wkt_filter`. 
+They are defined in the `R` package `sf` and represent a useful compromise between the `GDAL` and the `R` approaches explained above, especially when a user needs to apply different queries to the same (typically small or medium-size) OSM extract. 
+In fact, the two parameters create regular queries and spatial filters, respectively, that are applied immediately before reading-in the `.gpkg` file. 
+The following code, for example, mimics the operations illustrated above, reading-in the road segments that intersect the circular buffer defined around La Valletta:
+
+```{r, eval = FALSE}
+malta_small <- oe_get(
+  "Malta", 
+  query = "
+  SELECT highway, geometry 
+  FROM 'lines' 
+  WHERE highway IN ('primary', 'secondary', 'tertiary', 'unclassified')", 
+  wkt_filter = st_as_text(st_transform(la_valletta, 4326)),
+  force_vectortranslate = TRUE
+)
+```
+
+This is the output and, we can see that it doesn't crop the features: 
+
+```{r, echo = FALSE, eval = FALSE}
+malta_regular <- oe_get("Malta", force_vectortranslate = TRUE) %>% 
+  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified'))
+
+par(mar = rep(0.1, 4))
+plot(st_geometry(malta_regular), col = "grey", reset = FALSE)
+plot(st_boundary(la_valletta) %>% st_transform(4326), add = TRUE, lwd = 2)
+plot(st_geometry(malta_small), col = "darkred", add = TRUE, lwd = 2)
+```
+
+<img src="https://user-images.githubusercontent.com/22221146/104243054-4966ce80-5460-11eb-951b-ca1ce9d09f33.png" width="90%"/>
+
+This approach has its pros and cons. 
+First of all, it’s slightly slower than the GDAL routines, mainly because several unnecessary features are being converted to the `.gpkg` format. 
+Hence, it may become unfeasible for larger `.pbf` files, probably starting from 500MB. 
+We will test more cases and add more benchmarks in the near future. 
+On the other side, the syntax is cleaner, the approach is more intuitive and, most importantly, it does not require a new time-consuming `ogr2ogr` conversion every time a user defines a new query. 
+For these reasons, this is the suggested approach for querying a medium-size OSM extract.
 
 Last but not least, we can use the function `hstore_get_value` to extract one of the tags saved in the `other_tags` column without using `ogr2ogr` and rerunning the `oe_vectortranslate()` function:: 
 
