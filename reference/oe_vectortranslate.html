@@ -51,6 +51,8 @@ usage, and check the introductory vignette for more complex use-cases." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -109,7 +111,7 @@ usage, and check the introductory vignette for more complex use-cases." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/itsleeds/osmextract/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -158,7 +160,7 @@ usage, and check the introductory vignette for more complex use-cases.</p>
     <tr>
       <th>file_path</th>
       <td><p>Character string representing the path of the input
-<code>.osm.pbf</code> file.</p></td>
+<code>.pbf</code> or <code>.osm.pbf</code> file.</p></td>
     </tr>
     <tr>
       <th>layer</th>
@@ -167,29 +169,30 @@ usage, and check the introductory vignette for more complex use-cases.</p>
     </tr>
     <tr>
       <th>vectortranslate_options</th>
-      <td><p>Options to pass to the <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code>
-argument <code>options</code>. Set by default. Check Details in the introductory
-vignette and in <code>oe_vectortranslate()</code>.</p></td>
+      <td><p>Options passed to the <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code>
+argument <code>options</code>. Set by default. Check details in the introductory
+vignette and the help page of <code>oe_vectortranslate()</code>.</p></td>
     </tr>
     <tr>
       <th>osmconf_ini</th>
-      <td><p>The configuration file specifying which columns should be
-in the resulting data frame. See documentation at
-<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check Details in
-<code>oe_vectortranslate()</code>.</p></td>
+      <td><p>The configuration file. See documentation at
+<a href='https://gdal.org/drivers/vector/osm.html'>gdal.org</a>. Check details in the
+introductory vignette and the help page of <code>oe_vectortranslate()</code>. Set by
+default.</p></td>
     </tr>
     <tr>
       <th>extra_tags</th>
       <td><p>Which additional columns, corresponding to OSM tags, should
-be in the resulting dataset? <code>FALSE</code> by default. Check Details at
-<code>oe_vectortranslate()</code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>. Ignored when <code>osmconf_ini</code> is
-not <code>NULL</code>.</p></td>
+be in the resulting dataset? <code>NULL</code> by default. Check the introductory
+vignette and the help pages of <code>oe_vectortranslate()</code> and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>.
+Ignored when <code>osmconf_ini</code> is not <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>force_vectortranslate</th>
       <td><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
-already exists? Check Details at <code>oe_vectortranslate()</code> .</p></td>
+already exists? Check the introductory vignette and the help page of
+<code>oe_vectortranslate()</code>.</p></td>
     </tr>
     <tr>
       <th>never_skip_vectortranslate</th>
@@ -218,24 +221,24 @@ display a progress bar.</p></td>
 <code>vectortranslate</code> utility in <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code>. This operation can be
 customized in several ways modifying the parameters <code>layer</code>,
 <code>extra_tags</code>, <code>osmconf_ini</code>, and <code>vectortranslate_options</code>.</p>
-<p>The <code>.osm.pbf</code> files processed using GDAL are usually categorized into 5
+<p>The <code>.osm.pbf</code> files processed by GDAL are usually categorized into 5
 layers, named <code>points</code>, <code>lines</code>, <code>multilinestrings</code>, <code>multipolygons</code> and
 <code>other_relations</code>. Check the first paragraphs
 <a href='https://gdal.org/drivers/vector/osm.html'>here</a> for more details. This
-function can covert only one later at a time, and the parameter <code>layer</code> is
-used to specify which layer of the <code>.osm.pbf</code> file should be converted into
-the <code>.gpkg</code> file. Several layers with different names can be stored in the
-same <code>.gpkg</code> file. By default, the function will convert the <code>lines</code> layer
-(which is the most common one according to our experience).</p>
+function can covert only one layer at a time, and the parameter <code>layer</code> is
+used to specify which layer of the <code>.osm.pbf</code> file should be converted.
+Several layers with different names can be stored in the same <code>.gpkg</code> file.
+By default, the function will convert the <code>lines</code> layer (which is the most
+common one according to our experience).</p>
 <p>The arguments <code>osmconf_ini</code> and <code>extra_tags</code> are used to modify how
-GDAL read and process a <code>.osm.pbf</code> file. More precisely, several operations
+GDAL reads and processes a <code>.osm.pbf</code> file. More precisely, several operations
 that GDAL performs on the input <code>.osm.pbf</code> file are governed by a <code>CONFIG</code>
 file, that you can check at the following
 <a href='https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini'>link</a>.
 The basic components of OSM data are called
 <a href='https://wiki.openstreetmap.org/wiki/Elements'><em>elements</em></a> and they are
 divided into <em>nodes</em>, <em>ways</em> or <em>relations</em>, so, for example, the code at
-line 7 is used to determine which <em>ways</em> are assumed to be polygons
+line 7 of that link is used to determine which <em>ways</em> are assumed to be polygons
 (according to the simple-feature definition of polygon) if they are closed.
 Moreover, OSM data is usually described using several
 <a href='https://wiki.openstreetmap.org/wiki/Tags'><em>tags</em></a>, i.e a pair of two
@@ -298,7 +301,8 @@ documentation on all available options.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'><span class='co'># Convert to gpkg format</span>
 <span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span><span class='va'>its_pbf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='input'><span class='co'># Now there is an extra .gpkg file</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</div><div class='input'>
 <span class='co'># Check the layers of the .gpkg file</span>
 <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -314,7 +318,7 @@ documentation on all available options.</p>
 #&gt;   layer_name geometry_type features fields
 #&gt; 1     points         Point      186     10
 #&gt; 2      lines   Line String      189     10</div><div class='input'>
-<span class='co'># Add extra tags to the lines layer</span>
+<span class='co'># Add extra tags to the lines layer. Check original fields</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"

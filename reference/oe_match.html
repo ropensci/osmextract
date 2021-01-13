@@ -47,6 +47,8 @@ provider's databases. See oe_providers() and examples." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -105,7 +107,7 @@ provider's databases. See oe_providers() and examples." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/itsleeds/osmextract/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -151,7 +153,6 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
   quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
   match_by <span class='op'>=</span> <span class='st'>"name"</span>,
   max_string_dist <span class='op'>=</span> <span class='fl'>1</span>,
-  interactive_ask <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -164,8 +165,8 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
 a <code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
 character vector, a length-1 <code>sfc_POINT</code> object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
-code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
-an <code>sfc_POINT</code> object. See Details and examples in <code>oe_match()</code>.</p></td>
+code is 4326 specified as c(LON, LAT), while you can use any CRS with an
+<code>sfc_POINT</code> object. See Details and examples in <code>oe_match()</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -190,7 +191,7 @@ display a progress bar.</p></td>
     <tr>
       <th>match_by</th>
       <td><p>Which column of the provider's database should be used for
-matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is "name".
+matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is <code>"name"</code>.
 Check Details and Examples in <code>oe_match()</code> to understand how this parameter
 works. Ignored if <code>place</code> is not a character vector since the matching is
 performed through a spatial operation.</p></td>
@@ -200,20 +201,12 @@ performed through a spatial operation.</p></td>
       <td><p>Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching (i.e. Approximate String Distance, see
 <code><a href='https://rdrr.io/r/utils/adist.html'>adist()</a></code>) between input <code>place</code> and <code>match_by</code> column to tolerate before
-asking the user to select which zone to download? This parameter is set
-equal to 0 if <code>match_by</code> is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>.
-Check Details and Examples in <code>oe_match()</code> to understand why this parameter
-is important. Ignored if <code>place</code> is not a character vector since the
-matching is performed through a spatial operation.</p></td>
-    </tr>
-    <tr>
-      <th>interactive_ask</th>
-      <td><p>Boolean. If <code>TRUE</code> the function creates an interactive
-menu in case the best match is further than <code>max_string_dist</code>, otherwise it
-fails with <code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code>. Check details and examples in <code>oe_match()</code> to
-understand why this parameter is important. Ignored if <code>place</code> is not a
-character vector since the matching is performed through a spatial
-operation.</p></td>
+testing alternative providers or looking for geographical matching with
+Nominatim API? This parameter is set equal to 0 if <code>match_by</code> is equal to
+<code>iso3166_1_alpha2</code> or <code>iso3166_2</code>. Check Details and Examples in
+<code>oe_match()</code> to understand why this parameter is important. Ignored if
+<code>place</code> is not a character vector since the matching is performed through a
+spatial operation.</p></td>
     </tr>
     </table>
 
@@ -225,20 +218,28 @@ element is the URL of the <code>.osm.pbf</code> file associated with the input
 may be <code>NULL</code> or <code>NA</code>)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by geofabrik
-provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a>. See <a href='geofabrik_zones.html'>geofabrik_zones</a>
-for more details.</p>
-<p>If the input place is specified as a spatial point (either <code>sfc_POINT</code> or
-numeric coordinates), then the function will return the geographical area
-with the highest "level" intersecting the point. See the help pages of the
-chosen provider database for understanding the meaning of the "level"
-field. If there are multiple areas at the same "level" intersecting the
-input place, then the function will return the area whose centroid is
+    <p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by Geofabrik
+provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a> codes. See
+<a href='geofabrik_zones.html'>geofabrik_zones</a> for more details.</p>
+<p>If the input place is specified as a spatial point (either as <code>sfc_POINT</code>
+or a pair of numeric coordinates), then the function will return the
+geographical area with the highest "level" intersecting the point. See the
+help pages of the chosen provider database to understand the meaning of the
+"level" field. If there are multiple areas at the same "level" intersecting
+the input place, then the function will return the area whose centroid is
 closer to the input place.</p>
 <p>If the input place is specified as a character vector and there are
 multiple plausible matches between the input place and the <code>match_by</code>
 column, then the function will return a warning and it will select the
-first match. See Examples.</p>
+first match. See Examples. On the other hand, if the approximate string
+distance between the input <code>place</code> and the best match in <code>match_by</code> column
+is greater than <code>max_string_dist</code>, then the function will look for exact
+matches (i.e. <code>max_string_dist = 0</code>) in the other supported providers. If
+it finds an exact match, then it will return the corresponding URL.
+Otherwise, if <code>match_by</code> is equal to <code>"name"</code>, then it will try to
+geolocate the input <code>place</code> using the <a href='https://nominatim.org/release-docs/develop/api/Overview/'>Nominatim API</a>, and then it
+will perform a spatial matching operation (see examples and vignettes),
+while, if <code>match_by != "name"</code>, then it will return an error.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='oe_providers.html'>oe_providers()</a></code> and <code><a href='oe_match_pattern.html'>oe_match_pattern()</a></code>.</p></div>
@@ -260,31 +261,21 @@ first match. See Examples.</p>
 #&gt; $file_size
 #&gt; [1] 19376705
 #&gt; </div><div class='input'>
-<span class='co'># By default the matching operations are performed through the column "name"</span>
-<span class='co'># in the provider's database but this can be a problem:</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Russia"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>}</span>
-<span class='co'># so you can perform the matching operations using other columns in the</span>
-<span class='co'># provider's database:</span>
+<span class='co'># By default, the matching operations are performed through the column "name"</span>
+<span class='co'># in the provider's database but this can be a problem. Hence, you can</span>
+<span class='co'># perform the matching operations using other columns:</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"RU"</span>, match_by <span class='op'>=</span> <span class='st'>"iso3166_1_alpha2"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>The input place was matched with: RU</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/russia-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size
 #&gt; [1] 2820253009
-#&gt; </div><div class='input'><span class='co'># Run oe_providers() for a description of all providers and check the help</span>
-<span class='co'># pages of the corresponding databases to learn which fields are present.</span>
+#&gt; </div><div class='input'><span class='co'># Run oe_providers() for reading a short description of all providers and</span>
+<span class='co'># check the help pages of the corresponding databases to learn which fields</span>
+<span class='co'># are present.</span>
 
-<span class='co'># You can always increase the max_string_dist argument to help the function:</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Isle Wight"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>}</span>
-<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Isle Wight"</span>, max_string_dist <span class='op'>=</span> <span class='fl'>3</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Isle of Wight</span></div><div class='output co'>#&gt; $url
-#&gt; [1] "https://download.geofabrik.de/europe/great-britain/england/isle-of-wight-latest.osm.pbf"
-#&gt; 
-#&gt; $file_size
-#&gt; [1] 6877468
-#&gt; </div><div class='input'><span class='co'># but be aware that it can be dangerous:</span>
+<span class='co'># You can always increase the max_string_dist argument, but it can be</span>
+<span class='co'># dangerous:</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"London"</span>, max_string_dist <span class='op'>=</span> <span class='fl'>3</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Jordan</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/asia/jordan-latest.osm.pbf"
@@ -295,7 +286,7 @@ first match. See Examples.</p>
 <span class='co'># Match the input zone using an sfc_POINT object:</span>
 <span class='va'>milan_duomo</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1514924</span>, <span class='fl'>5034552</span><span class='op'>)</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>3003</span><span class='op'>)</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>milan_duomo</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with multiple geographical areas. Selecting the areas with the highest "level". See the help page associated to the chosen provider for an explanation of the meaning of the "level" field</span></div><div class='output co'>#&gt; $url
+</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with multiple geographical areas. Selecting the areas with the highest "level". See the help page associated to the chosen provider for an explanation of the meaning of the "level" field.</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size
@@ -311,17 +302,12 @@ first match. See Examples.</p>
 <span class='co'># Match the input zone using a numeric vector of coordinates</span>
 <span class='co'># (in which case crs = 4326 is assumed)</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>9.1916</span>, <span class='fl'>45.4650</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># Milan, Duomo using CRS = 4326</span>
-</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with multiple geographical areas. Selecting the areas with the highest "level". See the help page associated to the chosen provider for an explanation of the meaning of the "level" field</span></div><div class='output co'>#&gt; $url
+</div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with multiple geographical areas. Selecting the areas with the highest "level". See the help page associated to the chosen provider for an explanation of the meaning of the "level" field.</span></div><div class='output co'>#&gt; $url
 #&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
 #&gt; 
 #&gt; $file_size
 #&gt; [1] 416306623
 #&gt; </div><div class='input'>
-<span class='co'># Check interactive_ask:</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"London"</span>, interactive_ask <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='op'>}</span>
-
 <span class='co'># It returns a warning since Berin is matched both with Benin and Berlin</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Berin"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: The input place was matched with multiple geographical zones: Benin - Berlin. Selecting the first match.</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with: Benin</span></div><div class='output co'>#&gt; $url
@@ -329,6 +315,27 @@ first match. See Examples.</p>
 #&gt; 
 #&gt; $file_size
 #&gt; [1] 34426444
+#&gt; </div><div class='input'>
+<span class='co'># If the input place does not match any zone in the chosen provider, then the</span>
+<span class='co'># function will test the other providers:</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Leeds"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>No exact match found for place = Leeds and provider = geofabrik. Best match is Laos. </span>
+#&gt; <span class='message'>Checking the other providers.</span></div><div class='output co'>#&gt; <span class='message'>An exact string match was found using provider = bbbike.</span></div><div class='output co'>#&gt; $url
+#&gt; [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"
+#&gt; 
+#&gt; $file_size
+#&gt; [1] 19376705
+#&gt; </div><div class='input'>
+<span class='co'># If the input place cannot be exactly matched with any zone in any provider,</span>
+<span class='co'># then the function will try to geolocate the input and then it will perform a</span>
+<span class='co'># spatial match:</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Milan"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>No exact match found for place = Milan and provider = geofabrik. Best match is Iran. </span>
+#&gt; <span class='message'>Checking the other providers.</span></div><div class='output co'>#&gt; <span class='message'>No exact match found in any OSM provider data. Searching for the location online.</span></div><div class='output co'>#&gt; <span class='message'>although coordinates are longitude/latitude, st_intersects assumes that they are planar</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with multiple geographical areas. Selecting the areas with the highest "level". See the help page associated to the chosen provider for an explanation of the meaning of the "level" field.</span></div><div class='output co'>#&gt; $url
+#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
+#&gt; 
+#&gt; $file_size
+#&gt; [1] 416306623
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
