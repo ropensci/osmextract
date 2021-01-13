@@ -96,12 +96,14 @@ oe_update = function(
 
   # Check if the .gpkg files should be deleted
   if (isTRUE(delete_gpkg)) {
-    cat("The .gpkg files are going to be removed.\n")
+    if (isFALSE(quiet)) {
+      cat("The .gpkg files are going to be removed.\n")
+    }
     file.remove(
       file.path(download_directory, grep("\\.gpkg", all_files, value = TRUE))
     )
     if (isFALSE(quiet)) {
-      cat("\nThe .gpkg files in download_directory were removed.\n")
+      cat("The .gpkg files in download_directory were removed.\n")
     }
   }
 
@@ -169,6 +171,11 @@ oe_update = function(
       id = paste0("us/", id)
     }
 
+    # Print a message
+    if (isFALSE(quiet)) {
+      message("The function is processing the file ", file, ".")
+    }
+
     # Update the .osm.pbf files, skipping the vectortranslate step
     oe_get(
       place = id,
@@ -178,6 +185,7 @@ oe_update = function(
       download_only = TRUE,
       skip_vectortranslate = TRUE,
       max_file_size = max_file_size,
+      quiet = quiet,
       ...
     )
   }

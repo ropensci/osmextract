@@ -17,8 +17,8 @@ oe_find(
 a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
 character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
 coordinates with length 2. In the latter case it is assumed that the EPSG
-code is 4326 specified as c(LON, LAT), while you can use any EPSG code with
-an \code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+code is 4326 specified as c(LON, LAT), while you can use any CRS with an
+\code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For

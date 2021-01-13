@@ -15,25 +15,25 @@
 #'   customized in several ways modifying the parameters `layer`,
 #'   `extra_tags`, `osmconf_ini`, and `vectortranslate_options`.
 #'
-#'   The `.osm.pbf` files processed using GDAL are usually categorized into 5
+#'   The `.osm.pbf` files processed by GDAL are usually categorized into 5
 #'   layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
 #'   `other_relations`. Check the first paragraphs
 #'   [here](https://gdal.org/drivers/vector/osm.html) for more details. This
-#'   function can covert only one later at a time, and the parameter `layer` is
-#'   used to specify which layer of the `.osm.pbf` file should be converted into
-#'   the `.gpkg` file. Several layers with different names can be stored in the
-#'   same `.gpkg` file. By default, the function will convert the `lines` layer
-#'   (which is the most common one according to our experience).
+#'   function can covert only one layer at a time, and the parameter `layer` is
+#'   used to specify which layer of the `.osm.pbf` file should be converted.
+#'   Several layers with different names can be stored in the same `.gpkg` file.
+#'   By default, the function will convert the `lines` layer (which is the most
+#'   common one according to our experience).
 #'
 #'   The arguments `osmconf_ini` and `extra_tags` are used to modify how
-#'   GDAL read and process a `.osm.pbf` file. More precisely, several operations
+#'   GDAL reads and processes a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
 #'   file, that you can check at the following
 #'   [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini).
 #'   The basic components of OSM data are called
 #'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
 #'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
-#'   line 7 is used to determine which *ways* are assumed to be polygons
+#'   line 7 of that link is used to determine which *ways* are assumed to be polygons
 #'   (according to the simple-feature definition of polygon) if they are closed.
 #'   Moreover, OSM data is usually described using several
 #'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e a pair of two
@@ -85,7 +85,7 @@
 #'
 #' @inheritParams oe_get
 #' @param file_path Character string representing the path of the input
-#'   `.osm.pbf` file.
+#'   `.pbf` or `.osm.pbf` file.
 #'
 #' @return Character string representing the path of the `.gpkg` file.
 #' @export
@@ -106,6 +106,7 @@
 #' list.files(tempdir(), pattern = "pbf|gpkg")
 #' # Convert to gpkg format
 #' its_gpkg = oe_vectortranslate(its_pbf)
+#' # Now there is an extra .gpkg file
 #' list.files(tempdir(), pattern = "pbf|gpkg")
 #'
 #' # Check the layers of the .gpkg file
@@ -114,7 +115,7 @@
 #' its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
 #' sf::st_layers(its_gpkg, do_count = TRUE)
 #'
-#' # Add extra tags to the lines layer
+#' # Add extra tags to the lines layer. Check original fields
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #' its_gpkg = oe_vectortranslate(
 #'   its_pbf,
@@ -244,7 +245,8 @@ oe_vectortranslate = function(
   if (!is.null(osmconf_ini) && !is.null(extra_tags)) {
     warning(
       "The argument extra_tags is ignored when osmconf_ini is not NULL.",
-      call. = FALSE
+      call. = FALSE,
+      immediate. = TRUE
     )
     extra_tags = NULL
   }
@@ -440,15 +442,15 @@ oe_get_keys.default = function(zone, layer = "lines") {
 #' @export
 oe_get_keys.character = function(zone, layer = "lines") {
   if (length(zone) != 1L) {
-    stop("The input zone must have length 1", call. = FALSE)
+    stop("The input file must have length 1", call. = FALSE)
   }
 
   if (!file.exists(zone)) {
-    stop("The input zone does not exist.", call. = FALSE)
+    stop("The input file does not exist.", call. = FALSE)
   }
 
   if (tools::file_ext(zone) != "gpkg") {
-    stop("The input zone must have a .gpkg extension.", call. = FALSE)
+    stop("The input file must have a .gpkg extension.", call. = FALSE)
   }
 
   # Read the gpkg file selecting only the other_tags column
@@ -466,7 +468,7 @@ oe_get_keys.character = function(zone, layer = "lines") {
 #' @export
 oe_get_keys.sf = function(zone, layer = "lines") {
   if ("other_tags" %!in% names(zone)) {
-    stop("The input zone must have an other_tags field.", call. = FALSE)
+    stop("The input object must have an other_tags field.", call. = FALSE)
   }
 
   get_keys(zone)

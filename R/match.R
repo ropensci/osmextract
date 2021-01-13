@@ -15,24 +15,34 @@
 #'
 #' @seealso [oe_providers()] and [oe_match_pattern()].
 #'
-#' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by geofabrik
+#' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik
 #'   provider to perform matching operations using [ISO 3166-1
 #'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
-#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2). See [geofabrik_zones]
-#'   for more details.
+#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
+#'   [geofabrik_zones] for more details.
 #'
-#'   If the input place is specified as a spatial point (either `sfc_POINT` or
-#'   numeric coordinates), then the function will return the geographical area
-#'   with the highest "level" intersecting the point. See the help pages of the
-#'   chosen provider database for understanding the meaning of the "level"
-#'   field. If there are multiple areas at the same "level" intersecting the
-#'   input place, then the function will return the area whose centroid is
+#'   If the input place is specified as a spatial point (either as `sfc_POINT`
+#'   or a pair of numeric coordinates), then the function will return the
+#'   geographical area with the highest "level" intersecting the point. See the
+#'   help pages of the chosen provider database to understand the meaning of the
+#'   "level" field. If there are multiple areas at the same "level" intersecting
+#'   the input place, then the function will return the area whose centroid is
 #'   closer to the input place.
 #'
 #'   If the input place is specified as a character vector and there are
 #'   multiple plausible matches between the input place and the `match_by`
 #'   column, then the function will return a warning and it will select the
-#'   first match. See Examples.
+#'   first match. See Examples. On the other hand, if the approximate string
+#'   distance between the input `place` and the best match in `match_by` column
+#'   is greater than `max_string_dist`, then the function will look for exact
+#'   matches (i.e. `max_string_dist = 0`) in the other supported providers. If
+#'   it finds an exact match, then it will return the corresponding URL.
+#'   Otherwise, if `match_by` is equal to `"name"`, then it will try to
+#'   geolocate the input `place` using the [Nominatim
+#'   API](https://nominatim.org/release-docs/develop/api/Overview/), and then it
+#'   will perform a spatial matching operation (see examples and vignettes),
+#'   while, if `match_by != "name"`, then it will return an error.
+#'
 #' @examples
 #' # The simplest example:
 #' oe_match("Italy")
@@ -40,21 +50,16 @@
 #' # The default provider is "geofabrik", but we can change that:
 #' oe_match("Leeds", provider = "bbbike")
 #'
-#' # By default the matching operations are performed through the column "name"
-#' # in the provider's database but this can be a problem:
-#' \dontrun{
-#' oe_match("Russia", quiet = FALSE)}
-#' # so you can perform the matching operations using other columns in the
-#' # provider's database:
+#' # By default, the matching operations are performed through the column "name"
+#' # in the provider's database but this can be a problem. Hence, you can
+#' # perform the matching operations using other columns:
 #' oe_match("RU", match_by = "iso3166_1_alpha2")
-#' # Run oe_providers() for a description of all providers and check the help
-#' # pages of the corresponding databases to learn which fields are present.
+#' # Run oe_providers() for reading a short description of all providers and
+#' # check the help pages of the corresponding databases to learn which fields
+#' # are present.
 #'
-#' # You can always increase the max_string_dist argument to help the function:
-#' \dontrun{
-#' oe_match("Isle Wight", quiet = FALSE)}
-#' oe_match("Isle Wight", max_string_dist = 3, quiet = FALSE)
-#' # but be aware that it can be dangerous:
+#' # You can always increase the max_string_dist argument, but it can be
+#' # dangerous:
 #' oe_match("London", max_string_dist = 3, quiet = FALSE)
 #'
 #' # Match the input zone using an sfc_POINT object:
@@ -67,13 +72,17 @@
 #' # (in which case crs = 4326 is assumed)
 #' oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 #'
-#' # Check interactive_ask:
-#' if (interactive()) {
-#'     oe_match("London", interactive_ask = TRUE)
-#' }
-#'
 #' # It returns a warning since Berin is matched both with Benin and Berlin
 #' oe_match("Berin", quiet = FALSE)
+#'
+#' # If the input place does not match any zone in the chosen provider, then the
+#' # function will test the other providers:
+#' oe_match("Leeds")
+#'
+#' # If the input place cannot be exactly matched with any zone in any provider,
+#' # then the function will try to geolocate the input and then it will perform a
+#' # spatial match:
+#' oe_match("Milan")
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
@@ -133,7 +142,7 @@ oe_match.sfc_POINT = function(
         "The input place was matched with multiple geographical areas. ",
         "Selecting the areas with the highest \"level\". See the help page",
         " associated to the chosen provider for an explanation of the ",
-        "meaning of the \"level\" field"
+        "meaning of the \"level\" field."
       )
     }
 
@@ -152,7 +161,7 @@ oe_match.sfc_POINT = function(
       message(
         "The input place was matched with multiple geographical areas with",
         " the same \"level\". Selecting the area whose centroid is closer ",
-        "to the input place"
+        "to the input place."
       )
     }
 
@@ -205,7 +214,6 @@ oe_match.character = function(
   quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
-  interactive_ask = FALSE,
   ...
   ) {
   # For the moment we support only length-one character vectors
@@ -250,6 +258,7 @@ oe_match.character = function(
     ignore.case = TRUE
   )
   best_match_id = which(matching_dists == min(matching_dists, na.rm = TRUE))
+
   if (length(best_match_id) > 1L) {
     warning(
       "The input place was matched with multiple geographical zones: ",
@@ -265,36 +274,87 @@ oe_match.character = function(
   # Check if the best match is still too far
   high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
+  # If the approximate string distance between the best match is greater than
+  # the max_string_dist threshold, then:
   if (isTRUE(high_distance)) {
-    if (isFALSE(quiet) || isTRUE(interactive_ask)) {
+
+    # 1. Raise a message
+    if (isFALSE(quiet)) {
       message(
-        "No exact matching found for place = ", place, ". ",
-        "Best match is ", best_matched_place[[match_by]], "."
+        "No exact match found for place = ", place, " and provider = ",
+        provider, ". ", "Best match is ", best_matched_place[[match_by]], ".",
+        " \nChecking the other providers."
       )
     }
-    if (interactive() && isTRUE(interactive_ask)) {
-      continue = utils::menu(
-        choices = c("Yes", "No"),
-        title = "Do you confirm that this is the right match?"
-      )
-      # since the options are Yes/No, then Yes == 1L
-      if (continue != 1L) {
-        stop("Search for a closer match in the chosen provider's database.",
-             call. = FALSE
+
+    # 2. Check the other providers and, if there is an exact match, just return
+    # the matched value from the other provider:
+    other_providers = setdiff(oe_available_providers(), provider)
+    exact_match = FALSE
+    for (other_provider in other_providers) {
+      if (match_by %!in% colnames(load_provider_data(other_provider))) {
+        next
+      }
+      all_match_by = load_provider_data(other_provider)[[match_by]]
+
+      if (any(tolower(place) == tolower(all_match_by))) {
+        exact_match = TRUE
+        break
+      }
+    }
+
+    if (exact_match) {
+      if (isFALSE(quiet)) {
+        message(
+          "An exact string match was found using provider = ", other_provider,
+          "."
         )
       }
-    } else {
-      stop(
-        "String distance between best match and the input place is ",
-        matching_dists[best_match_id, 1],
-        ", while the maximum threshold distance is equal to ",
-        max_string_dist,
-        ". You should increase the max_string_dist parameter, ",
-        "look for a closer match in the chosen provider database",
-        " or consider using a different match_by variable.",
-        call. = FALSE
+
+      return(
+       oe_match(
+         place = place,
+         provider = other_provider,
+         match_by = match_by,
+         quiet = TRUE,
+         max_string_dist = max_string_dist
+        )
       )
     }
+
+    # 3. Otherwise, if match_by == name (since I think it doesn't make sense to
+    # use Nominatim with other fields), then we can use oe_search to look for
+    # the lat/long coordinates of the input place
+    if (match_by == "name") {
+      if (isFALSE(quiet)) {
+        message(
+          "No exact match found in any OSM provider data.",
+          " Searching for the location online."
+        )
+      }
+
+      place_online = oe_search(place = place)
+      # I added Sys.sleep(1) since the usage policty of OSM nominatim (see
+      # https://operations.osmfoundation.org/policies/nominatim/) requires max 1
+      # request per second.
+      Sys.sleep(1)
+      return(
+        oe_match(
+          place = sf::st_geometry(place_online),
+          provider = provider,
+          quiet = quiet
+        )
+      )
+    }
+
+    # 4. Return an error
+    stop(
+      "No tolerable match was found. ",
+      "You should try increasing the max_string_dist parameter, ",
+      "look for a closer match in another provider ",
+      "or consider using a different match_by variable.",
+      call. = FALSE
+    )
   }
 
   if (isFALSE(quiet)) {
@@ -367,7 +427,7 @@ oe_match_pattern = function(
 
   # Then we extract only the elements of the match_by_column that match the
   # input pattern.
-  match_ID = grep(pattern, match_by_column)
+  match_ID = grep(pattern, match_by_column, ignore.case = TRUE)
 
   # If full_row is TRUE than return the corresponding row of provider_data,
   # otherwise just the matched pattern.

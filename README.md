@@ -52,8 +52,8 @@ The query stops with an error message after around 30 seconds. The same
 query can be made with `osmextract` as follows, which reads-in almost
 100k linestrings in less than 10 seconds, after the data has been
 downloaded in the compressed `.pbf` format and converted to the open
-standard `.gpkg` format. The download-conversion operation of the OSM
-extract associated to England takes approximately a few minutes, and
+standard `.gpkg` format. The download-and-conversion operation of the
+OSM extract associated to England takes approximately a few minutes, but
 this operation must be executed only once. The following code chunk is
 not evaluated:
 
@@ -107,10 +107,7 @@ Load the package with:
 ``` r
 library(osmextract)
 #> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
-#> Any product made from OpenStreetMap must cite OSM as the data source.
-#> Geofabrik data are taken from https://download.geofabrik.de/
-#> For usage details of bbbike data see https://download.bbbike.org/osm/
-#> OpenStreetMap_fr data are taken from http://download.openstreetmap.fr/
+#> Check the package website for more details.
 ```
 
 To use alongside functionality in the `sf` package, we also recommend
@@ -144,12 +141,12 @@ already downloaded) and reads-in data from OSM extract providers as an
 layer can be read-in by changing the `layer` argument:
 
 ``` r
-osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE)
-osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE)
+osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
+osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 45265
+#> [1] 45422
 nrow(osm_points)
-#> [1] 59251
+#> [1] 58989
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -184,10 +181,25 @@ plot(osm_major_roads["highway"], key.pos = 1)
 The same steps can be used to get other OSM datasets (examples not run):
 
 ``` r
-test_malta = oe_get("Malta", quiet = TRUE)
-test_andorra = oe_get("Andorra", extra_tags = "ref")
-test_leeds <- oe_get("Leeds", provider = "bbbike")
-test_india_region <- oe_get("Goa", provider = "openstreetmap_fr")
+malta = oe_get("Malta", quiet = TRUE)
+andorra = oe_get("Andorra", extra_tags = "ref")
+leeds <- oe_get("Leeds", provider = "bbbike")
+goa <- oe_get("Goa", provider = "openstreetmap_fr")
+```
+
+If the input place does not match any of the existing names in the
+supported providers, then `oe_get()` will try to geocode it via
+[Nominatim
+API](https://nominatim.org/release-docs/develop/api/Overview/), and it
+will select the smallest OSM extract intersecting the area. For example
+(not run):
+
+``` r
+oe_get("Milan") # Warning: It will download more than 400MB of data
+#> No exact match found for place = Milan and provider = geofabrik. Best match is Iran.
+#> Checking the other providers.
+#> No exact match found in any OSM provider data. Searching for the location online.
+#> ... (extra messages here)
 ```
 
 For further details on using the package, see the [Introducing
@@ -254,6 +266,10 @@ states that
   - 1.  This License;
 
   - 2.  A later version of this License similar in spirit to this
+
+See the [Introducing osmextract
+vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html)
+for more details.
 
 ## Other approaches
 

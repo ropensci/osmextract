@@ -5,19 +5,19 @@
 #' the package. The url is specified through the parameter `file_url`.
 #'
 #' @details This function runs several checks before actually downloading a new
-#'   file, to avoid overloading the OSM providers. The first step is the
+#'   file to avoid overloading the OSM providers. The first step is the
 #'   definition of the file's path associated to the input `file_url`. The path
 #'   is created by pasting together the `download_directory`, the name of chosen
 #'   provider (which may be inferred from the url) and the `basename()` of the
-#'   url. For example, if `file_url =
-#'   "https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and
+#'   url. For example, if `file_url` is equal to
+#'   `"https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and
 #'   `download_directory = "/tmp"`, then the path is built as
-#'   `"/tmp/geofabrik_italy-latest.osm.pbf"`. Then, the function checks the
-#'   existence of a file with the same file's path and, in that case, it returns
+#'   `"/tmp/geofabrik_italy-latest.osm.pbf"`. Thereafter, the function checks
+#'   the existence of a file in that path and, if that's the case, it returns
 #'   the path. The parameter `force_download` is used to modify this behaviour.
-#'   If there is no file associated with the file's path, then the function
-#'   downloads a new file using [download.file()] with `mode = "wb"`, and it
-#'   returns the path.
+#'   If there is no file associated with the new path, then the function
+#'   downloads a new file using [download.file()] with `mode = "wb"`, and,
+#'   again, it returns the path.
 #'
 #' @inheritParams oe_get
 #' @param file_url A url pointing to a `.osm.pbf` file that should be
@@ -36,10 +36,10 @@
 #' @export
 #'
 #' @examples
-#' its_match = oe_match("ITS Leeds", provider = "test")
+#' its_match = oe_match("ITS Leeds", provider = "test", quiet = TRUE)
 #' # ITS Leeds data are stored on github, which is not a standard provider.
-#' # So we need to specify the provider parameter.
-#' # See oe_providers() for a list of all available providers.
+#' # So we need to specify the provider parameter. See oe_providers() for a
+#' # list of all available providers.
 #' oe_download(
 #'   file_url = its_match$url,
 #'   file_size = its_match$file_size,
