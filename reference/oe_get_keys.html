@@ -159,7 +159,11 @@ to a <code>.gpkg</code> file (typically created using <code><a href='oe_vectortr
     <tr>
       <th>layer</th>
       <td><p>Which <code>layer</code> should be read in? Typically <code>points</code>, <code>lines</code>
-(the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>.</p></td>
+(the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>. If
+you specify an ad-hoc query using the argument <code>query</code> (see introductory
+vignette and examples), then <code><a href='oe_get.html'>oe_get()</a></code> and <code><a href='oe_read.html'>oe_read()</a></code> will read the layer
+specified in the query and ignore <code>layer</code>. See also
+<a href='https://github.com/ITSLeeds/osmextract/issues/122'>#122</a>.</p></td>
     </tr>
     </table>
 
@@ -206,7 +210,7 @@ vignette and see examples.</p>
 #&gt; [34] "incline"             "bridge"              "alt_name"           
 #&gt; [37] "turn:lanes:backward"</div><div class='input'>
 <span class='va'>itsleeds</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0pJohM/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpaEkNhv/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -230,7 +234,7 @@ vignette and see examples.</p>
   <span class='va'>itsleeds_gpkg_path</span>,
   query <span class='op'>=</span> <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0pJohM/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpaEkNhv/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY

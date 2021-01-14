@@ -169,7 +169,11 @@ then it must be specified using HTTP/HTTPS protocol.</p></td>
     <tr>
       <th>layer</th>
       <td><p>Which <code>layer</code> should be read in? Typically <code>points</code>, <code>lines</code>
-(the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>.</p></td>
+(the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>. If
+you specify an ad-hoc query using the argument <code>query</code> (see introductory
+vignette and examples), then <code><a href='oe_get.html'>oe_get()</a></code> and <code>oe_read()</code> will read the layer
+specified in the query and ignore <code>layer</code>. See also
+<a href='https://github.com/ITSLeeds/osmextract/issues/122'>#122</a>.</p></td>
     </tr>
     <tr>
       <th>...</th>
