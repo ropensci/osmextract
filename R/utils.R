@@ -45,5 +45,5 @@ oe_download_directory = function() {
   if (!dir.exists(download_directory)) {
     dir.create(download_directory)
   }
-  download_directory
+  normalizePath(download_directory)
 }
