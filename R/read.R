@@ -98,7 +98,13 @@ oe_read = function(
     # use names(formals("st_read.character", envir = getNamespace("sf")))
     any(
       names(list(...)) %!in%
-      names(formals(get("st_read.character", envir = getNamespace("sf"))))
+      # The ... arguments in st_read are passed to st_as_sf so I need to add the
+      # formals of st_as_sf.
+      # See https://github.com/ITSLeeds/osmextract/issues/152
+      union(
+        names(formals(get("st_read.character", envir = getNamespace("sf")))),
+        names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
+      )
     )
   ) {
     warning(
