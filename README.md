@@ -144,9 +144,9 @@ layer can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 45569
+#> [1] 45621
 nrow(osm_points)
-#> [1] 59067
+#> [1] 59085
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -162,8 +162,7 @@ roads. The column names in the `osm_lines` object are as follows:
 ``` r
 names(osm_lines) # default variable names
 #>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#>  [6] "barrier"    "man_made"   "oneway"     "ambulance"  "z_order"   
-#> [11] "other_tags" "geometry"
+#>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
 ```
 
 Once imported, you can use all the functions for data frames in base R
