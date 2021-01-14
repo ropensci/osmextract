@@ -28,7 +28,11 @@ oe_read(
 then it must be specified using HTTP/HTTPS protocol.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
-(the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
+(the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
+you specify an ad-hoc query using the argument \code{query} (see introductory
+vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
+specified in the query and ignore \code{layer}. See also
+\href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
 
 \item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query}
 or \code{stringsAsFactors}.  Check the introductory vignette to understand how

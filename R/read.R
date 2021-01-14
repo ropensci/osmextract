@@ -83,6 +83,52 @@ oe_read = function(
   # Test misspelt arguments
   check_layer_provider(layer, provider)
 
+  # Test if there is misalignment between query and layer. See also
+  # See https://github.com/ITSLeeds/osmextract/issues/122
+  if ("query" %in% names(list(...))) {
+    # Check if the query argument defined in sf::st_read was defined using a
+    # layer different than layer argument.
+    # FROM sf::st_read docs: For query with a character dsn the query text is
+    # handed to 'ExecuteSQL' on the GDAL/OGR data set and will result in the
+    # creation of a new layer (and layer is ignored)
+    # See also https://github.com/ITSLeeds/osmextract/issues/122
+    query <- list(...)[["query"]]
+
+    # Extract everything that is specified after FROM or from
+    query_pattern <- "(?<=(FROM|from))\\s*\\S+"
+    layer_raw <- regmatches(query, regexpr(query_pattern, query, perl = TRUE))
+
+    if (length(layer_raw) != 1L) {
+      stop(
+        "There is an error in the query. Please open a new issue at ",
+        "https://github.com/ITSLeeds/osmextract/issues",
+        call. = FALSE
+      )
+    }
+
+    # Clean all extra text (such as ' or ")
+    layer_clean <- regmatches(layer_raw[[1]], gregexpr("\\w+", layer_raw[[1]], perl = TRUE))
+
+    if (length(layer_clean) != 1L) {
+      stop(
+        "There is an error in the query. Please open a new issue at ",
+        "https://github.com/ITSLeeds/osmextract/issues",
+        call. = FALSE
+      )
+    }
+
+    if (layer_clean[[1]] != layer) {
+      warning(
+        "The query selected a layer which is different from layer argument. ",
+        "We will ignore the layer argument.",
+        call. = FALSE,
+        immediate. = TRUE
+      )
+      layer = layer_clean[[1]]
+
+    }
+  }
+
   # See https://github.com/ITSLeeds/osmextract/issues/114
   if (
     # The following condition checks if the user passed down one or more
@@ -214,7 +260,6 @@ oe_read = function(
   if (isTRUE(download_only)) {
     return(gpkg_file_path)
   }
-
 
   # Read the translated file with sf::st_read
   sf::st_read(

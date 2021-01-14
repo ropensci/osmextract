@@ -74,3 +74,18 @@ test_that("oe_read fails with misspelled arguments", {
   # Remove the .gpkg file from the inst/ directory
   file.remove(oe_read(f, download_only = TRUE))
 })
+
+test_that("oe_read returns a warning message when query != layer", {
+  expect_warning(
+    oe_get(
+      "ITS Leeds",
+      layer = "points",
+      query = "SELECT * FROM 'lines'",
+      download_directory = tempdir()
+    ),
+    "The query selected a layer which is different from layer argument."
+  )
+
+  # Remove the .gpkg file
+  file.remove(oe_find("ITS Leeds")[1])
+})

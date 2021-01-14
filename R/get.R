@@ -15,7 +15,11 @@
 #'   code is 4326 specified as c(LON, LAT), while you can use any CRS with an
 #'   `sfc_POINT` object. See Details and examples in [oe_match()].
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
-#' (the default), `multilinestrings`, `multipolygons` or `other_relations`.
+#'   (the default), `multilinestrings`, `multipolygons` or `other_relations`. If
+#'   you specify an ad-hoc query using the argument `query` (see introductory
+#'   vignette and examples), then `oe_get()` and `oe_read()` will read the layer
+#'   specified in the query and ignore `layer`. See also
+#'   [#122](https://github.com/ITSLeeds/osmextract/issues/122).
 #' @param provider Which provider should be used to download the data? Available
 #'   providers can be found with the following command: [oe_providers()]. For
 #'   [`oe_get()`] and [`oe_match()`], if `place` is equal to `ITS Leeds`, then

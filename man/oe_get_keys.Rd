@@ -22,7 +22,11 @@ to a \code{.gpkg} file (typically created using \code{oe_vectortranslate()} or
 \code{oe_get()}).}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
-(the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}.}
+(the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
+you specify an ad-hoc query using the argument \code{query} (see introductory
+vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
+specified in the query and ignore \code{layer}. See also
+\href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
 }
 \value{
 A character vector indicating the name of all keys stored in
