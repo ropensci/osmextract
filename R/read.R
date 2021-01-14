@@ -88,15 +88,15 @@ oe_read = function(
   if ("query" %in% names(list(...))) {
     # Check if the query argument defined in sf::st_read was defined using a
     # layer different than layer argument.
-    # FROM sf::st_read docs: For query with a character dsn the query text is
-    # handed to 'ExecuteSQL' on the GDAL/OGR data set and will result in the
-    # creation of a new layer (and layer is ignored)
-    # See also https://github.com/ITSLeeds/osmextract/issues/122
-    query <- list(...)[["query"]]
+    # Extracted from sf::st_read docs: For query with a character dsn the query
+    # text is handed to 'ExecuteSQL' on the GDAL/OGR data set and will result in
+    # the creation of a new layer (and layer is ignored) See also
+    # https://github.com/ITSLeeds/osmextract/issues/122
+    query = list(...)[["query"]]
 
     # Extract everything that is specified after FROM or from
-    query_pattern <- "(?<=(FROM|from))\\s*\\S+"
-    layer_raw <- regmatches(query, regexpr(query_pattern, query, perl = TRUE))
+    query_pattern = "(?<=(FROM|from))\\s*\\S+"
+    layer_raw = regmatches(query, regexpr(query_pattern, query, perl = TRUE))
 
     if (length(layer_raw) != 1L) {
       stop(
@@ -107,7 +107,10 @@ oe_read = function(
     }
 
     # Clean all extra text (such as ' or ")
-    layer_clean <- regmatches(layer_raw[[1]], gregexpr("\\w+", layer_raw[[1]], perl = TRUE))
+    layer_clean = regmatches(
+      layer_raw[[1]],
+      gregexpr("\\w+", layer_raw[[1]], perl = TRUE)
+    )
 
     if (length(layer_clean) != 1L) {
       stop(
@@ -125,7 +128,6 @@ oe_read = function(
         immediate. = TRUE
       )
       layer = layer_clean[[1]]
-
     }
   }
 
@@ -186,7 +188,7 @@ oe_read = function(
     # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url.
     # First I need to remove the whitespace at the end of the URL
     # See https://github.com/ITSLeeds/osmextract/issues/163
-    file_path <- trimws(file_path)
+    file_path = trimws(file_path)
     like_url = is_like_url(file_path)
 
     if (!like_url) {

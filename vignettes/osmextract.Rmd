@@ -271,7 +271,7 @@ Otherwise, it downloads a new file (using `download.file()` with `mode = "wb"`),
 
 ## `oe_vectortranslate()`: Convert to gpkg format
 
-The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, compact format for transferring geospatial information*. See [here](http://www.geopackage.org/)]. 
+The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, compact format for transferring geospatial information*. See [here](http://www.geopackage.org/).]. 
 It takes in input a string representing the path to an existing `.pbf` file, and it returns the path to the newly generated `.gpkg` file. 
 The `.gpkg` file is created in the same directory as the input `.pbf` file and with the same name. 
 The conversion is performed using [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in `sf::gdal_utils()`.
@@ -301,7 +301,7 @@ The vectortranslate operation can be customised in several ways modifying the pa
 The `.pbf` files processed by GDAL are usually categorized into 5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and `other_relations`^[Check the first paragraphs [here](https://gdal.org/drivers/vector/osm.html) for more details.]. 
 The `oe_vectortranslate()` function can covert only one layer at a time. 
 Nevertheless, several layers with different names can be stored in the same `.gpkg` file. 
-By default, the function will convert the `lines` layer (which is the most common one according to our experience), but you can change it using the parameter `layer`. 
+By default, the function will convert the `lines` layer (which is the most common one according to our experience), but you can change that using the parameter `layer`. 
 
 The `.pbf` files always contain all five layers: 
 
@@ -331,7 +331,7 @@ The package stores a local copy which is used as the standard `CONFIG` file.
 The basic components of OSM data are called [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are divided into *nodes*, *ways* or *relations*. 
 Hence, for example, the code at line 7 of that `CONFIG` file is used to determine which *ways* are assumed to be *polygons* if they are closed.
 
-The parameter `osmconf_ini` can be used to specify the path to a different `CONFIG` file, in case you need more control over GDAL operations. 
+The parameter `osmconf_ini` can be used to specify the path to a different `CONFIG` file in case you need more control over GDAL operations. 
 See the next sub-sections for an example. 
 If `osmconf_ini` is equal to `NULL` (the default), then `oe_vectortranslate()` function uses the standard `CONFIG` file.
 
@@ -618,9 +618,10 @@ its_small = oe_get ("ITS Leeds", vectortranslate_options = my_vectortranslate)
 
 This is the output, where the bounding box was highlighted in black, the intersecting streets in red and all the other roads in grey. 
 
-```{r, echo = FALSE}
-its_leeds = oe_get("ITS Leeds", force_vectortranslate = TRUE)
+```{r, echo = FALSE, out.width="85%"}
+its_leeds = oe_get("ITS Leeds", force_vectortranslate = TRUE, quiet = TRUE)
 
+par(mar = rep(0.1, 4))
 plot(st_geometry(its_leeds), reset = FALSE, col = "grey")
 plot(st_geometry(its_small), lwd = 3, col = "darkred", add = TRUE)
 plot(st_as_sfc(st_bbox(c(xmin = -1.559184 , ymin = 53.807739 , xmax = -1.557375 , ymax = 53.808094), crs = 4326)), add = TRUE, lwd = 3)
