@@ -137,7 +137,10 @@ oe_read = function(
 
     # Add an if clause to check if file_path "looks like" a URL
     # See https://github.com/ITSLeeds/osmextract/issues/134 and
-    # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+    # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url.
+    # First I need to remove the whitespace at the end of the URL
+    # See https://github.com/ITSLeeds/osmextract/issues/163
+    file_path <- trimws(file_path)
     like_url = is_like_url(file_path)
 
     if (!like_url) {
