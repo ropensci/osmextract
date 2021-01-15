@@ -10,7 +10,7 @@ Authors@R: c(
     person("Barry", "Rowlingson", role=c("ctb"),
       comment = c(ORCID = "0000-0002-8586-6625"))
     )
-Description: Match, download, convert and read Open Street Map data extracts 
+Description: Find, download, convert and read Open Street Map data extracts 
     obtained from several providers. 
 License: GPL-3
 Encoding: UTF-8

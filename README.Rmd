@@ -233,7 +233,7 @@ See the [Introducing osmextract vignette](https://itsleeds.github.io/osmextract/
 
 ## Contribution
 
-We look very much forward to comments, questions and contributions. 
+We very much look forward to comments, questions and contributions. 
 If you have any doubt, or if you want to suggest a new approach, or if you want to add a new OSM provider, feel free to create a new issue in the [issue tracker](https://github.com/ITSLeeds/osmextract/issues) or a new [pull request](https://github.com/ITSLeeds/osmextract/pulls). 
 We always try to create the most intuitive user interface and the most informative error messages, but if you think that something is not clear and could have been explained better, please let us know. 
 

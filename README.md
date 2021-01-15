@@ -295,7 +295,7 @@ for more details.
 
 ## Contribution
 
-We look very much forward to comments, questions and contributions. If
+We very much look forward to comments, questions and contributions. If
 you have any doubt, or if you want to suggest a new approach, or if you
 want to add a new OSM provider, feel free to create a new issue in the
 [issue tracker](https://github.com/ITSLeeds/osmextract/issues) or a new
