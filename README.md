@@ -107,7 +107,7 @@ Load the package with:
 ``` r
 library(osmextract)
 #> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
-#> Check the package website for more details.
+#> Check the package website, itsleeds.github.io/osmextract for more details.
 ```
 
 To use alongside functionality in the `sf` package, we also recommend
@@ -144,9 +144,9 @@ layer can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 45422
+#> [1] 45621
 nrow(osm_points)
-#> [1] 58989
+#> [1] 59085
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -292,6 +292,17 @@ for more details.
     is an established spatial database that works well with large OSM
     datasets
   - Any others? Let us know\!
+
+## Contribution
+
+We very much look forward to comments, questions and contributions. If
+you have any doubt, or if you want to suggest a new approach, or if you
+want to add a new OSM provider, feel free to create a new issue in the
+[issue tracker](https://github.com/ITSLeeds/osmextract/issues) or a new
+[pull request](https://github.com/ITSLeeds/osmextract/pulls). We always
+try to create the most intuitive user interface and the most informative
+error messages, but if you think that something is not clear and could
+have been explained better, please let us know.
 
 <!-- :) -->
 
