@@ -26,13 +26,13 @@
 #'   geographical area intersecting the point (or an error if there is no
 #'   intersection between input place and provider's data). The argument `level`
 #'   (which must be specified as an integer between 1 and 4, extreme values
-#'   included) is used to select between multiple nested geographical areas. We
-#'   could roughly say that smaller administrative units correspond to higher
-#'   levels. Check the help pages of the chosen provider for more details on
+#'   included) is used to select between multiple geographically nested areas.
+#'   We could roughly say that smaller administrative units correspond to higher
+#'   levels. Check the help page of the chosen provider for more details on
 #'   `level` field. By default, `level = NULL`, which means that `oe_match()`
-#'   will return the areas corresponding to the highest level. If there is no
+#'   will return the area(s) corresponding to the highest level. If there is no
 #'   geographical area at the desired level, then the function will return an
-#'   error. If there are multiple areas at the same "level" intersecting the
+#'   error. If there are multiple areas at the same `level`` intersecting the
 #'   input place, then the function will return the area whose centroid is
 #'   closer to the input place.
 #'
