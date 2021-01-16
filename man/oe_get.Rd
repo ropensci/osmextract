@@ -11,6 +11,7 @@ oe_get(
   provider = "geofabrik",
   match_by = "name",
   max_string_dist = 1,
+  level = NULL,
   download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+08,
@@ -64,6 +65,11 @@ Nominatim API? This parameter is set equal to 0 if \code{match_by} is equal to
 \code{\link[=oe_match]{oe_match()}} to understand why this parameter is important. Ignored if
 \code{place} is not a character vector since the matching is performed through a
 spatial operation.}
+
+\item{level}{The desired hierarchical level in case of spatial matching. We
+could approximately say that smaller administrative units correspond to
+higher levels. If \code{NULL}, the default, the \verb{oe_*} functions will select the
+highest level. See Details and Examples in \code{oe_match()}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to

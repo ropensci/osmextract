@@ -105,3 +105,22 @@ test_that("oe_match looks for a place location online", {
 test_that("oe_match: error when input place is far from all zones and match_by != name", {
   expect_error(oe_match("PS", match_by = "iso3166_1_alpha2"), "No tolerable match was found")
 })
+
+test_that("oe_match: test level parameter", {
+  # See https://github.com/ITSLeeds/osmextract/issues/160
+  yak <- c(-120.51084, 46.60156)
+
+  expect_equal(
+    oe_match(yak, level = 1)$url,
+    "https://download.geofabrik.de/north-america-latest.osm.pbf"
+  )
+  expect_equal(
+    oe_match(yak)$url,
+    "https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf"
+  )
+  expect_error(
+    oe_match(yak, level = 3),
+    "The input place does not intersect any area at the chosen level."
+  )
+})
+
