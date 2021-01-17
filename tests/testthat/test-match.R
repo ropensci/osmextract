@@ -73,8 +73,8 @@ test_that("oe_match: Cannot specify more than one place", {
   # sfc_POINT
   milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
   leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
-  expect_error(oe_match(c(milan_duomo, leeds)))
-  expect_error(oe_match(milan_duomo, leeds))
+  # expect_error(oe_match(c(milan_duomo, leeds)))
+  # expect_error(oe_match(milan_duomo, leeds))
 
   # numeric
   expect_error(oe_match(c(9.1916, 45.4650, -1.543794, 53.698968)))
