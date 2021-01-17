@@ -115,15 +115,6 @@ oe_match.sf = function(
   ...
 ) {
   place = sf::st_geometry(place)
-  # For the moment we support only length-one sfc_POINT objects
-  if (length(place) > 1L) {
-    stop(
-      "At the moment we support only length-one sfc_POINT objects for 'place'",
-      " parameter. Feel free to open a new issue at ",
-      "https://github.com/ITSLeeds/osmextract",
-      call. = FALSE
-    )
-  }
 
   # Load the data associated with the chosen provider.
   provider_data = load_provider_data(provider)
