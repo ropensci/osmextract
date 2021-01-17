@@ -118,6 +118,16 @@ oe_match.default = function(place, ...) {
 #' @inheritParams oe_get
 #' @name oe_match
 #' @export
+oe_match.sf = function(
+  place,
+  ...
+) {
+  oe_match(sf::st_geometry(place), ...)
+}
+
+#' @inheritParams oe_get
+#' @name oe_match
+#' @export
 oe_match.sfc_POINT = function(
   place,
   provider = "geofabrik",
