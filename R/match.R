@@ -90,23 +90,31 @@ oe_match = function(place, ...) {
 #' @name oe_match
 #' @export
 oe_match.default = function(place, ...) {
-  stop(
-    "At the moment there is no support for matching objects of class ",
-    class(place)[1], ".",
-    " Feel free to open a new issue at github.com/itsleeds/osmextract",
-    call. = FALSE
-  )
+  # see https://stackoverflow.com/questions/52967171
+  if (inherits(place, "sfc")) {
+    return(oe_match.sf(place, ...))
+  }
+  else {
+    stop(
+      "At the moment there is no support for matching objects of class ",
+      class(place)[1], ".",
+      " Feel free to open a new issue at github.com/itsleeds/osmextract",
+      call. = FALSE
+    )
+  }
+
 }
 
 #' @inheritParams oe_get
 #' @name oe_match
 #' @export
-oe_match.sfc_POINT = function(
+oe_match.sf = function(
   place,
   provider = "geofabrik",
   quiet = FALSE,
   ...
 ) {
+  place = sf::st_geometry(place)
   # For the moment we support only length-one sfc_POINT objects
   if (length(place) > 1L) {
     stop(
@@ -127,7 +135,10 @@ oe_match.sfc_POINT = function(
 
   # Spatial subset according to sf::st_intersects (maybe add a parameter for
   # that)
-  matched_zones = provider_data[place, op = sf::st_intersects]
+  # browser()
+  suppressWarnings({
+    matched_zones = provider_data[place, op = sf::st_contains]
+  })
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
@@ -146,12 +157,14 @@ oe_match.sfc_POINT = function(
       )
     }
 
-
     # Select the zones with the highest level. I do not use which.max since I
     # want to select all occurrences, not only the first one
     matched_zones = matched_zones[
       matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE),
     ]
+    if(nrow(matched_zones) > 1L) {
+      matched_zones = matched_zones[which.min(matched_zones[["pbf_file_size"]]), ]
+    }
   }
 
   # If, again, there are multiple matches with the same "level", we will select
