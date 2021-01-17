@@ -128,6 +128,26 @@ oe_match.sf = function(
 #' @inheritParams oe_get
 #' @name oe_match
 #' @export
+oe_match.sfc_LINESTRING = function(
+  place,
+  ...
+) {
+  oe_match(sf::st_centroid(place), ...)
+}
+
+#' @inheritParams oe_get
+#' @name oe_match
+#' @export
+oe_match.sfc_POLYGON = function(
+  place,
+  ...
+) {
+  oe_match(sf::st_centroid(place), ...)
+}
+
+#' @inheritParams oe_get
+#' @name oe_match
+#' @export
 oe_match.sfc_POINT = function(
   place,
   provider = "geofabrik",
