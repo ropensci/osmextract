@@ -465,9 +465,9 @@ The following commands (not evaluated here) show how `oe_get()` can be used to i
 We suggest you run the commands and check the output. 
 
 ```{r, eval = FALSE}
-oe_get("Andorra", quiet = FALSE)
-oe_get("Leeds", quiet = FALSE)
-oe_get("Goa", quiet = FALSE)
+oe_get("Andorra")
+oe_get("Leeds")
+oe_get("Goa")
 oe_get("Malta", layer = "points", quiet = FALSE)
 oe_match("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
 
@@ -479,10 +479,11 @@ oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # lik
 # Geocode the capital of Goa, India
 (geocode_panaji = tmaptools::geocode_OSM("Panaji, India"))
 oe_get(geocode_panaji$coords, quiet = FALSE)
+oe_get(geocode_panaji$coords, provider = "bbbike", quiet = FALSE)
 oe_get(geocode_panaji$coords, provider = "openstreetmap_fr", quiet = FALSE)
 
 # Spatial match starting from the coordinates of Arequipa, Peru
-geocode_arequipa <- c(-71.537005, -16.398874)
+geocode_arequipa = c(-71.537005, -16.398874)
 oe_get(geocode_arequipa, quiet = FALSE)
 oe_get(geocode_arequipa, provider = "bbbike", quiet = FALSE) # Error
 oe_get(geocode_arequipa, provider = "openstreetmap_fr", quiet = FALSE) # No country-specific extract
@@ -668,7 +669,7 @@ We select and clip only the road segments that intersect a 5 kilometers circular
 
 ```{r, eval = FALSE}
 # 1. Define the polygonal boundary
-la_valletta <- st_sfc(st_point(c(456113.1, 3972853)), crs = 32633) %>%
+la_valletta = st_sfc(st_point(c(456113.1, 3972853)), crs = 32633) %>%
   st_buffer(5000)
 
 # 2. Define the vectortranslate options
@@ -713,10 +714,10 @@ You can use `st_cast()` to convert the `MULTILINESTRING` into `LINESTRING` (whic
 The following map represent the result, where we highlight the bounding circle and the road segments within using a dark-red colour, while all the other road segments are coloured in grey.
 
 ```{r, echo = FALSE, eval = FALSE}
-malta_regular <- oe_get("Malta", force_vectortranslate = TRUE) %>% 
+malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
   dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
   st_transform(32633)
-malta_small <- oe_get("Malta", vectortranslate_options = my_vectortranslate)
+malta_small = oe_get("Malta", vectortranslate_options = my_vectortranslate)
 
 par(mar = rep(0.1, 4))
 plot(st_geometry(malta_regular), col = "grey", reset = FALSE)
@@ -741,7 +742,7 @@ The time difference gets more and more relevant for larger OSM extracts.
 Moreover, the R code crops the road segments using a rectangular boundary insted of the proper circular polygon: 
 
 ```{r, echo = FALSE, eval = FALSE}
-malta_regular <- oe_get("Malta", force_vectortranslate = TRUE) %>% 
+malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
   dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
   st_transform(32633)
 
@@ -761,7 +762,7 @@ In fact, the two parameters create regular queries and spatial filters, respecti
 The following code, for example, mimics the operations illustrated above, reading-in the road segments that intersect the circular buffer defined around La Valletta:
 
 ```{r, eval = FALSE}
-malta_small <- oe_get(
+malta_small = oe_get(
   "Malta", 
   query = "
   SELECT highway, geometry 
@@ -775,7 +776,7 @@ malta_small <- oe_get(
 This is the output and, we can see that it doesn't crop the features: 
 
 ```{r, echo = FALSE, eval = FALSE}
-malta_regular <- oe_get("Malta", force_vectortranslate = TRUE) %>% 
+malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
   dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified'))
 
 par(mar = rep(0.1, 4))

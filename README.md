@@ -185,8 +185,8 @@ The same steps can be used to get other OSM datasets (examples not run):
 ``` r
 malta = oe_get("Malta", quiet = TRUE)
 andorra = oe_get("Andorra", extra_tags = "ref")
-leeds <- oe_get("Leeds")
-goa <- oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
+leeds = oe_get("Leeds")
+goa = oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
 ```
 
 If the input place does not match any of the existing names in the

@@ -160,8 +160,8 @@ The same steps can be used to get other OSM datasets (examples not run):
 ```{r, eval = FALSE}
 malta = oe_get("Malta", quiet = TRUE)
 andorra = oe_get("Andorra", extra_tags = "ref")
-leeds <- oe_get("Leeds")
-goa <- oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
+leeds = oe_get("Leeds")
+goa = oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
 ```
 
 If the input place does not match any of the existing names in the supported providers, then `oe_get()` will try to geocode it via [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/), and it will select the smallest OSM extract intersecting the area. 
