@@ -3,7 +3,8 @@
 \name{oe_match}
 \alias{oe_match}
 \alias{oe_match.default}
-\alias{oe_match.sfc_POINT}
+\alias{oe_match.sf}
+\alias{oe_match.sfc}
 \alias{oe_match.numeric}
 \alias{oe_match.character}
 \title{Match input place with a URL}
@@ -12,7 +13,9 @@ oe_match(place, ...)
 
 \method{oe_match}{default}(place, ...)
 
-\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", quiet = FALSE, ...)
+\method{oe_match}{sf}(place, ...)
+
+\method{oe_match}{sfc}(place, provider = "geofabrik", level = NULL, quiet = FALSE, ...)
 
 \method{oe_match}{numeric}(place, provider = "geofabrik", quiet = FALSE, ...)
 
@@ -40,6 +43,14 @@ providers can be found with the following command: \code{\link[=oe_providers]{oe
 \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
 internal testings.}
+
+\item{level}{An integer representing the desired hierarchical level in case
+of spatial matching. For the \code{geofabrik} provider, for example, \code{1}
+corresponds with continent-level datasets, \code{2} countries, \code{3} corresponds
+to regions and \code{4} to subregions. Hence, we could approximately say that
+smaller administrative units correspond to bigger levels. If \code{NULL}, the
+default, the \verb{oe_*} functions will select the highest level. See Details
+and Examples in \code{oe_match()}.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
 Starting from \code{sf} version
@@ -80,11 +91,18 @@ provider to perform matching operations using \href{https://en.wikipedia.org/wik
 \link{geofabrik_zones} for more details.
 
 If the input place is specified as a spatial point (either as \code{sfc_POINT}
-or a pair of numeric coordinates), then the function will return the
-geographical area with the highest "level" intersecting the point. See the
-help pages of the chosen provider database to understand the meaning of the
-"level" field. If there are multiple areas at the same "level" intersecting
-the input place, then the function will return the area whose centroid is
+or a pair of numeric coordinates), then the function will return a
+geographical area intersecting the point (or an error if there is no
+intersection between input place and provider's data). The argument \code{level}
+(which must be specified as an integer between 1 and 4, extreme values
+included) is used to select between multiple geographically nested areas.
+We could roughly say that smaller administrative units correspond to higher
+levels. Check the help page of the chosen provider for more details on
+\code{level} field. By default, \code{level = NULL}, which means that \code{oe_match()}
+will return the area(s) corresponding to the highest level. If there is no
+geographical area at the desired level, then the function will return an
+error. If there are multiple areas at the same `level`` intersecting the
+input place, then the function will return the area whose centroid is
 closer to the input place.
 
 If the input place is specified as a character vector and there are
@@ -97,8 +115,8 @@ matches (i.e. \code{max_string_dist = 0}) in the other supported providers. If
 it finds an exact match, then it will return the corresponding URL.
 Otherwise, if \code{match_by} is equal to \code{"name"}, then it will try to
 geolocate the input \code{place} using the \href{https://nominatim.org/release-docs/develop/api/Overview/}{Nominatim API}, and then it
-will perform a spatial matching operation (see examples and vignettes),
-while, if \code{match_by != "name"}, then it will return an error.
+will perform a spatial matching operation (see Examples and introductory
+vignette), while, if \code{match_by != "name"}, then it will return an error.
 }
 \examples{
 # The simplest example:
@@ -129,7 +147,8 @@ oe_match(leeds, provider = "bbbike")
 # (in which case crs = 4326 is assumed)
 oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 
-# It returns a warning since Berin is matched both with Benin and Berlin
+# The following returns a warning since Berin is matched both
+# with Benin and Berlin
 oe_match("Berin", quiet = FALSE)
 
 # If the input place does not match any zone in the chosen provider, then the
@@ -140,6 +159,14 @@ oe_match("Leeds")
 # then the function will try to geolocate the input and then it will perform a
 # spatial match:
 oe_match("Milan")
+
+# The level parameter can be used to select smaller or bigger geographical
+# areas during spatial matching
+yak <- c(-120.51084, 46.60156)
+\dontrun{
+oe_match(yak, level = 3) # error}
+oe_match(yak, level = 2) # by default, level is equal to the maximum value
+oe_match(yak, level = 1)
 }
 \seealso{
 \code{\link[=oe_providers]{oe_providers()}} and \code{\link[=oe_match_pattern]{oe_match_pattern()}}.

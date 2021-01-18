@@ -71,9 +71,11 @@ test_that("oe_match: Cannot specify more than one place", {
   expect_error(oe_match("Italy", "Spain"))
 
   # sfc_POINT
-  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-  leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
-  expect_error(oe_match(c(milan_duomo, leeds)))
+  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003) %>%
+    sf::st_transform(4326)
+  leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700) %>%
+    sf::st_transform(4326)
+  # expect_error(oe_match(c(milan_duomo, leeds)))
   expect_error(oe_match(milan_duomo, leeds))
 
   # numeric
@@ -104,4 +106,33 @@ test_that("oe_match looks for a place location online", {
 
 test_that("oe_match: error when input place is far from all zones and match_by != name", {
   expect_error(oe_match("PS", match_by = "iso3166_1_alpha2"), "No tolerable match was found")
+})
+
+test_that("oe_match: test level parameter", {
+  # See https://github.com/ITSLeeds/osmextract/issues/160
+  yak <- c(-120.51084, 46.60156)
+
+  expect_equal(
+    oe_match(yak, level = 1)$url,
+    "https://download.geofabrik.de/north-america-latest.osm.pbf"
+  )
+  expect_equal(
+    oe_match(yak)$url,
+    "https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf"
+  )
+  expect_error(
+    oe_match(yak, level = 3),
+    "The input place does not intersect any area at the chosen level."
+  )
+})
+
+test_that("oe_match:sfc objects with multiple places", {
+  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003) %>%
+    sf::st_transform(4326)
+  leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700) %>%
+    sf::st_transform(4326)
+  expect_match(
+    oe_match(c(milan_duomo, leeds))$url,
+    "https://download.geofabrik.de/europe-latest.osm.pbf"
+  )
 })

@@ -39,6 +39,13 @@
 #'   [oe_match()] to understand why this parameter is important. Ignored if
 #'   `place` is not a character vector since the matching is performed through a
 #'   spatial operation.
+#' @param level  An integer representing the desired hierarchical level in case
+#'   of spatial matching. For the `geofabrik` provider, for example, `1`
+#'   corresponds with continent-level datasets, `2` countries, `3` corresponds
+#'   to regions and `4` to subregions. Hence, we could approximately say that
+#'   smaller administrative units correspond to bigger levels. If `NULL`, the
+#'   default, the `oe_*` functions will select the highest level. See Details
+#'   and Examples in `oe_match()`.
 #' @param download_directory Where to download the file containing the OSM data?
 #'   By default this is equal to [oe_download_directory()], which is equal to
 #'   [`tempdir()`] and it changes each time you restart R. You can set a
@@ -153,6 +160,7 @@ oe_get = function(
   provider = "geofabrik",
   match_by = "name",
   max_string_dist = 1,
+  level = NULL,
   download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+8,
@@ -180,6 +188,7 @@ oe_get = function(
     provider = provider,
     match_by = match_by,
     max_string_dist = max_string_dist,
+    level = level,
     quiet = quiet
   )
 

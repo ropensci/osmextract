@@ -22,11 +22,18 @@
 #'   [geofabrik_zones] for more details.
 #'
 #'   If the input place is specified as a spatial point (either as `sfc_POINT`
-#'   or a pair of numeric coordinates), then the function will return the
-#'   geographical area with the highest "level" intersecting the point. See the
-#'   help pages of the chosen provider database to understand the meaning of the
-#'   "level" field. If there are multiple areas at the same "level" intersecting
-#'   the input place, then the function will return the area whose centroid is
+#'   or a pair of numeric coordinates), then the function will return a
+#'   geographical area intersecting the point (or an error if there is no
+#'   intersection between input place and provider's data). The argument `level`
+#'   (which must be specified as an integer between 1 and 4, extreme values
+#'   included) is used to select between multiple geographically nested areas.
+#'   We could roughly say that smaller administrative units correspond to higher
+#'   levels. Check the help page of the chosen provider for more details on
+#'   `level` field. By default, `level = NULL`, which means that `oe_match()`
+#'   will return the area(s) corresponding to the highest level. If there is no
+#'   geographical area at the desired level, then the function will return an
+#'   error. If there are multiple areas at the same `level`` intersecting the
+#'   input place, then the function will return the area whose centroid is
 #'   closer to the input place.
 #'
 #'   If the input place is specified as a character vector and there are
@@ -40,8 +47,8 @@
 #'   Otherwise, if `match_by` is equal to `"name"`, then it will try to
 #'   geolocate the input `place` using the [Nominatim
 #'   API](https://nominatim.org/release-docs/develop/api/Overview/), and then it
-#'   will perform a spatial matching operation (see examples and vignettes),
-#'   while, if `match_by != "name"`, then it will return an error.
+#'   will perform a spatial matching operation (see Examples and introductory
+#'   vignette), while, if `match_by != "name"`, then it will return an error.
 #'
 #' @examples
 #' # The simplest example:
@@ -72,7 +79,8 @@
 #' # (in which case crs = 4326 is assumed)
 #' oe_match(c(9.1916, 45.4650)) # Milan, Duomo using CRS = 4326
 #'
-#' # It returns a warning since Berin is matched both with Benin and Berlin
+#' # The following returns a warning since Berin is matched both
+#' # with Benin and Berlin
 #' oe_match("Berin", quiet = FALSE)
 #'
 #' # If the input place does not match any zone in the chosen provider, then the
@@ -83,6 +91,15 @@
 #' # then the function will try to geolocate the input and then it will perform a
 #' # spatial match:
 #' oe_match("Milan")
+#'
+#' # The level parameter can be used to select smaller or bigger geographical
+#' # areas during spatial matching
+#' yak <- c(-120.51084, 46.60156)
+#' \dontrun{
+#' oe_match(yak, level = 3) # error}
+#' oe_match(yak, level = 2) # by default, level is equal to the maximum value
+#' oe_match(yak, level = 1)
+
 oe_match = function(place, ...) {
   UseMethod("oe_match")
 }
@@ -101,22 +118,23 @@ oe_match.default = function(place, ...) {
 #' @inheritParams oe_get
 #' @name oe_match
 #' @export
-oe_match.sfc_POINT = function(
+oe_match.sf = function(
+  place,
+  ...
+) {
+  oe_match(sf::st_geometry(place), ...)
+}
+
+#' @inheritParams oe_get
+#' @name oe_match
+#' @export
+oe_match.sfc = function(
   place,
   provider = "geofabrik",
+  level = NULL,
   quiet = FALSE,
   ...
 ) {
-  # For the moment we support only length-one sfc_POINT objects
-  if (length(place) > 1L) {
-    stop(
-      "At the moment we support only length-one sfc_POINT objects for 'place'",
-      " parameter. Feel free to open a new issue at ",
-      "https://github.com/ITSLeeds/osmextract",
-      call. = FALSE
-    )
-  }
-
   # Load the data associated with the chosen provider.
   provider_data = load_provider_data(provider)
 
@@ -125,33 +143,52 @@ oe_match.sfc_POINT = function(
     place = sf::st_transform(place, crs = sf::st_crs(provider_data))
   }
 
-  # Spatial subset according to sf::st_intersects (maybe add a parameter for
-  # that)
-  matched_zones = provider_data[place, op = sf::st_intersects]
+  # If there is more than one sfg object in place I will combine them
+  if (length(place) > 1L) {
+    place = sf::st_combine(place)
+  }
+
+  # Spatial subset according to sf::st_contains
+  # See https://github.com/ITSLeeds/osmextract/pull/168
+  matched_zones = provider_data[place, op = sf::st_contains]
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
     stop("The input place does not intersect any area for the chosen provider.")
   }
 
-  # If there are multiple matches, we will select the geographical zones with
-  # the highest level (more or less they correspond to the smallest areas)
+  # If there are multiple matches, we will select the geographical area with
+  # the chosen level (or highest level if default).
   if (nrow(matched_zones) > 1L) {
     if (isFALSE(quiet)) {
       message(
-        "The input place was matched with multiple geographical areas. ",
-        "Selecting the areas with the highest \"level\". See the help page",
-        " associated to the chosen provider for an explanation of the ",
-        "meaning of the \"level\" field."
+        "The input place was matched with multiple geographical areas. "
       )
     }
 
+    # See https://github.com/ITSLeeds/osmextract/issues/160
+    # Check the level parameter and, if NULL, set level = highest level.
+    if (is.null(level)) {
+      # Add a check to test if all(is.na(matched_zones[["level"]])) ?
+      level = max(matched_zones[["level"]], na.rm = TRUE)
+      if (isFALSE(quiet)) {
+        message(
+          "Selecting the smallest administrative unit. ",
+          "Check ?oe_match for more details."
+        )
+      }
+    } else {
+      if (isFALSE(quiet)) {
+        message("Selecting the desired level.")
+      }
+    }
 
-    # Select the zones with the highest level. I do not use which.max since I
-    # want to select all occurrences, not only the first one
-    matched_zones = matched_zones[
-      matched_zones[["level"]] == max(matched_zones[["level"]], na.rm = TRUE),
-    ]
+    # Select the desired area(s)
+    matched_zones = matched_zones[matched_zones[["level"]] == level, ]
+
+    if (nrow(matched_zones) == 0L) {
+      stop("The input place does not intersect any area at the chosen level.")
+    }
   }
 
   # If, again, there are multiple matches with the same "level", we will select
@@ -159,9 +196,8 @@ oe_match.sfc_POINT = function(
   if (nrow(matched_zones) > 1L) {
     if (isFALSE(quiet)) {
       message(
-        "The input place was matched with multiple geographical areas with",
-        " the same \"level\". Selecting the area whose centroid is closer ",
-        "to the input place."
+        "The input place was matched with multiple geographical areas. ",
+        "Selecting the area whose centroid is closest to the input place."
       )
     }
 
