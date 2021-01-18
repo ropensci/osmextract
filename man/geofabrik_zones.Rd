@@ -13,22 +13,22 @@ the characters "-" and "/".}
 \item{name}{The, usually English, long-form name of the area.}
 \item{parent}{The identifier of the next larger excerpts that contains this
 one, if present.}
-\item{level}{An integer code between 1 and 3. If level = 1 then the zone
+\item{level}{An integer code between 1 and 4. If level = 1 then the zone
 corresponds to one of the continents plus the Russian Federation: Africa,
 Antarctica, Asia, Australia and Oceania, Central America, Europe, North
 America, Russian Federation and South America. If level = 2 then the zone
 corresponds to the continent's subregions (i.e. the countries, such as
 Italy, Great Britain, Spain, USA, Mexico, Belize, Morocco, Peru and so on).
 There are also some exceptions that correspond to the Special Sub Regions
-(according to their geofabrik definition), which are: South Africa
+(according to their Geofabrik definition), which are: South Africa
 (includes Lesotho), Alps, Britain and Ireland, Germany + Austria +
 Switzerland, US Midwest, US Northeast, US Pacific, US South, US West and
-all US states. Finally, level = 3L correspond to the subregions of each
-state (or each level 2 zone). For example the West Yorkshire, which is a
-subregion of England, is a level 3 zone. This field is used only for
-matching operations in case of spatial input. The oe_* functions will
-select the geographical area closest to the input place with the highest
-"level"}
+all US states. Level = 3L correspond to the subregions of each state (or
+each level 2 zone). For example the West Yorkshire, which is a subregion of
+England, is a level 3 zone. Finally, level = 4L correspond to the
+subregions of the third level and it is mainly related to some small areas
+in Germany. This field is used only for matching operations in case of
+spatial input.}
 \item{iso3166-1_alpha2}{A character vector of two-letter \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO3166-1 codes}. This will be set
 on the smallest extract that still fully (or mostly) contains the entity
 with that code; e.g. the code "DE" will be given for the Germany extract

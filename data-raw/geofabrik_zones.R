@@ -5,6 +5,7 @@ library(sf)
 library(jsonlite)
 library(purrr)
 library(httr)
+library(dplyr)
 
 # Download official description of geofabrik data.
 geofabrik_zones = st_read("https://download.geofabrik.de/index-v1.json", stringsAsFactors = FALSE) %>%
@@ -48,8 +49,7 @@ geofabrik_zones$iso3166_1_alpha2 = my_fix_iso3166(geofabrik_zones$iso3166_1_alph
 #   \"updates\": \"https:\\/\\/download.geofabrik.de\\/asia\\/afghanistan-updates\"
 # }"
 
-geofabrik_urls = map_dfr(geofabrik_zones$urls, fromJSON)
-geofabrik_urls
+(geofabrik_urls = map_dfr(geofabrik_zones$urls, fromJSON))
 geofabrik_zones$urls = NULL # This is just to remove the urls column
 
 # From rbind.sf docs: If you need to cbind e.g. a data.frame to an sf, use
@@ -62,14 +62,17 @@ geofabrik_zones = st_sf(data.frame(geofabrik_zones, geofabrik_urls))
 # in bytes). We can get this information from the headers of each file.
 # Idea from:
 # https://stackoverflow.com/questions/2301009/get-file-size-before-downloading-counting-how-much-already-downloaded-httpru/2301030
+geofabrik_zones[["pbf_file_size"]] <- 0
 
-geofabrik_zones$pbf_file_size = map_dbl(
-  .x = geofabrik_zones$pbf,
-  .f = function(x) as.numeric(headers(HEAD(x))$`content-length`)
-)
+my_pb <- txtProgressBar(min = 0, max = nrow(geofabrik_zones), style = 3)
+for (i in seq_len(nrow(geofabrik_zones))) {
+  my_ith_url <- geofabrik_zones[["pbf"]][[i]]
+  geofabrik_zones[["pbf_file_size"]][[i]] <- as.numeric(headers(HEAD(my_ith_url))$`content-length`)
+  setTxtProgressBar(my_pb, i)
+}
 
 # Add a new column named "level", which is used for spatial matching. It has
-# three categories named "1", "2" and "3", and it is based on the geofabrik
+# four categories named "1", "2", "3", and "4", and it is based on the geofabrik
 # column "parent". It is defined as follows:
 # - level = 1 when parent == NA. This happens for the continents plus the
 # Russian Federation. More precisely it occurs for: Africa, Antarctica, Asia,
@@ -83,21 +86,25 @@ geofabrik_zones$pbf_file_size = map_dbl(
 # Midwest, US Northeast, US Pacific, US South, US West and all US states;
 # - level = 3 correspond to the subregions of level 2 region. For example the
 # West Yorkshire, which is a subregion of England, is a level 3 zone.
+# - level = 4 are the subregions of level 3 (mainly related to some small areas
+# in Germany)
 
-library(dplyr)
 geofabrik_zones = geofabrik_zones %>%
   mutate(
     level = case_when(
       is.na(parent) ~ 1L,
       parent %in% c(
         "africa", "asia", "australia-oceania", "central-america", "europe",
-        "north-america", "south-america"
+        "north-america", "south-america", "great-britain"
       )             ~ 2L,
+      parent %in% c(
+        "baden-wuerttemberg", "bayern", "greater-london", "nordrhein-westfalen"
+      )             ~ 4L,
       TRUE          ~ 3L
     )
   ) %>%
   select(id, name, parent, level, iso3166_1_alpha2, iso3166_2, pbf_file_size, everything())
 
 # The end
-usethis::use_data(geofabrik_zones, overwrite = TRUE)
+usethis::use_data(geofabrik_zones, version = 3, overwrite = TRUE)
 
