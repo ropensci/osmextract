@@ -1,4 +1,4 @@
-#' Get the location of files downloaded by "osmextractr"
+#' Get the location of files
 #'
 #' This function takes a `place` name and it returns the path of `.pbf` and
 #' `.gpkg` files associated with it.

@@ -1,4 +1,4 @@
-#' Match input place with a URL
+#' Match input place with a url
 #'
 #' This function is used to match an input `place` with the URL of a `.osm.pbf`
 #' file (and its file-size, if present). The URLs are stored in several
@@ -15,26 +15,21 @@
 #'
 #' @seealso [oe_providers()] and [oe_match_pattern()].
 #'
-#' @details The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik
-#'   provider to perform matching operations using [ISO 3166-1
-#'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
-#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
-#'   [geofabrik_zones] for more details.
+#' @details
 #'
-#'   If the input place is specified as a spatial point (either as `sfc_POINT`
-#'   or a pair of numeric coordinates), then the function will return a
-#'   geographical area intersecting the point (or an error if there is no
-#'   intersection between input place and provider's data). The argument `level`
-#'   (which must be specified as an integer between 1 and 4, extreme values
-#'   included) is used to select between multiple geographically nested areas.
-#'   We could roughly say that smaller administrative units correspond to higher
-#'   levels. Check the help page of the chosen provider for more details on
-#'   `level` field. By default, `level = NULL`, which means that `oe_match()`
-#'   will return the area(s) corresponding to the highest level. If there is no
-#'   geographical area at the desired level, then the function will return an
-#'   error. If there are multiple areas at the same `level`` intersecting the
-#'   input place, then the function will return the area whose centroid is
-#'   closer to the input place.
+#'   If the input place is specified as a spatial object (either `sf` or `sfc`),
+#'   then the function will return a geographical area that completely contains
+#'   the object (or an error). The argument `level` (which must be specified as
+#'   an integer between 1 and 4, extreme values included) is used to select
+#'   between multiple geographically nested areas. We could roughly say that
+#'   smaller administrative units correspond to higher levels. Check the help
+#'   page of the chosen provider for more details on `level` field. By default,
+#'   `level = NULL`, which means that `oe_match()` will return the area
+#'   corresponding to the highest available level. If there is no geographical
+#'   area at the desired level, then the function will return an error. If there
+#'   are multiple areas at the same `level` intersecting the input place, then
+#'   the function will return the area whose centroid is closest to the input
+#'   place.
 #'
 #'   If the input place is specified as a character vector and there are
 #'   multiple plausible matches between the input place and the `match_by`
@@ -50,6 +45,12 @@
 #'   will perform a spatial matching operation (see Examples and introductory
 #'   vignette), while, if `match_by != "name"`, then it will return an error.
 #'
+#'   The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik
+#'   provider to perform matching operations using [ISO 3166-1
+#'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
+#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
+#'   [geofabrik_zones] for more details.
+#'
 #' @examples
 #' # The simplest example:
 #' oe_match("Italy")
@@ -57,9 +58,9 @@
 #' # The default provider is "geofabrik", but we can change that:
 #' oe_match("Leeds", provider = "bbbike")
 #'
-#' # By default, the matching operations are performed through the column "name"
-#' # in the provider's database but this can be a problem. Hence, you can
-#' # perform the matching operations using other columns:
+#' # By default, the matching operations are performed through the column
+#' # "name" in the provider's database but this can be a problem. Hence,
+#' # you can perform the matching operations using other columns:
 #' oe_match("RU", match_by = "iso3166_1_alpha2")
 #' # Run oe_providers() for reading a short description of all providers and
 #' # check the help pages of the corresponding databases to learn which fields
@@ -69,11 +70,20 @@
 #' # dangerous:
 #' oe_match("London", max_string_dist = 3, quiet = FALSE)
 #'
-#' # Match the input zone using an sfc_POINT object:
+#' # Match the input zone using an sfc object:
 #' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 #' oe_match(milan_duomo, quiet = FALSE)
 #' leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
 #' oe_match(leeds, provider = "bbbike")
+#'
+#' # If you specify more than one sfg object, then oe_match will select the OSM
+#' # extract that covers all areas
+#' milan_leeds = sf::st_sfc(
+#'   sf::st_point(c(9.190544, 45.46416)), # Milan
+#'   sf::st_point(c(-1.543789, 53.7974)), # Leeds
+#'   crs = 4326
+#' )
+#' oe_match(milan_leeds)
 #'
 #' # Match the input zone using a numeric vector of coordinates
 #' # (in which case crs = 4326 is assumed)
@@ -314,6 +324,8 @@ oe_match.character = function(
   best_matched_place = provider_data[best_match_id, ]
 
   # Check if the best match is still too far
+  # NB: The following operations should use the > instead of >= otherwise I can
+  # never set max_string_dist = 0
   high_distance = matching_dists[best_match_id, 1] > max_string_dist
 
   # If the approximate string distance between the best match is greater than

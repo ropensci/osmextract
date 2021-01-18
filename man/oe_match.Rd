@@ -7,7 +7,7 @@
 \alias{oe_match.sfc}
 \alias{oe_match.numeric}
 \alias{oe_match.character}
-\title{Match input place with a URL}
+\title{Match input place with a url}
 \usage{
 oe_match(place, ...)
 
@@ -31,10 +31,10 @@ oe_match(place, ...)
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
 a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
-character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
-coordinates with length 2. In the latter case it is assumed that the EPSG
+character vector, an \code{sf} or \code{sfc} object, or a numeric vector of
+coordinates with length 2. In the last case, it is assumed that the EPSG
 code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-\code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+\code{sf} or \code{sfc} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{...}{arguments passed to other methods}
 
@@ -46,13 +46,13 @@ internal testings.}
 
 \item{level}{An integer representing the desired hierarchical level in case
 of spatial matching. For the \code{geofabrik} provider, for example, \code{1}
-corresponds with continent-level datasets, \code{2} countries, \code{3} corresponds
-to regions and \code{4} to subregions. Hence, we could approximately say that
-smaller administrative units correspond to bigger levels. If \code{NULL}, the
-default, the \verb{oe_*} functions will select the highest level. See Details
-and Examples in \code{oe_match()}.}
+corresponds with continent-level datasets, \code{2} for countries, \code{3}
+corresponds to regions and \code{4} to subregions. Hence, we could approximately
+say that smaller administrative units correspond to bigger levels. If
+\code{NULL}, the default, the \verb{oe_*} functions will select the highest available
+level. See Details and Examples in \code{oe_match()}.}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
 if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
@@ -86,24 +86,19 @@ file (and its file-size, if present). The URLs are stored in several
 provider's databases. See \code{\link[=oe_providers]{oe_providers()}} and examples.
 }
 \details{
-The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by Geofabrik
-provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2} codes. See
-\link{geofabrik_zones} for more details.
-
-If the input place is specified as a spatial point (either as \code{sfc_POINT}
-or a pair of numeric coordinates), then the function will return a
-geographical area intersecting the point (or an error if there is no
-intersection between input place and provider's data). The argument \code{level}
-(which must be specified as an integer between 1 and 4, extreme values
-included) is used to select between multiple geographically nested areas.
-We could roughly say that smaller administrative units correspond to higher
-levels. Check the help page of the chosen provider for more details on
-\code{level} field. By default, \code{level = NULL}, which means that \code{oe_match()}
-will return the area(s) corresponding to the highest level. If there is no
-geographical area at the desired level, then the function will return an
-error. If there are multiple areas at the same `level`` intersecting the
-input place, then the function will return the area whose centroid is
-closer to the input place.
+If the input place is specified as a spatial object (either \code{sf} or \code{sfc}),
+then the function will return a geographical area that completely contains
+the object (or an error). The argument \code{level} (which must be specified as
+an integer between 1 and 4, extreme values included) is used to select
+between multiple geographically nested areas. We could roughly say that
+smaller administrative units correspond to higher levels. Check the help
+page of the chosen provider for more details on \code{level} field. By default,
+\code{level = NULL}, which means that \code{oe_match()} will return the area
+corresponding to the highest available level. If there is no geographical
+area at the desired level, then the function will return an error. If there
+are multiple areas at the same \code{level} intersecting the input place, then
+the function will return the area whose centroid is closest to the input
+place.
 
 If the input place is specified as a character vector and there are
 multiple plausible matches between the input place and the \code{match_by}
@@ -117,6 +112,10 @@ Otherwise, if \code{match_by} is equal to \code{"name"}, then it will try to
 geolocate the input \code{place} using the \href{https://nominatim.org/release-docs/develop/api/Overview/}{Nominatim API}, and then it
 will perform a spatial matching operation (see Examples and introductory
 vignette), while, if \code{match_by != "name"}, then it will return an error.
+
+The fields \code{iso3166_1_alpha2} and \code{iso3166_2} are used by Geofabrik
+provider to perform matching operations using \href{https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2}{ISO 3166-1 alpha-2} and \href{https://en.wikipedia.org/wiki/ISO_3166-2}{ISO 3166-2} codes. See
+\link{geofabrik_zones} for more details.
 }
 \examples{
 # The simplest example:
@@ -125,9 +124,9 @@ oe_match("Italy")
 # The default provider is "geofabrik", but we can change that:
 oe_match("Leeds", provider = "bbbike")
 
-# By default, the matching operations are performed through the column "name"
-# in the provider's database but this can be a problem. Hence, you can
-# perform the matching operations using other columns:
+# By default, the matching operations are performed through the column
+# "name" in the provider's database but this can be a problem. Hence,
+# you can perform the matching operations using other columns:
 oe_match("RU", match_by = "iso3166_1_alpha2")
 # Run oe_providers() for reading a short description of all providers and
 # check the help pages of the corresponding databases to learn which fields
@@ -137,11 +136,20 @@ oe_match("RU", match_by = "iso3166_1_alpha2")
 # dangerous:
 oe_match("London", max_string_dist = 3, quiet = FALSE)
 
-# Match the input zone using an sfc_POINT object:
+# Match the input zone using an sfc object:
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 oe_match(milan_duomo, quiet = FALSE)
 leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
 oe_match(leeds, provider = "bbbike")
+
+# If you specify more than one sfg object, then oe_match will select the OSM
+# extract that covers all areas
+milan_leeds = sf::st_sfc(
+  sf::st_point(c(9.190544, 45.46416)), # Milan
+  sf::st_point(c(-1.543789, 53.7974)), # Leeds
+  crs = 4326
+)
+oe_match(milan_leeds)
 
 # Match the input zone using a numeric vector of coordinates
 # (in which case crs = 4326 is assumed)

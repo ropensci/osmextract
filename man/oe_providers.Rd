@@ -7,7 +7,7 @@
 oe_providers(quiet = FALSE)
 }
 \arguments{
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
 if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will

@@ -1,11 +1,10 @@
-#' Read a .pbf or .gpkg object from file or URL
+#' Read a .pbf or .gpkg object from file or url
 #'
 #' This function is used to read a `.pbf` or `.gpkg` object from file or URL. It
 #' is a wrapper around [oe_download()], [oe_vectortranslate()], and
 #' [sf::st_read()], creating an easy way to download, convert, and read a `.pbf`
 #' or `.gpkg` file. Check the introductory vignette and the help pages of the
 #' wrapped function for more details.
-#'
 #'
 #' @details The arguments `provider`, `download_directory`, `file_size`,
 #'   `force_download`, and `max_file_size` are ignored if `file_path` points to
@@ -40,8 +39,8 @@
 #' oe_read(my_gpkg)
 #' # You cannot add any layer to an existing .gpkg file but you can extract some
 #' # of the tags in other_tags. Check oe_get_keys() for more details.
-#' names(oe_read(my_gpkg, extra_tags = c("maxspeed")))
-#' # Use the query argument
+#' names(oe_read(my_gpkg, extra_tags = c("maxspeed"))) # doesn't work
+#' # Instead, use the query argument
 #' names(oe_read(
 #'   my_gpkg,
 #'   quiet = TRUE,

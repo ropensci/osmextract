@@ -1,19 +1,16 @@
-#' Download, translate and read OSM extracts from several providers
+#' Find, download, translate and read OSM extracts from several providers
 #'
-#' This function is used to download, translate and read OSM extracts obtained
-#' from several providers. It is a wrapper around [oe_match()] and [oe_read()].
-#' Check the introductory vignette, the examples and the help pages of the
-#' wrapped functions to understand the details behind all parameters.
-#'
-#' To learn how to use the `query` argument see, for example, the
-#' [query section of the osmextract vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html#query).
+#' This function is used to find, download, translate and read OSM extracts
+#' obtained from several providers. It is a wrapper around [oe_match()] and
+#' [oe_read()]. Check the introductory vignette, the examples and the help pages
+#' of the wrapped functions to understand the details behind all parameters.
 #'
 #' @param place Description of the geographical area that should be matched with
 #'   a `.osm.pbf` file through the chosen `provider`. Can be either a length-1
-#'   character vector, a length-1 `sfc_POINT` object or a numeric vector of
-#'   coordinates with length 2. In the latter case it is assumed that the EPSG
+#'   character vector, an `sf` or `sfc` object, or a numeric vector of
+#'   coordinates with length 2. In the last case, it is assumed that the EPSG
 #'   code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-#'   `sfc_POINT` object. See Details and examples in [oe_match()].
+#'   `sf` or `sfc` object. See Details and examples in [oe_match()].
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #'   (the default), `multilinestrings`, `multipolygons` or `other_relations`. If
 #'   you specify an ad-hoc query using the argument `query` (see introductory
@@ -41,16 +38,16 @@
 #'   spatial operation.
 #' @param level  An integer representing the desired hierarchical level in case
 #'   of spatial matching. For the `geofabrik` provider, for example, `1`
-#'   corresponds with continent-level datasets, `2` countries, `3` corresponds
-#'   to regions and `4` to subregions. Hence, we could approximately say that
-#'   smaller administrative units correspond to bigger levels. If `NULL`, the
-#'   default, the `oe_*` functions will select the highest level. See Details
-#'   and Examples in `oe_match()`.
+#'   corresponds with continent-level datasets, `2` for countries, `3`
+#'   corresponds to regions and `4` to subregions. Hence, we could approximately
+#'   say that smaller administrative units correspond to bigger levels. If
+#'   `NULL`, the default, the `oe_*` functions will select the highest available
+#'   level. See Details and Examples in `oe_match()`.
 #' @param download_directory Where to download the file containing the OSM data?
 #'   By default this is equal to [oe_download_directory()], which is equal to
 #'   [`tempdir()`] and it changes each time you restart R. You can set a
 #'   persistent `download_directory` by adding the following to your `.Renviron`
-#'   file (e.g. with [usethis::edit_r_environ()]):
+#'   file (e.g. with `edit_r_environ` function in `usethis` package):
 #'   `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
 #' @param force_download Should the `.osm.pbf` file be updated if it has already
 #'   been downloaded? `FALSE` by default. This parameter is used to update old
@@ -79,19 +76,19 @@
 #'   passed its own `.ini` file or vectortranslate options (since, in those case,
 #'   it's too difficult to determine if an existing `.gpkg` file was generated
 #'   following the same options.)
-#' @param quiet Boolean. If `FALSE` the function prints informative messages.
+#' @param quiet Boolean. If `FALSE`, the function prints informative messages.
 #'   Starting from `sf` version
 #'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
 #'    if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
-#' @param download_only Boolean. If `TRUE` then the function only returns the
+#' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
-#' @param ... Arguments that will be passed to [`sf::st_read()`], like `query`
-#'   or `stringsAsFactors`.  Check the introductory vignette to understand how
-#'   to create your own (SQL-like) queries.
+#' @param ... Arguments that will be passed to [`sf::st_read()`], like `query`,
+#'   `wkt_filter` or `stringsAsFactors`.  Check the introductory vignette to
+#'   understand how to create your own (SQL-like) queries.
 #'
-#' @return An sf object.
+#' @return An `sf` object.
 #' @export
 #'
 #' @details The algorithm that we use for importing an OSM extract data into R

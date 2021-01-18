@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.R
 \name{oe_get}
 \alias{oe_get}
-\title{Download, translate and read OSM extracts from several providers}
+\title{Find, download, translate and read OSM extracts from several providers}
 \usage{
 oe_get(
   place,
@@ -28,10 +28,10 @@ oe_get(
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
 a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
-character vector, a length-1 \code{sfc_POINT} object or a numeric vector of
-coordinates with length 2. In the latter case it is assumed that the EPSG
+character vector, an \code{sf} or \code{sfc} object, or a numeric vector of
+coordinates with length 2. In the last case, it is assumed that the EPSG
 code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-\code{sfc_POINT} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+\code{sf} or \code{sfc} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
@@ -40,9 +40,9 @@ vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the 
 specified in the query and ignore \code{layer}. See also
 \href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
 
-\item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query}
-or \code{stringsAsFactors}.  Check the introductory vignette to understand how
-to create your own (SQL-like) queries.}
+\item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query},
+\code{wkt_filter} or \code{stringsAsFactors}.  Check the introductory vignette to
+understand how to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
@@ -68,17 +68,17 @@ spatial operation.}
 
 \item{level}{An integer representing the desired hierarchical level in case
 of spatial matching. For the \code{geofabrik} provider, for example, \code{1}
-corresponds with continent-level datasets, \code{2} countries, \code{3} corresponds
-to regions and \code{4} to subregions. Hence, we could approximately say that
-smaller administrative units correspond to bigger levels. If \code{NULL}, the
-default, the \verb{oe_*} functions will select the highest level. See Details
-and Examples in \code{oe_match()}.}
+corresponds with continent-level datasets, \code{2} for countries, \code{3}
+corresponds to regions and \code{4} to subregions. Hence, we could approximately
+say that smaller administrative units correspond to bigger levels. If
+\code{NULL}, the default, the \verb{oe_*} functions will select the highest available
+level. See Details and Examples in \code{oe_match()}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
 \code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
 persistent \code{download_directory} by adding the following to your \code{.Renviron}
-file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
+file (e.g. with \code{edit_r_environ} function in \code{usethis} package):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{force_download}{Should the \code{.osm.pbf} file be updated if it has already
@@ -107,7 +107,7 @@ translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
 already exists? Check the introductory vignette and the help page of
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
-\item{download_only}{Boolean. If \code{TRUE} then the function only returns the
+\item{download_only}{Boolean. If \code{TRUE}, then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
@@ -120,25 +120,22 @@ passed its own \code{.ini} file or vectortranslate options (since, in those case
 it's too difficult to determine if an existing \code{.gpkg} file was generated
 following the same options.)}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
 if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 }
 \value{
-An sf object.
+An \code{sf} object.
 }
 \description{
-This function is used to download, translate and read OSM extracts obtained
-from several providers. It is a wrapper around \code{\link[=oe_match]{oe_match()}} and \code{\link[=oe_read]{oe_read()}}.
-Check the introductory vignette, the examples and the help pages of the
-wrapped functions to understand the details behind all parameters.
+This function is used to find, download, translate and read OSM extracts
+obtained from several providers. It is a wrapper around \code{\link[=oe_match]{oe_match()}} and
+\code{\link[=oe_read]{oe_read()}}. Check the introductory vignette, the examples and the help pages
+of the wrapped functions to understand the details behind all parameters.
 }
 \details{
-To learn how to use the \code{query} argument see, for example, the
-\href{https://itsleeds.github.io/osmextract/articles/osmextract.html#query}{query section of the osmextract vignette}.
-
 The algorithm that we use for importing an OSM extract data into R
 is divided into 4 steps: 1) match the input \code{place} with the url of a
 \code{.pbf} file; 2) download the \code{.pbf} file; 3) convert it into \code{.gpkg} format

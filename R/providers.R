@@ -1,4 +1,4 @@
-# This is an internal function used to check that the input provider correspond
+# This is an internal function used to check that the input provider corresponds
 # to one of the available providers.
 oe_available_providers = function() {
   c(
@@ -10,7 +10,7 @@ oe_available_providers = function() {
   )
 }
 
-# This is an internal function that is used to load the correct provider
+# This is an internal function that is used to load the correct provider's
 # database
 load_provider_data = function(provider) {
   if (

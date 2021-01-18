@@ -16,12 +16,12 @@ oe_download(
 )
 }
 \arguments{
-\item{file_url}{A url pointing to a \code{.osm.pbf} file that should be
+\item{file_url}{A URL pointing to a \code{.osm.pbf} file that should be
 downloaded.}
 
-\item{provider}{Which provider stores the file that is specified using its
-url? If \code{NULL} (the default), it is inferred from the url, but it must be
-specified for non-standard cases. See details and examples.}
+\item{provider}{Which provider stores the file? If \code{NULL} (the default), it
+may be inferred from the URL, but it must be specified for non-standard
+cases. See details and examples.}
 
 \item{file_basename}{The basename of the file. The default behaviour is to
 auto-generate it from the URL using \code{basename()}.}
@@ -30,7 +30,7 @@ auto-generate it from the URL using \code{basename()}.}
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
 \code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
 persistent \code{download_directory} by adding the following to your \code{.Renviron}
-file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
+file (e.g. with \code{edit_r_environ} function in \code{usethis} package):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
@@ -45,7 +45,7 @@ been downloaded? \code{FALSE} by default. This parameter is used to update old
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
 if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
@@ -55,31 +55,30 @@ display a progress bar.}
 A character string representing the file's path.
 }
 \description{
-This function is used to download a file given a url. It focuses on OSM
+This function is used to download a file given a URL. It focuses on OSM
 extracts with \code{.osm.pbf} format stored by one of the providers implemented in
-the package. The url is specified through the parameter \code{file_url}.
+the package. The URL is specified through the parameter \code{file_url}.
 }
 \details{
 This function runs several checks before actually downloading a new
 file to avoid overloading the OSM providers. The first step is the
 definition of the file's path associated to the input \code{file_url}. The path
 is created by pasting together the \code{download_directory}, the name of chosen
-provider (which may be inferred from the url) and the \code{basename()} of the
-url. For example, if \code{file_url} is equal to
+provider (which may be inferred from the URL) and the \code{basename()} of the
+URL. For example, if \code{file_url} is equal to
 \code{"https://download.geofabrik.de/europe/italy-latest.osm.pbf"}, and
 \code{download_directory = "/tmp"}, then the path is built as
 \code{"/tmp/geofabrik_italy-latest.osm.pbf"}. Thereafter, the function checks
-the existence of a file in that path and, if that's the case, it returns
-the path. The parameter \code{force_download} is used to modify this behaviour.
-If there is no file associated with the new path, then the function
-downloads a new file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"}, and,
-again, it returns the path.
+the existence of that file and, if it founds it, then it returns the path.
+The parameter \code{force_download} is used to modify this behaviour. If there
+is no file associated with the new path, then the function downloads a new
+file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"}, and, again, it returns the
+path.
 }
 \examples{
 its_match = oe_match("ITS Leeds", provider = "test", quiet = TRUE)
 # ITS Leeds data are stored on github, which is not a standard provider.
-# So we need to specify the provider parameter. See oe_providers() for a
-# list of all available providers.
+# So we need to specify the provider parameter.
 oe_download(
   file_url = its_match$url,
   file_size = its_match$file_size,

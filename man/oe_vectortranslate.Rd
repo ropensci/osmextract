@@ -50,7 +50,7 @@ passed its own \code{.ini} file or vectortranslate options (since, in those case
 it's too difficult to determine if an existing \code{.gpkg} file was generated
 following the same options.)}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
 if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
@@ -172,7 +172,7 @@ names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 its_gpkg = oe_vectortranslate(
   its_pbf,
   extra_tags = c("oneway", "maxspeed")
- )
+)
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 # Check the introductory vignette for more complex examples.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{oe_read}
 \alias{oe_read}
-\title{Read a .pbf or .gpkg object from file or URL}
+\title{Read a .pbf or .gpkg object from file or url}
 \usage{
 oe_read(
   file_path,
@@ -34,9 +34,9 @@ vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the 
 specified in the query and ignore \code{layer}. See also
 \href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
 
-\item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query}
-or \code{stringsAsFactors}.  Check the introductory vignette to understand how
-to create your own (SQL-like) queries.}
+\item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query},
+\code{wkt_filter} or \code{stringsAsFactors}.  Check the introductory vignette to
+understand how to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
@@ -48,7 +48,7 @@ internal testings.}
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
 \code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
 persistent \code{download_directory} by adding the following to your \code{.Renviron}
-file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
+file (e.g. with \code{edit_r_environ} function in \code{usethis} package):
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
@@ -63,7 +63,7 @@ been downloaded? \code{FALSE} by default. This parameter is used to update old
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
 
-\item{download_only}{Boolean. If \code{TRUE} then the function only returns the
+\item{download_only}{Boolean. If \code{TRUE}, then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by
 default.}
 
@@ -95,7 +95,7 @@ passed its own \code{.ini} file or vectortranslate options (since, in those case
 it's too difficult to determine if an existing \code{.gpkg} file was generated
 following the same options.)}
 
-\item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
 if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
@@ -134,8 +134,8 @@ my_gpkg = system.file("its-example.gpkg", package = "osmextract")
 oe_read(my_gpkg)
 # You cannot add any layer to an existing .gpkg file but you can extract some
 # of the tags in other_tags. Check oe_get_keys() for more details.
-names(oe_read(my_gpkg, extra_tags = c("maxspeed")))
-# Use the query argument
+names(oe_read(my_gpkg, extra_tags = c("maxspeed"))) # doesn't work
+# Instead, use the query argument
 names(oe_read(
   my_gpkg,
   quiet = TRUE,

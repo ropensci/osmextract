@@ -120,7 +120,7 @@
 #' its_gpkg = oe_vectortranslate(
 #'   its_pbf,
 #'   extra_tags = c("oneway", "maxspeed")
-#'  )
+#' )
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #' # Check the introductory vignette for more complex examples.
 oe_vectortranslate = function(
