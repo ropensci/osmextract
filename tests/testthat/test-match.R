@@ -71,9 +71,11 @@ test_that("oe_match: Cannot specify more than one place", {
   expect_error(oe_match("Italy", "Spain"))
 
   # sfc_POINT
-  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-  leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700)
-  expect_error(oe_match(c(milan_duomo, leeds)))
+  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003) %>%
+    sf::st_transform(4326)
+  leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700) %>%
+    sf::st_transform(4326)
+  # expect_error(oe_match(c(milan_duomo, leeds)))
   expect_error(oe_match(milan_duomo, leeds))
 
   # numeric
@@ -124,3 +126,13 @@ test_that("oe_match: test level parameter", {
   )
 })
 
+test_that("oe_match:sfc objects with multiple places", {
+  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003) %>%
+    sf::st_transform(4326)
+  leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700) %>%
+    sf::st_transform(4326)
+  expect_match(
+    oe_match(c(milan_duomo, leeds))$url,
+    "https://download.geofabrik.de/europe-latest.osm.pbf"
+  )
+})

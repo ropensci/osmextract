@@ -3,7 +3,8 @@
 \name{oe_match}
 \alias{oe_match}
 \alias{oe_match.default}
-\alias{oe_match.sfc_POINT}
+\alias{oe_match.sf}
+\alias{oe_match.sfc}
 \alias{oe_match.numeric}
 \alias{oe_match.character}
 \title{Match input place with a URL}
@@ -12,7 +13,9 @@ oe_match(place, ...)
 
 \method{oe_match}{default}(place, ...)
 
-\method{oe_match}{sfc_POINT}(place, provider = "geofabrik", level = NULL, quiet = FALSE, ...)
+\method{oe_match}{sf}(place, ...)
+
+\method{oe_match}{sfc}(place, provider = "geofabrik", level = NULL, quiet = FALSE, ...)
 
 \method{oe_match}{numeric}(place, provider = "geofabrik", quiet = FALSE, ...)
 
