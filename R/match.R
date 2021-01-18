@@ -206,8 +206,8 @@ oe_match.sfc = function(
   if (nrow(matched_zones) > 1L) {
     if (isFALSE(quiet)) {
       message(
-        "The input place was matched with multiple geographical areas with ",
-        "the same level."
+        "The input place was matched with multiple zones at the same level. ",
+        "Check ?oe_match for more details."
       )
       message(
         "Selecting the area whose centroid is closest to the input place."
