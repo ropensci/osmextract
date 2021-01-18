@@ -28,8 +28,8 @@ The goal of `osmextract` is to make it easier for people to access OpenStreetMap
 OSM data is the premier source of freely available, community created geographic data worldwide.
 We aim to enable you to extract it for data-driven work in the public interest.
 
-`osmextract` downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
-For information on alternatives and how to add them see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
+`osmextract` finds, downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
+For information on alternative providers and how to add them see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
 
 ## Why osmextract?
 
@@ -52,7 +52,7 @@ cycleways_england = opq("England") %>%
 The query stops with an error message after around 30 seconds.
 The same query can be made with `osmextract` as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed `.pbf` format and converted to the open standard `.gpkg` format. 
 The download-and-conversion operation of the OSM extract associated to England takes approximately a few minutes, but this operation must be executed only once. 
-The following code chunk is not evaluated:
+The following code chunk is not evaluated.
 
 ```{r, eval = FALSE}
 library(osmextract)
@@ -83,8 +83,7 @@ The package is designed to complement `osmdata`, which has advantages over `osme
 
 <!-- ``` -->
 
-You can install the development version from 
-[GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
@@ -114,7 +113,7 @@ st_crs<- : replacing crs does not reproject data; use st_transform for that
 if the user is running an old version of GDAL (<= 3.0.0) or PROJ (<= 6.0.0). 
 See [here](https://github.com/r-spatial/sf/issues/1419) for more details. 
 Nevertheless, every function should still work correctly. 
-Please, raise a new issue if you find any odd behaviour. 
+Please, raise [a new issue](https://github.com/ITSLeeds/osmextract/issues) if you find any odd behaviour. 
 
 ## Basic usage
 
@@ -146,12 +145,12 @@ The column names in the `osm_lines` object are as follows:
 names(osm_lines) # default variable names
 ```
 
-Once imported, you can use all the functions for data frames in base R and other packages.
-We can also use functions from the `sf` package for spatial analysis and visualisation.
+Once imported, you can use all functions for data frames in base R and other packages.
+You can also use functions from the `sf` package for spatial analysis and visualisation.
 Let's plot all the major, secondary and residential roads, for example:
 
 ```{r iow1}
-ht = c("primary", "secondary", "residential", "tertiary") # highway types of interest
+ht = c("primary", "secondary", "tertiary", "unclassified") # highway types of interest
 osm_major_roads = osm_lines[osm_lines$highway %in% ht, ]
 plot(osm_major_roads["highway"], key.pos = 1)
 ```
@@ -161,8 +160,8 @@ The same steps can be used to get other OSM datasets (examples not run):
 ```{r, eval = FALSE}
 malta = oe_get("Malta", quiet = TRUE)
 andorra = oe_get("Andorra", extra_tags = "ref")
-leeds <- oe_get("Leeds", provider = "bbbike")
-goa <- oe_get("Goa", provider = "openstreetmap_fr")
+leeds <- oe_get("Leeds")
+goa <- oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
 ```
 
 If the input place does not match any of the existing names in the supported providers, then `oe_get()` will try to geocode it via [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/), and it will select the smallest OSM extract intersecting the area. 

@@ -20,10 +20,10 @@ premier source of freely available, community created geographic data
 worldwide. We aim to enable you to extract it for data-driven work in
 the public interest.
 
-`osmextract` downloads, converts and imports bulk OSM data hosted by
-providers such as [Geofabrik GmbH](http://download.geofabrik.de) and
+`osmextract` finds, downloads, converts and imports bulk OSM data hosted
+by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and
 [bbbike](https://download.bbbike.org/osm/). For information on
-alternatives and how to add them see the [providers
+alternative providers and how to add them see the [providers
 vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
 
 ## Why osmextract?
@@ -55,7 +55,7 @@ downloaded in the compressed `.pbf` format and converted to the open
 standard `.gpkg` format. The download-and-conversion operation of the
 OSM extract associated to England takes approximately a few minutes, but
 this operation must be executed only once. The following code chunk is
-not evaluated:
+not evaluated.
 
 ``` r
 library(osmextract)
@@ -107,7 +107,7 @@ Load the package with:
 ``` r
 library(osmextract)
 #> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
-#> Check the package website, itsleeds.github.io/osmextract for more details.
+#> Check the package website, itsleeds.github.io/osmextract, for more details.
 ```
 
 To use alongside functionality in the `sf` package, we also recommend
@@ -127,7 +127,9 @@ The functions defined in this package may return a warning message like
 if the user is running an old version of GDAL (\<= 3.0.0) or PROJ (\<=
 6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419) for more
 details. Nevertheless, every function should still work correctly.
-Please, raise a new issue if you find any odd behaviour.
+Please, raise [a new
+issue](https://github.com/ITSLeeds/osmextract/issues) if you find any
+odd behaviour.
 
 ## Basic usage
 
@@ -165,13 +167,13 @@ names(osm_lines) # default variable names
 #>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
 ```
 
-Once imported, you can use all the functions for data frames in base R
-and other packages. We can also use functions from the `sf` package for
+Once imported, you can use all functions for data frames in base R and
+other packages. You can also use functions from the `sf` package for
 spatial analysis and visualisation. Let’s plot all the major, secondary
 and residential roads, for example:
 
 ``` r
-ht = c("primary", "secondary", "residential", "tertiary") # highway types of interest
+ht = c("primary", "secondary", "tertiary", "unclassified") # highway types of interest
 osm_major_roads = osm_lines[osm_lines$highway %in% ht, ]
 plot(osm_major_roads["highway"], key.pos = 1)
 ```
@@ -183,8 +185,8 @@ The same steps can be used to get other OSM datasets (examples not run):
 ``` r
 malta = oe_get("Malta", quiet = TRUE)
 andorra = oe_get("Andorra", extra_tags = "ref")
-leeds <- oe_get("Leeds", provider = "bbbike")
-goa <- oe_get("Goa", provider = "openstreetmap_fr")
+leeds <- oe_get("Leeds")
+goa <- oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
 ```
 
 If the input place does not match any of the existing names in the
