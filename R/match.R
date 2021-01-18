@@ -128,43 +128,13 @@ oe_match.sf = function(
 #' @inheritParams oe_get
 #' @name oe_match
 #' @export
-oe_match.sfc_LINESTRING = function(
-  place,
-  ...
-) {
-  oe_match(sf::st_centroid(place), ...)
-}
-
-#' @inheritParams oe_get
-#' @name oe_match
-#' @export
-oe_match.sfc_POLYGON = function(
-  place,
-  ...
-) {
-  oe_match(sf::st_centroid(place), ...)
-}
-
-#' @inheritParams oe_get
-#' @name oe_match
-#' @export
-oe_match.sfc_POINT = function(
+oe_match.sfc = function(
   place,
   provider = "geofabrik",
   level = NULL,
   quiet = FALSE,
   ...
 ) {
-  # For the moment we support only length-one sfc_POINT objects
-  if (length(place) > 1L) {
-    stop(
-      "At the moment we support only length-one sfc_POINT objects for 'place'",
-      " parameter. Feel free to open a new issue at ",
-      "https://github.com/ITSLeeds/osmextract",
-      call. = FALSE
-    )
-  }
-
   # Load the data associated with the chosen provider.
   provider_data = load_provider_data(provider)
 
@@ -173,9 +143,14 @@ oe_match.sfc_POINT = function(
     place = sf::st_transform(place, crs = sf::st_crs(provider_data))
   }
 
-  # Spatial subset according to sf::st_intersects (maybe add a parameter for
-  # that)
-  matched_zones = provider_data[place, op = sf::st_intersects]
+  # If there is more than one sfg object in place I will combine them
+  if (length(place) > 1L) {
+    place = sf::st_combine(place)
+  }
+
+  # Spatial subset according to sf::st_contains
+  # See https://github.com/ITSLeeds/osmextract/pull/168
+  matched_zones = provider_data[place, op = sf::st_contains]
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
