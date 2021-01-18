@@ -66,10 +66,13 @@ Nominatim API? This parameter is set equal to 0 if \code{match_by} is equal to
 \code{place} is not a character vector since the matching is performed through a
 spatial operation.}
 
-\item{level}{The desired hierarchical level in case of spatial matching. We
-could approximately say that smaller administrative units correspond to
-higher levels. If \code{NULL}, the default, the \verb{oe_*} functions will select the
-highest level. See Details and Examples in \code{oe_match()}.}
+\item{level}{An integer representing the desired hierarchical level in case
+of spatial matching. For the \code{geofabrik} provider, for example, \code{1}
+corresponds with continent-level datasets, \code{2} countries, \code{3} corresponds
+to regions and \code{4} to subregions. Hence, we could approximately say that
+smaller administrative units correspond to bigger levels. If \code{NULL}, the
+default, the \verb{oe_*} functions will select the highest level. See Details
+and Examples in \code{oe_match()}.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to

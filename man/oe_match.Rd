@@ -44,10 +44,13 @@ providers can be found with the following command: \code{\link[=oe_providers]{oe
 \code{provider} is set equal to \code{test}. This is just for simple examples and
 internal testings.}
 
-\item{level}{The desired hierarchical level in case of spatial matching. We
-could approximately say that smaller administrative units correspond to
-higher levels. If \code{NULL}, the default, the \verb{oe_*} functions will select the
-highest level. See Details and Examples in \code{oe_match()}.}
+\item{level}{An integer representing the desired hierarchical level in case
+of spatial matching. For the \code{geofabrik} provider, for example, \code{1}
+corresponds with continent-level datasets, \code{2} countries, \code{3} corresponds
+to regions and \code{4} to subregions. Hence, we could approximately say that
+smaller administrative units correspond to bigger levels. If \code{NULL}, the
+default, the \verb{oe_*} functions will select the highest level. See Details
+and Examples in \code{oe_match()}.}
 
 \item{quiet}{Boolean. If \code{FALSE} the function prints informative messages.
 Starting from \code{sf} version
