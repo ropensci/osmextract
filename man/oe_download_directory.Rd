@@ -13,7 +13,7 @@ used by the package.
 \description{
 By default, the download directory is equal to \code{tempdir()}. You can set a
 persistent download directory by adding the following command to your
-\code{.Renviron} file (e.g. with \code{\link[usethis:edit]{usethis::edit_r_environ()}}):
+\code{.Renviron} file (e.g. with \code{edit_r_environ} function in \code{usethis} package:
 \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.
 }
 \examples{
