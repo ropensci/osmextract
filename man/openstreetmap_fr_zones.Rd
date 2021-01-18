@@ -10,17 +10,15 @@ An \code{sf} object with 835 rows and
 \describe{
 \item{id}{A unique ID for each area. It is used by \code{oe_update()}.}
 \item{name}{The, usually English, long-form name of the city.}
-\item{parent}{The ID identifier of the next larger excerpts that contains
+\item{parent}{The identifier of the next larger excerpts that contains
 this one, if present.}
 \item{level}{An integer code between 1 and 4. Check
 \url{http://download.openstreetmap.fr/polygons/} to see the hierarchical
 structure of the zones. 1L correspond to the biggest areas. This is used
-only for matching operations in case of spatial input. The oe_* functions
-will select the geographical area closest to the input place with the
-highest "level"}
+only for matching operations in case of spatial input.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
-\item{pbf_size_size}{Size of the pbf file in bytes.}
-\item{geometry}{The `sfc`` for that geographical region, rectangular.}
+\item{pbf_file_size}{Size of the pbf file in bytes.}
+\item{geometry}{The \code{sfg} for that geographical region, rectangular.}
 }
 }
 \source{

@@ -11,7 +11,7 @@ An \code{sf} object with 235 rows and
 \item{name}{The, usually English, long-form name of the city.}
 \item{last_modified}{When was it last modified?}
 \item{type}{empty}
-\item{pbf_size_size}{Size of the pbf file in bytes.}
+\item{pbf_file_size}{Size of the pbf file in bytes.}
 \item{base_url}{The base URL for the city.}
 \item{poly_url}{The \code{.poly} file location.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
@@ -20,7 +20,7 @@ data represent non-hierarchical geographical zones). This is used only for
 matching operations in case of spatial input. The oe_* functions will
 select the geographical area closest to the input place with the highest
 "level". See \link{geofabrik_zones} for an example of a hierarchical structure.}
-\item{geometry}{The \code{sfc} for that geographical region, rectangular.}
+\item{geometry}{The \code{sfg} for that geographical region, rectangular.}
 }
 }
 \source{

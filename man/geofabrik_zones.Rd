@@ -8,7 +8,7 @@
 An sf object with 430 rows and
 15 columns:
 \describe{
-\item{id}{A unique identifier, contains letters, numbers and potentially
+\item{id}{A unique identifier. It contains letters, numbers and potentially
 the characters "-" and "/".}
 \item{name}{The, usually English, long-form name of the area.}
 \item{parent}{The identifier of the next larger excerpts that contains this
@@ -52,7 +52,7 @@ OSM login).}
 file).}
 \item{geometry}{The sfc for that geographical region. These are not the
 country boundaries but a buffer around countries.}
-\item{pbf_size_size}{Size of the \code{.pbf} file in bytes.}
+\item{pbf_file_size}{Size of the \code{.pbf} file in bytes.}
 }
 }
 \source{
