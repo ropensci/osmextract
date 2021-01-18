@@ -104,7 +104,7 @@
 #'
 #' # The level parameter can be used to select smaller or bigger geographical
 #' # areas during spatial matching
-#' yak <- c(-120.51084, 46.60156)
+#' yak = c(-120.51084, 46.60156)
 #' \dontrun{
 #' oe_match(yak, level = 3) # error}
 #' oe_match(yak, level = 2) # by default, level is equal to the maximum value
@@ -210,7 +210,7 @@ oe_match.sfc = function(
         "the same level."
       )
       message(
-      "Selecting the area whose centroid is closest to the input place."
+        "Selecting the area whose centroid is closest to the input place."
       )
     }
 

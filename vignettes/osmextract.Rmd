@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = "")
+options(width = 100)
 ```
 
 This vignette provides an introduction to using the package, building on the README which covers installation and our motivations for creating it.
@@ -48,7 +49,7 @@ The package is composed of the following main functions:
 1. `oe_download()`: Download the chosen file;
 1. `oe_vectortranslate()`: Convert between `.pbf` and `.gpkg` formats;
 1. `oe_read()`: Read `.pbf` and `.gpkg` files;
-1. `oe_get()`: Match, download, translate, and import data, all in one step.
+1. `oe_get()`: Find, download, translate, and import data, all in one step.
 
 For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
 We will demonstrate each function in turn, following the same order in which they are typically used. 
@@ -206,16 +207,48 @@ oe_match("Belin")
 
 ### Finding zones based on geographic inputs
 
-The input `place` can also be specified using an `sfc_POINT` object with arbitrary CRS, as documented in the following example. 
-`oe_match()` will return a named list of length two with the URL and the size of a `.pbf` file representing a zone that geographically intersects the `sfc_POINT` (or an error, if the input point does not cross any area). 
-If the input `place` intersects multiple geographically nested zones, the function returns the area with the highest `level`. 
-The meaning of the `level` fields depends on the chosen provider, so we refer to the help pages for more details. 
-We could roughly say that the higher is the `level`, the lower is the geographical area’s administrative unit.
-If there are multiple matches with the same `level`, then `oe_match()` function will return the area whose centroid is closest to the input `place`. 
+The input `place` can also be specified using an `sf` or `sfc` object with arbitrary CRS, as documented in the following example. 
+`oe_match()` will return a named list of length two with the URL and the size of a `.pbf` file representing a zone that geographically contains the `sf` or `sfc` object  (or an error if the input is not contained into any geographical area).
 
 ```{r}
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
 oe_match(milan_duomo)
+```
+
+If the input `place` intersects multiple geographically nested zones, then the argument `level`, which must be specified as an integer between 1 and 4, is used to choose between them. 
+It defaults to `NULL`, meaning that `oe_match()` automatically returns the area with the highest `level`. 
+We could roughly say that smaller geographical areas are associated with higher `level`(s) and, for example, for `Geofabrik` data `level = 1` corresponds to continent-size extracts, `2` is for countries, `3` represents the regions and `4` the subregions. 
+
+```{r, error = TRUE}
+yak = c(-120.51084, 46.60156)
+oe_match(yak, level = 1, quiet = TRUE)
+oe_match(yak, level = 2, quiet = TRUE) # the default
+oe_match(yak, level = 3, quiet = TRUE) # error
+```
+
+If there are multiple matches with the same `level`, then `oe_match()` function will return the area whose centroid is closest to the input `place`. 
+
+If you specify more than one geometry into the `sf` or `sfc` object, then `oe_match()` will select the area that contains all of them. 
+
+```{r}
+milan_leeds = st_sfc(
+  st_point(c(9.190544, 45.46416)), # Milan
+  st_point(c(-1.543789, 53.7974)), # Leeds
+  crs = 4326
+)
+oe_match(milan_leeds)
+```
+
+The same operations work with `LINESTRING` or `POLYGON` objects: 
+
+```{r}
+milan_leeds_linestring = st_sfc(
+  st_linestring(
+    rbind(c(9.190544, 45.46416), c(-1.543789, 53.7974))
+  ), 
+  crs = 4326
+)
+oe_match(milan_leeds_linestring)
 ```
 
 The input `place` can also be specified using a numeric vector of coordinates. 
