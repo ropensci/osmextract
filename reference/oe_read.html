@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read a .pbf or .gpkg object from file or URL — oe_read • osmextract</title>
+<title>Read a .pbf or .gpkg object from file or url — oe_read • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Read a .pbf or .gpkg object from file or URL — oe_read" />
+<meta property="og:title" content="Read a .pbf or .gpkg object from file or url — oe_read" />
 <meta property="og:description" content="This function is used to read a .pbf or .gpkg object from file or URL. It
 is a wrapper around oe_download(), oe_vectortranslate(), and
 sf::st_read(), creating an easy way to download, convert, and read a .pbf
@@ -126,7 +126,7 @@ wrapped function for more details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read a .pbf or .gpkg object from file or URL</h1>
+    <h1>Read a .pbf or .gpkg object from file or url</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/read.R'><code>R/read.R</code></a></small>
     <div class="hidden name"><code>oe_read.Rd</code></div>
     </div>
@@ -177,9 +177,9 @@ specified in the query and ignore <code>layer</code>. See also
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments that will be passed to <code><a href='https://r-spatial.github.io/sf/reference/st_read.html'>sf::st_read()</a></code>, like <code>query</code>
-or <code>stringsAsFactors</code>.  Check the introductory vignette to understand how
-to create your own (SQL-like) queries.</p></td>
+      <td><p>Arguments that will be passed to <code><a href='https://r-spatial.github.io/sf/reference/st_read.html'>sf::st_read()</a></code>, like <code>query</code>,
+<code>wkt_filter</code> or <code>stringsAsFactors</code>.  Check the introductory vignette to
+understand how to create your own (SQL-like) queries.</p></td>
     </tr>
     <tr>
       <th>provider</th>
@@ -195,7 +195,7 @@ internal testings.</p></td>
 By default this is equal to <code><a href='oe_download_directory.html'>oe_download_directory()</a></code>, which is equal to
 <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> and it changes each time you restart R. You can set a
 persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
-file (e.g. with <code>usethis::edit_r_environ()</code>):
+file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
 <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
     </tr>
     <tr>
@@ -218,7 +218,7 @@ interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></td>
     </tr>
     <tr>
       <th>download_only</th>
-      <td><p>Boolean. If <code>TRUE</code> then the function only returns the
+      <td><p>Boolean. If <code>TRUE</code>, then the function only returns the
 path where the matched file is stored, instead of reading it. <code>FALSE</code> by
 default.</p></td>
     </tr>
@@ -264,7 +264,7 @@ following the same options.)</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
+      <td><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
 Starting from <code>sf</code> version
 <a href='https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13'>0.9.6</a>,
 if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
@@ -318,7 +318,7 @@ Check examples and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code> for
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #&gt; geographic CRS: WGS 84</div><div class='input'><span class='co'># You cannot add any layer to an existing .gpkg file but you can extract some</span>
 <span class='co'># of the tags in other_tags. Check oe_get_keys() for more details.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>oe_read</span><span class='op'>(</span><span class='va'>my_gpkg</span>, extra_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"maxspeed"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>oe_read</span><span class='op'>(</span><span class='va'>my_gpkg</span>, extra_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"maxspeed"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># doesn't work</span>
 </div><div class='output co'>#&gt; Reading layer `lines' from data source `/Users/runner/work/_temp/Library/osmextract/its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 11 fields
 #&gt; geometry type:  LINESTRING
@@ -326,7 +326,7 @@ Check examples and <code><a href='oe_get_keys.html'>oe_get_keys()</a></code> for
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #&gt; geographic CRS: WGS 84</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
 #&gt;  [6] "barrier"    "man_made"   "oneway"     "ref"        "z_order"   
-#&gt; [11] "other_tags" "geometry"  </div><div class='input'><span class='co'># Use the query argument</span>
+#&gt; [11] "other_tags" "geometry"  </div><div class='input'><span class='co'># Instead, use the query argument</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>oe_read</span><span class='op'>(</span>
   <span class='va'>my_gpkg</span>,
   quiet <span class='op'>=</span> <span class='cn'>TRUE</span>,

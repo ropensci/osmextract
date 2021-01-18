@@ -85,7 +85,7 @@
 <!-- badges: start -->
 
 <p>The goal of <code>osmextract</code> is to make it easier for people to access OpenStreetMap (OSM) data for reproducible research. OSM data is the premier source of freely available, community created geographic data worldwide. We aim to enable you to extract it for data-driven work in the public interest.</p>
-<p><code>osmextract</code> downloads, converts and imports bulk OSM data hosted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/">bbbike</a>. For information on alternatives and how to add them see the <a href="https://itsleeds.github.io/osmextract/articles/providers.html">providers vignette</a>.</p>
+<p><code>osmextract</code> finds, downloads, converts and imports bulk OSM data hosted by providers such as <a href="http://download.geofabrik.de">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/">bbbike</a>. For information on alternative providers and how to add them see the <a href="https://itsleeds.github.io/osmextract/articles/providers.html">providers vignette</a>.</p>
 <div id="why-osmextract" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-osmextract" class="anchor"></a>Why osmextract?</h2>
@@ -97,7 +97,7 @@
   <span class="fu">osmdata_sf</span><span class="op">(</span><span class="op">)</span>
 <span class="co"># Error in check_for_error(doc) : General overpass server error; returned:</span>
 <span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span></code></pre></div>
-<p>The query stops with an error message after around 30 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format. The download-and-conversion operation of the OSM extract associated to England takes approximately a few minutes, but this operation must be executed only once. The following code chunk is not evaluated:</p>
+<p>The query stops with an error message after around 30 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format. The download-and-conversion operation of the OSM extract associated to England takes approximately a few minutes, but this operation must be executed only once. The following code chunk is not evaluated.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span><span class="op">)</span>
 
@@ -127,7 +127,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/itsleeds/osmextract">osmextract</a></span><span class="op">)</span>
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
-<span class="co">#&gt; Check the package website, itsleeds.github.io/osmextract for more details.</span></code></pre></div>
+<span class="co">#&gt; Check the package website, itsleeds.github.io/osmextract, for more details.</span></code></pre></div>
 <p>To use alongside functionality in the <code>sf</code> package, we also recommend attaching this geographic data package as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
@@ -137,7 +137,7 @@
 <a href="#warnings" class="anchor"></a>Warnings:</h3>
 <p>The functions defined in this package may return a warning message like</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>st_crs&lt;-<span class="st"> </span><span class="er">:</span><span class="st"> </span>replacing crs does not reproject data; use st_transform <span class="cf">for</span> that </span></code></pre></div>
-<p>if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ (&lt;= 6.0.0). See <a href="https://github.com/r-spatial/sf/issues/1419">here</a> for more details. Nevertheless, every function should still work correctly. Please, raise a new issue if you find any odd behaviour.</p>
+<p>if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ (&lt;= 6.0.0). See <a href="https://github.com/r-spatial/sf/issues/1419">here</a> for more details. Nevertheless, every function should still work correctly. Please, raise <a href="https://github.com/ITSLeeds/osmextract/issues">a new issue</a> if you find any odd behaviour.</p>
 </div>
 </div>
 <div id="basic-usage" class="section level2">
@@ -160,9 +160,9 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span> <span class="co"># default variable names</span>
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span></code></pre></div>
-<p>Once imported, you can use all the functions for data frames in base R and other packages. We can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major, secondary and residential roads, for example:</p>
+<p>Once imported, you can use all functions for data frames in base R and other packages. You can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major, secondary and residential roads, for example:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ht</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"secondary"</span>, <span class="st">"residential"</span>, <span class="st">"tertiary"</span><span class="op">)</span> <span class="co"># highway types of interest</span>
+<code class="sourceCode R"><span class="va">ht</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"secondary"</span>, <span class="st">"tertiary"</span>, <span class="st">"unclassified"</span><span class="op">)</span> <span class="co"># highway types of interest</span>
 <span class="va">osm_major_roads</span> <span class="op">=</span> <span class="va">osm_lines</span><span class="op">[</span><span class="va">osm_lines</span><span class="op">$</span><span class="va">highway</span> <span class="op">%in%</span> <span class="va">ht</span>, <span class="op">]</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">osm_major_roads</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
@@ -170,8 +170,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">malta</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Malta"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andorra"</span>, extra_tags <span class="op">=</span> <span class="st">"ref"</span><span class="op">)</span>
-<span class="va">leeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Leeds"</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span><span class="op">)</span>
-<span class="va">goa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Goa"</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span><span class="op">)</span></code></pre></div>
+<span class="va">leeds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Leeds"</span><span class="op">)</span>
+<span class="va">goa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Goa"</span>, query <span class="op">=</span> <span class="st">"SELECT highway, geometry FROM 'lines'"</span><span class="op">)</span></code></pre></div>
 <p>If the input place does not match any of the existing names in the supported providers, then <code><a href="reference/oe_get.html">oe_get()</a></code> will try to geocode it via <a href="https://nominatim.org/release-docs/develop/api/Overview/">Nominatim API</a>, and it will select the smallest OSM extract intersecting the area. For example (not run):</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Milan"</span><span class="op">)</span> <span class="co"># Warning: It will download more than 400MB of data</span>

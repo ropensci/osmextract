@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Match input place with a URL — oe_match • osmextract</title>
+<title>Match input place with a url — oe_match • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Match input place with a URL — oe_match" />
+<meta property="og:title" content="Match input place with a url — oe_match" />
 <meta property="og:description" content="This function is used to match an input place with the URL of a .osm.pbf
 file (and its file-size, if present). The URLs are stored in several
 provider's databases. See oe_providers() and examples." />
@@ -124,7 +124,7 @@ provider's databases. See oe_providers() and examples." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Match input place with a URL</h1>
+    <h1>Match input place with a url</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/match.R'><code>R/match.R</code></a></small>
     <div class="hidden name"><code>oe_match.Rd</code></div>
     </div>
@@ -166,10 +166,10 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
       <th>place</th>
       <td><p>Description of the geographical area that should be matched with
 a <code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
-character vector, a length-1 <code>sfc_POINT</code> object or a numeric vector of
-coordinates with length 2. In the latter case it is assumed that the EPSG
+character vector, an <code>sf</code> or <code>sfc</code> object, or a numeric vector of
+coordinates with length 2. In the last case, it is assumed that the EPSG
 code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-<code>sfc_POINT</code> object. See Details and examples in <code>oe_match()</code>.</p></td>
+<code>sf</code> or <code>sfc</code> object. See Details and examples in <code>oe_match()</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -187,15 +187,15 @@ internal testings.</p></td>
       <th>level</th>
       <td><p>An integer representing the desired hierarchical level in case
 of spatial matching. For the <code>geofabrik</code> provider, for example, <code>1</code>
-corresponds with continent-level datasets, <code>2</code> countries, <code>3</code> corresponds
-to regions and <code>4</code> to subregions. Hence, we could approximately say that
-smaller administrative units correspond to bigger levels. If <code>NULL</code>, the
-default, the <code>oe_*</code> functions will select the highest level. See Details
-and Examples in <code>oe_match()</code>.</p></td>
+corresponds with continent-level datasets, <code>2</code> for countries, <code>3</code>
+corresponds to regions and <code>4</code> to subregions. Hence, we could approximately
+say that smaller administrative units correspond to bigger levels. If
+<code>NULL</code>, the default, the <code>oe_*</code> functions will select the highest available
+level. See Details and Examples in <code>oe_match()</code>.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
+      <td><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
 Starting from <code>sf</code> version
 <a href='https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13'>0.9.6</a>,
 if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
@@ -231,23 +231,19 @@ element is the URL of the <code>.osm.pbf</code> file associated with the input
 may be <code>NULL</code> or <code>NA</code>)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by Geofabrik
-provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a> codes. See
-<a href='geofabrik_zones.html'>geofabrik_zones</a> for more details.</p>
-<p>If the input place is specified as a spatial point (either as <code>sfc_POINT</code>
-or a pair of numeric coordinates), then the function will return a
-geographical area intersecting the point (or an error if there is no
-intersection between input place and provider's data). The argument <code>level</code>
-(which must be specified as an integer between 1 and 4, extreme values
-included) is used to select between multiple geographically nested areas.
-We could roughly say that smaller administrative units correspond to higher
-levels. Check the help page of the chosen provider for more details on
-<code>level</code> field. By default, <code>level = NULL</code>, which means that <code>oe_match()</code>
-will return the area(s) corresponding to the highest level. If there is no
-geographical area at the desired level, then the function will return an
-error. If there are multiple areas at the same `level`` intersecting the
-input place, then the function will return the area whose centroid is
-closer to the input place.</p>
+    <p>If the input place is specified as a spatial object (either <code>sf</code> or <code>sfc</code>),
+then the function will return a geographical area that completely contains
+the object (or an error). The argument <code>level</code> (which must be specified as
+an integer between 1 and 4, extreme values included) is used to select
+between multiple geographically nested areas. We could roughly say that
+smaller administrative units correspond to higher levels. Check the help
+page of the chosen provider for more details on <code>level</code> field. By default,
+<code>level = NULL</code>, which means that <code>oe_match()</code> will return the area
+corresponding to the highest available level. If there is no geographical
+area at the desired level, then the function will return an error. If there
+are multiple areas at the same <code>level</code> intersecting the input place, then
+the function will return the area whose centroid is closest to the input
+place.</p>
 <p>If the input place is specified as a character vector and there are
 multiple plausible matches between the input place and the <code>match_by</code>
 column, then the function will return a warning and it will select the
@@ -260,6 +256,9 @@ Otherwise, if <code>match_by</code> is equal to <code>"name"</code>, then it wil
 geolocate the input <code>place</code> using the <a href='https://nominatim.org/release-docs/develop/api/Overview/'>Nominatim API</a>, and then it
 will perform a spatial matching operation (see Examples and introductory
 vignette), while, if <code>match_by != "name"</code>, then it will return an error.</p>
+<p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by Geofabrik
+provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a> codes. See
+<a href='geofabrik_zones.html'>geofabrik_zones</a> for more details.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='oe_providers.html'>oe_providers()</a></code> and <code><a href='oe_match_pattern.html'>oe_match_pattern()</a></code>.</p></div>

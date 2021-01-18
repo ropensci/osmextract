@@ -142,17 +142,15 @@ extracts stored at <a href='http://download.openstreetmap.fr/'>http://download.o
 7 columns:</p><dl>
 <dt>id</dt><dd><p>A unique ID for each area. It is used by <code><a href='oe_update.html'>oe_update()</a></code>.</p></dd>
 <dt>name</dt><dd><p>The, usually English, long-form name of the city.</p></dd>
-<dt>parent</dt><dd><p>The ID identifier of the next larger excerpts that contains
+<dt>parent</dt><dd><p>The identifier of the next larger excerpts that contains
 this one, if present.</p></dd>
 <dt>level</dt><dd><p>An integer code between 1 and 4. Check
 <a href='http://download.openstreetmap.fr/polygons/'>http://download.openstreetmap.fr/polygons/</a> to see the hierarchical
 structure of the zones. 1L correspond to the biggest areas. This is used
-only for matching operations in case of spatial input. The oe_* functions
-will select the geographical area closest to the input place with the
-highest "level"</p></dd>
+only for matching operations in case of spatial input.</p></dd>
 <dt>pbf</dt><dd><p>Link to the latest <code>.osm.pbf</code> file for this region.</p></dd>
-<dt>pbf_size_size</dt><dd><p>Size of the pbf file in bytes.</p></dd>
-<dt>geometry</dt><dd><p>The `sfc`` for that geographical region, rectangular.</p></dd>
+<dt>pbf_file_size</dt><dd><p>Size of the pbf file in bytes.</p></dd>
+<dt>geometry</dt><dd><p>The <code>sfg</code> for that geographical region, rectangular.</p></dd>
 
 </dl>
 

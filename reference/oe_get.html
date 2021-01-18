@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Download, translate and read OSM extracts from several providers — oe_get • osmextract</title>
+<title>Find, download, translate and read OSM extracts from several providers — oe_get • osmextract</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,11 @@
 
 
 
-<meta property="og:title" content="Download, translate and read OSM extracts from several providers — oe_get" />
-<meta property="og:description" content="This function is used to download, translate and read OSM extracts obtained
-from several providers. It is a wrapper around oe_match() and oe_read().
-Check the introductory vignette, the examples and the help pages of the
-wrapped functions to understand the details behind all parameters." />
+<meta property="og:title" content="Find, download, translate and read OSM extracts from several providers — oe_get" />
+<meta property="og:description" content="This function is used to find, download, translate and read OSM extracts
+obtained from several providers. It is a wrapper around oe_match() and
+oe_read(). Check the introductory vignette, the examples and the help pages
+of the wrapped functions to understand the details behind all parameters." />
 
 
 
@@ -125,16 +125,16 @@ wrapped functions to understand the details behind all parameters." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Download, translate and read OSM extracts from several providers</h1>
+    <h1>Find, download, translate and read OSM extracts from several providers</h1>
     <small class="dont-index">Source: <a href='https://github.com/itsleeds/osmextract/blob/master/R/get.R'><code>R/get.R</code></a></small>
     <div class="hidden name"><code>oe_get.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is used to download, translate and read OSM extracts obtained
-from several providers. It is a wrapper around <code><a href='oe_match.html'>oe_match()</a></code> and <code><a href='oe_read.html'>oe_read()</a></code>.
-Check the introductory vignette, the examples and the help pages of the
-wrapped functions to understand the details behind all parameters.</p>
+    <p>This function is used to find, download, translate and read OSM extracts
+obtained from several providers. It is a wrapper around <code><a href='oe_match.html'>oe_match()</a></code> and
+<code><a href='oe_read.html'>oe_read()</a></code>. Check the introductory vignette, the examples and the help pages
+of the wrapped functions to understand the details behind all parameters.</p>
     </div>
 
     <pre class="usage"><span class='fu'>oe_get</span><span class='op'>(</span>
@@ -165,10 +165,10 @@ wrapped functions to understand the details behind all parameters.</p>
       <th>place</th>
       <td><p>Description of the geographical area that should be matched with
 a <code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
-character vector, a length-1 <code>sfc_POINT</code> object or a numeric vector of
-coordinates with length 2. In the latter case it is assumed that the EPSG
+character vector, an <code>sf</code> or <code>sfc</code> object, or a numeric vector of
+coordinates with length 2. In the last case, it is assumed that the EPSG
 code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-<code>sfc_POINT</code> object. See Details and examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
+<code>sf</code> or <code>sfc</code> object. See Details and examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
     </tr>
     <tr>
       <th>layer</th>
@@ -181,9 +181,9 @@ specified in the query and ignore <code>layer</code>. See also
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Arguments that will be passed to <code><a href='https://r-spatial.github.io/sf/reference/st_read.html'>sf::st_read()</a></code>, like <code>query</code>
-or <code>stringsAsFactors</code>.  Check the introductory vignette to understand how
-to create your own (SQL-like) queries.</p></td>
+      <td><p>Arguments that will be passed to <code><a href='https://r-spatial.github.io/sf/reference/st_read.html'>sf::st_read()</a></code>, like <code>query</code>,
+<code>wkt_filter</code> or <code>stringsAsFactors</code>.  Check the introductory vignette to
+understand how to create your own (SQL-like) queries.</p></td>
     </tr>
     <tr>
       <th>provider</th>
@@ -217,11 +217,11 @@ spatial operation.</p></td>
       <th>level</th>
       <td><p>An integer representing the desired hierarchical level in case
 of spatial matching. For the <code>geofabrik</code> provider, for example, <code>1</code>
-corresponds with continent-level datasets, <code>2</code> countries, <code>3</code> corresponds
-to regions and <code>4</code> to subregions. Hence, we could approximately say that
-smaller administrative units correspond to bigger levels. If <code>NULL</code>, the
-default, the <code>oe_*</code> functions will select the highest level. See Details
-and Examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
+corresponds with continent-level datasets, <code>2</code> for countries, <code>3</code>
+corresponds to regions and <code>4</code> to subregions. Hence, we could approximately
+say that smaller administrative units correspond to bigger levels. If
+<code>NULL</code>, the default, the <code>oe_*</code> functions will select the highest available
+level. See Details and Examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -229,7 +229,7 @@ and Examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p></td>
 By default this is equal to <code><a href='oe_download_directory.html'>oe_download_directory()</a></code>, which is equal to
 <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code> and it changes each time you restart R. You can set a
 persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
-file (e.g. with <code>usethis::edit_r_environ()</code>):
+file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
 <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></td>
     </tr>
     <tr>
@@ -272,7 +272,7 @@ already exists? Check the introductory vignette and the help page of
     </tr>
     <tr>
       <th>download_only</th>
-      <td><p>Boolean. If <code>TRUE</code> then the function only returns the
+      <td><p>Boolean. If <code>TRUE</code>, then the function only returns the
 path where the matched file is stored, instead of reading it. <code>FALSE</code> by
 default.</p></td>
     </tr>
@@ -291,7 +291,7 @@ following the same options.)</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>Boolean. If <code>FALSE</code> the function prints informative messages.
+      <td><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
 Starting from <code>sf</code> version
 <a href='https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13'>0.9.6</a>,
 if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
@@ -301,12 +301,10 @@ display a progress bar.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An sf object.</p>
+    <p>An <code>sf</code> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>To learn how to use the <code>query</code> argument see, for example, the
-<a href='https://itsleeds.github.io/osmextract/articles/osmextract.html#query'>query section of the osmextract vignette</a>.</p>
-<p>The algorithm that we use for importing an OSM extract data into R
+    <p>The algorithm that we use for importing an OSM extract data into R
 is divided into 4 steps: 1) match the input <code>place</code> with the url of a
 <code>.pbf</code> file; 2) download the <code>.pbf</code> file; 3) convert it into <code>.gpkg</code> format
 and 4) read-in the <code>.gpkg</code> file. The function <code><a href='oe_match.html'>oe_match()</a></code> is used to
@@ -321,7 +319,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Download OSM extracts associated to a simple test.</span>
 <span class='va'>its</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplMFg1L/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpwlfkFl/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -332,7 +330,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 #&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</div><div class='input'>
 <span class='co'># Get another layer from the test extract</span>
 <span class='va'>its_points</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, layer <span class='op'>=</span> <span class='st'>"points"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplMFg1L/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Adding a new layer to the .gpkg file</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpwlfkFl/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 186 features and 10 fields
 #&gt; geometry type:  POINT
 #&gt; dimension:      XY
@@ -342,12 +340,12 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 #&gt; 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</div><div class='input'>
 <span class='co'># Get the .osm.pbf and .gpkg file path</span>
 <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplMFg1L/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplMFg1L/test_its-example.osm.pbf"</div><div class='input'><span class='co'># See also ?oe_find()</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpwlfkFl/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpwlfkFl/test_its-example.osm.pbf"</div><div class='input'><span class='co'># See also ?oe_find()</span>
 
 <span class='co'># Add additional tags</span>
 <span class='va'>its_with_oneway</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, extra_tags <span class='op'>=</span> <span class='st'>"oneway"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplMFg1L/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpwlfkFl/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
@@ -362,7 +360,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='co'># Use the query argument to get only oneway streets:</span>
 <span class='va'>q</span> <span class='op'>=</span> <span class='st'>"SELECT * FROM 'lines' WHERE oneway IN ('yes')"</span>
 <span class='va'>its_oneway</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, query <span class='op'>=</span> <span class='va'>q</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplMFg1L/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpwlfkFl/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 13 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
