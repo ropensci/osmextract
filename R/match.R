@@ -150,7 +150,7 @@ oe_match.sfc = function(
 
   # Spatial subset according to sf::st_contains
   # See https://github.com/ITSLeeds/osmextract/pull/168
-  matched_zones = provider_data[place, op = sf::st_contains]
+  suppressMessages({matched_zones = provider_data[place, op = sf::st_contains]})
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
@@ -196,15 +196,21 @@ oe_match.sfc = function(
   if (nrow(matched_zones) > 1L) {
     if (isFALSE(quiet)) {
       message(
-        "The input place was matched with multiple geographical areas. ",
-        "Selecting the area whose centroid is closest to the input place."
+        "The input place was matched with multiple geographical areas with ",
+        "the same level."
+      )
+      message(
+      "Selecting the area whose centroid is closest to the input place."
       )
     }
 
-    nearest_id_centroid = sf::st_nearest_feature(
-      place,
-      sf::st_centroid(sf::st_geometry(matched_zones))
-    )
+    suppressWarnings({
+      nearest_id_centroid = sf::st_nearest_feature(
+        place,
+        sf::st_centroid(sf::st_geometry(matched_zones))
+      )
+    })
+
     matched_zones = matched_zones[nearest_id_centroid,]
   }
 
