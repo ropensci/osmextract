@@ -64,6 +64,11 @@ geofabrik_zones = st_sf(data.frame(geofabrik_zones, geofabrik_urls))
 # https://stackoverflow.com/questions/2301009/get-file-size-before-downloading-counting-how-much-already-downloaded-httpru/2301030
 geofabrik_zones[["pbf_file_size"]] <- 0
 
+###############################################################################
+###### RUN THE FOLLOWING CODE CAREFULLY SINCE IT CREATES HUNDREDS OF HEAD #####
+###### REQUESTS THAT CAN BLOCK YOUR IP ADDRESS ################################
+###############################################################################
+
 my_pb <- txtProgressBar(min = 0, max = nrow(geofabrik_zones), style = 3)
 for (i in seq_len(nrow(geofabrik_zones))) {
   my_ith_url <- geofabrik_zones[["pbf"]][[i]]
