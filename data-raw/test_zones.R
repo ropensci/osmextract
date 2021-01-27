@@ -41,7 +41,7 @@ file.remove("geofabrik_isle-of-wight-latest.osm.pbf")
 # system("ls -hal *.pbf") # 40 kb
 # file.copy("its-example.osm.pbf", "inst/")
 
-its_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+its_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
 test_zones[2, "id"] = "its"
 test_zones[2, "name"] = "ITS Leeds"
 test_zones[2, "parent"] = NA
