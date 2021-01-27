@@ -236,5 +236,9 @@ We very much look forward to comments, questions and contributions.
 If you have any doubt, or if you want to suggest a new approach or add a new OSM provider, feel free to create a new issue in the [issue tracker](https://github.com/ropensci/osmextract/issues) or a new [pull request](https://github.com/ropensci/osmextract/pulls). 
 We always try to build the most intuitive user interface and write the most informative error messages, but if you think that something is not clear and could have been explained better, please let us know. 
 
+## Contributor Code of Conduct
+Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). 
+By contributing to this project, you agree to abide by its terms.
+
 <!-- :) -->
 <!-- :) -->

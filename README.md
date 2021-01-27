@@ -306,6 +306,12 @@ build the most intuitive user interface and write the most informative
 error messages, but if you think that something is not clear and could
 have been explained better, please let us know.
 
+## Contributor Code of Conduct
+
+Please note that this package is released with a [Contributor Code of
+Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
+project, you agree to abide by its terms.
+
 <!-- :) -->
 
 <!-- :) -->
