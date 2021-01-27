@@ -102,7 +102,7 @@ plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkr
 As shown in the visualisation above of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of the major cities.
 We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ropensci/osmextract/issues/100).
 
-Check the ["Comparing the supported OSM providers"](https://itsleeds.github.io/osmextract/articles/providers_comparisons.html) vignette for some simple guidelines on how to choose the best provider. 
+Check the ["Comparing the supported OSM providers"](https://docs.ropensci.org/osmextract/articles/providers_comparisons.html) vignette for some simple guidelines on how to choose the best provider. 
 
 ## `oe_match()`: Match OSM extracts
 
@@ -817,7 +817,7 @@ The first provider supported was [Geofabrik](http://download.geofabrik.de/).
 The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
 The package can be extended to support additional providers, as seen in the following [commit](https://github.com/ropensci/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16) that adds a working provider.
 
-For information on adding new providers to the package, see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
+For information on adding new providers to the package, see the [providers vignette](https://docs.ropensci.org/osmextract/articles/providers.html).
 
 # More on OpenStreetMap
 

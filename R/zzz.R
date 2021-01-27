@@ -1,8 +1,7 @@
 .onAttach = function(libname, pkgname) {
   packageStartupMessage(paste(
     "Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.",
-    "Check the package website, itsleeds.github.io/osmextract, for more details.",
-    # todo: update site link on rOpenSci
+    "Check the package website, https://docs.ropensci.org/osmextract/, for more details.",
     # See https://github.com/ropensci/osmextract/issues/156
     # "Any product made from OpenStreetMap must cite OSM as the data source.",
     # "Geofabrik data are taken from https://download.geofabrik.de/",

@@ -26,7 +26,7 @@ test_that("oe_match: sfc_POINT objects", {
     regexp = "input place does not intersect"
   )
 
-  # See https://github.com/ITSLeeds/osmextract/issues/98
+  # See https://github.com/osmextract/osmextract/issues/98
   # an sfc_POINT that does intersect two cities with bbbike
   # the problem is (or, at least, it should be) less severe with geofabrik
   amsterdam_utrecht = sf::st_sfc(

@@ -12,6 +12,10 @@ status](https://github.com/ropensci/osmextract/workflows/R-CMD-check/badge.svg)]
 [![Codecov test
 coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/osmextract?branch=master)
 [![peer-review](https://badges.ropensci.org/395_status.svg)](https://github.com/ropensci/software-review/issues/395)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 <!-- badges: end -->
 
 The goal of `osmextract` is to make it easier for people to access
@@ -24,7 +28,7 @@ the public interest.
 by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and
 [bbbike](https://download.bbbike.org/osm/). For information on
 alternative providers and how to add them see the [providers
-vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
+vignette](https://docs.ropensci.org/osmextract/articles/providers.html).
 
 ## Why osmextract?
 
@@ -107,7 +111,7 @@ Load the package with:
 ``` r
 library(osmextract)
 #> Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.
-#> Check the package website, itsleeds.github.io/osmextract, for more details.
+#> Check the package website, https://docs.ropensci.org/osmextract/, for more details.
 ```
 
 To use alongside functionality in the `sf` package, we also recommend
@@ -206,7 +210,7 @@ oe_get("Milan") # Warning: It will download more than 400MB of data
 
 For further details on using the package, see the [Introducing
 osmextract
-vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html).
+vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html).
 
 ## Persistent download directory
 
@@ -248,7 +252,7 @@ so you may need to reset it for the rest of your script.
 We hope to make the user interface to the SQL syntax more user friendly.
 We would love to see more providers added (see the [Add new
 OpenStreetMap
-providers](https://itsleeds.github.io/osmextract/articles/providers.html)
+providers](https://docs.ropensci.org/osmextract/articles/providers.html)
 for details) and see what people can do with OSM datasets of the type
 provided by this package in a reproducible and open statistical
 programming environment for the greater good. Any contributions to
@@ -270,7 +274,7 @@ states that
   - 2.  A later version of this License similar in spirit to this
 
 See the [Introducing osmextract
-vignette](https://itsleeds.github.io/osmextract/articles/osmextract.html)
+vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html)
 for more details.
 
 ## Other approaches
