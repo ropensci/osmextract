@@ -7,3 +7,4 @@
 ^\.github$
 ^data-raw$
 ^codecov\.yml$
+^codemeta\.json$

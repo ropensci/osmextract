@@ -1,0 +1,141 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "osmextract",
+  "description": "Find, download, convert and read Open Street Map data extracts \n    obtained from several providers. ",
+  "name": "osmextract: Download and Read OpenStreetMap Data Extracts",
+  "codeRepository": "https://github.com/ropensci/osmextract",
+  "issueTracker": "https://github.com/ropensci/osmextract/issues",
+  "license": "https://spdx.org/licenses/GPL-3.0",
+  "version": "0.1.0",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 3.6.3 (2020-02-29)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Andrea",
+      "familyName": "Gilardi",
+      "email": "andrea.gilardi@unimib.it",
+      "@id": "https://orcid.org/0000-0002-9424-7439"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Robin",
+      "familyName": "Lovelace",
+      "@id": "https://orcid.org/0000-0001-5679-6536"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Barry",
+      "familyName": "Rowlingson",
+      "@id": "https://orcid.org/0000-0002-8586-6625"
+    }
+  ],
+  "copyrightHolder": {},
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Andrea",
+      "familyName": "Gilardi",
+      "email": "andrea.gilardi@unimib.it",
+      "@id": "https://orcid.org/0000-0002-9424-7439"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.5.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "sf",
+      "name": "sf",
+      "version": ">= 0.8.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=sf"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tools",
+      "name": "tools"
+    }
+  ],
+  "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
+  "fileSize": "2309.972KB",
+  "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/395",
+    "provider": "https://ropensci.org"
+  },
+  "keywords": ["osm", "osm-pbf", "rstats", "r", "open-data", "geofabrik-zone", "geo"]
+}
