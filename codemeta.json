@@ -1,5 +1,8 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "osmextract",
   "description": "Find, download, convert and read Open Street Map data extracts \n    obtained from several providers. ",
@@ -130,12 +133,21 @@
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "2309.972KB",
+  "fileSize": "2314.893KB",
   "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/395",
     "provider": "https://ropensci.org"
   },
-  "keywords": ["osm", "osm-pbf", "rstats", "r", "open-data", "geofabrik-zone", "geo"]
+  "keywords": [
+    "osm",
+    "osm-pbf",
+    "rstats",
+    "r",
+    "open-data",
+    "geofabrik-zone",
+    "geo"
+  ],
+  "developmentStatus": "https://www.repostatus.org/#active"
 }
