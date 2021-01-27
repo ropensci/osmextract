@@ -1,7 +1,7 @@
 # Auxiliary functions (not exported)
 '%!in%' = function(x, y) !('%in%'(x,y))
 
-# See https://github.com/ITSLeeds/osmextract/issues/134
+# See https://github.com/ropensci/osmextract/issues/134
 is_like_url = function(URL) {
   grepl(
     pattern = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)",

@@ -32,7 +32,7 @@ then it must be specified using HTTP/HTTPS protocol.}
 you specify an ad-hoc query using the argument \code{query} (see introductory
 vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
 specified in the query and ignore \code{layer}. See also
-\href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
+\href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query},
 \code{wkt_filter} or \code{stringsAsFactors}.  Check the introductory vignette to
@@ -149,7 +149,7 @@ names(oe_read(
 file.remove(my_gpkg)
 
 # Read from a URL
-my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
 # Please note that if you read from a URL which is not linked to one of the
 # supported providers, you need to specify the provider parameter:
 \dontrun{

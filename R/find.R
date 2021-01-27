@@ -44,7 +44,7 @@ oe_find = function(
   # I decided the approach described in @details since I cannot simply use
   # list.files(pattern = place) because the names of the files could be
   # different from the input place.
-  # See https://github.com/ITSLeeds/osmextract/pull/123 to check the original
+  # See https://github.com/ropensci/osmextract/pull/123 to check the original
   # approach adopted with the code.
 
   # First I need to match the input place with a URL

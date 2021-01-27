@@ -8,7 +8,7 @@ test_that("oe_get: simplest examples work", {
 })
 
 test_that("vectortranslate is not skipped if force_download is TRUE", {
-  # See https://github.com/ITSLeeds/osmextract/issues/144
+  # See https://github.com/ropensci/osmextract/issues/144
   # I need to download the following files in a new directory since they could
   # be mixed with previously downloaded files (and hence ruin the tests)
 

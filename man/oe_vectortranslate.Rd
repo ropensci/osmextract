@@ -24,7 +24,7 @@ oe_vectortranslate(
 you specify an ad-hoc query using the argument \code{query} (see introductory
 vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
 specified in the query and ignore \code{layer}. See also
-\href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
+\href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{vectortranslate_options}{Options passed to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
 argument \code{options}. Set by default. Check details in the introductory

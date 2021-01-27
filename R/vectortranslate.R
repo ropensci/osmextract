@@ -241,7 +241,7 @@ oe_vectortranslate = function(
 
   # The extra_tags argument is ignored if the user set its own osmconf_ini file
   # (since we do not know how it was generated):
-  # See https://github.com/ITSLeeds/osmextract/issues/117
+  # See https://github.com/ropensci/osmextract/issues/117
   if (!is.null(osmconf_ini) && !is.null(extra_tags)) {
     warning(
       "The argument extra_tags is ignored when osmconf_ini is not NULL.",
@@ -303,7 +303,7 @@ oe_vectortranslate = function(
   }
 
   # Now we can apply the vectortranslate operation from gdal_utils: See
-  # https://github.com/ITSLeeds/osmextract/issues/150 for a discussion on
+  # https://github.com/ropensci/osmextract/issues/150 for a discussion on
   # normalizePath
   sf::gdal_utils(
     util = "vectortranslate",
@@ -396,10 +396,10 @@ get_ini_layer_defaults = function(layer) {
 #'   vignette and see examples.
 #'
 #'   The definition of a generic S3 implementation started in
-#'   [osmextract/issues/138](https://github.com/ITSLeeds/osmextract/issues/138).
+#'   [osmextract/issues/138](https://github.com/ropensci/osmextract/issues/138).
 #'
 #' @seealso `oe_vectortranslate()` and
-#'   [osmextract/issues/107](https://github.com/ITSLeeds/osmextract/issues/107).
+#'   [osmextract/issues/107](https://github.com/ropensci/osmextract/issues/107).
 #'
 #' @inheritParams oe_get
 #' @param zone An `sf` object (typically read-in with `oe_read()` or `oe_get()`)
@@ -433,7 +433,7 @@ oe_get_keys.default = function(zone, layer = "lines") {
   stop(
     "At the moment there is no support for objects of class ",
     class(zone)[1], ".",
-    " Feel free to open a new issue at github.com/itsleeds/osmextract",
+    " Feel free to open a new issue at github.com/ropensci/osmextract",
     call. = FALSE
   )
 }

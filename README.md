@@ -8,9 +8,9 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/itsleeds/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/itsleeds/osmextract/actions)
+status](https://github.com/ropensci/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/osmextract/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/itsleeds/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/itsleeds/osmextract?branch=master)
+coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/osmextract?branch=master)
 [![peer-review](https://badges.ropensci.org/395_status.svg)](https://github.com/ropensci/software-review/issues/395)
 <!-- badges: end -->
 
@@ -99,7 +99,7 @@ You can install the development version from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("ITSLeeds/osmextract")
+remotes::install_github("ropensci/osmextract")
 ```
 
 Load the package with:
@@ -128,7 +128,7 @@ if the user is running an old version of GDAL (\<= 3.0.0) or PROJ (\<=
 6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419) for more
 details. Nevertheless, every function should still work correctly.
 Please, raise [a new
-issue](https://github.com/ITSLeeds/osmextract/issues) if you find any
+issue](https://github.com/ropensci/osmextract/issues) if you find any
 odd behaviour.
 
 ## Basic usage
@@ -300,8 +300,8 @@ for more details.
 We very much look forward to comments, questions and contributions. If
 you have any doubt, or if you want to suggest a new approach or add a
 new OSM provider, feel free to create a new issue in the [issue
-tracker](https://github.com/ITSLeeds/osmextract/issues) or a new [pull
-request](https://github.com/ITSLeeds/osmextract/pulls). We always try to
+tracker](https://github.com/ropensci/osmextract/issues) or a new [pull
+request](https://github.com/ropensci/osmextract/pulls). We always try to
 build the most intuitive user interface and write the most informative
 error messages, but if you think that something is not clear and could
 have been explained better, please let us know.

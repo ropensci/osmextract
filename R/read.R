@@ -54,7 +54,7 @@
 #' file.remove(my_gpkg)
 #'
 #' # Read from a URL
-#' my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+#' my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
 #' # Please note that if you read from a URL which is not linked to one of the
 #' # supported providers, you need to specify the provider parameter:
 #' \dontrun{
@@ -83,14 +83,14 @@ oe_read = function(
   check_layer_provider(layer, provider)
 
   # Test if there is misalignment between query and layer. See also
-  # See https://github.com/ITSLeeds/osmextract/issues/122
+  # See https://github.com/ropensci/osmextract/issues/122
   if ("query" %in% names(list(...))) {
     # Check if the query argument defined in sf::st_read was defined using a
     # layer different than layer argument.
     # Extracted from sf::st_read docs: For query with a character dsn the query
     # text is handed to 'ExecuteSQL' on the GDAL/OGR data set and will result in
     # the creation of a new layer (and layer is ignored) See also
-    # https://github.com/ITSLeeds/osmextract/issues/122
+    # https://github.com/ropensci/osmextract/issues/122
     query = list(...)[["query"]]
 
     # Extract everything that is specified after FROM or from
@@ -100,7 +100,7 @@ oe_read = function(
     if (length(layer_raw) != 1L) {
       stop(
         "There is an error in the query. Please open a new issue at ",
-        "https://github.com/ITSLeeds/osmextract/issues",
+        "https://github.com/ropensci/osmextract/issues",
         call. = FALSE
       )
     }
@@ -114,7 +114,7 @@ oe_read = function(
     if (length(layer_clean) != 1L) {
       stop(
         "There is an error in the query. Please open a new issue at ",
-        "https://github.com/ITSLeeds/osmextract/issues",
+        "https://github.com/ropensci/osmextract/issues",
         call. = FALSE
       )
     }
@@ -130,7 +130,7 @@ oe_read = function(
     }
   }
 
-  # See https://github.com/ITSLeeds/osmextract/issues/114
+  # See https://github.com/ropensci/osmextract/issues/114
   if (
     # The following condition checks if the user passed down one or more
     # arguments using ...
@@ -147,7 +147,7 @@ oe_read = function(
       names(list(...)) %!in%
       # The ... arguments in st_read are passed to st_as_sf so I need to add the
       # formals of st_as_sf.
-      # See https://github.com/ITSLeeds/osmextract/issues/152
+      # See https://github.com/ropensci/osmextract/issues/152
       union(
         names(formals(get("st_read.character", envir = getNamespace("sf")))),
         names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
@@ -183,10 +183,10 @@ oe_read = function(
   if (!file.exists(file_path)) {
 
     # Add an if clause to check if file_path "looks like" a URL
-    # See https://github.com/ITSLeeds/osmextract/issues/134 and
+    # See https://github.com/ropensci/osmextract/issues/134 and
     # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url.
     # First I need to remove the whitespace at the end of the URL
-    # See https://github.com/ITSLeeds/osmextract/issues/163
+    # See https://github.com/ropensci/osmextract/issues/163
     file_path = trimws(file_path)
     like_url = is_like_url(file_path)
 
@@ -234,7 +234,7 @@ oe_read = function(
     return(sf::st_read(file_path, layer, quiet = quiet, ...))
   }
 
-  # See https://github.com/ITSLeeds/osmextract/issues/144. The vectortranslate
+  # See https://github.com/ropensci/osmextract/issues/144. The vectortranslate
   # operation should never be skipped if the user is going to download a new
   # .osm.pbf file.
   if (isTRUE(force_download)) {

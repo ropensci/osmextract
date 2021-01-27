@@ -52,11 +52,11 @@ The output shows the three most important column names:
 The object must also include the fields `level` and `id`, which are used, respectively, for spatial matching and updating. 
 See `oe_match()` and `oe_update()`. 
 
-The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first supported provider in [`data-raw/geofabrik_zones.R`](https://github.com/ITSLeeds/osmextract/blob/master/data-raw/geofabrik_zones.R). 
+The best way to start creating a new `_zones` object for a new provider is probably by looking at the code we wrote for the first supported provider in [`data-raw/geofabrik_zones.R`](https://github.com/ropensci/osmextract/blob/master/data-raw/geofabrik_zones.R). 
 The following commands will clone this repo and open the relevant file:
 
 ```bash
-git clone git@github.com:itsleeds/osmextract
+git clone git@github.com:ropensci/osmextract
 rstudio osmextract/osmextract.Rproj
 ```
 Then in RStudio:
@@ -79,17 +79,17 @@ After you have created the new provider `_zones` file, it's time to add the prov
 
 Once you have created your overview `_zones` file as outlined in the previous step, you need to modify the following files for the provider to be available for others:
 
-- [data.R](https://github.com/ITSLeeds/osmextract/blob/master/R/data.R), where you'll need to document the new dataset;
-- [globals.R](https://github.com/ITSLeeds/osmextract/blob/master/R/globals.R), where you'll need to add the new object name;
-- [providers.R](https://github.com/ITSLeeds/osmextract/blob/master/R/providers.R), where you'll need to add the new object name in `oe_available_providers()` and `load_provider_data()`. 
+- [data.R](https://github.com/ropensci/osmextract/blob/master/R/data.R), where you'll need to document the new dataset;
+- [globals.R](https://github.com/ropensci/osmextract/blob/master/R/globals.R), where you'll need to add the new object name;
+- [providers.R](https://github.com/ropensci/osmextract/blob/master/R/providers.R), where you'll need to add the new object name in `oe_available_providers()` and `load_provider_data()`. 
 
 # Documenting the provider
 
 The final step is also the most fun: documenting and using the provider.
 Add an example, mention it in the README and tell others about what this new provider can do!
-If you want to ask for help on adding a new provider, feel free to open in a new issue in the [github repository](https://github.com/ITSLeeds/osmextract)! 
+If you want to ask for help on adding a new provider, feel free to open in a new issue in the [github repository](https://github.com/ropensci/osmextract)! 
 
 # Conclusion
 
 This vignette talks through the main steps needed to extend `osmextract` by adding new OSM data providers.
-To see the same information in code form, see the PR that implemented the `openstreetmap_fr` provider here: https://github.com/ITSLeeds/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16
+To see the same information in code form, see the PR that implemented the `openstreetmap_fr` provider here: https://github.com/ropensci/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16

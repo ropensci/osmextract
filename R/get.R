@@ -16,7 +16,7 @@
 #'   you specify an ad-hoc query using the argument `query` (see introductory
 #'   vignette and examples), then `oe_get()` and `oe_read()` will read the layer
 #'   specified in the query and ignore `layer`. See also
-#'   [#122](https://github.com/ITSLeeds/osmextract/issues/122).
+#'   [#122](https://github.com/ropensci/osmextract/issues/122).
 #' @param provider Which provider should be used to download the data? Available
 #'   providers can be found with the following command: [oe_providers()]. For
 #'   [`oe_get()`] and [`oe_match()`], if `place` is equal to `ITS Leeds`, then
@@ -174,7 +174,7 @@ oe_get = function(
   # Test misspelt arguments
   check_layer_provider(layer, provider)
 
-  # See https://github.com/ITSLeeds/osmextract/pull/125
+  # See https://github.com/ropensci/osmextract/pull/125
   if (is.character(place) && place == "ITS Leeds") {
     provider = "test"
   }

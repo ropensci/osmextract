@@ -109,7 +109,7 @@ test_that("oe_match: error when input place is far from all zones and match_by !
 })
 
 test_that("oe_match: test level parameter", {
-  # See https://github.com/ITSLeeds/osmextract/issues/160
+  # See https://github.com/ropensci/osmextract/issues/160
   yak <- c(-120.51084, 46.60156)
 
   expect_equal(

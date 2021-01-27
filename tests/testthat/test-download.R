@@ -39,7 +39,7 @@ test_that("oe_download: fails with more than one URL", {
 
 test_that("infer_provider_from_url works: ", {
   expect_error(
-    infer_provider_from_url("https://github.com/ITSLeeds/osmextract"),
+    infer_provider_from_url("https://github.com/ropensci/osmextract"),
     "Cannot infer the provider from the url, please specify it."
   )
   expect_match(

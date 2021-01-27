@@ -120,7 +120,7 @@ oe_match.default = function(place, ...) {
   stop(
     "At the moment there is no support for matching objects of class ",
     class(place)[1], ".",
-    " Feel free to open a new issue at github.com/itsleeds/osmextract",
+    " Feel free to open a new issue at github.com/ropensci/osmextract",
     call. = FALSE
   )
 }
@@ -159,7 +159,7 @@ oe_match.sfc = function(
   }
 
   # Spatial subset according to sf::st_contains
-  # See https://github.com/ITSLeeds/osmextract/pull/168
+  # See https://github.com/ropensci/osmextract/pull/168
   suppressMessages({matched_zones = provider_data[place, op = sf::st_contains]})
 
   # Check that the input zone intersects at least 1 area
@@ -176,7 +176,7 @@ oe_match.sfc = function(
       )
     }
 
-    # See https://github.com/ITSLeeds/osmextract/issues/160
+    # See https://github.com/ropensci/osmextract/issues/160
     # Check the level parameter and, if NULL, set level = highest level.
     if (is.null(level)) {
       # Add a check to test if all(is.na(matched_zones[["level"]])) ?
@@ -273,12 +273,12 @@ oe_match.character = function(
     stop(
       "At the moment we support only length-one character vectors for",
       " 'place' parameter. Feel free to open a new issue at ",
-      "https://github.com/ITSLeeds/osmextract",
+      "https://github.com/ropensci/osmextract",
       call. = FALSE
     )
   }
 
-  # See https://github.com/ITSLeeds/osmextract/pull/125
+  # See https://github.com/ropensci/osmextract/pull/125
   if (place == "ITS Leeds") {
     provider = "test"
   }

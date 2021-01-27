@@ -100,7 +100,7 @@ plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkr
 <img src="https://user-images.githubusercontent.com/22221146/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png" width="100%" />
 
 As shown in the visualisation above of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of the major cities.
-We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ITSLeeds/osmextract/issues/100).
+We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ropensci/osmextract/issues/100).
 
 Check the ["Comparing the supported OSM providers"](https://itsleeds.github.io/osmextract/articles/providers_comparisons.html) vignette for some simple guidelines on how to choose the best provider. 
 
@@ -437,7 +437,7 @@ We can see that the output data includes nine fields (i.e. the default tags), wh
 We can also read an object starting from a URL: 
 
 ```{r}
-my_url = "https://github.com/ITSLeeds/osmextract/raw/master/inst/its-example.osm.pbf"
+my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
 oe_read(my_url, provider = "test", quiet = FALSE, force_download = TRUE, force_vectortranslate = TRUE)
 ```
 
@@ -815,7 +815,7 @@ The package supports downloading, reading and extracting OpenStreetMap data from
 A list of providers can be found at [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Processed_data_providers).
 The first provider supported was [Geofabrik](http://download.geofabrik.de/).
 The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
-The package can be extended to support additional providers, as seen in the following [commit](https://github.com/ITSLeeds/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16) that adds a working provider.
+The package can be extended to support additional providers, as seen in the following [commit](https://github.com/ropensci/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16) that adds a working provider.
 
 For information on adding new providers to the package, see the [providers vignette](https://itsleeds.github.io/osmextract/articles/providers.html).
 

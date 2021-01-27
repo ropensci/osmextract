@@ -38,7 +38,7 @@ code is 4326 specified as c(LON, LAT), while you can use any CRS with an
 you specify an ad-hoc query using the argument \code{query} (see introductory
 vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
 specified in the query and ignore \code{layer}. See also
-\href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
+\href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query},
 \code{wkt_filter} or \code{stringsAsFactors}.  Check the introductory vignette to

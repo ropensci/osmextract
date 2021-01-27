@@ -26,7 +26,7 @@ to a \code{.gpkg} file (typically created using \code{oe_vectortranslate()} or
 you specify an ad-hoc query using the argument \code{query} (see introductory
 vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
 specified in the query and ignore \code{layer}. See also
-\href{https://github.com/ITSLeeds/osmextract/issues/122}{#122}.}
+\href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 }
 \value{
 A character vector indicating the name of all keys stored in
@@ -54,7 +54,7 @@ particular tag from an existing \code{.gpkg} file. Check the introductory
 vignette and see examples.
 
 The definition of a generic S3 implementation started in
-\href{https://github.com/ITSLeeds/osmextract/issues/138}{osmextract/issues/138}.
+\href{https://github.com/ropensci/osmextract/issues/138}{osmextract/issues/138}.
 }
 \examples{
 itsleeds_gpkg_path = oe_get("ITS Leeds", download_only = TRUE)
@@ -71,5 +71,5 @@ names(oe_read(
 }
 \seealso{
 \code{oe_vectortranslate()} and
-\href{https://github.com/ITSLeeds/osmextract/issues/107}{osmextract/issues/107}.
+\href{https://github.com/ropensci/osmextract/issues/107}{osmextract/issues/107}.
 }
