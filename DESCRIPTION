@@ -8,7 +8,9 @@ Authors@R: c(
     person("Robin", "Lovelace", role = c("aut"),
       comment = c(ORCID = "0000-0001-5679-6536")),
     person("Barry", "Rowlingson", role=c("ctb"),
-      comment = c(ORCID = "0000-0002-8586-6625"))
+      comment = c(ORCID = "0000-0002-8586-6625")), 
+    person("Salva", "Fernández", role = c("rev"), 
+    comment = c("Salva reviewed the package (v. 0.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/395>"))
     )
 Description: Find, download, convert and read Open Street Map data extracts 
     obtained from several providers. 
