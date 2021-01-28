@@ -133,7 +133,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "2314.893KB",
+  "fileSize": "2315.057KB",
   "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
   "review": {
     "@type": "Review",
@@ -149,5 +149,6 @@
     "geofabrik-zone",
     "geo"
   ],
-  "developmentStatus": "https://www.repostatus.org/#active"
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "relatedLink": "https://docs.ropensci.org/osmextract"
 }
