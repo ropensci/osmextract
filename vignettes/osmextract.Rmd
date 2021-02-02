@@ -745,7 +745,7 @@ system.time({
 ```
 
 The time difference gets more and more relevant for larger OSM extracts. 
-Moreover, the R code crops the road segments using a rectangular boundary insted of the proper circular polygon: 
+Moreover, the R code crops the road segments using a rectangular boundary instead of the proper circular polygon: 
 
 ```{r, echo = FALSE, eval = FALSE}
 malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
