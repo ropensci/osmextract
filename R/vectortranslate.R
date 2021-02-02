@@ -448,7 +448,7 @@ oe_get_keys.character = function(zone, layer = "lines") {
   if (!file.exists(zone)) {
     stop(
       "The input file does not exist.",
-      "You can download it using oe_get(zone, download_only = TRUE)."
+      "You can download it using oe_get(zone, download_only = TRUE).",
       call. = FALSE
     )
   }
