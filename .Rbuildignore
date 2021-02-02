@@ -8,3 +8,4 @@
 ^data-raw$
 ^codecov\.yml$
 ^codemeta\.json$
+^CRAN-RELEASE$
