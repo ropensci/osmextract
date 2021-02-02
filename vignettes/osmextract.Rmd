@@ -97,7 +97,11 @@ plot(st_geometry(spData::world), xlim = c(-2, 10), ylim = c(35, 60))
 plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkred", add = TRUE)
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png" width="100%" />
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics(
+  path = "../man/figures/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png"
+)
+```
 
 As shown in the visualisation above of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, the provider offers rectangular extracts of the major cities.
 We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ropensci/osmextract/issues/100).

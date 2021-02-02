@@ -137,7 +137,12 @@ plot(sf::st_geometry(spData::world))
 plot(sf::st_geometry(bbbike_zones), border = "darkred", add = TRUE, lwd = 3)
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/96640949-3f7f7480-1324-11eb-9dca-a971c8103a4e.png" width="100%" />
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics(
+  "../man/figures/96640949-3f7f7480-1324-11eb-9dca-a971c8103a4e.png"
+)
+```
+
 
 `bbbike` provider is the safest choice if you are looking for OSM data relative to a particular city in the world.
 
