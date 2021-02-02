@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">osmextract</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -103,7 +103,7 @@
 <span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span></code></pre></div>
 <p>The query stops with an error message after around 30 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format. The download-and-conversion operation of the OSM extract associated to England takes approximately a few minutes, but this operation must be executed only once. The following code chunk is not evaluated.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract">osmextract</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/">osmextract</a></span><span class="op">)</span>
 
 <span class="va">cycleways_england</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span>
   <span class="st">"England"</span>,
@@ -129,7 +129,7 @@
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ropensci/osmextract"</span><span class="op">)</span></code></pre></div>
 <p>Load the package with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract">osmextract</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/">osmextract</a></span><span class="op">)</span>
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
 <span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></code></pre></div>
 <p>To use alongside functionality in the <code>sf</code> package, we also recommend attaching this geographic data package as follows:</p>
