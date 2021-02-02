@@ -104,7 +104,10 @@ Ignored when \code{osmconf_ini} is not \code{NULL}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
-already exists? Check the introductory vignette and the help page of
+already exists? \code{FALSE} by default. If tags in \code{extra_tags} match data
+in previously translated \code{.gpkg} files no translation occurs
+(see \href{https://github.com/ropensci/osmextract/issues/173}{#173} for details).
+Check the introductory vignette and the help page of
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{download_only}{Boolean. If \code{TRUE}, then the function only returns the

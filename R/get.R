@@ -67,7 +67,10 @@
 #'   Ignored when `osmconf_ini` is not `NULL`.
 #' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
 #'   translated into a `.gpkg` file, even if a `.gpkg` with the same name
-#'   already exists? Check the introductory vignette and the help page of
+#'   already exists? `FALSE` by default. If tags in `extra_tags` match data
+#'   in previously translated `.gpkg` files no translation occurs
+#'   (see [#173](https://github.com/ropensci/osmextract/issues/173) for details).
+#'   Check the introductory vignette and the help page of
 #'   [oe_vectortranslate()].
 #' @param skip_vectortranslate Boolean. If `TRUE`, then the function skips all
 #'   vectortranslate operations and it reads (or simply returns the path) of the
