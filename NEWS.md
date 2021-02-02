@@ -1,4 +1,4 @@
-osmextract 0.2.0 - in development 
+osmextract 0.2.0 - 2021-02-02 
 =========================
 
 ### NEW FEATURES
