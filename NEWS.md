@@ -10,6 +10,7 @@ osmextract 0.2.0 - in development
 ### MINOR IMPROVEMENTS
 
 * Normalise the paths managed by `oe_download_directory` and `oe_download` (#150 and #161) 
+* `oe_get_keys` returns an informative error when there is no other_tags field in the input file (#158)
 
 ### BUG FIXES
 

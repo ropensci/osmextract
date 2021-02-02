@@ -58,3 +58,23 @@ test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
   expect_error(oe_get_keys(its_pbf)) # wrong format
 })
+
+test_that("oe_get_keys stop when there is no other_tags field", {
+  my_vectortranslate <- c(
+    "-f", "GPKG",
+    "-overwrite",
+    "-select", "highway",
+    "lines"
+  )
+  oe_get(
+    "ITS Leeds",
+    vectortranslate_options = my_vectortranslate,
+    download_directory = tempdir()
+  )
+  its <- oe_get("ITS Leeds", download_only = TRUE, download_directory = tempdir())
+  expect_error(
+    oe_get_keys(its),
+    "The input file must have an other_tags field."
+  )
+  file.remove(oe_find("ITS Leeds", provider = "test", download_directory = tempdir()))
+})

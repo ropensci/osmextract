@@ -457,6 +457,21 @@ oe_get_keys.character = function(zone, layer = "lines") {
     stop("The input file must have a .gpkg extension.", call. = FALSE)
   }
 
+  # Check that the input file contains the other_tags field
+  # See also https://github.com/ropensci/osmextract/issues/158
+  existing_fields <- colnames(
+    sf::st_read(
+      dsn = zone,
+      layer = layer,
+      query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
+      quiet = TRUE
+    )
+  )
+
+  if ("other_tags" %!in% existing_fields) {
+    stop("The input file must have an other_tags field.", call. = FALSE)
+  }
+
   # Read the gpkg file selecting only the other_tags column
   other_tags = sf::st_read(
     dsn = zone,

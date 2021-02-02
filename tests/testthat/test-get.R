@@ -39,7 +39,7 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
   file.remove(oe_find("ITS Leeds", provider = "test", download_directory = tempdir()))
 })
 
-test_that("can specify path using ~", {
+test_that("We can specify path using ~", {
   dir.create("~/test_for_tilde_in_R_osmextract")
   expect_s3_class(
     object = oe_get(
