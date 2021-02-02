@@ -97,7 +97,7 @@ plot(st_geometry(spData::world), xlim = c(-2, 10), ylim = c(35, 60))
 plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkred", add = TRUE)
 ```
 
-```{r, echo = FALSE, out.width="100%"}
+```{r, echo = FALSE, out.width="80%"}
 knitr::include_graphics(
   path = "../man/figures/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png"
 )
