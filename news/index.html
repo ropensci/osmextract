@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • osmextract</title>
+<title>Changelog • osmextract</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -60,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-authors">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -72,7 +72,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">osmextract</a>
+        <a class="navbar-link" href="../index.html">osmextract</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -80,10 +80,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="articles/osmextract.html">Get started</a>
+  <a href="../articles/osmextract.html">Get started</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -93,15 +93,15 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/providers.html">Add new OpenStreetMap providers</a>
+      <a href="../articles/providers.html">Add new OpenStreetMap providers</a>
     </li>
     <li>
-      <a href="articles/providers_comparisons.html">Comparing the supported OSM providers</a>
+      <a href="../articles/providers_comparisons.html">Comparing the supported OSM providers</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -122,38 +122,68 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/ropensci/osmextract/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Andrea Gilardi</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-9424-7439' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        </p>
-      </li>
-      <li>
-        <p><strong>Robin Lovelace</strong>. Author. <a href='https://orcid.org/0000-0001-5679-6536' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        </p>
-      </li>
-      <li>
-        <p><strong>Barry Rowlingson</strong>. Contributor. <a href='https://orcid.org/0000-0002-8586-6625' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        </p>
-      </li>
-      <li>
-        <p><strong>Salva Fernández</strong>. Reviewer. 
-        <br /><small>Salva reviewed the package (v. 0.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/395></small></p>
-      </li>
-      <li>
-        <p><strong>Nicholas Potter</strong>. Reviewer. 
-        <br /><small>Nicholas reviewed the package (v. 0.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/395></small></p>
-      </li>
-    </ul>
+    <div id="osmextract-020---in-development" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#osmextract-020---in-development" class="anchor"></a>osmextract 0.2.0 - in development</h1>
+<div id="new-features" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>NEW FEATURES</h3>
+<ul>
+<li>Add a <code>level</code> parameter to <code><a href="../reference/oe_match.html">oe_match()</a></code>. It is used to choose between multiple hierarchically nested OSM extracts. The default behaviour is to select the smallest administrative unit. (<a href='https://github.com/ropensci/osmextract/issues/160'>#160</a>)</li>
+<li>Modify the behaviour of <code><a href="../reference/oe_match.html">oe_match()</a></code>. The function checks all implemented providers in case the input <code>place</code> is not matched with any geographical zone for the chosen provider.</li>
+<li>Add a simple interface to Nominatim API that enables <code><a href="../reference/oe_match.html">oe_match()</a></code> to geolocate text strings that cannot be found in the providers.</li>
+</ul>
+</div>
+<div id="minor-improvements" class="section level3">
+<h3 class="hasAnchor">
+<a href="#minor-improvements" class="anchor"></a>MINOR IMPROVEMENTS</h3>
+<ul>
+<li>Normalise the paths managed by <code>oe_download_directory</code> and <code>oe_download</code> (<a href='https://github.com/ropensci/osmextract/issues/150'>#150</a> and <a href='https://github.com/ropensci/osmextract/issues/161'>#161</a>)</li>
+<li>
+<code>oe_get_keys</code> returns an informative error when there is no other_tags field in the input file (<a href='https://github.com/ropensci/osmextract/issues/158'>#158</a>)</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h3>
+<ul>
+<li>Fix the structure of <code>geofabrik_zones</code> object (<a href='https://github.com/ropensci/osmextract/issues/167'>#167</a>)</li>
+<li>Fix warning messages related to … in <code><a href="../reference/oe_get.html">oe_get()</a></code> (<a href='https://github.com/ropensci/osmextract/issues/152'>#152</a>)</li>
+</ul>
+</div>
+<div id="documentation-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#documentation-fixes" class="anchor"></a>DOCUMENTATION FIXES</h3>
+<ul>
+<li>Simplify several warning messages in case of spatial matching</li>
+<li>Simplify startup message (<a href='https://github.com/ropensci/osmextract/issues/156'>#156</a>)</li>
+<li>Add more details related to download timeouts (<a href='https://github.com/ropensci/osmextract/issues/145'>#145</a>)</li>
+</ul>
+</div>
+</div>
+    <div id="osmextract-010" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.0">
+<a href="#osmextract-010" class="anchor"></a>osmextract 0.1.0</h1>
+<ul>
+<li>Finish development of the main functions</li>
+<li>Submit to rOpenSci for peer-review</li>
+</ul>
+</div>
+  </div>
 
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
-
 
 
       <footer>
