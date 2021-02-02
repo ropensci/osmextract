@@ -68,7 +68,9 @@ par(mar = rep(0.1, 4))
 plot(sf::st_geometry(cycleways_england))
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%" />
+```{r, echo = FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("man/figures/89990770-22bf2480-dc83-11ea-9092-764594534959.png")
+```
 
 The package is designed to complement `osmdata`, which has advantages over `osmextract` for small datasets: `osmdata` is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an intuitive interface. 
 `osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects.

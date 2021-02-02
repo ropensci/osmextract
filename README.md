@@ -73,7 +73,7 @@ par(mar = rep(0.1, 4))
 plot(sf::st_geometry(cycleways_england))
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="100%" />
+<img src="man/figures/89990770-22bf2480-dc83-11ea-9092-764594534959.png" width="80%" style="display: block; margin: auto;" />
 
 The package is designed to complement `osmdata`, which has advantages
 over `osmextract` for small datasets: `osmdata` is likely to be quicker

@@ -729,7 +729,9 @@ plot(st_boundary(la_valletta), add = TRUE, lwd = 2)
 plot(st_geometry(malta_small), add = TRUE, col = "darkred", lwd = 2)
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/104240598-9d6fb400-545c-11eb-93b5-3563908ff4af.png" width="90%"/>
+```{r, echo=FALSE, out.width="80%", fig.align="center"}
+knitr::include_graphics("../man/figures/104240598-9d6fb400-545c-11eb-93b5-3563908ff4af.png")
+```
 
 The process takes approximately 5 seconds, while the equivalent R code, reported below, is slower: 
 
@@ -756,7 +758,9 @@ plot(st_boundary(la_valletta), add = TRUE, lwd = 2)
 plot(st_geometry(malta_crop), add = TRUE, col = "darkred", lwd = 2)
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/104241581-32bf7800-545e-11eb-896b-3f535dd1af5e.png" width="90%"/>
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+knitr::include_graphics("../man/figures/104241581-32bf7800-545e-11eb-896b-3f535dd1af5e.png")
+```
 
 ### `query` and `wkt_filter` arguments
 
@@ -789,7 +793,9 @@ plot(st_boundary(la_valletta) %>% st_transform(4326), add = TRUE, lwd = 2)
 plot(st_geometry(malta_small), col = "darkred", add = TRUE, lwd = 2)
 ```
 
-<img src="https://user-images.githubusercontent.com/22221146/104243054-4966ce80-5460-11eb-951b-ca1ce9d09f33.png" width="90%"/>
+```{r, echo = FALSE, fig.align="center", out.width="80%"}
+knitr::include_graphics("../man/figures/104243054-4966ce80-5460-11eb-951b-ca1ce9d09f33.png")
+```
 
 This approach has its pros and cons. 
 First of all, it’s slightly slower than the GDAL routines, mainly because several unnecessary features are being converted to the `.gpkg` format. 
