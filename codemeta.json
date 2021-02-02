@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/osmextract",
   "issueTracker": "https://github.com/ropensci/osmextract/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -133,7 +133,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "2315.057KB",
+  "fileSize": "2437.428KB",
   "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
   "review": {
     "@type": "Review",
@@ -150,5 +150,6 @@
     "geo"
   ],
   "developmentStatus": "https://www.repostatus.org/#active",
-  "relatedLink": "https://docs.ropensci.org/osmextract"
+  "relatedLink": ["https://docs.ropensci.org/osmextract", "https://docs.ropensci.org/osmextract/"],
+  "releaseNotes": "https://github.com/ropensci/osmextract/blob/master/NEWS.md"
 }
