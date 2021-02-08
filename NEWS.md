@@ -22,6 +22,7 @@ osmextract 0.2.0 - 2021-02-02
 * Simplify several warning messages in case of spatial matching
 * Simplify startup message (#156)
 * Add more details related to download timeouts (#145)
+* Documented values returned by `oe_find()` and `oe_search()`
 
 osmextract 0.1.0
 =========================

@@ -27,7 +27,7 @@
 #' @inheritParams oe_get
 #'
 #' @return A character vector of length one (or two) representing the path(s) of the
-#'   correponding `.pbf` (and `.gpkg`) files.
+#'   corresponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
 #' res = oe_get("ITS Leeds", provider = "test")

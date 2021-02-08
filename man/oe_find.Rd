@@ -37,7 +37,7 @@ Please note that you cannot modify the argument \code{download_only}.}
 }
 \value{
 A character vector of length one (or two) representing the path(s) of the
-correponding \code{.pbf} (and \code{.gpkg}) files.
+corresponding \code{.pbf} (and \code{.gpkg}) files.
 }
 \description{
 This function takes a \code{place} name and it returns the path of \code{.pbf} and

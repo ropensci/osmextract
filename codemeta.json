@@ -133,7 +133,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "2437.428KB",
+  "fileSize": "2438.961KB",
   "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
   "review": {
     "@type": "Review",
@@ -150,6 +150,9 @@
     "geo"
   ],
   "developmentStatus": "https://www.repostatus.org/#active",
-  "relatedLink": ["https://docs.ropensci.org/osmextract", "https://docs.ropensci.org/osmextract/"],
+  "relatedLink": [
+    "https://docs.ropensci.org/osmextract",
+    "https://docs.ropensci.org/osmextract/"
+  ],
   "releaseNotes": "https://github.com/ropensci/osmextract/blob/master/NEWS.md"
 }
