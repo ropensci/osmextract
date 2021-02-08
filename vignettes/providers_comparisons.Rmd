@@ -14,6 +14,9 @@ knitr::opts_chunk$set(
   comment = "#>", 
   fig.align = "center"
 )
+
+# save user's pars
+user_par <- par(no.readonly = TRUE)
 ```
 
 This vignette presents a simple comparison between the OSM providers supported by `osmextract`, explaining their pros and cons. 
@@ -143,6 +146,9 @@ knitr::include_graphics(
 )
 ```
 
-
 `bbbike` provider is the safest choice if you are looking for OSM data relative to a particular city in the world.
+
+```{r, include=FALSE}
+par(user_par)
+```
 

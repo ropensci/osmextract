@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = "")
+
+# save user's options and pars
+user_options <- options()
+user_par <- par(no.readonly = TRUE)
+
+# set new options
 options(width = 100)
 ```
 
@@ -847,3 +853,8 @@ Once logged-in, you can contribute by using editors such as the excellent ID edi
 
 To learn more about contributing to the amazing OSM community, we recommend checking out the [OSM Beginners Guide](https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3).
 
+```{r, include=FALSE}
+# reset par and options
+options(user_options)
+par(user_par)
+```
