@@ -4,6 +4,10 @@
 #' [nominatim](https://nominatim.openstreetmap.org) service for finding the
 #' geographical location of place names.
 #'
+#' @return An `sf` object corresponding to the input place. The `sf` object is
+#'   read by `sf::st_read()` and it is based on a `geojson` file returned by
+#'   Nominatim API.
+#'
 #' @param place Text string containing the name of a place the location of
 #'   which is to be found, such as `"Leeds"` or `"Milan"`.
 #' @param base_url The URL of the nominatim server to use. The main

@@ -26,6 +26,8 @@
 #'   Please note that you cannot modify the argument `download_only`.
 #' @inheritParams oe_get
 #'
+#' @return A character vector of length one (or two) representing the path(s) of the
+#'   correponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
 #' res = oe_get("ITS Leeds", provider = "test")
@@ -86,13 +88,15 @@ oe_find = function(
       download_only = TRUE,
       ...
     )
-    return(oe_find(
-      place,
-      provider = provider,
-      download_directory = download_directory,
-      download_if_missing = FALSE,
-      ...
-    ))
+    return(
+      oe_find(
+        place,
+        provider = provider,
+        download_directory = download_directory,
+        download_if_missing = FALSE,
+        ...
+      )
+    )
   }
 
   stop(

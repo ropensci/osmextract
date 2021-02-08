@@ -23,6 +23,11 @@ of the search query, a \code{.geojson} file, should be saved.}
 
 \item{...}{Extra arguments that are passed to \code{sf::st_read}.}
 }
+\value{
+An \code{sf} object corresponding to the input place. The \code{sf} object is
+read by \code{sf::st_read()} and it is based on a \code{geojson} file returned by
+Nominatim API.
+}
 \description{
 This (at the moment internal) function provides a simple interface to the
 \href{https://nominatim.openstreetmap.org}{nominatim} service for finding the
