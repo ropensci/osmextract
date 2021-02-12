@@ -1,5 +1,7 @@
-osmextract 0.2.0 - 2021-02-02 
+# osmextract 0.2.0 - 2021-02-12 
 =========================
+
+Published on CRAN! 
 
 ### NEW FEATURES
 
@@ -24,7 +26,7 @@ osmextract 0.2.0 - 2021-02-02
 * Add more details related to download timeouts (#145)
 * Documented values returned by `oe_find()` and `oe_search()`
 
-osmextract 0.1.0
+# osmextract 0.1.0
 =========================
 
 * Finish development of the main functions
