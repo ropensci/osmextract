@@ -1,5 +1,11 @@
 test_that("oe_read: simplest examples work", {
-  f = system.file("its-example.osm.pbf", package = "osmextract")
+  # Copy its-example.osm.pbf to tempdir(). See also
+  # https://github.com/ropensci/osmextract/issues/175
+  file.copy(
+    system.file("its-example.osm.pbf", package = "osmextract"),
+    file.path(tempdir(), "its-example.osm.pbf")
+  )
+  f = file.path(tempdir(), "its-example.osm.pbf")
   osm_data = oe_read(f, quiet = TRUE)
   # result is sf object:
   expect_s3_class(object = osm_data, class = "sf")
@@ -14,10 +20,10 @@ test_that("oe_read: simplest examples work", {
     "POINT"
   )
 
-  f_gpkg = system.file("its-example.gpkg", package = "osmextract")
-  if (f_gpkg != "") {
-    file.remove(f_gpkg)
-  }
+  # Remove its-example from tempdir()
+  file.remove(
+    list.files(tempdir(), pattern = "its-example", full.names = TRUE)
+  )
 })
 
 test_that("or_read: simplest example with a URL works", {
@@ -61,7 +67,13 @@ test_that("oe_read fails with a clear error message with wrong URL of file path"
 })
 
 test_that("oe_read fails with misspelled arguments", {
-  f = system.file("its-example.osm.pbf", package = "osmextract")
+  # Copy its-example.osm.pbf to tempdir(). See also
+  # https://github.com/ropensci/osmextract/issues/175
+  file.copy(
+    system.file("its-example.osm.pbf", package = "osmextract"),
+    file.path(tempdir(), "its-example.osm.pbf")
+  )
+  f = file.path(tempdir(), "its-example.osm.pbf")
   expect_error(
     oe_read(
       f,
@@ -72,7 +84,9 @@ test_that("oe_read fails with misspelled arguments", {
   )
 
   # Remove the .gpkg file from the inst/ directory
-  file.remove(oe_read(f, download_only = TRUE))
+  file.remove(
+    list.files(tempdir(), pattern = "its-example", full.names = TRUE)
+  )
 })
 
 test_that("oe_read returns a warning message when query != layer", {

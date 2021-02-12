@@ -125,15 +125,20 @@ configuration), but you can extract some of the tags in \code{other_tags} field.
 Check examples and \code{\link[=oe_get_keys]{oe_get_keys()}} for more details.
 }
 \examples{
-# Read an existing .pbf file
-my_pbf = system.file("its-example.osm.pbf", package = "osmextract")
+# Read an existing .pbf file. First we need to copy a .pbf file into a
+# temporary directory
+file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"),
+  to = file.path(tempdir(), "its-example.osm.pbf")
+)
+my_pbf = file.path(tempdir(), "its-example.osm.pbf")
 oe_read(my_pbf)
 oe_read(my_pbf, layer = "points") # Read a new layer
 # The following example shows how to add new tags
-oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE)
+names(oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE))
 
 # Read an existing .gpkg file. This file was created by oe_read
-my_gpkg = system.file("its-example.gpkg", package = "osmextract")
+my_gpkg = file.path(tempdir(), "its-example.gpkg")
 oe_read(my_gpkg)
 # You cannot add any layer to an existing .gpkg file but you can extract some
 # of the tags in other_tags. Check oe_get_keys() for more details.
@@ -148,8 +153,6 @@ names(oe_read(
   FROM lines
   "
 ))
-# Delete the .gpkg file not to mess with other examples
-file.remove(my_gpkg)
 
 # Read from a URL
 my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
