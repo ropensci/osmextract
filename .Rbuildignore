@@ -9,3 +9,4 @@
 ^codecov\.yml$
 ^codemeta\.json$
 ^CRAN-RELEASE$
+my-check-for-cran.R

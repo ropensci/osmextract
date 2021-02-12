@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 inst/doc
+my-check-for-cran.R
