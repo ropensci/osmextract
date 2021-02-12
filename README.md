@@ -15,7 +15,8 @@ coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.sv
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/osmextract)](https://CRAN.R-project.org/package=osmextract)
 <!-- badges: end -->
 
 The goal of `osmextract` is to make it easier for people to access
