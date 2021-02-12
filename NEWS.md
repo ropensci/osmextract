@@ -1,7 +1,6 @@
 # osmextract (development version)
 
 # osmextract 0.2.0 - 2021-02-12 
-=========================
 
 Published on CRAN! 
 
@@ -29,7 +28,6 @@ Published on CRAN!
 * Documented values returned by `oe_find()` and `oe_search()`
 
 # osmextract 0.1.0
-=========================
 
 * Finish development of the main functions
 * Submit to rOpenSci for peer-review
