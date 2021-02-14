@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # osmextract
@@ -92,11 +91,8 @@ the popular R package for working with geographic data,
 ## Installation
 
 <!-- You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with: -->
-
 <!-- ``` r -->
-
 <!-- install.packages("osmextract") -->
-
 <!-- ``` -->
 
 You can install the development version from
@@ -129,10 +125,10 @@ The functions defined in this package may return a warning message like
 
     st_crs<- : replacing crs does not reproject data; use st_transform for that 
 
-if the user is running an old version of GDAL (\<= 3.0.0) or PROJ (\<=
-6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419) for more
-details. Nevertheless, every function should still work correctly.
-Please, raise [a new
+if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ
+(&lt;= 6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419)
+for more details. Nevertheless, every function should still work
+correctly. Please, raise [a new
 issue](https://github.com/ropensci/osmextract/issues) if you find any
 odd behaviour.
 
@@ -270,9 +266,9 @@ states that
 > Any Derivative Database that You Publicly Use must be only under the
 > terms of:
 
-  - 1.  This License;
+-   1.  This License;
 
-  - 2.  A later version of this License similar in spirit to this
+-   2.  A later version of this License similar in spirit to this
 
 See the [Introducing osmextract
 vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html)
@@ -282,23 +278,23 @@ for more details.
 
 <!-- todo: add links to other packages -->
 
-  - [osmdata](https://github.com/ropensci/osmdata) is an R package for
+-   [osmdata](https://github.com/ropensci/osmdata) is an R package for
     importing small datasets directly from OSM servers
-  - [geofabrik](https://cran.r-project.org/web/packages/geofabrik/index.html)
-    is an R package to download OSM data from
+-   [geofabrik](https://cran.r-project.org/package=geofabrik) is an R
+    package to download OSM data from
     [Geofabrik](https://download.geofabrik.de/)
-  - [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
+-   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
     package for reading .pbf files
-  - [pydriosm](https://pypi.org/project/pydriosm/) is a Python package
+-   [pydriosm](https://pypi.org/project/pydriosm/) is a Python package
     to download, read and import OSM extracts
-  - [osmium](https://pypi.org/project/osmium/) provides python bindings
+-   [osmium](https://pypi.org/project/osmium/) provides python bindings
     for the Libosmium C++ library
-  - [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
+-   [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
     a Julia package for reading and analysing .osm files
-  - [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
+-   [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
     is an established spatial database that works well with large OSM
     datasets
-  - Any others? Let us know\!
+-   Any others? Let us know!
 
 ## Contribution
 
@@ -318,5 +314,4 @@ Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
 <!-- :) -->
-
 <!-- :) -->

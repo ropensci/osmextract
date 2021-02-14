@@ -226,7 +226,7 @@ See the [Introducing osmextract vignette](https://docs.ropensci.org/osmextract/a
 
 <!-- todo: add links to other packages -->
 - [osmdata](https://github.com/ropensci/osmdata) is an R package for importing small datasets directly from OSM servers
-- [geofabrik](https://cran.r-project.org/web/packages/geofabrik/index.html) is an R package to download OSM data from [Geofabrik](https://download.geofabrik.de/)
+- [geofabrik](https://cran.r-project.org/package=geofabrik) is an R package to download OSM data from [Geofabrik](https://download.geofabrik.de/)
 - [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python package for reading .pbf files
 - [pydriosm](https://pypi.org/project/pydriosm/) is a Python package to download, read and import OSM extracts
 - [osmium](https://pypi.org/project/osmium/) provides python bindings for the Libosmium C++ library
