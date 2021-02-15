@@ -1,8 +1,10 @@
 ## Release summary
 
 This is a minor release. We modified several examples and tests to fix the
-errors reported by CRAN checks a few days ago: 
+errors reported by CRAN checks a few days ago:
 https://cran.rstudio.org/web/checks/check_results_osmextract.html
+
+Tests and examples write only in the R sessions's temporary directory.
 
 ## Test environments
 - local Windows install, R 3.6.3
