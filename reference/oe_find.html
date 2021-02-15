@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">osmextract</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -168,7 +168,7 @@ code is 4326 specified as c(LON, LAT), while you can use any CRS with an
 providers can be found with the following command: <code><a href='oe_providers.html'>oe_providers()</a></code>. For
 <code><a href='oe_get.html'>oe_get()</a></code> and <code><a href='oe_match.html'>oe_match()</a></code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
 <code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
-internal testings.</p></td>
+internal tests.</p></td>
     </tr>
     <tr>
       <th>download_directory</th>
@@ -209,14 +209,14 @@ an error.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>res</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpWdfDnn/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8vjAQF/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 9 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'>oe_find</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpWdfDnn/test_its-example.gpkg"   
-#&gt; [2] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpWdfDnn/test_its-example.osm.pbf"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8vjAQF/test_its-example.gpkg"   
+#&gt; [2] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp8vjAQF/test_its-example.osm.pbf"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>oe_find</span><span class='op'>(</span><span class='st'>"Isle of Wight"</span><span class='op'>)</span>
 <span class='fu'>oe_find</span><span class='op'>(</span><span class='st'>"Isle of Wight"</span>, download_if_missing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'>oe_find</span><span class='op'>(</span><span class='st'>"Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span>, download_if_missing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>}</span>

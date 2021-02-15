@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">osmextract</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -134,23 +134,27 @@
       <small>Source: <a href='https://github.com/ropensci/osmextract/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="osmextract-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#osmextract-development-version" class="anchor"></a>osmextract (development version)<small> Unreleased </small>
+    <div id="osmextract-021" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#osmextract-021" class="anchor"></a>osmextract 0.2.1<small> Unreleased </small>
 </h1>
+<p>This is a minor release.</p>
+<ul>
+<li>We modified several examples and tests to fix several errors noticed during CRAN tests (<a href='https://github.com/ropensci/osmextract/issues/175'>#175</a>).</li>
+</ul>
 </div>
-    <div id="osmextract-020---2021-02-12" class="section level1">
+    <div id="osmextract-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
-<a href="#osmextract-020---2021-02-12" class="anchor"></a>osmextract 0.2.0 - 2021-02-12<small> 2021-02-11 </small>
+<a href="#osmextract-020" class="anchor"></a>osmextract 0.2.0<small> 2021-02-11 </small>
 </h1>
 <p>Published on CRAN!</p>
 <div id="new-features" class="section level3">
 <h3 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>NEW FEATURES</h3>
 <ul>
-<li>Add a <code>level</code> parameter to <code><a href="../reference/oe_match.html">oe_match()</a></code>. It is used to choose between multiple hierarchically nested OSM extracts. The default behaviour is to select the smallest administrative unit. (<a href='https://github.com/ropensci/osmextract/issues/160'>#160</a>)</li>
-<li>Modify the behaviour of <code><a href="../reference/oe_match.html">oe_match()</a></code>. The function checks all implemented providers in case the input <code>place</code> is not matched with any geographical zone for the chosen provider.</li>
-<li>Add a simple interface to Nominatim API that enables <code><a href="../reference/oe_match.html">oe_match()</a></code> to geolocate text strings that cannot be found in the providers.</li>
+<li>Add a <code>level</code> parameter to <code><a href="../reference/oe_match.html">oe_match()</a></code>. It is used to choose between multiple hierarchically nested OSM extracts. The default behaviour is to select the smallest administrative unit (<a href='https://github.com/ropensci/osmextract/issues/160'>#160</a>).</li>
+<li>Modify the behaviour of <code><a href="../reference/oe_match.html">oe_match()</a></code>. The function checks all implemented providers in case the input <code>place</code> is not matched with any geographical zone for the chosen provider (<a href='https://github.com/ropensci/osmextract/issues/155'>#155</a>).</li>
+<li>Add a simple interface to Nominatim API that enables <code><a href="../reference/oe_match.html">oe_match()</a></code> to geolocate text strings that cannot be found in the providers (<a href='https://github.com/ropensci/osmextract/issues/155'>#155</a>).</li>
 </ul>
 </div>
 <div id="minor-improvements" class="section level3">
