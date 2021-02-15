@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/osmextract",
   "issueTracker": "https://github.com/ropensci/osmextract/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -133,7 +133,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "2438.961KB",
+  "fileSize": "2440.333KB",
   "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
   "review": {
     "@type": "Review",
@@ -152,7 +152,14 @@
   "developmentStatus": "https://www.repostatus.org/#active",
   "relatedLink": [
     "https://docs.ropensci.org/osmextract",
-    "https://docs.ropensci.org/osmextract/"
+    "https://docs.ropensci.org/osmextract/",
+    "https://CRAN.R-project.org/package=osmextract"
   ],
-  "releaseNotes": "https://github.com/ropensci/osmextract/blob/master/NEWS.md"
+  "releaseNotes": "https://github.com/ropensci/osmextract/blob/master/NEWS.md",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  }
 }
