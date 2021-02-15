@@ -1,4 +1,8 @@
-# osmextract (development version)
+# osmextract 0.2.1
+
+This is a minor release. 
+
+* We modified several examples and tests to fix several errors noticed during CRAN tests. (#175) 
 
 # osmextract 0.2.0 - 2021-02-12 
 
