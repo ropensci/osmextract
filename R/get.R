@@ -21,7 +21,7 @@
 #'   providers can be found with the following command: [oe_providers()]. For
 #'   [`oe_get()`] and [`oe_match()`], if `place` is equal to `ITS Leeds`, then
 #'   `provider` is set equal to `test`. This is just for simple examples and
-#'   internal testings.
+#'   internal tests.
 #' @param match_by Which column of the provider's database should be used for
 #'   matching the input `place` with a `.osm.pbf` file? The default is `"name"`.
 #'   Check Details and Examples in [oe_match()] to understand how this parameter

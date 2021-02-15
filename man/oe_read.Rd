@@ -42,7 +42,7 @@ understand how to create your own (SQL-like) queries.}
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
 \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
-internal testings.}
+internal tests.}
 
 \item{download_directory}{Where to download the file containing the OSM data?
 By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to

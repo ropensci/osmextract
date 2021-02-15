@@ -42,7 +42,7 @@ code is 4326 specified as c(LON, LAT), while you can use any CRS with an
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
 \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
-internal testings.}
+internal tests.}
 
 \item{level}{An integer representing the desired hierarchical level in case
 of spatial matching. For the \code{geofabrik} provider, for example, \code{1}

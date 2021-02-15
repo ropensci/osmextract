@@ -48,7 +48,7 @@ understand how to create your own (SQL-like) queries.}
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
 \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
 \code{provider} is set equal to \code{test}. This is just for simple examples and
-internal testings.}
+internal tests.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is \code{"name"}.
