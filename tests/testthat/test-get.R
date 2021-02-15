@@ -40,6 +40,9 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
 })
 
 test_that("We can specify path using ~", {
+  # I think that we cannot safely add a directory on CRAN tests
+  # See also https://github.com/ropensci/osmextract/issues/175
+  skip_on_cran()
   dir.create("~/test_for_tilde_in_R_osmextract")
   expect_s3_class(
     object = oe_get(
