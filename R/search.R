@@ -1,8 +1,8 @@
 #' Search for a place and return an sf data frame locating it
 #'
-#' This (at the moment internal) function provides a simple interface to the
-#' [nominatim](https://nominatim.openstreetmap.org) service for finding the
-#' geographical location of place names.
+#' This (at the moment internal and experimental) function provides a simple
+#' interface to the [nominatim](https://nominatim.openstreetmap.org) service for
+#' finding the geographical location of place names.
 #'
 #' @return An `sf` object corresponding to the input place. The `sf` object is
 #'   read by `sf::st_read()` and it is based on a `geojson` file returned by

@@ -106,9 +106,10 @@
 #' # areas during spatial matching
 #' yak = c(-120.51084, 46.60156)
 #' \dontrun{
-#' oe_match(yak, level = 3) # error}
-#' oe_match(yak, level = 2) # by default, level is equal to the maximum value
-#' oe_match(yak, level = 1)
+#'   oe_match(yak, level = 3) # error
+#'   oe_match(yak, level = 2) # by default, level is equal to the maximum value
+#'   oe_match(yak, level = 1)
+#' }
 
 oe_match = function(place, ...) {
   UseMethod("oe_match")
@@ -444,8 +445,6 @@ oe_match.character = function(
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' oe_match("Yorkshire", quiet = FALSE)}
 #' oe_match_pattern("Yorkshire")
 #'
 #' res = oe_match_pattern("Yorkshire", full_row = TRUE)

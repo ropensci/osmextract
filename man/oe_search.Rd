@@ -29,7 +29,7 @@ read by \code{sf::st_read()} and it is based on a \code{geojson} file returned b
 Nominatim API.
 }
 \description{
-This (at the moment internal) function provides a simple interface to the
-\href{https://nominatim.openstreetmap.org}{nominatim} service for finding the
-geographical location of place names.
+This (at the moment internal and experimental) function provides a simple
+interface to the \href{https://nominatim.openstreetmap.org}{nominatim} service for
+finding the geographical location of place names.
 }

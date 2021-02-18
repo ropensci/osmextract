@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = "")
 
 # save user's options and pars
-user_options <- options()
-user_par <- par(no.readonly = TRUE)
+user_options = options()
+user_par = par(no.readonly = TRUE)
 
 # set new options
 options(width = 100)

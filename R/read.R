@@ -33,15 +33,20 @@
 #'   from = system.file("its-example.osm.pbf", package = "osmextract"),
 #'   to = file.path(tempdir(), "its-example.osm.pbf")
 #' )
+#'
 #' my_pbf = file.path(tempdir(), "its-example.osm.pbf")
 #' oe_read(my_pbf)
-#' oe_read(my_pbf, layer = "points") # Read a new layer
+#'
+#' # Read a new layer
+#' oe_read(my_pbf, layer = "points")
+#'
 #' # The following example shows how to add new tags
-#' names(oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = FALSE))
+#' names(oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
 #'
 #' # Read an existing .gpkg file. This file was created by oe_read
 #' my_gpkg = file.path(tempdir(), "its-example.gpkg")
 #' oe_read(my_gpkg)
+#'
 #' # You cannot add any layer to an existing .gpkg file but you can extract some
 #' # of the tags in other_tags. Check oe_get_keys() for more details.
 #' names(oe_read(my_gpkg, extra_tags = c("maxspeed"))) # doesn't work
@@ -63,6 +68,10 @@
 #' \dontrun{
 #' oe_read(my_url, provider = "test", quiet = FALSE)
 #' }
+#'
+#' # Remove .pbf and .gpkg files in tempdir
+#' # (since they may interact with other examples)
+#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 oe_read = function(
   file_path,
   layer = "lines",

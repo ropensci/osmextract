@@ -1,5 +1,9 @@
 # osmextract (development version)
 
+### DOCUMENTATION FIXES
+
+* Improved several examples and fixed a small bug in the documentation of `oe_match()`. 
+
 # osmextract 0.2.1
 
 This is a minor release. 

@@ -148,53 +148,58 @@ wrapper around \code{oe_download()}, \code{oe_vectortranslate()} and \code{sf::s
 performs the other three operations.
 }
 \examples{
-# Download OSM extracts associated to a simple test.
-its = oe_get("ITS Leeds", quiet = FALSE)
+# Match, download and convert OSM extracts associated to a simple test.
+its = oe_get("ITS Leeds", quiet = FALSE, download_directory = tempdir())
 class(its)
 unique(sf::st_geometry_type(its))
 
-# Get another layer from the test extract
+# Get another layer from ITS Leeds extract
 its_points = oe_get("ITS Leeds", layer = "points")
 unique(sf::st_geometry_type(its_points))
 
-# Get the .osm.pbf and .gpkg file path
-oe_get("ITS Leeds", download_only = TRUE)
-oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE)
+# Get the .osm.pbf and .gpkg files paths
+oe_get("ITS Leeds", download_only = TRUE, quiet = TRUE)
+oe_get("ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE, quiet = TRUE)
 # See also ?oe_find()
 
 # Add additional tags
-its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway", quiet = FALSE)
+its_with_oneway = oe_get("ITS Leeds", extra_tags = "oneway")
 names(its_with_oneway)
 table(its_with_oneway$oneway, useNA = "ifany")
 
 # Use the query argument to get only oneway streets:
-q = "SELECT * FROM 'lines' WHERE oneway IN ('yes')"
+q = "SELECT * FROM 'lines' WHERE oneway == 'yes'"
 its_oneway = oe_get("ITS Leeds", query = q)
-its_oneway
+its_oneway[, c(1, 3, 9)]
 
+# More complex examples
 \dontrun{
-# A more complex example
-west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
-# If you run it again, the function will not download the file
-# or convert it again
-west_yorkshire = oe_get("West Yorkshire", quiet = FALSE)
-# Match with place name
-oe_get("Milan") # Warning: the .pbf file is 400MB
-oe_get("Vatican City")
-oe_get("Zurich")
+  west_yorkshire = oe_get("West Yorkshire")
+  # If you run it again, the function will not download the file
+  # or convert it again
+  west_yorkshire = oe_get("West Yorkshire")
+  # Match with place name
+  oe_get("Milan") # Warning: the .pbf file is 400MB
+  oe_get("Vatican City") # Check all providers
+  oe_get("Zurich") # Use Nominatim API for geolocating places
 
-# Match with coordinates (any EPSG)
-milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
-# Match with numeric coordinates (EPSG = 4326)
-oe_match(c(9.1916, 45.4650), quiet = FALSE)
-# Alternative providers
-baku = oe_get(place = "Baku", provider = "bbbike", quiet = FALSE)
+  # Match with coordinates (any EPSG)
+  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+  oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
+  # Match with numeric coordinates (EPSG = 4326)
+  oe_match(c(9.1916, 45.4650), quiet = FALSE)
 
-# Other examples:
-oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
-# The following example mimics read_sf
-oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
+  # Check also alternative providers
+  baku = oe_get(place = "Baku")
+
+  # Other examples:
+  oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
+  # The following example mimics read_sf
+  oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
+
+# Remove .pbf and .gpkg files in tempdir
+# (since they may interact with other examples)
+file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 }
 \seealso{
 \code{\link[=oe_match]{oe_match()}}, \code{\link[=oe_download]{oe_download()}}, \code{\link[=oe_vectortranslate]{oe_vectortranslate()}},

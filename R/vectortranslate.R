@@ -102,27 +102,34 @@
 #'   download_directory = tempdir(),
 #'   provider = "test"
 #' )
+#'
 #' # Check that the file was downloaded
-#' list.files(tempdir(), pattern = "pbf|gpkg")
+#' list.files(tempdir(), pattern = "pbf|gpkg", full.names = TRUE)
+#'
 #' # Convert to gpkg format
 #' its_gpkg = oe_vectortranslate(its_pbf)
+#'
 #' # Now there is an extra .gpkg file
-#' list.files(tempdir(), pattern = "pbf|gpkg")
+#' list.files(tempdir(), pattern = "pbf|gpkg", full.names = TRUE)
 #'
 #' # Check the layers of the .gpkg file
 #' sf::st_layers(its_gpkg, do_count = TRUE)
+#'
 #' # Add points layer
 #' its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
 #' sf::st_layers(its_gpkg, do_count = TRUE)
 #'
-#' # Add extra tags to the lines layer. Check original fields
+#' # Add extra tags to the lines layer
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #' its_gpkg = oe_vectortranslate(
 #'   its_pbf,
 #'   extra_tags = c("oneway", "maxspeed")
 #' )
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
-#' # Check the introductory vignette for more complex examples.
+#'
+#' # Remove .pbf and .gpkg files in tempdir
+#' # (since they may interact with other examples)
+#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 oe_vectortranslate = function(
   file_path,
   layer = "lines",
@@ -412,10 +419,15 @@ get_ini_layer_defaults = function(layer) {
 #' @export
 #'
 #' @examples
-#' itsleeds_gpkg_path = oe_get("ITS Leeds", download_only = TRUE)
+#' itsleeds_gpkg_path = oe_get(
+#'   "ITS Leeds",
+#'   download_only = TRUE,
+#'   download_directory = tempdir(),
+#'   quiet = TRUE
+#' )
 #' oe_get_keys(itsleeds_gpkg_path)
 #'
-#' itsleeds = oe_get("ITS Leeds")
+#' itsleeds = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 #' oe_get_keys(itsleeds)
 #'
 #' # Add an extra key to an existing .gpkg file without vectortranslate
@@ -423,7 +435,11 @@ get_ini_layer_defaults = function(layer) {
 #'   itsleeds_gpkg_path,
 #'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
 #' ))
-oe_get_keys = function(zone, layer = "lines") {
+#'
+#' # Remove .pbf and .gpkg files in tempdir
+#' # (since they may interact with other examples)
+#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+  oe_get_keys = function(zone, layer = "lines") {
   UseMethod("oe_get_keys")
 }
 
@@ -459,7 +475,7 @@ oe_get_keys.character = function(zone, layer = "lines") {
 
   # Check that the input file contains the other_tags field
   # See also https://github.com/ropensci/osmextract/issues/158
-  existing_fields <- colnames(
+  existing_fields = colnames(
     sf::st_read(
       dsn = zone,
       layer = layer,

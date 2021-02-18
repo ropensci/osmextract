@@ -33,8 +33,6 @@ patterns. This function can be useful in combination with \code{\link[=oe_match]
 \code{\link[=oe_get]{oe_get()}} for an easy match. See Examples.
 }
 \examples{
-\dontrun{
-oe_match("Yorkshire", quiet = FALSE)}
 oe_match_pattern("Yorkshire")
 
 res = oe_match_pattern("Yorkshire", full_row = TRUE)

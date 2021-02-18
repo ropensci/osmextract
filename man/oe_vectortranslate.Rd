@@ -157,27 +157,34 @@ its_pbf = oe_download(
   download_directory = tempdir(),
   provider = "test"
 )
+
 # Check that the file was downloaded
-list.files(tempdir(), pattern = "pbf|gpkg")
+list.files(tempdir(), pattern = "pbf|gpkg", full.names = TRUE)
+
 # Convert to gpkg format
 its_gpkg = oe_vectortranslate(its_pbf)
+
 # Now there is an extra .gpkg file
-list.files(tempdir(), pattern = "pbf|gpkg")
+list.files(tempdir(), pattern = "pbf|gpkg", full.names = TRUE)
 
 # Check the layers of the .gpkg file
 sf::st_layers(its_gpkg, do_count = TRUE)
+
 # Add points layer
 its_gpkg = oe_vectortranslate(its_pbf, layer = "points")
 sf::st_layers(its_gpkg, do_count = TRUE)
 
-# Add extra tags to the lines layer. Check original fields
+# Add extra tags to the lines layer
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 its_gpkg = oe_vectortranslate(
   its_pbf,
   extra_tags = c("oneway", "maxspeed")
 )
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
-# Check the introductory vignette for more complex examples.
+
+# Remove .pbf and .gpkg files in tempdir
+# (since they may interact with other examples)
+file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 }
 \seealso{
 \code{\link[=oe_get_keys]{oe_get_keys()}}

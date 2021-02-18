@@ -30,12 +30,21 @@
 #'   corresponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
-#' res = oe_get("ITS Leeds", provider = "test")
-#' oe_find("ITS Leeds", provider = "test")
+#' res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
+#' oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
+#'
 #' \dontrun{
-#' oe_find("Isle of Wight")
-#' oe_find("Isle of Wight", download_if_missing = TRUE)
-#' oe_find("Leeds", provider = "bbbike", download_if_missing = TRUE)}
+#'   oe_find("Isle of Wight", download_directory = tempdir())
+#'   oe_find("Malta", download_if_missing = TRUE, download_directory = tempdir())
+#'   oe_find(
+#'     "Leeds",
+#'     provider = "bbbike",
+#'     download_if_missing = TRUE,
+#'     download_directory = tempdir()
+#'   )}
+#' # Remove .pbf and .gpkg files in tempdir
+#' # (since they may interact with other examples)
+#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 oe_find = function(
   place,
   provider = "geofabrik",

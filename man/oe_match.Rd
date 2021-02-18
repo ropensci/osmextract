@@ -172,9 +172,10 @@ oe_match("Milan")
 # areas during spatial matching
 yak = c(-120.51084, 46.60156)
 \dontrun{
-oe_match(yak, level = 3) # error}
-oe_match(yak, level = 2) # by default, level is equal to the maximum value
-oe_match(yak, level = 1)
+  oe_match(yak, level = 3) # error
+  oe_match(yak, level = 2) # by default, level is equal to the maximum value
+  oe_match(yak, level = 1)
+}
 }
 \seealso{
 \code{\link[=oe_providers]{oe_providers()}} and \code{\link[=oe_match_pattern]{oe_match_pattern()}}.

@@ -57,10 +57,15 @@ The definition of a generic S3 implementation started in
 \href{https://github.com/ropensci/osmextract/issues/138}{osmextract/issues/138}.
 }
 \examples{
-itsleeds_gpkg_path = oe_get("ITS Leeds", download_only = TRUE)
+itsleeds_gpkg_path = oe_get(
+  "ITS Leeds",
+  download_only = TRUE,
+  download_directory = tempdir(),
+  quiet = TRUE
+)
 oe_get_keys(itsleeds_gpkg_path)
 
-itsleeds = oe_get("ITS Leeds")
+itsleeds = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 oe_get_keys(itsleeds)
 
 # Add an extra key to an existing .gpkg file without vectortranslate
@@ -68,6 +73,10 @@ names(oe_read(
   itsleeds_gpkg_path,
   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
 ))
+
+# Remove .pbf and .gpkg files in tempdir
+# (since they may interact with other examples)
+file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 }
 \seealso{
 \code{oe_vectortranslate()} and
