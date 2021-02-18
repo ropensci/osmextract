@@ -79,13 +79,11 @@ The package is designed to complement `osmdata`, which has advantages over `osme
 
 ## Installation
 
-<!-- You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with: -->
+You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with:
 
-<!-- ``` r -->
-
-<!-- install.packages("osmextract") -->
-
-<!-- ``` -->
+``` r
+install.packages("osmextract")
+```
 
 You can install the development version from [GitHub](https://github.com/) with:
 
