@@ -120,28 +120,27 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<!-- You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with: -->
-<!-- ``` r -->
-<!-- install.packages("osmextract") -->
-<!-- ``` -->
-<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the released version of osmextract from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"osmextract"</span><span class="op">)</span></code></pre></div>
+<p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ropensci/osmextract"</span><span class="op">)</span></code></pre></div>
 <p>Load the package with:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/" class="external-link">osmextract</a></span><span class="op">)</span>
 <span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
 <span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></code></pre></div>
 <p>To use alongside functionality in the <code>sf</code> package, we also recommend attaching this geographic data package as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span>
 <span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</span></code></pre></div>
 <div id="warnings" class="section level3">
 <h3 class="hasAnchor">
 <a href="#warnings" class="anchor"></a>Warnings:</h3>
 <p>The functions defined in this package may return a warning message like</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>st_crs&lt;-<span class="st"> </span><span class="er">:</span><span class="st"> </span>replacing crs does not reproject data; use st_transform <span class="cf">for</span> that </span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>st_crs&lt;-<span class="st"> </span><span class="er">:</span><span class="st"> </span>replacing crs does not reproject data; use st_transform <span class="cf">for</span> that </span></code></pre></div>
 <p>if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ (&lt;= 6.0.0). See <a href="https://github.com/r-spatial/sf/issues/1419" class="external-link">here</a> for more details. Nevertheless, every function should still work correctly. Please, raise <a href="https://github.com/ropensci/osmextract/issues" class="external-link">a new issue</a> if you find any odd behaviour.</p>
 </div>
 </div>
@@ -149,7 +148,7 @@
 <h2 class="hasAnchor">
 <a href="#basic-usage" class="anchor"></a>Basic usage</h2>
 <p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (<a href="https://www.geofabrik.de/data/download.html" class="external-link">Geofabrik</a> by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the <code>lines</code> layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span>
@@ -161,24 +160,24 @@
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">osm_points</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50.5</span>, <span class="fl">50.8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-points-lines-iow-1.png" width="50%"><img src="reference/figures/README-points-lines-iow-2.png" width="50%"></p>
 <p>The figures above give an insight into the volume and richness of data contained in OSM extracts. Even for a small island such as the Isle of Wight, it contains over 100k features including ferry routes, shops and roads. The column names in the <code>osm_lines</code> object are as follows:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span> <span class="co"># default variable names</span>
 <span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="co">#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"</span></code></pre></div>
 <p>Once imported, you can use all functions for data frames in base R and other packages. You can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major, secondary and residential roads, for example:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ht</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"secondary"</span>, <span class="st">"tertiary"</span>, <span class="st">"unclassified"</span><span class="op">)</span> <span class="co"># highway types of interest</span>
 <span class="va">osm_major_roads</span> <span class="op">=</span> <span class="va">osm_lines</span><span class="op">[</span><span class="va">osm_lines</span><span class="op">$</span><span class="va">highway</span> <span class="op">%in%</span> <span class="va">ht</span>, <span class="op">]</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">osm_major_roads</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
 <p>The same steps can be used to get other OSM datasets (examples not run):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">malta</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Malta"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">andorra</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Andorra"</span>, extra_tags <span class="op">=</span> <span class="st">"ref"</span><span class="op">)</span>
 <span class="va">leeds</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Leeds"</span><span class="op">)</span>
 <span class="va">goa</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Goa"</span>, query <span class="op">=</span> <span class="st">"SELECT highway, geometry FROM 'lines'"</span><span class="op">)</span></code></pre></div>
 <p>If the input place does not match any of the existing names in the supported providers, then <code><a href="reference/oe_get.html">oe_get()</a></code> will try to geocode it via <a href="https://nominatim.org/release-docs/develop/api/Overview/" class="external-link">Nominatim API</a>, and it will select the smallest OSM extract intersecting the area. For example (not run):</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Milan"</span><span class="op">)</span> <span class="co"># Warning: It will download more than 400MB of data</span>
 <span class="co">#&gt; No exact match found for place = Milan and provider = geofabrik. Best match is Iran.</span>
 <span class="co">#&gt; Checking the other providers.</span>
@@ -190,12 +189,12 @@
 <h2 class="hasAnchor">
 <a href="#persistent-download-directory" class="anchor"></a>Persistent download directory</h2>
 <p>The default behaviour of <code><a href="reference/oe_get.html">oe_get()</a></code> is to save all the files in a temporary directory, which is erased every time you restart your R session. If you want to set a directory that will persist, you can add <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span>
 <span class="co"># Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files</span></code></pre></div>
 <p>We strongly advise you setting a persistent directory since working with <code>.pbf</code> files is an expensive operation, that is skipped by <code>oe_*()</code> functions if they detect that the input <code>.pbf</code> file was already downloaded.</p>
 <p>You can always check the default <code>download_directory</code> used by <code><a href="reference/oe_get.html">oe_get()</a></code> with:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="troubleshooting" class="section level2">
