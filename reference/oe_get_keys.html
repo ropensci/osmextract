@@ -203,54 +203,58 @@ vignette and see examples.</p>
 <a href='https://github.com/ropensci/osmextract/issues/107'>osmextract/issues/107</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>itsleeds_gpkg_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='input'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_gpkg_path</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>itsleeds_gpkg_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span>
+  <span class='st'>"ITS Leeds"</span>,
+  download_only <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
+  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_gpkg_path</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
-#&gt;  [4] "access"              "lanes"               "lit"                
-#&gt;  [7] "maxspeed"            "ref"                 "turn:lanes"         
-#&gt; [10] "service"             "surface"             "motor_vehicle"      
-#&gt; [13] "source:name"         "lanes:psv"           "lanes:backward"     
-#&gt; [16] "lanes:forward"       "lanes:psv:backward"  "turn:lanes:forward" 
-#&gt; [19] "covered"             "layer"               "lcn"                
-#&gt; [22] "natural"             "step_count"          "frequency"          
-#&gt; [25] "operator"            "power"               "source:geometry"    
-#&gt; [28] "substation"          "voltage"             "tunnel"             
-#&gt; [31] "indoor"              "level"               "maxheight"          
-#&gt; [34] "incline"             "bridge"              "alt_name"           
-#&gt; [37] "turn:lanes:backward"</div><div class='input'>
-<span class='va'>itsleeds</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpyvkB7Q/test_its-example.gpkg' using driver `GPKG'
-#&gt; Simple feature collection with 189 features and 10 fields
-#&gt; geometry type:  LINESTRING
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; geographic CRS: WGS 84</div><div class='input'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds</span><span class='op'>)</span>
+#&gt;  [4] "access"              "lanes"               "oneway"             
+#&gt;  [7] "lit"                 "maxspeed"            "ref"                
+#&gt; [10] "turn:lanes"          "service"             "surface"            
+#&gt; [13] "motor_vehicle"       "source:name"         "lanes:psv"          
+#&gt; [16] "lanes:backward"      "lanes:forward"       "lanes:psv:backward" 
+#&gt; [19] "turn:lanes:forward"  "covered"             "layer"              
+#&gt; [22] "lcn"                 "natural"             "step_count"         
+#&gt; [25] "frequency"           "operator"            "power"              
+#&gt; [28] "source:geometry"     "substation"          "voltage"            
+#&gt; [31] "tunnel"              "indoor"              "level"              
+#&gt; [34] "maxheight"           "incline"             "bridge"             
+#&gt; [37] "alt_name"            "turn:lanes:backward"</div><div class='input'>
+<span class='va'>itsleeds</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span>, download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
-#&gt;  [4] "access"              "lanes"               "lit"                
-#&gt;  [7] "maxspeed"            "ref"                 "turn:lanes"         
-#&gt; [10] "service"             "surface"             "motor_vehicle"      
-#&gt; [13] "source:name"         "lanes:psv"           "lanes:backward"     
-#&gt; [16] "lanes:forward"       "lanes:psv:backward"  "turn:lanes:forward" 
-#&gt; [19] "covered"             "layer"               "lcn"                
-#&gt; [22] "natural"             "step_count"          "frequency"          
-#&gt; [25] "operator"            "power"               "source:geometry"    
-#&gt; [28] "substation"          "voltage"             "tunnel"             
-#&gt; [31] "indoor"              "level"               "maxheight"          
-#&gt; [34] "incline"             "bridge"              "alt_name"           
-#&gt; [37] "turn:lanes:backward"</div><div class='input'>
+#&gt;  [4] "access"              "lanes"               "oneway"             
+#&gt;  [7] "lit"                 "maxspeed"            "ref"                
+#&gt; [10] "turn:lanes"          "service"             "surface"            
+#&gt; [13] "motor_vehicle"       "source:name"         "lanes:psv"          
+#&gt; [16] "lanes:backward"      "lanes:forward"       "lanes:psv:backward" 
+#&gt; [19] "turn:lanes:forward"  "covered"             "layer"              
+#&gt; [22] "lcn"                 "natural"             "step_count"         
+#&gt; [25] "frequency"           "operator"            "power"              
+#&gt; [28] "source:geometry"     "substation"          "voltage"            
+#&gt; [31] "tunnel"              "indoor"              "level"              
+#&gt; [34] "maxheight"           "incline"             "bridge"             
+#&gt; [37] "alt_name"            "turn:lanes:backward"</div><div class='input'>
 <span class='co'># Add an extra key to an existing .gpkg file without vectortranslate</span>
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span>
   <span class='va'>itsleeds_gpkg_path</span>,
   query <span class='op'>=</span> <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpyvkB7Q/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpHJZSXW/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #&gt; geographic CRS: WGS 84</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"
-#&gt; [11] "geometry"  </div></pre>
+#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    
+#&gt; [11] "geometry"  </div><div class='input'>
+<span class='co'># Remove .pbf and .gpkg files in tempdir</span>
+<span class='co'># (since they may interact with other examples)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"(pbf|gpkg)"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
