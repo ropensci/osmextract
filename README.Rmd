@@ -79,13 +79,13 @@ The package is designed to complement `osmdata`, which has advantages over `osme
 
 ## Installation
 
-You can install the released version of osmextract from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of `osmextract` from [CRAN](https://cran.r-project.org/package=osmextract) with:
 
 ``` r
 install.packages("osmextract")
 ```
 
-You can install the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/ropensci/osmextract) with:
 
 ``` r
 # install.packages("remotes")
@@ -202,6 +202,9 @@ oe_download_directory()
 Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`. 
 If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value. 
 This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script.
+
+If you need to update an existing `.pbf` file or replace an incomplete extract, you can use the argument `force_download`. 
+Check `?oe_get` and `?oe_download` for more details. 
 
 ## Next steps
 

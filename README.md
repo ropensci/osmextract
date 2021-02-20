@@ -91,15 +91,15 @@ the popular R package for working with geographic data,
 
 ## Installation
 
-You can install the released version of osmextract from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of `osmextract` from
+[CRAN](https://cran.r-project.org/package=osmextract) with:
 
 ``` r
 install.packages("osmextract")
 ```
 
 You can install the development version from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/ropensci/osmextract) with:
 
 ``` r
 # install.packages("remotes")
@@ -246,6 +246,10 @@ before calling `oe_get()`, you can adjust the timeout using
 affects all calls to
 [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file),
 so you may need to reset it for the rest of your script.
+
+If you need to update an existing `.pbf` file or replace an incomplete
+extract, you can use the argument `force_download`. Check `?oe_get` and
+`?oe_download` for more details.
 
 ## Next steps
 
