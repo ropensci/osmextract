@@ -748,6 +748,8 @@ system.time({
     st_transform(32633) %>% 
     st_crop(la_valletta)
 })
+# user  system elapsed 
+# 4.61    1.67    7.69
 ```
 
 The time difference gets more and more relevant for larger OSM extracts. 
