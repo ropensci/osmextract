@@ -595,7 +595,7 @@ my_vectortranslate = c(
 )
 ```
 
-and then we can process the file: : 
+and then we can process the file: 
 
 ```{r}
 its_leeds = oe_get("ITS Leeds", vectortranslate_options = my_vectortranslate, quiet = FALSE)
@@ -814,10 +814,10 @@ Last but not least, we can use the function `hstore_get_value` to extract one of
 
 ```{r}
 # No extra tag
-colnames(oe_get("ITS Leeds"))
+colnames(oe_get("ITS Leeds", quiet = TRUE))
 
 # One extra tag
-oe_get_keys(oe_get("ITS Leeds", provider = "test", download_only = TRUE))
+oe_get_keys(oe_get("ITS Leeds", provider = "test", download_only = TRUE, quiet = TRUE))
 colnames(oe_get(
   "ITS Leeds", 
   provider = "test", 
