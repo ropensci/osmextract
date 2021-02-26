@@ -10,3 +10,4 @@
 ^codemeta\.json$
 ^CRAN-RELEASE$
 my-rhub-commands.R
+pkgdown/
