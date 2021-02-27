@@ -3,7 +3,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# osmextract <a href='https://docs.ropensci.org/osmextract/'><img src='man/figures/logo.svg' align="right" height=215/></a>
+# osmextract <a href='https://docs.ropensci.org/osmextract/'><img src='man/figures/logo.svg' align="right" height=275/></a>
 
 <!-- badges: start -->
 
