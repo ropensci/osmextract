@@ -8,6 +8,13 @@
 
 <title>Return all keys stored in "other_tags" column — oe_get_keys • osmextract</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 <meta property="og:description" content="This function is used to return the names of all keys that are stored in
 &quot;other_tags&quot; column since they were not explicitly included in the file. See
 Details." />
+<meta property="og:image" content="/logo.svg" />
 
 
 
@@ -243,7 +251,7 @@ vignette and see examples.</p>
   <span class='va'>itsleeds_gpkg_path</span>,
   query <span class='op'>=</span> <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpMOKUcP/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDJqee3/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY
