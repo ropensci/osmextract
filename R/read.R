@@ -168,10 +168,13 @@ oe_read = function(
   ) {
     warning(
       "The following arguments are probably misspelled: ",
-      setdiff(
+      paste(setdiff(
         names(list(...)),
-        names(formals(get("st_read.character", envir = getNamespace("sf"))))
-      ),
+        union(
+          names(formals(get("st_read.character", envir = getNamespace("sf")))),
+          names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
+        )
+      ), collapse = " - "),
       call. = FALSE,
       immediate. = TRUE
     )
