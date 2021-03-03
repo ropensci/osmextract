@@ -134,7 +134,7 @@ oe_read = function(
     if (layer_clean[[1]] != layer) {
       warning(
         "The query selected a layer which is different from layer argument. ",
-        "We will ignore the layer argument.",
+        "We will replace the layer argument.",
         call. = FALSE,
         immediate. = TRUE
       )
