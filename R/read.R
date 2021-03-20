@@ -250,7 +250,7 @@ oe_read = function(
   }
 
   # See https://github.com/ropensci/osmextract/issues/144. The vectortranslate
-  # operation should never be skipped if the user is going to download a new
+  # operation should never be skipped if the user forced the download of a new
   # .osm.pbf file.
   if (isTRUE(force_download)) {
     never_skip_vectortranslate = TRUE
