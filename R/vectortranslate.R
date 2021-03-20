@@ -187,7 +187,7 @@ oe_vectortranslate = function(
   }
 
   # Check if an existing .gpkg file contains the selected layer
-  if (file.exists(gpkg_file_path)) {
+  if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
     if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
       # Try to add the new layer from the .osm.pbf file to the .gpkg file
       if (isFALSE(quiet)) {
