@@ -146,11 +146,26 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#osmextract-development-version" class="anchor"></a>osmextract (development version)<small> Unreleased </small>
 </h1>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h3>
+<ul>
+<li>The parameter <code>force_vectortranslate</code> is tested before reading the layers of an existing <code>gpkg</code> file. If <code>force_vectortranslate</code> is <code>TRUE</code>, then <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> doesn’t check the existing layers. This is important for user that run <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> after stopping the vectortranslate process.</li>
+</ul>
+</div>
+<div id="minor-improvements" class="section level3">
+<h3 class="hasAnchor">
+<a href="#minor-improvements" class="anchor"></a>MINOR IMPROVEMENTS</h3>
+<ul>
+<li>The arguments passed to <code><a href="../reference/oe_read.html">oe_read()</a></code> via <code>...</code> are compared to the formals of <code>st_read.character</code> and <code>st_as_sf.data.frame</code>.</li>
+</ul>
+</div>
 <div id="documentation-fixes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#documentation-fixes" class="anchor"></a>DOCUMENTATION FIXES</h3>
 <ul>
 <li>Improved several examples and fixed a small bug in the documentation of <code><a href="../reference/oe_match.html">oe_match()</a></code>.</li>
+<li>Fix several typos in the vignettes and docs.</li>
 </ul>
 </div>
 </div>
@@ -177,18 +192,18 @@
 <li>Add a simple interface to Nominatim API that enables <code><a href="../reference/oe_match.html">oe_match()</a></code> to geolocate text strings that cannot be found in the providers (<a href='https://github.com/ropensci/osmextract/issues/155'>#155</a>).</li>
 </ul>
 </div>
-<div id="minor-improvements" class="section level3">
+<div id="minor-improvements-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#minor-improvements" class="anchor"></a>MINOR IMPROVEMENTS</h3>
+<a href="#minor-improvements-1" class="anchor"></a>MINOR IMPROVEMENTS</h3>
 <ul>
 <li>Normalise the paths managed by <code>oe_download_directory</code> and <code>oe_download</code> (<a href='https://github.com/ropensci/osmextract/issues/150'>#150</a> and <a href='https://github.com/ropensci/osmextract/issues/161'>#161</a>)</li>
 <li>
 <code>oe_get_keys</code> returns an informative error when there is no other_tags field in the input file (<a href='https://github.com/ropensci/osmextract/issues/158'>#158</a>)</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level3">
+<div id="bug-fixes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h3>
+<a href="#bug-fixes-1" class="anchor"></a>BUG FIXES</h3>
 <ul>
 <li>Fix the structure of <code>geofabrik_zones</code> object (<a href='https://github.com/ropensci/osmextract/issues/167'>#167</a>)</li>
 <li>Fix warning messages related to … in <code><a href="../reference/oe_get.html">oe_get()</a></code> (<a href='https://github.com/ropensci/osmextract/issues/152'>#152</a>)</li>
