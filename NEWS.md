@@ -13,6 +13,10 @@
 * Improved several examples and fixed a small bug in the documentation of `oe_match()`.
 * Fix several typos in the vignettes and docs. 
 
+### OTHERS
+
+* Created a new space in the github repo named _Discussion_ to have conversations, ask questions and post answers without opening issues. Link: https://github.com/ropensci/osmextract/discussions  
+
 # osmextract 0.2.1
 
 This is a minor release. 

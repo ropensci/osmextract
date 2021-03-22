@@ -119,7 +119,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
+#> Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 ```
 
 ### Warnings:
@@ -306,8 +306,11 @@ for more details.
 ## Contribution
 
 We very much look forward to comments, questions and contributions. If
-you have any doubt, or if you want to suggest a new approach or add a
-new OSM provider, feel free to create a new issue in the [issue
+you have any question or if you want to suggest a new approach, feel
+free to create a new discussion in the [github
+repository](https://github.com/ropensci/osmextract/discussions). If you
+found a bug, or if you want to add a new OSM extracts provider, create a
+new issue in the [issue
 tracker](https://github.com/ropensci/osmextract/issues) or a new [pull
 request](https://github.com/ropensci/osmextract/pulls). We always try to
 build the most intuitive user interface and write the most informative
