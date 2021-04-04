@@ -65,6 +65,7 @@
 
 
 
+
   
 
   
@@ -146,6 +147,13 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#osmextract-development-version" class="anchor"></a>osmextract (development version)<small> Unreleased </small>
 </h1>
+<div id="major-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#major-changes" class="anchor"></a>MAJOR CHANGES</h3>
+<ul>
+<li>If the parameter <code>place</code> represents an <code>sf</code>/<code>sfc</code>/<code>bbox</code> object with missing CRS, then <code><a href="../reference/oe_match.html">oe_match()</a></code> raises a warning message and sets <code>CRS = 4326</code>. This has relevant consequences on other functions (like <code><a href="../reference/oe_get.html">oe_get()</a></code>) that wrap <code><a href="../reference/oe_match.html">oe_match()</a></code>.</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>BUG FIXES</h3>
@@ -158,6 +166,7 @@
 <a href="#minor-improvements" class="anchor"></a>MINOR IMPROVEMENTS</h3>
 <ul>
 <li>The arguments passed to <code><a href="../reference/oe_read.html">oe_read()</a></code> via <code>...</code> are compared to the formals of <code>st_read.character</code> and <code>st_as_sf.data.frame</code>.</li>
+<li>Added a new method to <code>oe_match</code> for <code>bbox</code> objects (<a href='https://github.com/ropensci/osmextract/issues/185'>#185</a>).</li>
 </ul>
 </div>
 <div id="documentation-fixes" class="section level3">
@@ -254,7 +263,7 @@
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

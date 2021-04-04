@@ -68,6 +68,9 @@ provider's databases. See oe_providers() and examples." />
 
 
 
+<!-- dependencies from examples -->
+
+
   
 
   
@@ -155,6 +158,9 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
     <pre class="usage"><span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for bbox</span>
 <span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>place</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for sf</span>
@@ -250,31 +256,30 @@ may be <code>NULL</code> or <code>NA</code>)</p>
 
     <p>If the input place is specified as a spatial object (either <code>sf</code> or <code>sfc</code>),
 then the function will return a geographical area that completely contains
-the object (or an error). The argument <code>level</code> (which must be specified as
-an integer between 1 and 4, extreme values included) is used to select
-between multiple geographically nested areas. We could roughly say that
-smaller administrative units correspond to higher levels. Check the help
-page of the chosen provider for more details on <code>level</code> field. By default,
-<code>level = NULL</code>, which means that <code>oe_match()</code> will return the area
-corresponding to the highest available level. If there is no geographical
-area at the desired level, then the function will return an error. If there
-are multiple areas at the same <code>level</code> intersecting the input place, then
-the function will return the area whose centroid is closest to the input
-place.</p>
-<p>If the input place is specified as a character vector and there are
-multiple plausible matches between the input place and the <code>match_by</code>
-column, then the function will return a warning and it will select the
-first match. See Examples. On the other hand, if the approximate string
-distance between the input <code>place</code> and the best match in <code>match_by</code> column
-is greater than <code>max_string_dist</code>, then the function will look for exact
-matches (i.e. <code>max_string_dist = 0</code>) in the other supported providers. If
-it finds an exact match, then it will return the corresponding URL.
-Otherwise, if <code>match_by</code> is equal to <code>"name"</code>, then it will try to
-geolocate the input <code>place</code> using the <a href='https://nominatim.org/release-docs/develop/api/Overview/'>Nominatim API</a>, and then it
-will perform a spatial matching operation (see Examples and introductory
-vignette), while, if <code>match_by != "name"</code>, then it will return an error.</p>
-<p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by Geofabrik
-provider to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a> codes. See
+the object (or an error). The argument <code>level</code> (which must be specified as an
+integer between 1 and 4, extreme values included) is used to select between
+multiple geographically nested areas. We could roughly say that smaller
+administrative units correspond to higher levels. Check the help page of the
+chosen provider for more details on <code>level</code> field. By default, <code>level = NULL</code>, which means that <code>oe_match()</code> will return the area corresponding to
+the highest available level. If there is no geographical area at the desired
+level, then the function will return an error. If there are multiple areas at
+the same <code>level</code> intersecting the input place, then the function will return
+the area whose centroid is closest to the input place.</p>
+<p>If the input place is specified as a character vector and there are multiple
+plausible matches between the input place and the <code>match_by</code> column, then the
+function will return a warning and it will select the first match. See
+Examples. On the other hand, if the approximate string distance between the
+input <code>place</code> and the best match in <code>match_by</code> column is greater than
+<code>max_string_dist</code>, then the function will look for exact matches (i.e.
+<code>max_string_dist = 0</code>) in the other supported providers. If it finds an exact
+match, then it will return the corresponding URL. Otherwise, if <code>match_by</code> is
+equal to <code>"name"</code>, then it will try to geolocate the input <code>place</code> using the
+<a href='https://nominatim.org/release-docs/develop/api/Overview/'>Nominatim API</a>,
+and then it will perform a spatial matching operation (see Examples and
+introductory vignette), while, if <code>match_by != "name"</code>, then it will return
+an error.</p>
+<p>The fields <code>iso3166_1_alpha2</code> and <code>iso3166_2</code> are used by Geofabrik provider
+to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2'>ISO 3166-1 alpha-2</a> and <a href='https://en.wikipedia.org/wiki/ISO_3166-2'>ISO 3166-2</a> codes. See
 <a href='geofabrik_zones.html'>geofabrik_zones</a> for more details.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -392,10 +397,9 @@ provider to perform matching operations using <a href='https://en.wikipedia.org/
 <span class='co'># areas during spatial matching</span>
 <span class='va'>yak</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>120.51084</span>, <span class='fl'>46.60156</span><span class='op'>)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>yak</span>, level <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='co'># error</span>
-  <span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>yak</span>, level <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># by default, level is equal to the maximum value</span>
-  <span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>yak</span>, level <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>}</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>yak</span>, level <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='co'># error</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>yak</span>, level <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># by default, level is equal to the maximum value</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>yak</span>, level <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -412,7 +416,7 @@ provider to perform matching operations using <a href='https://en.wikipedia.org/
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
