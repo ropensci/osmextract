@@ -1,5 +1,9 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+
+* If the parameter `place` represents an `sf`/`sfc`/`bbox` object with missing CRS, then `oe_match()` raises a warning message and sets `CRS = 4326`. This has relevant consequences on other functions (like `oe_get()`) that wrap `oe_match()`. 
+
 ### BUG FIXES
 
 * The parameter `force_vectortranslate` is tested before reading the layers of an existing `gpkg` file. If `force_vectortranslate` is `TRUE`, then `oe_vectortranslate()` doesn't check the existing layers. This is important for user that run `oe_vectortranslate()` after stopping the vectortranslate process.  
@@ -7,6 +11,7 @@
 ### MINOR IMPROVEMENTS
 
 * The arguments passed to `oe_read()` via `...` are compared to the formals of `st_read.character` and `st_as_sf.data.frame`. 
+* Added a new method to `oe_match` for `bbox` objects (#185).
 
 ### DOCUMENTATION FIXES
 

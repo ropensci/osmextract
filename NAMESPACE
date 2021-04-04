@@ -3,6 +3,7 @@
 S3method(oe_get_keys,character)
 S3method(oe_get_keys,default)
 S3method(oe_get_keys,sf)
+S3method(oe_match,bbox)
 S3method(oe_match,character)
 S3method(oe_match,default)
 S3method(oe_match,numeric)

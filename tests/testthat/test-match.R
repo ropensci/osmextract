@@ -136,3 +136,26 @@ test_that("oe_match:sfc objects with multiple places", {
     "https://download.geofabrik.de/europe-latest.osm.pbf"
   )
 })
+
+test_that("oe_match works with a bbox in input", {
+  # See https://github.com/ropensci/osmextract/issues/185
+  my_bbox <- sf::st_bbox(
+    c(xmin = 11.23602, ymin = 47.80478, xmax = 11.88867, ymax = 48.24261),
+    crs = 4326
+  )
+  expect_match(
+    suppressMessages(oe_match(my_bbox))$url,
+    "oberbayern-latest.osm.pbf"
+  )
+})
+
+test_that("oe_match returns a warning message with missing CRS in input place", {
+  # See https://github.com/ropensci/osmextract/issues/185#issuecomment-810378795
+  my_bbox <- sf::st_bbox(
+    c(xmin = 11.23602, ymin = 47.80478, xmax = 11.88867, ymax = 48.24261)
+  )
+  expect_warning(
+    suppressMessages(oe_match(my_bbox)),
+    "The input place has no CRS, setting crs = 4326."
+  )
+})

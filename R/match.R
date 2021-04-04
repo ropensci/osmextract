@@ -17,39 +17,38 @@
 #'
 #' @details
 #'
-#'   If the input place is specified as a spatial object (either `sf` or `sfc`),
-#'   then the function will return a geographical area that completely contains
-#'   the object (or an error). The argument `level` (which must be specified as
-#'   an integer between 1 and 4, extreme values included) is used to select
-#'   between multiple geographically nested areas. We could roughly say that
-#'   smaller administrative units correspond to higher levels. Check the help
-#'   page of the chosen provider for more details on `level` field. By default,
-#'   `level = NULL`, which means that `oe_match()` will return the area
-#'   corresponding to the highest available level. If there is no geographical
-#'   area at the desired level, then the function will return an error. If there
-#'   are multiple areas at the same `level` intersecting the input place, then
-#'   the function will return the area whose centroid is closest to the input
-#'   place.
+#' If the input place is specified as a spatial object (either `sf` or `sfc`),
+#' then the function will return a geographical area that completely contains
+#' the object (or an error). The argument `level` (which must be specified as an
+#' integer between 1 and 4, extreme values included) is used to select between
+#' multiple geographically nested areas. We could roughly say that smaller
+#' administrative units correspond to higher levels. Check the help page of the
+#' chosen provider for more details on `level` field. By default, `level =
+#' NULL`, which means that `oe_match()` will return the area corresponding to
+#' the highest available level. If there is no geographical area at the desired
+#' level, then the function will return an error. If there are multiple areas at
+#' the same `level` intersecting the input place, then the function will return
+#' the area whose centroid is closest to the input place.
 #'
-#'   If the input place is specified as a character vector and there are
-#'   multiple plausible matches between the input place and the `match_by`
-#'   column, then the function will return a warning and it will select the
-#'   first match. See Examples. On the other hand, if the approximate string
-#'   distance between the input `place` and the best match in `match_by` column
-#'   is greater than `max_string_dist`, then the function will look for exact
-#'   matches (i.e. `max_string_dist = 0`) in the other supported providers. If
-#'   it finds an exact match, then it will return the corresponding URL.
-#'   Otherwise, if `match_by` is equal to `"name"`, then it will try to
-#'   geolocate the input `place` using the [Nominatim
-#'   API](https://nominatim.org/release-docs/develop/api/Overview/), and then it
-#'   will perform a spatial matching operation (see Examples and introductory
-#'   vignette), while, if `match_by != "name"`, then it will return an error.
+#' If the input place is specified as a character vector and there are multiple
+#' plausible matches between the input place and the `match_by` column, then the
+#' function will return a warning and it will select the first match. See
+#' Examples. On the other hand, if the approximate string distance between the
+#' input `place` and the best match in `match_by` column is greater than
+#' `max_string_dist`, then the function will look for exact matches (i.e.
+#' `max_string_dist = 0`) in the other supported providers. If it finds an exact
+#' match, then it will return the corresponding URL. Otherwise, if `match_by` is
+#' equal to `"name"`, then it will try to geolocate the input `place` using the
+#' [Nominatim API](https://nominatim.org/release-docs/develop/api/Overview/),
+#' and then it will perform a spatial matching operation (see Examples and
+#' introductory vignette), while, if `match_by != "name"`, then it will return
+#' an error.
 #'
-#'   The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik
-#'   provider to perform matching operations using [ISO 3166-1
-#'   alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
-#'   3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
-#'   [geofabrik_zones] for more details.
+#' The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik provider
+#' to perform matching operations using [ISO 3166-1
+#' alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
+#' 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
+#' [geofabrik_zones] for more details.
 #'
 #' @examples
 #' # The simplest example:
@@ -106,10 +105,9 @@
 #' # areas during spatial matching
 #' yak = c(-120.51084, 46.60156)
 #' \dontrun{
-#'   oe_match(yak, level = 3) # error
-#'   oe_match(yak, level = 2) # by default, level is equal to the maximum value
-#'   oe_match(yak, level = 1)
-#' }
+#' oe_match(yak, level = 3) # error
+#' oe_match(yak, level = 2) # by default, level is equal to the maximum value
+#' oe_match(yak, level = 1)}
 
 oe_match = function(place, ...) {
   UseMethod("oe_match")
@@ -124,6 +122,14 @@ oe_match.default = function(place, ...) {
     " Feel free to open a new issue at github.com/ropensci/osmextract",
     call. = FALSE
   )
+}
+
+#' @inheritParams oe_get
+#' @name oe_match
+#' @export
+oe_match.bbox = function(place, ...) {
+  # We just need to convert the bbox to a sfc object
+  oe_match(sf::st_as_sfc(place), ...)
 }
 
 #' @inheritParams oe_get
@@ -148,6 +154,19 @@ oe_match.sfc = function(
 ) {
   # Load the data associated with the chosen provider.
   provider_data = load_provider_data(provider)
+
+  # Check if place has no CRS (i.e. NA_crs_, see ?st_crs) and, in that case, set
+  # 4326 + raise a warning message.
+  # See https://github.com/ropensci/osmextract/issues/185#issuecomment-810353788
+  # for a discussion.
+  if (is.na(sf::st_crs(place))) {
+    warning(
+      "The input place has no CRS, setting crs = 4326.",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    place = sf::st_set_crs(place, 4326)
+  }
 
   # Check the CRS
   if (sf::st_crs(place) != sf::st_crs(provider_data)) {
