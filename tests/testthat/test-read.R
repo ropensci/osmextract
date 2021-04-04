@@ -75,11 +75,11 @@ test_that("oe_read fails with misspelled arguments", {
   )
   f = file.path(tempdir(), "its-example.osm.pbf")
   expect_error(
-    oe_read(
+    suppressWarnings(oe_read(
       f,
       stringasfactor = FALSE,
       quiet = TRUE
-    ),
+    )),
     "no simple features"
   )
 
