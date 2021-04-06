@@ -12,7 +12,7 @@
 
 * The arguments passed to `oe_read()` via `...` are compared to the formals of `st_read.character` and `st_as_sf.data.frame`. 
 * Added a new method to `oe_match` for `bbox` objects (#185).
-* The `oe_get_keys()` functio can be applied to `.osm.pbf` data (#188). 
+* The `oe_get_keys()` function can be applied to `.osm.pbf` objects (#188). 
 
 ### DOCUMENTATION FIXES
 

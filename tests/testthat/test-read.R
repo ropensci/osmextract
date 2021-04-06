@@ -39,7 +39,18 @@ test_that("or_read: simplest example with a URL works", {
     NA
   )
 
-  # clean tempdir
+  # Clean tempdir. First I need to remove the .pbf file
+  file.remove(
+    oe_read(
+      my_url,
+      download_only = TRUE,
+      skip_vectortranslate = TRUE,
+      download_directory = tempdir(),
+      provider = "test",
+      quiet = TRUE
+    )
+  )
+  # and then the .gkg file
   file.remove(
     oe_read(
       my_url,
