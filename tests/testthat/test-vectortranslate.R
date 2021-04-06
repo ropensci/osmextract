@@ -68,21 +68,33 @@ test_that("oe_get_keys: returns error with wrong inputs", {
 })
 
 test_that("oe_get_keys stop when there is no other_tags field", {
-  my_vectortranslate <- c(
-    "-f", "GPKG",
-    "-overwrite",
-    "-select", "highway",
-    "lines"
-  )
-  oe_get(
+  # Read data ignoring the other_tags field
+  its <- oe_get(
     "ITS Leeds",
-    vectortranslate_options = my_vectortranslate,
-    download_directory = tempdir()
+    download_directory = tempdir(),
+    query = "SELECT highway, geometry FROM lines",
+    quiet = TRUE
   )
-  its <- oe_get("ITS Leeds", download_only = TRUE, download_directory = tempdir())
+  expect_error(
+    oe_get_keys(its),
+    "The input object must have an other_tags field."
+  )
+
+  # Translate data ignoring the other_tags field
+  its <- oe_get(
+    "ITS Leeds",
+    download_only = TRUE,
+    download_directory = tempdir(),
+    quiet = TRUE,
+    vectortranslate_options = c(
+      "-f", "GPKG", "-overwrite", "-select", "highway", "lines"
+    )
+  )
   expect_error(
     oe_get_keys(its),
     "The input file must have an other_tags field."
   )
+
+  # Clean tempdir
   file.remove(oe_find("ITS Leeds", provider = "test", download_directory = tempdir()))
 })

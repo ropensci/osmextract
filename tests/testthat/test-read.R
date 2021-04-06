@@ -45,16 +45,8 @@ test_that("or_read: simplest example with a URL works", {
       my_url,
       download_only = TRUE,
       download_directory = tempdir(),
-      provider = "test"
-    )
-  )
-  file.remove(
-    oe_read(
-      my_url,
-      download_only = TRUE,
-      download_directory = tempdir(),
       provider = "test",
-      skip_vectortranslate = TRUE
+      quiet = TRUE
     )
   )
 })
@@ -95,7 +87,8 @@ test_that("oe_read returns a warning message when query != layer", {
       "ITS Leeds",
       layer = "points",
       query = "SELECT * FROM 'lines'",
-      download_directory = tempdir()
+      download_directory = tempdir(),
+      quiet = TRUE
     ),
     "The query selected a layer which is different from layer argument."
   )
