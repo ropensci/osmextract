@@ -16,10 +16,9 @@ oe_get_keys(zone, layer = "lines")
 \method{oe_get_keys}{sf}(zone, layer = "lines")
 }
 \arguments{
-\item{zone}{An \code{sf} object (typically read-in with \code{oe_read()} or \code{oe_get()})
-with an \code{other_tags} field, or a character vector (of length 1) that points
-to a \code{.gpkg} file (typically created using \code{oe_vectortranslate()} or
-\code{oe_get()}).}
+\item{zone}{An \code{sf} object with an \code{other_tags} field, or a character vector
+(of length 1) that points to a \code{.osm.pbf} or \code{.gpkg} file with an
+\code{other_tags} field.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
@@ -33,24 +32,22 @@ A character vector indicating the name of all keys stored in
 "other_tags" field.
 }
 \description{
-This function is used to return the names of all keys that are stored in
-"other_tags" column since they were not explicitly included in the file. See
-Details.
+This function returns the names of all keys that are stored in \code{other_tags}
+column. See Details.
 }
 \details{
 OSM data are typically documented using several
-\href{https://wiki.openstreetmap.org/wiki/Tags}{\code{tags}}. A \code{tag} is a pair of
-two items, namely a \code{key} and a \code{value}. As we documented in
+\href{https://wiki.openstreetmap.org/wiki/Tags}{\code{tags}}, i.e. pairs of two
+items, namely a \code{key} and a \code{value}. As documented in
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}, the conversion between \code{.osm.pbf} and \code{.gpkg}
-formats is governed by a CONFIG file that indicates which tags are
-explicitly added to the \code{.gpkg} file. All the other keys stored in the
-\code{.osm.pbf} file are automatically appended using an "other_tags" field,
-with a syntax compatible with the PostgreSQL HSTORE type. This function is
-used to display the names of all keys stored in the "other_tags"
-column.
+formats is governed by a \code{CONFIG} file that lists which tags must be
+explicitly added to the \code{.gpkg} file, while all the other keys are
+automatically stored using an \code{other_tags} field with a syntax compatible
+with the PostgreSQL HSTORE type. This function can be used to display the
+names of all keys stored in the \code{other_tags} field.
 
-You can also use the \code{hstore_get_value()} function from GDAL to extract one
-particular tag from an existing \code{.gpkg} file. Check the introductory
+The \code{hstore_get_value()} function can be used inside the \code{query} argument
+to extract one particular tag from an existing file. Check the introductory
 vignette and see examples.
 
 The definition of a generic S3 implementation started in

@@ -383,23 +383,21 @@ get_ini_layer_defaults = function(layer) {
 
 #' Return all keys stored in "other_tags" column
 #'
-#' This function is used to return the names of all keys that are stored in
-#' "other_tags" column since they were not explicitly included in the file. See
-#' Details.
+#' This function returns the names of all keys that are stored in `other_tags`
+#' column. See Details.
 #'
 #' @details OSM data are typically documented using several
-#'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags). A `tag` is a pair of
-#'   two items, namely a `key` and a `value`. As we documented in
+#'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two
+#'   items, namely a `key` and a `value`. As documented in
 #'   [`oe_vectortranslate()`], the conversion between `.osm.pbf` and `.gpkg`
-#'   formats is governed by a CONFIG file that indicates which tags are
-#'   explicitly added to the `.gpkg` file. All the other keys stored in the
-#'   `.osm.pbf` file are automatically appended using an "other_tags" field,
-#'   with a syntax compatible with the PostgreSQL HSTORE type. This function is
-#'   used to display the names of all keys stored in the "other_tags"
-#'   column.
+#'   formats is governed by a `CONFIG` file that lists which tags must be
+#'   explicitly added to the `.gpkg` file, while all the other keys are
+#'   automatically stored using an `other_tags` field with a syntax compatible
+#'   with the PostgreSQL HSTORE type. This function can be used to display the
+#'   names of all keys stored in the `other_tags` field.
 #'
-#'   You can also use the `hstore_get_value()` function from GDAL to extract one
-#'   particular tag from an existing `.gpkg` file. Check the introductory
+#'   The `hstore_get_value()` function can be used inside the `query` argument
+#'   to extract one particular tag from an existing file. Check the introductory
 #'   vignette and see examples.
 #'
 #'   The definition of a generic S3 implementation started in
@@ -409,10 +407,9 @@ get_ini_layer_defaults = function(layer) {
 #'   [osmextract/issues/107](https://github.com/ropensci/osmextract/issues/107).
 #'
 #' @inheritParams oe_get
-#' @param zone An `sf` object (typically read-in with `oe_read()` or `oe_get()`)
-#'   with an `other_tags` field, or a character vector (of length 1) that points
-#'   to a `.gpkg` file (typically created using `oe_vectortranslate()` or
-#'   `oe_get()`).
+#' @param zone An `sf` object with an `other_tags` field, or a character vector
+#'   (of length 1) that points to a `.osm.pbf` or `.gpkg` file with an
+#'   `other_tags` field.
 #'
 #' @return A character vector indicating the name of all keys stored in
 #'   "other_tags" field.
@@ -469,9 +466,11 @@ oe_get_keys.character = function(zone, layer = "lines") {
     )
   }
 
-  if (tools::file_ext(zone) != "gpkg") {
-    stop("The input file must have a .gpkg extension.", call. = FALSE)
-  }
+  # We don't need the following if clause, since actually we can read also from
+  # .pbf files. See also https://github.com/ropensci/osmextract/discussions/188.
+  # if (tools::file_ext(zone) != "gpkg") {
+  #   stop("The input file must have a .gpkg extension.", call. = FALSE)
+  # }
 
   # Check that the input file contains the other_tags field
   # See also https://github.com/ropensci/osmextract/issues/158
@@ -488,11 +487,21 @@ oe_get_keys.character = function(zone, layer = "lines") {
     stop("The input file must have an other_tags field.", call. = FALSE)
   }
 
-  # Read the gpkg file selecting only the other_tags column
+  # Read the gpkg file selecting only the other_tags column.
+  # The query is different between .pbf and .gpkg objects. See also
+  # https://github.com/ropensci/osmextract/discussions/188
+  if (tools::file_ext(zone) == "pbf") {
+    query_for_other_tags = paste0("select other_tags from ", layer)
+  } else if (tools::file_ext(zone) == "gpkg") {
+    query_for_other_tags = paste0("select other_tags, geometry from ", layer)
+  } else {
+    stop("The input file must have .pbf or .gpkg extension", call. = FALSE)
+  }
+
   other_tags = sf::st_read(
     dsn = zone,
     layer = layer,
-    query = paste0("select other_tags, geometry from ", layer),
+    query = query_for_other_tags,
     quiet = TRUE
   )
 
@@ -510,7 +519,8 @@ oe_get_keys.sf = function(zone, layer = "lines") {
 }
 
 
-# The following is an internal function used to extract the new keys from an "other_tags" field
+# The following is an internal function used to extract the new keys from an
+# "other_tags" field
 get_keys = function(x) {
   # Create regex
   osm_matches = gregexpr(pattern = '[^\"=>,\\]+', x[["other_tags"]])

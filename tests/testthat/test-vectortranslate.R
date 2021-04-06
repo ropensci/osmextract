@@ -56,7 +56,6 @@ test_that("oe_get_keys: simplest example works", {
 
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
-  expect_error(oe_get_keys(its_pbf)) # wrong format
 })
 
 test_that("oe_get_keys stop when there is no other_tags field", {
