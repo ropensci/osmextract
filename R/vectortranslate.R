@@ -416,12 +416,20 @@ get_ini_layer_defaults = function(layer) {
 #' @export
 #'
 #' @examples
+#' # Get keys from pbf file
+#' itsleeds_pbf_path = oe_download(
+#'   oe_match("ITS Leeds")$url,
+#'   download_directory = tempdir(),
+#'   provider = "test"
+#' )
+#' oe_get_keys(itsleeds_pbf_path)
 #' itsleeds_gpkg_path = oe_get(
 #'   "ITS Leeds",
 #'   download_only = TRUE,
 #'   download_directory = tempdir(),
 #'   quiet = TRUE
 #' )
+#' itsleeds_gpkg_path
 #' oe_get_keys(itsleeds_gpkg_path)
 #'
 #' itsleeds = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
