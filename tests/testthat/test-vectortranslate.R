@@ -47,34 +47,54 @@ test_that("oe_vectortranslate adds new tags to existing file", {
   file.remove(new_its_gpkg)
 })
 
-test_that("oe_get_keys: simplest example works", {
-  itsleeds_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
-  expect_type(oe_get_keys(itsleeds_gpkg), "character")
+test_that("oe_get_keys: simplest examples works", {
+  # Define path to gpkg object
+  its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
 
-  file.remove(itsleeds_gpkg)
+  # Extract keys from pbg and gpkg file
+  keys1 = oe_get_keys(its_pbf)
+  keys2 = oe_get_keys(its_gpkg)
+
+  # Tests
+  expect_type(keys1, "character")
+  expect_type(keys2, "character")
+  expect_equal(length(keys1), length(keys2))
+
+  file.remove(its_gpkg)
 })
 
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
-  expect_error(oe_get_keys(its_pbf)) # wrong format
 })
 
 test_that("oe_get_keys stop when there is no other_tags field", {
-  my_vectortranslate <- c(
-    "-f", "GPKG",
-    "-overwrite",
-    "-select", "highway",
-    "lines"
-  )
-  oe_get(
+  # Read data ignoring the other_tags field
+  its = oe_get(
     "ITS Leeds",
-    vectortranslate_options = my_vectortranslate,
-    download_directory = tempdir()
+    download_directory = tempdir(),
+    query = "SELECT highway, geometry FROM lines",
+    quiet = TRUE
   )
-  its <- oe_get("ITS Leeds", download_only = TRUE, download_directory = tempdir())
+  expect_error(
+    oe_get_keys(its),
+    "The input object must have an other_tags field."
+  )
+
+  # Translate data ignoring the other_tags field
+  its = oe_get(
+    "ITS Leeds",
+    download_only = TRUE,
+    download_directory = tempdir(),
+    quiet = TRUE,
+    vectortranslate_options = c(
+      "-f", "GPKG", "-overwrite", "-select", "highway", "lines"
+    )
+  )
   expect_error(
     oe_get_keys(its),
     "The input file must have an other_tags field."
   )
+
+  # Clean tempdir
   file.remove(oe_find("ITS Leeds", provider = "test", download_directory = tempdir()))
 })

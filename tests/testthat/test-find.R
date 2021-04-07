@@ -2,7 +2,7 @@ test_that("oe_find: simplest example works", {
   # Fill the tempdir
   oe_get("ITS Leeds", download_directory = tempdir(), quiet = TRUE)
 
-  its_leeds_find <- oe_find(
+  its_leeds_find = oe_find(
     "ITS Leeds",
     provider = "test",
     download_directory = tempdir(),
@@ -16,7 +16,7 @@ test_that("oe_find: simplest example works", {
 
 test_that("download_if_missing in oe_find works", {
   # Test download_if_missing
-  its_leeds_find <- oe_find(
+  its_leeds_find = oe_find(
     "ITS Leeds",
     provider = "test",
     download_directory = tempdir(),

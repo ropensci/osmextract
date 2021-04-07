@@ -12,7 +12,7 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
   # I need to download the following files in a new directory since they could
   # be mixed with previously downloaded files (and hence ruin the tests)
 
-  small_its_leeds <- oe_get(
+  small_its_leeds = oe_get(
     "ITS Leeds",
     download_directory = tempdir(),
     vectortranslate_options = c(
@@ -26,7 +26,7 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
   )
 
   # Download it again
-  its_leeds <- oe_get(
+  its_leeds = oe_get(
     "ITS Leeds",
     download_directory = tempdir(),
     force_vectortranslate = TRUE,

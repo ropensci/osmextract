@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 
 # save user's pars
-user_par <- par(no.readonly = TRUE)
+user_par = par(no.readonly = TRUE)
 ```
 
 This vignette presents a simple comparison between the OSM providers supported by `osmextract`, explaining their pros and cons. 
@@ -114,8 +114,8 @@ plot(openstreetmap_fr_zones[openstreetmap_fr_zones$parent == "india", "name"], k
 France, 
 
 ```{r}
-ids_2 <- openstreetmap_fr_zones$parent %in% "france"
-ids_3 <- openstreetmap_fr_zones$parent %in% openstreetmap_fr_zones$id[ids_2]
+ids_2 = openstreetmap_fr_zones$parent %in% "france"
+ids_3 = openstreetmap_fr_zones$parent %in% openstreetmap_fr_zones$id[ids_2]
 
 plot(openstreetmap_fr_zones[ids_2 | ids_3, "name"], key.pos = NULL, main = NULL)
 ```
@@ -123,8 +123,8 @@ plot(openstreetmap_fr_zones[ids_2 | ids_3, "name"], key.pos = NULL, main = NULL)
 and Brazil
 
 ```{r}
-ids_2 <- openstreetmap_fr_zones$parent %in% "brazil"
-ids_3 <- openstreetmap_fr_zones$parent %in% openstreetmap_fr_zones$id[ids_2]
+ids_2 = openstreetmap_fr_zones$parent %in% "brazil"
+ids_3 = openstreetmap_fr_zones$parent %in% openstreetmap_fr_zones$id[ids_2]
 
 plot(openstreetmap_fr_zones[ids_2 | ids_3, "name"], key.pos = NULL, main = NULL)
 ```
