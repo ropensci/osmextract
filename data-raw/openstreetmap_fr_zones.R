@@ -12,40 +12,40 @@ library(httr)
 # A list of extract sources is here: https://wiki.openstreetmap.org/wiki/Planet.osm#Country_and_area_extracts
 
 # Define a function that will be used for all poly folders
-my_organize_osm_data <- function(poly_folder, level, parent = NA, verbose = TRUE) {
+my_organize_osm_data = function(poly_folder, level, parent = NA, verbose = TRUE) {
   # Help for debugging
   if (verbose) {
     message("URL: ", poly_folder, "\n", "Level: ", level)
   }
 
   # Download and restructure poly folder
-  my_data <- read_html(poly_folder) %>%
+  my_data = read_html(poly_folder) %>%
     html_node("table") %>%
     html_table() %>%
     janitor::clean_names()
 
   # Extract poly files
-  poly_files <- grep("\\.poly", my_data[["name"]], value = TRUE)
+  poly_files = grep("\\.poly", my_data[["name"]], value = TRUE)
 
   # Build URLs
-  poly_urls <- paste0(poly_folder, poly_files)
+  poly_urls = paste0(poly_folder, poly_files)
   # Download .poly files and convert them to MULTIPOLYGON format
-  multipoly <- lapply(
+  multipoly = lapply(
     X = poly_urls,
     FUN = function(x) {
-      my_url <- url(x)
-      res <- convert_poly_to_sfc(my_url)
+      my_url = url(x)
+      res = convert_poly_to_sfc(my_url)
       close(my_url)
       res
     }
   )
-  multipoly_sfc <- do.call("c", multipoly)
+  multipoly_sfc = do.call("c", multipoly)
 
   # Extract names (everything that is before '.poly')
-  names <- regmatches(poly_files, regexpr("\\S+(?=\\.poly)", poly_files, perl = TRUE))
+  names = regmatches(poly_files, regexpr("\\S+(?=\\.poly)", poly_files, perl = TRUE))
 
   # Build openstreetmap_fr_zones
-  zones <- st_sf(
+  zones = st_sf(
     data.frame(
       id = names,
       name = stringr::str_to_title(gsub("[-_]", " ", names)),
@@ -62,7 +62,7 @@ my_organize_osm_data <- function(poly_folder, level, parent = NA, verbose = TRUE
   zones$pbf_file_size = map_dbl(
     .x = zones$pbf,
     .f = function(x) {
-      my_HEAD <- HEAD(x)
+      my_HEAD = HEAD(x)
 
       if (httr::status_code(my_HEAD) == 200) {
         return(as.numeric(headers(my_HEAD)$`content-length`))
@@ -73,10 +73,10 @@ my_organize_osm_data <- function(poly_folder, level, parent = NA, verbose = TRUE
 
   # Check if there is any sub-zone and repeat the same stuff (i.e. this function
   # has a recursive structure)
-  sub_folders <- grep("/", my_data[["name"]], value = TRUE)
+  sub_folders = grep("/", my_data[["name"]], value = TRUE)
   if (length(sub_folders) > 0L) {
     for (i in sub_folders) {
-      zones <- rbind(
+      zones = rbind(
         zones,
         my_organize_osm_data(
           poly_folder = paste0(poly_folder, i),
@@ -90,10 +90,10 @@ my_organize_osm_data <- function(poly_folder, level, parent = NA, verbose = TRUE
   zones
 }
 
-openstreetmap_fr_zones <- my_organize_osm_data("http://download.openstreetmap.fr/polygons/", level = 1L)
+openstreetmap_fr_zones = my_organize_osm_data("http://download.openstreetmap.fr/polygons/", level = 1L)
 
 # Exclude NA in pbf
-openstreetmap_fr_zones <- openstreetmap_fr_zones[-which(is.na(openstreetmap_fr_zones$pbf_file_size)), ]
+openstreetmap_fr_zones = openstreetmap_fr_zones[-which(is.na(openstreetmap_fr_zones$pbf_file_size)), ]
 
 # The end
 usethis::use_data(openstreetmap_fr_zones, overwrite = TRUE, version = 3)
