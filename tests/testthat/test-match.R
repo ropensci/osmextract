@@ -110,7 +110,7 @@ test_that("oe_match: error when input place is far from all zones and match_by !
 
 test_that("oe_match: test level parameter", {
   # See https://github.com/ropensci/osmextract/issues/160
-  yak <- c(-120.51084, 46.60156)
+  yak = c(-120.51084, 46.60156)
 
   expect_equal(
     oe_match(yak, level = 1)$url,
@@ -139,7 +139,7 @@ test_that("oe_match:sfc objects with multiple places", {
 
 test_that("oe_match works with a bbox in input", {
   # See https://github.com/ropensci/osmextract/issues/185
-  my_bbox <- sf::st_bbox(
+  my_bbox = sf::st_bbox(
     c(xmin = 11.23602, ymin = 47.80478, xmax = 11.88867, ymax = 48.24261),
     crs = 4326
   )
@@ -151,7 +151,7 @@ test_that("oe_match works with a bbox in input", {
 
 test_that("oe_match returns a warning message with missing CRS in input place", {
   # See https://github.com/ropensci/osmextract/issues/185#issuecomment-810378795
-  my_bbox <- sf::st_bbox(
+  my_bbox = sf::st_bbox(
     c(xmin = 11.23602, ymin = 47.80478, xmax = 11.88867, ymax = 48.24261)
   )
   expect_warning(

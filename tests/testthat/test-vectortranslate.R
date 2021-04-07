@@ -52,8 +52,8 @@ test_that("oe_get_keys: simplest examples works", {
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
 
   # Extract keys from pbg and gpkg file
-  keys1 <- oe_get_keys(its_pbf)
-  keys2 <- oe_get_keys(its_gpkg)
+  keys1 = oe_get_keys(its_pbf)
+  keys2 = oe_get_keys(its_gpkg)
 
   # Tests
   expect_type(keys1, "character")
@@ -69,7 +69,7 @@ test_that("oe_get_keys: returns error with wrong inputs", {
 
 test_that("oe_get_keys stop when there is no other_tags field", {
   # Read data ignoring the other_tags field
-  its <- oe_get(
+  its = oe_get(
     "ITS Leeds",
     download_directory = tempdir(),
     query = "SELECT highway, geometry FROM lines",
@@ -81,7 +81,7 @@ test_that("oe_get_keys stop when there is no other_tags field", {
   )
 
   # Translate data ignoring the other_tags field
-  its <- oe_get(
+  its = oe_get(
     "ITS Leeds",
     download_only = TRUE,
     download_directory = tempdir(),
