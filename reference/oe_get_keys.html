@@ -47,9 +47,8 @@
 
 
 <meta property="og:title" content="Return all keys stored in "other_tags" column — oe_get_keys" />
-<meta property="og:description" content="This function is used to return the names of all keys that are stored in
-&quot;other_tags&quot; column since they were not explicitly included in the file. See
-Details." />
+<meta property="og:description" content="This function returns the names of all keys that are stored in other_tags
+column. See Details." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -150,9 +149,8 @@ Details." />
     </div>
 
     <div class="ref-description">
-    <p>This function is used to return the names of all keys that are stored in
-"other_tags" column since they were not explicitly included in the file. See
-Details.</p>
+    <p>This function returns the names of all keys that are stored in <code>other_tags</code>
+column. See Details.</p>
     </div>
 
     <pre class="usage"><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span><span class='op'>)</span>
@@ -171,10 +169,9 @@ Details.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>zone</th>
-      <td><p>An <code>sf</code> object (typically read-in with <code><a href='oe_read.html'>oe_read()</a></code> or <code><a href='oe_get.html'>oe_get()</a></code>)
-with an <code>other_tags</code> field, or a character vector (of length 1) that points
-to a <code>.gpkg</code> file (typically created using <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code> or
-<code><a href='oe_get.html'>oe_get()</a></code>).</p></td>
+      <td><p>An <code>sf</code> object with an <code>other_tags</code> field, or a character vector
+(of length 1) that points to a <code>.osm.pbf</code> or <code>.gpkg</code> file with an
+<code>other_tags</code> field.</p></td>
     </tr>
     <tr>
       <th>layer</th>
@@ -194,17 +191,16 @@ specified in the query and ignore <code>layer</code>. See also
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>OSM data are typically documented using several
-<a href='https://wiki.openstreetmap.org/wiki/Tags'><code>tags</code></a>. A <code>tag</code> is a pair of
-two items, namely a <code>key</code> and a <code>value</code>. As we documented in
+<a href='https://wiki.openstreetmap.org/wiki/Tags'><code>tags</code></a>, i.e. pairs of two
+items, namely a <code>key</code> and a <code>value</code>. As documented in
 <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>, the conversion between <code>.osm.pbf</code> and <code>.gpkg</code>
-formats is governed by a CONFIG file that indicates which tags are
-explicitly added to the <code>.gpkg</code> file. All the other keys stored in the
-<code>.osm.pbf</code> file are automatically appended using an "other_tags" field,
-with a syntax compatible with the PostgreSQL HSTORE type. This function is
-used to display the names of all keys stored in the "other_tags"
-column.</p>
-<p>You can also use the <code>hstore_get_value()</code> function from GDAL to extract one
-particular tag from an existing <code>.gpkg</code> file. Check the introductory
+formats is governed by a <code>CONFIG</code> file that lists which tags must be
+explicitly added to the <code>.gpkg</code> file, while all the other keys are
+automatically stored using an <code>other_tags</code> field with a syntax compatible
+with the PostgreSQL HSTORE type. This function can be used to display the
+names of all keys stored in the <code>other_tags</code> field.</p>
+<p>The <code>hstore_get_value()</code> function can be used inside the <code>query</code> argument
+to extract one particular tag from an existing file. Check the introductory
 vignette and see examples.</p>
 <p>The definition of a generic S3 implementation started in
 <a href='https://github.com/ropensci/osmextract/issues/138'>osmextract/issues/138</a>.</p>
@@ -214,13 +210,33 @@ vignette and see examples.</p>
 <a href='https://github.com/ropensci/osmextract/issues/107'>osmextract/issues/107</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>itsleeds_gpkg_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span>
+    <pre class="examples"><div class='input'><span class='co'># Get keys from pbf file</span>
+<span class='va'>itsleeds_pbf_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_download.html'>oe_download</a></span><span class='op'>(</span>
+  <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>url</span>,
+  download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
+  provider <span class='op'>=</span> <span class='st'>"test"</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='input'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_pbf_path</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
+#&gt;  [4] "access"              "lanes"               "oneway"             
+#&gt;  [7] "lit"                 "maxspeed"            "ref"                
+#&gt; [10] "turn:lanes"          "service"             "surface"            
+#&gt; [13] "motor_vehicle"       "source:name"         "lanes:psv"          
+#&gt; [16] "lanes:backward"      "lanes:forward"       "lanes:psv:backward" 
+#&gt; [19] "turn:lanes:forward"  "covered"             "layer"              
+#&gt; [22] "lcn"                 "natural"             "step_count"         
+#&gt; [25] "frequency"           "operator"            "power"              
+#&gt; [28] "source:geometry"     "substation"          "voltage"            
+#&gt; [31] "tunnel"              "indoor"              "level"              
+#&gt; [34] "maxheight"           "incline"             "bridge"             
+#&gt; [37] "alt_name"            "turn:lanes:backward"</div><div class='input'><span class='va'>itsleeds_gpkg_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span>
   <span class='st'>"ITS Leeds"</span>,
   download_only <span class='op'>=</span> <span class='cn'>TRUE</span>,
   download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
   quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_gpkg_path</span><span class='op'>)</span>
+<span class='va'>itsleeds_gpkg_path</span>
+</div><div class='output co'>#&gt; [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp4Wqsle/test_its-example.gpkg"</div><div class='input'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>itsleeds_gpkg_path</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] "bicycle"             "foot"                "website"            
 #&gt;  [4] "access"              "lanes"               "oneway"             
 #&gt;  [7] "lit"                 "maxspeed"            "ref"                
@@ -254,7 +270,7 @@ vignette and see examples.</p>
   <span class='va'>itsleeds_gpkg_path</span>,
   query <span class='op'>=</span> <span class='st'>"SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"</span>
 <span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpxMLbsN/test_its-example.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp4Wqsle/test_its-example.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 189 features and 10 fields
 #&gt; Geometry type: LINESTRING
 #&gt; Dimension:     XY
