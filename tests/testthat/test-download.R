@@ -1,5 +1,9 @@
 test_that("oe_download: simplest examples work", {
+  # Skip tests that require internet connection
+  skip_on_cran()
   skip_if_offline()
+
+  # Run tests
   its_match = oe_match("ITS Leeds", provider = "test")
   expect_error(
     oe_download(
@@ -21,16 +25,8 @@ test_that("oe_download: simplest examples work", {
     "Skip downloading."
   )
 
-  # clean tempdir
-  file.remove(
-    oe_get(
-      "ITS Leeds",
-      download_only = TRUE,
-      download_directory = tempdir(),
-      skip_vectortranslate = TRUE,
-      quiet = TRUE
-    )
-  )
+  # Clean tempdir
+  file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
 })
 
 test_that("oe_download: fails with more than one URL", {
