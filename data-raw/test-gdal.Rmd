@@ -1,0 +1,96 @@
+---
+title: "Test ogr queries"
+output: github_document
+---
+
+```{bash, eval = Sys.which("bash") != ""}
+echo "Hello Bash!";
+pwd;
+ls | head;
+```
+
+
+```{r, engine='bash'}
+wget https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf
+
+ogrinfo its-example.osm.pbf 
+ogrinfo its-example.osm.pbf lines > lines.txt
+head lines.txt
+```
+
+
+```{r, engine='bash'}
+ogrinfo \
+  -dialect sqlite -sql "SELECT highway, COUNT(*) from lines" \
+  its-example.osm.pbf 
+```
+
+```{r, engine='bash'}
+ogrinfo \
+  -sql "SELECT DISTINCT highway from lines" \
+  its-example.osm.pbf 
+```
+
+```{r, engine='bash'}
+# fails
+ogrinfo \
+  -sql "SELECT DISTINCT other_tags from lines" \
+  its-example.osm.pbf > test.txt # works
+```
+
+```{r, engine='bash'}
+# fails
+ogrinfo \
+  -sql "SELECT DISTINCT hstore_get_value(other_tags, 'bicycle') from lines" \
+  its-example.osm.pbf 
+```
+
+
+
+```{r, engine='bash'}
+ogrinfo \
+  -dialect sqlite -sql "SELECT highway, COUNT(*) from lines" \
+  its-example.osm.pbf 
+```
+
+
+
+```{r, engine='bash'}
+
+ogrinfo \
+  -dialect sqlite -sql "SELECT DISTINCT hstore_get_value(other_tags, 'bicycle') AS bicycle, hstore_get_value(other_tags, 'foot') AS foot FROM lines" \
+  its-example.osm.pbf 
+```
+
+```{r, engine='bash'}
+ogrinfo \
+  -sql "SELECT DISTINCT hstore_get_value(other_tags, 'bicycle') AS bicycle, hstore_get_value(other_tags, 'foot') AS foot FROM lines" \
+  its-example.osm.pbf > out.txt
+```
+
+```{r, engine='bash'}
+ogrinfo \
+  -sql "SELECT DISTINCT hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines" \
+  its-example.osm.pbf 
+```
+
+
+
+```{r, engine='bash'}
+
+  
+
+
+# ogrinfo \
+#   -sql "SELECT DISTINCT hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines" \
+#   its-example.osm.pbf > out.txt
+  
+# cat out.txt
+
+ogrinfo \
+  -sql "SELECT hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines" \
+  its-example.osm.pbf > out.txt
+  
+```
+
+
