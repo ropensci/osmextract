@@ -50,5 +50,11 @@ test_zones[2, "pbf_file_size"] = as.numeric(httr::headers(httr::HEAD(its_url))$`
 test_zones[2, "pbf"] = its_url
 sf::st_geometry(test_zones)[2] = sf::st_as_sfc(sf::st_bbox(sf::st_read(its_url, "lines", quiet = TRUE)))
 
+# Fix problem with S2 (see https://github.com/ropensci/osmextract/issues/194 and
+# https://github.com/r-spatial/sf/issues/1649)
+st_geometry(test_zones) <- st_as_sfc(
+  s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(test_zones)), check = FALSE))
+)
+
 usethis::use_data(test_zones, overwrite = TRUE, version = 3)
 

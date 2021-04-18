@@ -7,6 +7,8 @@ library(polyread)
 library(sf)
 library(purrr)
 library(httr)
+library(sf)
+library(s2)
 
 # Starting point is: http://download.openstreetmap.fr/
 # A list of extract sources is here: https://wiki.openstreetmap.org/wiki/Planet.osm#Country_and_area_extracts
@@ -93,7 +95,13 @@ my_organize_osm_data = function(poly_folder, level, parent = NA, verbose = TRUE)
 openstreetmap_fr_zones = my_organize_osm_data("http://download.openstreetmap.fr/polygons/", level = 1L)
 
 # Exclude NA in pbf
-openstreetmap_fr_zones = openstreetmap_fr_zones[-which(is.na(openstreetmap_fr_zones$pbf_file_size)), ]
+openstreetmap_fr_zones = openstreetmap_fr_zones[!is.na(openstreetmap_fr_zones$pbf_file_size), ]
+
+# Fix problem with S2 (see https://github.com/ropensci/osmextract/issues/194 and
+# https://github.com/r-spatial/sf/issues/1649)
+st_geometry(openstreetmap_fr_zones) <- st_as_sfc(
+  s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(openstreetmap_fr_zones)), check = FALSE))
+)
 
 # The end
 usethis::use_data(openstreetmap_fr_zones, overwrite = TRUE, version = 3)
