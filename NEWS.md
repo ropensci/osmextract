@@ -6,7 +6,7 @@
 
 ### BUG FIXES
 
-* The parameter `force_vectortranslate` is tested before reading the layers of an existing `gpkg` file. If `force_vectortranslate` is `TRUE`, then `oe_vectortranslate()` doesn't check the existing layers. This is important for user that run `oe_vectortranslate()` after stopping the vectortranslate process.  
+* The parameter `force_vectortranslate` is checked before reading the layers of an existing `gpkg` file. If `force_vectortranslate` is `TRUE`, then `oe_vectortranslate()` doesn't check the existing layers. This is important for user that run `oe_vectortranslate()` after stopping the vectortranslate process.  
 
 ### MINOR IMPROVEMENTS
 
@@ -22,7 +22,7 @@
 ### OTHERS
 
 * Created a new space in the github repo named _Discussion_ to have conversations, ask questions and post answers without opening issues. Link: https://github.com/ropensci/osmextract/discussions.
-* Tests that require an internet connection are now skipped on CRAN. 
+* Tests that require an internet connection are now skipped on CRAN (#189). 
 
 # osmextract 0.2.1
 
