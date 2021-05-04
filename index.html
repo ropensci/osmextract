@@ -93,7 +93,7 @@
   <div class="contents col-md-9">
 <div id="osmextract-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#osmextract-" class="anchor"></a>osmextract <a href="https://docs.ropensci.org/osmextract/" class="external-link"><img src="reference/figures/logo.svg" align="right" height="275/"></a>
+<a href="#osmextract-" class="anchor" aria-hidden="true"></a>osmextract <a href="https://docs.ropensci.org/osmextract/" class="external-link"><img src="reference/figures/logo.svg" align="right" height="275/"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -101,7 +101,7 @@
 <p><code>osmextract</code> finds, downloads, converts and imports bulk OSM data hosted by providers such as <a href="http://download.geofabrik.de" class="external-link">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/" class="external-link">bbbike</a>. For information on alternative providers and how to add them see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html" class="external-link">providers vignette</a>.</p>
 <div id="why-osmextract" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why-osmextract" class="anchor"></a>Why osmextract?</h2>
+<a href="#why-osmextract" class="anchor" aria-hidden="true"></a>Why osmextract?</h2>
 <p>The package answers a common question for researchers who use OSM data: how to get it into a statistical environment, in an appropriate format, as part of a computationally efficient and reproducible workflow? Other packages answer parts of this question. <a href="https://github.com/ropensci/osmdata" class="external-link"><code>osmdata</code></a>, for example, is an R package that provides an R interface to the <a href="https://wiki.openstreetmap.org/wiki/Overpass_API" class="external-link">Overpass API</a>, which is ideal for downloading small OSM datasets. However, the API is rate limited, making it hard to download large datasets. As a case study, try to download all cycleways in England using <code>osmdata</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">osmdata</span><span class="op">)</span>
@@ -127,7 +127,7 @@
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
 <p>You can install the released version of <code>osmextract</code> from <a href="https://cran.r-project.org/package=osmextract" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"osmextract"</span><span class="op">)</span></code></pre></div>
@@ -146,7 +146,7 @@
 <span class="co">#&gt; Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1</span></code></pre></div>
 <div id="warnings" class="section level3">
 <h3 class="hasAnchor">
-<a href="#warnings" class="anchor"></a>Warnings:</h3>
+<a href="#warnings" class="anchor" aria-hidden="true"></a>Warnings:</h3>
 <p>The functions defined in this package may return a warning message like</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>st_crs&lt;-<span class="st"> </span><span class="er">:</span><span class="st"> </span>replacing crs does not reproject data; use st_transform <span class="cf">for</span> that </span></code></pre></div>
 <p>if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ (&lt;= 6.0.0). See <a href="https://github.com/r-spatial/sf/issues/1419" class="external-link">here</a> for more details. Nevertheless, every function should still work correctly. Please, raise <a href="https://github.com/ropensci/osmextract/issues" class="external-link">a new issue</a> if you find any odd behaviour.</p>
@@ -154,7 +154,7 @@
 </div>
 <div id="basic-usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic usage</h2>
+<a href="#basic-usage" class="anchor" aria-hidden="true"></a>Basic usage</h2>
 <p>Give <code>osmextract</code> a place name and it will try to find it in a list of names in the specified provider (<a href="https://www.geofabrik.de/data/download.html" class="external-link">Geofabrik</a> by default). If the name you give it matches a place, it will download and import the associated data into R. The function <code><a href="reference/oe_get.html">oe_get()</a></code> downloads (if not already downloaded) and reads-in data from OSM extract providers as an <code>sf</code> object. By default <code><a href="reference/oe_get.html">oe_get()</a></code> imports the <code>lines</code> layer, but any layer can be read-in by changing the <code>layer</code> argument:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
@@ -175,7 +175,7 @@
 <p>Once imported, you can use all functions for data frames in base R and other packages. You can also use functions from the <code>sf</code> package for spatial analysis and visualisation. Let’s plot all the major, secondary and residential roads, for example:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ht</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"primary"</span>, <span class="st">"secondary"</span>, <span class="st">"tertiary"</span>, <span class="st">"unclassified"</span><span class="op">)</span> <span class="co"># highway types of interest</span>
-<span class="va">osm_major_roads</span> <span class="op">=</span> <span class="va">osm_lines</span><span class="op">[</span><span class="va">osm_lines</span><span class="op">$</span><span class="va">highway</span> <span class="op">%in%</span> <span class="va">ht</span>, <span class="op">]</span>
+<span class="va">osm_major_roads</span> <span class="op">=</span> <span class="va">osm_lines</span><span class="op">[</span><span class="va">osm_lines</span><span class="op">$</span><span class="va">highway</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">ht</span>, <span class="op">]</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">osm_major_roads</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-iow1-1.png" width="100%"></p>
 <p>The same steps can be used to get other OSM datasets (examples not run):</p>
@@ -195,7 +195,7 @@
 </div>
 <div id="persistent-download-directory" class="section level2">
 <h2 class="hasAnchor">
-<a href="#persistent-download-directory" class="anchor"></a>Persistent download directory</h2>
+<a href="#persistent-download-directory" class="anchor" aria-hidden="true"></a>Persistent download directory</h2>
 <p>The default behaviour of <code><a href="reference/oe_get.html">oe_get()</a></code> is to save all the files in a temporary directory, which is erased every time you restart your R session. If you want to set a directory that will persist, you can add <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data</code> in your <code>.Renviron</code> file, e.g. with:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span>
@@ -207,18 +207,18 @@
 </div>
 <div id="troubleshooting" class="section level2">
 <h2 class="hasAnchor">
-<a href="#troubleshooting" class="anchor"></a>Troubleshooting</h2>
-<p>Depending on the <code>.pbf</code> file selected and your connection speed, you may experience an error stating <code>Timeout of 60 seconds was reached</code>. If so, before calling <code><a href="reference/oe_get.html">oe_get()</a></code>, you can adjust the timeout using <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options(timeout = 300)</a></code>, choosing an appropriate value. This setting affects all calls to <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file" class="external-link">download.file()</a>, so you may need to reset it for the rest of your script.</p>
+<a href="#troubleshooting" class="anchor" aria-hidden="true"></a>Troubleshooting</h2>
+<p>Depending on the <code>.pbf</code> file selected and your connection speed, you may experience an error stating <code>Timeout of 60 seconds was reached</code>. If so, before calling <code><a href="reference/oe_get.html">oe_get()</a></code>, you can adjust the timeout using <code>options(timeout = 300)</code>, choosing an appropriate value. This setting affects all calls to <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file" class="external-link">download.file()</a>, so you may need to reset it for the rest of your script.</p>
 <p>If you need to update an existing <code>.pbf</code> file or replace an incomplete extract, you can use the argument <code>force_download</code>. Check <code><a href="reference/oe_get.html">?oe_get</a></code> and <code><a href="reference/oe_download.html">?oe_download</a></code> for more details.</p>
 </div>
 <div id="next-steps" class="section level2">
 <h2 class="hasAnchor">
-<a href="#next-steps" class="anchor"></a>Next steps</h2>
+<a href="#next-steps" class="anchor" aria-hidden="true"></a>Next steps</h2>
 <p>We hope to make the user interface to the SQL syntax more user friendly. We would love to see more providers added (see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html" class="external-link">Add new OpenStreetMap providers</a> for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
 </div>
 <div id="licence" class="section level2">
 <h2 class="hasAnchor">
-<a href="#licence" class="anchor"></a>Licence</h2>
+<a href="#licence" class="anchor" aria-hidden="true"></a>Licence</h2>
 <p>We hope this package will provide easy access to OSM data for reproducible research in the public interest, adhering to the condition of the <a href="https://opendatacommons.org/licenses/odbl/" class="external-link">OdBL licence</a> which states that</p>
 <blockquote>
 <p>Any Derivative Database that You Publicly Use must be only under the terms of:</p>
@@ -235,7 +235,7 @@
 </div>
 <div id="other-approaches" class="section level2">
 <h2 class="hasAnchor">
-<a href="#other-approaches" class="anchor"></a>Other approaches</h2>
+<a href="#other-approaches" class="anchor" aria-hidden="true"></a>Other approaches</h2>
 <!-- todo: add links to other packages -->
 <ul>
 <li>
@@ -258,12 +258,12 @@
 </div>
 <div id="contribution" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contribution" class="anchor"></a>Contribution</h2>
+<a href="#contribution" class="anchor" aria-hidden="true"></a>Contribution</h2>
 <p>We very much look forward to comments, questions and contributions. If you have any question or if you want to suggest a new approach, feel free to create a new discussion in the <a href="https://github.com/ropensci/osmextract/discussions" class="external-link">github repository</a>. If you found a bug, or if you want to add a new OSM extracts provider, create a new issue in the <a href="https://github.com/ropensci/osmextract/issues" class="external-link">issue tracker</a> or a new <a href="https://github.com/ropensci/osmextract/pulls" class="external-link">pull request</a>. We always try to build the most intuitive user interface and write the most informative error messages, but if you think that something is not clear and could have been explained better, please let us know.</p>
 </div>
 <div id="contributor-code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contributor-code-of-conduct" class="anchor"></a>Contributor Code of Conduct</h2>
+<a href="#contributor-code-of-conduct" class="anchor" aria-hidden="true"></a>Contributor Code of Conduct</h2>
 <p>Please note that this package is released with a <a href="https://ropensci.org/code-of-conduct/" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <!-- :) -->
 <!-- :) -->

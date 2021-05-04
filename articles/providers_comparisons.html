@@ -141,7 +141,7 @@
 <p>The reason behind these differences is that each OSM provider divides the geographical space into different discrete chunks, and, in the following paragraphs, we will show the tessellation used by each provider.</p>
 <div id="geofabrik" class="section level2">
 <h2 class="hasAnchor">
-<a href="#geofabrik" class="anchor"></a>Geofabrik</h2>
+<a href="#geofabrik" class="anchor" aria-hidden="true"></a>Geofabrik</h2>
 <p><code>geofabrik</code> is a society that provides map-based services and free downloads of OSM extracts that are updated daily. These extracts are based on a division of the world into different regions, covering a whole continent (plus Russian Federation):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
@@ -159,7 +159,7 @@
 </div>
 <div id="openstreetmap-fr" class="section level2">
 <h2 class="hasAnchor">
-<a href="#openstreetmap-fr" class="anchor"></a>Openstreetmap.fr</h2>
+<a href="#openstreetmap-fr" class="anchor" aria-hidden="true"></a>Openstreetmap.fr</h2>
 <p><code>openstreetmap_fr</code> extracts are taken from <a href="http://download.openstreetmap.fr/" class="external-link uri">http://download.openstreetmap.fr/</a>, a web-service that provides OSM data updated every few minutes. The extracts are based on several regions, such as the continents:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Russian federation is considered as a level 1 zone</span>
@@ -179,22 +179,22 @@
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-11-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>France,</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">%in%</span> <span class="st">"france"</span>
-<span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">%in%</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span>
+<code class="sourceCode R"><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"france"</span>
+<span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span>
 
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">ids_2</span> <span class="op">|</span> <span class="va">ids_3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-12-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and Brazil</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">%in%</span> <span class="st">"brazil"</span>
-<span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">%in%</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span>
+<code class="sourceCode R"><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"brazil"</span>
+<span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span>
 
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">ids_2</span> <span class="op">|</span> <span class="va">ids_3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-13-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="bbbike" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bbbike" class="anchor"></a>BBBike</h2>
+<a href="#bbbike" class="anchor" aria-hidden="true"></a>BBBike</h2>
 <p><code>bbbike</code> provider is based on <a href="https://download.bbbike.org/osm/bbbike/" class="external-link uri">https://download.bbbike.org/osm/bbbike/</a>. It is quite different from any other provider supported in <code>osmextract</code> since it contains OSM data for more than 200 cities worldwide.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
