@@ -31,8 +31,7 @@ oe_query = function(query_list = NULL) {
   character_queries = query_list[list_classes == "character"]
   characters = mapply(oe_query_c, names(character_queries), character_queries)
 
-  x = c(logicals, characters)
-  paste(x[!sapply(x,is.null)], collapse = " ")
+  unname(unlist(c(logicals, characters)))
 
 }
 oe_query_l = function(q) {
@@ -40,5 +39,5 @@ oe_query_l = function(q) {
 }
 oe_query_c = function(v, q) {
   argument = paste0("-", v)
-  paste(argument, q)
+  c(argument, q)
 }
