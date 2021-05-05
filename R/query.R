@@ -9,6 +9,16 @@
 #' oe_query(query_list = list(overwrite = TRUE))
 #' oe_query(query_list = list(overwrite = TRUE, f = "GPKG"))
 #' oe_query(query_list = list(f = "GPKG", t_srs = "EPSG:32633"))
+#' its = oe_get("ITS Leeds", quiet = FALSE, download_directory = tempdir())
+#' # mapview::mapview(its[1:5, ]) # find suitable subset
+#' its_sample_union = sf::st_union(its[1:5, ])
+#' its_polygon = sf::st_convex_hull(its_sample_union)
+#' its_poly_txt = sf::st_as_text(its_polygon)
+#' q = oe_query(list(clipdst = its_poly_txt))
+#' its2 = oe_get("ITS Leeds", quiet = FALSE, download_directory = tempdir(),
+#'   vectortranslate_options = q)
+#' plot(its$geometry, col = "grey")
+#' plot(its_polygon, add = TRUE)
 oe_query = function(query_list = NULL) {
 
   # browser()
