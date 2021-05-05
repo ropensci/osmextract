@@ -7,26 +7,28 @@
 #'
 #' @examples
 #' oe_query(query_list = list(overwrite = TRUE))
-#' oe_query(query_list = list(overwrite = TRUE, where = "some query"))
+#' oe_query(query_list = list(overwrite = TRUE, f = "GPKG"))
+#' oe_query(query_list = list(f = "GPKG", t_srs = "EPSG:32633"))
 oe_query = function(query_list = NULL) {
 
-  browser()
+  # browser()
+  list_names = names(query_list)
   list_classes = sapply(query_list, class)
 
   logical_queries = query_list[list_classes == "logical"]
-  logicals = lapply(query_list, oe_query_logical)
+  logicals = sapply(names(logical_queries), oe_query_l)
 
   character_queries = query_list[list_classes == "character"]
-  characters = lapply(query_list, oe_query_character)
+  characters = mapply(oe_query_c, names(character_queries), character_queries)
 
-  unlist(logicals, characters)
+  x = c(logicals, characters)
+  paste(x[!sapply(x,is.null)], collapse = " ")
 
 }
-oe_query_logical = function(x) {
-  paste0("--", names(x))
+oe_query_l = function(q) {
+  paste0("--", q)
 }
-oe_query_character = function(x) {
-  argument = paste0("-", names(x))
-  value = x
-  paste(argument, value)
+oe_query_c = function(v, q) {
+  argument = paste0("-", v)
+  paste(argument, q)
 }

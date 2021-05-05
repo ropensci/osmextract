@@ -17,5 +17,6 @@ Convert a list to a character strings representing a query
 }
 \examples{
 oe_query(query_list = list(overwrite = TRUE))
-oe_query(query_list = list(overwrite = TRUE, where = "some query"))
+oe_query(query_list = list(overwrite = TRUE, f = "GPKG"))
+oe_query(query_list = list(f = "GPKG", t_srs = "EPSG:32633"))
 }
