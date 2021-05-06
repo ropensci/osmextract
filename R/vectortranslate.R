@@ -291,7 +291,8 @@ oe_vectortranslate = function(
     osmconf_ini = temp_ini_file
   }
 
-  # Set the vectortranslate options:
+  # If vectortranslate options is NULL (the default value), then we adopt the
+  # following set of (basic) options:
   if (is.null(vectortranslate_options)) {
     vectortranslate_options = c(
       "-f", "GPKG", #output file format
@@ -301,6 +302,34 @@ oe_vectortranslate = function(
     )
 
     vectortranslate_options = c(vectortranslate_options, layer)
+  }
+
+  # Otherwise we check the input options and append the "basic" options:
+  if (!is.null(vectortranslate_options)) {
+    # Check if the user omitted the "-f" option (which is used to select the
+    # format_name)
+    if ("-f" %!in% vectortranslate_options) {
+      vectortranslate_options = c(vectortranslate_options, "-f", "GPKG")
+    }
+
+    # TODO: Check that the value after -f is always equal to GPKG.
+
+    #  Check if the user omitted the "-overwrite" option
+    if ("-overwrite" %!in% vectortranslate_options) {
+      vectortranslate_options = c(vectortranslate_options, "-overwrite")
+    }
+
+    # TODO: Check that the user omitted "-append" and "-update" options
+
+    # Check if the user set any open option
+    if ("-oo" %!in% vectortranslate_options) {
+      vectortranslate_options = c(vectortranslate_options, "-oo", paste0("CONFIG_FILE=", osmconf_ini))
+    }
+
+    # Check if the user set any layer creation option (lco)
+    if ("-lco" %!in% vectortranslate_options) {
+      vectortranslate_options = c(vectortranslate_options, "-lco", "GEOMETRY_NAME=geometry")
+    }
   }
 
   if (isFALSE(quiet)) {
