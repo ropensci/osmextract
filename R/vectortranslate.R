@@ -330,6 +330,9 @@ oe_vectortranslate = function(
     if ("-lco" %!in% vectortranslate_options) {
       vectortranslate_options = c(vectortranslate_options, "-lco", "GEOMETRY_NAME=geometry")
     }
+
+    # Add the layer
+    vectortranslate_options = c(vectortranslate_options, layer)
   }
 
   if (isFALSE(quiet)) {
