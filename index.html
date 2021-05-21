@@ -160,7 +160,7 @@
 <code class="sourceCode R"><span class="va">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span>
-<span class="co">#&gt; [1] 45621</span>
+<span class="co">#&gt; [1] 46109</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">osm_points</span><span class="op">)</span>
 <span class="co">#&gt; [1] 59085</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
@@ -209,7 +209,8 @@
 <h2 class="hasAnchor">
 <a href="#troubleshooting" class="anchor" aria-hidden="true"></a>Troubleshooting</h2>
 <p>Depending on the <code>.pbf</code> file selected and your connection speed, you may experience an error stating <code>Timeout of 60 seconds was reached</code>. If so, before calling <code><a href="reference/oe_get.html">oe_get()</a></code>, you can adjust the timeout using <code>options(timeout = 300)</code>, choosing an appropriate value. This setting affects all calls to <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file" class="external-link">download.file()</a>, so you may need to reset it for the rest of your script.</p>
-<p>If you need to update an existing <code>.pbf</code> file or replace an incomplete extract, you can use the argument <code>force_download</code>. Check <code><a href="reference/oe_get.html">?oe_get</a></code> and <code><a href="reference/oe_download.html">?oe_download</a></code> for more details.</p>
+<p>If you need to update an existing <code>.pbf</code> file or replace an incomplete extract, you can use the argument <code>force_download</code>, i.e <code>oe_get("some-place", force_download = TRUE)</code>.<br>
+Check <code><a href="reference/oe_get.html">?oe_get</a></code> and <code><a href="reference/oe_download.html">?oe_download</a></code> for more details.</p>
 </div>
 <div id="next-steps" class="section level2">
 <h2 class="hasAnchor">
