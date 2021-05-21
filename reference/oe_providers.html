@@ -67,8 +67,6 @@ of the databases associated to all available providers." />
 
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -153,7 +151,7 @@ of the databases associated to all available providers." />
 of the databases associated to all available providers.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>oe_providers</span><span class='op'>(</span>quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>oe_providers</span><span class='op'>(</span>quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,11 +173,13 @@ provider, the name of the corresponding database and the number of features
 and fields.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>oe_providers</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</div><div class='co'>#&gt;   available_providers          database_name number_of_zones number_of_fields
-#&gt; 1           geofabrik        geofabrik_zones             430               14
-#&gt; 2              bbbike           bbbike_zones             235               10
-#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             835                6</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>oe_providers</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   available_providers          database_name number_of_zones number_of_fields</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1           geofabrik        geofabrik_zones             430               14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2              bbbike           bbbike_zones             235               10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    openstreetmap_fr openstreetmap_fr_zones             835                6</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
