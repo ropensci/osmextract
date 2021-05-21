@@ -7,13 +7,13 @@
 \alias{oe_get_keys.sf}
 \title{Return all keys stored in "other_tags" column}
 \usage{
-oe_get_keys(zone, layer = "lines")
+oe_get_keys(zone, layer = "lines", values = FALSE, which_keys = NULL)
 
-\method{oe_get_keys}{default}(zone, layer = "lines")
+\method{oe_get_keys}{default}(zone, layer = "lines", values = FALSE, which_keys = NULL)
 
-\method{oe_get_keys}{character}(zone, layer = "lines")
+\method{oe_get_keys}{character}(zone, layer = "lines", values = FALSE, which_keys = NULL)
 
-\method{oe_get_keys}{sf}(zone, layer = "lines")
+\method{oe_get_keys}{sf}(zone, layer = "lines", values = FALSE, which_keys = NULL)
 }
 \arguments{
 \item{zone}{An \code{sf} object with an \code{other_tags} field, or a character vector
@@ -26,6 +26,10 @@ you specify an ad-hoc query using the argument \code{query} (see introductory
 vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
 specified in the query and ignore \code{layer}. See also
 \href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
+
+\item{values}{TODO}
+
+\item{which_keys}{TODO}
 }
 \value{
 A character vector indicating the name of all keys stored in

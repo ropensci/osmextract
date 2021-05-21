@@ -27,6 +27,8 @@
 #' @param zone An `sf` object with an `other_tags` field, or a character vector
 #'   (of length 1) that points to a `.osm.pbf` or `.gpkg` file with an
 #'   `other_tags` field.
+#' @param values TODO
+#' @param which_keys TODO
 #'
 #' @return A character vector indicating the name of all keys stored in
 #'   "other_tags" field.
@@ -61,13 +63,13 @@
 #' # Remove .pbf and .gpkg files in tempdir
 #' # (since they may interact with other examples)
 #' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
-oe_get_keys = function(zone, layer = "lines") {
+oe_get_keys = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   UseMethod("oe_get_keys")
 }
 
 #' @name oe_get_keys
 #' @export
-oe_get_keys.default = function(zone, layer = "lines") {
+oe_get_keys.default = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   stop(
     "At the moment there is no support for objects of class ",
     class(zone)[1], ".",
@@ -78,7 +80,7 @@ oe_get_keys.default = function(zone, layer = "lines") {
 
 #' @name oe_get_keys
 #' @export
-oe_get_keys.character = function(zone, layer = "lines") {
+oe_get_keys.character = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   if (length(zone) != 1L) {
     stop("The input file must have length 1", call. = FALSE)
   }
@@ -128,23 +130,23 @@ oe_get_keys.character = function(zone, layer = "lines") {
     quiet = TRUE
   )
 
-  get_keys(obj[["other_tags"]])
+  get_keys(obj[["other_tags"]], values = values, which_keys = which_keys)
 }
 
 #' @name oe_get_keys
 #' @export
-oe_get_keys.sf = function(zone, layer = "lines") {
+oe_get_keys.sf = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   if ("other_tags" %!in% names(zone)) {
     stop("The input object must have an other_tags field.", call. = FALSE)
   }
 
-  get_keys(zone[["other_tags"]])
+  get_keys(zone[["other_tags"]], values = values, which_keys = which_keys)
 }
 
 # The following is an internal function used to extract the keys
-get_keys = function(text) {
-  # 1. Search for matches
-  regexp_matches <- gregexpr(
+get_keys = function(text, values = FALSE, which_keys = NULL) {
+  # 1. Define regexp for keys and search for matches
+  regexp_keys <- gregexpr(
     # The other_tags field uses the following structure:
     # "KEY1"=>"VALUE1","KEY2"=>"VALUE2" and so on
     # The following regex should match all characters that:
@@ -156,6 +158,97 @@ get_keys = function(text) {
     perl = TRUE
   )
 
-  # 2. Extract those matches
-  unique(unlist(regmatches(text, regexp_matches)))
+  # 2. Extract the keys
+  keys <- regmatches(text, regexp_keys)
+
+  # 3. If values is FALSE, then just return the (unique) keys
+  if (isFALSE(values)) {
+    return(unique(unlist(keys)))
+  }
+
+  # 4. Otherwise, we need to extract also the values. I will use a regex that is
+  # analogous to the previous query (inverting the lookahead and lookbehind)
+  regexp_values <- gregexpr(
+    pattern = '(?<=(\\"=>\\")).+?(?=\\"$|\\",)',
+    text = text,
+    perl = TRUE
+  )
+
+  # 5. Extract the values
+  values <- regmatches(text, regexp_values)
+
+  # 6. Check that each key corresponds to a value
+  if (!all(lengths(keys) == lengths(values))) {
+    stop(
+      "There are more keys than values (or vice versa). ",
+      "Please raise a new issue at https://github.com/ropensci/osmextract",
+      call. = FALSE
+    )
+  }
+
+  # 7. Unlist the two objects
+  keys <- unlist(keys)
+  values <- unlist(values)
+  nums <- sort(table(keys), decreasing = TRUE)
+  keys <- factor(keys, levels = names(nums))
+
+  # 8. Nest the two objects
+  nested_key_values <- split(values, keys)
+
+  # 9. If which is not NULL, then filter only the corresponding keys
+  if (!is.null(which_keys)) {
+    idx <- names(nested_key_values) %in% which_keys
+    nested_key_values <- nested_key_values[idx]
+  }
+
+  # 9. nested_key_values is just a nested list but, unfortunately, the default
+  # printing method is quite difficult to understand. Hence, I will assign a new
+  # class and define a new printing method.
+  structure(nested_key_values, class = c("oe_key_values_list", class(nested_key_values)))
+}
+
+#' @export
+print.oe_key_values_list <- function(x, n = NULL, ...) {
+  # Set n. The default value can be set using the option named oe.max.print.keys
+  if (is.null(n)) {
+    n <- getOption("oe.max.print.keys", 10L)
+  }
+
+  # Truncate the top n elements
+  print_truncated <- FALSE
+  if (length(x) > n) {
+    x <- x[seq_len(n)]
+    print_truncated <- TRUE
+  }
+
+  # Process each key and create a table-like format
+  res <- lapply(x, function(values) {
+    tab <- sort(table(values), decreasing = TRUE)
+    paste(paste0("#", names(tab)), tab, sep = " = ", collapse = "; ")
+  })
+
+  # Extract all keys
+  keys <- names(res)
+
+  # Extract the page-width (i.e. the number of chars used by the consol)
+  my_width <- getOption("width")
+
+  for (i in seq_len(min(n, length(x)))) {
+    cat(keys[i], "= {")
+    cat(
+      if (nchar(encodeString(res[[i]])) <= (
+        my_width + nchar(encodeString(keys[i]), type = "width") + 6
+        )
+      ) {
+        res[[i]]
+      } else {
+        paste0(strtrim(res[[i]], my_width - nchar(encodeString(keys[i]), type = "width") - 8), "...")
+      }
+    )
+    cat("}\n")
+  }
+  if (print_truncated) cat("[Truncated output...]")
+
+  # Return
+  invisible(x)
 }
