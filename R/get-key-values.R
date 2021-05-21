@@ -91,12 +91,6 @@ oe_get_keys.character = function(zone, layer = "lines") {
     )
   }
 
-  # We don't need the following if clause, since actually we can read also from
-  # .pbf files. See also https://github.com/ropensci/osmextract/discussions/188.
-  # if (tools::file_ext(zone) != "gpkg") {
-  #   stop("The input file must have a .gpkg extension.", call. = FALSE)
-  # }
-
   # Check that the input file contains the other_tags field
   # See also https://github.com/ropensci/osmextract/issues/158
   existing_fields = colnames(
@@ -109,7 +103,11 @@ oe_get_keys.character = function(zone, layer = "lines") {
   )
 
   if ("other_tags" %!in% existing_fields) {
-    stop("The input file must have an other_tags field.", call. = FALSE)
+    stop(
+      "The input file must have an other_tags field.",
+      " You may need to rerun the vectortranslate process.",
+      call. = FALSE
+    )
   }
 
   # Read the gpkg file selecting only the other_tags column.
@@ -123,14 +121,14 @@ oe_get_keys.character = function(zone, layer = "lines") {
     stop("The input file must have .pbf or .gpkg extension", call. = FALSE)
   }
 
-  other_tags = sf::st_read(
+  obj = sf::st_read(
     dsn = zone,
     layer = layer,
     query = query_for_other_tags,
     quiet = TRUE
   )
 
-  get_keys(other_tags)
+  get_keys(obj[["other_tags"]])
 }
 
 #' @name oe_get_keys
@@ -140,25 +138,24 @@ oe_get_keys.sf = function(zone, layer = "lines") {
     stop("The input object must have an other_tags field.", call. = FALSE)
   }
 
-  get_keys(zone)
+  get_keys(zone[["other_tags"]])
 }
 
+# The following is an internal function used to extract the keys
+get_keys = function(text) {
+  # 1. Search for matches
+  regexp_matches <- gregexpr(
+    # The other_tags field uses the following structure:
+    # "KEY1"=>"VALUE1","KEY2"=>"VALUE2" and so on
+    # The following regex should match all characters that:
+    # 1. Follow ^" or ," (where ^ denotes the start of a line)
+    # and
+    # 2. Precede the character "=>" (i.e. the delimiter)
+    pattern = '(?<=^\\"|,\\").+?(?=\\"=>\\")',
+    text = text,
+    perl = TRUE
+  )
 
-# The following is an internal function used to extract the new keys from an
-# "other_tags" field
-get_keys = function(x) {
-  # Create regex
-  osm_matches = gregexpr(pattern = '[^\"=>,\\]+', x[["other_tags"]])
-  key_value_matches = regmatches(x[["other_tags"]], osm_matches)
-
-  keys_per_feature = lapply(key_value_matches, function(x) {
-    # character(0) occurs when other_tags is equal to NA
-    if (identical(x, character(0))) {
-      return(NULL)
-    }
-    x[seq(1, length(x), by = 2)]
-  })
-
-  unique_keys = unique(unlist(keys_per_feature))
-  unique_keys
+  # 2. Extract those matches
+  unique(unlist(regmatches(text, regexp_matches)))
 }
