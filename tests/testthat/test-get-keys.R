@@ -5,16 +5,17 @@ file.copy(
 )
 its_pbf = file.path(tempdir(), "its-example.osm.pbf")
 
-test_that("get_keys: simplest examples work", {
+test_that("get_keys (keys): simplest examples work", {
   expect_equal(get_keys('"A"=>"B"'), "A")
   expect_equal(get_keys(c('"A"=>"B"', '"C"=>"D"')), c("A", "C"))
 })
 
-test_that("get_keys: more complicated examples: ", {
+test_that("get_keys (keys): more complicated examples: ", {
   expect_equal(get_keys('"A"=>"B=C"'), "A")
   expect_equal(get_keys('"A"=>"B,C"'), "A")
   expect_equal(get_keys('"A"=>"B\\""'), "A")
   expect_equal(get_keys('"A"=>"B > C'), "A")
+  expect_equal(get_keys('"A"=>"B\nC"'), "A")
 })
 
 test_that("oe_get_keys: simplest examples work", {

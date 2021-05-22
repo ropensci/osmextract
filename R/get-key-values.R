@@ -145,6 +145,10 @@ oe_get_keys.sf = function(zone, layer = "lines", values = FALSE, which_keys = NU
 
 # The following is an internal function used to extract the keys
 get_keys = function(text, values = FALSE, which_keys = NULL) {
+  # 0. Preprocess the text and remove all "\n". See
+  # https://github.com/ropensci/osmextract/pull/202#issuecomment-846077516
+  text <- gsub("\n", "", text)
+
   # 1. Define regexp for keys and search for matches
   regexp_keys <- gregexpr(
     # The other_tags field uses the following structure:
@@ -242,7 +246,7 @@ print.oe_key_values_list <- function(x, n = NULL, ...) {
       ) {
         res[[i]]
       } else {
-        paste0(strtrim(res[[i]], my_width - nchar(encodeString(keys[i]), type = "width") - 8), "...")
+        paste0(strtrim(res[[i]], my_width - nchar(encodeString(keys[i]), type = "width") - 8), " ...")
       }
     )
     cat("}\n")
