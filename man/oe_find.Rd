@@ -9,6 +9,7 @@ oe_find(
   provider = "geofabrik",
   download_directory = oe_download_directory(),
   download_if_missing = FALSE,
+  quiet = FALSE,
   ...
 )
 }
@@ -31,6 +32,12 @@ are stored. By default it is equal to \code{\link[=oe_download_directory]{oe_dow
 
 \item{download_if_missing}{Attempt to download the file if it cannot be
 found? \code{FALSE} by default.}
+
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 
 \item{...}{Extra arguments that are passed to \code{\link[=oe_match]{oe_match()}} and \code{\link[=oe_get]{oe_get()}}.
 Please note that you cannot modify the argument \code{download_only}.}
