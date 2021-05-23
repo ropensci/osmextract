@@ -8,14 +8,37 @@ its_pbf = file.path(tempdir(), "its-example.osm.pbf")
 test_that("get_keys (keys): simplest examples work", {
   expect_equal(get_keys('"A"=>"B"'), "A")
   expect_equal(get_keys(c('"A"=>"B"', '"C"=>"D"')), c("A", "C"))
+  # multiple input + sorted output
+  expect_equal(
+    get_keys(c('"C"=>"D", "C"=>"B"', '"C"=>"A","B"=>"A"')),
+    c("C", "B")
+  )
 })
 
 test_that("get_keys (keys): more complicated examples: ", {
-  expect_equal(get_keys('"A"=>"B=C"'), "A")
-  expect_equal(get_keys('"A"=>"B,C"'), "A")
-  expect_equal(get_keys('"A"=>"B\\""'), "A")
-  expect_equal(get_keys('"A"=>"B > C'), "A")
-  expect_equal(get_keys('"A"=>"B\nC"'), "A")
+  expect_equal(get_keys('"A"=>"B=C"'), "A") # = in values
+  expect_equal(get_keys('"A"=>"B,C"'), "A") # , in values
+  expect_equal(get_keys('"A"=>"B\\""'), "A") # \\" in values
+  expect_equal(get_keys('"A"=>"B > C'), "A") # > in values
+  expect_equal(get_keys('"A"=>"B\nC"'), "A") # \n in values
+})
+
+test_that("get_keys (values): simplest examples work", {
+  expect_identical(unclass(get_keys('"A"=>"B"', values = TRUE)), list(A = "B"))
+  expect_identical(unclass(get_keys('"A"=>"B","C"=>"D"', values = TRUE)), list(A = "B", C = "D"))
+})
+
+test_that("get_keys (values): more complicated examples", {
+  # = and , into the values
+  expect_identical(
+    object = unclass(get_keys('"A"=>"B=C","C"=>"D,E"', values = TRUE)),
+    expected = list(A = "B=C", C = "D,E")
+  )
+  # Multiple outputs + sorted keys
+  expect_identical(
+    object = unclass(get_keys(c('"A"=>"B","C"=>"D"', '"C"=>"E"'), values = TRUE)),
+    expected = list(C = c("D", "E"), A = "B")
+  )
 })
 
 test_that("oe_get_keys: simplest examples work", {
@@ -35,6 +58,10 @@ test_that("oe_get_keys: simplest examples work", {
 })
 
 test_that("oe_get_keys: returns error with wrong inputs", {
+  expect_error(
+    oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
+    "there is no support for objects of class"
+  )
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
 })
 
