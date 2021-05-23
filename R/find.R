@@ -60,7 +60,7 @@ oe_find = function(
   # approach adopted with the code.
 
   # First I need to match the input place with a URL
-  matched_place = oe_match(place, provider = provider, ...)
+  matched_place = oe_match(place, provider = provider, quiet = quiet, ...)
   matched_URL = matched_place[["url"]]
 
   # Then I extract from the URL the file name
@@ -98,6 +98,7 @@ oe_find = function(
       download_directory = download_directory,
       provider = provider,
       download_only = TRUE,
+      quiet = quiet,
       ...
     )
     return(
@@ -106,6 +107,7 @@ oe_find = function(
         provider = provider,
         download_directory = download_directory,
         download_if_missing = FALSE,
+        quiet = quiet,
         ...
       )
     )
