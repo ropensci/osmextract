@@ -57,6 +57,16 @@ test_that("oe_get_keys: simplest examples work", {
   file.remove(its_gpkg)
 })
 
+test_that("oe_get_keys + values: printing method", {
+  expect_snapshot_output(oe_get_keys(its_pbf, values = TRUE))
+
+  # Define path to gpkg object
+  its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
+  expect_snapshot_output(oe_get_keys(its_gpkg, values = TRUE))
+
+  file.remove(its_gpkg)
+})
+
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(
     oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
