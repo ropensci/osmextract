@@ -114,5 +114,14 @@ test_that("oe_get_keys stops when there is no other_tags field", {
   file.remove(its_path)
 })
 
+test_that("oe_get_keys matches input zone with file", {
+  # Simplest example works
+  expect_error(oe_get_keys("ITS Leeds"), NA)
+
+  # TODO: Finish reading https://adv-r.hadley.nz/conditions.html
+  # TODO: Compare the two types of inputs
+  # TODO: Test the error (possibly with skip on CRAN or skip if offline)
+})
+
 # Clean tempdir
 file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))

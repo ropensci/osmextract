@@ -105,12 +105,22 @@ oe_get_keys.character = function(zone, layer = "lines", values = FALSE, which_ke
   }
 
   if (!file.exists(zone)) {
-    # FIXME: Add check for files that can be matched via oe_get
-    stop(
-      "The input file does not exist.",
-      "You can download it using oe_get(zone, download_only = TRUE).",
-      call. = FALSE
+    # Test if the input zone can be matched with one of the existing files,
+    # otherwise stop
+    zone = withCallingHandlers(
+      error = function(cnd) {
+        stop(
+          "The input file does not exist and can't be matched with any existing file.",
+          " You can download it using oe_get(zone, download_only = TRUE).",
+          call. = FALSE
+        )
+      },
+      oe_find(zone, quiet = TRUE)
     )
+
+    if (length(zone) > 1L) {
+      zone = zone[1L]
+    }
   }
 
   if (tools::file_ext(zone) %!in% c("gpkg", "pbf")) {
