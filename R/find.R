@@ -87,7 +87,7 @@ oe_find = function(
   }
 
   if (download_if_missing) {
-    if (isTRUE(quiet)) {
+    if (isFALSE(quiet)) {
       message(
         "No file associated with that place name could be found.\n",
         "Trying to download osm data with oe_get()."
