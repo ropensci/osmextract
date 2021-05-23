@@ -73,6 +73,13 @@ test_that("oe_get_keys: returns error with wrong inputs", {
     "there is no support for objects of class"
   )
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
+  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg"))) # length > 1
+  expect_error(oe_get_keys("a.shp")) # no pbf or gpkg
+})
+
+test_that("oe_get_keys: reads from sf object", {
+  its_object <- oe_read(its_pbf, skip_vectortranslate = TRUE)
+  expect_error(oe_get_keys(its_object), NA)
 })
 
 test_that("oe_get_keys stops when there is no other_tags field", {
