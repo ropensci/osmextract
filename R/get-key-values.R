@@ -1,9 +1,9 @@
 #' Return keys and (optionally) values stored in "other_tags" column
 #'
-#' This function returns the keys and (optionally) the values stored in the
+#' This function returns the OSM keys and (optionally) the values stored in the
 #' `other_tags` field. See Details. In both cases, the keys are sorted according
 #' to the number of occurrences, which means that the most common keys are
-#' reported first.
+#' stored first.
 #'
 #' @details OSM data are typically documented using several
 #' [`tags`](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two
@@ -15,18 +15,23 @@
 #' [here](https://gdal.org/drivers/vector/osm.html#driver-capabilities) for
 #' more details.
 #'
-#' When `values` is `TRUE`, then the function returns a named list of class
-#' `oe_key_values_list` that, for each key, summarises the corresponding
-#' values. The object is stored using the following format:
-#' `list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)`
-#' Nevertheless, we decided to implement an ad-hoc method for printing objects
-#' of class `oe_key_values_list` using the following structure: \preformatted{
-#' `key1 = {#value1 = n1; #value2 = n2; #value3 = n3, ...}`
-#' `key2 = {#value1 = n1; #value2 = n2; ...}`
-#' `key3 = {#value1 = n1}`
+#' When the argument `values` is `TRUE`, then the function returns a named list
+#' of class `oe_key_values_list` that, for each key, summarises the
+#' corresponding values. The key-value pairs are stored using the following
+#' format:
+#' `list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)`.
+#' We decided to implement an ad-hoc method for printing objects of class
+#' `oe_key_values_list` using the following structure:\preformatted{
+#' key1 = {#value1 = n1; #value2 = n2; #value3 = n3, ...}
+#' key2 = {#value1 = n1; #value2 = n2; ...}
+#' key3 = {#value1 = n1}
+#' ...
 #' }
-#' and so on. By default, the function prints only the ten most common keys,
-#' but the value can be adjusted using the option `oe_max_print_keys`.
+#' where `n1` denotes the number of times that value1 is repeated, `n2` denotes
+#' the number of times that value2 is repeated and so on. Also the values are
+#' listed according to the number of occurrences in decreasing order. By
+#' default, the function prints only the ten most common keys, but the number
+#' can be adjusted using the option `oe_max_print_keys`.
 #'
 #' Finally, the `hstore_get_value()` function can be used inside the `query`
 #' argument in `oe_get()` to extract one particular tag from an existing file.
@@ -36,47 +41,53 @@
 #'
 #' @inheritParams oe_get
 #' @param zone An `sf` object with an `other_tags` field or a character vector
-#'   (of length 1) pointing to a `.osm.pbf` or `.gpkg` file with an `other_tags`
-#'   field.
+#'   (of length 1) that can be linked to or pointing to a `.osm.pbf` or `.gpkg`
+#'   file with an `other_tags` field. Character vectors are linked to `.osm.pbf`
+#'   files using `oe_find()`.
 #' @param values Logical. If `TRUE`, then function returns the keys and the
 #'   corresponding values, otherwise only the keys. Defaults to `FALSE. `
-#' @param which_keys Subset only some keys and corresponding values. Ignored if
-#'   `values` is `FALSE`. See examples.
+#' @param which_keys Character vector used to subset only some keys and
+#'   corresponding values. Ignored if `values` is `FALSE`. See examples.
 #' @param ... Ignored.
 #'
-#' @return If `values` is `FALSE` (the default), then the function returns a
-#'   character vector with the names of all keys stored in the "other_tags"
-#'   field. If `values` is `TRUE`, then the function returns named list which
-#'   stores all keys and the corresponding values. In the latter case, the
-#'   returned object has class `oe_key_values_list` and we defined an ad-hoc
-#'   printing method. See Details.
+#' @return If the argument `values` is `FALSE` (the default), then the function
+#'   returns a character vector with the names of all keys stored in the
+#'   `other_tags` field. If `values` is `TRUE`, then the function returns named
+#'   list which stores all keys and the corresponding values. In the latter
+#'   case, the returned object has class `oe_key_values_list` and we defined an
+#'   ad-hoc printing method. See Details.
 #'
 #' @export
 #'
 #' @examples
-#' # Get keys from pbf file
-#' itsleeds_pbf_path = oe_download(
-#'   oe_match("ITS Leeds")$url,
-#'   download_directory = tempdir(),
-#'   provider = "test"
-#' )
-#' oe_get_keys(itsleeds_pbf_path)
-#' itsleeds_gpkg_path = oe_get(
-#'   "ITS Leeds",
-#'   download_only = TRUE,
-#'   download_directory = tempdir(),
+#' # Get keys from an OSM extract
+#' oe_get_keys("ITS Leeds")
+#'
+#' # Get keys and values
+#' oe_get_keys("ITS Leeds", values = TRUE)
+#'
+#' # Subset some keys
+#' oe_get_keys("ITS Leeds", values = TRUE, which_keys = c("surface", "lanes"))
+#'
+#' # Print all (non-NA) values for a given key
+#' oe_get_keys("ITS Leeds", values = TRUE)["surface"]
+#'
+#' # Get keys from an existing sf object
+#' its = oe_get("ITS Leeds")
+#' oe_get_keys(its, values = TRUE)
+#'
+#' # Get keys from a character vector pointing to a file (might be faster than
+#' # reading the complete file)
+#' its_path = oe_get("ITS Leeds", download_only = TRUE)
+#' oe_get_keys(its_path, values = TRUE)
+#'
+#' # Add an extra key to an existing .gpkg file without repeating the
+#' # vectortranslate operations
+#' colnames(its)
+#' colnames(oe_read(
+#'   its_path,
+#'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
 #'   quiet = TRUE
-#' )
-#' itsleeds_gpkg_path
-#' oe_get_keys(itsleeds_gpkg_path)
-#'
-#' itsleeds = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
-#' oe_get_keys(itsleeds)
-#'
-#' # Add an extra key to an existing .gpkg file without vectortranslate
-#' names(oe_read(
-#'   itsleeds_gpkg_path,
-#'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
 #' ))
 #'
 #' # Remove .pbf and .gpkg files in tempdir
