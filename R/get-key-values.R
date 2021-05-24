@@ -60,6 +60,9 @@
 #' @export
 #'
 #' @examples
+#' # Download an OSM extract
+#' its_path = oe_get("ITS Leeds", download_only = TRUE)
+#'
 #' # Get keys from an OSM extract
 #' oe_get_keys("ITS Leeds")
 #'
@@ -78,7 +81,6 @@
 #'
 #' # Get keys from a character vector pointing to a file (might be faster than
 #' # reading the complete file)
-#' its_path = oe_get("ITS Leeds", download_only = TRUE)
 #' oe_get_keys(its_path, values = TRUE)
 #'
 #' # Add an extra key to an existing .gpkg file without repeating the

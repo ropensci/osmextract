@@ -92,6 +92,9 @@ argument in \code{oe_get()} to extract one particular tag from an existing file.
 Check the introductory vignette and see examples.
 }
 \examples{
+# Download an OSM extract
+its_path = oe_get("ITS Leeds", download_only = TRUE)
+
 # Get keys from an OSM extract
 oe_get_keys("ITS Leeds")
 
@@ -110,7 +113,6 @@ oe_get_keys(its, values = TRUE)
 
 # Get keys from a character vector pointing to a file (might be faster than
 # reading the complete file)
-its_path = oe_get("ITS Leeds", download_only = TRUE)
 oe_get_keys(its_path, values = TRUE)
 
 # Add an extra key to an existing .gpkg file without repeating the
@@ -118,7 +120,7 @@ oe_get_keys(its_path, values = TRUE)
 colnames(its)
 colnames(oe_read(
   its_path,
-  query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines",
+  query = "SELECT *,  hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
   quiet = TRUE
 ))
 

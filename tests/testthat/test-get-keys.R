@@ -123,9 +123,8 @@ test_that("oe_get_keys matches input zone with file", {
   # Simplest example works
   expect_error(oe_get_keys("ITS Leeds"), NA)
 
-  # TODO: Finish reading https://adv-r.hadley.nz/conditions.html
-  # TODO: Compare the two types of inputs
-  # TODO: Test the error (possibly with skip on CRAN or skip if offline)
+  # Cannot extract from files that were not previously downloaded
+  expect_error(oe_get_keys("Brazil"))
 })
 
 # Clean tempdir
