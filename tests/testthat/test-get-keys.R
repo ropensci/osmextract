@@ -39,6 +39,12 @@ test_that("get_keys (values): more complicated examples", {
     object = unclass(get_keys(c('"A"=>"B","C"=>"D"', '"C"=>"E"'), values = TRUE)),
     expected = list(C = c("D", "E"), A = "B")
   )
+
+  # subset keys
+  expect_identical(
+    object = unclass(get_keys(c('"A"=>"B","C"=>"D"', '"C"=>"E"'), values = TRUE, which_keys = "C")),
+    expected = list(C = c("D", "E"))
+  )
 })
 
 test_that("oe_get_keys: simplest examples work", {
@@ -74,11 +80,10 @@ test_that("oe_get_keys: returns error with wrong inputs", {
   )
   expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
   expect_error(oe_get_keys(c("a.gpkg", "b.gpkg"))) # length > 1
-  expect_error(oe_get_keys("a.shp")) # no pbf or gpkg
 })
 
 test_that("oe_get_keys: reads from sf object", {
-  its_object <- oe_read(its_pbf, skip_vectortranslate = TRUE)
+  its_object <- oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
   expect_error(oe_get_keys(its_object), NA)
 })
 
