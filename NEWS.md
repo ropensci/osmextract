@@ -2,6 +2,7 @@
 
 ### MAJOR CHANGES
 
+* The `oe_get_keys()` function can be used to extract the values associated to all or some keys. We also defined an ad-hoc printing method, and fixed several bugs. The examples were improved. Moreover, now the function tries to match an input `zone` with one of the OSM extracts previously downloaded (#201 and #196). 
 * If the parameter `place` represents an `sf`/`sfc`/`bbox` object with missing CRS, then `oe_match()` raises a warning message and sets `CRS = 4326`. This has relevant consequences on other functions (like `oe_get()`) that wrap `oe_match()`. 
 
 ### BUG FIXES
@@ -10,7 +11,7 @@
 
 ### MINOR IMPROVEMENTS
 
-* The arguments passed to `oe_read()` via `...` are compared to the formals of `st_read.character` and `st_as_sf.data.frame`. 
+* The arguments passed to `oe_read()` via `...` are compared with the formals of `st_read.character` and `st_as_sf.data.frame`. 
 * Added a new method to `oe_match` for `bbox` objects (#185).
 * The `oe_get_keys()` function can be applied to `.osm.pbf` objects (#188). 
 

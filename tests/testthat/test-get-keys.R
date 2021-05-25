@@ -24,26 +24,37 @@ test_that("get_keys (keys): more complicated examples: ", {
 })
 
 test_that("get_keys (values): simplest examples work", {
-  expect_identical(unclass(get_keys('"A"=>"B"', values = TRUE)), list(A = "B"))
-  expect_identical(unclass(get_keys('"A"=>"B","C"=>"D"', values = TRUE)), list(A = "B", C = "D"))
+  expect_identical(
+    object = unclass(get_keys('"A"=>"B"', values = TRUE)),
+    expected = list(A = "B"),
+    ignore_attr = TRUE
+  )
+  expect_identical(
+    object = unclass(get_keys('"A"=>"B","C"=>"D"', values = TRUE)),
+    expected = list(A = "B", C = "D"),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("get_keys (values): more complicated examples", {
   # = and , into the values
   expect_identical(
     object = unclass(get_keys('"A"=>"B=C","C"=>"D,E"', values = TRUE)),
-    expected = list(A = "B=C", C = "D,E")
+    expected = list(A = "B=C", C = "D,E"),
+    ignore_attr = TRUE
   )
   # Multiple outputs + sorted keys
   expect_identical(
     object = unclass(get_keys(c('"A"=>"B","C"=>"D"', '"C"=>"E"'), values = TRUE)),
-    expected = list(C = c("D", "E"), A = "B")
+    expected = list(C = c("D", "E"), A = "B"),
+    ignore_attr = TRUE
   )
 
   # subset keys
   expect_identical(
     object = unclass(get_keys(c('"A"=>"B","C"=>"D"', '"C"=>"E"'), values = TRUE, which_keys = "C")),
-    expected = list(C = c("D", "E"))
+    expected = list(C = c("D", "E")),
+    ignore_attr = TRUE
   )
 })
 
@@ -83,9 +94,24 @@ test_that("oe_get_keys: returns error with wrong inputs", {
 })
 
 test_that("oe_get_keys: reads from sf object", {
-  its_object <- oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
+  its_object = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
   expect_error(oe_get_keys(its_object), NA)
 })
+
+test_that("the output from oe_get_keys is the same as for hstore_get_values", {
+  my_output = oe_get_keys("ITS Leeds", values = TRUE)
+  its_leeds_with_surface = oe_get(
+    "ITS Leeds",
+    query = "SELECT *, hstore_get_value(other_tags, 'surface') AS surface FROM lines",
+    quiet = TRUE
+  )
+
+  expect_equal(
+    object = sort(table(my_output["surface"]), decreasing = TRUE)[1:2],
+    expected = sort(table(its_leeds_with_surface[["surface"]]), decreasing = TRUE)[1:2]
+  )
+})
+
 
 test_that("oe_get_keys stops when there is no other_tags field", {
   # Read data ignoring the other_tags field

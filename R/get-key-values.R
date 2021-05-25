@@ -60,10 +60,10 @@
 #' @export
 #'
 #' @examples
-#' # Download an OSM extract
+#' # Load an OSM extract
 #' its_path = oe_get("ITS Leeds", download_only = TRUE)
 #'
-#' # Get keys from an OSM extract
+#' # Get keys
 #' oe_get_keys("ITS Leeds")
 #'
 #' # Get keys and values
@@ -72,7 +72,7 @@
 #' # Subset some keys
 #' oe_get_keys("ITS Leeds", values = TRUE, which_keys = c("surface", "lanes"))
 #'
-#' # Print all (non-NA) values for a given key
+#' # Print all (non-NA) values for a given set of keys
 #' oe_get_keys("ITS Leeds", values = TRUE)["surface"]
 #'
 #' # Get keys from an existing sf object
@@ -83,12 +83,12 @@
 #' # reading the complete file)
 #' oe_get_keys(its_path, values = TRUE)
 #'
-#' # Add an extra key to an existing .gpkg file without repeating the
+#' # Add a key to an existing .gpkg file without repeating the
 #' # vectortranslate operations
 #' colnames(its)
 #' colnames(oe_read(
 #'   its_path,
-#'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
+#'   query = "SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
 #'   quiet = TRUE
 #' ))
 #'
@@ -255,7 +255,11 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
   # 10. The object nested_key_values is a nested list. Unfortunately, the
   # default printing method is quite difficult to understand. Hence, I will
   # assign a new class and define a new printing method.
-  structure(nested_key_values, class = c("oe_key_values_list", class(nested_key_values)))
+  structure(
+    nested_key_values,
+    class = c("oe_key_values_list", class(nested_key_values)),
+    nfeatures_OSM = length(text)
+  )
 }
 
 #' @name oe_get_keys
@@ -264,12 +268,19 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
 #'   set globally by `options(oe_max_print_keys=...)`. Default value is 10.
 #' @export
 print.oe_key_values_list = function(x, n = getOption("oe_max_print_keys", 10L), ...) {
+  # Extract nfeatures_OSM
+  nfeatures_OSM = attr(x, "nfeatures_OSM")
+
   # Truncate the top n elements
   print_truncated = FALSE
+  total_length = length(x)
   if (length(x) > n) {
     x = x[seq_len(n)]
     print_truncated = TRUE
   }
+
+  # Percentages of NA(s)
+  perc_NA = (1 - lengths(x) / nfeatures_OSM) * 100
 
   # Process each key and create a table-like format for the values
   x = lapply(x, function(values) {
@@ -287,18 +298,27 @@ print.oe_key_values_list = function(x, n = getOption("oe_max_print_keys", 10L), 
   # don't want to print an output which is too long for the given console.
   my_width = getOption("width")
 
-  # Print the output using a for loop. I think that nobody wants to print
+
+  # First, print a super short summary
+  cat("Found", total_length, "unique keys, printed in ascending order of % NA values. ")
+  if (print_truncated) {
+    cat("The first", length(x), "keys are: \n")
+  } else {
+    cat("\n")
+  }
+
+  # Then, print the output using a for loop. I think that nobody wants to print
   # hundreds of thousands of keys, so this shouldn't be a bottleneck.
   for (i in seq_len(min(n, length(x)))) {
     # As written before, I want to create an output like:
     # key = {#value1 = n1; #value2 = n2; ...}
     # so I start printing the ith key and the opening curly bracket
-    cat(keys[i], "= {")
+    cat(keys[i], paste0("(", sprintf("%1.0f%%", perc_NA[i]), " NAs)"), "= {")
     # Then I need to check the number of characters of the string that
     # summarises the values corresponding to the ith key. The object
     # width_keys_and_brackets counts the number of characters taken my the ith
     # key, the opening and clonsing curly brackets and the ...
-    width_keys_and_brackets = nchar(encodeString(keys[i]), type = "width") + 6
+    width_keys_and_brackets = nchar(encodeString(keys[i]), type = "width") + 15
     # If nchar(encodeString(x[[i]])) is longer than the available number of
     # characters, i.e. my_width - width_keys_and_brackets, then I need to
     # truncate the output.

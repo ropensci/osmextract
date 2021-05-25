@@ -92,10 +92,10 @@ argument in \code{oe_get()} to extract one particular tag from an existing file.
 Check the introductory vignette and see examples.
 }
 \examples{
-# Download an OSM extract
+# Load an OSM extract
 its_path = oe_get("ITS Leeds", download_only = TRUE)
 
-# Get keys from an OSM extract
+# Get keys
 oe_get_keys("ITS Leeds")
 
 # Get keys and values
@@ -104,7 +104,7 @@ oe_get_keys("ITS Leeds", values = TRUE)
 # Subset some keys
 oe_get_keys("ITS Leeds", values = TRUE, which_keys = c("surface", "lanes"))
 
-# Print all (non-NA) values for a given key
+# Print all (non-NA) values for a given set of keys
 oe_get_keys("ITS Leeds", values = TRUE)["surface"]
 
 # Get keys from an existing sf object
@@ -115,12 +115,12 @@ oe_get_keys(its, values = TRUE)
 # reading the complete file)
 oe_get_keys(its_path, values = TRUE)
 
-# Add an extra key to an existing .gpkg file without repeating the
+# Add a key to an existing .gpkg file without repeating the
 # vectortranslate operations
 colnames(its)
 colnames(oe_read(
   its_path,
-  query = "SELECT *,  hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
+  query = "SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
   quiet = TRUE
 ))
 
