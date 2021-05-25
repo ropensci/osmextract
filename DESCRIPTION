@@ -29,9 +29,10 @@ Imports:
     utils,
     tools
 Suggests: 
-    testthat,
+    testthat (>= 3.0.2),
     knitr,
     rmarkdown,
     covr
 VignetteBuilder: knitr
 Language: en_GB
+Config/testthat/edition: 3
