@@ -327,6 +327,7 @@ First, we download the `.pbf` file associated with ITS example:
 
 ```{r}
 its_pbf = oe_download(its_details$url, provider = "test")
+file.path(its_pbf)
 list.files(oe_download_directory(), pattern = "pbf|gpkg")
 ```
 
