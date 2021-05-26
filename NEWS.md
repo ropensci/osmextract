@@ -4,6 +4,7 @@
 
 * The `oe_get_keys()` function can be used to extract the values associated to all or some keys. We also defined an ad-hoc printing method, and fixed several bugs. The examples were improved. Moreover, now the function tries to match an input `zone` with one of the OSM extracts previously downloaded (#201 and #196). 
 * If the parameter `place` represents an `sf`/`sfc`/`bbox` object with missing CRS, then `oe_match()` raises a warning message and sets `CRS = 4326`. This has relevant consequences on other functions (like `oe_get()`) that wrap `oe_match()`. 
+* Starting from `sf` 0.9.9, the function `oe_vectortranslate()` stops with an error when there is a problem in `vectortranslate_option` and `quiet = FALSE` (instead of crashing the `R` session). See [here](https://github.com/r-spatial/sf/issues/1680) for more details. 
 
 ### BUG FIXES
 
