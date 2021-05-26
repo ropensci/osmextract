@@ -13,7 +13,6 @@ knitr::opts_chunk$set(
   comment = "#>", 
   fig.align = "center"
 )
-Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = "")
 
 # save user's options and pars
 user_options = options()
@@ -327,7 +326,6 @@ First, we download the `.pbf` file associated with ITS example:
 
 ```{r}
 its_pbf = oe_download(its_details$url, provider = "test")
-file.path(its_pbf)
 list.files(oe_download_directory(), pattern = "pbf|gpkg")
 ```
 
