@@ -13,7 +13,6 @@ knitr::opts_chunk$set(
   comment = "#>", 
   fig.align = "center"
 )
-Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = "")
 
 # save user's options and pars
 user_options = options()
