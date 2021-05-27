@@ -44,6 +44,17 @@ test_that("oe_vectortranslate adds new tags to existing file", {
   file.remove(new_its_gpkg) # which points to the same file as its_gpkg
 })
 
+test_that("vectortranslate_options are autocompleted", {
+  expect_error(
+    oe_vectortranslate(
+      its_pbf,
+      quiet = TRUE,
+      vectortranslate_options = c("-t_srs", "EPSG:27700")
+    ),
+    NA
+  )
+})
+
 test_that("vectortranslate is not skipped if force_download is TRUE", {
   # See https://github.com/ropensci/osmextract/issues/144
   # I need to download the following files in a new directory since they could
@@ -52,11 +63,8 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
     its_pbf,
     download_directory = tempdir(),
     vectortranslate_options = c(
-      "-f", "GPKG",
-      "-overwrite",
-      "-lco", "GEOMETRY_NAME=geometry",
-      "-where", "highway IN ('service')",
-      "lines"
+      # the other options should be filled automatically
+      "-where", "highway IN ('service')"
     ),
     quiet = TRUE
   )
