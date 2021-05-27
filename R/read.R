@@ -278,6 +278,11 @@ oe_read = function(
     return(gpkg_file_path)
   }
 
+  # Add another test since maybe there was an error during the vectortranslate process:
+  if (!file.exists(gpkg_file_path)) {
+    stop("An error occurred during the vectortranslate process", call. = FALSE)
+  }
+
   # Read the translated file with sf::st_read
   sf::st_read(
     dsn = gpkg_file_path,

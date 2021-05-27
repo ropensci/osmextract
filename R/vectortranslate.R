@@ -352,6 +352,16 @@ oe_vectortranslate = function(
     if ("-oo" %!in% vectortranslate_options) {
       # Otherwise append the basic open options
       vectortranslate_options = c(vectortranslate_options, "-oo", paste0("CONFIG_FILE=", osmconf_ini))
+    } else {
+      # Check if the user set its own CONFIG_FILE and osmconf_ini is not NULL.
+      # In that case, raise a warning message
+      if (any(grepl("CONFIG_FILE", vectortranslate_options)) && !is.null(osmconf_ini)) {
+        warning(
+          "Ignoring the osmconf_ini argument since the config file ",
+          "was already specified in the vectortranslate options",
+          call. = FALSE
+        )
+      }
     }
 
     # Check if the user set any layer creation option (lco)

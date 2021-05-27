@@ -53,6 +53,9 @@ test_that("vectortranslate_options are autocompleted", {
     ),
     NA
   )
+
+  # clean tempdir
+  file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
 
 test_that("vectortranslate is not skipped if force_download is TRUE", {
