@@ -274,35 +274,38 @@ print.oe_key_values_list = function(x, n = getOption("oe_max_print_keys", 10L), 
   # Truncate the top n elements
   print_truncated = FALSE
   total_length = length(x)
+  x_truncated = x
   if (length(x) > n) {
-    x = x[seq_len(n)]
+    x_truncated = x[seq_len(n)]
     print_truncated = TRUE
   }
 
   # Percentages of NA(s)
-  perc_NA = (1 - lengths(x) / nfeatures_OSM) * 100
+  perc_NA = (1 - lengths(x_truncated) / nfeatures_OSM) * 100
 
   # Process each key and create a table-like format for the values
-  x = lapply(x, function(values) {
-    tab = sort(table(values), decreasing = TRUE)
-    paste(paste0("#", names(tab)), tab, sep = " = ", collapse = "; ")
-  })
+  x_truncated = lapply(
+    X = x_truncated,
+    FUN = function(values) {
+      tab = sort(table(values), decreasing = TRUE)
+      paste(paste0("#", names(tab)), tab, sep = " = ", collapse = "; ")
+    }
+  )
   # The output is like list(key1 = "#value1 = n1; #value2 = n2;...").
 
   # Extract the names of all keys (since I want to create an output like key =
   # {table of values} and I'm not sure how to extract the keys inside the for
   # loop)
-  keys = names(x)
+  keys = names(x_truncated)
 
   # Extract the page-width (i.e. the number of chars used by the console). I
   # don't want to print an output which is too long for the given console.
   my_width = getOption("width")
 
-
   # First, print a super short summary
   cat("Found", total_length, "unique keys, printed in ascending order of % NA values. ")
   if (print_truncated) {
-    cat("The first", length(x), "keys are: \n")
+    cat("The first", length(x_truncated), "keys are: \n")
   } else {
     cat("\n")
   }
@@ -322,10 +325,10 @@ print.oe_key_values_list = function(x, n = getOption("oe_max_print_keys", 10L), 
     # If nchar(encodeString(x[[i]])) is longer than the available number of
     # characters, i.e. my_width - width_keys_and_brackets, then I need to
     # truncate the output.
-    if (nchar(encodeString(x[[i]])) > my_width - width_keys_and_brackets) {
-      cat(paste0(strtrim(x[[i]], my_width - width_keys_and_brackets - 2), "..."))
+    if (nchar(encodeString(x_truncated[[i]])) > my_width - width_keys_and_brackets) {
+      cat(paste0(strtrim(x_truncated[[i]], my_width - width_keys_and_brackets - 2), "..."))
     } else {
-      cat(x[[i]])
+      cat(x_truncated[[i]])
     }
     # Print the closing bracket
     cat("}\n")
