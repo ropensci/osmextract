@@ -273,11 +273,11 @@ as fields (while all the other tags are stored in the <code>other_tags</code> co
 see <code><a href='oe_get_keys.html'>oe_get_keys()</a></code>). The parameter <code>extra_tags</code> is used to determine
 which extra tags (i.e. key/value pairs) should be added to the <code>.gpkg</code>
 file.</p>
-<p>By default, the vectortranslate operations are skipped if the
-function detects a file having the same path as the input file, <code>.gpkg</code>
-extension and a layer with the same name as the parameter <code>layer</code> with all
-<code>extra_tags</code>. In that case the function will simply return the path
-of the <code>.gpkg</code> file. This behaviour can be overwritten by setting
+<p>By default, the vectortranslate operations are skipped if the function
+detects a file having the same path as the input file, <code>.gpkg</code> extension
+and a layer with the same name as the parameter <code>layer</code> with all
+<code>extra_tags</code>. In that case the function will simply return the path of the
+<code>.gpkg</code> file. This behaviour can be overwritten setting
 <code>force_vectortranslate = TRUE</code>. The parameter <code>osmconf_ini</code> is used to pass
 your own <code>CONFIG</code> file in case you need more control over the GDAL
 operations. In that case the vectortranslate operations are never skipped.
@@ -289,7 +289,7 @@ that are passed to <code>ogr2ogr</code> via <code><a href='https://r-spatial.git
 <code>.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations during
 the conversion process, such as spatial filters or SQL queries. These
 operations are determined by the <code>vectortranslate_options</code> argument. If
-<code>NULL</code> (default value), then <code>vectortranslate_options</code> is set equal to</p>
+<code>NULL</code> (the default value), then <code>vectortranslate_options</code> is set equal to</p>
 <p><code>c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)</code>.</p>
 <p>Explanation:</p><ul>
 <li><p><code>"-f", "GPKG"</code> says that the output format is <code>GPKG</code>;</p></li>
@@ -305,17 +305,21 @@ for the <code>.gpkg</code> file and modify the name of the geometry column;</p><
 <li><p><code>layer</code> indicates which layer should be converted.</p></li>
 </ul>
 
+<p>If <code>vectortranslate_options</code> is not <code>NULL</code>, then the options <code>c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco", "GEOMETRY_NAME=geometry")</code> are always appended at the end of the
+<code>vectortranslate_options</code> unless the user explicitly sets different default
+parameters for the arguments <code>-f</code>, <code>-oo</code> and <code>-lco</code>.</p>
 <p>Check the introductory vignette, the help page of <code><a href='https://r-spatial.github.io/sf/reference/gdal_utils.html'>sf::gdal_utils()</a></code> and
-<a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for an extensive
-documentation on all available options.</p>
+<a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for more examples and
+extensive documentation on all available options.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='oe_get_keys.html'>oe_get_keys()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># First we need to match an input zone with a .osm.pbf file</span></span>
-<span class='r-in'><span class='va'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"test"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: ITS Leeds</span>
+<span class='r-in'></span>
 <span class='r-in'><span class='co'># The we can download the .osm.pbf files</span></span>
 <span class='r-in'><span class='va'>its_pbf</span> <span class='op'>=</span> <span class='fu'><a href='oe_download.html'>oe_download</a></span><span class='op'>(</span></span>
 <span class='r-in'>  file_url <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>url</span>,</span>
@@ -327,7 +331,7 @@ documentation on all available options.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Check that the file was downloaded</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpTQpSCQ/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp6DPbJn/test_its-example.osm.pbf"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Convert to gpkg format</span></span>
 <span class='r-in'><span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span><span class='va'>its_pbf</span><span class='op'>)</span></span>
@@ -337,8 +341,8 @@ documentation on all available options.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Now there is an extra .gpkg file</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpTQpSCQ/test_its-example.gpkg"   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpTQpSCQ/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp6DPbJn/test_its-example.gpkg"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp6DPbJn/test_its-example.osm.pbf"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Check the layers of the .gpkg file</span></span>
 <span class='r-in'><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
@@ -375,6 +379,24 @@ documentation on all available options.</p>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "barrier"    "man_made"   "oneway"     "maxspeed"   "z_order"   </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "other_tags" "geometry"  </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Adjust vectortranslate options and convert only 10 features</span></span>
+<span class='r-in'><span class='co'># for the lines layer</span></span>
+<span class='r-in'><span class='fu'>oe_vectortranslate</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='va'>its_pbf</span>,</span>
+<span class='r-in'>  vectortranslate_options <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"-limit"</span>, <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp6DPbJn/test_its-example.gpkg"</span>
+<span class='r-in'><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Driver: GPKG </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Available layers:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   layer_name geometry_type features fields</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     points         Point      186     10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2      lines   Line String       10      9</span>
+<span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Remove .pbf and .gpkg files in tempdir</span></span>
 <span class='r-in'><span class='co'># (since they may interact with other examples)</span></span>
