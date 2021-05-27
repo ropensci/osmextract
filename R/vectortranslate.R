@@ -357,8 +357,8 @@ oe_vectortranslate = function(
       # In that case, raise a warning message
       if (any(grepl("CONFIG_FILE", vectortranslate_options)) && !is.null(osmconf_ini)) {
         warning(
-          "Ignoring the osmconf_ini argument since the config file ",
-          "was already specified in the vectortranslate options",
+          "The osmconf_ini argument is ignored since the CONFIG file ",
+          "was already specified in the vectortranslate options.",
           call. = FALSE
         )
       }
