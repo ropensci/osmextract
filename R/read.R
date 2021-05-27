@@ -135,8 +135,7 @@ oe_read = function(
       warning(
         "The query selected a layer which is different from layer argument. ",
         "We will replace the layer argument.",
-        call. = FALSE,
-        immediate. = TRUE
+        call. = FALSE
       )
       layer = layer_clean[[1]]
     }
@@ -168,15 +167,17 @@ oe_read = function(
   ) {
     warning(
       "The following arguments are probably misspelled: ",
-      paste(setdiff(
-        names(list(...)),
-        union(
-          names(formals(get("st_read.character", envir = getNamespace("sf")))),
-          names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
-        )
-      ), collapse = " - "),
-      call. = FALSE,
-      immediate. = TRUE
+      paste(
+        setdiff(
+          names(list(...)),
+          union(
+            names(formals(get("st_read.character", envir = getNamespace("sf")))),
+            names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
+          )
+        ),
+        collapse = " - "
+      ),
+      call. = FALSE
     )
   }
 

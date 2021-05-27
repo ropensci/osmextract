@@ -17,8 +17,7 @@ check_layer_provider = function(layer, provider) {
       "You set layer = ",
       layer,
       " so you probably passed the provider to the layer argument!",
-      call. = FALSE,
-      immediate. = TRUE
+      call. = FALSE
     )
   }
   invisible(0)
