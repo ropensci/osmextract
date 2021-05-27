@@ -107,11 +107,11 @@ see \code{\link[=oe_get_keys]{oe_get_keys()}}). The parameter \code{extra_tags} 
 which extra tags (i.e. key/value pairs) should be added to the \code{.gpkg}
 file.
 
-By default, the vectortranslate operations are skipped if the
-function detects a file having the same path as the input file, \code{.gpkg}
-extension and a layer with the same name as the parameter \code{layer} with all
-\code{extra_tags}. In that case the function will simply return the path
-of the \code{.gpkg} file. This behaviour can be overwritten by setting
+By default, the vectortranslate operations are skipped if the function
+detects a file having the same path as the input file, \code{.gpkg} extension
+and a layer with the same name as the parameter \code{layer} with all
+\code{extra_tags}. In that case the function will simply return the path of the
+\code{.gpkg} file. This behaviour can be overwritten setting
 \code{force_vectortranslate = TRUE}. The parameter \code{osmconf_ini} is used to pass
 your own \code{CONFIG} file in case you need more control over the GDAL
 operations. In that case the vectortranslate operations are never skipped.
@@ -124,7 +124,7 @@ that are passed to \code{ogr2ogr} via \code{\link[sf:gdal_utils]{sf::gdal_utils(
 \code{.pbf} and \code{.gpkg} formats. \code{ogr2ogr} can perform various operations during
 the conversion process, such as spatial filters or SQL queries. These
 operations are determined by the \code{vectortranslate_options} argument. If
-\code{NULL} (default value), then \code{vectortranslate_options} is set equal to
+\code{NULL} (the default value), then \code{vectortranslate_options} is set equal to
 
 \code{c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)}.
 
@@ -143,13 +143,18 @@ for the \code{.gpkg} file and modify the name of the geometry column;
 \item \code{layer} indicates which layer should be converted.
 }
 
+If \code{vectortranslate_options} is not \code{NULL}, then the options \code{c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco", "GEOMETRY_NAME=geometry")} are always appended at the end of the
+\code{vectortranslate_options} unless the user explicitly sets different default
+parameters for the arguments \code{-f}, \code{-oo} and \code{-lco}.
+
 Check the introductory vignette, the help page of \code{\link[sf:gdal_utils]{sf::gdal_utils()}} and
-\href{https://gdal.org/programs/ogr2ogr.html}{here} for an extensive
-documentation on all available options.
+\href{https://gdal.org/programs/ogr2ogr.html}{here} for more examples and
+extensive documentation on all available options.
 }
 \examples{
 # First we need to match an input zone with a .osm.pbf file
-its_match = oe_match("ITS Leeds", provider = "test")
+its_match = oe_match("ITS Leeds")
+
 # The we can download the .osm.pbf files
 its_pbf = oe_download(
   file_url = its_match$url,
@@ -181,6 +186,15 @@ its_gpkg = oe_vectortranslate(
   extra_tags = c("oneway", "maxspeed")
 )
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
+
+# Adjust vectortranslate options and convert only 10 features
+# for the lines layer
+oe_vectortranslate(
+  its_pbf,
+  vectortranslate_options = c("-limit", 10)
+)
+sf::st_layers(its_gpkg, do_count = TRUE)
+
 
 # Remove .pbf and .gpkg files in tempdir
 # (since they may interact with other examples)

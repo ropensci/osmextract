@@ -44,11 +44,11 @@
 #'   which extra tags (i.e. key/value pairs) should be added to the `.gpkg`
 #'   file.
 #'
-#'   By default, the vectortranslate operations are skipped if the
-#'   function detects a file having the same path as the input file, `.gpkg`
-#'   extension and a layer with the same name as the parameter `layer` with all
-#'   `extra_tags`. In that case the function will simply return the path
-#'   of the `.gpkg` file. This behaviour can be overwritten by setting
+#'   By default, the vectortranslate operations are skipped if the function
+#'   detects a file having the same path as the input file, `.gpkg` extension
+#'   and a layer with the same name as the parameter `layer` with all
+#'   `extra_tags`. In that case the function will simply return the path of the
+#'   `.gpkg` file. This behaviour can be overwritten setting
 #'   `force_vectortranslate = TRUE`. The parameter `osmconf_ini` is used to pass
 #'   your own `CONFIG` file in case you need more control over the GDAL
 #'   operations. In that case the vectortranslate operations are never skipped.
@@ -61,7 +61,7 @@
 #'   `.pbf` and `.gpkg` formats. `ogr2ogr` can perform various operations during
 #'   the conversion process, such as spatial filters or SQL queries. These
 #'   operations are determined by the `vectortranslate_options` argument. If
-#'   `NULL` (default value), then `vectortranslate_options` is set equal to
+#'   `NULL` (the default value), then `vectortranslate_options` is set equal to
 #'
 #'   `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),
 #'   "-lco", "GEOMETRY_NAME=geometry", layer)`.
@@ -79,9 +79,15 @@
 #'   for the `.gpkg` file and modify the name of the geometry column;
 #'   * `layer` indicates which layer should be converted.
 #'
+#'   If `vectortranslate_options` is not `NULL`, then the options `c("-f",
+#'   "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco",
+#'   "GEOMETRY_NAME=geometry")` are always appended at the end of the
+#'   `vectortranslate_options` unless the user explicitly sets different default
+#'   parameters for the arguments `-f`, `-oo` and `-lco`.
+#'
 #'   Check the introductory vignette, the help page of [`sf::gdal_utils()`] and
-#'   [here](https://gdal.org/programs/ogr2ogr.html) for an extensive
-#'   documentation on all available options.
+#'   [here](https://gdal.org/programs/ogr2ogr.html) for more examples and
+#'   extensive documentation on all available options.
 #'
 #' @inheritParams oe_get
 #' @param file_path Character string representing the path of the input
@@ -94,7 +100,8 @@
 #'
 #' @examples
 #' # First we need to match an input zone with a .osm.pbf file
-#' its_match = oe_match("ITS Leeds", provider = "test")
+#' its_match = oe_match("ITS Leeds")
+#'
 #' # The we can download the .osm.pbf files
 #' its_pbf = oe_download(
 #'   file_url = its_match$url,
@@ -126,6 +133,15 @@
 #'   extra_tags = c("oneway", "maxspeed")
 #' )
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
+#'
+#' # Adjust vectortranslate options and convert only 10 features
+#' # for the lines layer
+#' oe_vectortranslate(
+#'   its_pbf,
+#'   vectortranslate_options = c("-limit", 10)
+#' )
+#' sf::st_layers(its_gpkg, do_count = TRUE)
+#'
 #'
 #' # Remove .pbf and .gpkg files in tempdir
 #' # (since they may interact with other examples)
