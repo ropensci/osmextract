@@ -84,6 +84,14 @@
 #'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
 #'    if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
+#' @param boundary An `sf` or `sfc` object that will be used to create a spatial
+#'   filter during the vectortranslate operations. The type of filter can be
+#'   chosen using the argument `boundary_type`.
+#' @param boundary_type A character vector of length 1 specifying the type of
+#'   spatial filter. The `spat` filter selects only those features that
+#'   intersect a given area, while `clipsrc` also clips the geometries. See the
+#'   examples and check [here](https://gdal.org/programs/ogr2ogr.html) for more
+#'   details.
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -173,6 +181,8 @@ oe_get = function(
   osmconf_ini = NULL,
   extra_tags = NULL,
   force_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
@@ -217,6 +227,8 @@ oe_get = function(
     extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
     never_skip_vectortranslate = never_skip_vectortranslate,
+    boundary = boundary,
+    boundary_type = boundary_type,
     quiet = quiet,
     ...
   )

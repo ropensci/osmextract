@@ -154,6 +154,8 @@ oe_vectortranslate = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   quiet = FALSE
 ) {
   # Check that the input file was specified using the format
@@ -194,10 +196,11 @@ oe_vectortranslate = function(
   }
 
   # Check if the user passed its own osmconf.ini file or vectortranslate_options
-  # since, in that case, we always need to perform the vectortranslate
-  # operations (since it's too difficult to determine if an existing .gpkg file
-  # was generated following a particular .ini file with some options)
-  if (!is.null(osmconf_ini) || !is.null(vectortranslate_options)) {
+  # (or boundary object) since, in that case, we always need to perform the
+  # vectortranslate operations (since it's too difficult to determine if an
+  # existing .gpkg file was generated following a particular .ini file with some
+  # options)
+  if (!is.null(osmconf_ini) || !is.null(vectortranslate_options) || !is.null(boundary)) {
     force_vectortranslate = TRUE
     never_skip_vectortranslate = TRUE
   }
@@ -316,6 +319,13 @@ oe_vectortranslate = function(
       "-lco", "GEOMETRY_NAME=geometry" # layer creation options
     )
 
+    # Check if we need to add a spatial filter
+    vectortranslate_options = process_boundary(
+      vectortranslate_options,
+      boundary,
+      boundary_type
+    )
+
     # Add the layer argument
     vectortranslate_options = c(vectortranslate_options, layer)
   } else {
@@ -369,6 +379,9 @@ oe_vectortranslate = function(
       # Otherwise append the basic layer creation options
       vectortranslate_options = c(vectortranslate_options, "-lco", "GEOMETRY_NAME=geometry")
     }
+
+    # Check if the user set the argument boundary
+    vectortranslate_options = process_boundary(vectortranslate_options, boundary, boundary_type)
 
     # Check if the user added the layer argument
     if (
@@ -454,4 +467,66 @@ get_ini_layer_defaults = function(layer) {
     other_relations = c("name", "type")
   )
   def_layers[[layer]]
+}
+
+process_boundary = function(
+  vectortranslate_options,
+  boundary,
+  boundary_type = c("spat", "clipsrc")
+) {
+  # Checks
+  if (is.null(boundary)) {
+    return(vectortranslate_options)
+  }
+
+  if (any(c("-spat", "-clipsrc", "-nlt") %in% vectortranslate_options)) {
+    warning(
+      "The boundary argument is ignored since the vectortraslate_options ",
+      "already defines a spatial filter",
+      call. = FALSE
+    )
+    return(vectortranslate_options)
+  }
+
+
+
+  # Match the boundary type
+  boundary_type = match.arg(boundary_type)
+
+  # Extract the geometry (or just return the geometry if boundary is a sfc)
+  boundary <- sf::st_geometry(boundary)
+
+  # Check the number of geometries
+  if (length(boundary) > 1L) {
+    warning(
+      "The boundary is composed by more than one features. Selecting the first. ",
+      call. = FALSE
+    )
+    boundary = boundary[1L]
+  }
+
+  # Check that the object can be interpreted as a POLYGON
+  stopifnot(sf::st_is(boundary, "POLYGON") || sf::st_is(boundary, "MULTIPOLYGON"))
+
+  # Check the CRS of boundary
+  if (sf::st_crs(boundary) != sf::st_crs(4326)) {
+    boundary = sf::st_transform(boundary, 4326)
+  }
+
+  # Add and return
+  switch(
+    boundary_type,
+    spat = process_spat(vectortranslate_options, boundary),
+    clipsrc = process_clipsrc(vectortranslate_options, boundary)
+  )
+}
+
+# Add "-spat" + (xmin, ymin, xmax, ymax)
+process_spat = function(vectortranslate_options, boundary) {
+  c(vectortranslate_options, "-spat", sf::st_bbox(boundary))
+}
+
+# Add "-clipsrc" + WKT
+process_clipsrc = function(vectortranslate_options, boundary) {
+  c(vectortranslate_options, "-clipsrc", sf::st_as_text(boundary))
 }

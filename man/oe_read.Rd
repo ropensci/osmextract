@@ -20,6 +20,8 @@ oe_read(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   quiet = FALSE
 )
 }
@@ -97,6 +99,16 @@ Check the introductory vignette and the help page of
 passed its own \code{.ini} file or vectortranslate options (since, in those case,
 it's too difficult to determine if an existing \code{.gpkg} file was generated
 following the same options.)}
+
+\item{boundary}{An \code{sf} or \code{sfc} object that will be used to create a spatial
+filter during the vectortranslate operations. The type of filter can be
+chosen using the argument \code{boundary_type}.}
+
+\item{boundary_type}{A character vector of length 1 specifying the type of
+spatial filter. The \code{spat} filter selects only those features that
+intersect a given area, while \code{clipsrc} also clips the geometries. See the
+examples and check \href{https://gdal.org/programs/ogr2ogr.html}{here} for more
+details.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
