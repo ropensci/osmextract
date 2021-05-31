@@ -11,4 +11,4 @@
 ^CRAN-RELEASE$
 my-rhub-commands.R
 pkgdown/
-notes.txt
+notes.R
