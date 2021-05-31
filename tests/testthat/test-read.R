@@ -154,3 +154,57 @@ test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL",
   # clean tempdir
   file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
+
+test_that("boundary and boundary_type arguments from oe_vectortranslate works", {
+  # Define a small polygon in the area of ITS Leeds
+  its_poly = sf::st_sfc(
+    sf::st_polygon(
+      list(rbind(
+        c(-1.55577, 53.80850),
+        c(-1.55787, 53.80926),
+        c(-1.56096, 53.80891),
+        c(-1.56096, 53.80736),
+        c(-1.55675, 53.80658),
+        c(-1.55495, 53.80749),
+        c(-1.55577, 53.80850)
+      ))
+    ),
+    crs = 4326
+  )
+
+  # Spatial filters work
+  its = oe_read(its_pbf, quiet = TRUE)
+  its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
+  its_clipsrc = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc")
+  expect_lte(nrow(its_spat), nrow(its))
+  expect_lte(nrow(its_clipsrc), nrow(its_spat))
+
+  # Can combine with other vectortranslate arguments
+  its_clipsrc_small = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc", vectortranslate_options = c("-where", "highway = 'footway'"))
+  expect_lte(nrow(its_clipsrc_small), nrow(its_spat))
+  expect_equal(nrow(its_clipsrc_small), sum(its_clipsrc[["highway"]] == "footway", na.rm = TRUE))
+
+  # Warning for more than 1 POLYGON
+  expect_warning(oe_read(its_pbf, boundary = c(its_poly, its_poly), quiet = TRUE))
+
+  # Error for non POLYGON boundary
+  suppressWarnings(expect_error(oe_read(its_pbf, boundary = sf::st_centroid(its_poly), quiet = TRUE)))
+  # I need suppressWarnings for the warning on centroids for lat/long data
+
+  # Warning for "-spat"/"-clipsrc" in vectortranslate_options
+  expect_warning(oe_read(
+    file_path = its_pbf,
+    boundary = its_poly,
+    vectortranslate_options = c("-spat", sf::st_bbox(its_poly)),
+    quiet = TRUE
+  ))
+  expect_warning(oe_read(
+    file_path = its_pbf,
+    boundary = its_poly,
+    boundary_type = "clipsrc",
+    vectortranslate_options = c("-clipsrc", sf::st_as_text(its_poly)),
+    quiet = TRUE
+  ))
+
+  file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
+})

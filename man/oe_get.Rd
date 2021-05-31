@@ -184,6 +184,30 @@ q = "SELECT * FROM 'lines' WHERE oneway == 'yes'"
 its_oneway = oe_get("ITS Leeds", query = q)
 its_oneway[, c(1, 3, 9)]
 
+# Apply a spatial filter during the vectortranslate operations
+its_poly = sf::st_sfc(
+  sf::st_polygon(
+    list(rbind(
+      c(-1.55577, 53.80850),
+      c(-1.55787, 53.80926),
+      c(-1.56096, 53.80891),
+      c(-1.56096, 53.80736),
+      c(-1.55675, 53.80658),
+      c(-1.55495, 53.80749),
+      c(-1.55577, 53.80850)
+    ))
+  ),
+  crs = 4326
+)
+its_spat = oe_get("ITS Leeds", boundary = its_poly)
+its_clipped = oe_get("ITS Leeds", boundary = its_poly, boundary_type = "clipsrc", quiet = TRUE)
+
+plot(sf::st_geometry(its), reset = FALSE, col = "lightgrey")
+plot(sf::st_boundary(its_poly), col = "black", add = TRUE)
+plot(sf::st_boundary(sf::st_as_sfc(sf::st_bbox(its_poly))), col = "black", add = TRUE)
+plot(sf::st_geometry(its_spat), add = TRUE, col = "darkred")
+plot(sf::st_geometry(its_clipped), add = TRUE, col = "orange")
+
 # More complex examples
 \dontrun{
   west_yorkshire = oe_get("West Yorkshire")
