@@ -88,6 +88,8 @@ oe_read = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   quiet = FALSE
 ) {
 
@@ -269,6 +271,8 @@ oe_read = function(
     extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
     never_skip_vectortranslate = never_skip_vectortranslate,
+    boundary = boundary,
+    boundary_type = boundary_type,
     quiet = quiet
   )
 

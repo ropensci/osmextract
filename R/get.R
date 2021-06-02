@@ -84,6 +84,14 @@
 #'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
 #'    if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
+#' @param boundary An `sf` or `sfc` object that will be used to create a spatial
+#'   filter during the vectortranslate operations. The type of filter can be
+#'   chosen using the argument `boundary_type`.
+#' @param boundary_type A character vector of length 1 specifying the type of
+#'   spatial filter. The `spat` filter selects only those features that
+#'   intersect a given area, while `clipsrc` also clips the geometries. See the
+#'   examples and check [here](https://gdal.org/programs/ogr2ogr.html) for more
+#'   details.
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -130,6 +138,30 @@
 #' its_oneway = oe_get("ITS Leeds", query = q)
 #' its_oneway[, c(1, 3, 9)]
 #'
+#' # Apply a spatial filter during the vectortranslate operations
+#' its_poly = sf::st_sfc(
+#'   sf::st_polygon(
+#'     list(rbind(
+#'       c(-1.55577, 53.80850),
+#'       c(-1.55787, 53.80926),
+#'       c(-1.56096, 53.80891),
+#'       c(-1.56096, 53.80736),
+#'       c(-1.55675, 53.80658),
+#'       c(-1.55495, 53.80749),
+#'       c(-1.55577, 53.80850)
+#'     ))
+#'   ),
+#'   crs = 4326
+#' )
+#' its_spat = oe_get("ITS Leeds", boundary = its_poly)
+#' its_clipped = oe_get("ITS Leeds", boundary = its_poly, boundary_type = "clipsrc", quiet = TRUE)
+#'
+#' plot(sf::st_geometry(its), reset = FALSE, col = "lightgrey")
+#' plot(sf::st_boundary(its_poly), col = "black", add = TRUE)
+#' plot(sf::st_boundary(sf::st_as_sfc(sf::st_bbox(its_poly))), col = "black", add = TRUE)
+#' plot(sf::st_geometry(its_spat), add = TRUE, col = "darkred")
+#' plot(sf::st_geometry(its_clipped), add = TRUE, col = "orange")
+#'
 #' # More complex examples
 #' \dontrun{
 #'   west_yorkshire = oe_get("West Yorkshire")
@@ -173,6 +205,8 @@ oe_get = function(
   osmconf_ini = NULL,
   extra_tags = NULL,
   force_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
@@ -217,6 +251,8 @@ oe_get = function(
     extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
     never_skip_vectortranslate = never_skip_vectortranslate,
+    boundary = boundary,
+    boundary_type = boundary_type,
     quiet = quiet,
     ...
   )
