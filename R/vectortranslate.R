@@ -506,7 +506,7 @@ process_boundary = function(
   boundary_type = match.arg(boundary_type)
 
   # Extract the geometry (or just return the geometry if boundary is a sfc)
-  boundary <- sf::st_geometry(boundary)
+  boundary = sf::st_geometry(boundary)
 
   # Check the number of geometries
   if (length(boundary) > 1L) {
