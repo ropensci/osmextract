@@ -170,6 +170,8 @@ of the wrapped functions to understand the details behind all parameters.</p>
   osmconf_ini <span class='op'>=</span> <span class='cn'>NULL</span>,
   extra_tags <span class='op'>=</span> <span class='cn'>NULL</span>,
   force_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  boundary <span class='op'>=</span> <span class='cn'>NULL</span>,
+  boundary_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"spat"</span>, <span class='st'>"clipsrc"</span><span class='op'>)</span>,
   download_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
   skip_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
   never_skip_vectortranslate <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -292,6 +294,20 @@ Check the introductory vignette and the help page of
 <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
+      <th>boundary</th>
+      <td><p>An <code>sf</code> or <code>sfc</code> object that will be used to create a spatial
+filter during the vectortranslate operations. The type of filter can be
+chosen using the argument <code>boundary_type</code>.</p></td>
+    </tr>
+    <tr>
+      <th>boundary_type</th>
+      <td><p>A character vector of length 1 specifying the type of
+spatial filter. The <code>spat</code> filter selects only those features that
+intersect a given area, while <code>clipsrc</code> also clips the geometries. See the
+examples and check <a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for more
+details.</p></td>
+    </tr>
+    <tr>
       <th>download_only</th>
       <td><p>Boolean. If <code>TRUE</code>, then the function only returns the
 path where the matched file is stored, instead of reading it. <code>FALSE</code> by
@@ -345,7 +361,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0WOvXC/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -365,7 +381,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0WOvXC/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `points' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: POINT</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -377,9 +393,9 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Get the .osm.pbf and .gpkg files paths</span></span>
 <span class='r-in'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0WOvXC/test_its-example.gpkg"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.gpkg"</span>
 <span class='r-in'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0WOvXC/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.osm.pbf"</span>
 <span class='r-in'><span class='co'># See also ?oe_find()</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Add additional tags</span></span>
@@ -389,7 +405,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0WOvXC/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -410,7 +426,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0WOvXC/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 13 features and 10 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -434,6 +450,42 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 8  151645336 residential       3 LINESTRING (-1.552181 53.80...</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 9  160502811     service       0 LINESTRING (-1.553221 53.80...</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 10 552695946  trunk_link       8 LINESTRING (-1.551952 53.80...</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Apply a spatial filter during the vectortranslate operations</span></span>
+<span class='r-in'><span class='va'>its_poly</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_polygon</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span></span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.55577</span>, <span class='fl'>53.80850</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.55787</span>, <span class='fl'>53.80926</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.56096</span>, <span class='fl'>53.80891</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.56096</span>, <span class='fl'>53.80736</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.55675</span>, <span class='fl'>53.80658</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.55495</span>, <span class='fl'>53.80749</span><span class='op'>)</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1.55577</span>, <span class='fl'>53.80850</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  crs <span class='op'>=</span> <span class='fl'>4326</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>its_spat</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, boundary <span class='op'>=</span> <span class='va'>its_poly</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: ITS Leeds</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmpwnjvfz/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 77 features and 9 fields</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.552941 ymax: 53.81102</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class='r-in'><span class='va'>its_clipped</span> <span class='op'>=</span> <span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, boundary <span class='op'>=</span> <span class='va'>its_poly</span>, boundary_type <span class='op'>=</span> <span class='st'>"clipsrc"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_geometry</a></span><span class='op'>(</span><span class='va'>its</span><span class='op'>)</span>, reset <span class='op'>=</span> <span class='cn'>FALSE</span>, col <span class='op'>=</span> <span class='st'>"lightgrey"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>st_boundary</a></span><span class='op'>(</span><span class='va'>its_poly</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"black"</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>st_boundary</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_as_sfc.html'>st_as_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></span><span class='op'>(</span><span class='va'>its_poly</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"black"</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_geometry</a></span><span class='op'>(</span><span class='va'>its_spat</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"darkred"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_geometry</a></span><span class='op'>(</span><span class='va'>its_clipped</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"orange"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='oe_get-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># More complex examples</span></span>
 <span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
