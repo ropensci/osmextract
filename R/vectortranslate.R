@@ -2,18 +2,18 @@
 #'
 #' This function is used to translate a `.osm.pbf` file into `.gpkg` format.
 #' The conversion is performed using
-#' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through
+#' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) via the
 #' `vectortranslate` utility in [sf::gdal_utils()] . It was created following
 #' [the
 #' suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053)
-#' of the maintainers of GDAL. See Details and examples to understand the basic
+#' of the maintainers of GDAL. See Details and Examples to understand the basic
 #' usage, and check the introductory vignette for more complex use-cases.
 #'
 #' @details The new `.gpkg` file is created in the same directory as the input
 #'   `.osm.pbf` file. The translation process is performed using the
 #'   `vectortranslate` utility in [sf::gdal_utils()]. This operation can be
-#'   customized in several ways modifying the parameters `layer`,
-#'   `extra_tags`, `osmconf_ini`, and `vectortranslate_options`.
+#'   customized in several ways modifying the parameters `layer`, `extra_tags`,
+#'   `osmconf_ini`, `vectortranslate_options`, `boundary` and `boundary_type`.
 #'
 #'   The `.osm.pbf` files processed by GDAL are usually categorized into 5
 #'   layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
@@ -25,43 +25,47 @@
 #'   By default, the function will convert the `lines` layer (which is the most
 #'   common one according to our experience).
 #'
-#'   The arguments `osmconf_ini` and `extra_tags` are used to modify how
-#'   GDAL reads and processes a `.osm.pbf` file. More precisely, several operations
+#'   The arguments `osmconf_ini` and `extra_tags` are used to modify how GDAL
+#'   reads and processes a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
-#'   file, that you can check at the following
+#'   file, that can be checked at the following
 #'   [link](https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini).
 #'   The basic components of OSM data are called
 #'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
 #'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
-#'   line 7 of that link is used to determine which *ways* are assumed to be polygons
-#'   (according to the simple-feature definition of polygon) if they are closed.
-#'   Moreover, OSM data is usually described using several
-#'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e a pair of two
-#'   items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
-#'   used to determine, for each layer, which tags should be explicitly reported
-#'   as fields (while all the other tags are stored in the `other_tags` column,
-#'   see [oe_get_keys()]). The parameter `extra_tags` is used to determine
-#'   which extra tags (i.e. key/value pairs) should be added to the `.gpkg`
-#'   file.
+#'   line 7 of that file is used to determine which *ways* are assumed to be
+#'   polygons (according to the simple-feature definition of polygon) if they
+#'   are closed. Moreover, OSM data is usually described using several
+#'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e pairs of two items:
+#'   a key and a value. The code at lines 33, 53, 85, 103, and 121 is used to
+#'   determine, for each layer, which tags should be explicitly reported as
+#'   fields (while all the other tags are stored in the `other_tags` column).
+#'   The parameter `extra_tags` is used to determine which extra tags (i.e.
+#'   key/value pairs) should be added to the `.gpkg` file (other than the
+#'   default ones).
 #'
-#'   By default, the vectortranslate operations are skipped if the
-#'   function detects a file having the same path as the input file, `.gpkg`
-#'   extension and a layer with the same name as the parameter `layer` with all
-#'   `extra_tags`. In that case the function will simply return the path
-#'   of the `.gpkg` file. This behaviour can be overwritten by setting
-#'   `force_vectortranslate = TRUE`. The parameter `osmconf_ini` is used to pass
-#'   your own `CONFIG` file in case you need more control over the GDAL
-#'   operations. In that case the vectortranslate operations are never skipped.
-#'   Check the package introductory vignette for an example. If `osmconf_ini` is
-#'   equal to `NULL` (the default), then the function uses default `osmconf.ini`
-#'   file defined by GDAL (but for the extra tags).
+#'   By default, the vectortranslate operations are skipped if the function
+#'   detects a file having the same path as the input file, `.gpkg` extension, a
+#'   layer with the same name as the parameter `layer` and all `extra_tags`. In
+#'   that case the function will simply return the path of the `.gpkg` file.
+#'   This behaviour can be overwritten setting `force_vectortranslate = TRUE`.
+#'   The vectortranslate operations are never skipped if `osmconf_ini`,
+#'   `vectortranslate_options`, `boundary` or `boundary_type` arguments are not
+#'   `NULL`.
 #'
-#'   The parameter `vectortranslate_options` is used to control the arguments
-#'   that are passed to `ogr2ogr` via [sf::gdal_utils()] when converting between
-#'   `.pbf` and `.gpkg` formats. `ogr2ogr` can perform various operations during
-#'   the conversion process, such as spatial filters or SQL queries. These
-#'   operations are determined by the `vectortranslate_options` argument. If
-#'   `NULL` (default value), then `vectortranslate_options` is set equal to
+#'   The parameter `osmconf_ini` is used to pass your own `CONFIG` file in case
+#'   you need more control over the GDAL operations. Check the package
+#'   introductory vignette for an example. If `osmconf_ini` is equal to `NULL`
+#'   (the default value), then the function uses the standard `osmconf.ini` file
+#'   defined by GDAL (but for the extra tags).
+#'
+#'   The parameter `vectortranslate_options` is used to control the options that
+#'   are passed to `ogr2ogr` via [sf::gdal_utils()] when converting between
+#'   `.osm.pbf` and `.gpkg` formats. `ogr2ogr` can perform various operations
+#'   during the conversion process, such as spatial filters or SQL queries.
+#'   These operations can be tuned using the `vectortranslate_options` argument.
+#'   If `NULL` (the default value), then `vectortranslate_options` is set equal
+#'   to
 #'
 #'   `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),
 #'   "-lco", "GEOMETRY_NAME=geometry", layer)`.
@@ -79,9 +83,26 @@
 #'   for the `.gpkg` file and modify the name of the geometry column;
 #'   * `layer` indicates which layer should be converted.
 #'
-#'   Check the introductory vignette, the help page of [`sf::gdal_utils()`] and
-#'   [here](https://gdal.org/programs/ogr2ogr.html) for an extensive
-#'   documentation on all available options.
+#'   If `vectortranslate_options` is not `NULL`, then the options `c("-f",
+#'   "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco",
+#'   "GEOMETRY_NAME=geometry", layer)` are always appended unless the user
+#'   explicitly sets different default parameters for the arguments `-f`, `-oo`,
+#'   `-lco`, and `layer`.
+#'
+#'   The arguments `boundary` and `boundary_type` can be used to set up a
+#'   spatial filter during the vectortranslate operations (and speed up the
+#'   process) using an `sf` or `sfc` object (`POLYGON` or `MULTIPOLYGON`). The
+#'   default arguments create a rectangular spatial filter which selects all
+#'   features that intersect the area. Setting `boundary_type = "clipsrc"` clips
+#'   the geometries. In both cases, the appropriate options are automatically
+#'   added to the `vectortranslate_options` (unless a user explicitly sets
+#'   different default options). Check Examples in `oe_get()` and the
+#'   introductory vignette.
+#'
+#'   See also the help page of [`sf::gdal_utils()`] and
+#'   [ogr2ogr](https://gdal.org/programs/ogr2ogr.html) for more examples and
+#'   extensive documentation on all available options that can be tuned during
+#'   the vectortranslate process.
 #'
 #' @inheritParams oe_get
 #' @param file_path Character string representing the path of the input
@@ -94,7 +115,8 @@
 #'
 #' @examples
 #' # First we need to match an input zone with a .osm.pbf file
-#' its_match = oe_match("ITS Leeds", provider = "test")
+#' its_match = oe_match("ITS Leeds")
+#'
 #' # The we can download the .osm.pbf files
 #' its_pbf = oe_download(
 #'   file_url = its_match$url,
@@ -127,6 +149,15 @@
 #' )
 #' names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
 #'
+#' # Adjust vectortranslate options and convert only 10 features
+#' # for the lines layer
+#' oe_vectortranslate(
+#'   its_pbf,
+#'   vectortranslate_options = c("-limit", 10)
+#' )
+#' sf::st_layers(its_gpkg, do_count = TRUE)
+#'
+#'
 #' # Remove .pbf and .gpkg files in tempdir
 #' # (since they may interact with other examples)
 #' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
@@ -138,6 +169,8 @@ oe_vectortranslate = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   quiet = FALSE
 ) {
   # Check that the input file was specified using the format
@@ -178,10 +211,11 @@ oe_vectortranslate = function(
   }
 
   # Check if the user passed its own osmconf.ini file or vectortranslate_options
-  # since, in that case, we always need to perform the vectortranslate
-  # operations (since it's too difficult to determine if an existing .gpkg file
-  # was generated following a particular .ini file with some options)
-  if (!is.null(osmconf_ini) || !is.null(vectortranslate_options)) {
+  # (or boundary object) since, in that case, we always need to perform the
+  # vectortranslate operations (since it's too difficult to determine if an
+  # existing .gpkg file was generated following a particular .ini file with some
+  # options)
+  if (!is.null(osmconf_ini) || !is.null(vectortranslate_options) || !is.null(boundary)) {
     force_vectortranslate = TRUE
     never_skip_vectortranslate = TRUE
   }
@@ -252,8 +286,7 @@ oe_vectortranslate = function(
   if (!is.null(osmconf_ini) && !is.null(extra_tags)) {
     warning(
       "The argument extra_tags is ignored when osmconf_ini is not NULL.",
-      call. = FALSE,
-      immediate. = TRUE
+      call. = FALSE
     )
     extra_tags = NULL
   }
@@ -291,16 +324,84 @@ oe_vectortranslate = function(
     osmconf_ini = temp_ini_file
   }
 
-  # Set the vectortranslate options:
+  # If vectortranslate options is NULL (i.e. the default value), then we adopt
+  # the following set of options:
   if (is.null(vectortranslate_options)) {
     vectortranslate_options = c(
-      "-f", "GPKG", #output file format
+      "-f", "GPKG", # output file format
       "-overwrite", # overwrite an existing file
       "-oo", paste0("CONFIG_FILE=", osmconf_ini), # open options
       "-lco", "GEOMETRY_NAME=geometry" # layer creation options
     )
 
+    # Check if we need to add a spatial filter
+    vectortranslate_options = process_boundary(
+      vectortranslate_options,
+      boundary,
+      boundary_type
+    )
+
+    # Add the layer argument
     vectortranslate_options = c(vectortranslate_options, layer)
+  } else {
+    # Otherwise we check the options set by the user and append other basic
+    # options:
+
+    # 1. Check if the user omitted the "-f" option (which is used to select the
+    # format_name)
+    if ("-f" %!in% vectortranslate_options) {
+      vectortranslate_options = c(vectortranslate_options, "-f", "GPKG")
+    } else {
+      which_f = which(vectortranslate_options == "-f")
+      if (
+        which_f == length(vectortranslate_options) ||
+        vectortranslate_options[which_f + 1] != "GPKG"
+      ) {
+        stop(
+          "The oe_vectortranslate function should translate only to GPKG format",
+          call. = FALSE
+        )
+      }
+    }
+
+    #  Check if the user omitted the "-overwrite" option
+    if ("-overwrite" %!in% vectortranslate_options && all(c())) {
+      # Otherwise add the -overwrite option
+      vectortranslate_options = c(vectortranslate_options, "-overwrite")
+    }
+
+    # Check if the user set any open option
+    if ("-oo" %!in% vectortranslate_options) {
+      # Otherwise append the basic open options
+      vectortranslate_options = c(vectortranslate_options, "-oo", paste0("CONFIG_FILE=", osmconf_ini))
+    } else {
+      # Check if the user set its own CONFIG_FILE and osmconf_ini is not NULL.
+      # In that case, raise a warning message
+      if (any(grepl("CONFIG_FILE", vectortranslate_options)) && !is.null(osmconf_ini)) {
+        warning(
+          "The osmconf_ini argument is ignored since the CONFIG file ",
+          "was already specified in the vectortranslate options.",
+          call. = FALSE
+        )
+      }
+    }
+
+    # Check if the user set any layer creation option (lco)
+    if ("-lco" %!in% vectortranslate_options) {
+      # Otherwise append the basic layer creation options
+      vectortranslate_options = c(vectortranslate_options, "-lco", "GEOMETRY_NAME=geometry")
+    }
+
+    # Check if the user set the argument boundary
+    vectortranslate_options = process_boundary(vectortranslate_options, boundary, boundary_type)
+
+    # Check if the user added the layer argument
+    if (
+      !any(c("points", "lines", "multipolygons", "multilinestrings", "other_relations") %in% vectortranslate_options)
+    ) {
+      # Otherwise append the layer
+      vectortranslate_options = c(vectortranslate_options, layer)
+    }
   }
 
   if (isFALSE(quiet)) {
@@ -380,170 +481,64 @@ get_ini_layer_defaults = function(layer) {
   def_layers[[layer]]
 }
 
-
-#' Return all keys stored in "other_tags" column
-#'
-#' This function returns the names of all keys that are stored in `other_tags`
-#' column. See Details.
-#'
-#' @details OSM data are typically documented using several
-#'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two
-#'   items, namely a `key` and a `value`. As documented in
-#'   [`oe_vectortranslate()`], the conversion between `.osm.pbf` and `.gpkg`
-#'   formats is governed by a `CONFIG` file that lists which tags must be
-#'   explicitly added to the `.gpkg` file, while all the other keys are
-#'   automatically stored using an `other_tags` field with a syntax compatible
-#'   with the PostgreSQL HSTORE type. This function can be used to display the
-#'   names of all keys stored in the `other_tags` field.
-#'
-#'   The `hstore_get_value()` function can be used inside the `query` argument
-#'   to extract one particular tag from an existing file. Check the introductory
-#'   vignette and see examples.
-#'
-#'   The definition of a generic S3 implementation started in
-#'   [osmextract/issues/138](https://github.com/ropensci/osmextract/issues/138).
-#'
-#' @seealso `oe_vectortranslate()` and
-#'   [osmextract/issues/107](https://github.com/ropensci/osmextract/issues/107).
-#'
-#' @inheritParams oe_get
-#' @param zone An `sf` object with an `other_tags` field, or a character vector
-#'   (of length 1) that points to a `.osm.pbf` or `.gpkg` file with an
-#'   `other_tags` field.
-#'
-#' @return A character vector indicating the name of all keys stored in
-#'   "other_tags" field.
-#' @export
-#'
-#' @examples
-#' # Get keys from pbf file
-#' itsleeds_pbf_path = oe_download(
-#'   oe_match("ITS Leeds")$url,
-#'   download_directory = tempdir(),
-#'   provider = "test"
-#' )
-#' oe_get_keys(itsleeds_pbf_path)
-#' itsleeds_gpkg_path = oe_get(
-#'   "ITS Leeds",
-#'   download_only = TRUE,
-#'   download_directory = tempdir(),
-#'   quiet = TRUE
-#' )
-#' itsleeds_gpkg_path
-#' oe_get_keys(itsleeds_gpkg_path)
-#'
-#' itsleeds = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
-#' oe_get_keys(itsleeds)
-#'
-#' # Add an extra key to an existing .gpkg file without vectortranslate
-#' names(oe_read(
-#'   itsleeds_gpkg_path,
-#'   query = "SELECT *,  hstore_get_value(other_tags, 'oneway')  AS oneway FROM lines"
-#' ))
-#'
-#' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
-  oe_get_keys = function(zone, layer = "lines") {
-  UseMethod("oe_get_keys")
-}
-
-#' @name oe_get_keys
-#' @export
-oe_get_keys.default = function(zone, layer = "lines") {
-  stop(
-    "At the moment there is no support for objects of class ",
-    class(zone)[1], ".",
-    " Feel free to open a new issue at github.com/ropensci/osmextract",
-    call. = FALSE
-  )
-}
-
-#' @name oe_get_keys
-#' @export
-oe_get_keys.character = function(zone, layer = "lines") {
-  if (length(zone) != 1L) {
-    stop("The input file must have length 1", call. = FALSE)
+process_boundary = function(
+  vectortranslate_options,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc")
+) {
+  # Checks
+  if (is.null(boundary)) {
+    return(vectortranslate_options)
   }
 
-  if (!file.exists(zone)) {
-    stop(
-      "The input file does not exist.",
-      "You can download it using oe_get(zone, download_only = TRUE).",
+  if (any(c("-spat", "-clipsrc") %in% vectortranslate_options)) {
+    warning(
+      "The boundary argument is ignored since the vectortraslate_options ",
+      "already defines a spatial filter",
       call. = FALSE
     )
+    return(vectortranslate_options)
   }
 
-  # We don't need the following if clause, since actually we can read also from
-  # .pbf files. See also https://github.com/ropensci/osmextract/discussions/188.
-  # if (tools::file_ext(zone) != "gpkg") {
-  #   stop("The input file must have a .gpkg extension.", call. = FALSE)
-  # }
 
-  # Check that the input file contains the other_tags field
-  # See also https://github.com/ropensci/osmextract/issues/158
-  existing_fields = colnames(
-    sf::st_read(
-      dsn = zone,
-      layer = layer,
-      query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
-      quiet = TRUE
+
+  # Match the boundary type
+  boundary_type = match.arg(boundary_type)
+
+  # Extract the geometry (or just return the geometry if boundary is a sfc)
+  boundary = sf::st_geometry(boundary)
+
+  # Check the number of geometries
+  if (length(boundary) > 1L) {
+    warning(
+      "The boundary is composed by more than one features. Selecting the first. ",
+      call. = FALSE
     )
+    boundary = boundary[1L]
+  }
+
+  # Check that the object can be interpreted as a POLYGON
+  stopifnot(sf::st_is(boundary, "POLYGON") || sf::st_is(boundary, "MULTIPOLYGON"))
+
+  # Check the CRS of boundary
+  if (sf::st_crs(boundary) != sf::st_crs(4326)) {
+    boundary = sf::st_transform(boundary, 4326)
+  }
+
+  # Add and return
+  switch(
+    boundary_type,
+    spat = process_spat(vectortranslate_options, boundary),
+    clipsrc = process_clipsrc(vectortranslate_options, boundary)
   )
-
-  if ("other_tags" %!in% existing_fields) {
-    stop("The input file must have an other_tags field.", call. = FALSE)
-  }
-
-  # Read the gpkg file selecting only the other_tags column.
-  # The query is different between .pbf and .gpkg objects. See also
-  # https://github.com/ropensci/osmextract/discussions/188
-  if (tools::file_ext(zone) == "pbf") {
-    query_for_other_tags = paste0("select other_tags from ", layer)
-  } else if (tools::file_ext(zone) == "gpkg") {
-    query_for_other_tags = paste0("select other_tags, geometry from ", layer)
-  } else {
-    stop("The input file must have .pbf or .gpkg extension", call. = FALSE)
-  }
-
-  other_tags = sf::st_read(
-    dsn = zone,
-    layer = layer,
-    query = query_for_other_tags,
-    quiet = TRUE
-  )
-
-  get_keys(other_tags)
 }
 
-#' @name oe_get_keys
-#' @export
-oe_get_keys.sf = function(zone, layer = "lines") {
-  if ("other_tags" %!in% names(zone)) {
-    stop("The input object must have an other_tags field.", call. = FALSE)
-  }
-
-  get_keys(zone)
+# Add "-spat" + (xmin, ymin, xmax, ymax)
+process_spat = function(vectortranslate_options, boundary) {
+  c(vectortranslate_options, "-spat", sf::st_bbox(boundary))
 }
 
-
-# The following is an internal function used to extract the new keys from an
-# "other_tags" field
-get_keys = function(x) {
-  # Create regex
-  osm_matches = gregexpr(pattern = '[^\"=>,\\]+', x[["other_tags"]])
-  key_value_matches = regmatches(x[["other_tags"]], osm_matches)
-
-  keys_per_feature = lapply(key_value_matches, function(x) {
-    # character(0) occurs when other_tags is equal to NA
-    if (identical(x, character(0))) {
-      return(NULL)
-    }
-    x[seq(1, length(x), by = 2)]
-  })
-
-  unique_keys = unique(unlist(keys_per_feature))
-  unique_keys
+# Add "-clipsrc" + WKT
+process_clipsrc = function(vectortranslate_options, boundary) {
+  c(vectortranslate_options, "-clipsrc", sf::st_as_text(boundary))
 }
-
-

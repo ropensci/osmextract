@@ -4,7 +4,7 @@ test_that("oe_download: simplest examples work", {
   skip_if_offline()
 
   # Run tests
-  its_match = oe_match("ITS Leeds", provider = "test")
+  its_match = oe_match("ITS Leeds", provider = "test", quiet = TRUE)
   expect_error(
     oe_download(
       file_url = its_match$url,
@@ -47,4 +47,3 @@ test_that("infer_provider_from_url works: ", {
     "bbbike"
   )
 })
-

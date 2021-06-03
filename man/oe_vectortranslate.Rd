@@ -12,6 +12,8 @@ oe_vectortranslate(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   quiet = FALSE
 )
 }
@@ -53,6 +55,16 @@ passed its own \code{.ini} file or vectortranslate options (since, in those case
 it's too difficult to determine if an existing \code{.gpkg} file was generated
 following the same options.)}
 
+\item{boundary}{An \code{sf} or \code{sfc} object that will be used to create a spatial
+filter during the vectortranslate operations. The type of filter can be
+chosen using the argument \code{boundary_type}.}
+
+\item{boundary_type}{A character vector of length 1 specifying the type of
+spatial filter. The \code{spat} filter selects only those features that
+intersect a given area, while \code{clipsrc} also clips the geometries. See the
+examples and check \href{https://gdal.org/programs/ogr2ogr.html}{here} for more
+details.}
+
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
@@ -65,18 +77,18 @@ Character string representing the path of the \code{.gpkg} file.
 \description{
 This function is used to translate a \code{.osm.pbf} file into \code{.gpkg} format.
 The conversion is performed using
-\href{https://gdal.org/programs/ogr2ogr.html#ogr2ogr}{ogr2ogr} through
+\href{https://gdal.org/programs/ogr2ogr.html#ogr2ogr}{ogr2ogr} via the
 \code{vectortranslate} utility in \code{\link[sf:gdal_utils]{sf::gdal_utils()}} . It was created following
 \href{https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053}{the suggestions}
-of the maintainers of GDAL. See Details and examples to understand the basic
+of the maintainers of GDAL. See Details and Examples to understand the basic
 usage, and check the introductory vignette for more complex use-cases.
 }
 \details{
 The new \code{.gpkg} file is created in the same directory as the input
 \code{.osm.pbf} file. The translation process is performed using the
 \code{vectortranslate} utility in \code{\link[sf:gdal_utils]{sf::gdal_utils()}}. This operation can be
-customized in several ways modifying the parameters \code{layer},
-\code{extra_tags}, \code{osmconf_ini}, and \code{vectortranslate_options}.
+customized in several ways modifying the parameters \code{layer}, \code{extra_tags},
+\code{osmconf_ini}, \code{vectortranslate_options}, \code{boundary} and \code{boundary_type}.
 
 The \code{.osm.pbf} files processed by GDAL are usually categorized into 5
 layers, named \code{points}, \code{lines}, \code{multilinestrings}, \code{multipolygons} and
@@ -88,43 +100,47 @@ Several layers with different names can be stored in the same \code{.gpkg} file.
 By default, the function will convert the \code{lines} layer (which is the most
 common one according to our experience).
 
-The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how
-GDAL reads and processes a \code{.osm.pbf} file. More precisely, several operations
+The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how GDAL
+reads and processes a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
-file, that you can check at the following
+file, that can be checked at the following
 \href{https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini}{link}.
 The basic components of OSM data are called
 \href{https://wiki.openstreetmap.org/wiki/Elements}{\emph{elements}} and they are
 divided into \emph{nodes}, \emph{ways} or \emph{relations}, so, for example, the code at
-line 7 of that link is used to determine which \emph{ways} are assumed to be polygons
-(according to the simple-feature definition of polygon) if they are closed.
-Moreover, OSM data is usually described using several
-\href{https://wiki.openstreetmap.org/wiki/Tags}{\emph{tags}}, i.e a pair of two
-items: a key and a value. The code at lines 33, 53, 85, 103, and 121 is
-used to determine, for each layer, which tags should be explicitly reported
-as fields (while all the other tags are stored in the \code{other_tags} column,
-see \code{\link[=oe_get_keys]{oe_get_keys()}}). The parameter \code{extra_tags} is used to determine
-which extra tags (i.e. key/value pairs) should be added to the \code{.gpkg}
-file.
+line 7 of that file is used to determine which \emph{ways} are assumed to be
+polygons (according to the simple-feature definition of polygon) if they
+are closed. Moreover, OSM data is usually described using several
+\href{https://wiki.openstreetmap.org/wiki/Tags}{\emph{tags}}, i.e pairs of two items:
+a key and a value. The code at lines 33, 53, 85, 103, and 121 is used to
+determine, for each layer, which tags should be explicitly reported as
+fields (while all the other tags are stored in the \code{other_tags} column).
+The parameter \code{extra_tags} is used to determine which extra tags (i.e.
+key/value pairs) should be added to the \code{.gpkg} file (other than the
+default ones).
 
-By default, the vectortranslate operations are skipped if the
-function detects a file having the same path as the input file, \code{.gpkg}
-extension and a layer with the same name as the parameter \code{layer} with all
-\code{extra_tags}. In that case the function will simply return the path
-of the \code{.gpkg} file. This behaviour can be overwritten by setting
-\code{force_vectortranslate = TRUE}. The parameter \code{osmconf_ini} is used to pass
-your own \code{CONFIG} file in case you need more control over the GDAL
-operations. In that case the vectortranslate operations are never skipped.
-Check the package introductory vignette for an example. If \code{osmconf_ini} is
-equal to \code{NULL} (the default), then the function uses default \code{osmconf.ini}
-file defined by GDAL (but for the extra tags).
+By default, the vectortranslate operations are skipped if the function
+detects a file having the same path as the input file, \code{.gpkg} extension, a
+layer with the same name as the parameter \code{layer} and all \code{extra_tags}. In
+that case the function will simply return the path of the \code{.gpkg} file.
+This behaviour can be overwritten setting \code{force_vectortranslate = TRUE}.
+The vectortranslate operations are never skipped if \code{osmconf_ini},
+\code{vectortranslate_options}, \code{boundary} or \code{boundary_type} arguments are not
+\code{NULL}.
 
-The parameter \code{vectortranslate_options} is used to control the arguments
-that are passed to \code{ogr2ogr} via \code{\link[sf:gdal_utils]{sf::gdal_utils()}} when converting between
-\code{.pbf} and \code{.gpkg} formats. \code{ogr2ogr} can perform various operations during
-the conversion process, such as spatial filters or SQL queries. These
-operations are determined by the \code{vectortranslate_options} argument. If
-\code{NULL} (default value), then \code{vectortranslate_options} is set equal to
+The parameter \code{osmconf_ini} is used to pass your own \code{CONFIG} file in case
+you need more control over the GDAL operations. Check the package
+introductory vignette for an example. If \code{osmconf_ini} is equal to \code{NULL}
+(the default value), then the function uses the standard \code{osmconf.ini} file
+defined by GDAL (but for the extra tags).
+
+The parameter \code{vectortranslate_options} is used to control the options that
+are passed to \code{ogr2ogr} via \code{\link[sf:gdal_utils]{sf::gdal_utils()}} when converting between
+\code{.osm.pbf} and \code{.gpkg} formats. \code{ogr2ogr} can perform various operations
+during the conversion process, such as spatial filters or SQL queries.
+These operations can be tuned using the \code{vectortranslate_options} argument.
+If \code{NULL} (the default value), then \code{vectortranslate_options} is set equal
+to
 
 \code{c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)}.
 
@@ -143,13 +159,29 @@ for the \code{.gpkg} file and modify the name of the geometry column;
 \item \code{layer} indicates which layer should be converted.
 }
 
-Check the introductory vignette, the help page of \code{\link[sf:gdal_utils]{sf::gdal_utils()}} and
-\href{https://gdal.org/programs/ogr2ogr.html}{here} for an extensive
-documentation on all available options.
+If \code{vectortranslate_options} is not \code{NULL}, then the options \code{c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco", "GEOMETRY_NAME=geometry", layer)} are always appended unless the user
+explicitly sets different default parameters for the arguments \code{-f}, \code{-oo},
+\code{-lco}, and \code{layer}.
+
+The arguments \code{boundary} and \code{boundary_type} can be used to set up a
+spatial filter during the vectortranslate operations (and speed up the
+process) using an \code{sf} or \code{sfc} object (\code{POLYGON} or \code{MULTIPOLYGON}). The
+default arguments create a rectangular spatial filter which selects all
+features that intersect the area. Setting \code{boundary_type = "clipsrc"} clips
+the geometries. In both cases, the appropriate options are automatically
+added to the \code{vectortranslate_options} (unless a user explicitly sets
+different default options). Check Examples in \code{oe_get()} and the
+introductory vignette.
+
+See also the help page of \code{\link[sf:gdal_utils]{sf::gdal_utils()}} and
+\href{https://gdal.org/programs/ogr2ogr.html}{ogr2ogr} for more examples and
+extensive documentation on all available options that can be tuned during
+the vectortranslate process.
 }
 \examples{
 # First we need to match an input zone with a .osm.pbf file
-its_match = oe_match("ITS Leeds", provider = "test")
+its_match = oe_match("ITS Leeds")
+
 # The we can download the .osm.pbf files
 its_pbf = oe_download(
   file_url = its_match$url,
@@ -181,6 +213,15 @@ its_gpkg = oe_vectortranslate(
   extra_tags = c("oneway", "maxspeed")
 )
 names(sf::st_read(its_gpkg, layer = "lines", quiet = TRUE))
+
+# Adjust vectortranslate options and convert only 10 features
+# for the lines layer
+oe_vectortranslate(
+  its_pbf,
+  vectortranslate_options = c("-limit", 10)
+)
+sf::st_layers(its_gpkg, do_count = TRUE)
+
 
 # Remove .pbf and .gpkg files in tempdir
 # (since they may interact with other examples)

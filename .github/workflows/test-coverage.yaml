@@ -45,6 +45,7 @@ jobs:
           brew install imagemagick@6
       - name: Install dependencies
         run: |
+          options(timeout = 300)
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("covr")
         shell: Rscript {0}

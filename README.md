@@ -150,7 +150,7 @@ layer can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 45621
+#> [1] 46109
 nrow(osm_points)
 #> [1] 59085
 par(mar = rep(0, 4))
@@ -248,8 +248,9 @@ affects all calls to
 so you may need to reset it for the rest of your script.
 
 If you need to update an existing `.pbf` file or replace an incomplete
-extract, you can use the argument `force_download`. Check `?oe_get` and
-`?oe_download` for more details.
+extract, you can use the argument `force_download`, i.e
+`oe_get("some-place", force_download = TRUE)`.  
+Check `?oe_get` and `?oe_download` for more details.
 
 ## Next steps
 

@@ -162,8 +162,7 @@ oe_match.sfc = function(
   if (is.na(sf::st_crs(place))) {
     warning(
       "The input place has no CRS, setting crs = 4326.",
-      call. = FALSE,
-      immediate. = TRUE
+      call. = FALSE
     )
     place = sf::st_set_crs(place, 4326)
   }
@@ -336,8 +335,7 @@ oe_match.character = function(
       "The input place was matched with multiple geographical zones: ",
       paste(provider_data[[match_by]][best_match_id], collapse = " - "),
       ". Selecting the first match.",
-      call. = FALSE,
-      immediate. = TRUE
+      call. = FALSE
     )
     best_match_id = best_match_id[1L]
   }

@@ -50,6 +50,7 @@ oe_find = function(
   provider = "geofabrik",
   download_directory = oe_download_directory(),
   download_if_missing = FALSE,
+  quiet = FALSE,
   ...
   ) {
   # I decided the approach described in @details since I cannot simply use
@@ -59,7 +60,7 @@ oe_find = function(
   # approach adopted with the code.
 
   # First I need to match the input place with a URL
-  matched_place = oe_match(place, provider = provider, ...)
+  matched_place = oe_match(place, provider = provider, quiet = quiet, ...)
   matched_URL = matched_place[["url"]]
 
   # Then I extract from the URL the file name
@@ -86,15 +87,18 @@ oe_find = function(
   }
 
   if (download_if_missing) {
-    message(
-      "No file associated with that place name could be found.\n",
-      "Trying to download osm data with oe_get()."
+    if (isFALSE(quiet)) {
+      message(
+        "No file associated with that place name could be found.\n",
+        "Trying to download osm data with oe_get()."
       )
+    }
     oe_get(
       place,
       download_directory = download_directory,
       provider = provider,
       download_only = TRUE,
+      quiet = quiet,
       ...
     )
     return(
@@ -103,6 +107,7 @@ oe_find = function(
         provider = provider,
         download_directory = download_directory,
         download_if_missing = FALSE,
+        quiet = quiet,
         ...
       )
     )

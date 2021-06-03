@@ -88,6 +88,8 @@ oe_read = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  boundary = NULL,
+  boundary_type = c("spat", "clipsrc"),
   quiet = FALSE
 ) {
 
@@ -135,8 +137,7 @@ oe_read = function(
       warning(
         "The query selected a layer which is different from layer argument. ",
         "We will replace the layer argument.",
-        call. = FALSE,
-        immediate. = TRUE
+        call. = FALSE
       )
       layer = layer_clean[[1]]
     }
@@ -168,15 +169,17 @@ oe_read = function(
   ) {
     warning(
       "The following arguments are probably misspelled: ",
-      paste(setdiff(
-        names(list(...)),
-        union(
-          names(formals(get("st_read.character", envir = getNamespace("sf")))),
-          names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
-        )
-      ), collapse = " - "),
-      call. = FALSE,
-      immediate. = TRUE
+      paste(
+        setdiff(
+          names(list(...)),
+          union(
+            names(formals(get("st_read.character", envir = getNamespace("sf")))),
+            names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
+          )
+        ),
+        collapse = " - "
+      ),
+      call. = FALSE
     )
   }
 
@@ -268,6 +271,8 @@ oe_read = function(
     extra_tags = extra_tags,
     force_vectortranslate = force_vectortranslate,
     never_skip_vectortranslate = never_skip_vectortranslate,
+    boundary = boundary,
+    boundary_type = boundary_type,
     quiet = quiet
   )
 
@@ -275,6 +280,11 @@ oe_read = function(
   # something
   if (isTRUE(download_only)) {
     return(gpkg_file_path)
+  }
+
+  # Add another test since maybe there was an error during the vectortranslate process:
+  if (!file.exists(gpkg_file_path)) {
+    stop("An error occurred during the vectortranslate process", call. = FALSE)
   }
 
   # Read the translated file with sf::st_read
