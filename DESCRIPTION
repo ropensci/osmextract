@@ -28,7 +28,7 @@ Imports:
     sf (>= 0.8.1),
     utils,
     tools,
-    s2
+    s2 (>=1.0.5)
 Suggests: 
     testthat (>= 3.0.2),
     knitr,
