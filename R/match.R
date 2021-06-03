@@ -189,27 +189,11 @@ oe_match.sfc = function(
   # If there are multiple matches, we will select the geographical area with
   # the chosen level (or highest level if default).
   if (nrow(matched_zones) > 1L) {
-    if (isFALSE(quiet)) {
-      message(
-        "The input place was matched with multiple geographical areas. "
-      )
-    }
-
     # See https://github.com/ropensci/osmextract/issues/160
     # Check the level parameter and, if NULL, set level = highest level.
     if (is.null(level)) {
       # Add a check to test if all(is.na(matched_zones[["level"]])) ?
       level = max(matched_zones[["level"]], na.rm = TRUE)
-      if (isFALSE(quiet)) {
-        message(
-          "Selecting the smallest administrative unit. ",
-          "Check ?oe_match for more details."
-        )
-      }
-    } else {
-      if (isFALSE(quiet)) {
-        message("Selecting the desired level.")
-      }
     }
 
     # Select the desired area(s)
@@ -223,24 +207,22 @@ oe_match.sfc = function(
   # If, again, there are multiple matches with the same "level", we will select
   # only the area closest to the input place.
   if (nrow(matched_zones) > 1L) {
-    if (isFALSE(quiet)) {
-      message(
-        "The input place was matched with multiple zones at the same level. ",
-        "Check ?oe_match for more details."
-      )
-      message(
-        "Selecting the area whose centroid is closest to the input place."
-      )
-    }
 
-    suppressWarnings({
+    suppressMessages({suppressWarnings({
       nearest_id_centroid = sf::st_nearest_feature(
         place,
         sf::st_centroid(sf::st_geometry(matched_zones))
       )
-    })
+    })})
 
-    matched_zones = matched_zones[nearest_id_centroid,]
+    matched_zones = matched_zones[nearest_id_centroid, ]
+  }
+
+  if (isFALSE(quiet)) {
+    message(
+      "The input place was matched with ", matched_zones[["name"]], ". ",
+      "Check the arguments in oe_match to tune the matching operations."
+    )
   }
 
   # Return a list with the URL and the file_size of the matched place
@@ -331,12 +313,6 @@ oe_match.character = function(
   best_match_id = which(matching_dists == min(matching_dists, na.rm = TRUE))
 
   if (length(best_match_id) > 1L) {
-    warning(
-      "The input place was matched with multiple geographical zones: ",
-      paste(provider_data[[match_by]][best_match_id], collapse = " - "),
-      ". Selecting the first match.",
-      call. = FALSE
-    )
     best_match_id = best_match_id[1L]
   }
   best_matched_place = provider_data[best_match_id, ]
@@ -406,10 +382,6 @@ oe_match.character = function(
       }
 
       place_online = oe_search(place = place)
-      # I added Sys.sleep(1) since the usage policty of OSM nominatim (see
-      # https://operations.osmfoundation.org/policies/nominatim/) requires max 1
-      # request per second.
-      Sys.sleep(1)
       return(
         oe_match(
           place = sf::st_geometry(place_online),
@@ -432,7 +404,8 @@ oe_match.character = function(
   if (isFALSE(quiet)) {
     message(
       "The input place was matched with: ",
-      best_matched_place[[match_by]]
+      best_matched_place[[match_by]],
+      ". Check the arguments in oe_match to tune the matching operations."
     )
   }
 

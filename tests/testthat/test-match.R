@@ -55,9 +55,6 @@ test_that("oe_match: different providers, match_by or max_string_dist args", {
   # case it doesn't find an exact match, so it should never return NULL
   expect_match(oe_match("Isle Wight", max_string_dist = 3, quiet = TRUE)$url, "isle-of-wight")
   expect_message(oe_match("London", max_string_dist = 3, quiet = FALSE))
-
-  # It returns a warning since Berin is matched both with Benin and Berlin
-  expect_warning(oe_match("Berin", quiet = TRUE))
 })
 
 test_that("oe_match: Cannot specify more than one place", {
