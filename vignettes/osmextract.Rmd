@@ -207,12 +207,12 @@ oe_match("Milan")
 #> [1] 416306623
 ```
 
-`oe_match()` returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input `place`. 
-In that case, it selects the first match: 
+<!-- `oe_match()` returns a warning message if there are multiple zones equidistant (according to approximate string distance) from the input `place`.  -->
+<!-- In that case, it selects the first match:  -->
 
-```{r, warning = TRUE}
-oe_match("Belin")
-```
+<!-- ```{r, warning = TRUE} -->
+<!-- oe_match("Belin") -->
+<!-- ``` -->
 
 ### Finding zones based on geographic inputs
 
