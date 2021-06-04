@@ -145,7 +145,7 @@ For this reason, we coded a function named `oe_match_pattern()` to explore the m
 For example:
 
 ```{r}
-oe_match_pattern("London", provider = "geofabrik")
+oe_match_pattern("London")
 oe_match_pattern("Yorkshire")
 oe_match_pattern("Russia")
 oe_match_pattern("Palestine")
@@ -157,23 +157,17 @@ The default field is `name`, but we can change that as follows:
 oe_match_pattern("US", match_by = "iso3166_2")
 ```
 
-The default provider is `Geofabrik`, but we can also change that: 
-
-```{r}
-oe_match_pattern("Washington", provider = "bbbike")
-```
-
 If we set `full_row = TRUE`, then `oe_match_pattern()` will return the complete row(s) from the provider's data: 
 
 ```{r}
-oe_match_pattern("Israel", full_row = TRUE)[, 1:3]
+lapply(oe_match_pattern("Israel", full_row = TRUE), function(x) x[, 1:3])
 ```
 
 You can combine the two approaches to (easily) select a geographical area: 
 
 ```{r}
-oe_match_pattern("London")
-oe_match("Greater London")
+oe_match_pattern("Valencia")
+oe_match("Comunitat Valenciana")
 ```
 
 The parameter `max_string_dist` (which defaults to `1`) represents the maximum tolerable distance between the input place and the closest match in `match_by` column before the function prints a warning message or stops with an error. 

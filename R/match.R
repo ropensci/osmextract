@@ -422,24 +422,26 @@ oe_match.character = function(
 #'
 #' @param pattern Character string representing the pattern that should be
 #'   explored.
-#' @param provider Which provider should be used? Check a summary of all
-#'   available providers with [`oe_providers()`].
 #' @param match_by Column name of the provider's database that will be used to
 #'   find the match.
 #' @param full_row Boolean. Return all columns for the matching rows? `FALSE` by
 #'   default.
 #'
-#' @return A character vector or a subset of the provider's database.
+#' @return A list of character vectors or `sf` objects (according to the value
+#'   of the parameter `full_row`). If no OSM zone can be matched with the input
+#'   string, then the function returns an emtpy list.
 #' @export
 #'
 #' @examples
 #' oe_match_pattern("Yorkshire")
 #'
 #' res = oe_match_pattern("Yorkshire", full_row = TRUE)
-#' sf::st_drop_geometry(res)[1:3]
+#' lapply(res, function(x) sf::st_drop_geometry(x)[, 1:3])
+#'
+#' oe_match_pattern("ABC")
+#' oe_match_pattern("Yorkshire", match_by = "ABC")
 oe_match_pattern = function(
   pattern,
-  provider = "geofabrik",
   match_by = "name",
   full_row = FALSE
 ) {
@@ -450,32 +452,43 @@ oe_match_pattern = function(
       names = names(pattern)
     )
   }
-  # Load the dataset associated with the chosen provider
-  provider_data = load_provider_data(provider)
 
-  # Check that the value of match_by argument corresponds to one of the columns
-  # in provider_data
-  if (match_by %!in% colnames(provider_data)) {
-    stop(
-      "You cannot set match_by = ", match_by,
-      " since it's not one of the columns of the provider dataframe",
-      call. = FALSE
-    )
+  # NB: The argument provider was removed in version 0.3.0
+
+  # Create an empty list that will contain the output
+  matches = list()
+
+  for (id in setdiff(oe_available_providers(), "test")) {
+    # Load the dataset associated with the chosen provider
+    provider_data = load_provider_data(id)
+
+    # Check that the value of match_by argument corresponds to one of the columns
+    # in provider_data
+    if (match_by %!in% colnames(provider_data)) {
+      next()
+    }
+
+    # Extract the appropriate vector
+    match_by_column = provider_data[[match_by]]
+
+    # Then we extract only the elements of the match_by_column that match the
+    # input pattern.
+    match_ID = grep(pattern, match_by_column, ignore.case = TRUE)
+
+    # If full_row is TRUE than return the corresponding row of provider_data,
+    # otherwise just the matched pattern.
+    if (length(match_ID) > 0L) {
+      match = if (isTRUE(full_row)) {
+        provider_data[match_ID, ]
+      } else {
+        match_by_column[match_ID]
+      }
+
+      matches[[id]] = match
+    }
   }
 
-  # Extract the appropriate vector
-  match_by_column = provider_data[[match_by]]
-
-  # Then we extract only the elements of the match_by_column that match the
-  # input pattern.
-  match_ID = grep(pattern, match_by_column, ignore.case = TRUE)
-
-  # If full_row is TRUE than return the corresponding row of provider_data,
-  # otherwise just the matched pattern.
-  if (isTRUE(full_row)) {
-    provider_data[match_ID, ]
-  } else {
-    match_by_column[match_ID]
-  }
+  # Return
+  matches
 }
 
