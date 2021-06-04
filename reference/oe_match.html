@@ -285,7 +285,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># The simplest example:</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Italy"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Italy. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Italy</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/europe/italy-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -295,7 +295,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># The default provider is "geofabrik", but we can change that:</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Leeds"</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Leeds. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Leeds</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -307,7 +307,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'><span class='co'># "name" in the provider's database but this can be a problem. Hence,</span></span>
 <span class='r-in'><span class='co'># you can perform the matching operations using other columns:</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"RU"</span>, match_by <span class='op'>=</span> <span class='st'>"iso3166_1_alpha2"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: RU. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: RU</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/russia-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -321,7 +321,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'><span class='co'># You can always increase the max_string_dist argument, but it can be</span></span>
 <span class='r-in'><span class='co'># dangerous:</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"London"</span>, max_string_dist <span class='op'>=</span> <span class='fl'>3</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Jordan. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Jordan</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/asia/jordan-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -332,7 +332,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'><span class='co'># Match the input zone using an sfc object:</span></span>
 <span class='r-in'><span class='va'>milan_duomo</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1514924</span>, <span class='fl'>5034552</span><span class='op'>)</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>3003</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>milan_duomo</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Nord-Ovest. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Nord-Ovest. </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -341,7 +341,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'><span class='va'>leeds</span> <span class='op'>=</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>430147.8</span>, <span class='fl'>433551.5</span><span class='op'>)</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>27700</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>leeds</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Leeds. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Leeds. </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -357,7 +357,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'>  crs <span class='op'>=</span> <span class='fl'>4326</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='va'>milan_leeds</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Europe. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Europe. </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/europe-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -368,7 +368,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'><span class='co'># Match the input zone using a numeric vector of coordinates</span></span>
 <span class='r-in'><span class='co'># (in which case crs = 4326 is assumed)</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>9.1916</span>, <span class='fl'>45.4650</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># Milan, Duomo using CRS = 4326</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Nord-Ovest. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Nord-Ovest. </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -379,7 +379,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-in'><span class='co'># The following returns a warning since Berin is matched both</span></span>
 <span class='r-in'><span class='co'># with Benin and Berlin</span></span>
 <span class='r-in'><span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Berin"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Benin. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: Benin</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/africa/benin-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -407,7 +407,7 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> No exact match found for place = Milan and provider = geofabrik. Best match is Iran. </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Checking the other providers.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> No exact match found in any OSM provider data. Searching for the location online.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Nord-Ovest. Check the arguments in oe_match to tune the matching operations.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with Nord-Ovest. </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $url</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
