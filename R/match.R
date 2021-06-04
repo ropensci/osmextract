@@ -220,8 +220,7 @@ oe_match.sfc = function(
 
   if (isFALSE(quiet)) {
     message(
-      "The input place was matched with ", matched_zones[["name"]], ". ",
-      "Check the arguments in oe_match to tune the matching operations."
+      "The input place was matched with ", matched_zones[["name"]], ". "
     )
   }
 
@@ -404,8 +403,7 @@ oe_match.character = function(
   if (isFALSE(quiet)) {
     message(
       "The input place was matched with: ",
-      best_matched_place[[match_by]],
-      ". Check the arguments in oe_match to tune the matching operations."
+      best_matched_place[[match_by]]
     )
   }
 

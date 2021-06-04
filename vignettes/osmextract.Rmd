@@ -49,7 +49,7 @@ See the [License/Use Cases page on the OSM wiki](https://wiki.openstreetmap.org/
 
 The package is composed of the following main functions: 
 
-1. `oe_providers()`: Show which OSM extracts' providers are available;
+1. `oe_providers()`: Show which OSM providers are available;
 1. `oe_match()`: Match an input place with one of the files stored by the OSM providers;
 1. `oe_download()`: Download the chosen file;
 1. `oe_vectortranslate()`: Convert between `.pbf` and `.gpkg` formats;
@@ -58,7 +58,7 @@ The package is composed of the following main functions:
 
 For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
 We will demonstrate each function in turn, following the same order in which they are typically used. 
-As you can see, the name of the most important functions in this package start with `oe_*` prefix, which means that you can easily use auto-completion features (with Rstudio or similar IDE). 
+As you can see, the name of the most important functions in this package start with `oe_*` prefix, which means that you can easily use auto-completion features (with Rstudio or similar IDE(s)). 
 
 ## `oe_providers()`: List providers
 
@@ -71,7 +71,7 @@ oe_providers()
 Each element in the column `database_name` is a data object that is packaged with `osmextract`. 
 You can read a detailed description of each provider data running, for example, `?geofabrik_zones` or `?bbbike_zones`. 
 
-Perhaps, the best known bulk OSM data provider is Geofabrik, represented as a `data.frame` in the packaged object `geofabrik_zones`.
+Perhaps, the best known bulk OSM data provider is [Geofabrik](https://www.geofabrik.de/), represented as a `data.frame` in the packaged object `geofabrik_zones`.
 
 ```{r}
 class(geofabrik_zones)
