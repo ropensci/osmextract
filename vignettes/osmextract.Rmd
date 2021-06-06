@@ -119,15 +119,15 @@ The function `oe_match()` takes in input a string through the parameter `place`,
 The `.pbf` format is a highly optimised binary format used by OSM providers to store and share OSM extracts. For example: 
 
 ```{r}
-oe_match("Italy", quiet = TRUE)
-oe_match("Leeds", provider = "bbbike", quiet = TRUE)
+oe_match("Italy")
+oe_match("Leeds", provider = "bbbike")
 ```
 
-The geographical zone is chosen by calculating the Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider’s dataset. 
+The geographical zone is chosen by calculating the Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider’s dataset.
 Then, the function selects the closest match. 
-By default, it uses the `name` field and Geofabrik provider, but you can select a different column via the argument `match_by`. 
+By default, it uses the `name` field and Geofabrik provider, but you can select a different field via the argument `match_by`. 
 We refer to providers' help pages for a detailed description of all available fields. 
-If you are using Geofabrik, a useful and interesting alternative field is represented by the (unique and unambiguous) `iso3166-1 alpha2` [codes](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2): 
+If you are using Geofabrik provider, a useful and interesting alternative field is represented by the (unique and unambiguous) `iso3166-1 alpha2` [codes](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2): 
 
 ```{r}
 oe_match("RU", match_by = "iso3166_1_alpha2")
@@ -137,8 +137,8 @@ oe_match("US", match_by = "iso3166_1_alpha2")
 There are a few cases where the `iso3166-1 alpha2` codes in `geofabrik_data` cannot be used since there are no per-country extracts (e.g. Israel and Palestine):
 
 ```{r, error = TRUE}
-oe_match("PS", match_by = "iso3166_1_alpha2")
-oe_match("IL", match_by = "iso3166_1_alpha2")
+oe_match("PS", match_by = "iso3166_1_alpha2", quiet = TRUE)
+oe_match("IL", match_by = "iso3166_1_alpha2", quiet = TRUE)
 ```
 
 For this reason, we coded a function named `oe_match_pattern()` to explore the matching operations according to a pre-defined pattern. 
@@ -148,6 +148,7 @@ For example:
 oe_match_pattern("London")
 oe_match_pattern("Yorkshire")
 oe_match_pattern("Russia")
+oe_match_pattern("Israel")
 oe_match_pattern("Palestine")
 ```
 
