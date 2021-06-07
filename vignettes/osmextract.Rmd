@@ -495,7 +495,7 @@ oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE) # lik
 
 # Geocode the capital of Goa, India
 (geocode_panaji = tmaptools::geocode_OSM("Panaji, India"))
-oe_get(geocode_panaji$coords, quiet = FALSE)
+oe_get(geocode_panaji$coords, quiet = FALSE) # Large file
 oe_get(geocode_panaji$coords, provider = "bbbike", quiet = FALSE)
 oe_get(geocode_panaji$coords, provider = "openstreetmap_fr", quiet = FALSE)
 
@@ -506,7 +506,7 @@ oe_get(geocode_arequipa, provider = "bbbike", quiet = FALSE) # Error
 oe_get(geocode_arequipa, provider = "openstreetmap_fr", quiet = FALSE) # No country-specific extract
 ```
 
-The arguments `osmconf_ini`, `vectortranslate_options`, `query` and `wkt_filter` (the last two arguments are defined in `sf::st_read`) can be used to further optimize the process of getting OSM extracts into R.  
+The arguments `osmconf_ini`, `vectortranslate_options`, `boundary`, `boundary_type`, `query` and `wkt_filter` (the last two arguments are defined in `sf::st_read()`) can be used to further optimize the process of getting OSM extracts into R.  
 
 ### `osmconf_ini`
 
@@ -559,28 +559,22 @@ Please note that the argument `extra_tags` is always ignored (with a warning mes
 oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE, extra_tags = "foot")
 ```
 
-### `vectortranslate_options`
+### `vectortranslate_options` + `boundary` and `boundary_type`
 
 The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr). 
 This is extremely important because if we tune the `vectortranslate_options` parameter, then we can analyse small parts of an enormous `.pbf` files without fully reading it in memory. 
 
-The first example, reported in the following chunk, shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object (from [`EPSG:4326`](https://epsg.io/4326) to [`EPSG:27700`](https://epsg.io/27700)) while performing vectortranslate operations: 
+The first example, reported in the following chunk, shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object (i.e. transform from [`EPSG:4326`](https://epsg.io/4326) to [`EPSG:27700`](https://epsg.io/27700)) while performing vectortranslate operations: 
 
 ```{r}
-my_vectortranslate = c(
-  "-f", "GPKG", #output file format
-  "-overwrite", # overwrite an existing layer
-  "-lco", "GEOMETRY_NAME=geometry", # layer creation options, 
-  "-t_srs", "EPSG:27700", # British National Grid CRS
-  "lines" #layer
-)
 # Check the CRS
-oe_get("ITS Leeds", vectortranslate_options = my_vectortranslate, quiet = FALSE)
+oe_get("ITS Leeds", vectortranslate_options = c("-t_srs", "EPSG:27700"), quiet = FALSE)
 ```
 
 The default CRS of all OSM extracts obtained by Geofabrik and several other providers is `EPSG:4326`, i.e. latitude and longitude coordinates expressed via WGS84 ellipsoid, while the code `EPSG:27700` indicates the British National Grid. 
 Hence, the parameter `-t_srs` can be used to transform geographical data into projected coordinates, which may be essential for some statistical software like `spatstat`. 
-The same operation can also be performed in R with the `sf` package (e.g. `?st_transform`), but the conversion can be slow for large spatial objects.
+The same operation can also be performed in `R` with the `sf` package (e.g. `?st_transform()`), but the conversion can be slow for large spatial objects.
+Please note that the default options (i.e. `c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)`) are internally appended to the `vectortranslate_options` argument. 
 
 The next example illustrates how to apply an SQL-like query during the vectortranslate process. 
 More precisely, we can use the arguments `-select` and `-where` to create an SQL-like query, that is run during the vectortranslate process. 
@@ -590,15 +584,11 @@ First of all, we need to build a character vector with the options that will be 
 
 ```{r}
 my_vectortranslate = c(
-  "-f", "GPKG", # specify the output file format
-  "-overwrite", # overwrite an existing layer
-  "-lco", "GEOMETRY_NAME=geometry", # layer creation options,
-  "-t_srs", "EPSG:27700", # British National Grid CRS
+  "-t_srs", "EPSG:27700", 
   # SQL-like query where we select only the following fields
   "-select", "osm_id, highway", 
   # SQL-like query where we select only the features where highway is in (footway, cycleway)
-  "-where", "highway IN ('footway', 'cycleway')",
-  "lines" # we want to read-in the lines layer
+  "-where", "highway IN ('footway', 'cycleway')"
 )
 ```
 
@@ -615,29 +605,25 @@ For example, the following code (not run in the vignette) is used to extract all
 After downloading the data, it takes approximately 35 seconds to run the code using an HP ENVY Notebook with Intel i7-7500U processor and 8GB of RAM using Windows 10:
 
 ```{r, eval = FALSE}
-# 1. download the data and skip gpkg conversion
+# 1. Download the data and skip gpkg conversion
 oe_get("Portugal", download_only = TRUE, skip_vectortranslate = TRUE)
 
 # 2. Define the vectortranslate options
 my_vectortranslate = c(
-  "-f", "GPKG", #output file format
-  "-overwrite", # overwrite an existing file
-  "-lco", "GEOMETRY_NAME=geometry", # layer creation options,
   # SQL-like query where we select only the features where highway in (primary, secondary, tertiary)
   "-select", "osm_id, highway",
-  "-where", "highway IN ('primary', 'secondary', 'tertiary')",
-  "lines" #layer
+  "-where", "highway IN ('primary', 'secondary', 'tertiary')"
 )
 
 # 3. Convert and read-in
 system.time({
   portugal1 = oe_get("Portugal", vectortranslate_options = my_vectortranslate)
 })
-#>   user  system elapsed
-#>  26.77    9.53   35.18 
+  #  user  system elapsed 
+  # 17.39    9.93   25.53 
 ```
 
-while the classical approach (also not run in the vignette) is slower and it provides identical results: 
+while the classical approach (also not run in the vignette) is slower and provides identical results: 
 
 ```{r, eval = FALSE}
 system.time({
@@ -646,25 +632,21 @@ system.time({
     dplyr::select(osm_id, highway) %>% 
     dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary'))
 })
-#>   user  system elapsed 
-#> 144.12   26.40  175.97
+ #   user  system elapsed 
+ # 131.05   28.70  177.03
 
 nrow(portugal1) == nrow(portugal2)
 #> TRUE
 ```
 
-The argument `vectortranslate_options` can also be tuned to perform spatial filter operations during the vectortranslate process. 
-The option `-spat`, illustrated in the following example, can be used to filter only those features that intersect a given rectangular bounding box, specified as `c(xmin, ymin, xmax, ymax)`. 
-For example:
+Starting from version 0.3.0, the arguments `boundary` and `boundary_type` can be used to perform spatial filter operations during the vectortranslate process. 
+In particular, a spatial boundary can be created using an `sf` or `sfc` object (with `POLYGON` or `MULTIPOLYGON` geometry) via the argument `boundary`: 
 
 ```{r}
-my_vectortranslate = c(
-  "-f", "GPKG",
-  "-overwrite",
-  "-spat", c(-1.559184 , 53.807739 , -1.557375 , 53.808094 ),
-  "lines"
-)
-its_small = oe_get ("ITS Leeds", vectortranslate_options = my_vectortranslate)
+its_bbox = st_bbox(c(xmin = -1.559184 , ymin = 53.807739 , xmax = -1.557375 , ymax = 53.808094), crs = 4326) %>% 
+  st_as_sfc()
+
+its_small = oe_get ("ITS Leeds", boundary = its_bbox)
 ```
 
 This is the output, where the bounding box was highlighted in black, the intersecting streets in red and all the other roads in grey. 
@@ -678,9 +660,11 @@ plot(st_geometry(its_small), lwd = 3, col = "darkred", add = TRUE)
 plot(st_as_sfc(st_bbox(c(xmin = -1.559184 , ymin = 53.807739 , xmax = -1.557375 , ymax = 53.808094), crs = 4326)), add = TRUE, lwd = 3)
 ```
 
-Finally, the options `-clipsrc` and `-clipdst` can be used to perform more complex operations such as spatial filtering with generic polygons or clipping. 
-The former option crops the features considering a polygon specified in the original CRS, while the latter manipulates the data after the projection. 
-In both cases, the polygon must be specified using the Well Known Text format. 
+Finally, the argument `boundary_type` can be used to select among different types of spatial filters. 
+For the moment we support only two types of filters: `"spat"` (default value) and `"clipsrc"`.
+The former option implies that the spatial filter selects all features that intersect a given area (as shown above), while the latter option implies that the features are also cropped. 
+In both cases, the polygonal boundary must be specified as an `sf` or `sfc` object.   
+
 The following example shows how to download from Geofabrik servers the `.pbf` extract associated with Malta and apply a spatial filter while performing vectortranslate operations. 
 We select and clip only the road segments that intersect a 5 kilometers circular buffer centred in La Valletta, the capital. 
 
@@ -691,40 +675,36 @@ la_valletta = st_sfc(st_point(c(456113.1, 3972853)), crs = 32633) %>%
 
 # 2. Define the vectortranslate options
 my_vectortranslate = c(
-  "-f", "GPKG", 
-  "-overwrite", 
   "-t_srs", "EPSG:32633",
   "-select", "highway",
   "-where", "highway IN ('primary', 'secondary', 'tertiary', 'unclassified')",
-  "-clipdst", st_as_text(la_valletta),
-  "-nlt", "PROMOTE_TO_MULTI",
-  "lines"
+  "-nlt", "PROMOTE_TO_MULTI"
 )
 
-# 3. Read-in data
+# 3. Download data
+oe_get("Malta", skip_vectortranslate = TRUE, download_only = TRUE)
+
+# 4. Read-in data
 system.time({
-  oe_get("Malta", vectortranslate_options = my_vectortranslate)
+  oe_get("Malta", vectortranslate_options = my_vectortranslate, boundary = la_valletta, boundary_type = "clipsrc")
 })
-#> The input place was matched with: Malta
-#> The chosen file was already detected in the download directory. Skip downloading.
-#> Start with the vectortranslate operations on the input file!
-#> 0...10...20...30...40...50...60...70...80...90...100 - done.
-#> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `...' using driver `GPKG'
-#> Simple feature collection with 1206 features and 1 field
-#> geometry type:  MULTILINESTRING
-#> dimension:      XY
-#> bbox:           xmin: 451113.3 ymin: 3967859 xmax: 460364.8 ymax: 3976642
-#> projected CRS:  WGS 84 / UTM zone 33N
-#>   user  system elapsed 
-#>   1.87    0.85    3.47 
+# The input place was matched with: Malta
+# The chosen file was already detected in the download directory. Skip downloading.
+# Start with the vectortranslate operations on the input file!
+# 0...10...20...30...40...50...60...70...80...90...100 - done.
+# Finished the vectortranslate operations on the input file!
+# Reading layer `lines' from data source `C:\Users\Utente\AppData\Local\Temp\RtmpYVijx8\geofabrik_malta-latest.gpkg' using driver `GPKG'
+# Simple feature collection with 1205 features and 1 field
+# Geometry type: MULTILINESTRING
+# Dimension:     XY
+# Bounding box:  xmin: 451113.7 ymin: 3967858 xmax: 460364.8 ymax: 3976642
+# Projected CRS: WGS 84 / UTM zone 33N
+#    user  system elapsed 
+#    0.55    0.11    0.61 
 ```
 
 The options `-t_srs`, `-select` and `-where` have the same interpretation as before. 
-The option `-clipdst` says that we want to clip the OSM extract after the reprojection to `EPSG:32633`. 
-The function `st_as_text()` converts an `sfg` polygon into Well Known Text format, which is mandatory for the spatial filter. 
-Hence, `st_as_text(la_valletta)` specifies the polygon used for clipping. 
-The last step may return invalid `LINESTRING` geometries. 
+The spatial filter may return invalid `LINESTRING` geometries (due to the cropping operation). 
 For this reason, the `-nlt` and `PROMOTE_TO_MULTI` options are used to override the default geometry type and promote the `LINESTRING`(s) into `MULTILINESTRING`(s). 
 You can use `st_cast()` to convert the `MULTILINESTRING` into `LINESTRING` (which may be important for some packages or functions). 
 
@@ -734,7 +714,7 @@ The following map represent the result, where we highlight the bounding circle a
 malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
   dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
   st_transform(32633)
-malta_small = oe_get("Malta", vectortranslate_options = my_vectortranslate)
+malta_small = oe_get("Malta", vectortranslate_options = my_vectortranslate, boundary = la_valletta, boundary_type = "clipsrc")
 
 par(mar = rep(0.1, 4))
 plot(st_geometry(malta_regular), col = "grey", reset = FALSE)
@@ -746,11 +726,11 @@ plot(st_geometry(malta_small), add = TRUE, col = "darkred", lwd = 2)
 knitr::include_graphics("../man/figures/104240598-9d6fb400-545c-11eb-93b5-3563908ff4af.png")
 ```
 
-The process takes approximately 5 seconds, while the equivalent R code, reported below, is slower: 
+The process takes approximately 1 or 2 seconds, while the equivalent R code, reported below, is slower: 
 
 ```{r, eval = FALSE}
 system.time({
-  malta_crop = oe_get("Malta", force_vectortranslate = TRUE, force_download = TRUE) %>% 
+  malta_crop = oe_get("Malta", force_vectortranslate = TRUE) %>% 
     dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
     st_transform(32633) %>% 
     st_crop(la_valletta)
@@ -796,7 +776,7 @@ malta_small = oe_get(
 )
 ```
 
-This is the output and, we can see that it doesn't crop the features: 
+This is the output and, we can see that it applies a circular spatial filter but it doesn't crop the features: 
 
 ```{r, echo = FALSE, eval = FALSE}
 malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
@@ -814,10 +794,10 @@ knitr::include_graphics("../man/figures/104243054-4966ce80-5460-11eb-951b-ca1ce9
 
 This approach has its pros and cons. 
 First of all, it’s slightly slower than the GDAL routines, mainly because several unnecessary features are being converted to the `.gpkg` format. 
-Hence, it may become unfeasible for larger `.pbf` files, probably starting from 500MB. 
+Hence, it may become unfeasible for larger `.pbf` files, probably starting from 300/500MB. 
 We will test more cases and add more benchmarks in the near future. 
-On the other side, the syntax is cleaner, the approach is more intuitive and, most importantly, it does not require a new time-consuming `ogr2ogr` conversion every time a user defines a new query. 
-For these reasons, this is the suggested approach for querying a medium-size OSM extract.
+On the other side, it does not require a new time-consuming `ogr2ogr` conversion every time a user defines a new query. 
+For these reasons, this is the suggested approach for querying a small OSM extract.
 
 Last but not least, we can use the function `hstore_get_value` to extract one of the tags saved in the `other_tags` column without using `ogr2ogr` and rerunning the `oe_vectortranslate()` function:: 
 
@@ -825,8 +805,10 @@ Last but not least, we can use the function `hstore_get_value` to extract one of
 # No extra tag
 colnames(oe_get("ITS Leeds", quiet = TRUE))
 
-# One extra tag
-oe_get_keys(oe_get("ITS Leeds", provider = "test", download_only = TRUE, quiet = TRUE))
+# Check extra tags
+oe_get_keys("ITS Leeds")
+
+# Add extra tag
 colnames(oe_get(
   "ITS Leeds", 
   provider = "test", 
