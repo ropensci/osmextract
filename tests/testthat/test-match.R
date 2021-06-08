@@ -55,9 +55,6 @@ test_that("oe_match: different providers, match_by or max_string_dist args", {
   # case it doesn't find an exact match, so it should never return NULL
   expect_match(oe_match("Isle Wight", max_string_dist = 3, quiet = TRUE)$url, "isle-of-wight")
   expect_message(oe_match("London", max_string_dist = 3, quiet = FALSE))
-
-  # It returns a warning since Berin is matched both with Benin and Berlin
-  expect_warning(oe_match("Berin", quiet = TRUE))
 })
 
 test_that("oe_match: Cannot specify more than one place", {
@@ -78,11 +75,18 @@ test_that("oe_match: Cannot specify more than one place", {
   expect_error(oe_match(c(9.1916, 45.4650), c(-1.543794, 53.698968)))
 })
 
-test_that("oe_check_pattern: simplest examples work", {
-  # regexp = NA is used to test that the function runs without any error
-  expect_error(oe_match_pattern("Yorkshire"), regexp = NA)
-  expect_error(oe_match_pattern("Yorkshire", full_row = TRUE), regexp = NA)
-  expect_error(oe_match_pattern("Yorkshire", match_by = "XXX"))
+test_that("oe_match_pattern: simplest examples work", {
+  match_yorkshire = oe_match_pattern("Yorkshire")
+  expect_gte(length(match_yorkshire), 1)
+
+  match_yorkshire = oe_match_pattern("Yorkshire", full_row = TRUE)
+  expect_gte(length(match_yorkshire), 1)
+
+  match_empty_no_place = oe_match_pattern("ABC")
+  expect_length(match_empty_no_place, 0L)
+
+  match_empty_no_field = oe_match_pattern("Yorkshire", match_by = "ABC")
+  expect_length(match_empty_no_field, 0L)
 })
 
 test_that("oe_match can use different providers", {

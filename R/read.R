@@ -161,10 +161,11 @@ oe_read = function(
       # The ... arguments in st_read are passed to st_as_sf so I need to add the
       # formals of st_as_sf.
       # See https://github.com/ropensci/osmextract/issues/152
-      union(
+      unique(c(
         names(formals(get("st_read.character", envir = getNamespace("sf")))),
-        names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
-      )
+        names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf")))),
+        names(formals(get("read_sf", envir = getNamespace("sf"))))
+      ))
     )
   ) {
     warning(

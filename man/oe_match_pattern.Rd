@@ -4,19 +4,11 @@
 \alias{oe_match_pattern}
 \title{Check patterns in the provider's databases}
 \usage{
-oe_match_pattern(
-  pattern,
-  provider = "geofabrik",
-  match_by = "name",
-  full_row = FALSE
-)
+oe_match_pattern(pattern, match_by = "name", full_row = FALSE)
 }
 \arguments{
 \item{pattern}{Character string representing the pattern that should be
 explored.}
-
-\item{provider}{Which provider should be used? Check a summary of all
-available providers with \code{\link[=oe_providers]{oe_providers()}}.}
 
 \item{match_by}{Column name of the provider's database that will be used to
 find the match.}
@@ -25,7 +17,9 @@ find the match.}
 default.}
 }
 \value{
-A character vector or a subset of the provider's database.
+A list of character vectors or \code{sf} objects (according to the value
+of the parameter \code{full_row}). If no OSM zone can be matched with the input
+string, then the function returns an emtpy list.
 }
 \description{
 This function is used to explore the provider's databases and look for
@@ -36,5 +30,8 @@ patterns. This function can be useful in combination with \code{\link[=oe_match]
 oe_match_pattern("Yorkshire")
 
 res = oe_match_pattern("Yorkshire", full_row = TRUE)
-sf::st_drop_geometry(res)[1:3]
+lapply(res, function(x) sf::st_drop_geometry(x)[, 1:3])
+
+oe_match_pattern("ABC")
+oe_match_pattern("Yorkshire", match_by = "ABC")
 }
