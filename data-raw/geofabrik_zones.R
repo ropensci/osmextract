@@ -6,6 +6,7 @@ library(jsonlite)
 library(purrr)
 library(httr)
 library(dplyr)
+library(s2)
 
 # Download official description of geofabrik data.
 geofabrik_zones = st_read("https://download.geofabrik.de/index-v1.json", stringsAsFactors = FALSE) %>%
@@ -109,6 +110,12 @@ geofabrik_zones = geofabrik_zones %>%
     )
   ) %>%
   select(id, name, parent, level, iso3166_1_alpha2, iso3166_2, pbf_file_size, everything())
+
+# Fix problem with S2 (see https://github.com/ropensci/osmextract/issues/194 and
+# https://github.com/r-spatial/sf/issues/1649)
+st_geometry(geofabrik_zones) <- st_as_sfc(
+  s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(geofabrik_zones)), check = FALSE))
+)
 
 # The end
 usethis::use_data(geofabrik_zones, version = 3, overwrite = TRUE)

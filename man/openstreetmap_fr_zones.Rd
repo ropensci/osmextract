@@ -5,7 +5,7 @@
 \alias{openstreetmap_fr_zones}
 \title{An sf object of geographical zones taken from download.openstreetmap.fr}
 \format{
-An \code{sf} object with 835 rows and
+An \code{sf} object with 903 rows and
 7 columns:
 \describe{
 \item{id}{A unique ID for each area. It is used by \code{oe_update()}.}

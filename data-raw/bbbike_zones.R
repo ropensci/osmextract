@@ -3,8 +3,9 @@ library(sf)
 library(jsonlite)
 library(purrr)
 library(httr)
-# install.packages("htmltab")
 library(htmltab)
+library(s2)
+
 bbbike_zones = htmltab("https://download.bbbike.org/osm/bbbike/")[-1, ]
 names(bbbike_zones)
 
@@ -75,6 +76,12 @@ bbbike_zones$level = 3L
 
 # Transform
 bbbike_zones = st_transform(bbbike_zones, 4326)
+
+# Fix problem with S2 (see https://github.com/ropensci/osmextract/issues/194 and
+# https://github.com/r-spatial/sf/issues/1649)
+st_geometry(bbbike_zones) <- st_as_sfc(
+  s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(bbbike_zones)), check = FALSE))
+)
 
 usethis::use_data(bbbike_zones, version = 3, overwrite = TRUE)
 

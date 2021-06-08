@@ -27,7 +27,8 @@ Depends: R (>= 3.5.0)
 Imports: 
     sf (>= 0.8.1),
     utils,
-    tools
+    tools,
+    s2 (>= 1.0.5)
 Suggests: 
     testthat (>= 3.0.2),
     knitr,
