@@ -30,7 +30,7 @@ The goal of `osmextract` is to make it easier for people to access OpenStreetMap
 OSM data is the premier source of freely available, community created geographic data worldwide.
 We aim to enable you to extract it for data-driven work in the public interest.
 
-`osmextract` finds, downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
+`osmextract` matches, downloads, converts and imports bulk OSM data hosted by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and [bbbike](https://download.bbbike.org/osm/).
 For information on alternative providers and how to add them see the [providers vignette](https://docs.ropensci.org/osmextract/articles/providers.html).
 
 ## Why osmextract?
@@ -73,9 +73,8 @@ knitr::include_graphics("man/figures/89990770-22bf2480-dc83-11ea-9092-7645945349
 ```
 
 The package is designed to complement `osmdata`, which has advantages over `osmextract` for small datasets: `osmdata` is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an intuitive interface. 
-`osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects.
-
-`osmextract`'s niche is that it provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R package for working with geographic data, [`sf`](https://github.com/r-spatial/sf).
+`osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects. 
+`osmextract`'s niche is that it provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R package for working with geographic data [`sf`](https://github.com/r-spatial/sf).
 
 ## Installation
 
@@ -121,13 +120,8 @@ Please, raise [a new issue](https://github.com/ropensci/osmextract/issues) if yo
 
 Give `osmextract` a place name and it will try to find it in a list of names in the specified provider ([Geofabrik](https://www.geofabrik.de/data/download.html) by default).
 If the name you give it matches a place, it will download and import the associated data into R.
-The function `oe_get()` downloads (if not already downloaded) and reads-in data from OSM extract providers as an `sf` object.
+The function `oe_get()` downloads (if not already downloaded) and reads-in data from OSM providers as `sf` objects.
 By default `oe_get()` imports the `lines` layer, but any layer can be read-in by changing the `layer` argument:
-
-```{r, eval = FALSE, echo = FALSE}
-# get bb of iow
-tmaptools::geocode_OSM("isle of wight")
-```
 
 ```{r points-lines-iow, fig.show = 'hold', out.width = "50%"}
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
@@ -140,7 +134,7 @@ plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 ```
 
 The figures above give an insight into the volume and richness of data contained in OSM extracts.
-Even for a small island such as the Isle of Wight, it contains over 100k features including ferry routes, shops and roads.
+Even for a small island such as the Isle of Wight, it contains over 50k features including ferry routes, shops and roads.
 The column names in the `osm_lines` object are as follows:
 
 ```{r}
@@ -208,7 +202,6 @@ Check `?oe_get` and `?oe_download` for more details.
 
 ## Next steps
 
-We hope to make the user interface to the SQL syntax more user friendly.
 We would love to see more providers added (see the [Add new OpenStreetMap providers](https://docs.ropensci.org/osmextract/articles/providers.html) for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good.
 Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.
 

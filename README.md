@@ -25,8 +25,9 @@ premier source of freely available, community created geographic data
 worldwide. We aim to enable you to extract it for data-driven work in
 the public interest.
 
-`osmextract` finds, downloads, converts and imports bulk OSM data hosted
-by providers such as [Geofabrik GmbH](http://download.geofabrik.de) and
+`osmextract` matches, downloads, converts and imports bulk OSM data
+hosted by providers such as [Geofabrik
+GmbH](http://download.geofabrik.de) and
 [bbbike](https://download.bbbike.org/osm/). For information on
 alternative providers and how to add them see the [providers
 vignette](https://docs.ropensci.org/osmextract/articles/providers.html).
@@ -81,12 +82,11 @@ over `osmextract` for small datasets: `osmdata` is likely to be quicker
 for datasets less than a few MB in size, provides up-to-date data and
 has an intuitive interface. `osmdata` can provide data in a range of
 formats, while `osmextract` only returns
-[`sf`](https://github.com/r-spatial/sf) objects.
-
-`osmextract`’s niche is that it provides a fast way to download large
-OSM datasets in the highly compressed `pbf` format and read them in via
-the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and
-the popular R package for working with geographic data,
+[`sf`](https://github.com/r-spatial/sf) objects. `osmextract`’s niche is
+that it provides a fast way to download large OSM datasets in the highly
+compressed `pbf` format and read them in via the fast C library
+[GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R
+package for working with geographic data
 [`sf`](https://github.com/r-spatial/sf).
 
 ## Installation
@@ -142,15 +142,15 @@ names in the specified provider
 ([Geofabrik](https://www.geofabrik.de/data/download.html) by default).
 If the name you give it matches a place, it will download and import the
 associated data into R. The function `oe_get()` downloads (if not
-already downloaded) and reads-in data from OSM extract providers as an
-`sf` object. By default `oe_get()` imports the `lines` layer, but any
-layer can be read-in by changing the `layer` argument:
+already downloaded) and reads-in data from OSM providers as `sf`
+objects. By default `oe_get()` imports the `lines` layer, but any layer
+can be read-in by changing the `layer` argument:
 
 ``` r
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 46109
+#> [1] 46366
 nrow(osm_points)
 #> [1] 59085
 par(mar = rep(0, 4))
@@ -162,7 +162,7 @@ plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 
 The figures above give an insight into the volume and richness of data
 contained in OSM extracts. Even for a small island such as the Isle of
-Wight, it contains over 100k features including ferry routes, shops and
+Wight, it contains over 50k features including ferry routes, shops and
 roads. The column names in the `osm_lines` object are as follows:
 
 ``` r
@@ -254,7 +254,6 @@ Check `?oe_get` and `?oe_download` for more details.
 
 ## Next steps
 
-We hope to make the user interface to the SQL syntax more user friendly.
 We would love to see more providers added (see the [Add new
 OpenStreetMap
 providers](https://docs.ropensci.org/osmextract/articles/providers.html)
