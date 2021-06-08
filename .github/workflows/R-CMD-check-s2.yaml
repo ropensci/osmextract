@@ -70,7 +70,7 @@ jobs:
 
       - name: Install sf v1
         run: |
-          remotes::install_github("r-spatial/sf", ref= "sf_1_0")
+          remotes::install_github("r-spatial/sf")
         shell: Rscript {0}
 
       - name: Check
