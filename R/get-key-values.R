@@ -128,13 +128,6 @@ oe_get_keys.character = function(zone, layer = "lines", values = FALSE, which_ke
           call. = FALSE
         )
       },
-      warning = function(cnd) {
-        stop(
-          "The input file does not exist and can't be matched with any existing file.",
-          " You can download it using oe_get(zone, download_only = TRUE).",
-          call. = FALSE
-        )
-      },
       oe_find(zone, quiet = TRUE)
     )
 
