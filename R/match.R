@@ -429,7 +429,7 @@ oe_match.character = function(
 #'
 #' @return A list of character vectors or `sf` objects (according to the value
 #'   of the parameter `full_row`). If no OSM zone can be matched with the input
-#'   string, then the function returns an emtpy list.
+#'   string, then the function returns an empty list.
 #' @export
 #'
 #' @examples

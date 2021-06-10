@@ -19,7 +19,7 @@ default.}
 \value{
 A list of character vectors or \code{sf} objects (according to the value
 of the parameter \code{full_row}). If no OSM zone can be matched with the input
-string, then the function returns an emtpy list.
+string, then the function returns an empty list.
 }
 \description{
 This function is used to explore the provider's databases and look for

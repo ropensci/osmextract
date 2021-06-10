@@ -666,7 +666,7 @@ The former option implies that the spatial filter selects all features that inte
 In both cases, the polygonal boundary must be specified as an `sf` or `sfc` object.   
 
 The following example shows how to download from Geofabrik servers the `.pbf` extract associated with Malta and apply a spatial filter while performing vectortranslate operations. 
-We select and clip only the road segments that intersect a 5 kilometers circular buffer centred in La Valletta, the capital. 
+We select and clip only the road segments that intersect a 5 kilometres circular buffer centred in La Valletta, the capital. 
 
 ```{r, eval = FALSE}
 # 1. Define the polygonal boundary
