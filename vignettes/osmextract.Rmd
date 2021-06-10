@@ -54,9 +54,9 @@ The package is composed of the following main functions:
 1. `oe_download()`: Download the chosen file;
 1. `oe_vectortranslate()`: Convert between `.pbf` and `.gpkg` formats;
 1. `oe_read()`: Read `.pbf` and `.gpkg` files;
-1. `oe_get()`: Find, download, translate, and import data, all in one step.
+1. `oe_get()`: Match, download, (vector)translate, and import data, all in one step.
 
-For many users who just want to get OSM data quickly `oe_get()` may be sufficient, as covered in the README.
+For many users who just want to get OSM data quickly, `oe_get()` may be sufficient, as covered in the README.
 We will demonstrate each function in turn, following the same order in which they are typically used. 
 As you can see, the name of the most important functions in this package start with `oe_*` prefix, which means that you can easily use auto-completion features (with Rstudio or similar IDE(s)). 
 
@@ -142,6 +142,7 @@ oe_match("IL", match_by = "iso3166_1_alpha2", quiet = TRUE)
 ```
 
 For this reason, we coded a function named `oe_match_pattern()` to explore the matching operations for all available providers according to a pre-defined pattern. 
+It returns a named list where the names are the id(s) of the supported OSM providers and the values are the matched names. 
 For example:
 
 ```{r}
@@ -205,7 +206,7 @@ oe_match("Milan")
 
 ### Finding zones based on geographic inputs
 
-The input `place` can also be specified using an `sf` or `sfc` object with arbitrary CRS, as documented in the following example. 
+The input `place` can also be specified using an `sf`, `sfc`, or `bbox` object with arbitrary CRS^[If the input spatial object has no CRS, then `oe_match()` raises a warning message and sets `CRS = 4326`.], as documented in the following example. 
 `oe_match()` will return a named list of length two with the URL and the size of a `.pbf` file representing a zone that geographically contains the `sf` or `sfc` object  (or an error if the input is not contained into any geographical area).
 
 ```{r}
@@ -214,8 +215,8 @@ oe_match(milan_duomo)
 ```
 
 If the input `place` intersects multiple geographically nested areas and the argument `level` is equal to `NULL` (the default value), then `oe_match()` automatically returns the extract with the highest `level`. 
-In particular, we could roughly say that smaller geographical areas are associated with higher `level`(s) and `level = 1` corresponds to continent-size extracts, `2` is for countries, `3` represents the regions and `4` the subregions. 
-For example: 
+In particular, we could roughly say that smaller geographical areas are associated with higher `level`(s). 
+For example, `level = 1` may correspond to continent-size extracts, `2` is for countries, `3` represents the regions and `4` the subregions:
 
 ```{r, error = TRUE}
 yak = c(-120.51084, 46.60156)
@@ -380,26 +381,27 @@ For example,
 oe_get_keys(its_gpkg, layer = "lines")
 ```
 
-Starting from version `0.3.0`, if you set `values = TRUE`, then `oe_get_keys` prints the values associated to each key: 
+Starting from version `0.3.0`, if you set `values = TRUE`, then `oe_get_keys` returns the values associated to each key (we also defined an ad-hoc printing method): 
 
 ```{r}
 oe_get_keys(its_gpkg, layer = "lines", values = TRUE)
 ```
 
-Check `?oe_get_keys` and the corresponding examples for more details. 
+Check `?oe_get_keys` for more details. 
 
-We can always re-create the `.gpkg` file adding new `tags`: 
+We can always re-create the `.gpkg` file adding one or more new `tags`: 
 
 ```{r}
 its_gpkg = oe_vectortranslate(its_pbf, extra_tags = c("bicycle", "foot"))
 ```
 
-Check the `oe_get()` section for more complex, useful, and realistic use-cases. 
+Check the next sections for more complex, useful, and realistic use-cases. 
 
 ### `vectortranslate_options` argument
 
 The parameter `vectortranslate_options` is used to control the arguments that are passed to `ogr2ogr` via `sf::gdal_utils()` when converting between `.pbf` and `.gpkg` formats. 
-The utility `ogr2ogr` can perform various operations during the translation process, such as spatial filters or queries, and these operations are determined by the `vectortranslate_options` argument. 
+The utility `ogr2ogr` can perform various operations during the translation process, such as spatial filters or queries. 
+These operations can be tuned using the `vectortranslate_options` argument. 
 If `NULL` (default value), then `vectortranslate_options` is set equal to `c("-f", "GPKG", "-overwrite", "-oo", paste0("CONFIG_FILE=", osmconf_ini),  "-lco", "GEOMETRY_NAME=geometry", layer)`. 
 Explanation:
 
@@ -411,20 +413,18 @@ Explanation:
 
 Starting from version 0.3.0, the options `c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)` are always appended at the end of `vectortranslate_options` unless you explicitly set different default parameters for the arguments `-f`, `-oo` and `-lco`. 
 
-The arguments passed to `vectortranslate_options` can also be used to perform various steps during the vectortranslate process, as shown in the next sections. 
-
 ### `boundary` and `boundary_type` arguments 
 
-According to our experience, the spatial filters are the most common operations added to the (default) vectortranslate process (usually to select a smaller area lying in a larger OSM extract). 
+According to our experience, spatial filters are the most common operations added to the (default) vectortranslate process (usually to select a smaller area lying in a larger OSM extract). 
 Hence, starting from version 0.3.0, we defined two new arguments named `boundary` and `boundary_type` that can be used to easily apply a spatial filter directly when converting the compressed OSM extract. 
-These new arguments are exemplified in the next sections and can help the users creating less verbose `vectortranslate_options`. 
+These new arguments are exemplified in the next sections and can help all users creating less verbose `vectortranslate_options`. 
 
 ### Other notes
 
-By default, vectortranslate operations are skipped if `oe_vectortranslate()` function detects a file having the same path as the input file, `.gpkg` extension and a layer with the same name as the parameter `layer` with all `extra_tags`. 
+By default, the vectortranslate operations are skipped if `oe_vectortranslate()` function detects a file having the same path as the input file, `.gpkg` extension and a layer with the same name as the parameter `layer` with all `extra_tags`. 
 In that case, the function will return the path of the `.gpkg` file. 
 This behaviour can be overwritten by setting `force_vectortranslate = TRUE`. 
-If `osmconf_ini`, `vectortranslate_options` or `boundary` parameters are not `NULL`, the vectortranslate operations are never skipped.
+If the arguments `osmconf_ini`, `vectortranslate_options` or `boundary` parameters are not `NULL`, the vectortranslate operations are never skipped.
 
 Starting from `sf` version [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13), if `quiet` argument is equal to `FALSE`, then `oe_vectortranslate()` will display a progress bar during he vectortranslate process.
 
@@ -577,7 +577,7 @@ The same operation can also be performed in `R` with the `sf` package (e.g. `?st
 Please note that the default options (i.e. `c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)`) are internally appended to the `vectortranslate_options` argument. 
 
 The next example illustrates how to apply an SQL-like query during the vectortranslate process. 
-More precisely, we can use the arguments `-select` and `-where` to create an SQL-like query, that is run during the vectortranslate process. 
+More precisely, we can use the arguments `-select` and `-where` to create an SQL-like query that is run during the vectortranslate process. 
 Check [here](https://gdal.org/user/ogr_sql_dialect.html) for more details on the OGR SQL dialect. 
 
 First of all, we need to build a character vector with the options that will be passed to `ogr2ogr: `
@@ -587,7 +587,7 @@ my_vectortranslate = c(
   "-t_srs", "EPSG:27700", 
   # SQL-like query where we select only the following fields
   "-select", "osm_id, highway", 
-  # SQL-like query where we select only the features where highway is in (footway, cycleway)
+  # SQL-like query where we filter only the features where highway is equal to footway or cycleway
   "-where", "highway IN ('footway', 'cycleway')"
 )
 ```
@@ -776,7 +776,7 @@ malta_small = oe_get(
 )
 ```
 
-This is the output and, we can see that it applies a circular spatial filter but it doesn't crop the features: 
+This is the output and we can see that it applies a circular spatial filter but it doesn't crop the features: 
 
 ```{r, echo = FALSE, eval = FALSE}
 malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
