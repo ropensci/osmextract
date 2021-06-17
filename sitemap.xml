@@ -85,6 +85,9 @@
     <loc>/reference/openstreetmap_fr_zones.html</loc>
   </url>
   <url>
+    <loc>/reference/osmextract-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/test_zones.html</loc>
   </url>
 </urlset>

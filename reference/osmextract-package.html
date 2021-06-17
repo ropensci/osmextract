@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Return the download directory used by the package — oe_download_directory • osmextract</title>
+<title>osmextract: Download and Read OpenStreetMap Data Extracts — osmextract-package • osmextract</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,9 @@
 
 
 
-<meta property="og:title" content="Return the download directory used by the package — oe_download_directory" />
-<meta property="og:description" content="By default, the download directory is equal to tempdir(). You can set a
-persistent download directory by adding the following command to your
-.Renviron file (e.g. with edit_r_environ function in usethis package):
-OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data." />
+<meta property="og:title" content="osmextract: Download and Read OpenStreetMap Data Extracts — osmextract-package" />
+<meta property="og:description" content="Match, download, convert and import Open Street Map data extracts 
+    obtained from several providers." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -142,30 +140,41 @@ OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Return the download directory used by the package</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/osmextract/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>oe_download_directory.Rd</code></div>
+    <h1>osmextract: Download and Read OpenStreetMap Data Extracts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/osmextract/blob/master/R/osmextract-package.R'><code>R/osmextract-package.R</code></a></small>
+    <div class="hidden name"><code>osmextract-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>By default, the download directory is equal to <code><a href='https://rdrr.io/r/base/tempfile.html'>tempdir()</a></code>. You can set a
-persistent download directory by adding the following command to your
-<code>.Renviron</code> file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
-<code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p>
+    <p>Match, download, convert and import Open Street Map data extracts 
+    obtained from several providers.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>oe_download_directory</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>A character vector representing the path for the download directory
-used by the package.</p>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://docs.ropensci.org/osmextract/ (website) https://github.com/ropensci/osmextract'>https://docs.ropensci.org/osmextract/ (website) https://github.com/ropensci/osmextract</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/ropensci/osmextract/issues'>https://github.com/ropensci/osmextract/issues</a></p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>oe_download_directory</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDnD6F7"</span>
-</code></pre></div>
+</div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p><strong>Maintainer</strong>: Andrea Gilardi <a href='mailto:andrea.gilardi@unimib.it'>andrea.gilardi@unimib.it</a> (<a href='https://orcid.org/0000-0002-9424-7439'>ORCID</a>)</p>
+<p>Authors:</p><ul>
+<li><p>Robin Lovelace (<a href='https://orcid.org/0000-0001-5679-6536'>ORCID</a>)</p></li>
+</ul>
+
+<p>Other contributors:</p><ul>
+<li><p>Barry Rowlingson (<a href='https://orcid.org/0000-0002-8586-6625'>ORCID</a>) [contributor]</p></li>
+<li><p>Salva Fernández (Salva reviewed the package (v. 0.1) for rOpenSci, see &lt;https://github.com/ropensci/software-review/issues/395&gt;) [reviewer]</p></li>
+<li><p>Nicholas Potter (Nicholas reviewed the package (v. 0.1) for rOpenSci, see &lt;https://github.com/ropensci/software-review/issues/395&gt;) [reviewer]</p></li>
+</ul>
+
+
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
