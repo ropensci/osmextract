@@ -1,5 +1,10 @@
 # osmextract (development version)
 
+### DOCUMENTATION FIXES
+
+* Slightly changed the description of the package. 
+* Added a `.Rd` file documenting the whole package. 
+
 # osmextract 0.3.0
 
 ### MAJOR CHANGES

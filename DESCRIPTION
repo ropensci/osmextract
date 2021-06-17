@@ -14,7 +14,7 @@ Authors@R: c(
     person("Nicholas", "Potter", role = c("rev"), 
     comment = c("Nicholas reviewed the package (v. 0.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/395>"))
     )
-Description: Find, download, convert and read Open Street Map data extracts 
+Description: Match, download, convert and import Open Street Map data extracts 
     obtained from several providers. 
 License: GPL-3
 Encoding: UTF-8
