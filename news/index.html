@@ -164,6 +164,7 @@
 <a href="#bug-fixes" class="anchor" aria-hidden="true"></a>BUG FIXES</h3>
 <ul><li>The parameter <code>force_vectortranslate</code> is checked before reading the layers of an existing <code>gpkg</code> file. If <code>force_vectortranslate</code> is <code>TRUE</code>, then <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> doesn’t check the existing layers. This is important for user that run <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> after stopping the vectortranslate process.<br></li>
 <li>The arguments <code>extra_tags</code> and <code>osmconf_ini</code> are not ignored when <code>vectortranslate_options</code> is not <code>NULL</code> (<a href='https://github.com/ropensci/osmextract/issues/182'>#182</a>).</li>
+<li>Fix the provider’s data objects for <code>sf</code> v1.0 (<a href='https://github.com/ropensci/osmextract/issues/194'>#194</a>).</li>
 </ul></div>
 <div id="minor-improvements" class="section level3">
 <h3 class="hasAnchor">
