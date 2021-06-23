@@ -1,0 +1,89 @@
+.remark-slide-content {
+  background-image: url("https://www.dropbox.com/s/ff7nr4n2dcm59de/useR_logo.png?dl=1"), linear-gradient(to bottom, white 85%, rgba(227, 227, 227) 95%) ;
+  background-position: 20px 590px , center;
+  background-size: 85px , 100% 100%, cover ;
+}
+
+.remark-slide-content h1, .remark-slide-content h2, .remark-slide-content h3 {
+  color: #454647;
+  font-weight: bold;
+}
+
+.title-slide {
+  background-image: url("https://www.dropbox.com/s/ff7nr4n2dcm59de/useR_logo.png?dl=1"), linear-gradient(to bottom, white 85%, rgba(227, 227, 227) 95%)  ;
+  background-position: 5% 15%, center ;
+  background-size: 160px, 100% 100%, cover ;
+}
+
+.title-slide h1 {
+  position: absolute;
+  bottom: 22%;
+  text-align: left;
+  color: #454647;
+  font-weight: bold;
+}
+
+.title-slide h2 {
+  font-size: 0pt;
+}
+
+.title-slide h3 {
+  margin-top: -40px;
+  text-align: left;
+  position: relative ;
+  top: 300px;
+  color: #454647;
+  font-weight: normal;
+}
+
+.chapter-slide {
+  background-color: #1464b4;
+  background-image: url();
+}
+
+.chapter-slide h1 {
+  position: absolute;
+  top: 55%;
+  left: 10%;
+  text-align: left;
+  color: #e8e8e8 ;
+}
+
+/* Two-column layout */
+.left-column {
+  width: 20%;
+  float: left;
+  margin-top: -30px;
+}
+
+.right-column {
+  width: 75%;
+  float: right;
+  margin-top: -30px;
+}
+
+.pull-left {
+  float: left;
+  width: 47%;
+  margin-top: -30px;
+}
+.pull-right {
+  float: right;
+  width: 47%;
+  margin-top: -30px;
+}
+
+.pull-left-40 {
+  float: left;
+  width: 39%;
+  margin-top: -30px;
+}
+.pull-right-60 {
+  float: right;
+  width: 57%;
+  margin-top: -150px;
+}
+
+/* FONT SIZE STUFF */ 
+.large { font-size: 120% }
+.small { font-size: 70% }
