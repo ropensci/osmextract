@@ -39,7 +39,7 @@ suppressPackageStartupMessages({
   library(leaflet)
 })
 
-Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = tempdir())
+# Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = tempdir())
 ```
 
 ## The initial development
@@ -271,7 +271,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="https://user-images.githubusercontent.com/22221146/123111477-3d366280-d43d-11eb-90ec-92846c9cfc23.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111477-3d366280-d43d-11eb-90ec-92846c9cfc23.png" alt="Map of the road network in the Isle of Wight. The road segments are colored according to the road type"; width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -310,7 +310,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="https://user-images.githubusercontent.com/22221146/123111691-65be5c80-d43d-11eb-87ff-cced0e52f003.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111691-65be5c80-d43d-11eb-87ff-cced0e52f003.png" alt="Map of the road network in the Isle of Wight highlighting primary, secondary, and tertiary roads."; width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -377,7 +377,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="https://user-images.githubusercontent.com/22221146/123111710-6951e380-d43d-11eb-9ab1-7c9baa69cc7d.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111710-6951e380-d43d-11eb-9ab1-7c9baa69cc7d.png" alt="Map of the road network in the Isle of Wight. The segments intersecting a circular buffer around Newport are highlighted."; width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -417,7 +417,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="https://user-images.githubusercontent.com/22221146/123111705-6820b680-d43d-11eb-898a-16202c40ce29.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111705-6820b680-d43d-11eb-898a-16202c40ce29.png" alt="Map of the road network in the Isle of Wight. The segments intersecting a circular buffer around Newport are highlighted. The segments are also clipped."; width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -429,7 +429,7 @@ if (FALSE) {
 Speed limits of Roads in London: 
 ]
 <div style="width: 550px; height: 385px; overflow: hidden;">
-<img src="https://user-images.githubusercontent.com/1825120/122961671-870b4400-d37c-11eb-9ab7-6420b1aa8b07.png" width= 650px height= 425px; style="display: block; margin: auto; margin-top: -15px"/>
+<img src="https://user-images.githubusercontent.com/1825120/122961671-870b4400-d37c-11eb-9ab7-6420b1aa8b07.png" alt="Roads in London colored according to the speed limit."; width= 650px height= 425px; style="display: block; margin: auto; margin-top: -15px"/>
 </div>
 ]
 
@@ -437,7 +437,7 @@ Speed limits of Roads in London:
 .large[
 Classification of cycleways in a region of Norway
 ]
-<img src="https://user-images.githubusercontent.com/1825120/122961289-2b40bb00-d37c-11eb-93ef-42b0e7639926.png" width="85%" style="display: block; margin: auto;"/>
+<img src="https://user-images.githubusercontent.com/1825120/122961289-2b40bb00-d37c-11eb-93ef-42b0e7639926.png" alt="Cycleways in a region of Norway colored according to the type."; width="85%" style="display: block; margin: auto;"/>
 ]
 
 ---
@@ -447,13 +447,13 @@ Classification of cycleways in a region of Norway
 .pull-left[
 Road safety analysis in Leeds:
 
-<img src="https://user-images.githubusercontent.com/22221146/123111721-6b1ba700-d43d-11eb-8a08-c75b3655ae97.png" width = "100%" style="display: block; margin: auto;"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111721-6b1ba700-d43d-11eb-8a08-c75b3655ae97.png" alt="Estimate of car crashes rate for road segments in Leeds."; width = "100%" style="display: block; margin: auto;"/>
 ]
 
 .pull-right[
 Analysis of Ambulance interventions in Milan: 
 
-<img src="https://user-images.githubusercontent.com/22221146/123111730-6c4cd400-d43d-11eb-8e79-b9b3ecf82877.png" width = "100%" style="display: block; margin: auto;"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111730-6c4cd400-d43d-11eb-8e79-b9b3ecf82877.png" alt="Estimate of ambulance interventions rates in the road network of Milan."; width = "100%" style="display: block; margin: auto;"/>
 ]
 
 
