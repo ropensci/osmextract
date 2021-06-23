@@ -39,7 +39,7 @@ suppressPackageStartupMessages({
   library(leaflet)
 })
 
-# Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = tempdir())
+Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = tempdir())
 ```
 
 ## The initial development
