@@ -5,7 +5,7 @@ institute: "University of Milano - Bicocca and University of Leeds"
 date: "2021/07/06"
 output: 
   xaringan::moon_reader: 
-    css: [useRv2.css, useRv2-fonts.css]
+    css: ["useR", "useR-fonts"]
     nature:
       beforeInit: ["https://platform.twitter.com/widgets.js", "macro.js"]
       highlightStyle: github
@@ -13,6 +13,21 @@ output:
       countIncrementalSlides: false
       ratio: 16:9
 ---
+
+<style type="text/css">
+.pull-left-40 {
+  float: left;
+  width: 39%;
+  margin-top: -30px;
+}
+.pull-right-60 {
+  float: right;
+  width: 57%;
+  margin-top: -150px;
+}
+.large { font-size: 120% }
+.small { font-size: 70% }
+</style>
 
 ```{r setup, include = FALSE}
 options(htmltools.dir.version = FALSE, crayon.enabled = TRUE)
@@ -256,7 +271,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="figures-slides/raw_iow.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111477-3d366280-d43d-11eb-90ec-92846c9cfc23.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -295,7 +310,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="figures-slides/small-iow.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111691-65be5c80-d43d-11eb-87ff-cced0e52f003.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -362,7 +377,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="figures-slides/spat-iow.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111710-6951e380-d43d-11eb-9ab1-7c9baa69cc7d.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -402,7 +417,7 @@ if (FALSE) {
 ```
 
 .pull-right-60[
-<img src="figures-slides/clip-iow.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111705-6820b680-d43d-11eb-898a-16202c40ce29.png" width="118%" style="display: block; margin: auto; margin-top: 140px; margin-left: -40px"/>
 ]
 
 ---
@@ -432,13 +447,13 @@ Classification of cycleways in a region of Norway
 .pull-left[
 Road safety analysis in Leeds:
 
-<img src="figures-slides/pred_severe-eps-converted-to-1.png" width = "100%" style="display: block; margin: auto;"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111721-6b1ba700-d43d-11eb-8a08-c75b3655ae97.png" width = "100%" style="display: block; margin: auto;"/>
 ]
 
 .pull-right[
 Analysis of Ambulance interventions in Milan: 
 
-<img src="figures-slides/pred-spat-int-1-1.png" width = "100%" style="display: block; margin: auto;"/>
+<img src="https://user-images.githubusercontent.com/22221146/123111730-6c4cd400-d43d-11eb-8e79-b9b3ecf82877.png" width = "100%" style="display: block; margin: auto;"/>
 ]
 
 

@@ -12,4 +12,4 @@
 my-rhub-commands.R
 pkgdown/
 notes.R
-vignettes/useR2021/
+vignettes/useR2021.Rmd
