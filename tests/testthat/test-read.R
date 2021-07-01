@@ -83,7 +83,8 @@ test_that("oe_read returns a warning message when query != layer", {
     object = oe_read(
       its_pbf,
       layer = "points",
-      query = "SELECT * FROM lines",
+      # Testing also that the layer argument can be specified using upper case
+      query = "SELECT * FROM LINES",
       quiet = TRUE
     ),
     regexp = "The query selected a layer which is different from layer argument."

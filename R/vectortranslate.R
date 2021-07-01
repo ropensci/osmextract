@@ -185,7 +185,7 @@ oe_vectortranslate = function(
     is.na(layer) ||
     # I need the following condition to check that the function
     # get_ini_layer_defaults does not return NULL
-    layer %!in% c(
+    tolower(layer) %!in% c(
       "points", "lines", "multipolygons", "multilinestrings", "other_relations"
     )
   ) {
