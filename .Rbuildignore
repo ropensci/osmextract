@@ -13,3 +13,4 @@ my-rhub-commands.R
 pkgdown/
 notes.R
 vignettes/_useR2021.rmd
+docs/
