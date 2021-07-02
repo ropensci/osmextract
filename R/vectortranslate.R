@@ -253,12 +253,26 @@ oe_vectortranslate = function(
       layer %in% sf::st_layers(gpkg_file_path)[["name"]] &&
       !never_skip_vectortranslate
     ) {
-      old_tags = names(sf::st_read(
-        gpkg_file_path,
-        layer = layer,
-        quiet = TRUE,
-        query = paste0("select * from \"", layer, "\" limit 0")
-      ))
+      # Starting from sf 1.0.2, sf::st_read raises a warning message when both
+      # layer and query arguments are set (while it raises a warning in sf <
+      # 1.0.2 when there are multiple layers and the layer argument is not set).
+      # See also https://github.com/r-spatial/sf/issues/1444
+
+      if (utils::packageVersion("sf") <= "1.0.1") {
+        old_tags = names(sf::st_read(
+          gpkg_file_path,
+          layer = layer,
+          quiet = TRUE,
+          query = paste0("select * from \"", layer, "\" limit 0")
+        ))
+      } else {
+        old_tags = names(sf::st_read(
+          gpkg_file_path,
+          quiet = TRUE,
+          query = paste0("select * from \"", layer, "\" limit 0")
+        ))
+      }
+
       if (all(extra_tags %in% old_tags)) {
         force_vectortranslate = FALSE
       }
