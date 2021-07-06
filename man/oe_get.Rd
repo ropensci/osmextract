@@ -29,11 +29,11 @@ oe_get(
 }
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
-a \code{.osm.pbf} file through the chosen \code{provider}. Can be either a length-1
-character vector, an \code{sf} or \code{sfc} object, or a numeric vector of
-coordinates with length 2. In the last case, it is assumed that the EPSG
-code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-\code{sf} or \code{sfc} object. See Details and examples in \code{\link[=oe_match]{oe_match()}}.}
+a \code{.osm.pbf} file. Can be either a length-1 character vector, an
+\code{sf}/\code{sfc}/\code{bbox} object, or a numeric vector of coordinates with length 2.
+In the last case, it is assumed that the EPSG code is 4326 specified as
+c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
+Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If

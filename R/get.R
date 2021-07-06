@@ -6,11 +6,11 @@
 #' of the wrapped functions to understand the details behind all parameters.
 #'
 #' @param place Description of the geographical area that should be matched with
-#'   a `.osm.pbf` file through the chosen `provider`. Can be either a length-1
-#'   character vector, an `sf` or `sfc` object, or a numeric vector of
-#'   coordinates with length 2. In the last case, it is assumed that the EPSG
-#'   code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-#'   `sf` or `sfc` object. See Details and examples in [oe_match()].
+#'   a `.osm.pbf` file. Can be either a length-1 character vector, an
+#'   `sf`/`sfc`/`bbox` object, or a numeric vector of coordinates with length 2.
+#'   In the last case, it is assumed that the EPSG code is 4326 specified as
+#'   c(LON, LAT), while you can use any CRS with `sf`/`sfc`/`bbox` objects. See
+#'   Details and Examples in [oe_match()].
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #'   (the default), `multilinestrings`, `multipolygons` or `other_relations`. If
 #'   you specify an ad-hoc query using the argument `query` (see introductory
