@@ -1,9 +1,10 @@
-#' Import road network according to a specific mode of transport
+#' Import a road network according to a specific mode of transport
 #'
 #' TODO
 #'
 #' @inheritParams oe_get
-#' @param mode The mode of transport. Can be abbreviated.
+#' @param mode A character string denoting the desired mode of transport. Can be
+#'   abbreviated.
 #' @param ... IGNORED FOR THE MOMENT. Additional arguments passed to `oe_get()`.
 #'   Please note that the arguments `layer` and `vectortranslate_options` cannot
 #'   be provided since are set according to the `mode` parameter.
@@ -11,13 +12,13 @@
 #' @return An `sf` object.
 #' @export
 #'
-#' @details TODO (precisely describe the functions)
+#' @details TODO (precisely describe the function)
 #'
 #' @seealso [`oe_get()`]
 #'
 #' @examples
 #' 1 + 1
-oe_get_transport <- function(
+oe_get_network <- function(
   place,
   mode = c("cycling", "walking"),
   ...
