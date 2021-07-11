@@ -210,28 +210,28 @@ plot(sf::st_geometry(its_clipped), add = TRUE, col = "orange")
 
 # More complex examples
 \dontrun{
-  west_yorkshire = oe_get("West Yorkshire")
-  # If you run it again, the function will not download the file
-  # or convert it again
-  west_yorkshire = oe_get("West Yorkshire")
-  # Match with place name
-  oe_get("Milan") # Warning: the .pbf file is 400MB
-  oe_get("Vatican City") # Check all providers
-  oe_get("Zurich") # Use Nominatim API for geolocating places
+west_yorkshire = oe_get("West Yorkshire")
+# If you run it again, the function will not download the file
+# or convert it again
+west_yorkshire = oe_get("West Yorkshire")
+# Match with place name
+oe_get("Milan") # Warning: the .pbf file is 400MB
+oe_get("Vatican City") # Check all providers
+oe_get("Zurich") # Use Nominatim API for geolocating places
 
-  # Match with coordinates (any EPSG)
-  milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
-  oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
-  # Match with numeric coordinates (EPSG = 4326)
-  oe_match(c(9.1916, 45.4650), quiet = FALSE)
+# Match with coordinates (any EPSG)
+milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
+oe_get(milan_duomo, quiet = FALSE) # Warning: the .pbf file is 400MB
+# Match with numeric coordinates (EPSG = 4326)
+oe_match(c(9.1916, 45.4650), quiet = FALSE)
 
-  # Check also alternative providers
-  baku = oe_get(place = "Baku")
+# Check also alternative providers
+baku = oe_get(place = "Baku")
 
-  # Other examples:
-  oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
-  # The following example mimics read_sf
-  oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
+# Other examples:
+oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
+# The following example mimics read_sf
+oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
 
 # Remove .pbf and .gpkg files in tempdir
 # (since they may interact with other examples)
