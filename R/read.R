@@ -288,11 +288,33 @@ oe_read = function(
     stop("An error occurred during the vectortranslate process", call. = FALSE)
   }
 
-  # Read the translated file with sf::st_read
-  sf::st_read(
-    dsn = gpkg_file_path,
-    layer = layer,
-    quiet = quiet,
-    ...
-  )
+  # Read the translated file with sf::st_read. Moreover, starting from sf 1.0.2,
+  # sf::st_read raises a warning message when both layer and query arguments are
+  # set (while it raises a warning in sf < 1.0.2 when there are multiple layers
+  # and the layer argument is not set). See also
+  # https://github.com/r-spatial/sf/issues/1444
+
+  if (utils::packageVersion("sf") <= "1.0.1") {
+    sf::st_read(
+      dsn = gpkg_file_path,
+      layer = layer,
+      quiet = quiet,
+      ...
+    )
+  } else {
+    if ("query" %in% names(list(...))) {
+      sf::st_read(
+        dsn = gpkg_file_path,
+        quiet = quiet,
+        ...
+      )
+    } else {
+      sf::st_read(
+        dsn = gpkg_file_path,
+        layer = layer,
+        quiet = quiet,
+        ...
+      )
+    }
+  }
 }

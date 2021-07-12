@@ -142,14 +142,30 @@ oe_get_keys.character = function(zone, layer = "lines", values = FALSE, which_ke
 
   # Check that the input file contains the other_tags field
   # See also https://github.com/ropensci/osmextract/issues/158
-  existing_fields = colnames(
-    sf::st_read(
-      dsn = zone,
-      layer = layer,
-      query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
-      quiet = TRUE
+
+  # Moreover, starting from sf 1.0.2, sf::st_read raises a warning message when
+  # both layer and query arguments are set (while it raises a warning in sf <
+  # 1.0.2 when there are multiple layers and the layer argument is not set).
+  # See also https://github.com/r-spatial/sf/issues/1444
+
+  if (utils::packageVersion("sf") <= "1.0.1") {
+    existing_fields = colnames(
+      sf::st_read(
+        dsn = zone,
+        layer = layer,
+        query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
+        quiet = TRUE
+      )
     )
-  )
+  } else {
+    existing_fields = colnames(
+      sf::st_read(
+        dsn = zone,
+        query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
+        quiet = TRUE
+      )
+    )
+  }
 
   if ("other_tags" %!in% existing_fields) {
     stop(
@@ -160,12 +176,26 @@ oe_get_keys.character = function(zone, layer = "lines", values = FALSE, which_ke
   }
 
   # Read the gpkg or pbf file selecting only the other_tags column.
-  obj = sf::st_read(
-    dsn = zone,
-    layer = layer,
-    query = paste0("select other_tags from ", layer),
-    quiet = TRUE
-  )
+
+  # Moreover, starting from sf 1.0.2, sf::st_read raises a warning message when
+  # both layer and query arguments are set (while it raises a warning in sf <
+  # 1.0.2 when there are multiple layers and the layer argument is not set).
+  # See also https://github.com/r-spatial/sf/issues/1444
+
+  if (utils::packageVersion("sf") <= "1.0.1") {
+    obj = sf::st_read(
+      dsn = zone,
+      layer = layer,
+      query = paste0("select other_tags from ", layer),
+      quiet = TRUE
+    )
+  } else {
+    obj = sf::st_read(
+      dsn = zone,
+      query = paste0("select other_tags from ", layer),
+      quiet = TRUE
+    )
+  }
 
   get_keys(obj[["other_tags"]], values = values, which_keys = which_keys)
 }
