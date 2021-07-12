@@ -21,7 +21,7 @@
 #' plot(its_walking["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 #' its_driving = oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
 #' plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
-oe_get_network <- function(
+oe_get_network = function(
   place,
   mode = c("cycling", "driving", "walking"),
   ...
@@ -37,7 +37,7 @@ oe_get_network <- function(
 
   # Check the other arguments supplied by the user
   dots_args = list(...)
-  oe_get_options <- check_args_network(dots_args, oe_get_options)
+  oe_get_options = check_args_network(dots_args, oe_get_options)
 
   # Run oe_get
   do.call(oe_get, oe_get_options)
@@ -66,7 +66,7 @@ oe_get_network <- function(
 # - bicycle IS NULL OR bicycle NOT IN ('no', 'use_sidepath')
 # - service IS NULL OR service does not look like 'private' (ILIKE is string
 # matching case insensitive)
-load_options_cycling <- function(place) {
+load_options_cycling = function(place) {
   list(
     place = place,
     layer = "lines",
@@ -104,7 +104,7 @@ load_options_cycling <- function(place) {
 # - foot IS NULL OR foot NOT IN ('no', 'use_sidepath', 'private', 'restricted')
 # - service IS NULL OR service does not look like 'private' (ILIKE is string
 # matching case insensitive)
-load_options_walking <- function(place) {
+load_options_walking = function(place) {
   list(
     place = place,
     layer = "lines",
@@ -135,8 +135,7 @@ load_options_walking <- function(place) {
 # 'corridor', 'cycleway', 'elevator', 'fixme', 'footway', 'gallop', 'historic',
 # 'no', 'pedestrian', 'platform', 'proposed', 'steps', 'pedestrian',
 # 'bridleway', 'path', 'platform');
-
-load_options_driving <- function(place) {
+load_options_driving = function(place) {
   list(
     place = place,
     layer = "lines",
@@ -161,7 +160,7 @@ load_options_driving <- function(place) {
 
 # The following function is used to merge the vectortranslate options set by the
 # mode of transport and the other oe_get options set by the user.
-check_args_network <- function(dots_args, oe_get_options) {
+check_args_network = function(dots_args, oe_get_options) {
   # Check if the user set any argument in the call. If not, just return.
   if (length(dots_args) == 0L) {
     return(oe_get_options)
@@ -187,7 +186,7 @@ check_args_network <- function(dots_args, oe_get_options) {
 
   # Check the vectortranslate_options argument and the -where keyword
   if (!is.null(dots_args[["vectortranslate_options"]])) {
-    if ("-where" %in% !is.null(dots_args[["vectortranslate_options"]])) {
+    if ("-where" %in% dots_args[["vectortranslate_options"]]) {
       # Raise an error since -where arg must be set by the function
       stop(
         "The vectortranslate_options inside oe_get_network() cannot be used",

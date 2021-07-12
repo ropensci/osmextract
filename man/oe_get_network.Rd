@@ -33,7 +33,10 @@ differnces between legal access and convenience (i.e. these are not the
 best paths, just all available paths)
 }
 \examples{
-oe_get_network("ITS Leeds", mode = "walking")
+its_walking = oe_get_network("ITS Leeds", mode = "walking", quiet = TRUE)
+plot(its_walking["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
+its_driving = oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
+plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 }
 \seealso{
 \code{\link[=oe_get]{oe_get()}}

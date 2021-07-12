@@ -12,7 +12,7 @@ test_that("oe_get_network: options in ... work correctly", {
   expect_warning(oe_get_network("ITS Leeds", layer = "points", quiet = TRUE))
   expect_message(oe_get_network("ITS Leeds", quiet = TRUE), NA)
 
-  driving_network_with_area <- oe_get_network(
+  driving_network_with_area = oe_get_network(
     "ITS Leeds",
     mode = "driving",
     extra_tags = "area",
@@ -26,7 +26,7 @@ test_that("oe_get_network: options in ... work correctly", {
     vectortranslate_options = c("-where", "ABC")
   ))
 
-  walking_network_27700 <- oe_get_network(
+  walking_network_27700 = oe_get_network(
     "ITS Leeds",
     mode = "walking",
     vectortranslate_options = c("-t_srs", "EPSG:27700"),
