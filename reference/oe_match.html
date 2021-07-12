@@ -185,11 +185,11 @@ provider's databases. See <code><a href='oe_providers.html'>oe_providers()</a></
     <tr>
       <th>place</th>
       <td><p>Description of the geographical area that should be matched with
-a <code>.osm.pbf</code> file through the chosen <code>provider</code>. Can be either a length-1
-character vector, an <code>sf</code> or <code>sfc</code> object, or a numeric vector of
-coordinates with length 2. In the last case, it is assumed that the EPSG
-code is 4326 specified as c(LON, LAT), while you can use any CRS with an
-<code>sf</code> or <code>sfc</code> object. See Details and examples in <code>oe_match()</code>.</p></td>
+a <code>.osm.pbf</code> file. Can be either a length-1 character vector, an
+<code>sf</code>/<code>sfc</code>/<code>bbox</code> object, or a numeric vector of coordinates with length 2.
+In the last case, it is assumed that the EPSG code is 4326 specified as
+c(LON, LAT), while you can use any CRS with <code>sf</code>/<code>sfc</code>/<code>bbox</code> objects. See
+Details and Examples in <code>oe_match()</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
