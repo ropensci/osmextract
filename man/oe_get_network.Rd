@@ -4,7 +4,7 @@
 \alias{oe_get_network}
 \title{Import a road network according to a specific mode of transport}
 \usage{
-oe_get_network(place, mode = c("cycling", "walking"), ...)
+oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
 }
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
@@ -25,13 +25,15 @@ be provided since are set according to the \code{mode} parameter.}
 An \code{sf} object.
 }
 \description{
-TODO
+Import a road network according to a specific mode of transport
 }
 \details{
-TODO (precisely describe the function)
+TODO (precisely describe the function) Also slightly underline the
+differnces between legal access and convenience (i.e. these are not the
+best paths, just all available paths)
 }
 \examples{
-1 + 1
+oe_get_network("ITS Leeds", mode = "walking")
 }
 \seealso{
 \code{\link[=oe_get]{oe_get()}}

@@ -3,7 +3,6 @@ test_that("oe_update(): simplest example works", {
   skip_on_cran()
   skip_if_offline()
 
-
   out = oe_get(
     "ITS Leeds",
     provider = "test",
