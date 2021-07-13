@@ -1,9 +1,19 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+
+* Added a new function named `oe_get_network()` to import a transport network used by a spcific mode of transport. For the moment we support the following modes of transport: cycling (default), walking, and driving. Check `?oe_get_network` for more details and examples. 
+
+### MINOR CHANGES
+
+* The `layer` argument is now converted to lower case before checking if the required layer is admissible. 
+* Adjusted the code behind `oe_get()` and `oe_vectortranslate()` for `sf` v1.0.2.
+
 ### DOCUMENTATION FIXES
 
 * Slightly changed the description of the package. 
 * Added a `.Rd` file documenting the whole package. 
+* Slightly changed the description of parameter `place`. 
 
 # osmextract 0.3.0
 
