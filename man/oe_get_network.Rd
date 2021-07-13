@@ -2,7 +2,7 @@
 % Please edit documentation in R/get-network.R
 \name{oe_get_network}
 \alias{oe_get_network}
-\title{Import a road network according to a specific mode of transport}
+\title{Import transport network used by a specific mode of transport}
 \usage{
 oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
 }
@@ -15,7 +15,7 @@ c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} obj
 Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{mode}{A character string denoting the desired mode of transport. Can be
-abbreviated.}
+abbreviated. Currently cycling (the default), driving and walking are supported.}
 
 \item{...}{Additional arguments passed to \code{oe_get()} such as \code{boundary} or
 \code{force_download}.}
@@ -29,6 +29,14 @@ network given a \code{place} and a mode of transport. Check the Details for a
 precise description of the procedures used to filter each mode of transport.
 }
 \details{
+The definition of usable transport network was taken from the Python
+packages \href{https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py}{osmnx} and
+\href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
+documents found online, i.e.
+\url{https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions},
+\url{https://wiki.openstreetmap.org/wiki/Key:access}. See also the discussion
+in \url{https://github.com/ropensci/osmextract/issues/153}.
+
 The \code{cycling} mode of transport (i.e. the default value for \code{mode}
 parameter) selects the OSM ways that meet the following conditions:
 \itemize{
@@ -76,11 +84,6 @@ following conditions:
 \item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
 \code{private_access} and similar).
 }
-
-The choices adopted in this function are based on the following documents:
-https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions
-and https://wiki.openstreetmap.org/wiki/Key:access plus the discussion in
-https://github.com/ropensci/osmextract/issues/153
 
 Feel free to start a new issue in the \href{https://github.com/ropensci/osmextract}{github repo} if you want to suggest
 modifications to the current filters or propose new values for alternative

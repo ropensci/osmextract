@@ -13,11 +13,14 @@
 #' @return An `sf` object.
 #' @export
 #'
-#' @details The definition of usable transport network was taken from
-#' the `osmnx` Python package. See
-#' [github.com/gboeing/osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py)
-#' for details.
-#' 
+#' @details The definition of usable transport network was taken from the Python
+#'   packages [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py) and
+#'   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
+#'   documents found online, i.e.
+#'   <https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions>,
+#'   <https://wiki.openstreetmap.org/wiki/Key:access>. See also the discussion
+#'   in <https://github.com/ropensci/osmextract/issues/153>.
+#'
 #' The `cycling` mode of transport (i.e. the default value for `mode`
 #'   parameter) selects the OSM ways that meet the following conditions:
 #'
@@ -63,17 +66,12 @@
 #'   - The `service` tag does not contain the string `private` (i.e. `private`;
 #'   `private_access` and similar).
 #'
-#'   The choices adopted in this function are based on the following documents:
-#'   https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions
-#'   and https://wiki.openstreetmap.org/wiki/Key:access plus the discussion in
-#'   https://github.com/ropensci/osmextract/issues/153
-#'
 #'   Feel free to start a new issue in the [github
 #'   repo](https://github.com/ropensci/osmextract) if you want to suggest
 #'   modifications to the current filters or propose new values for alternative
 #'   modes of transport.
 #'
-#' @seealso [`oe_get()`]
+#' @seealso [oe_get()]
 #'
 #' @examples
 #' # default value returned by OSM
