@@ -1,4 +1,4 @@
-#' Import a road network according to a specific mode of transport
+#' Import transport network used by a specific mode of transport
 #'
 #' This function is a wrapper around `oe_get()` and can be used to import a road
 #' network given a `place` and a mode of transport. Check the Details for a
