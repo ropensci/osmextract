@@ -17,24 +17,83 @@ Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 \item{mode}{A character string denoting the desired mode of transport. Can be
 abbreviated.}
 
-\item{...}{IGNORED FOR THE MOMENT. Additional arguments passed to \code{oe_get()}.
-Please note that the arguments \code{layer} and \code{vectortranslate_options} cannot
-be provided since are set according to the \code{mode} parameter.}
+\item{...}{Additional arguments passed to \code{oe_get()} such as \code{boundary} or
+\code{force_download}.}
 }
 \value{
 An \code{sf} object.
 }
 \description{
-Import a road network according to a specific mode of transport
+This function is a wrapper around \code{oe_get()} and can be used to import a road
+network given a \code{place} and a mode of transport. Check the Details for a
+precise description of the procedures used to filter each mode of transport.
 }
 \details{
-TODO (precisely describe the function) Also slightly underline the
-differnces between legal access and convenience (i.e. these are not the
-best paths, just all available paths)
+The \code{cycling} mode of transport (i.e. the default value for \code{mode}
+parameter) selects the OSM ways that meet the following conditions:
+\itemize{
+\item The \code{highway} tag is not missing and is not equal to \code{abandonded},
+\code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
+\code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
+\code{raceway} or \code{steps};
+\item The \code{highway} tag is not equal to \code{motorway}, \code{motorway_link}, \code{footway},
+\code{bridleway} or \code{pedestrian} unless the tag \code{bicycle} is equal to \code{yes} (see
+\href{https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions}{here})
+for more details;
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{bicycle} tag
+is equal to \code{yes};
+\item The \code{bicycle} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, pr
+\code{restricted};
+\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
+\code{private_access} and similar);
+}
+
+The \code{walking} mode of transport selects the OSM ways that meet the
+following conditions:
+\itemize{
+\item The \code{highway} tag is not missing and is not equal to \code{abandonded},
+\code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
+\code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
+\code{raceway}, \code{motorway} or \code{motorway_link};
+\item The \code{highway} tag is not equal to \code{cycleway} unless the \code{foot} tag is
+equal to \code{yes};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{foot} tag
+is equal to \code{yes};
+\item The \code{foot} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, pr
+\code{restricted};
+\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
+\code{private_access} and similar).
+}
+
+The \code{driving} mode of transport selects the OSM ways that meet the
+following conditions:
+\itemize{
+\item The \code{highway} tag is not missing and is not equal to \code{abandonded},
+\code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
+\code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
+\code{cycleway}, \code{pedestrian}, \code{bridleway}, \code{path}, or \code{footway};
+\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
+\code{private_access} and similar).
+}
+
+The choices adopted in this function are based on the following documents:
+https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions
+and https://wiki.openstreetmap.org/wiki/Key:access plus the discussion in
+https://github.com/ropensci/osmextract/issues/153
+
+Feel free to start a new issue in the \href{https://github.com/ropensci/osmextract}{github repo} if you want to suggest
+modifications to the current filters or propose new values for alternative
+modes of transport.
 }
 \examples{
+# default value returned by OSM
+its = oe_get("ITS Leeds", quiet = TRUE)
+plot(its["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
+# walking mode of transport
 its_walking = oe_get_network("ITS Leeds", mode = "walking", quiet = TRUE)
 plot(its_walking["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
+# driving mode of transport
 its_driving = oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
 plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 }
