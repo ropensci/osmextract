@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import a road network according to a specific mode of transport — oe_get_network • osmextract</title>
+<title>Import transport network used by a specific mode of transport — oe_get_network • osmextract</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Import a road network according to a specific mode of transport — oe_get_network" />
+<meta property="og:title" content="Import transport network used by a specific mode of transport — oe_get_network" />
 <meta property="og:description" content="This function is a wrapper around oe_get() and can be used to import a road
 network given a place and a mode of transport. Check the Details for a
 precise description of the procedures used to filter each mode of transport." />
@@ -141,7 +141,7 @@ precise description of the procedures used to filter each mode of transport." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import a road network according to a specific mode of transport</h1>
+    <h1>Import transport network used by a specific mode of transport</h1>
     <small class="dont-index">Source: <a href='https://github.com/ropensci/osmextract/blob/master/R/get-network.R'><code>R/get-network.R</code></a></small>
     <div class="hidden name"><code>oe_get_network.Rd</code></div>
     </div>
@@ -169,7 +169,7 @@ Details and Examples in <code><a href='oe_match.html'>oe_match()</a></code>.</p>
     <tr>
       <th>mode</th>
       <td><p>A character string denoting the desired mode of transport. Can be
-abbreviated.</p></td>
+abbreviated. Currently cycling (the default), driving and walking are supported.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -183,7 +183,14 @@ abbreviated.</p></td>
     <p>An <code>sf</code> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>cycling</code> mode of transport (i.e. the default value for <code>mode</code>
+    <p>The definition of usable transport network was taken from the Python
+packages <a href='https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py'>osmnx</a> and
+<a href='https://pyrosm.readthedocs.io/en/latest/'>pyrosm</a> and several other
+documents found online, i.e.
+<a href='https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions'>https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions</a>,
+<a href='https://wiki.openstreetmap.org/wiki/Key:access'>https://wiki.openstreetmap.org/wiki/Key:access</a>. See also the discussion
+in <a href='https://github.com/ropensci/osmextract/issues/153'>https://github.com/ropensci/osmextract/issues/153</a>.</p>
+<p>The <code>cycling</code> mode of transport (i.e. the default value for <code>mode</code>
 parameter) selects the OSM ways that meet the following conditions:</p><ul>
 <li><p>The <code>highway</code> tag is not missing and is not equal to <code>abandonded</code>,
 <code>bus_guideway</code>, <code>byway</code>, <code>construction</code>, <code>corridor</code>, <code>elevator</code>, <code>fixme</code>,
@@ -228,10 +235,6 @@ following conditions:</p><ul>
 <code>private_access</code> and similar).</p></li>
 </ul>
 
-<p>The choices adopted in this function are based on the following documents:
-https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions
-and https://wiki.openstreetmap.org/wiki/Key:access plus the discussion in
-https://github.com/ropensci/osmextract/issues/153</p>
 <p>Feel free to start a new issue in the <a href='https://github.com/ropensci/osmextract'>github repo</a> if you want to suggest
 modifications to the current filters or propose new values for alternative
 modes of transport.</p>
