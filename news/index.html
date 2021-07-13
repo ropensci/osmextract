@@ -145,19 +145,31 @@
     <div id="osmextract-development-version" class="section level1">
 <h1 class="page-header" data-toc-text="development version">
 <a href="#osmextract-development-version" class="anchor" aria-hidden="true"></a>osmextract (development version)<small> Unreleased </small></h1>
+<div id="major-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#major-changes" class="anchor" aria-hidden="true"></a>MAJOR CHANGES</h3>
+<ul><li>Added a new function named <code><a href="../reference/oe_get_network.html">oe_get_network()</a></code> to import a transport network used by a spcific mode of transport. For the moment we support the following modes of transport: cycling (default), walking, and driving. Check <code><a href="../reference/oe_get_network.html">?oe_get_network</a></code> for more details and examples.</li>
+</ul></div>
+<div id="minor-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#minor-changes" class="anchor" aria-hidden="true"></a>MINOR CHANGES</h3>
+<ul><li>The <code>layer</code> argument is now converted to lower case before checking if the required layer is admissible.</li>
+<li>Adjusted the code behind <code><a href="../reference/oe_get.html">oe_get()</a></code> and <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> for <code>sf</code> v1.0.2.</li>
+</ul></div>
 <div id="documentation-fixes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#documentation-fixes" class="anchor" aria-hidden="true"></a>DOCUMENTATION FIXES</h3>
 <ul><li>Slightly changed the description of the package.</li>
 <li>Added a <code>.Rd</code> file documenting the whole package.</li>
+<li>Slightly changed the description of parameter <code>place</code>.</li>
 </ul></div>
 </div>
     <div id="osmextract-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
 <a href="#osmextract-030" class="anchor" aria-hidden="true"></a>osmextract 0.3.0<small> 2021-06-10 </small></h1>
-<div id="major-changes" class="section level3">
+<div id="major-changes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#major-changes" class="anchor" aria-hidden="true"></a>MAJOR CHANGES</h3>
+<a href="#major-changes-1" class="anchor" aria-hidden="true"></a>MAJOR CHANGES</h3>
 <ul><li>The <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> function can be used to extract the values associated with all or some keys. We also defined an ad-hoc printing method and fixed several bugs. The examples were improved. Moreover, the function tries to match an input <code>zone</code> with one of the OSM extracts previously downloaded (<a href='https://github.com/ropensci/osmextract/issues/201'>#201</a> and <a href='https://github.com/ropensci/osmextract/issues/196'>#196</a>).</li>
 <li>If the parameter <code>place</code> represents an <code>sf</code>/<code>sfc</code>/<code>bbox</code> object with missing CRS, then <code><a href="../reference/oe_match.html">oe_match()</a></code> raises a warning message and sets <code>CRS = 4326</code>. This has relevant consequences on other functions (like <code><a href="../reference/oe_get.html">oe_get()</a></code>) that wrap <code><a href="../reference/oe_match.html">oe_match()</a></code>.</li>
 <li>Starting from <code>sf</code> &gt; 0.9.8, the function <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> stops with an error when there is a problem in the argument <code>vectortranslate_options</code> and <code>quiet = FALSE</code> (instead of raising a warning or crashing the <code>R</code> session). See <a href="https://github.com/r-spatial/sf/issues/1680" class="external-link">here</a> for more details.</li>
