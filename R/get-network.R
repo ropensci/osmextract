@@ -13,7 +13,12 @@
 #' @return An `sf` object.
 #' @export
 #'
-#' @details The `cycling` mode of transport (i.e. the default value for `mode`
+#' @details The definition of usable transport network was taken from
+#' the `osmnx` Python package. See
+#' [github.com/gboeing/osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py)
+#' for details.
+#' 
+#' The `cycling` mode of transport (i.e. the default value for `mode`
 #'   parameter) selects the OSM ways that meet the following conditions:
 #'
 #'   - The `highway` tag is not missing and is not equal to `abandonded`,
