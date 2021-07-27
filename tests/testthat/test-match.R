@@ -36,7 +36,7 @@ test_that("oe_match: sfc_POINT objects", {
   # The point is midway between amsterdam and utrecth, closer to Amsterdam, and
   # it intersects both bboxes
   expect_match(
-   suppressMessages(oe_match(amsterdam_utrecht, provider = "bbbike", quiet = TRUE)$url),
+   oe_match(amsterdam_utrecht, provider = "bbbike", quiet = TRUE)$url,
     "Amsterdam"
   )
 })
@@ -119,7 +119,7 @@ test_that("oe_match: test level parameter", {
     "https://download.geofabrik.de/north-america-latest.osm.pbf"
   )
   expect_equal(
-    suppressMessages(oe_match(yak, quiet = TRUE)$url),
+    oe_match(yak, quiet = TRUE)$url,
     "https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf"
   )
   expect_error(
@@ -146,7 +146,7 @@ test_that("oe_match works with a bbox in input", {
     crs = 4326
   )
   expect_match(
-    suppressMessages(oe_match(my_bbox))$url,
+    oe_match(my_bbox, quiet = TRUE)$url,
     "oberbayern-latest.osm.pbf"
   )
 })
@@ -157,7 +157,7 @@ test_that("oe_match returns a warning message with missing CRS in input place", 
     c(xmin = 11.23602, ymin = 47.80478, xmax = 11.88867, ymax = 48.24261)
   )
   expect_warning(
-    suppressMessages(oe_match(my_bbox)),
+    oe_match(my_bbox, quiet = TRUE),
     "The input place has no CRS, setting crs = 4326."
   )
 })

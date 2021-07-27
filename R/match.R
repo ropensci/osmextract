@@ -179,7 +179,7 @@ oe_match.sfc = function(
 
   # Spatial subset according to sf::st_contains
   # See https://github.com/ropensci/osmextract/pull/168
-  suppressMessages({matched_zones = provider_data[place, op = sf::st_contains]})
+  matched_zones = provider_data[place, op = sf::st_contains]
 
   # Check that the input zone intersects at least 1 area
   if (nrow(matched_zones) == 0L) {
@@ -208,12 +208,10 @@ oe_match.sfc = function(
   # only the area closest to the input place.
   if (nrow(matched_zones) > 1L) {
 
-    suppressMessages({suppressWarnings({
-      nearest_id_centroid = sf::st_nearest_feature(
-        place,
-        sf::st_centroid(sf::st_geometry(matched_zones))
-      )
-    })})
+    nearest_id_centroid = sf::st_nearest_feature(
+      place,
+      sf::st_centroid(sf::st_geometry(matched_zones))
+    )
 
     matched_zones = matched_zones[nearest_id_centroid, ]
   }
@@ -247,7 +245,9 @@ oe_match.numeric = function(
   if (length(place) != 2L) {
     stop(
       "You need to provide a pair of coordinates and you passed as input",
-      " a vector of length ", length(place)
+      " a vector of length ",
+      length(place),
+      call. = FALSE
     )
   }
 
@@ -328,8 +328,9 @@ oe_match.character = function(
     # 1. Raise a message
     if (isFALSE(quiet)) {
       message(
-        "No exact match found for place = ", place, " and provider = ",
-        provider, ". ", "Best match is ", best_matched_place[[match_by]], ".",
+        "No exact match found for place = ", place,
+        " and provider = ", provider, ". ",
+        "Best match is ", best_matched_place[[match_by]], ".",
         " \nChecking the other providers."
       )
     }
