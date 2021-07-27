@@ -12,7 +12,8 @@ Match, download, convert and import Open Street Map data extracts
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://docs.ropensci.org/osmextract/ (website) https://github.com/ropensci/osmextract}
+  \item \url{https://docs.ropensci.org/osmextract/}
+  \item \url{https://github.com/ropensci/osmextract}
   \item Report bugs at \url{https://github.com/ropensci/osmextract/issues}
 }
 
