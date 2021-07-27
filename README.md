@@ -152,7 +152,7 @@ osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE,
 nrow(osm_lines)
 #> [1] 46366
 nrow(osm_points)
-#> [1] 59085
+#> [1] 60257
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
