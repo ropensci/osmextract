@@ -5,18 +5,18 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "osmextract",
-  "description": "Find, download, convert and read Open Street Map data extracts \n    obtained from several providers. ",
+  "description": "Match, download, convert and import Open Street Map data extracts \n    obtained from several providers. ",
   "name": "osmextract: Download and Read OpenStreetMap Data Extracts",
   "codeRepository": "https://github.com/ropensci/osmextract",
   "issueTracker": "https://github.com/ropensci/osmextract/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.3 (2020-02-29)",
+  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
   "author": [
     {
       "@type": "Person",
@@ -134,8 +134,8 @@
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "3297.305KB",
-  "contIntegration": "https://codecov.io/gh/ropensci/osmextract?branch=master",
+  "fileSize": "3326.71KB",
+  "contIntegration": ["https://github.com/ropensci/osmextract/actions", "https://codecov.io/gh/ropensci/osmextract?branch=master"],
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/395",

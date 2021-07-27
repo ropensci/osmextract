@@ -1,8 +1,8 @@
-# osmextract (development version)
+# osmextract 0.3.1
 
 ### MAJOR CHANGES
 
-* Added a new (but still experimental) function named `oe_get_network()` to import a road network used by a spcific mode of transport. For the moment, we support the following modes of transport: cycling (default), walking, and driving. Check `?oe_get_network` for more details and examples (#218). 
+* Added a new (but still experimental) function named `oe_get_network()` to import a road network used by a specific mode of transport. For the moment, we support the following modes of transport: cycling (default), walking, and driving. Check `?oe_get_network` for more details and examples (#218). 
 
 ### MINOR CHANGES
 

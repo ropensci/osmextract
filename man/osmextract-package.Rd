@@ -4,7 +4,7 @@
 \name{osmextract-package}
 \alias{osmextract}
 \alias{osmextract-package}
-\title{osmextract: Download and Read OpenStreetMap Data Extracts}
+\title{osmextract: Download and Import Open Stree tMap Data Extracts}
 \description{
 Match, download, convert and import Open Street Map data extracts 
     obtained from several providers.
