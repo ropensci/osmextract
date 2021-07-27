@@ -188,9 +188,9 @@ test_that("boundary and boundary_type arguments from oe_vectortranslate works", 
   # Warning for more than 1 POLYGON
   expect_warning(oe_read(its_pbf, boundary = c(its_poly, its_poly), quiet = TRUE))
 
-  # Error for non POLYGON boundary
+  # Error for non POLYGON boundary. I need suppressWarnings for the warning on
+  # centroids for lat/long data
   suppressWarnings(expect_error(oe_read(its_pbf, boundary = sf::st_centroid(its_poly), quiet = TRUE)))
-  # I need suppressWarnings for the warning on centroids for lat/long data
 
   # Warning for "-spat"/"-clipsrc" in vectortranslate_options
   expect_warning(oe_read(
