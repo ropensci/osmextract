@@ -2,12 +2,13 @@
 
 ### MAJOR CHANGES
 
-* Added a new function named `oe_get_network()` to import a transport network used by a spcific mode of transport. For the moment we support the following modes of transport: cycling (default), walking, and driving. Check `?oe_get_network` for more details and examples. 
+* Added a new (but still experimental) function named `oe_get_network()` to import a road network used by a spcific mode of transport. For the moment, we support the following modes of transport: cycling (default), walking, and driving. Check `?oe_get_network` for more details and examples (#218). 
 
 ### MINOR CHANGES
 
 * The `layer` argument is now converted to lower case before checking if the required layer is admissible. 
 * Adjusted the code behind `oe_get()` and `oe_vectortranslate()` for `sf` v1.0.2.
+* Remove the call to `suppressMessages()` in `oe_match()` (#217).
 
 ### DOCUMENTATION FIXES
 
