@@ -133,6 +133,9 @@ oe_download = function(
       stop("Aborted by user.")
     }
 
+    old_opts = options(timeout = max(300, getOption("timeout")))
+    on.exit(options(old_opts))
+
     utils::download.file(
       url = file_url,
       destfile = file_path,
