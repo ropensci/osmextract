@@ -203,13 +203,13 @@
 <p>You can always check the default <code>download_directory</code> used by <code><a href="reference/oe_get.html">oe_get()</a></code> with:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="troubleshooting" class="section level2">
-<h2 class="hasAnchor">
-<a href="#troubleshooting" class="anchor" aria-hidden="true"></a>Troubleshooting</h2>
-<p>Depending on the <code>.pbf</code> file selected and your connection speed, you may experience an error stating <code>Timeout of 60 seconds was reached</code>. If so, before calling <code><a href="reference/oe_get.html">oe_get()</a></code>, you can adjust the timeout using <code>options(timeout = 300)</code>, choosing an appropriate value. This setting affects all calls to <a href="https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file" class="external-link">download.file()</a>, so you may need to reset it for the rest of your script.</p>
-<p>If you need to update an existing <code>.pbf</code> file or replace an incomplete extract, you can use the argument <code>force_download</code>, i.e <code>oe_get("some-place", force_download = TRUE)</code>.<br>
-Check <code><a href="reference/oe_get.html">?oe_get</a></code> and <code><a href="reference/oe_download.html">?oe_download</a></code> for more details.</p>
+<!-- The following section was removed since now oe_download sets the timeout value. See https://github.com/ropensci/osmextract/issues/222 -->
+<!-- ## Troubleshooting -->
+<!-- Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`.  -->
+<!-- If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value.  -->
+<!-- This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script. -->
+<!-- If you need to update an existing `.pbf` file or replace an incomplete extract, you can use the argument `force_download`, i.e `oe_get("some-place", force_download = TRUE)`.    -->
+<!-- Check `?oe_get` and `?oe_download` for more details.  -->
 </div>
 <div id="next-steps" class="section level2">
 <h2 class="hasAnchor">
