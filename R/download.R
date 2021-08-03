@@ -98,17 +98,15 @@ oe_download = function(
   # return the file_path. Otherwise we download it after checking for the
   # file_size.
   if (file.exists(file_path) && !isTRUE(force_download)) {
-    if (isFALSE(quiet)) {
-      message(
+    oe_message(
       "The chosen file was already detected in the download directory. ",
-      "Skip downloading."
-      )
-    }
+      "Skip downloading.",
+      quiet = quiet
+    )
     return(file_path)
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-
     # If working in interactive session and file_size > max_file_size, then we
     # double check if we really want to download the file.
     continue = 1L
@@ -140,9 +138,7 @@ oe_download = function(
       quiet = quiet
     )
 
-    if (isFALSE(quiet)) {
-      message("File downloaded!")
-    }
+    oe_message("File downloaded!", quiet = quiet)
   }
 
   file_path

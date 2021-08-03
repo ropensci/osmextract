@@ -256,6 +256,4 @@ oe_get = function(
     quiet = quiet,
     ...
   )
-
 }
-

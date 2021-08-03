@@ -224,9 +224,7 @@ oe_vectortranslate = function(
   if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
     if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
       # Try to add the new layer from the .osm.pbf file to the .gpkg file
-      if (isFALSE(quiet)) {
-        message("Adding a new layer to the .gpkg file")
-      }
+      oe_message("Adding a new layer to the .gpkg file", quiet = quiet)
 
       force_vectortranslate = TRUE
     }
@@ -282,12 +280,11 @@ oe_vectortranslate = function(
   # If the gpgk file already exists and force_vectortranslate is FALSE then we
   # raise a message and return the path of the .gpkg file.
   if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
-    if (isFALSE(quiet)) {
-      message(
-        "The corresponding gpkg file was already detected. ",
-        "Skip vectortranslate operations."
-      )
-    }
+    oe_message(
+      "The corresponding gpkg file was already detected. ",
+      "Skip vectortranslate operations.",
+      quiet = quiet
+    )
     return(gpkg_file_path)
   }
 
@@ -418,11 +415,10 @@ oe_vectortranslate = function(
     }
   }
 
-  if (isFALSE(quiet)) {
-    message(
-      "Start with the vectortranslate operations on the input file!"
-    )
-  }
+  oe_message(
+    "Start with the vectortranslate operations on the input file!",
+    quiet = quiet
+  )
 
   # Now we can apply the vectortranslate operation from gdal_utils: See
   # https://github.com/ropensci/osmextract/issues/150 for a discussion on
@@ -435,11 +431,10 @@ oe_vectortranslate = function(
     quiet = quiet
   )
 
-  if (isFALSE(quiet)) {
-    message(
-      "Finished the vectortranslate operations on the input file!"
-    )
-  }
+  oe_message(
+    "Finished the vectortranslate operations on the input file!",
+    quiet = quiet
+  )
 
   # and return the path of the gpkg file
   gpkg_file_path

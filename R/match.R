@@ -216,11 +216,10 @@ oe_match.sfc = function(
     matched_zones = matched_zones[nearest_id_centroid, ]
   }
 
-  if (isFALSE(quiet)) {
-    message(
-      "The input place was matched with ", matched_zones[["name"]], ". "
-    )
-  }
+  oe_message(
+    "The input place was matched with ", matched_zones[["name"]], ". ",
+    quiet = quiet
+  )
 
   # Return a list with the URL and the file_size of the matched place
   result = list(
@@ -326,14 +325,13 @@ oe_match.character = function(
   if (isTRUE(high_distance)) {
 
     # 1. Raise a message
-    if (isFALSE(quiet)) {
-      message(
-        "No exact match found for place = ", place,
-        " and provider = ", provider, ". ",
-        "Best match is ", best_matched_place[[match_by]], ".",
-        " \nChecking the other providers."
-      )
-    }
+    oe_message(
+      "No exact match found for place = ", place,
+      " and provider = ", provider, ". ",
+      "Best match is ", best_matched_place[[match_by]], ".",
+      " \nChecking the other providers.",
+      quiet = quiet
+    )
 
     # 2. Check the other providers and, if there is an exact match, just return
     # the matched value from the other provider:
@@ -352,12 +350,12 @@ oe_match.character = function(
     }
 
     if (exact_match) {
-      if (isFALSE(quiet)) {
-        message(
-          "An exact string match was found using provider = ", other_provider,
-          "."
-        )
-      }
+      oe_message(
+        "An exact string match was found using provider = ",
+        other_provider,
+        ".",
+        quiet = quiet
+      )
 
       return(
        oe_match(
@@ -374,12 +372,11 @@ oe_match.character = function(
     # use Nominatim with other fields), then we can use oe_search to look for
     # the lat/long coordinates of the input place
     if (match_by == "name") {
-      if (isFALSE(quiet)) {
-        message(
-          "No exact match found in any OSM provider data.",
-          " Searching for the location online."
-        )
-      }
+      oe_message(
+        "No exact match found in any OSM provider data.",
+        " Searching for the location online.",
+        quiet = quiet
+      )
 
       place_online = oe_search(place = place)
       return(
@@ -401,12 +398,11 @@ oe_match.character = function(
     )
   }
 
-  if (isFALSE(quiet)) {
-    message(
-      "The input place was matched with: ",
-      best_matched_place[[match_by]]
-    )
-  }
+  oe_message(
+    "The input place was matched with: ",
+    best_matched_place[[match_by]],
+    quiet = quiet
+  )
 
   result = list(
     url = best_matched_place[["pbf"]],
@@ -492,4 +488,3 @@ oe_match_pattern = function(
   # Return
   matches
 }
-

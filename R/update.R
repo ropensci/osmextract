@@ -172,9 +172,10 @@ oe_update = function(
     }
 
     # Print a message
-    if (isFALSE(quiet)) {
-      message("The function is processing the file ", file, ".")
-    }
+    oe_message(
+      "The function is processing the file ", file, ".",
+      quiet = quiet
+    )
 
     # Update the .osm.pbf files, skipping the vectortranslate step
     oe_get(
@@ -202,6 +203,3 @@ oe_update = function(
 
   osmpbf_files
 }
-
-
-

@@ -1,5 +1,5 @@
 # Auxiliary functions (not exported)
-'%!in%' = function(x, y) !('%in%'(x,y))
+'%!in%' = function(x, y) !('%in%'(x, y))
 
 # See https://github.com/ropensci/osmextract/issues/134
 is_like_url = function(URL) {
@@ -42,4 +42,13 @@ oe_download_directory = function() {
     dir.create(download_directory)
   }
   normalizePath(download_directory)
+}
+
+# Print a message if quiet argument is FALSE. I defined this function since the
+# same pattern is repeated several times in the package.
+oe_message <- function(..., quiet) {
+  if (isFALSE(quiet)) {
+    message(...)
+  }
+  invisible(0)
 }

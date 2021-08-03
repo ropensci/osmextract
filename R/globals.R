@@ -4,5 +4,5 @@ utils::globalVariables(
     "test_zones",
     "bbbike_zones",
     "openstreetmap_fr_zones"
-    )
   )
+)

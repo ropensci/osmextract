@@ -68,12 +68,11 @@ oe_providers = function(quiet = FALSE) {
     FUN.VALUE = integer(1)
   )
 
-  if (isFALSE(quiet)) {
-    message(
-      "Check the corresponding help pages to read more details about the ",
-      "fields in each database (e.g. ?geofabrik_zones)"
-    )
-  }
+  oe_message(
+    "Check the corresponding help pages to read more details about the ",
+    "fields in each database (e.g. ?geofabrik_zones)",
+    quiet = quiet
+  )
 
   # Summary of results
   data.frame(
