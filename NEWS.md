@@ -1,5 +1,9 @@
 # osmextract (development version)
 
+### MINOR CHANGES
+
+* Following the suggestion in `?download.file`, the function `oe_download()` automatically sets a `timeout` greater than 60 seconds. The original value is reset when `oe_download()` function exits (#222)
+
 # osmextract 0.3.1
 
 ### MAJOR CHANGES
