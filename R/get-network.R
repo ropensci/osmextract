@@ -85,7 +85,7 @@
 #' plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 oe_get_network = function(
   place,
-  mode = c("cycling", "driving", "walking"),
+  mode = c("cycling", "driving", "walking", "cycle_infrastructure"),
   ...
 ) {
   # Load the relevant oe_get options
@@ -94,7 +94,8 @@ oe_get_network = function(
     mode,
     cycling = load_options_cycling(place),
     walking = load_options_walking(place),
-    driving = load_options_driving(place)
+    driving = load_options_driving(place),
+    cycle_infrastructure = load_options_cycle_infrastructure(place)
   )
 
   # Check the other arguments supplied by the user
@@ -216,6 +217,45 @@ load_options_driving = function(place) {
     AND
     (service IS NULL OR service NOT ILIKE 'private')
     "
+    )
+  )
+}
+
+load_options_cycle_infrastructure <- function(place) {
+  list(
+    place = place,
+    layer = "lines",
+    extra_tags = c(
+      "sidewalk_left_bicycle", "cycleway_left",
+      "cycleway_right", "cycleway", "oneway_bicycle",
+      "sidewalk_right_bicycle", "bicycle", "cycleway_both"
+    ),
+    vectortranslate_options = c(
+      "-where", "
+      sidewalk_left_bicycle = 'yes'
+      OR
+      sidewalk_right_bicycle = 'yes'
+      OR
+      cycleway_left IN ('shared_lane', 'shared_busway', 'track', 'lane')
+      OR
+      cycleway_right IN ('shared_busway', 'shared_lane', 'track', 'lane')
+      OR
+      cycleway_both = 'lane'
+      OR
+      cycleway IN ('shared_busway', 'opposite_lane', 'lane', 'track', 'opposite_track')
+      OR
+      (highway = 'bridleway' AND bicycle = 'no')
+      OR
+      bicycle = 'use_sidepath'
+      OR
+      (cycleway = 'opposite' AND oneway_bicycle = 'no')
+      OR
+      highway = 'cycleway'
+      OR
+      (highway = 'path' AND (bicycle = 'designated' OR bicycle = 'official'))
+      OR
+      (highway = 'pedestrian' AND (bicycle = 'yes' OR bicycle = 'official'))
+      "
     )
   )
 }

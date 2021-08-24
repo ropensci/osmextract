@@ -4,7 +4,11 @@
 \alias{oe_get_network}
 \title{Import transport network used by a specific mode of transport}
 \usage{
-oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
+oe_get_network(
+  place,
+  mode = c("cycling", "driving", "walking", "cycle_infrastructure"),
+  ...
+)
 }
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
