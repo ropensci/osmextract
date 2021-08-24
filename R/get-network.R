@@ -250,7 +250,7 @@ load_options_cycle_infrastructure <- function(place) {
       OR
       (cycleway = 'opposite' AND oneway_bicycle = 'no')
       OR
-      highway IN ('path', 'footway', 'cycleway')
+      highway = 'cycleway'
       OR
       (highway = 'path' AND (bicycle = 'designated' OR bicycle = 'official'))
       OR
