@@ -93,8 +93,8 @@ oe_get_network = function(
   oe_get_options = switch(
     mode,
     cycling = load_options_cycling(place),
-    walking = load_options_walking(place),
-    driving = load_options_driving(place)
+    driving = load_options_driving(place),
+    walking = load_options_walking(place)
   )
 
   # Check the other arguments supplied by the user
@@ -209,7 +209,8 @@ load_options_driving = function(place) {
     highway NOT IN (
     'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
-    'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway'
+    'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway',
+    'steps'
     )
     AND
     (access IS NULL OR access NOT IN ('private', 'no'))
