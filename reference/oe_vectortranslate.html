@@ -359,7 +359,7 @@ the vectortranslate process.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Check that the file was downloaded</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpVdag4m/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1Y4o22/test_its-example.osm.pbf"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Convert to gpkg format</span></span>
 <span class='r-in'><span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span><span class='va'>its_pbf</span><span class='op'>)</span></span>
@@ -369,8 +369,8 @@ the vectortranslate process.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Now there is an extra .gpkg file</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpVdag4m/test_its-example.gpkg"   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpVdag4m/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1Y4o22/test_its-example.gpkg"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1Y4o22/test_its-example.osm.pbf"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Check the layers of the .gpkg file</span></span>
 <span class='r-in'><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
@@ -417,7 +417,7 @@ the vectortranslate process.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpVdag4m/test_its-example.gpkg"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1Y4o22/test_its-example.gpkg"</span>
 <span class='r-in'><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Driver: GPKG </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Available layers:</span>

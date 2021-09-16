@@ -159,9 +159,9 @@
 <code class="sourceCode R"><span class="va">osm_lines</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">osm_points</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Isle of Wight"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span>
-<span class="co">#&gt; [1] 46366</span>
+<span class="co">#&gt; [1] 47839</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">osm_points</span><span class="op">)</span>
-<span class="co">#&gt; [1] 60257</span>
+<span class="co">#&gt; [1] 60849</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">osm_lines</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50.5</span>, <span class="fl">50.8</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">osm_points</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.59</span>, <span class="op">-</span><span class="fl">1.1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50.5</span>, <span class="fl">50.8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -265,6 +265,7 @@
 <h2 class="hasAnchor">
 <a href="#contributor-code-of-conduct" class="anchor" aria-hidden="true"></a>Contributor Code of Conduct</h2>
 <p>Please note that this package is released with a <a href="https://ropensci.org/code-of-conduct/" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<!-- :) -->
 <!-- :) -->
 <!-- :) -->
 </div>
