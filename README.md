@@ -150,9 +150,9 @@ can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 46366
+#> [1] 47839
 nrow(osm_points)
-#> [1] 60257
+#> [1] 60849
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -321,6 +321,8 @@ have been explained better, please let us know.
 Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
+
+<!-- :) -->
 
 <!-- :) -->
 
