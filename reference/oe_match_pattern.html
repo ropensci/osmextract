@@ -55,8 +55,6 @@ oe_get() for an easy match. See Examples." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -68,15 +66,9 @@ oe_get() for an easy match. See Examples." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,6 +89,12 @@ oe_get() for an easy match. See Examples." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/osmextract.html">Get started</a>
 </li>
 <li>
@@ -152,7 +150,7 @@ patterns. This function can be useful in combination with <code><a href='oe_matc
 <code><a href='oe_get.html'>oe_get()</a></code> for an easy match. See Examples.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='va'>pattern</span>, match_by <span class='op'>=</span> <span class='st'>"name"</span>, full_row <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='va'>pattern</span>, match_by <span class='op'>=</span> <span class='st'>"name"</span>, full_row <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,34 +179,30 @@ of the parameter <code>full_row</code>). If no OSM zone can be matched with the 
 string, then the function returns an empty list.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $geofabrik</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "East Yorkshire with Hull" "North Yorkshire"         </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [3] "South Yorkshire"          "West Yorkshire"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $openstreetmap_fr</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Yorkshire And The Humber"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>res</span> <span class='op'>=</span> <span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span>, full_row <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>res</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_drop_geometry</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $geofabrik</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>                           id                     name  parent</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 94  east-yorkshire-with-hull East Yorkshire with Hull england</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 245          north-yorkshire          North Yorkshire england</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 315          south-yorkshire          South Yorkshire england</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 420           west-yorkshire           West Yorkshire england</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $openstreetmap_fr</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>                           id                     name  parent</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 606 yorkshire_and_the_humber Yorkshire And The Humber england</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"ABC"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> list()</span>
-<span class='r-in'><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span>, match_by <span class='op'>=</span> <span class='st'>"ABC"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> list()</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $geofabrik
+#&gt; [1] "East Yorkshire with Hull" "North Yorkshire"         
+#&gt; [3] "South Yorkshire"          "West Yorkshire"          
+#&gt; 
+#&gt; $openstreetmap_fr
+#&gt; [1] "Yorkshire And The Humber"
+#&gt; </div><div class='input'>
+<span class='va'>res</span> <span class='op'>=</span> <span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span>, full_row <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>res</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_drop_geometry</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $geofabrik
+#&gt;                           id                     name  parent
+#&gt; 94  east-yorkshire-with-hull East Yorkshire with Hull england
+#&gt; 245          north-yorkshire          North Yorkshire england
+#&gt; 315          south-yorkshire          South Yorkshire england
+#&gt; 420           west-yorkshire           West Yorkshire england
+#&gt; 
+#&gt; $openstreetmap_fr
+#&gt;                           id                     name  parent
+#&gt; 606 yorkshire_and_the_humber Yorkshire And The Humber england
+#&gt; </div><div class='input'>
+<span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"ABC"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; list()</div><div class='input'><span class='fu'>oe_match_pattern</span><span class='op'>(</span><span class='st'>"Yorkshire"</span>, match_by <span class='op'>=</span> <span class='st'>"ABC"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; list()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -220,11 +214,11 @@ string, then the function returns an empty list.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Andrea Gilardi, Robin Lovelace.</p></p>
+  <p>Developed by Andrea Gilardi, Robin Lovelace.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -232,8 +226,6 @@ string, then the function returns an empty list.</p>
 
   
 
-
-  
 
   </body>
 </html>

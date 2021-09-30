@@ -52,8 +52,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -65,15 +63,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -94,6 +86,12 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="articles/osmextract.html">Get started</a>
 </li>
 <li>
@@ -145,7 +143,7 @@
 
 <div id="fixing-typos" class="section level3">
 <h3 class="hasAnchor">
-<a href="#fixing-typos" class="anchor" aria-hidden="true"></a>Fixing typos</h3>
+<a href="#fixing-typos" class="anchor"></a>Fixing typos</h3>
 <p>Small typos or grammatical errors in documentation may be edited directly using the GitHub web interface, so long as the changes are made in the <em>source</em> file.</p>
 <ul>
 <li>YES: you edit a roxygen comment in a <code>.R</code> file below <code>R/</code>.</li>
@@ -154,39 +152,39 @@
 </div>
 <div id="prerequisites" class="section level3">
 <h3 class="hasAnchor">
-<a href="#prerequisites" class="anchor" aria-hidden="true"></a>Prerequisites</h3>
-<p>Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex" class="external-link">reprex</a>.</p>
+<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
+<p>Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it’s a problem. If you’ve found a bug, create an associated issue and illustrate the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>.</p>
 </div>
 <div id="pull-request-process" class="section level3">
 <h3 class="hasAnchor">
-<a href="#pull-request-process" class="anchor" aria-hidden="true"></a>Pull request process</h3>
+<a href="#pull-request-process" class="anchor"></a>Pull request process</h3>
 <ul>
 <li>We recommend that you create a Git branch for each pull request (PR).<br>
 </li>
 <li>Look at the Gihub Actions build status before and after making changes.</li>
-<li>We recommend the tidyverse <a href="http://style.tidyverse.org" class="external-link">style guide</a>. You can use the <a href="https://CRAN.R-project.org/package=styler" class="external-link">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR. The only difference is that we adopt the <code>=</code> operator for assignment instead of <code>&lt;-</code>.</li>
-<li>We use <a href="https://cran.r-project.org/package=roxygen2" class="external-link">roxygen2</a>.<br>
+<li>We recommend the tidyverse <a href="http://style.tidyverse.org">style guide</a>. You can use the <a href="https://CRAN.R-project.org/package=styler">styler</a> package to apply these styles, but please don’t restyle code that has nothing to do with your PR. The only difference is that we adopt the <code><a href="https://rdrr.io/r/base/assignOps.html">=</a></code> operator for assignment instead of <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>.</li>
+<li>We use <a href="https://cran.r-project.org/package=roxygen2">roxygen2</a>.<br>
 </li>
-<li>We use <a href="https://cran.r-project.org/package=testthat" class="external-link">testthat</a>. Contributions with test cases included are easier to accept.<br>
+<li>We use <a href="https://cran.r-project.org/package=testthat">testthat</a>. Contributions with test cases included are easier to accept.<br>
 </li>
 <li>For user-facing changes, add a bullet to the top of <code>NEWS.md</code> below the current development version header describing the changes made followed by your GitHub username, and links to relevant issue(s)/PR(s).</li>
 </ul>
 </div>
 <div id="code-of-conduct" class="section level3">
 <h3 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor" aria-hidden="true"></a>Code of Conduct</h3>
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h3>
 <p>Please note that the osmextract project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project you agree to abide by its terms.</p>
 </div>
 <div id="see-ropensci-contributing-guide" class="section level3">
 <h3 class="hasAnchor">
-<a href="#see-ropensci-contributing-guide" class="anchor" aria-hidden="true"></a>See rOpenSci <a href="https://devguide.ropensci.org/contributingguide.html" class="external-link">contributing guide</a>
+<a href="#see-ropensci-contributing-guide" class="anchor"></a>See rOpenSci <a href="https://devguide.ropensci.org/contributingguide.html">contributing guide</a>
 </h3>
 <p>for further details.</p>
 </div>
 <div id="discussion-forum" class="section level3">
 <h3 class="hasAnchor">
-<a href="#discussion-forum" class="anchor" aria-hidden="true"></a>Discussion forum</h3>
-<p>Check out our <a href="https://discuss.ropensci.org" class="external-link">discussion forum</a> if</p>
+<a href="#discussion-forum" class="anchor"></a>Discussion forum</h3>
+<p>Check out our <a href="https://discuss.ropensci.org">discussion forum</a> if</p>
 <ul>
 <li>you have a question, an use case, or otherwise not a bug or feature request for the software itself.</li>
 <li>you think your issue requires a longer form discussion.</li>
@@ -194,14 +192,14 @@
 </div>
 <div id="prefer-to-email" class="section level3">
 <h3 class="hasAnchor">
-<a href="#prefer-to-email" class="anchor" aria-hidden="true"></a>Prefer to Email?</h3>
+<a href="#prefer-to-email" class="anchor"></a>Prefer to Email?</h3>
 <p>Email the person listed as maintainer in the <code>DESCRIPTION</code> file of this repo.</p>
 <p>Though note that private discussions over email don’t help others - of course email is totally warranted if it’s a sensitive problem of any kind.</p>
 </div>
 <div id="thanks-for-contributing" class="section level3">
 <h3 class="hasAnchor">
-<a href="#thanks-for-contributing" class="anchor" aria-hidden="true"></a>Thanks for contributing!</h3>
-<p>This contributing guide is adapted from the tidyverse contributing guide available at <a href="https://raw.githubusercontent.com/r-lib/usethis/master/inst/templates/tidy-contributing.md" class="external-link uri">https://raw.githubusercontent.com/r-lib/usethis/master/inst/templates/tidy-contributing.md</a></p>
+<a href="#thanks-for-contributing" class="anchor"></a>Thanks for contributing!</h3>
+<p>This contributing guide is adapted from the tidyverse contributing guide available at <a href="https://raw.githubusercontent.com/r-lib/usethis/master/inst/templates/tidy-contributing.md" class="uri">https://raw.githubusercontent.com/r-lib/usethis/master/inst/templates/tidy-contributing.md</a></p>
 </div>
 </div>
 
@@ -219,11 +217,11 @@
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Andrea Gilardi, Robin Lovelace.</p></p>
+  <p>Developed by Andrea Gilardi, Robin Lovelace.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -231,8 +229,6 @@
 
   
 
-
-  
 
   </body>
 </html>

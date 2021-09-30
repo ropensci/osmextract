@@ -55,8 +55,6 @@ Details." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -68,15 +66,9 @@ Details." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,6 +89,12 @@ Details." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/osmextract.html">Get started</a>
 </li>
 <li>
@@ -152,13 +150,13 @@ Details." />
 Details.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>oe_update</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>oe_update</span><span class='op'>(</span>
   download_directory <span class='op'>=</span> <span class='fu'><a href='oe_download_directory.html'>oe_download_directory</a></span><span class='op'>(</span><span class='op'>)</span>,
   quiet <span class='op'>=</span> <span class='cn'>FALSE</span>,
   delete_gpkg <span class='op'>=</span> <span class='cn'>TRUE</span>,
   max_file_size <span class='op'>=</span> <span class='fl'>5e+08</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,17 +222,17 @@ the meaning of <code>mtime</code> and <code>ctime</code> depends on the OS and t
 Check <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='co'># Set up a fake directory with .pbf and .gpkg files</span></span>
-<span class='r-in'><span class='va'>fake_dir</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># Fill the directory</span></span>
-<span class='r-in'><span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"andorra"</span>, download_directory <span class='op'>=</span> <span class='va'>fake_dir</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># Check the directory</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, pattern <span class='op'>=</span> <span class='st'>"gpkg|pbf"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># Update all .pbf files and delete .gpkg files</span></span>
-<span class='r-in'><span class='fu'>oe_update</span><span class='op'>(</span><span class='va'>fake_dir</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, pattern <span class='op'>=</span> <span class='st'>"gpkg|pbf"</span><span class='op'>)</span><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Set up a fake directory with .pbf and .gpkg files</span>
+<span class='va'>fake_dir</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'># Fill the directory</span>
+<span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"andorra"</span>, download_directory <span class='op'>=</span> <span class='va'>fake_dir</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='co'># Check the directory</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, pattern <span class='op'>=</span> <span class='st'>"gpkg|pbf"</span><span class='op'>)</span>
+<span class='co'># Update all .pbf files and delete .gpkg files</span>
+<span class='fu'>oe_update</span><span class='op'>(</span><span class='va'>fake_dir</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>fake_dir</span>, pattern <span class='op'>=</span> <span class='st'>"gpkg|pbf"</span><span class='op'>)</span><span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -246,11 +244,11 @@ Check <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></cod
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Andrea Gilardi, Robin Lovelace.</p></p>
+  <p>Developed by Andrea Gilardi, Robin Lovelace.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -258,8 +256,6 @@ Check <code><a href='https://rdrr.io/r/base/file.info.html'>file.info()</a></cod
 
   
 
-
-  
 
   </body>
 </html>

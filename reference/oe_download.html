@@ -55,8 +55,6 @@ the package. The URL is specified through the parameter file_url." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -68,15 +66,9 @@ the package. The URL is specified through the parameter file_url." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,6 +89,12 @@ the package. The URL is specified through the parameter file_url." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/osmextract.html">Get started</a>
 </li>
 <li>
@@ -152,7 +150,7 @@ extracts with <code>.osm.pbf</code> format stored by one of the providers implem
 the package. The URL is specified through the parameter <code>file_url</code>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>oe_download</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>oe_download</span><span class='op'>(</span>
   <span class='va'>file_url</span>,
   provider <span class='op'>=</span> <span class='cn'>NULL</span>,
   file_basename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/basename.html'>basename</a></span><span class='op'>(</span><span class='va'>file_url</span><span class='op'>)</span>,
@@ -161,7 +159,7 @@ the package. The URL is specified through the parameter <code>file_url</code>.</
   force_download <span class='op'>=</span> <span class='cn'>FALSE</span>,
   max_file_size <span class='op'>=</span> <span class='fl'>5e+08</span>,
   quiet <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -240,33 +238,30 @@ file using <code><a href='https://rdrr.io/r/utils/download.file.html'>download.f
 path.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>oe_download</span><span class='op'>(</span></span>
-<span class='r-in'>  file_url <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>url</span>,</span>
-<span class='r-in'>  file_size <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>file_size</span>,</span>
-<span class='r-in'>  provider <span class='op'>=</span> <span class='st'>"test"</span>,</span>
-<span class='r-in'>  download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> File downloaded!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1Y4o22/test_its-example.osm.pbf"</span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>  <span class='va'>iow_url</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"Isle of Wight"</span><span class='op'>)</span></span>
-<span class='r-in'>  <span class='fu'>oe_download</span><span class='op'>(</span></span>
-<span class='r-in'>    file_url <span class='op'>=</span> <span class='va'>iow_url</span><span class='op'>$</span><span class='va'>url</span>,</span>
-<span class='r-in'>    file_size <span class='op'>=</span> <span class='va'>iow_url</span><span class='op'>$</span><span class='va'>file_size</span>,</span>
-<span class='r-in'>    download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'>  <span class='op'>)</span></span>
-<span class='r-in'>  <span class='va'>Sucre_url</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"Sucre"</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span><span class='op'>)</span></span>
-<span class='r-in'>  <span class='fu'>oe_download</span><span class='op'>(</span></span>
-<span class='r-in'>    file_url <span class='op'>=</span> <span class='va'>Sucre_url</span><span class='op'>$</span><span class='va'>url</span>,</span>
-<span class='r-in'>    file_size <span class='op'>=</span> <span class='va'>Sucre_url</span><span class='op'>$</span><span class='va'>file_size</span>,</span>
-<span class='r-in'>    download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'>  <span class='op'>)</span><span class='op'>}</span></span>
-<span class='r-in'><span class='co'># Remove .pbf and .gpkg files in tempdir</span></span>
-<span class='r-in'><span class='co'># (since they may interact with other examples)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"(pbf|gpkg)"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='va'>its_match</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>oe_download</span><span class='op'>(</span>
+  file_url <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>url</span>,
+  file_size <span class='op'>=</span> <span class='va'>its_match</span><span class='op'>$</span><span class='va'>file_size</span>,
+  provider <span class='op'>=</span> <span class='st'>"test"</span>,
+  download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; [1] "/tmp/RtmpTmoWdR/test_its-example.osm.pbf"</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>iow_url</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"Isle of Wight"</span><span class='op'>)</span>
+  <span class='fu'>oe_download</span><span class='op'>(</span>
+    file_url <span class='op'>=</span> <span class='va'>iow_url</span><span class='op'>$</span><span class='va'>url</span>,
+    file_size <span class='op'>=</span> <span class='va'>iow_url</span><span class='op'>$</span><span class='va'>file_size</span>,
+    download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='op'>)</span>
+  <span class='va'>Sucre_url</span> <span class='op'>=</span> <span class='fu'><a href='oe_match.html'>oe_match</a></span><span class='op'>(</span><span class='st'>"Sucre"</span>, provider <span class='op'>=</span> <span class='st'>"bbbike"</span><span class='op'>)</span>
+  <span class='fu'>oe_download</span><span class='op'>(</span>
+    file_url <span class='op'>=</span> <span class='va'>Sucre_url</span><span class='op'>$</span><span class='va'>url</span>,
+    file_size <span class='op'>=</span> <span class='va'>Sucre_url</span><span class='op'>$</span><span class='va'>file_size</span>,
+    download_directory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='op'>)</span><span class='op'>}</span>
+<span class='co'># Remove .pbf and .gpkg files in tempdir</span>
+<span class='co'># (since they may interact with other examples)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"(pbf|gpkg)"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -278,11 +273,11 @@ path.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Andrea Gilardi, Robin Lovelace.</p></p>
+  <p>Developed by Andrea Gilardi, Robin Lovelace.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -290,8 +285,6 @@ path.</p>
 
   
 
-
-  
 
   </body>
 </html>

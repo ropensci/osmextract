@@ -56,8 +56,6 @@ stored first." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -69,15 +67,9 @@ stored first." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -98,6 +90,12 @@ stored first." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../articles/osmextract.html">Get started</a>
 </li>
 <li>
@@ -154,7 +152,7 @@ to the number of occurrences, which means that the most common keys are
 stored first.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, values <span class='op'>=</span> <span class='cn'>FALSE</span>, which_keys <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, values <span class='op'>=</span> <span class='cn'>FALSE</span>, which_keys <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, values <span class='op'>=</span> <span class='cn'>FALSE</span>, which_keys <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
@@ -166,7 +164,7 @@ stored first.</p>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>zone</span>, layer <span class='op'>=</span> <span class='st'>"lines"</span>, values <span class='op'>=</span> <span class='cn'>FALSE</span>, which_keys <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for oe_key_values_list</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"oe_max_print_keys"</span>, <span class='fl'>10L</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"oe_max_print_keys"</span>, <span class='fl'>10L</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,7 +202,7 @@ corresponding values. Ignored if <code>values</code> is <code>FALSE</code>. See 
     <tr>
       <th>n</th>
       <td><p>Maximum number of keys (and corresponding values) to print; can be
-set globally by <code>options(oe_max_print_keys=...)</code>. Default value is 10.</p></td>
+set globally by <code><a href='https://rdrr.io/r/base/options.html'>options(oe_max_print_keys=...)</a></code>. Default value is 10.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -237,12 +235,12 @@ corresponding values. The key-value pairs are stored using the following
 format:
 <code>list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)</code>.
 We decided to implement an ad-hoc method for printing objects of class
-<code>oe_key_values_list</code> using the following structure:</p><pre><code>
+<code>oe_key_values_list</code> using the following structure:</p><pre>
 key1 = {#value1 = n1; #value2 = n2; #value3 = n3, ...}
 key2 = {#value1 = n1; #value2 = n2; ...}
 key3 = {#value1 = n1}
 ...
-</code></pre><p>where <code>n1</code> denotes the number of times that value1 is repeated, <code>n2</code> denotes
+</pre><p>where <code>n1</code> denotes the number of times that value1 is repeated, <code>n2</code> denotes
 the number of times that value2 is repeated and so on. Also the values are
 listed according to the number of occurrences in decreasing order. By
 default, the function prints only the ten most common keys, but the number
@@ -255,124 +253,103 @@ Check the introductory vignette and see examples.</p>
     <div class='dont-index'><p><code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># Load an OSM extract</span></span>
-<span class='r-in'><span class='va'>its_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> File downloaded!</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Get keys</span></span>
-<span class='r-in'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "surface"             "lanes"               "bicycle"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "lit"                 "access"              "oneway"             </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "maxspeed"            "ref"                 "foot"               </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "natural"             "lanes:backward"      "lanes:forward"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "source:name"         "step_count"          "lanes:psv:backward" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "alt_name"            "layer"               "motor_vehicle"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "tunnel"              "bridge"              "covered"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "incline"             "lanes:psv"           "service"            </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "turn:lanes"          "turn:lanes:forward"  "frequency"          </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [28] "indoor"              "lcn"                 "level"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "maxheight"           "operator"            "power"              </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [34] "source:geometry"     "substation"          "turn:lanes:backward"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "voltage"             "website"            </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Get keys and values</span></span>
-<span class='r-in'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lanes (92% NAs) = {#2 = 9; #1 = 7}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> bicycle (92% NAs) = {#yes = 10; #designated = 5}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lit (92% NAs) = {#yes = 15}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> access (93% NAs) = {#permissive = 12; #yes = 2}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> oneway (93% NAs) = {#yes = 13}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> maxspeed (94% NAs) = {#30 mph = 12}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ref (95% NAs) = {#A660 = 9; #4184 = 1}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> foot (95% NAs) = {#yes = 5; #designated = 4}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> natural (96% NAs) = {#tree_row = 7}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [Truncated output...]</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Subset some keys</span></span>
-<span class='r-in'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span>, which_keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"surface"</span>, <span class='st'>"lanes"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Found 2 unique keys, printed in ascending order of % NA values. </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lanes (92% NAs) = {#2 = 9; #1 = 7}</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Print all (non-NA) values for a given set of keys</span></span>
-<span class='r-in'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>[</span><span class='st'>"surface"</span><span class='op'>]</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> $surface</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "asphalt"       "asphalt"       "asphalt"       "asphalt"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "asphalt"       "asphalt"       "paved"         "cobblestone"  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "asphalt"       "asphalt"       "paved"         "paved"        </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "paving_stones" "asphalt"       "asphalt"       "asphalt"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "asphalt"      </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Get keys from an existing sf object</span></span>
-<span class='r-in'><span class='va'>its</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   `/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp1Y4o22/test_its-example.gpkg' </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   using driver `GPKG'</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class='r-in'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lanes (92% NAs) = {#2 = 9; #1 = 7}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> bicycle (92% NAs) = {#yes = 10; #designated = 5}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lit (92% NAs) = {#yes = 15}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> access (93% NAs) = {#permissive = 12; #yes = 2}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> oneway (93% NAs) = {#yes = 13}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> maxspeed (94% NAs) = {#30 mph = 12}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ref (95% NAs) = {#A660 = 9; #4184 = 1}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> foot (95% NAs) = {#yes = 5; #designated = 4}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> natural (96% NAs) = {#tree_row = 7}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [Truncated output...]</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Get keys from a character vector pointing to a file (might be faster than</span></span>
-<span class='r-in'><span class='co'># reading the complete file)</span></span>
-<span class='r-in'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its_path</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lanes (92% NAs) = {#2 = 9; #1 = 7}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> bicycle (92% NAs) = {#yes = 10; #designated = 5}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> lit (92% NAs) = {#yes = 15}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> access (93% NAs) = {#permissive = 12; #yes = 2}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> oneway (93% NAs) = {#yes = 13}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> maxspeed (94% NAs) = {#30 mph = 12}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ref (95% NAs) = {#A660 = 9; #4184 = 1}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> foot (95% NAs) = {#yes = 5; #designated = 4}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> natural (96% NAs) = {#tree_row = 7}</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [Truncated output...]</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Add a key to an existing .gpkg file without repeating the</span></span>
-<span class='r-in'><span class='co'># vectortranslate operations</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>its</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span></span>
-<span class='r-in'>  <span class='va'>its_path</span>,</span>
-<span class='r-in'>  query <span class='op'>=</span> <span class='st'>"SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"</span>,</span>
-<span class='r-in'>  quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
-<span class='r-in'><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>argument layer is ignored when query is specified</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "geometry"  </span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Remove .pbf and .gpkg files in tempdir</span></span>
-<span class='r-in'><span class='co'># (since they may interact with other examples)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"(pbf|gpkg)"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE TRUE</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># Load an OSM extract</span>
+<span class='va'>its_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='input'>
+<span class='co'># Get keys</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "surface"             "lanes"               "bicycle"            
+#&gt;  [4] "lit"                 "access"              "oneway"             
+#&gt;  [7] "maxspeed"            "ref"                 "foot"               
+#&gt; [10] "natural"             "lanes:backward"      "lanes:forward"      
+#&gt; [13] "source:name"         "step_count"          "lanes:psv:backward" 
+#&gt; [16] "alt_name"            "layer"               "motor_vehicle"      
+#&gt; [19] "tunnel"              "bridge"              "covered"            
+#&gt; [22] "incline"             "lanes:psv"           "service"            
+#&gt; [25] "turn:lanes"          "turn:lanes:forward"  "frequency"          
+#&gt; [28] "indoor"              "lcn"                 "level"              
+#&gt; [31] "maxheight"           "operator"            "power"              
+#&gt; [34] "source:geometry"     "substation"          "turn:lanes:backward"
+#&gt; [37] "voltage"             "website"            </div><div class='input'>
+<span class='co'># Get keys and values</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: 
+#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
+#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}
+#&gt; bicycle (92% NAs) = {#yes = 10; #designated = 5}
+#&gt; lit (92% NAs) = {#yes = 15}
+#&gt; access (93% NAs) = {#permissive = 12; #yes = 2}
+#&gt; oneway (93% NAs) = {#yes = 13}
+#&gt; maxspeed (94% NAs) = {#30 mph = 12}
+#&gt; ref (95% NAs) = {#A660 = 9; #4184 = 1}
+#&gt; foot (95% NAs) = {#yes = 5; #designated = 4}
+#&gt; natural (96% NAs) = {#tree_row = 7}
+#&gt; [Truncated output...]</div><div class='input'>
+<span class='co'># Subset some keys</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span>, which_keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"surface"</span>, <span class='st'>"lanes"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Found 2 unique keys, printed in ascending order of % NA values. 
+#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
+#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}</div><div class='input'>
+<span class='co'># Print all (non-NA) values for a given set of keys</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>[</span><span class='st'>"surface"</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; $surface
+#&gt;  [1] "asphalt"       "asphalt"       "asphalt"       "asphalt"      
+#&gt;  [5] "asphalt"       "asphalt"       "paved"         "cobblestone"  
+#&gt;  [9] "asphalt"       "asphalt"       "paved"         "paved"        
+#&gt; [13] "paving_stones" "asphalt"       "asphalt"       "asphalt"      
+#&gt; [17] "asphalt"      
+#&gt; </div><div class='input'>
+<span class='co'># Get keys from an existing sf object</span>
+<span class='va'>its</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/tmp/RtmpTmoWdR/test_its-example.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 189 features and 9 fields
+#&gt; Geometry type: LINESTRING
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#&gt; Geodetic CRS:  WGS 84</div><div class='input'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: 
+#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
+#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}
+#&gt; bicycle (92% NAs) = {#yes = 10; #designated = 5}
+#&gt; lit (92% NAs) = {#yes = 15}
+#&gt; access (93% NAs) = {#permissive = 12; #yes = 2}
+#&gt; oneway (93% NAs) = {#yes = 13}
+#&gt; maxspeed (94% NAs) = {#30 mph = 12}
+#&gt; ref (95% NAs) = {#A660 = 9; #4184 = 1}
+#&gt; foot (95% NAs) = {#yes = 5; #designated = 4}
+#&gt; natural (96% NAs) = {#tree_row = 7}
+#&gt; [Truncated output...]</div><div class='input'>
+<span class='co'># Get keys from a character vector pointing to a file (might be faster than</span>
+<span class='co'># reading the complete file)</span>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its_path</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: 
+#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
+#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}
+#&gt; bicycle (92% NAs) = {#yes = 10; #designated = 5}
+#&gt; lit (92% NAs) = {#yes = 15}
+#&gt; access (93% NAs) = {#permissive = 12; #yes = 2}
+#&gt; oneway (93% NAs) = {#yes = 13}
+#&gt; maxspeed (94% NAs) = {#30 mph = 12}
+#&gt; ref (95% NAs) = {#A660 = 9; #4184 = 1}
+#&gt; foot (95% NAs) = {#yes = 5; #designated = 4}
+#&gt; natural (96% NAs) = {#tree_row = 7}
+#&gt; [Truncated output...]</div><div class='input'>
+<span class='co'># Add a key to an existing .gpkg file without repeating the</span>
+<span class='co'># vectortranslate operations</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>its</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span>
+  <span class='va'>its_path</span>,
+  query <span class='op'>=</span> <span class='st'>"SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"</span>,
+  quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: argument layer is ignored when query is specified</span></div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
+#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    
+#&gt; [11] "geometry"  </div><div class='input'>
+<span class='co'># Remove .pbf and .gpkg files in tempdir</span>
+<span class='co'># (since they may interact with other examples)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"(pbf|gpkg)"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -384,11 +361,11 @@ Check the introductory vignette and see examples.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Andrea Gilardi, Robin Lovelace.</p></p>
+  <p>Developed by Andrea Gilardi, Robin Lovelace.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -396,8 +373,6 @@ Check the introductory vignette and see examples.</p>
 
   
 
-
-  
 
   </body>
 </html>
