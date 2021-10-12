@@ -184,7 +184,7 @@ oe_vectortranslate = function(
     is.null(layer) ||
     is.na(layer) ||
     # I need the following condition to check that the function
-    # get_ini_layer_defaults does not return NULL
+    # get_id_layer does not return NULL
     tolower(layer) %!in% c(
       "points", "lines", "multipolygons", "multilinestrings", "other_relations"
     )
@@ -320,12 +320,7 @@ oe_vectortranslate = function(
     osmconf_ini == system.file("osmconf.ini", package = "osmextract")
   ) {
     temp_ini = readLines(osmconf_ini)
-    id_old = grep(
-      paste0(
-        "attributes=", paste(get_ini_layer_defaults(layer), collapse = ",")
-      ),
-      temp_ini
-    )
+    id_old = get_id_layer(layer)
     temp_ini[[id_old]] = paste(
       c(temp_ini[[id_old]], extra_tags),
       collapse = ","
@@ -440,54 +435,15 @@ oe_vectortranslate = function(
   gpkg_file_path
 }
 
-get_ini_layer_defaults = function(layer) {
-  def_layers = list(
-    points = c(
-      "name",
-      "barrier",
-      "highway",
-      "ref",
-      "address",
-      "is_in",
-      "place",
-      "man_made"
-    ),
-    lines = c(
-      "name",
-      "highway",
-      "waterway",
-      "aerialway",
-      "barrier",
-      "man_made"
-    ),
-    multipolygons = c(
-      "name",
-      "type",
-      "aeroway",
-      "amenity",
-      "admin_level",
-      "barrier",
-      "boundary",
-      "building",
-      "craft",
-      "geological",
-      "historic",
-      "land_area",
-      "landuse",
-      "leisure",
-      "man_made",
-      "military",
-      "natural",
-      "office",
-      "place",
-      "shop",
-      "sport",
-      "tourism"
-    ),
-    multilinestrings = c("name", "type"),
-    other_relations = c("name", "type")
+get_id_layer = function(layer) {
+  default_id = list(
+    points = 33L,
+    lines = 53L,
+    multipolygons = 85L,
+    multilinestrings = 103L,
+    other_relations = 121L
   )
-  def_layers[[layer]]
+  default_id[[layer]]
 }
 
 process_boundary = function(
