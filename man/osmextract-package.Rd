@@ -8,8 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Match, download, convert and import Open Street Map data extracts 
-    obtained from several providers.
+Match, download, convert and import Open Street Map data extracts obtained from several providers.
 }
 \seealso{
 Useful links:

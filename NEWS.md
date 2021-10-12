@@ -1,5 +1,9 @@
 # osmextract (development version)
 
+### BUG FIXES
+
+* Fixed a bug in `oe_vectortranslate()` that occurred when reading `multilinestrings` or `other_relations` layers with one or more extra tags (#229). 
+
 ### MINOR CHANGES
 
 * Following the suggestion in `?download.file`, the function `oe_download()` automatically sets a `timeout` greater than 60 seconds. The original value is reset when `oe_download()` function exits (#222)
