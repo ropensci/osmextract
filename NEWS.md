@@ -6,7 +6,8 @@
 
 ### MINOR CHANGES
 
-* Following the suggestion in `?download.file`, the function `oe_download()` automatically sets a `timeout` greater than 60 seconds. The original value is reset when `oe_download()` function exits (#222)
+* Following the suggestion in `?download.file`, the function `oe_download()` automatically sets a `timeout` greater than 60 seconds. The original value is reset when `oe_download()` function exits (#222).
+* The duplicated fields in `extra_tags` are now removed before modifying the `osmconf.ini` file. Duplicated tags means something like `extra_tags = c("A", "A")` or even fields that are included by default (i.e. `extra_tags = "highway"` for the `lines` layer). See discussion in #229. 
 
 # osmextract 0.3.1
 

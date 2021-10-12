@@ -96,6 +96,22 @@ test_that("oe_vectortranslate adds new tags to existing file", {
   file.remove(new_its_gpkg) # which points to the same file as its_gpkg
 })
 
+test_that("oe_vectortranslate returns no warning with duplicated field in extra_tags", {
+  # The idea is that the user may request one or more fields that are already
+  # included in the default ones. In that case, GDAL returns a message like:
+  # GDAL Message 1: Field 'natural' already exists. Renaming it as 'natural2'.
+  # After the following discussion
+  # https://github.com/ropensci/osmextract/issues/229#issuecomment-941002791 I
+  # included a call to unique to filter the duplicated fields.
+  expect_warning(
+    object = {
+    its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE, extra_tags = c("highway", "barrier", "oneway"))
+    },
+    regexp = NA
+  )
+  file.remove(its_gpkg) # which points to the same file as its_gpkg
+})
+
 test_that("vectortranslate_options are autocompleted", {
   expect_error(
     oe_vectortranslate(
