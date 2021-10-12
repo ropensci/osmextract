@@ -155,7 +155,8 @@
 <h3 class="hasAnchor">
 <a href="#minor-changes" class="anchor"></a>MINOR CHANGES</h3>
 <ul>
-<li>Following the suggestion in <code><a href="https://rdrr.io/r/utils/download.file.html">?download.file</a></code>, the function <code><a href="../reference/oe_download.html">oe_download()</a></code> automatically sets a <code>timeout</code> greater than 60 seconds. The original value is reset when <code><a href="../reference/oe_download.html">oe_download()</a></code> function exits (<a href='https://github.com/ropensci/osmextract/issues/222'>#222</a>)</li>
+<li>Following the suggestion in <code><a href="https://rdrr.io/r/utils/download.file.html">?download.file</a></code>, the function <code><a href="../reference/oe_download.html">oe_download()</a></code> automatically sets a <code>timeout</code> greater than 60 seconds. The original value is reset when <code><a href="../reference/oe_download.html">oe_download()</a></code> function exits (<a href='https://github.com/ropensci/osmextract/issues/222'>#222</a>).</li>
+<li>The duplicated fields in <code>extra_tags</code> are now removed before modifying the <code>osmconf.ini</code> file. Duplicated tags means something like <code>extra_tags = c("A", "A")</code> or even fields that are included by default (i.e. <code>extra_tags = "highway"</code> for the <code>lines</code> layer). See discussion in <a href='https://github.com/ropensci/osmextract/issues/229'>#229</a>.</li>
 </ul>
 </div>
 </div>
