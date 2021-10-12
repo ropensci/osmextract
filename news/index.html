@@ -144,6 +144,13 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#osmextract-development-version" class="anchor"></a>osmextract (development version)<small> Unreleased </small>
 </h1>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h3>
+<ul>
+<li>Fixed a bug in <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> that occurred when reading <code>multilinestrings</code> or <code>other_relations</code> layers with one or more extra tags (<a href='https://github.com/ropensci/osmextract/issues/229'>#229</a>).</li>
+</ul>
+</div>
 <div id="minor-changes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#minor-changes" class="anchor"></a>MINOR CHANGES</h3>
@@ -198,9 +205,9 @@
 <li>The argument <code>provider</code> was removed from <code><a href="../reference/oe_match_pattern.html">oe_match_pattern()</a></code> since the function automatically checks all available providers (<a href='https://github.com/ropensci/osmextract/issues/208'>#208</a>).</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level3">
+<div id="bug-fixes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h3>
+<a href="#bug-fixes-1" class="anchor"></a>BUG FIXES</h3>
 <ul>
 <li>The parameter <code>force_vectortranslate</code> is checked before reading the layers of an existing <code>gpkg</code> file. If <code>force_vectortranslate</code> is <code>TRUE</code>, then <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> doesn’t check the existing layers. This is important for user that run <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> after stopping the vectortranslate process.<br>
 </li>
@@ -267,9 +274,9 @@
 <code>oe_get_keys</code> returns an informative error when there is no other_tags field in the input file (<a href='https://github.com/ropensci/osmextract/issues/158'>#158</a>)</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level3">
+<div id="bug-fixes-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>BUG FIXES</h3>
+<a href="#bug-fixes-2" class="anchor"></a>BUG FIXES</h3>
 <ul>
 <li>Fix the structure of <code>geofabrik_zones</code> object (<a href='https://github.com/ropensci/osmextract/issues/167'>#167</a>)</li>
 <li>Fix warning messages related to … in <code><a href="../reference/oe_get.html">oe_get()</a></code> (<a href='https://github.com/ropensci/osmextract/issues/152'>#152</a>)</li>
