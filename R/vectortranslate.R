@@ -321,9 +321,10 @@ oe_vectortranslate = function(
   ) {
     temp_ini = readLines(osmconf_ini)
     id_old = get_id_layer(layer)
-    temp_ini[[id_old]] = paste(
-      c(temp_ini[[id_old]], extra_tags),
-      collapse = ","
+    fields_old = get_fields_default(layer)
+    temp_ini[[id_old]] = paste0(
+      "attributes=",
+      paste(unique(c(fields_old, extra_tags)), collapse = ",")
     )
     temp_ini_file = tempfile(fileext = ".ini")
     writeLines(temp_ini, con = temp_ini_file)
@@ -444,6 +445,55 @@ get_id_layer = function(layer) {
     other_relations = 121L
   )
   default_id[[layer]]
+}
+get_fields_default = function(layer) {
+  def_layers = list(
+    points = c(
+      "name",
+      "barrier",
+      "highway",
+      "ref",
+      "address",
+      "is_in",
+      "place",
+      "man_made"
+    ),
+    lines = c(
+      "name",
+      "highway",
+      "waterway",
+      "aerialway",
+      "barrier",
+      "man_made"
+    ),
+    multipolygons = c(
+      "name",
+      "type",
+      "aeroway",
+      "amenity",
+      "admin_level",
+      "barrier",
+      "boundary",
+      "building",
+      "craft",
+      "geological",
+      "historic",
+      "land_area",
+      "landuse",
+      "leisure",
+      "man_made",
+      "military",
+      "natural",
+      "office",
+      "place",
+      "shop",
+      "sport",
+      "tourism"
+    ),
+    multilinestrings = c("name", "type"),
+    other_relations = c("name", "type")
+  )
+  def_layers[[layer]]
 }
 
 process_boundary = function(
