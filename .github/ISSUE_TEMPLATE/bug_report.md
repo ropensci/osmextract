@@ -17,7 +17,7 @@ Describe the steps used to reproduce the bug. Please note that including a repro
 A clear and concise description of what you expected to happen.
 
 **Additional context**
-Add any other context about the problem here. In particular, if this issue relates to usage of the package, along with your query, please paste your `devtools::session_info()` or `sessionInfo()` into the code block below. 
+Add any other context about the problem here. In particular, along with your query, please paste your `devtools::session_info()` or `sessionInfo()` into the code block below. 
 
 <details> <summary><strong>Session Info</strong></summary>
 
