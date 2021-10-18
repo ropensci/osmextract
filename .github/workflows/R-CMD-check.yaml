@@ -19,8 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {runs-on: ubuntu-20.04, container: "fedora:latest"}
+          - {os: ubuntu-latest,   r: 'devel', container: "fedora:latest", http-user-agent: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
