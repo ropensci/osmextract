@@ -20,7 +20,7 @@ jobs:
       matrix:
         config:
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {on: ubuntu-20.04, container: "fedora:latest"}
+          - {runs-on: ubuntu-20.04, container: "fedora:latest"}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
