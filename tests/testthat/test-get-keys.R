@@ -107,7 +107,7 @@ test_that("the output from oe_get_keys is the same as for hstore_get_values", {
   )
 
   expect_equal(
-    object = sort(table(my_output["surface"]), decreasing = TRUE)[1:2],
+    object = sort(table(my_output[["surface"]]), decreasing = TRUE)[1:2],
     expected = sort(table(its_leeds_with_surface[["surface"]]), decreasing = TRUE)[1:2]
   )
 })
