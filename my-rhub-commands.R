@@ -1,11 +1,13 @@
 library(rhub)
 
-# results = check_for_cran(
-#   platforms = c(
-#     "debian-gcc-devel",
-#     "fedora-gcc-devel"
-#   )
-# )
+results = check_for_cran(
+  platforms = c(
+    "debian-gcc-devel",
+    "fedora-gcc-devel",
+    "ubuntu-gcc-devel",
+    "windows-x86_64-devel"
+  )
+)
 
 # previous_checks = rhub::list_package_checks(howmany = 1)
 # id = previous_checks$group[1]
