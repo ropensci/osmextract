@@ -168,7 +168,8 @@ oe_match("Leeds")
 # If the input place cannot be exactly matched with any zone in any provider,
 # then the function will try to geolocate the input and then it will perform a
 # spatial match:
-oe_match("Milan")
+\dontrun{
+oe_match("Milan")}
 
 # The level parameter can be used to select smaller or bigger geographical
 # areas during spatial matching
