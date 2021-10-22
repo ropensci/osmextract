@@ -23,7 +23,31 @@ oe_search = function(
   ) {
   # See https://nominatim.org/release-docs/develop/api/Overview/ for more
   # details realted to the URL
-  u = paste0(base_url, "/search?q=", place, "&limit=1&format=geojson")
-  utils::download.file(url = u, destfile = destfile, quiet = TRUE)
+  check_nominatim_status()
+
+  # Actually run the query
+  result = httr::GET(
+    url = base_url,
+    path = "search",
+    query = list(q = place, limit = 1, format = "geojson"),
+    httr::write_disk(destfile, overwrite = TRUE),
+    httr::timeout(300)
+  )
+  httr::stop_for_status(result)
+
   sf::st_read(destfile, quiet = TRUE, ...)
+}
+
+check_nominatim_status = function() {
+  status = httr::RETRY(
+    verb = "GET",
+    url = "https://nominatim.openstreetmap.org/",
+    path = "status.php", #path is endpoint
+    query = list(format = "json")
+  )
+  if (httr::http_type(status) != "application/json") {
+    stop("Nominatim API did not return json when testing status", call. = FALSE)
+  }
+
+  httr::stop_for_status(status)
 }

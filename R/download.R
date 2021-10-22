@@ -131,15 +131,14 @@ oe_download = function(
       stop("Aborted by user.")
     }
 
-    old_opts = options(timeout = max(300, getOption("timeout")))
-    on.exit(options(old_opts))
-
-    utils::download.file(
+    resp = httr::GET(
       url = file_url,
-      destfile = file_path,
-      mode = "wb",
-      quiet = quiet
+      if (isFALSE(quiet)) httr::progress(),
+      httr::write_disk(file_path, overwrite = TRUE),
+      httr::timeout(300)
     )
+
+    httr::stop_for_status(resp)
 
     oe_message("File downloaded!", quiet = quiet)
   }
