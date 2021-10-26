@@ -23,7 +23,54 @@ oe_search = function(
   ) {
   # See https://nominatim.org/release-docs/develop/api/Overview/ for more
   # details realted to the URL
-  u = paste0(base_url, "/search?q=", place, "&limit=1&format=geojson")
-  utils::download.file(url = u, destfile = destfile, quiet = TRUE)
+  check_nominatim_status()
+
+  # Actually run the query
+  result = httr::RETRY(
+    verb = "GET",
+    url = base_url,
+    path = "search", # endpoint = search
+    # the following is like ?q = place&limit=1&format=geojson
+    query = list(q = place, limit = 1, format = "geojson"),
+    httr::write_disk(destfile, overwrite = TRUE),
+    httr::timeout(300L)
+  )
+  httr::stop_for_status(result, "look up location with Nominatim API")
+
   sf::st_read(destfile, quiet = TRUE, ...)
+}
+
+check_nominatim_status = function() {
+  status = httr::RETRY(
+    verb = "GET",
+    url = "https://nominatim.openstreetmap.org/",
+    path = "status.php", #path is endpoint
+    query = list(format = "json"), # this is like ?format=json
+    httr::timeout(300L),
+    quiet = TRUE
+  )
+  if (httr::http_type(status) != "application/json") {
+    stop("Nominatim API did not return json when testing status", call. = FALSE)
+  }
+
+  httr::stop_for_status(status, "check Nominatim API status")
+
+  # From https://nominatim.org/release-docs/develop/api/Status/: On error will
+  # also return HTTP status code 200 and a structure with error code and
+  # message, e.g.
+  # {
+  #   "status": 700
+  #   "message": "Database connection failed"
+  # }
+  # So, I need to check that status
+  status_JSON = jsonlite::fromJSON(
+    txt = httr::content(status, as = "text"),
+    simplifyVector = FALSE
+  )
+
+  if (status_JSON[["status"]] != 0) {
+    stop("Error connecting to Nominatim tool", call. = FALSE)
+  }
+
+  status_JSON
 }

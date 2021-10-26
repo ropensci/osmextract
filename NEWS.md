@@ -1,4 +1,9 @@
-# osmextract (development version)
+# osmextract 0.4.0 (in development)
+
+### MAJOR CHANGES
+
+* Added two new dependencies: [*httr*](https://cran.r-project.org/package=httr) and [jsonlite](https://cran.r-project.org/package=jsonlite)(#231, #232). 
+* Improved the approach adopted to download files from the web. In particular, the functions `oe_download()` and `oe_search()` now take adavantage of `httr` functionalities. They return informative messages in case of errors (#231, #232). 
 
 ### BUG FIXES
 
@@ -6,7 +11,6 @@
 
 ### MINOR CHANGES
 
-* Following the suggestion in `?download.file`, the function `oe_download()` automatically sets a `timeout` greater than 60 seconds. The original value is reset when `oe_download()` function exits (#222).
 * The duplicated fields in `extra_tags` are now removed before modifying the `osmconf.ini` file. Duplicated tags means something like `extra_tags = c("A", "A")` or even fields that are included by default (i.e. `extra_tags = "highway"` for the `lines` layer). See discussion in #229. 
 
 # osmextract 0.3.1

@@ -1,7 +1,7 @@
 test_that("oe_download: simplest examples work", {
   # Skip tests that require internet connection
   skip_on_cran()
-  skip_if_offline()
+  skip_if_offline("github.com")
 
   # Run tests
   its_match = oe_match("ITS Leeds", provider = "test", quiet = TRUE)

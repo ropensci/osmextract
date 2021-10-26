@@ -24,7 +24,7 @@ test_that("oe_find: simplest example works", {
 
 test_that("download_if_missing in oe_find works", {
   skip_on_cran()
-  skip_if_offline()
+  skip_if_offline("github.com")
 
   # Test that tempdir is really empty
   expect_true(!file.exists(file.path(tempdir(), "its-example.osm.pbf")))
