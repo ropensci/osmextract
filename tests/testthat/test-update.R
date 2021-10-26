@@ -1,7 +1,7 @@
 test_that("oe_update(): simplest example works", {
   # I always need internet connection when running oe_update()
   skip_on_cran()
-  skip_if_offline()
+  skip_if_offline("github.com")
 
   out = oe_get(
     "ITS Leeds",

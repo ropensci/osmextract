@@ -31,7 +31,7 @@ test_that("oe_read: simplest examples work", {
 
 test_that("or_read: simplest example with a URL works", {
   skip_on_cran()
-  skip_if_offline()
+  skip_if_offline("github.com")
 
   my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
   expect_error(
