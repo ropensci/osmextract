@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # osmextract <a href='https://docs.ropensci.org/osmextract/'><img src='man/figures/logo.svg' align="right" height=275/></a>
@@ -10,7 +9,7 @@
 [![R build
 status](https://github.com/ropensci/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/osmextract/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/osmextract?branch=master)
+coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/osmextract?branch=master)
 [![peer-review](https://badges.ropensci.org/395_status.svg)](https://github.com/ropensci/software-review/issues/395)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
@@ -119,7 +118,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
+#> Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
 ```
 
 ### Warnings:
@@ -128,10 +127,10 @@ The functions defined in this package may return a warning message like
 
     st_crs<- : replacing crs does not reproject data; use st_transform for that 
 
-if the user is running an old version of GDAL (\<= 3.0.0) or PROJ (\<=
-6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419) for more
-details. Nevertheless, every function should still work correctly.
-Please, raise [a new
+if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ
+(&lt;= 6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419)
+for more details. Nevertheless, every function should still work
+correctly. Please, raise [a new
 issue](https://github.com/ropensci/osmextract/issues) if you find any
 odd behaviour.
 
@@ -150,9 +149,9 @@ can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 47839
+#> [1] 48281
 nrow(osm_points)
-#> [1] 60849
+#> [1] 61329
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -238,17 +237,11 @@ oe_download_directory()
 ```
 
 <!-- The following section was removed since now oe_download sets the timeout value. See https://github.com/ropensci/osmextract/issues/222 -->
-
 <!-- ## Troubleshooting -->
-
 <!-- Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`.  -->
-
 <!-- If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value.  -->
-
 <!-- This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script. -->
-
 <!-- If you need to update an existing `.pbf` file or replace an incomplete extract, you can use the argument `force_download`, i.e `oe_get("some-place", force_download = TRUE)`.    -->
-
 <!-- Check `?oe_get` and `?oe_download` for more details.  -->
 
 ## Next steps
@@ -272,9 +265,9 @@ states that
 > Any Derivative Database that You Publicly Use must be only under the
 > terms of:
 
-  - 1.  This License;
+-   1.  This License;
 
-  - 2.  A later version of this License similar in spirit to this
+-   2.  A later version of this License similar in spirit to this
 
 See the [Introducing osmextract
 vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html)
@@ -284,23 +277,23 @@ for more details.
 
 <!-- todo: add links to other packages -->
 
-  - [osmdata](https://github.com/ropensci/osmdata) is an R package for
+-   [osmdata](https://github.com/ropensci/osmdata) is an R package for
     importing small datasets directly from OSM servers
-  - [geofabrik](https://cran.r-project.org/package=geofabrik) is an R
+-   [geofabrik](https://cran.r-project.org/package=geofabrik) is an R
     package to download OSM data from
     [Geofabrik](https://download.geofabrik.de/)
-  - [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
+-   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
     package for reading .pbf files
-  - [pydriosm](https://pypi.org/project/pydriosm/) is a Python package
+-   [pydriosm](https://pypi.org/project/pydriosm/) is a Python package
     to download, read and import OSM extracts
-  - [osmium](https://pypi.org/project/osmium/) provides python bindings
+-   [osmium](https://pypi.org/project/osmium/) provides python bindings
     for the Libosmium C++ library
-  - [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
+-   [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
     a Julia package for reading and analysing .osm files
-  - [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
+-   [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
     is an established spatial database that works well with large OSM
     datasets
-  - Any others? Let us know\!
+-   Any others? Let us know!
 
 ## Contribution
 
@@ -323,7 +316,5 @@ Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
 <!-- :) -->
-
 <!-- :) -->
-
 <!-- :) -->

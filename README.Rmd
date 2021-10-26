@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![R build status](https://github.com/ropensci/osmextract/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/osmextract/actions)
-[![Codecov test coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/osmextract?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/ropensci/osmextract/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/osmextract?branch=master)
 [![peer-review](https://badges.ropensci.org/395_status.svg)](https://github.com/ropensci/software-review/issues/395)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CRAN status](https://www.r-pkg.org/badges/version/osmextract)](https://CRAN.R-project.org/package=osmextract)
