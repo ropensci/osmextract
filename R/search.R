@@ -26,14 +26,16 @@ oe_search = function(
   check_nominatim_status()
 
   # Actually run the query
-  result = httr::GET(
+  result = httr::RETRY(
+    verb = "GET",
     url = base_url,
-    path = "search",
+    path = "search", # endpoint = search
+    # the following is like ?q = place&limit=1&format=geojson
     query = list(q = place, limit = 1, format = "geojson"),
     httr::write_disk(destfile, overwrite = TRUE),
-    httr::timeout(300)
+    httr::timeout(300L)
   )
-  httr::stop_for_status(result)
+  httr::stop_for_status(result, "look up location with Nominatim API")
 
   sf::st_read(destfile, quiet = TRUE, ...)
 }
@@ -43,11 +45,13 @@ check_nominatim_status = function() {
     verb = "GET",
     url = "https://nominatim.openstreetmap.org/",
     path = "status.php", #path is endpoint
-    query = list(format = "json")
+    query = list(format = "json"), # this is like ?format=json
+    httr::timeout(300L),
+    quiet = TRUE
   )
   if (httr::http_type(status) != "application/json") {
     stop("Nominatim API did not return json when testing status", call. = FALSE)
   }
 
-  httr::stop_for_status(status)
+  httr::stop_for_status(status, "check Nominatim API status")
 }

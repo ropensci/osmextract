@@ -135,10 +135,10 @@ oe_download = function(
       url = file_url,
       if (isFALSE(quiet)) httr::progress(),
       httr::write_disk(file_path, overwrite = TRUE),
-      httr::timeout(300)
+      httr::timeout(300L)
     )
 
-    httr::stop_for_status(resp)
+    httr::stop_for_status(resp, "download data from the provider")
 
     oe_message("File downloaded!", quiet = quiet)
   }
