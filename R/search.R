@@ -54,4 +54,23 @@ check_nominatim_status = function() {
   }
 
   httr::stop_for_status(status, "check Nominatim API status")
+
+  # From https://nominatim.org/release-docs/develop/api/Status/: On error will
+  # also return HTTP status code 200 and a structure with error code and
+  # message, e.g.
+  # {
+  #   "status": 700
+  #   "message": "Database connection failed"
+  # }
+  # So, I need to check that status
+  status_JSON = jsonlite::fromJSON(
+    txt = httr::content(status, as = "text"),
+    simplifyVector = FALSE
+  )
+
+  if (status_JSON[["status"]] != 0) {
+    stop("Error connecting to Nominatim tool", call. = FALSE)
+  }
+
+  status_JSON
 }

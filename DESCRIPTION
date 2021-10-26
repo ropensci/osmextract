@@ -28,7 +28,8 @@ Imports:
     sf (>= 0.8.1),
     utils,
     tools,
-    httr
+    httr,
+    jsonlite
 Suggests: 
     testthat (>= 3.0.2),
     knitr,

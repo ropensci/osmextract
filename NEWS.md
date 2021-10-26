@@ -2,8 +2,8 @@
 
 ### MAJOR CHANGES
 
-* Added a new dependency: [*httr*](https://cran.r-project.org/package=httr) (#231, #232). 
-* Improved the approach adopted to download files from the web. In particular, the functions `oe_download` and `oe_search` now take adavantage of `httr` functionalities. They return informative messages in case of errors (#231, #232). 
+* Added two new dependencies: [*httr*](https://cran.r-project.org/package=httr) and [jsonlite](https://cran.r-project.org/package=jsonlite)(#231, #232). 
+* Improved the approach adopted to download files from the web. In particular, the functions `oe_download()` and `oe_search()` now take adavantage of `httr` functionalities. They return informative messages in case of errors (#231, #232). 
 
 ### BUG FIXES
 
