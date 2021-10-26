@@ -104,7 +104,7 @@ The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how GD
 reads and processes a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
 file, that can be checked at the following
-\href{https://github.com/OSGeo/gdal/blob/master/gdal/data/osmconf.ini}{link}.
+\href{https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini}{link}.
 The basic components of OSM data are called
 \href{https://wiki.openstreetmap.org/wiki/Elements}{\emph{elements}} and they are
 divided into \emph{nodes}, \emph{ways} or \emph{relations}, so, for example, the code at
