@@ -380,14 +380,9 @@ to perform matching operations using <a href='https://en.wikipedia.org/wiki/ISO_
 <span class='co'># If the input place cannot be exactly matched with any zone in any provider,</span>
 <span class='co'># then the function will try to geolocate the input and then it will perform a</span>
 <span class='co'># spatial match:</span>
-<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Milan"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>No exact match found for place = Milan and provider = geofabrik. Best match is Iran. </span>
-#&gt; <span class='message'>Checking the other providers.</span></div><div class='output co'>#&gt; <span class='message'>No exact match found in any OSM provider data. Searching for the location online.</span></div><div class='output co'>#&gt; <span class='message'>The input place was matched with Nord-Ovest. </span></div><div class='output co'>#&gt; $url
-#&gt; [1] "https://download.geofabrik.de/europe/italy/nord-ovest-latest.osm.pbf"
-#&gt; 
-#&gt; $file_size
-#&gt; [1] 433707500
-#&gt; </div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>oe_match</span><span class='op'>(</span><span class='st'>"Milan"</span><span class='op'>)</span><span class='op'>}</span>
+
 <span class='co'># The level parameter can be used to select smaller or bigger geographical</span>
 <span class='co'># areas during spatial matching</span>
 <span class='va'>yak</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>120.51084</span>, <span class='fl'>46.60156</span><span class='op'>)</span>
