@@ -5,7 +5,8 @@ results = check_for_cran(
     "debian-gcc-devel",
     "fedora-gcc-devel",
     "ubuntu-gcc-devel",
-    "windows-x86_64-devel"
+    "windows-x86_64-devel",
+    "macos-highsierra-release-cran"
   )
 )
 

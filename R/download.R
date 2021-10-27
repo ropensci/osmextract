@@ -134,7 +134,7 @@ oe_download = function(
     resp = httr::GET(
       url = file_url,
       if (isFALSE(quiet)) httr::progress(),
-      if (isFALSE(quiet)) httr::verbose(),
+      # if (isFALSE(quiet)) httr::verbose(),
       httr::write_disk(file_path, overwrite = TRUE),
       httr::timeout(300L)
     )

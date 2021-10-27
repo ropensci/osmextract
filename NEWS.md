@@ -1,9 +1,9 @@
-# osmextract 0.4.0 (in development)
+# osmextract 0.4.0 
 
 ### MAJOR CHANGES
 
-* Added two new dependencies: [*httr*](https://cran.r-project.org/package=httr) and [jsonlite](https://cran.r-project.org/package=jsonlite)(#231, #232). 
-* Improved the approach adopted to download files from the web. In particular, the functions `oe_download()` and `oe_search()` now take adavantage of `httr` functionalities. They return informative messages in case of errors (#231, #232). 
+* Import two new packages: [*httr*](https://cran.r-project.org/package=httr) and [jsonlite](https://cran.r-project.org/package=jsonlite) (#231, #232). 
+* Improved the approach adopted to download files from the web. In particular, the functions `oe_download()` and `oe_search()` now take advantage of `httr` functionalities. They return informative messages in case of errors (#231, #232). 
 
 ### BUG FIXES
 

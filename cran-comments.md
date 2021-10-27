@@ -1,15 +1,12 @@
 ## Release summary
 
-- We added a new function and adjusted the existing code for sf v1.0.2. The details are listed in the NEWS file. 
+- We decided two import two new packages (httr and jsonlite) and changed the approach for downloading resources from the web. We also fixed some bugs. Details are listed in the NEWS file.  
 
 ## Test environments
 
-- local Windows install, R 4.0.5
-- local Ubuntu install, R 3.6.3
-- Github Actions windows-latest (r-release)
-- Github Actions macOS-latest (r-release)
-- Github Actions ubuntu-20.04 (r-release)
-- Github Actions ubuntu-20.04 (r-devel)
+- local Windows, R 4.0.5
+- Github Actions: ubuntu-latest (r-release)
+- debian-gcc-devel, fedora-gcc-devel, and macos-highsierra-release-cran via rhub
 
 ## R CMD check results
 
