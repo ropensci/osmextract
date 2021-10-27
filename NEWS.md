@@ -9,6 +9,7 @@
 ### BUG FIXES
 
 * Fixed a bug in `oe_vectortranslate()` that occurred when reading `multilinestrings` or `other_relations` layers with one or more extra tags (#229). 
+* Fixed a bug in `oe_get()`/`oe_read()` that could return a warning message when reading an existing GPKG file with a `query` argument. 
 
 ### MINOR CHANGES
 

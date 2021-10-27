@@ -192,6 +192,34 @@ oe_read = function(
       return(file_path)
     }
 
+    # Starting from sf 1.0.2, sf::st_read raises a warning message when both
+    # layer and query arguments are set (while it raises a warning in sf < 1.0.2
+    # when there are multiple layers and the layer argument is not set). See
+    # also https://github.com/r-spatial/sf/issues/1444
+    if (utils::packageVersion("sf") <= "1.0.1") {
+      return(sf::st_read(
+        dsn = gpkg_file_path,
+        layer = layer,
+        quiet = quiet,
+        ...
+      ))
+    } else {
+      if ("query" %in% names(list(...))) {
+        return(sf::st_read(
+          dsn = gpkg_file_path,
+          quiet = quiet,
+          ...
+        ))
+      } else {
+        return(sf::st_read(
+          dsn = gpkg_file_path,
+          layer = layer,
+          quiet = quiet,
+          ...
+        ))
+      }
+    }
+
     return(sf::st_read(file_path, layer, quiet = quiet, ...))
   }
 
