@@ -176,8 +176,7 @@ my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm
 # Please note that if you read from a URL which is not linked to one of the
 # supported providers, you need to specify the provider parameter:
 \dontrun{
-oe_read(my_url, provider = "test", quiet = FALSE)
-}
+oe_read(my_url, provider = "test", quiet = FALSE)}
 
 # Remove .pbf and .gpkg files in tempdir
 # (since they may interact with other examples)

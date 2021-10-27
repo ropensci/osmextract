@@ -37,25 +37,26 @@
 #'
 #' @examples
 #' its_match = oe_match("ITS Leeds", quiet = TRUE)
+#'
 #' \dontrun{
-#'   oe_download(
-#'     file_url = its_match$url,
-#'     file_size = its_match$file_size,
-#'     provider = "test",
-#'     download_directory = tempdir()
-#'   )
-#'   iow_url = oe_match("Isle of Wight")
-#'   oe_download(
-#'     file_url = iow_url$url,
-#'     file_size = iow_url$file_size,
-#'     download_directory = tempdir()
-#'   )
-#'   Sucre_url = oe_match("Sucre", provider = "bbbike")
-#'   oe_download(
-#'     file_url = Sucre_url$url,
-#'     file_size = Sucre_url$file_size,
-#'     download_directory = tempdir()
-#'   )}
+#' oe_download(
+#'   file_url = its_match$url,
+#'   file_size = its_match$file_size,
+#'   provider = "test",
+#'   download_directory = tempdir()
+#' )
+#' iow_url = oe_match("Isle of Wight")
+#' oe_download(
+#'   file_url = iow_url$url,
+#'   file_size = iow_url$file_size,
+#'   download_directory = tempdir()
+#' )
+#' Sucre_url = oe_match("Sucre", provider = "bbbike")
+#' oe_download(
+#'   file_url = Sucre_url$url,
+#'   file_size = Sucre_url$file_size,
+#'   download_directory = tempdir()
+#' )}
 oe_download = function(
   file_url,
   provider = NULL,

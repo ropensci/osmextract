@@ -53,10 +53,10 @@
 #' # Set up a fake directory with .pbf and .gpkg files
 #' fake_dir = tempdir()
 #' # Fill the directory
-#' oe_get("andorra", download_directory = fake_dir, download_only = TRUE)
+#' oe_get("Andorra", download_directory = fake_dir, download_only = TRUE)
 #' # Check the directory
 #' list.files(fake_dir, pattern = "gpkg|pbf")
-#' # Update all .pbf files and delete .gpkg files
+#' # Update all .pbf files and delete all .gpkg files
 #' oe_update(fake_dir)
 #' list.files(fake_dir, pattern = "gpkg|pbf")}
 oe_update = function(

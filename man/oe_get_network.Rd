@@ -90,8 +90,13 @@ modifications to the current filters or propose new values for alternative
 modes of transport.
 }
 \examples{
+\dontshow{file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"),
+  to = file.path(tempdir(), "test_its-example.osm.pbf"),
+  overwrite = TRUE
+)}
 # default value returned by OSM
-its = oe_get("ITS Leeds", quiet = TRUE)
+its = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 plot(its["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 # walking mode of transport
 its_walking = oe_get_network("ITS Leeds", mode = "walking", quiet = TRUE)
@@ -99,6 +104,10 @@ plot(its_walking["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 # driving mode of transport
 its_driving = oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
 plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
+
+# Remove .pbf and .gpkg files in tempdir
+# (since they may interact with other examples)
+file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 }
 \seealso{
 \code{\link[=oe_get]{oe_get()}}

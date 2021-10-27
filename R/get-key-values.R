@@ -60,8 +60,8 @@
 #' @export
 #'
 #' @examples
-#' # Load an OSM extract
-#' its_path = oe_get("ITS Leeds", download_only = TRUE)
+#' # Point to an existing OSM extract
+#' its_path = system.file("its-example.osm.pbf", package = "osmextract")
 #'
 #' # Get keys
 #' oe_get_keys("ITS Leeds")
@@ -76,8 +76,9 @@
 #' oe_get_keys("ITS Leeds", values = TRUE)["surface"]
 #'
 #' # Get keys from an existing sf object
+#' \dontrun{
 #' its = oe_get("ITS Leeds")
-#' oe_get_keys(its, values = TRUE)
+#' oe_get_keys(its, values = TRUE)}
 #'
 #' # Get keys from a character vector pointing to a file (might be faster than
 #' # reading the complete file)
@@ -85,16 +86,13 @@
 #'
 #' # Add a key to an existing .gpkg file without repeating the
 #' # vectortranslate operations
+#' \dontrun{
 #' colnames(its)
 #' colnames(oe_read(
 #'   its_path,
 #'   query = "SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
 #'   quiet = TRUE
-#' ))
-#'
-#' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+#' ))}
 oe_get_keys = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   UseMethod("oe_get_keys")
 }

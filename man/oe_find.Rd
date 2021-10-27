@@ -67,17 +67,24 @@ parameter is equal to \code{FALSE} (default value), then the function stops with
 an error.
 }
 \examples{
+\dontshow{file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"),
+  to = file.path(tempdir(), "test_its-example.osm.pbf"),
+  overwrite = TRUE
+)}
+res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
+oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
+
 \dontrun{
-  res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
-  oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
-  oe_find("Isle of Wight", download_directory = tempdir())
-  oe_find("Malta", download_if_missing = TRUE, download_directory = tempdir())
-  oe_find(
-    "Leeds",
-    provider = "bbbike",
-    download_if_missing = TRUE,
-    download_directory = tempdir()
-  )}
+oe_find("Isle of Wight", download_directory = tempdir())
+oe_find("Malta", download_if_missing = TRUE, download_directory = tempdir())
+oe_find(
+  "Leeds",
+  provider = "bbbike",
+  download_if_missing = TRUE,
+  download_directory = tempdir()
+)}
+
 # Remove .pbf and .gpkg files in tempdir
 # (since they may interact with other examples)
 file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
