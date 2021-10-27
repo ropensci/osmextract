@@ -30,7 +30,8 @@
 #'   corresponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
-#' \dontshow{file.copy(
+#' \dontshow{
+#' res = file.copy(
 #'   from = system.file("its-example.osm.pbf", package = "osmextract"),
 #'   to = file.path(tempdir(), "test_its-example.osm.pbf"),
 #'   overwrite = TRUE

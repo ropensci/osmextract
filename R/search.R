@@ -1,6 +1,6 @@
 #' Search for a place and return an sf data frame locating it
 #'
-#' This (at the moment internal and experimental) function provides a simple
+#' This (only internal and experimental) function provides a simple
 #' interface to the [nominatim](https://nominatim.openstreetmap.org) service for
 #' finding the geographical location of place names.
 #'

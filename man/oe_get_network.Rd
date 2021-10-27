@@ -90,10 +90,11 @@ modifications to the current filters or propose new values for alternative
 modes of transport.
 }
 \examples{
-\dontshow{file.copy(
-  from = system.file("its-example.osm.pbf", package = "osmextract"),
-  to = file.path(tempdir(), "test_its-example.osm.pbf"),
-  overwrite = TRUE
+\dontshow{
+  its = file.copy(
+    from = system.file("its-example.osm.pbf", package = "osmextract"),
+    to = file.path(tempdir(), "test_its-example.osm.pbf"),
+    overwrite = TRUE
 )}
 # default value returned by OSM
 its = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())

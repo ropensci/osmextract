@@ -324,7 +324,7 @@ file.copy(
 ```
 
 ```{r, eval = 2}
-its_pbf = oe_download(its_details$url, provider = "test", quiet = TRUE) # skipped
+its_pbf = oe_download(its_details$url, provider = "test", quiet = TRUE) # skipped online, run it locally
 list.files(oe_download_directory(), pattern = "pbf|gpkg")
 ```
 
