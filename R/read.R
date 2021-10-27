@@ -198,7 +198,7 @@ oe_read = function(
     # also https://github.com/r-spatial/sf/issues/1444
     if (utils::packageVersion("sf") <= "1.0.1") {
       return(sf::st_read(
-        dsn = gpkg_file_path,
+        dsn = file_path,
         layer = layer,
         quiet = quiet,
         ...
@@ -206,13 +206,13 @@ oe_read = function(
     } else {
       if ("query" %in% names(list(...))) {
         return(sf::st_read(
-          dsn = gpkg_file_path,
+          dsn = file_path,
           quiet = quiet,
           ...
         ))
       } else {
         return(sf::st_read(
-          dsn = gpkg_file_path,
+          dsn = file_path,
           layer = layer,
           quiet = quiet,
           ...
