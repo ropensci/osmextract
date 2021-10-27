@@ -117,12 +117,22 @@
 #' # First we need to match an input zone with a .osm.pbf file
 #' its_match = oe_match("ITS Leeds")
 #'
-#' # The we can download the .osm.pbf files
+#' # The we can download the .osm.pbf files. For simplicity, we skip this step
+#' # and copy the relevant .osm.pbf file to tempdir(). You should run the
+#' # oe_download() code when testing the examples locally.
+#' \dontrun{
 #' its_pbf = oe_download(
 #'   file_url = its_match$url,
 #'   file_size = its_match$file_size,
 #'   download_directory = tempdir(),
 #'   provider = "test"
+#' )}
+#'
+#' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+#' file.copy(
+#'   from = system.file("its-example.osm.pbf", package = "osmextract"),
+#'   to = its_pbf,
+#'   overwrite = TRUE
 #' )
 #'
 #' # Check that the file was downloaded

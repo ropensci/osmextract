@@ -30,10 +30,9 @@
 #'   corresponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
-#' res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
-#' oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
-#'
 #' \dontrun{
+#'   res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
+#'   oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
 #'   oe_find("Isle of Wight", download_directory = tempdir())
 #'   oe_find("Malta", download_if_missing = TRUE, download_directory = tempdir())
 #'   oe_find(

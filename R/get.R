@@ -114,7 +114,17 @@
 #'   and [`oe_read()`].
 #'
 #' @examples
-#' # Match, download and convert OSM extracts associated to a simple test.
+#' # Copy ITS file to tempdir so that the examples do not require internet
+#' # connection. You can skip the next few lines when running the examples
+#' # locally.
+#' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+#' file.copy(
+#'   from = system.file("its-example.osm.pbf", package = "osmextract"),
+#'   to = its_pbf,
+#'   overwrite = TRUE
+#' )
+#'
+#' # Match, download (not really) and convert OSM extracts associated to a simple test.
 #' its = oe_get("ITS Leeds", quiet = FALSE, download_directory = tempdir())
 #' class(its)
 #' unique(sf::st_geometry_type(its))

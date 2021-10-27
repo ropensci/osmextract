@@ -37,13 +37,13 @@
 #'
 #' @examples
 #' its_match = oe_match("ITS Leeds", quiet = TRUE)
-#' oe_download(
-#'   file_url = its_match$url,
-#'   file_size = its_match$file_size,
-#'   provider = "test",
-#'   download_directory = tempdir()
-#' )
 #' \dontrun{
+#'   oe_download(
+#'     file_url = its_match$url,
+#'     file_size = its_match$file_size,
+#'     provider = "test",
+#'     download_directory = tempdir()
+#'   )
 #'   iow_url = oe_match("Isle of Wight")
 #'   oe_download(
 #'     file_url = iow_url$url,
@@ -56,9 +56,6 @@
 #'     file_size = Sucre_url$file_size,
 #'     download_directory = tempdir()
 #'   )}
-#' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 oe_download = function(
   file_url,
   provider = NULL,

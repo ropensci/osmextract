@@ -314,8 +314,17 @@ Moreover, GeoPackage files have database capabilities like random access and que
 Let's start with an example.
 First, we download the `.pbf` file associated with ITS example: 
 
-```{r}
-its_pbf = oe_download(its_details$url, provider = "test")
+```{r, include=FALSE}
+its_pbf = file.path(oe_download_directory(), "test_its-example.osm.pbf")
+file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"), 
+  to = its_pbf, 
+  overwrite = TRUE
+)
+```
+
+```{r, eval = 2}
+its_pbf = oe_download(its_details$url, provider = "test", quiet = TRUE) # skipped
 list.files(oe_download_directory(), pattern = "pbf|gpkg")
 ```
 
@@ -448,11 +457,11 @@ oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = FALSE)
 
 We can see that the output data includes nine fields (i.e. the default tags), while the previous example had 11 fields (i.e. the default tags + `bicycle` and `foot` tags, that were added to the `.gpkg` file a few chunks above). 
 
-We can also read an object starting from a URL: 
+We can also read an object starting from a URL (not evaluated here): 
 
-```{r}
+```{r, eval = FALSE}
 my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
-oe_read(my_url, provider = "test", quiet = FALSE, force_download = TRUE, force_vectortranslate = TRUE)
+oe_read(my_url, provider = "test", quiet = TRUE, force_download = TRUE, force_vectortranslate = TRUE)
 ```
 
 Please note that if you are reading from a URL which is not linked with any of the supported providers, you need to specify the `provider` parameter. 
@@ -619,8 +628,8 @@ my_vectortranslate = c(
 system.time({
   portugal1 = oe_get("Portugal", vectortranslate_options = my_vectortranslate)
 })
-  #  user  system elapsed 
-  # 17.39    9.93   25.53 
+#  user  system elapsed 
+# 17.39    9.93   25.53 
 ```
 
 while the classical approach (also not run in the vignette) is slower and provides identical results: 
@@ -632,8 +641,8 @@ system.time({
     dplyr::select(osm_id, highway) %>% 
     dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary'))
 })
- #   user  system elapsed 
- # 131.05   28.70  177.03
+#   user  system elapsed 
+# 131.05   28.70  177.03
 
 nrow(portugal1) == nrow(portugal2)
 #> TRUE
