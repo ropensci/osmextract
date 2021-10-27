@@ -253,72 +253,26 @@ Check the introductory vignette and see examples.</p>
     <div class='dont-index'><p><code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load an OSM extract</span>
-<span class='va'>its_path</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; Downloading: 150 B     Downloading: 150 B     Downloading: 150 B       |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===================================                                   |  49%  |                                                                              |==============================================                        |  66%  |                                                                              |==========================================================            |  83%  |                                                                              |====================================================================  |  97%  |                                                                              |======================================================================| 100%</div><div class='output co'>#&gt; <span class='message'>File downloaded!</span></div><div class='output co'>#&gt; <span class='message'>Start with the vectortranslate operations on the input file!</span></div><div class='output co'>#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</div><div class='output co'>#&gt; <span class='message'>Finished the vectortranslate operations on the input file!</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># Point to an existing OSM extract</span>
+<span class='va'>its_path</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"its-example.osm.pbf"</span>, package <span class='op'>=</span> <span class='st'>"osmextract"</span><span class='op'>)</span>
+
 <span class='co'># Get keys</span>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "surface"             "lanes"               "bicycle"            
-#&gt;  [4] "lit"                 "access"              "oneway"             
-#&gt;  [7] "maxspeed"            "ref"                 "foot"               
-#&gt; [10] "natural"             "lanes:backward"      "lanes:forward"      
-#&gt; [13] "source:name"         "step_count"          "lanes:psv:backward" 
-#&gt; [16] "alt_name"            "layer"               "motor_vehicle"      
-#&gt; [19] "tunnel"              "bridge"              "covered"            
-#&gt; [22] "incline"             "lanes:psv"           "service"            
-#&gt; [25] "turn:lanes"          "turn:lanes:forward"  "frequency"          
-#&gt; [28] "indoor"              "lcn"                 "level"              
-#&gt; [31] "maxheight"           "operator"            "power"              
-#&gt; [34] "source:geometry"     "substation"          "turn:lanes:backward"
-#&gt; [37] "voltage"             "website"            </div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: The input file does not exist and can't be matched with any existing file. You can download it using oe_get(zone, download_only = TRUE).</span></div><div class='input'>
 <span class='co'># Get keys and values</span>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: 
-#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
-#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}
-#&gt; bicycle (92% NAs) = {#yes = 10; #designated = 5}
-#&gt; lit (92% NAs) = {#yes = 15}
-#&gt; access (93% NAs) = {#permissive = 12; #yes = 2}
-#&gt; oneway (93% NAs) = {#yes = 13}
-#&gt; maxspeed (94% NAs) = {#30 mph = 12}
-#&gt; ref (95% NAs) = {#A660 = 9; #4184 = 1}
-#&gt; foot (95% NAs) = {#yes = 5; #designated = 4}
-#&gt; natural (96% NAs) = {#tree_row = 7}
-#&gt; [Truncated output...]</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: The input file does not exist and can't be matched with any existing file. You can download it using oe_get(zone, download_only = TRUE).</span></div><div class='input'>
 <span class='co'># Subset some keys</span>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span>, which_keys <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"surface"</span>, <span class='st'>"lanes"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Found 2 unique keys, printed in ascending order of % NA values. 
-#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
-#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: The input file does not exist and can't be matched with any existing file. You can download it using oe_get(zone, download_only = TRUE).</span></div><div class='input'>
 <span class='co'># Print all (non-NA) values for a given set of keys</span>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>[</span><span class='st'>"surface"</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; $surface
-#&gt;  [1] "asphalt"       "asphalt"       "asphalt"       "asphalt"      
-#&gt;  [5] "asphalt"       "asphalt"       "paved"         "cobblestone"  
-#&gt;  [9] "asphalt"       "asphalt"       "paved"         "paved"        
-#&gt; [13] "paving_stones" "asphalt"       "asphalt"       "asphalt"      
-#&gt; [17] "asphalt"      
-#&gt; </div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error: The input file does not exist and can't be matched with any existing file. You can download it using oe_get(zone, download_only = TRUE).</span></div><div class='input'>
 <span class='co'># Get keys from an existing sf object</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>its</span> <span class='op'>=</span> <span class='fu'><a href='oe_get.html'>oe_get</a></span><span class='op'>(</span><span class='st'>"ITS Leeds"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The input place was matched with: ITS Leeds</span></div><div class='output co'>#&gt; <span class='message'>The chosen file was already detected in the download directory. Skip downloading.</span></div><div class='output co'>#&gt; <span class='message'>The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></div><div class='output co'>#&gt; Reading layer `lines' from data source `/tmp/RtmpJWLTb0/test_its-example.gpkg' using driver `GPKG'
-#&gt; Simple feature collection with 189 features and 9 fields
-#&gt; Geometry type: LINESTRING
-#&gt; Dimension:     XY
-#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
-#&gt; Geodetic CRS:  WGS 84</div><div class='input'><span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: 
-#&gt; surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}
-#&gt; lanes (92% NAs) = {#2 = 9; #1 = 7}
-#&gt; bicycle (92% NAs) = {#yes = 10; #designated = 5}
-#&gt; lit (92% NAs) = {#yes = 15}
-#&gt; access (93% NAs) = {#permissive = 12; #yes = 2}
-#&gt; oneway (93% NAs) = {#yes = 13}
-#&gt; maxspeed (94% NAs) = {#30 mph = 12}
-#&gt; ref (95% NAs) = {#A660 = 9; #4184 = 1}
-#&gt; foot (95% NAs) = {#yes = 5; #designated = 4}
-#&gt; natural (96% NAs) = {#tree_row = 7}
-#&gt; [Truncated output...]</div><div class='input'>
+<span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>}</span>
+
 <span class='co'># Get keys from a character vector pointing to a file (might be faster than</span>
 <span class='co'># reading the complete file)</span>
 <span class='fu'>oe_get_keys</span><span class='op'>(</span><span class='va'>its_path</span>, values <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -336,20 +290,14 @@ Check the introductory vignette and see examples.</p>
 #&gt; [Truncated output...]</div><div class='input'>
 <span class='co'># Add a key to an existing .gpkg file without repeating the</span>
 <span class='co'># vectortranslate operations</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>its</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='fu'><a href='oe_read.html'>oe_read</a></span><span class='op'>(</span>
   <span class='va'>its_path</span>,
   query <span class='op'>=</span> <span class='st'>"SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"</span>,
   quiet <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: argument layer is ignored when query is specified</span></div><div class='output co'>#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#&gt;  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    
-#&gt; [11] "geometry"  </div><div class='input'>
-<span class='co'># Remove .pbf and .gpkg files in tempdir</span>
-<span class='co'># (since they may interact with other examples)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"(pbf|gpkg)"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE TRUE</div></pre>
+<span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
