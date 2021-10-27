@@ -442,7 +442,7 @@
 <p>You can always check the default <code>download_directory</code> used by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "/tmp/RtmpWJh0Ci"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpwS5lXg"</span></code></pre></div>
 <p>We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) <code>.pbf</code> files are expensive operations, that can be skipped if the functions detect that the requested extract was already downloaded and/or converted.</p>
 <p>More precisely, <code><a href="../reference/oe_download.html">oe_download()</a></code> runs several checks before actually downloading a new file, to avoid overloading the OSM providers. The first step is the definition of the path associated with the input <code>file_url</code>. The path is created by pasting together the <code>download_directory</code>, the name of the chosen provider (specified by <code>provider</code> argument or inferred from the input URL), and the <code><a href="https://rdrr.io/r/base/basename.html">basename()</a></code> of the URL. For example, if <code>file_url</code> is equal to <code>"https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and <code>download_directory = "/tmp/</code>, then the path is built as <code>/tmp/geofabrik_italy-latest.osm.pbf</code>. In the second step, the function checks if the new path/file already exists (using <code><a href="https://rdrr.io/r/base/files.html">file.exists()</a></code>) and, in that case, it returns the path, without downloading anything<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Otherwise, it downloads a new file (using <code><a href="https://rdrr.io/r/utils/download.file.html">download.file()</a></code> with <code>mode = "wb"</code>) and then it returns the path.</p>
 </div>
@@ -452,32 +452,10 @@
 <p>The <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function translates a <code>.pbf</code> file into <code>.gpkg</code> format<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. It takes in input a string representing the path to an existing <code>.pbf</code> file, and it returns the path to the newly generated <code>.gpkg</code> file. The <code>.gpkg</code> file is created in the same directory as the input <code>.pbf</code> file and with the same name. The conversion is performed using <a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr">ogr2ogr</a> through <code>vectortranslate</code> utility in <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html">sf::gdal_utils()</a></code>.</p>
 <p>We decided to adopt this approach following <a href="https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053">the suggestions</a> of the maintainers of GDAL. Moreover, GeoPackage files have database capabilities like random access and querying that are extremely important for OSM data (see below).</p>
 <p>Let’s start with an example. First, we download the <code>.pbf</code> file associated with ITS example:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>its_pbf =<span class="st"> </span><span class="kw">oe_download</span>(its_details<span class="op">$</span>url, <span class="dt">provider =</span> <span class="st">"test"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#&gt; </span></span>
-<span id="cb26-3"><a href="#cb26-3"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="st">  </span><span class="er">|</span><span class="st">                                                                                          </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%</span>
-<span id="cb26-5"><a href="#cb26-5"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="st">  </span><span class="er">|==========================================================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
-<span id="cb26-7"><a href="#cb26-7"></a><span class="co">#&gt; </span></span>
-<span id="cb26-8"><a href="#cb26-8"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-9"><a href="#cb26-9"></a><span class="st">  </span><span class="er">|</span><span class="st">                                                                                          </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%</span>
-<span id="cb26-10"><a href="#cb26-10"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-11"><a href="#cb26-11"></a><span class="st">  </span><span class="er">|==============</span><span class="st">                                                                            </span><span class="er">|</span><span class="st">  </span><span class="dv">16</span>%</span>
-<span id="cb26-12"><a href="#cb26-12"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-13"><a href="#cb26-13"></a><span class="st">  </span><span class="er">|=============================</span><span class="st">                                                             </span><span class="er">|</span><span class="st">  </span><span class="dv">33</span>%</span>
-<span id="cb26-14"><a href="#cb26-14"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-15"><a href="#cb26-15"></a><span class="st">  </span><span class="er">|============================================</span><span class="st">                                              </span><span class="er">|</span><span class="st">  </span><span class="dv">49</span>%</span>
-<span id="cb26-16"><a href="#cb26-16"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-17"><a href="#cb26-17"></a><span class="st">  </span><span class="er">|============================================================</span><span class="st">                              </span><span class="er">|</span><span class="st">  </span><span class="dv">66</span>%</span>
-<span id="cb26-18"><a href="#cb26-18"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-19"><a href="#cb26-19"></a><span class="st">  </span><span class="er">|===========================================================================</span><span class="st">               </span><span class="er">|</span><span class="st">  </span><span class="dv">83</span>%</span>
-<span id="cb26-20"><a href="#cb26-20"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-21"><a href="#cb26-21"></a><span class="st">  </span><span class="er">|====================================================================================</span><span class="st">      </span><span class="er">|</span><span class="st">  </span><span class="dv">93</span>%</span>
-<span id="cb26-22"><a href="#cb26-22"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb26-23"><a href="#cb26-23"></a><span class="st">  </span><span class="er">|==========================================================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
-<span id="cb26-24"><a href="#cb26-24"></a><span class="co">#&gt; File downloaded!</span></span>
-<span id="cb26-25"><a href="#cb26-25"></a><span class="kw">list.files</span>(<span class="kw">oe_download_directory</span>(), <span class="dt">pattern =</span> <span class="st">"pbf|gpkg"</span>)</span>
-<span id="cb26-26"><a href="#cb26-26"></a><span class="co">#&gt; [1] "test_its-example.osm.pbf"</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## its_pbf = oe_download(its_details$url, provider = "test", quiet = TRUE) # skipped</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "test_its-example.osm.pbf"</span></code></pre></div>
 <p>and then we convert it to <code>.gpkg</code> format:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span><span class="op">(</span><span class="va">its_pbf</span><span class="op">)</span>
@@ -605,7 +583,7 @@
 <p>So, for example, the following code can be used for reading-in the <code>its-gpkg</code> file:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -614,42 +592,17 @@
 <p>If the input <code>file_path</code> points to a <code>.osm.pbf</code> file, the vectortranslate operations can be skipped using the parameter <code>skip_vectortranslate</code>. In that case, <code><a href="../reference/oe_read.html">oe_read()</a></code> will ignore the conversion step.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.osm.pbf' using driver `OSM'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.osm.pbf' using driver `OSM'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
 <span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="co">#&gt; Geodetic CRS:  WGS 84</span></code></pre></div>
 <p>We can see that the output data includes nine fields (i.e. the default tags), while the previous example had 11 fields (i.e. the default tags + <code>bicycle</code> and <code>foot</code> tags, that were added to the <code>.gpkg</code> file a few chunks above).</p>
-<p>We can also read an object starting from a URL:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>my_url =<span class="st"> "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="kw">oe_read</span>(my_url, <span class="dt">provider =</span> <span class="st">"test"</span>, <span class="dt">quiet =</span> <span class="ot">FALSE</span>, <span class="dt">force_download =</span> <span class="ot">TRUE</span>, <span class="dt">force_vectortranslate =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb36-3"><a href="#cb36-3"></a><span class="co">#&gt; </span></span>
-<span id="cb36-4"><a href="#cb36-4"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-5"><a href="#cb36-5"></a><span class="st">  </span><span class="er">|</span><span class="st">                                                                                          </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%</span>
-<span id="cb36-6"><a href="#cb36-6"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-7"><a href="#cb36-7"></a><span class="st">  </span><span class="er">|==========================================================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
-<span id="cb36-8"><a href="#cb36-8"></a><span class="co">#&gt; </span></span>
-<span id="cb36-9"><a href="#cb36-9"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-10"><a href="#cb36-10"></a><span class="st">  </span><span class="er">|</span><span class="st">                                                                                          </span><span class="er">|</span><span class="st">   </span><span class="dv">0</span>%</span>
-<span id="cb36-11"><a href="#cb36-11"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-12"><a href="#cb36-12"></a><span class="st">  </span><span class="er">|=========</span><span class="st">                                                                                 </span><span class="er">|</span><span class="st">  </span><span class="dv">10</span>%</span>
-<span id="cb36-13"><a href="#cb36-13"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-14"><a href="#cb36-14"></a><span class="st">  </span><span class="er">|==========================================</span><span class="st">                                                </span><span class="er">|</span><span class="st">  </span><span class="dv">47</span>%</span>
-<span id="cb36-15"><a href="#cb36-15"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-16"><a href="#cb36-16"></a><span class="st">  </span><span class="er">|======================================================</span><span class="st">                                    </span><span class="er">|</span><span class="st">  </span><span class="dv">60</span>%</span>
-<span id="cb36-17"><a href="#cb36-17"></a>  <span class="op">|</span><span class="st">                                                                                                </span></span>
-<span id="cb36-18"><a href="#cb36-18"></a><span class="st">  </span><span class="er">|==========================================================================================|</span><span class="st"> </span><span class="dv">100</span>%</span>
-<span id="cb36-19"><a href="#cb36-19"></a><span class="co">#&gt; File downloaded!</span></span>
-<span id="cb36-20"><a href="#cb36-20"></a><span class="co">#&gt; Start with the vectortranslate operations on the input file!</span></span>
-<span id="cb36-21"><a href="#cb36-21"></a><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
-<span id="cb36-22"><a href="#cb36-22"></a><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span id="cb36-23"><a href="#cb36-23"></a><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span id="cb36-24"><a href="#cb36-24"></a><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
-<span id="cb36-25"><a href="#cb36-25"></a><span class="co">#&gt; Geometry type: LINESTRING</span></span>
-<span id="cb36-26"><a href="#cb36-26"></a><span class="co">#&gt; Dimension:     XY</span></span>
-<span id="cb36-27"><a href="#cb36-27"></a><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
-<span id="cb36-28"><a href="#cb36-28"></a><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
+<p>We can also read an object starting from a URL (not evaluated here):</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_url</span> <span class="op">=</span> <span class="st">"https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"</span>
+<span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">my_url</span>, provider <span class="op">=</span> <span class="st">"test"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, force_download <span class="op">=</span> <span class="cn">TRUE</span>, force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Please note that if you are reading from a URL which is not linked with any of the supported providers, you need to specify the <code>provider</code> parameter. The <code>test_its-example.osm.pbf</code> file already exists in the <code>download_directory</code>, but we forced the download and vectortranslate operations.</p>
 </div>
 <div id="oe_get-do-it-all-in-one-step" class="section level2">
@@ -661,15 +614,15 @@
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
-<span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
 <span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="co">#&gt; Geodetic CRS:  WGS 84</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">its_lines</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-38-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The function <code><a href="../reference/oe_get.html">oe_get()</a></code> is a wrapper around <code><a href="../reference/oe_match.html">oe_match()</a></code> and <code><a href="../reference/oe_read.html">oe_read()</a></code>, and it summarizes the algorithm that we use for importing OSM extracts:</p>
 <ol style="list-style-type: decimal">
 <li>Match the input <code>place</code> with the URL of a <code>.pbf</code> file through <code><a href="../reference/oe_match.html">oe_match()</a></code>;</li>
@@ -732,7 +685,7 @@
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -746,7 +699,7 @@
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -762,7 +715,7 @@
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -783,7 +736,7 @@
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -808,7 +761,7 @@
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
@@ -831,8 +784,8 @@
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
   <span class="va">portugal1</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"Portugal"</span>, vectortranslate_options <span class="op">=</span> <span class="va">my_vectortranslate</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
-  <span class="co">#  user  system elapsed </span>
-  <span class="co"># 17.39    9.93   25.53 </span></code></pre></div>
+<span class="co">#  user  system elapsed </span>
+<span class="co"># 17.39    9.93   25.53 </span></code></pre></div>
 <p>while the classical approach (also not run in the vignette) is slower and provides identical results:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span>
@@ -841,8 +794,8 @@
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">select</span><span class="op">(</span><span class="va">osm_id</span>, <span class="va">highway</span><span class="op">)</span> <span class="op">%&gt;%</span> 
     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">filter</span><span class="op">(</span><span class="va">highway</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'primary'</span>, <span class="st">'secondary'</span>, <span class="st">'tertiary'</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span>
- <span class="co">#   user  system elapsed </span>
- <span class="co"># 131.05   28.70  177.03</span>
+<span class="co">#   user  system elapsed </span>
+<span class="co"># 131.05   28.70  177.03</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">portugal1</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">portugal2</span><span class="op">)</span>
 <span class="co">#&gt; TRUE</span></code></pre></div>
@@ -857,14 +810,14 @@
 <span class="co">#&gt; Start with the vectortranslate operations on the input file!</span>
 <span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="co">#&gt; Finished the vectortranslate operations on the input file!</span>
-<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 5 features and 9 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
 <span class="co">#&gt; Bounding box:  xmin: -1.559731 ymin: 53.80676 xmax: -1.556762 ymax: 53.80945</span>
 <span class="co">#&gt; Geodetic CRS:  WGS 84</span></code></pre></div>
 <p>This is the output, where the bounding box was highlighted in black, the intersecting streets in red and all the other roads in grey.</p>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-53-1.png" width="85%" style="display: block; margin: auto;"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-54-1.png" width="85%" style="display: block; margin: auto;"></p>
 <p>Finally, the argument <code>boundary_type</code> can be used to select among different types of spatial filters. For the moment we support only two types of filters: <code>"spat"</code> (default value) and <code>"clipsrc"</code>. The former option implies that the spatial filter selects all features that intersect a given area (as shown above), while the latter option implies that the features are also cropped. In both cases, the polygonal boundary must be specified as an <code>sf</code> or <code>sfc</code> object.</p>
 <p>The following example shows how to download from Geofabrik servers the <code>.pbf</code> extract associated with Malta and apply a spatial filter while performing vectortranslate operations. We select and clip only the road segments that intersect a 5 kilometres circular buffer centred in La Valletta, the capital.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
@@ -962,7 +915,7 @@
 <span class="co">#&gt; The input place was matched with: ITS Leeds</span>
 <span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines' from data source `/tmp/RtmpWJh0Ci/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines' from data source `/tmp/RtmpwS5lXg/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span>
 <span class="co">#&gt; Geometry type: LINESTRING</span>
 <span class="co">#&gt; Dimension:     XY</span>
