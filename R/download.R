@@ -126,7 +126,7 @@ oe_download = function(
     }
 
     if (continue != 1L) {
-      stop("Aborted by user.")
+      stop("Aborted by user.", call. = FALSE)
     }
 
     resp = httr::GET(

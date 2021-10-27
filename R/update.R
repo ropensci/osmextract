@@ -130,7 +130,7 @@ oe_update = function(
       )
 
       if (continue != 1L) {
-        stop("Aborted by user.")
+        stop("Aborted by user.", call. = FALSE)
       }
     }
 
