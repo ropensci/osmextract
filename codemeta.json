@@ -6,11 +6,11 @@
   "@type": "SoftwareSourceCode",
   "identifier": "osmextract",
   "description": "Match, download, convert and import Open Street Map data extracts \n    obtained from several providers. ",
-  "name": "osmextract: Download and Read OpenStreetMap Data Extracts",
+  "name": "osmextract: Download and Import Open Street Map Data Extracts",
   "codeRepository": "https://github.com/ropensci/osmextract",
   "issueTracker": "https://github.com/ropensci/osmextract/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -131,11 +131,35 @@
       "@type": "SoftwareApplication",
       "identifier": "tools",
       "name": "tools"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "httr",
+      "name": "httr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=httr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "jsonlite",
+      "name": "jsonlite",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jsonlite"
     }
   ],
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
-  "fileSize": "3326.71KB",
-  "contIntegration": ["https://github.com/ropensci/osmextract/actions", "https://codecov.io/gh/ropensci/osmextract?branch=master"],
+  "fileSize": "3391.207KB",
+  "contIntegration": ["https://github.com/ropensci/osmextract/actions", "https://app.codecov.io/gh/ropensci/osmextract?branch=master"],
   "review": {
     "@type": "Review",
     "url": "https://github.com/ropensci/software-review/issues/395",
