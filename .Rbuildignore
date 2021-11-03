@@ -15,3 +15,4 @@ notes.R
 vignettes/_useR2021.rmd
 docs/
 ^\.lintr$
+my-covr.R
