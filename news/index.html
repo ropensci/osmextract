@@ -144,6 +144,13 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#osmextract-development-version" class="anchor"></a>osmextract (development version)<small> Unreleased </small>
 </h1>
+<div id="minor-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>MINOR CHANGES</h3>
+<ul>
+<li>We can specify the <code>boundary</code> argument using <code>bbox</code> objects. The <code>bbox</code> object is converted to <code>sfc</code> object with <code><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html">sf::st_as_sfc</a></code> and preserves the same CRS.</li>
+</ul>
+</div>
 </div>
     <div id="osmextract-040" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.0">
@@ -166,9 +173,9 @@
 <li>Fixed a bug in <code><a href="../reference/oe_get.html">oe_get()</a></code>/<code><a href="../reference/oe_read.html">oe_read()</a></code> that could return a warning message when reading an existing GPKG file with a <code>query</code> argument.</li>
 </ul>
 </div>
-<div id="minor-changes" class="section level3">
+<div id="minor-changes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>MINOR CHANGES</h3>
+<a href="#minor-changes-1" class="anchor"></a>MINOR CHANGES</h3>
 <ul>
 <li>The duplicated fields in <code>extra_tags</code> are now removed before modifying the <code>osmconf.ini</code> file. Duplicated tags means something like <code>extra_tags = c("A", "A")</code> or even fields that are included by default (i.e. <code>extra_tags = "highway"</code> for the <code>lines</code> layer). See discussion in <a href='https://github.com/ropensci/osmextract/issues/229'>#229</a>.</li>
 </ul>
@@ -185,9 +192,9 @@
 <li>Added a new (but still experimental) function named <code><a href="../reference/oe_get_network.html">oe_get_network()</a></code> to import a road network used by a specific mode of transport. For the moment, we support the following modes of transport: cycling (default), walking, and driving. Check <code><a href="../reference/oe_get_network.html">?oe_get_network</a></code> for more details and examples (<a href='https://github.com/ropensci/osmextract/issues/218'>#218</a>).</li>
 </ul>
 </div>
-<div id="minor-changes-1" class="section level3">
+<div id="minor-changes-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>MINOR CHANGES</h3>
+<a href="#minor-changes-2" class="anchor"></a>MINOR CHANGES</h3>
 <ul>
 <li>The <code>layer</code> argument is now converted to lower case before checking if the required layer is admissible.</li>
 <li>Adjusted the code behind <code><a href="../reference/oe_get.html">oe_get()</a></code> and <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> for <code>sf</code> v1.0.2.</li>
@@ -215,7 +222,7 @@
 <li>The <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> function can be used to extract the values associated with all or some keys. We also defined an ad-hoc printing method and fixed several bugs. The examples were improved. Moreover, the function tries to match an input <code>zone</code> with one of the OSM extracts previously downloaded (<a href='https://github.com/ropensci/osmextract/issues/201'>#201</a> and <a href='https://github.com/ropensci/osmextract/issues/196'>#196</a>).</li>
 <li>If the parameter <code>place</code> represents an <code>sf</code>/<code>sfc</code>/<code>bbox</code> object with missing CRS, then <code><a href="../reference/oe_match.html">oe_match()</a></code> raises a warning message and sets <code>CRS = 4326</code>. This has relevant consequences on other functions (like <code><a href="../reference/oe_get.html">oe_get()</a></code>) that wrap <code><a href="../reference/oe_match.html">oe_match()</a></code>.</li>
 <li>Starting from <code>sf</code> &gt; 0.9.8, the function <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> stops with an error when there is a problem in the argument <code>vectortranslate_options</code> and <code>quiet = FALSE</code> (instead of raising a warning or crashing the <code>R</code> session). See <a href="https://github.com/r-spatial/sf/issues/1680">here</a> for more details.</li>
-<li>The options <code><a href="https://rdrr.io/r/base/c.html">c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco", "GEOMETRY_NAME=geometry", layer)</a></code> are always appended at the end of <code>vectortranslate_options</code> argument unless the user explicitly sets different default parameters for the arguments <code>-f</code>, <code>-oo</code> and <code>-lco</code> (<a href='https://github.com/ropensci/osmextract/issues/200'>#200</a>). We believe those are sensible defaults and can help users creating less verbose specifications for <code>ogr2ogr</code> utility.</li>
+<li>The options <code>c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco", "GEOMETRY_NAME=geometry", layer)</code> are always appended at the end of <code>vectortranslate_options</code> argument unless the user explicitly sets different default parameters for the arguments <code>-f</code>, <code>-oo</code> and <code>-lco</code> (<a href='https://github.com/ropensci/osmextract/issues/200'>#200</a>). We believe those are sensible defaults and can help users creating less verbose specifications for <code>ogr2ogr</code> utility.</li>
 <li>We create two new arguments in <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> (therefore also in <code><a href="../reference/oe_get.html">oe_get()</a></code> and <code><a href="../reference/oe_read.html">oe_read()</a></code>) named <code>boundary</code> and <code>boundary_type</code>. They can be used to create an ad-hoc spatial filter during the vectortranslate operations (and create even less verbose specifications in <code>vectortranslate_options</code> argument). See docs and introductory vignette for more details.</li>
 <li>The argument <code>provider</code> was removed from <code><a href="../reference/oe_match_pattern.html">oe_match_pattern()</a></code> since the function automatically checks all available providers (<a href='https://github.com/ropensci/osmextract/issues/208'>#208</a>).</li>
 </ul>
