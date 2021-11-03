@@ -519,12 +519,14 @@ process_boundary = function(
     return(vectortranslate_options)
   }
 
-
-
   # Match the boundary type
   boundary_type = match.arg(boundary_type)
 
-  # Extract the geometry (or just return the geometry if boundary is a sfc)
+  # Extract/convert the geometry (or just return the geometry if boundary is a
+  # sfc)
+  if (inherits(boundary, "bbox")) {
+    boundary = sf::st_as_sfc(boundary)
+  }
   boundary = sf::st_geometry(boundary)
 
   # Check the number of geometries

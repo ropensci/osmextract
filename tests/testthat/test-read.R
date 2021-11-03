@@ -180,6 +180,11 @@ test_that("boundary and boundary_type arguments from oe_vectortranslate works", 
   expect_lte(nrow(its_spat), nrow(its))
   expect_lte(nrow(its_clipsrc), nrow(its_spat))
 
+  # Spatial filters work with bbox objects
+  its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
+  its_spat_bbox = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700) %>% sf::st_bbox(), quiet = TRUE)
+  expect_gte(nrow(its_spat_bbox), nrow(its_spat))
+
   # Can combine with other vectortranslate arguments
   its_clipsrc_small = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc", vectortranslate_options = c("-where", "highway = 'footway'"))
   expect_lte(nrow(its_clipsrc_small), nrow(its_spat))
@@ -209,3 +214,6 @@ test_that("boundary and boundary_type arguments from oe_vectortranslate works", 
 
   file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
+
+# Clean tempdir
+file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
