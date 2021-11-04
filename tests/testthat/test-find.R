@@ -1,9 +1,10 @@
+# Fill the tempdir without downloading a new file
+file.copy(
+  system.file("its-example.osm.pbf", package = "osmextract"),
+  to = file.path(tempdir(), "its-example.osm.pbf")
+)
+
 test_that("oe_find: simplest example works", {
-  # Fill the tempdir without downloading a new file
-  file.copy(
-    system.file("its-example.osm.pbf", package = "osmextract"),
-    to = file.path(tempdir(), "its-example.osm.pbf")
-  )
   oe_vectortranslate(
     file_path = file.path(tempdir(), "its-example.osm.pbf"),
     quiet = TRUE
@@ -17,10 +18,10 @@ test_that("oe_find: simplest example works", {
   )
   expect_type(its_leeds_find, "character")
   expect_length(its_leeds_find, 2)
-
-  # Clean tempdir
-  file.remove(its_leeds_find)
 })
+
+# Clean tempdir
+file.remove(list.files(tempdir(), "(pbf|gpkg)$", full.names = TRUE))
 
 test_that("download_if_missing in oe_find works", {
   skip_on_cran()
