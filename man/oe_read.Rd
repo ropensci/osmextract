@@ -89,26 +89,26 @@ Ignored when \code{osmconf_ini} is not \code{NULL}.}
 
 \item{force_vectortranslate}{Boolean. Force the original \code{.pbf} file to be
 translated into a \code{.gpkg} file, even if a \code{.gpkg} with the same name
-already exists? \code{FALSE} by default. If tags in \code{extra_tags} match data
-in previously translated \code{.gpkg} files no translation occurs
-(see \href{https://github.com/ropensci/osmextract/issues/173}{#173} for details).
+already exists? \code{FALSE} by default. If tags in \code{extra_tags} match data in
+previously translated \code{.gpkg} files no translation occurs (see
+\href{https://github.com/ropensci/osmextract/issues/173}{#173} for details).
 Check the introductory vignette and the help page of
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{never_skip_vectortranslate}{Boolean. This is used in case the user
-passed its own \code{.ini} file or vectortranslate options (since, in those case,
-it's too difficult to determine if an existing \code{.gpkg} file was generated
-following the same options.)}
+passed its own \code{.ini} file or vectortranslate options (since, in those
+case, it's too difficult to determine if an existing \code{.gpkg} file was
+generated following the same options.)}
 
-\item{boundary}{An \code{sf} or \code{sfc} object that will be used to create a spatial
-filter during the vectortranslate operations. The type of filter can be
-chosen using the argument \code{boundary_type}.}
+\item{boundary}{An \code{sf}/\code{sfc}/\code{bbox} object that will be used to create a
+spatial filter during the vectortranslate operations. The type of filter
+can be chosen using the argument \code{boundary_type}.}
 
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that
-intersect a given area, while \code{clipsrc} also clips the geometries. See the
-examples and check \href{https://gdal.org/programs/ogr2ogr.html}{here} for more
-details.}
+intersect a given area, while \code{clipsrc} also clips the geometries. Check
+the examples and also \href{https://gdal.org/programs/ogr2ogr.html}{here} for
+more details.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version

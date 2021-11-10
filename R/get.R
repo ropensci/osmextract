@@ -67,31 +67,31 @@
 #'   Ignored when `osmconf_ini` is not `NULL`.
 #' @param force_vectortranslate Boolean. Force the original `.pbf` file to be
 #'   translated into a `.gpkg` file, even if a `.gpkg` with the same name
-#'   already exists? `FALSE` by default. If tags in `extra_tags` match data
-#'   in previously translated `.gpkg` files no translation occurs
-#'   (see [#173](https://github.com/ropensci/osmextract/issues/173) for details).
+#'   already exists? `FALSE` by default. If tags in `extra_tags` match data in
+#'   previously translated `.gpkg` files no translation occurs (see
+#'   [#173](https://github.com/ropensci/osmextract/issues/173) for details).
 #'   Check the introductory vignette and the help page of
 #'   [oe_vectortranslate()].
 #' @param skip_vectortranslate Boolean. If `TRUE`, then the function skips all
 #'   vectortranslate operations and it reads (or simply returns the path) of the
 #'   `.osm.pbf` file. `FALSE` by default.
 #' @param never_skip_vectortranslate Boolean. This is used in case the user
-#'   passed its own `.ini` file or vectortranslate options (since, in those case,
-#'   it's too difficult to determine if an existing `.gpkg` file was generated
-#'   following the same options.)
+#'   passed its own `.ini` file or vectortranslate options (since, in those
+#'   case, it's too difficult to determine if an existing `.gpkg` file was
+#'   generated following the same options.)
 #' @param quiet Boolean. If `FALSE`, the function prints informative messages.
 #'   Starting from `sf` version
 #'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
 #'    if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
-#' @param boundary An `sf` or `sfc` object that will be used to create a spatial
-#'   filter during the vectortranslate operations. The type of filter can be
-#'   chosen using the argument `boundary_type`.
+#' @param boundary An `sf`/`sfc`/`bbox` object that will be used to create a
+#'   spatial filter during the vectortranslate operations. The type of filter
+#'   can be chosen using the argument `boundary_type`.
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
-#'   intersect a given area, while `clipsrc` also clips the geometries. See the
-#'   examples and check [here](https://gdal.org/programs/ogr2ogr.html) for more
-#'   details.
+#'   intersect a given area, while `clipsrc` also clips the geometries. Check
+#'   the examples and also [here](https://gdal.org/programs/ogr2ogr.html) for
+#'   more details.
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -110,8 +110,8 @@
 #'   wrapper around `oe_download()`, `oe_vectortranslate()` and `sf::st_read()`)
 #'   performs the other three operations.
 #'
-#' @seealso [`oe_match()`], [`oe_download()`], [`oe_vectortranslate()`],
-#'   and [`oe_read()`].
+#' @seealso [`oe_match()`], [`oe_download()`], [`oe_vectortranslate()`], and
+#'   [`oe_read()`].
 #'
 #' @examples
 #' # Copy ITS file to tempdir so that the examples do not require internet

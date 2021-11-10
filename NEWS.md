@@ -1,7 +1,10 @@
 # osmextract (development version)
 
 ### MINOR CHANGES
-* We can specify the `boundary` argument using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
+* The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
+
+### DOCUMENTATION FIXES
+* Update description for `boundary` and `boundary_type` arguments. 
 
 # osmextract 0.4.0 
 
