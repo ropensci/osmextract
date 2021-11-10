@@ -284,25 +284,25 @@ Ignored when <code>osmconf_ini</code> is not <code>NULL</code>.</p></td>
       <th>force_vectortranslate</th>
       <td><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
-already exists? <code>FALSE</code> by default. If tags in <code>extra_tags</code> match data
-in previously translated <code>.gpkg</code> files no translation occurs
-(see <a href='https://github.com/ropensci/osmextract/issues/173'>#173</a> for details).
+already exists? <code>FALSE</code> by default. If tags in <code>extra_tags</code> match data in
+previously translated <code>.gpkg</code> files no translation occurs (see
+<a href='https://github.com/ropensci/osmextract/issues/173'>#173</a> for details).
 Check the introductory vignette and the help page of
 <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>.</p></td>
     </tr>
     <tr>
       <th>boundary</th>
-      <td><p>An <code>sf</code> or <code>sfc</code> object that will be used to create a spatial
-filter during the vectortranslate operations. The type of filter can be
-chosen using the argument <code>boundary_type</code>.</p></td>
+      <td><p>An <code>sf</code>/<code>sfc</code>/<code>bbox</code> object that will be used to create a
+spatial filter during the vectortranslate operations. The type of filter
+can be chosen using the argument <code>boundary_type</code>.</p></td>
     </tr>
     <tr>
       <th>boundary_type</th>
       <td><p>A character vector of length 1 specifying the type of
 spatial filter. The <code>spat</code> filter selects only those features that
-intersect a given area, while <code>clipsrc</code> also clips the geometries. See the
-examples and check <a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for more
-details.</p></td>
+intersect a given area, while <code>clipsrc</code> also clips the geometries. Check
+the examples and also <a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for
+more details.</p></td>
     </tr>
     <tr>
       <th>download_only</th>
@@ -319,9 +319,9 @@ vectortranslate operations and it reads (or simply returns the path) of the
     <tr>
       <th>never_skip_vectortranslate</th>
       <td><p>Boolean. This is used in case the user
-passed its own <code>.ini</code> file or vectortranslate options (since, in those case,
-it's too difficult to determine if an existing <code>.gpkg</code> file was generated
-following the same options.)</p></td>
+passed its own <code>.ini</code> file or vectortranslate options (since, in those
+case, it's too difficult to determine if an existing <code>.gpkg</code> file was
+generated following the same options.)</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -347,8 +347,8 @@ wrapper around <code><a href='oe_download.html'>oe_download()</a></code>, <code>
 performs the other three operations.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='oe_match.html'>oe_match()</a></code>, <code><a href='oe_download.html'>oe_download()</a></code>, <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>,
-and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='oe_match.html'>oe_match()</a></code>, <code><a href='oe_download.html'>oe_download()</a></code>, <code><a href='oe_vectortranslate.html'>oe_vectortranslate()</a></code>, and
+<code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='co'># Copy ITS file to tempdir so that the examples do not require internet</span></span>
@@ -369,7 +369,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpB6zUEQ/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpmurtdt/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -389,7 +389,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `points' from data source `/tmp/RtmpB6zUEQ/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `points' from data source `/tmp/Rtmpmurtdt/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: POINT</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -401,9 +401,9 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Get the .osm.pbf and .gpkg files paths</span></span>
 <span class='r-in'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpB6zUEQ/test_its-example.gpkg"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpmurtdt/test_its-example.gpkg"</span>
 <span class='r-in'><span class='fu'>oe_get</span><span class='op'>(</span><span class='st'>"ITS Leeds"</span>, download_only <span class='op'>=</span> <span class='cn'>TRUE</span>, skip_vectortranslate <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpB6zUEQ/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpmurtdt/test_its-example.osm.pbf"</span>
 <span class='r-in'><span class='co'># See also ?oe_find()</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Add additional tags</span></span>
@@ -413,7 +413,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpB6zUEQ/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpmurtdt/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -434,7 +434,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/RtmpB6zUEQ/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/Rtmpmurtdt/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 13 features and 10 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>
@@ -480,7 +480,7 @@ and <code><a href='oe_read.html'>oe_read()</a></code>.</p></div>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpB6zUEQ/test_its-example.gpkg' using driver `GPKG'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpmurtdt/test_its-example.gpkg' using driver `GPKG'</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Simple feature collection with 77 features and 9 fields</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Geometry type: LINESTRING</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Dimension:     XY</span>

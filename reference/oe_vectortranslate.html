@@ -212,32 +212,32 @@ Ignored when <code>osmconf_ini</code> is not <code>NULL</code>.</p></td>
       <th>force_vectortranslate</th>
       <td><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
-already exists? <code>FALSE</code> by default. If tags in <code>extra_tags</code> match data
-in previously translated <code>.gpkg</code> files no translation occurs
-(see <a href='https://github.com/ropensci/osmextract/issues/173'>#173</a> for details).
+already exists? <code>FALSE</code> by default. If tags in <code>extra_tags</code> match data in
+previously translated <code>.gpkg</code> files no translation occurs (see
+<a href='https://github.com/ropensci/osmextract/issues/173'>#173</a> for details).
 Check the introductory vignette and the help page of
 <code>oe_vectortranslate()</code>.</p></td>
     </tr>
     <tr>
       <th>never_skip_vectortranslate</th>
       <td><p>Boolean. This is used in case the user
-passed its own <code>.ini</code> file or vectortranslate options (since, in those case,
-it's too difficult to determine if an existing <code>.gpkg</code> file was generated
-following the same options.)</p></td>
+passed its own <code>.ini</code> file or vectortranslate options (since, in those
+case, it's too difficult to determine if an existing <code>.gpkg</code> file was
+generated following the same options.)</p></td>
     </tr>
     <tr>
       <th>boundary</th>
-      <td><p>An <code>sf</code> or <code>sfc</code> object that will be used to create a spatial
-filter during the vectortranslate operations. The type of filter can be
-chosen using the argument <code>boundary_type</code>.</p></td>
+      <td><p>An <code>sf</code>/<code>sfc</code>/<code>bbox</code> object that will be used to create a
+spatial filter during the vectortranslate operations. The type of filter
+can be chosen using the argument <code>boundary_type</code>.</p></td>
     </tr>
     <tr>
       <th>boundary_type</th>
       <td><p>A character vector of length 1 specifying the type of
 spatial filter. The <code>spat</code> filter selects only those features that
-intersect a given area, while <code>clipsrc</code> also clips the geometries. See the
-examples and check <a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for more
-details.</p></td>
+intersect a given area, while <code>clipsrc</code> also clips the geometries. Check
+the examples and also <a href='https://gdal.org/programs/ogr2ogr.html'>here</a> for
+more details.</p></td>
     </tr>
     <tr>
       <th>quiet</th>
@@ -362,7 +362,7 @@ the vectortranslate process.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Check that the file was downloaded</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpB6zUEQ/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpmurtdt/test_its-example.osm.pbf"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Convert to gpkg format</span></span>
 <span class='r-in'><span class='va'>its_gpkg</span> <span class='op'>=</span> <span class='fu'>oe_vectortranslate</span><span class='op'>(</span><span class='va'>its_pbf</span><span class='op'>)</span></span>
@@ -372,8 +372,8 @@ the vectortranslate process.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Now there is an extra .gpkg file</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, pattern <span class='op'>=</span> <span class='st'>"pbf|gpkg"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpB6zUEQ/test_its-example.gpkg"   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/tmp/RtmpB6zUEQ/test_its-example.osm.pbf"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpmurtdt/test_its-example.gpkg"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/tmp/Rtmpmurtdt/test_its-example.osm.pbf"</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># Check the layers of the .gpkg file</span></span>
 <span class='r-in'><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
@@ -420,7 +420,7 @@ the vectortranslate process.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/RtmpB6zUEQ/test_its-example.gpkg"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpmurtdt/test_its-example.gpkg"</span>
 <span class='r-in'><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_layers.html'>st_layers</a></span><span class='op'>(</span><span class='va'>its_gpkg</span>, do_count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Driver: GPKG </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Available layers:</span>
