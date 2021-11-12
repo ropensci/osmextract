@@ -149,6 +149,7 @@
 <a href="#minor-changes" class="anchor"></a>MINOR CHANGES</h3>
 <ul>
 <li>The <code>boundary</code> argument can be specified using <code>bbox</code> objects. The <code>bbox</code> object is converted to <code>sfc</code> object with <code><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html">sf::st_as_sfc</a></code> and preserves the same CRS.</li>
+<li>Added a more informative error message when <code><a href="../reference/oe_get.html">oe_get()</a></code> or <code><a href="../reference/oe_read.html">oe_read()</a></code> are run with empty or unnamed arguments in <code>...</code> (<a href='https://github.com/ropensci/osmextract/issues/234'>#234</a>).</li>
 </ul>
 </div>
 <div id="documentation-fixes" class="section level3">
