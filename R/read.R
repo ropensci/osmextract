@@ -95,9 +95,21 @@ oe_read = function(
   # Test misspelt arguments
   check_layer_provider(layer, provider)
 
-  # Test if there is misalignment between query and layer. See also
-  # See https://github.com/ropensci/osmextract/issues/122
-  if ("query" %in% names(list(...))) {
+  # Check that all arguments inside ... are named arguments. See also
+  # https://github.com/ropensci/osmextract/issues/234
+  if (...length() && any(is.na(...names()))) {
+    stop(
+      "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
+      "Moreover, please check that you didn't add an extra comma at the end of your call",
+      call. = FALSE
+    )
+  }
+
+  # Test if there is misalignment between query and layer. See also See
+  # https://github.com/ropensci/osmextract/issues/122. Moreover, use ...names()
+  # instead of names(list(...)) because of
+  # https://github.com/ropensci/osmextract/issues/234
+  if ("query" %in% ...names()) {
     # Check if the query argument defined in sf::st_read was defined using a
     # layer different than layer argument.
     # Extracted from sf::st_read docs: For query with a character dsn the query
@@ -156,7 +168,7 @@ oe_read = function(
     # returns a notes in the R CMD checks related to :::. Hence, I decided to
     # use names(formals("st_read.character", envir = getNamespace("sf")))
     any(
-      names(list(...)) %!in%
+      ...names() %!in%
       # The ... arguments in st_read are passed to st_as_sf so I need to add the
       # formals of st_as_sf.
       # See https://github.com/ropensci/osmextract/issues/152
@@ -171,7 +183,7 @@ oe_read = function(
       "The following arguments are probably misspelled: ",
       paste(
         setdiff(
-          names(list(...)),
+          ...names(),
           union(
             names(formals(get("st_read.character", envir = getNamespace("sf")))),
             names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))
@@ -204,7 +216,7 @@ oe_read = function(
         ...
       ))
     } else {
-      if ("query" %in% names(list(...))) {
+      if ("query" %in% ...names()) {
         return(sf::st_read(
           dsn = file_path,
           quiet = quiet,
@@ -329,7 +341,7 @@ oe_read = function(
       ...
     )
   } else {
-    if ("query" %in% names(list(...))) {
+    if ("query" %in% ...names()) {
       sf::st_read(
         dsn = gpkg_file_path,
         quiet = quiet,

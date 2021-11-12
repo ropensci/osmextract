@@ -36,9 +36,9 @@ vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the 
 specified in the query and ignore \code{layer}. See also
 \href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
-\item{...}{Arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like \code{query},
-\code{wkt_filter} or \code{stringsAsFactors}.  Check the introductory vignette to
-understand how to create your own (SQL-like) queries.}
+\item{...}{(Named) arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
+\code{query}, \code{wkt_filter} or \code{stringsAsFactors}.  Check the introductory
+vignette to understand how to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
 providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For

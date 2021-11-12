@@ -95,9 +95,9 @@
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
-#' @param ... Arguments that will be passed to [`sf::st_read()`], like `query`,
-#'   `wkt_filter` or `stringsAsFactors`.  Check the introductory vignette to
-#'   understand how to create your own (SQL-like) queries.
+#' @param ... (Named) arguments that will be passed to [`sf::st_read()`], like
+#'   `query`, `wkt_filter` or `stringsAsFactors`.  Check the introductory
+#'   vignette to understand how to create your own (SQL-like) queries.
 #'
 #' @return An `sf` object.
 #' @export

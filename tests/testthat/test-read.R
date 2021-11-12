@@ -223,6 +223,37 @@ test_that("warning when setting boundary and spat/clipsrc options", {
   ))
 })
 
+test_that("oe_read returns an error with unnamed arguments in ...", {
+  # Unnamed argument:
+  expect_error(
+    oe_read(
+      file_path = its_pbf,
+      layer = "lines",
+      "SELECT * FROM lines"
+    ),
+    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+  )
+
+  # Extra comma:
+  expect_error(
+    oe_read(
+      file_path = its_pbf,
+      layer = "lines",
+    ),
+    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+  )
+
+  # Named argument + extra comma:
+  expect_error(
+    oe_read(
+      file_path = its_pbf,
+      layer = "lines",
+      query = "SELECT * FROM lines",
+    ),
+    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+  )
+})
+
 # Clean tempdir
 rm(its_poly)
 file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
