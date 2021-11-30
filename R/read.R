@@ -10,10 +10,11 @@
 #'   `force_download`, and `max_file_size` are ignored if `file_path` points to
 #'   an existing `.pbf` or `.gpkg` file.
 #'
-#'   You cannot add any field or layer to an existing `.gpkg` file (unless you
-#'   have the `.pbf` file and you convert it again with a different
-#'   configuration), but you can extract some of the tags in `other_tags` field.
-#'   Check examples and [oe_get_keys()] for more details.
+#'   Please note that you cannot add any field to an existing `.gpkg` file using
+#'   the argument `extra_tags` without rerunning the vectortranslate process on
+#'   the corresponding `.pbf` file. On the other hand, you can extract some of
+#'   the tags in `other_tags` field as new columns. See examples and
+#'   [oe_get_keys()] for more details.
 #'
 #' @inheritParams oe_get
 #' @param file_path A URL or the path of a `.pbf` or `.gpkg` file. If a URL,
@@ -23,7 +24,8 @@
 #'   then an interactive menu is displayed, asking for permission to download
 #'   the file.
 #'
-#' @return An `sf` object.
+#' @return An `sf` object or a character vector when the `download_only`
+#'   argument is `TRUE`.
 #' @export
 #'
 #' @examples

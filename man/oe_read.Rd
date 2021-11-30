@@ -117,7 +117,8 @@ if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 }
 \value{
-An \code{sf} object.
+An \code{sf} object or a character vector when the \code{download_only}
+argument is \code{TRUE}.
 }
 \description{
 This function is used to read a \code{.pbf} or \code{.gpkg} object from file or URL. It
@@ -131,10 +132,11 @@ The arguments \code{provider}, \code{download_directory}, \code{file_size},
 \code{force_download}, and \code{max_file_size} are ignored if \code{file_path} points to
 an existing \code{.pbf} or \code{.gpkg} file.
 
-You cannot add any field or layer to an existing \code{.gpkg} file (unless you
-have the \code{.pbf} file and you convert it again with a different
-configuration), but you can extract some of the tags in \code{other_tags} field.
-Check examples and \code{\link[=oe_get_keys]{oe_get_keys()}} for more details.
+Please note that you cannot add any field to an existing \code{.gpkg} file using
+the argument \code{extra_tags} without rerunning the vectortranslate process on
+the corresponding \code{.pbf} file. On the other hand, you can extract some of
+the tags in \code{other_tags} field as new columns. See examples and
+\code{\link[=oe_get_keys]{oe_get_keys()}} for more details.
 }
 \examples{
 # Read an existing .pbf file. First we need to copy a .pbf file into a
