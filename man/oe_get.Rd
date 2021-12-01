@@ -24,6 +24,7 @@ oe_get(
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  remove_gpkg = FALSE,
   quiet = FALSE
 )
 }
@@ -134,6 +135,11 @@ vectortranslate operations and it reads (or simply returns the path) of the
 passed its own \code{.ini} file or vectortranslate options (since, in those
 case, it's too difficult to determine if an existing \code{.gpkg} file was
 generated following the same options.)}
+
+\item{remove_gpkg}{Boolean. If \code{TRUE}, the \code{.gpkg} files created by
+\code{oe_vectortranslate} are deleted after reading them. This might be useful
+when using these functions in a new R package or an external server.
+Default value is \code{FALSE}.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
