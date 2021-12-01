@@ -95,6 +95,10 @@
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
+#' @param remove_gpkg Boolean. If `TRUE`, the `.gpkg` files created by
+#'   `oe_vectortranslate` are deleted after reading them. This might be useful
+#'   when using these functions in a new R package or an external server.
+#'   Default value is `FALSE`.
 #' @param ... (Named) arguments that will be passed to [`sf::st_read()`], like
 #'   `query`, `wkt_filter` or `stringsAsFactors`.  Check the introductory
 #'   vignette to understand how to create your own (SQL-like) queries.
@@ -220,6 +224,7 @@ oe_get = function(
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
+  remove_gpkg = FALSE,
   quiet = FALSE
 ) {
 
@@ -263,6 +268,7 @@ oe_get = function(
     never_skip_vectortranslate = never_skip_vectortranslate,
     boundary = boundary,
     boundary_type = boundary_type,
+    remove_gpkg = remove_gpkg,
     quiet = quiet,
     ...
   )

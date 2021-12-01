@@ -91,6 +91,7 @@ oe_read = function(
   never_skip_vectortranslate = FALSE,
   boundary = NULL,
   boundary_type = c("spat", "clipsrc"),
+  remove_gpkg = FALSE,
   quiet = FALSE
 ) {
 
@@ -327,6 +328,12 @@ oe_read = function(
   # Add another test since maybe there was an error during the vectortranslate process:
   if (!file.exists(gpkg_file_path)) {
     stop("An error occurred during the vectortranslate process", call. = FALSE)
+  }
+
+  # If remove_gpkg is TRUE, then remove the gpkg file created by oe_vectortranslate
+  if (isTRUE(remove_gpkg)) {
+    oe_message("Removing the .gpkg created by oe_vectortranslate.", quiet = quiet)
+    on.exit(unlink(gpkg_file_path))
   }
 
   # Read the translated file with sf::st_read. Moreover, starting from sf 1.0.2,

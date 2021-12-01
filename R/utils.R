@@ -47,6 +47,7 @@ oe_download_directory = function() {
 # Print a message if quiet argument is FALSE. I defined this function since the
 # same pattern is repeated several times in the package.
 oe_message <- function(..., quiet) {
+  # NB: quiet argument must always be named
   if (isFALSE(quiet)) {
     message(...)
   }

@@ -22,6 +22,7 @@ oe_read(
   never_skip_vectortranslate = FALSE,
   boundary = NULL,
   boundary_type = c("spat", "clipsrc"),
+  remove_gpkg = FALSE,
   quiet = FALSE
 )
 }
@@ -109,6 +110,11 @@ spatial filter. The \code{spat} filter selects only those features that
 intersect a given area, while \code{clipsrc} also clips the geometries. Check
 the examples and also \href{https://gdal.org/programs/ogr2ogr.html}{here} for
 more details.}
+
+\item{remove_gpkg}{Boolean. If \code{TRUE}, the \code{.gpkg} files created by
+\code{oe_vectortranslate} are deleted after reading them. This might be useful
+when using these functions in a new R package or an external server.
+Default value is \code{FALSE}.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
