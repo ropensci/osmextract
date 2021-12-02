@@ -102,7 +102,7 @@ oe_read = function(
   if (...length() && any(is.na(...names()))) {
     stop(
       "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
-      "Moreover, please check that you didn't add an extra comma at the end of your call",
+      "Please check that you didn't add an extra comma at the end of your call",
       call. = FALSE
     )
   }
@@ -206,35 +206,7 @@ oe_read = function(
       return(file_path)
     }
 
-    # Starting from sf 1.0.2, sf::st_read raises a warning message when both
-    # layer and query arguments are set (while it raises a warning in sf < 1.0.2
-    # when there are multiple layers and the layer argument is not set). See
-    # also https://github.com/r-spatial/sf/issues/1444
-    if (utils::packageVersion("sf") <= "1.0.1") {
-      return(sf::st_read(
-        dsn = file_path,
-        layer = layer,
-        quiet = quiet,
-        ...
-      ))
-    } else {
-      if ("query" %in% ...names()) {
-        return(sf::st_read(
-          dsn = file_path,
-          quiet = quiet,
-          ...
-        ))
-      } else {
-        return(sf::st_read(
-          dsn = file_path,
-          layer = layer,
-          quiet = quiet,
-          ...
-        ))
-      }
-    }
-
-    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+    return(my_st_read(dsn = file_path, layer = layer, quiet = quiet, ...))
   }
 
   # Now I think I can assume that file_path is a URL or points to a .pbf file. I
@@ -276,7 +248,7 @@ oe_read = function(
       return(file_path)
     }
 
-    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+    return(my_st_read(dsn = file_path, layer = layer, quiet = quiet, ...))
   }
 
   # Now file_path should always point to an existing .pbf file. If the user set
@@ -291,7 +263,7 @@ oe_read = function(
       return(file_path)
     }
 
-    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+    return(my_st_read(dsn = file_path, layer = layer, quiet = quiet, ...))
   }
 
   # See https://github.com/ropensci/osmextract/issues/144. The vectortranslate
@@ -329,33 +301,6 @@ oe_read = function(
     stop("An error occurred during the vectortranslate process", call. = FALSE)
   }
 
-  # Read the translated file with sf::st_read. Moreover, starting from sf 1.0.2,
-  # sf::st_read raises a warning message when both layer and query arguments are
-  # set (while it raises a warning in sf < 1.0.2 when there are multiple layers
-  # and the layer argument is not set). See also
-  # https://github.com/r-spatial/sf/issues/1444
-
-  if (utils::packageVersion("sf") <= "1.0.1") {
-    sf::st_read(
-      dsn = gpkg_file_path,
-      layer = layer,
-      quiet = quiet,
-      ...
-    )
-  } else {
-    if ("query" %in% ...names()) {
-      sf::st_read(
-        dsn = gpkg_file_path,
-        quiet = quiet,
-        ...
-      )
-    } else {
-      sf::st_read(
-        dsn = gpkg_file_path,
-        layer = layer,
-        quiet = quiet,
-        ...
-      )
-    }
-  }
+  # Read the file
+  my_st_read(gpkg_file_path, layer = layer, quiet = quiet, ...)
 }

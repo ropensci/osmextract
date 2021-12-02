@@ -23,6 +23,37 @@ check_layer_provider = function(layer, provider) {
   invisible(0)
 }
 
+# Starting from sf 1.0.2, sf::st_read raises a warning message when both layer
+# and query arguments are set, while it raises a warning in sf < 1.0.2 when
+# there are multiple layers and the layer argument is not set. See also
+# https://github.com/r-spatial/sf/issues/1444. The following function is used
+# to circumvent this problem and set the appropriate arguments.
+my_st_read <- function(dsn, layer, quiet, ...) {
+  if (utils::packageVersion("sf") <= "1.0.1") {
+    sf::st_read(
+      dsn = dsn,
+      layer = layer,
+      quiet = quiet,
+      ...
+    )
+  } else {
+    if ("query" %in% ...names()) {
+      sf::st_read(
+        dsn = dsn,
+        quiet = quiet,
+        ...
+      )
+    } else {
+      sf::st_read(
+        dsn = dsn,
+        layer = layer,
+        quiet = quiet,
+        ...
+      )
+    }
+  }
+}
+
 #' Return the download directory used by the package
 #'
 #' By default, the download directory is equal to `tempdir()`. You can set a
