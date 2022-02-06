@@ -16,3 +16,4 @@ vignettes/_useR2021.rmd
 docs/
 ^\.lintr$
 my-covr.R
+internal-tests.R
