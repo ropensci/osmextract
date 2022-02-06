@@ -1,5 +1,8 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+* Added a new dependency: `backports`. This package is used to conditionally import the function `...names()` if R < 4.1 (#241). 
+
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
 * Added a more informative error message when `oe_get()` or `oe_read()` are run with empty or unnamed arguments in `...` (#234).
