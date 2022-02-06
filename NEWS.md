@@ -1,7 +1,7 @@
 # osmextract (development version)
 
 ### MAJOR CHANGES
-* Added a new dependency: `backports`. This package is used to conditionally import the function `...names()` if R < 4.1 (#241). 
+* Added a new dependency: [`backports`](https://cran.r-project.org/package=backports). The package is used to conditionally import the function `...names()` if R < v4.1 (#241). 
 
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
@@ -14,7 +14,7 @@
 
 ### MAJOR CHANGES
 
-* Import two new packages: [*httr*](https://cran.r-project.org/package=httr) and [jsonlite](https://cran.r-project.org/package=jsonlite) (#231, #232). 
+* Import two new packages: [`httr`](https://cran.r-project.org/package=httr) and [`jsonlite`](https://cran.r-project.org/package=jsonlite) (#231, #232). 
 * Improved the approach adopted to download files from the web. In particular, the functions `oe_download()` and `oe_search()` now take advantage of `httr` functionalities. They return informative messages in case of errors (#231, #232). 
 * Vignettes and examples do not require internet connection. 
 
