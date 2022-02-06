@@ -17,15 +17,15 @@
 #'   [oe_get_keys()] for more details.
 #'
 #' @inheritParams oe_get
-#' @param file_path A URL or the path of a `.pbf` or `.gpkg` file. If a URL,
+#' @param file_path A URL or the path to a `.pbf` or `.gpkg` file. If a URL,
 #'   then it must be specified using HTTP/HTTPS protocol.
 #' @param file_size How big is the file? Optional. `NA` by default. If it's
 #'   bigger than `max_file_size` and the function is run in interactive mode,
 #'   then an interactive menu is displayed, asking for permission to download
 #'   the file.
 #'
-#' @return An `sf` object or a character vector when the `download_only`
-#'   argument is `TRUE`.
+#' @return An `sf` object or, when `download_only` argument equals `TRUE`, a
+#'   character vector.
 #' @export
 #'
 #' @examples
@@ -49,8 +49,8 @@
 #' my_gpkg = file.path(tempdir(), "its-example.gpkg")
 #' oe_read(my_gpkg)
 #'
-#' # You cannot add any layer to an existing .gpkg file but you can extract some
-#' # of the tags in other_tags. Check oe_get_keys() for more details.
+#' # You cannot add any new layer to an existing .gpkg file but you can extract
+#' # some of the tags in other_tags. Check oe_get_keys() for more details.
 #' names(oe_read(my_gpkg, extra_tags = c("maxspeed"))) # doesn't work
 #' # Instead, use the query argument
 #' names(oe_read(
@@ -102,22 +102,22 @@ oe_read = function(
   if (...length() && any(is.na(...names()))) {
     stop(
       "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
-      "Moreover, please check that you didn't add an extra comma at the end of your call",
+      "Please check also that you didn't add an extra comma at the end of your call.",
       call. = FALSE
     )
   }
 
-  # Test if there is misalignment between query and layer. See also See
-  # https://github.com/ropensci/osmextract/issues/122. Moreover, use ...names()
-  # instead of names(list(...)) because of
+  # Test if there is a misalignment between query and layer argumetn. See also
+  # https://github.com/ropensci/osmextract/issues/122. Moreover, I had to use
+  # ...names() instead of names(list(...)) because of
   # https://github.com/ropensci/osmextract/issues/234
   if ("query" %in% ...names()) {
-    # Check if the query argument defined in sf::st_read was defined using a
-    # layer different than layer argument.
+    # Check if the query argument (which is passed to sf::st_read) was defined using a
+    # layer different than layer argument. Indeed:
     # Extracted from sf::st_read docs: For query with a character dsn the query
     # text is handed to 'ExecuteSQL' on the GDAL/OGR data set and will result in
-    # the creation of a new layer (and layer is ignored) See also
-    # https://github.com/ropensci/osmextract/issues/122
+    # the creation of a new layer (and layer is ignored).
+    # See also https://github.com/ropensci/osmextract/issues/122
     query = list(...)[["query"]]
 
     # Extract everything that is specified after FROM or from
@@ -126,7 +126,7 @@ oe_read = function(
 
     if (length(layer_raw) != 1L) {
       stop(
-        "There is an error in the query. Please open a new issue at ",
+        "There is an error in the query or in oe_read. Please open a new issue at ",
         "https://github.com/ropensci/osmextract/issues",
         call. = FALSE
       )
@@ -140,7 +140,7 @@ oe_read = function(
 
     if (length(layer_clean) != 1L) {
       stop(
-        "There is an error in the query. Please open a new issue at ",
+        "There is an error in the query or in oe_read. Please open a new issue at ",
         "https://github.com/ropensci/osmextract/issues",
         call. = FALSE
       )
@@ -149,7 +149,7 @@ oe_read = function(
     if (layer_clean[[1]] != layer) {
       warning(
         "The query selected a layer which is different from layer argument. ",
-        "We will replace the layer argument.",
+        "We replaced the layer argument.",
         call. = FALSE
       )
       layer = layer_clean[[1]]
@@ -162,10 +162,10 @@ oe_read = function(
     # arguments using ...
     ...length() > 0L &&
     # At the moment, the only function that uses ... is sf::st_read, so I can
-    # simply check which arguments in ... are not inlucded in the formals of
+    # simply check which arguments in ... are not included in the formals of
     # sf::st_read. Moreover, st_read should always use sf:::st_read.character,
     # so I need to check the formals of that method.
-    #
+
     # The classical way should be names(formals(sf:::st_read.character)), but it
     # returns a notes in the R CMD checks related to :::. Hence, I decided to
     # use names(formals("st_read.character", envir = getNamespace("sf")))
@@ -182,7 +182,7 @@ oe_read = function(
     )
   ) {
     warning(
-      "The following arguments are probably misspelled: ",
+      "The following arguments were probably misspelled: ",
       paste(
         setdiff(
           ...names(),
@@ -198,50 +198,20 @@ oe_read = function(
   }
 
 
-  # If the input file_path is an existing .gpkg file, then this is the easiest
-  # case since we only need to read it:
+  # If the input file_path points to an existing .gpkg file, then this is the
+  # easiest case since we only need to read it:
   if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
-    # I need the following if to return the .gpkg file path in oe_get
     if (isTRUE(download_only)) {
       return(file_path)
     }
 
-    # Starting from sf 1.0.2, sf::st_read raises a warning message when both
-    # layer and query arguments are set (while it raises a warning in sf < 1.0.2
-    # when there are multiple layers and the layer argument is not set). See
-    # also https://github.com/r-spatial/sf/issues/1444
-    if (utils::packageVersion("sf") <= "1.0.1") {
-      return(sf::st_read(
-        dsn = file_path,
-        layer = layer,
-        quiet = quiet,
-        ...
-      ))
-    } else {
-      if ("query" %in% ...names()) {
-        return(sf::st_read(
-          dsn = file_path,
-          quiet = quiet,
-          ...
-        ))
-      } else {
-        return(sf::st_read(
-          dsn = file_path,
-          layer = layer,
-          quiet = quiet,
-          ...
-        ))
-      }
-    }
-
-    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+    return(my_st_read(dsn = file_path, layer = layer, quiet = quiet, ...))
   }
 
-  # Now I think I can assume that file_path is a URL or points to a .pbf file. I
-  # assume that if file.exists(file_path) is FALSE then file_path is a URL and I
-  # need to download the file
+  # Now I think I can assume that file_path represents a URL or points to a .pbf
+  # file. I assume that if file.exists(file_path) is FALSE then file_path is a
+  # URL and I need to download the file
   if (!file.exists(file_path)) {
-
     # Add an if clause to check if file_path "looks like" a URL
     # See https://github.com/ropensci/osmextract/issues/134 and
     # https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url.
@@ -269,21 +239,24 @@ oe_read = function(
     )
   }
 
-  # Now file_path should always be the path to an existing .pbf or .gpkg file
-  # Again, if file_path points to an existing .gpkg file:
-  if (file.exists(file_path) && tools::file_ext(file_path) == "gpkg") {
+  if (!file.exists(file_path)) {
+    stop("An error occurred during the download process", call. = FALSE)
+  }
+
+  # Now file_path should always point to an existing .pbf or .gpkg file Again,
+  # if file_path points to an existing .gpkg file:
+  if (tools::file_ext(file_path) == "gpkg") {
     if (isTRUE(download_only)) {
       return(file_path)
     }
 
-    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+    return(my_st_read(dsn = file_path, layer = layer, quiet = quiet, ...))
   }
 
   # Now file_path should always point to an existing .pbf file. If the user set
   # skip_vectortranslate = TRUE, then we just need to return the pbf path or
   # read it.
   if (
-    file.exists(file_path) &&
     tools::file_ext(file_path) == "pbf" &&
     isTRUE(skip_vectortranslate)
   ) {
@@ -291,12 +264,12 @@ oe_read = function(
       return(file_path)
     }
 
-    return(sf::st_read(file_path, layer, quiet = quiet, ...))
+    return(my_st_read(dsn = file_path, layer = layer, quiet = quiet, ...))
   }
 
-  # See https://github.com/ropensci/osmextract/issues/144. The vectortranslate
-  # operation should never be skipped if the user forced the download of a new
-  # .osm.pbf file.
+  # The vectortranslate operation should never be skipped if the user forced the
+  # download of a new .osm.pbf file. See
+  # https://github.com/ropensci/osmextract/issues/144.
   if (isTRUE(force_download)) {
     never_skip_vectortranslate = TRUE
     force_vectortranslate = TRUE
@@ -318,8 +291,7 @@ oe_read = function(
     quiet = quiet
   )
 
-  # This is just for returning the .gpkg file path in case I need it for
-  # something
+  # Return the .gpkg file path
   if (isTRUE(download_only)) {
     return(gpkg_file_path)
   }
@@ -329,33 +301,6 @@ oe_read = function(
     stop("An error occurred during the vectortranslate process", call. = FALSE)
   }
 
-  # Read the translated file with sf::st_read. Moreover, starting from sf 1.0.2,
-  # sf::st_read raises a warning message when both layer and query arguments are
-  # set (while it raises a warning in sf < 1.0.2 when there are multiple layers
-  # and the layer argument is not set). See also
-  # https://github.com/r-spatial/sf/issues/1444
-
-  if (utils::packageVersion("sf") <= "1.0.1") {
-    sf::st_read(
-      dsn = gpkg_file_path,
-      layer = layer,
-      quiet = quiet,
-      ...
-    )
-  } else {
-    if ("query" %in% ...names()) {
-      sf::st_read(
-        dsn = gpkg_file_path,
-        quiet = quiet,
-        ...
-      )
-    } else {
-      sf::st_read(
-        dsn = gpkg_file_path,
-        layer = layer,
-        quiet = quiet,
-        ...
-      )
-    }
-  }
+  # Read the file
+  my_st_read(gpkg_file_path, layer = layer, quiet = quiet, ...)
 }

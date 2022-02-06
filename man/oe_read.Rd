@@ -26,7 +26,7 @@ oe_read(
 )
 }
 \arguments{
-\item{file_path}{A URL or the path of a \code{.pbf} or \code{.gpkg} file. If a URL,
+\item{file_path}{A URL or the path to a \code{.pbf} or \code{.gpkg} file. If a URL,
 then it must be specified using HTTP/HTTPS protocol.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
@@ -117,8 +117,8 @@ if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 }
 \value{
-An \code{sf} object or a character vector when the \code{download_only}
-argument is \code{TRUE}.
+An \code{sf} object or, when \code{download_only} argument equals \code{TRUE}, a
+character vector.
 }
 \description{
 This function is used to read a \code{.pbf} or \code{.gpkg} object from file or URL. It
@@ -159,8 +159,8 @@ names(oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
 my_gpkg = file.path(tempdir(), "its-example.gpkg")
 oe_read(my_gpkg)
 
-# You cannot add any layer to an existing .gpkg file but you can extract some
-# of the tags in other_tags. Check oe_get_keys() for more details.
+# You cannot add any new layer to an existing .gpkg file but you can extract
+# some of the tags in other_tags. Check oe_get_keys() for more details.
 names(oe_read(my_gpkg, extra_tags = c("maxspeed"))) # doesn't work
 # Instead, use the query argument
 names(oe_read(
