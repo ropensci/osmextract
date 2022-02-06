@@ -12,21 +12,30 @@ jobs:
   R-CMD-check:
     if: "!(contains(github.event.head_commit.message, 'skip ci')||contains(github.event.head_commit.message, 'ci skip')||contains(github.event.head_commit.message, 'skip-ci')||contains(github.event.head_commit.message, 'ci-skip')||contains(github.event.head_commit.message, 'skip_ci')||contains(github.event.head_commit.message, 'ci_skip'))"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        R: [ '3.6.3', 'release']
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
+          r-version: ${{ matrix.R }}
 
-      - uses: r-lib/actions/setup-r-dependencies@v1
+      - name: Setup R Dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: 1
           extra-packages: rcmdcheck
 
-      - uses: r-lib/actions/check-r-package@v1
+      - name: Check R Package
+        uses: r-lib/actions/check-r-package@v2
 
       - name: Show testthat output
         if: always()
