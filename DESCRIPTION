@@ -29,7 +29,8 @@ Imports:
     utils,
     tools,
     httr,
-    jsonlite
+    jsonlite,
+    backports
 Suggests: 
     testthat (>= 3.0.2),
     knitr,

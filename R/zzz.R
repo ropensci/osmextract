@@ -23,3 +23,9 @@
     ))
   }
 }
+
+.onLoad <- function(libname, pkgname) {
+  # Import ...names() for R < 4.1. See problem and discussion in
+  # https://github.com/ropensci/osmextract/issues/241
+  backports::import(pkgname, c("...names()"))
+}
