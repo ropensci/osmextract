@@ -30,7 +30,7 @@ Imports:
     tools,
     httr,
     jsonlite,
-    backports
+    backports (>= 1.4.1)
 Suggests: 
     testthat (>= 3.0.2),
     knitr,
