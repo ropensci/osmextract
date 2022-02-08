@@ -183,19 +183,19 @@ load_options_walking = function(place) {
     extra_tags = c("access", "foot", "service"),
     vectortranslate_options = c(
     "-where", "
-    ((highway IS NOT NULL AND highway NOT IN (
-    'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
-    'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
-    'proposed', 'raceway', 'motorway', 'motorway_link'
-    )) OR (
-    highway = 'cycleway' AND foot = 'yes'
-    ))
+    (highway IS NOT NULL)
     AND
-    (access IS NULL OR access NOT IN ('private', 'no') OR foot = 'yes')
+    (highway NOT IN ('abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform', 'proposed', 'raceway',
+    'motorway', 'motorway_link'))
     AND
-    (foot IS NULL OR foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
+    (highway <> 'cycleway' OR foot = 'yes')
     AND
-    (service IS NULL OR service NOT ILIKE 'private')
+    (access NOT IN ('private', 'no'))
+    AND
+    (foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
+    AND
+    (service NOT ILIKE 'private%' OR foot = 'yes')
     "
     )
   )
