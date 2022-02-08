@@ -358,6 +358,14 @@ oe_match.character = function(
         quiet = quiet
       )
 
+      # If oe_match finds an exact match in one of the "other" providers and
+      # oe_match is called from another function (i.e. the parent.frame is not
+      # the global env), then we should also redefine the provider argument in
+      # the calling env. See https://github.com/ropensci/osmextract/issues/245
+      if (!identical(parent.frame(), .GlobalEnv)) {
+        assign("provider", other_provider, envir = parent.frame())
+      }
+
       return(
        oe_match(
          place = place,
