@@ -1,12 +1,14 @@
-#' Import transport network used by a specific mode of transport
+#' Import transport networks used by a specific mode of transport
 #'
 #' This function is a wrapper around `oe_get()` and can be used to import a road
 #' network given a `place` and a mode of transport. Check the Details for a
-#' precise description of the procedures used to filter each mode of transport.
+#' precise description of the procedures used to filter the OSM ways according
+#' to each each mode of transport.
 #'
 #' @inheritParams oe_get
 #' @param mode A character string denoting the desired mode of transport. Can be
-#'   abbreviated. Currently cycling (the default), driving and walking are supported.
+#'   abbreviated. Currently `cycling` (the default), `driving` and `walking` are
+#'   supported.
 #' @param ... Additional arguments passed to `oe_get()` such as `boundary` or
 #'   `force_download`.
 #'
@@ -14,59 +16,62 @@
 #' @export
 #'
 #' @details The definition of usable transport network was taken from the Python
-#'   packages [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py) and
+#'   packages
+#'   [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py) and
 #'   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
 #'   documents found online, i.e.
 #'   <https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions>,
-#'   <https://wiki.openstreetmap.org/wiki/Key:access>. See also the discussion
+#'    <https://wiki.openstreetmap.org/wiki/Key:access>. See also the discussion
 #'   in <https://github.com/ropensci/osmextract/issues/153>.
 #'
-#' The `cycling` mode of transport (i.e. the default value for `mode`
+#'   The `cycling` mode of transport (i.e. the default value for `mode`
 #'   parameter) selects the OSM ways that meet the following conditions:
 #'
-#'   - The `highway` tag is not missing and is not equal to `abandonded`,
-#'   `bus_guideway`, `byway`, `construction`, `corridor`, `elevator`, `fixme`,
-#'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
-#'   `raceway` or `steps`;
-#'   - The `highway` tag is not equal to `motorway`, `motorway_link`, `footway`,
-#'   `bridleway` or `pedestrian` unless the tag `bicycle` is equal to `yes` (see
-#'   [here](https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions))
-#'   for more details;
-#'   - The `access` tag is not equal to `private` or `no` unless `bicycle` tag
-#'   is equal to `yes`;
-#'   - The `bicycle` tag is not equal to `no`, `use_sidepath`, `private`, pr
+#'   - The `highway` tag is not missing;
+#'   - The `highway` tag is not equal to `abandonded`, `bus_guideway`, `byway`,
+#'   `construction`, `corridor`, `elevator`, `fixme`, `escalator`, `gallop`,
+#'   `historic`, `no`, `planned`, `platform`, `proposed`, `raceway` or
+#'   `steps`;
+#'   - The `highway` tag is not equal to `motorway`, `motorway_link`,
+#'   `footway`, `bridleway` or `pedestrian` unless the tag `bicycle` is equal
+#'   to `yes`, `designated`, `permissive` or `destination` (see
+#'   [here](https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions)
+#'   for more details);
+#'   - The `access` tag is not equal to `private` or `no`;
+#'   - The `bicycle` tag is not equal to `no`, `use_sidepath`, `private`, or
 #'   `restricted`;
-#'   - The `service` tag does not contain the string `private` (i.e. `private`;
-#'   `private_access` and similar);
+#'   - The `service` tag does not contain the string `private` (i.e.
+#'   `private`, `private_access` and similar);
 #'
 #'   The `walking` mode of transport selects the OSM ways that meet the
 #'   following conditions:
 #'
-#'   - The `highway` tag is not missing and is not equal to `abandonded`,
-#'   `bus_guideway`, `byway`, `construction`, `corridor`, `elevator`, `fixme`,
+#'   - The `highway` tag is not missing;
+#'   - The `highway` tag is not equal to `abandonded`, `bus_guideway`,
+#'   `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `raceway`, `motorway` or `motorway_link`;
 #'   - The `highway` tag is not equal to `cycleway` unless the `foot` tag is
 #'   equal to `yes`;
-#'   - The `access` tag is not equal to `private` or `no` unless `foot` tag
-#'   is equal to `yes`;
-#'   - The `foot` tag is not equal to `no`, `use_sidepath`, `private`, pr
+#'   - The `access` tag is not equal to `private` or `no`;
+#'   - The `foot` tag is not equal to `no`, `use_sidepath`, `private`, or
 #'   `restricted`;
-#'   - The `service` tag does not contain the string `private` (i.e. `private`;
-#'   `private_access` and similar).
+#'   - The `service` tag does not contain the string `private`
+#'   (i.e. `private`, `private_access` and similar).
 #'
 #'   The `driving` mode of transport selects the OSM ways that meet the
 #'   following conditions:
 #'
-#'   - The `highway` tag is not missing and is not equal to `abandonded`,
+#'   - The `highway` tag is not missing;
+#'   - The `highway` tag is not equal to `abandonded`,
 #'   `bus_guideway`, `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `cycleway`, `pedestrian`, `bridleway`, `path`, or `footway`;
 #'   - The `access` tag is not equal to `private` or `no`;
-#'   - The `service` tag does not contain the string `private` (i.e. `private`;
+#'   - The `service` tag does not contain the string `private` (i.e. `private`,
 #'   `private_access` and similar).
 #'
-#'   Feel free to start a new issue in the [github
+#'   Feel free to create a new issue in the [github
 #'   repo](https://github.com/ropensci/osmextract) if you want to suggest
 #'   modifications to the current filters or propose new values for alternative
 #'   modes of transport.
@@ -74,12 +79,6 @@
 #' @seealso [oe_get()]
 #'
 #' @examples
-#' \dontshow{
-#'   its = file.copy(
-#'     from = system.file("its-example.osm.pbf", package = "osmextract"),
-#'     to = file.path(tempdir(), "test_its-example.osm.pbf"),
-#'     overwrite = TRUE
-#' )}
 #' # default value returned by OSM
 #' its = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 #' plot(its["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
@@ -120,24 +119,23 @@ oe_get_network = function(
 # in oe_get_network() and are based on the following documents:
 # https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions
 # and https://wiki.openstreetmap.org/wiki/Key:access plus the discussion in
-# https://github.com/ropensci/osmextract/issues/153
+# https://github.com/ropensci/osmextract/issues/153 and https://github.com/udsleeds/openinfra/issues/32
 
 # According to the first document mentioned above (i.e. the OSM tags for
 # routing), there are some default values that are not official nor generally
 # accepted but have support among many mappers. More precise options are defined
-# by other tags.
+# by other tags. See also: https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions
 
-# See also: https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions
 # A cycling mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road) AND highway
-# NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
+# - highway IS NOT NULL (since usually that means that's not a road);
+# - highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
 # 'elevator', 'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned',
-# 'platform', 'proposed', 'raceway', 'steps') OR
-# highway IN ('motorway', 'motorway_link', 'bridleway', 'footway', 'pedestrian) AND bicycle = 'yes'
-# - access IS NULL OR access NOT IN ('no', 'private') OR bicycle = yes;
-# - bicycle IS NULL OR bicycle NOT IN ('no', 'use_sidepath')
-# - service IS NULL OR service does not look like 'private' (ILIKE is string
-# matching case insensitive)
+# 'platform', 'proposed', 'raceway', 'steps');
+# - highway NOT IN IN ('motorway', 'motorway_link', 'bridleway', 'footway',
+# 'pedestrian) OR bicycle IN ('yes', 'designated', 'permissive', 'destination');
+# - access NOT IN ('no', 'private');
+# - bicycle NOT IN ('no', 'use_sidepath')
+# - service does not look like 'private' (ILIKE is string matching case insensitive)
 load_options_cycling = function(place) {
   list(
     place = place,
@@ -145,20 +143,23 @@ load_options_cycling = function(place) {
     extra_tags = c("access", "bicycle", "service"),
     vectortranslate_options = c(
     "-where", "
-    ((highway IS NOT NULL AND highway NOT IN (
+    (highway IS NOT NULL)
+    AND
+    (highway NOT IN (
     'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'raceway', 'steps'
-    )) OR (
-    highway IN ('motorway', 'motorway_link', 'footway',
-    'bridleway', 'pedestrian') AND bicycle = 'yes'
     ))
     AND
-    (access IS NULL OR access NOT IN ('private', 'no') OR bicycle = 'yes')
+    (highway NOT IN ('motorway', 'motorway_link', 'footway', 'bridleway',
+    'pedestrian') OR bicycle IN ('yes', 'designated', 'permissive', 'destination')
+    )
     AND
-    (bicycle IS NULL OR bicycle NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
+    (access NOT IN ('private', 'no'))
     AND
-    (service IS NULL OR service NOT ILIKE 'private')
+    (bicycle NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
+    AND
+    (service NOT ILIKE 'private%')
     "
     )
   )
@@ -167,15 +168,14 @@ load_options_cycling = function(place) {
 # See also https://wiki.openstreetmap.org/wiki/Key:footway and
 # https://wiki.openstreetmap.org/wiki/Key:foot
 # A walking mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road) AND highway
-# NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
+# - highway IS NOT NULL (since usually that means that's not a road);
+# - highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
 # 'elevator', 'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned',
-# 'platform', 'proposed', 'raceway', 'motorway', 'motorway_link') OR
-# highway =('cycleway' AND foot = 'yes'
-# - access IS NULL OR access NOT IN ('no', 'private') OR foot = yes;
-# - foot IS NULL OR foot NOT IN ('no', 'use_sidepath', 'private', 'restricted')
-# - service IS NULL OR service does not look like 'private' (ILIKE is string
-# matching case insensitive)
+# 'platform', 'proposed', 'raceway', 'motorway', 'motorway_link');
+# - highway != 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination');
+# - access NOT IN ('no', 'private');
+# - foot NOT IN ('no', 'use_sidepath', 'private', 'restricted')
+# - service does not look like 'private' (ILIKE is string matching case insensitive)
 load_options_walking = function(place) {
   list(
     place = place,
@@ -189,24 +189,26 @@ load_options_walking = function(place) {
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform', 'proposed', 'raceway',
     'motorway', 'motorway_link'))
     AND
-    (highway <> 'cycleway' OR foot = 'yes')
+    (highway <> 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination'))
     AND
     (access NOT IN ('private', 'no'))
     AND
     (foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
-    (service NOT ILIKE 'private%' OR foot = 'yes')
+    (service NOT ILIKE 'private%')
     "
     )
   )
 }
 
 # A motorcar/motorcycle mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road) AND highway
-# NOT IN ('bus_guideway', 'byway' (not sure what it means), 'construction',
+# - highway IS NOT NULL (since usually that means that's not a road);
+# - highway NOT IN ('bus_guideway', 'byway' (not sure what it means), 'construction',
 # 'corridor', 'cycleway', 'elevator', 'fixme', 'footway', 'gallop', 'historic',
 # 'no', 'pedestrian', 'platform', 'proposed', 'steps', 'pedestrian',
 # 'bridleway', 'path', 'platform');
+# - access NOT IN ('private', 'no');
+# - service NOT ILIKE 'private%';
 load_options_driving = function(place) {
   list(
     place = place,
@@ -214,18 +216,18 @@ load_options_driving = function(place) {
     extra_tags = c("access", "service"),
     vectortranslate_options = c(
     "-where", "
-    highway IS NOT NULL
+    (highway IS NOT NULL)
     AND
-    highway NOT IN (
+    (highway NOT IN (
     'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway',
     'steps'
-    )
+    ))
     AND
-    (access IS NULL OR access NOT IN ('private', 'no'))
+    (access NOT IN ('private', 'no'))
     AND
-    (service IS NULL OR service NOT ILIKE 'private')
+    (service NOT ILIKE 'private%')
     "
     )
   )

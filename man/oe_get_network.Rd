@@ -2,7 +2,7 @@
 % Please edit documentation in R/get-network.R
 \name{oe_get_network}
 \alias{oe_get_network}
-\title{Import transport network used by a specific mode of transport}
+\title{Import transport networks used by a specific mode of transport}
 \usage{
 oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
 }
@@ -15,7 +15,8 @@ c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} obj
 Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{mode}{A character string denoting the desired mode of transport. Can be
-abbreviated. Currently cycling (the default), driving and walking are supported.}
+abbreviated. Currently \code{cycling} (the default), \code{driving} and \code{walking} are
+supported.}
 
 \item{...}{Additional arguments passed to \code{oe_get()} such as \code{boundary} or
 \code{force_download}.}
@@ -26,11 +27,13 @@ An \code{sf} object.
 \description{
 This function is a wrapper around \code{oe_get()} and can be used to import a road
 network given a \code{place} and a mode of transport. Check the Details for a
-precise description of the procedures used to filter each mode of transport.
+precise description of the procedures used to filter the OSM ways according
+to each each mode of transport.
 }
 \details{
 The definition of usable transport network was taken from the Python
-packages \href{https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py}{osmnx} and
+packages
+\href{https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py}{osmnx} and
 \href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
 documents found online, i.e.
 \url{https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions},
@@ -40,62 +43,58 @@ in \url{https://github.com/ropensci/osmextract/issues/153}.
 The \code{cycling} mode of transport (i.e. the default value for \code{mode}
 parameter) selects the OSM ways that meet the following conditions:
 \itemize{
-\item The \code{highway} tag is not missing and is not equal to \code{abandonded},
-\code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
-\code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
-\code{raceway} or \code{steps};
-\item The \code{highway} tag is not equal to \code{motorway}, \code{motorway_link}, \code{footway},
-\code{bridleway} or \code{pedestrian} unless the tag \code{bicycle} is equal to \code{yes} (see
-\href{https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions}{here})
-for more details;
-\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{bicycle} tag
-is equal to \code{yes};
-\item The \code{bicycle} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, pr
+\item The \code{highway} tag is not missing;
+\item The \code{highway} tag is not equal to \code{abandonded}, \code{bus_guideway}, \code{byway},
+\code{construction}, \code{corridor}, \code{elevator}, \code{fixme}, \code{escalator}, \code{gallop},
+\code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed}, \code{raceway} or
+\code{steps};
+\item The \code{highway} tag is not equal to \code{motorway}, \code{motorway_link},
+\code{footway}, \code{bridleway} or \code{pedestrian} unless the tag \code{bicycle} is equal
+to \code{yes}, \code{designated}, \code{permissive} or \code{destination} (see
+\href{https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions}{here}
+for more details);
+\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{bicycle} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, or
 \code{restricted};
-\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
-\code{private_access} and similar);
+\item The \code{service} tag does not contain the string \code{private} (i.e.
+\code{private}, \code{private_access} and similar);
 }
 
 The \code{walking} mode of transport selects the OSM ways that meet the
 following conditions:
 \itemize{
-\item The \code{highway} tag is not missing and is not equal to \code{abandonded},
-\code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
+\item The \code{highway} tag is not missing;
+\item The \code{highway} tag is not equal to \code{abandonded}, \code{bus_guideway},
+\code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{raceway}, \code{motorway} or \code{motorway_link};
 \item The \code{highway} tag is not equal to \code{cycleway} unless the \code{foot} tag is
 equal to \code{yes};
-\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{foot} tag
-is equal to \code{yes};
-\item The \code{foot} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, pr
+\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{foot} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, or
 \code{restricted};
-\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
-\code{private_access} and similar).
+\item The \code{service} tag does not contain the string \code{private}
+(i.e. \code{private}, \code{private_access} and similar).
 }
 
 The \code{driving} mode of transport selects the OSM ways that meet the
 following conditions:
 \itemize{
-\item The \code{highway} tag is not missing and is not equal to \code{abandonded},
+\item The \code{highway} tag is not missing;
+\item The \code{highway} tag is not equal to \code{abandonded},
 \code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{cycleway}, \code{pedestrian}, \code{bridleway}, \code{path}, or \code{footway};
 \item The \code{access} tag is not equal to \code{private} or \code{no};
-\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private};
+\item The \code{service} tag does not contain the string \code{private} (i.e. \code{private},
 \code{private_access} and similar).
 }
 
-Feel free to start a new issue in the \href{https://github.com/ropensci/osmextract}{github repo} if you want to suggest
+Feel free to create a new issue in the \href{https://github.com/ropensci/osmextract}{github repo} if you want to suggest
 modifications to the current filters or propose new values for alternative
 modes of transport.
 }
 \examples{
-\dontshow{
-  its = file.copy(
-    from = system.file("its-example.osm.pbf", package = "osmextract"),
-    to = file.path(tempdir(), "test_its-example.osm.pbf"),
-    overwrite = TRUE
-)}
 # default value returned by OSM
 its = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 plot(its["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
