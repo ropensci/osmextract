@@ -99,7 +99,13 @@ oe_read = function(
 
   # Check that all arguments inside ... are named arguments. See also
   # https://github.com/ropensci/osmextract/issues/234
-  if (...length() && any(is.na(...names()))) {
+  if (
+    ...length() &&
+    # The following is a workaround until
+    # https://github.com/r-lib/backports/issues/65 is fixed or, at least,
+    # sorted out
+    (any(is.na(...names())) | any(is.null(...names())))
+  ) {
     stop(
       "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
       "Please check also that you didn't add an extra comma at the end of your call.",
