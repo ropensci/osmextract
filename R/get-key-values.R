@@ -6,32 +6,36 @@
 #' stored first.
 #'
 #' @details OSM data are typically documented using several
-#'   [`tags`](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two
-#'   items, namely a `key` and a `value`. The conversion between `.osm.pbf` and
-#'   `.gpkg` formats is governed by a `CONFIG` file that lists which tags must
-#'   be explicitly added to the `.gpkg` file. All the other keys are
-#'   automatically stored using an `other_tags` field with a syntax compatible
-#'   with the PostgreSQL HSTORE type. See
-#'   [here](https://gdal.org/drivers/vector/osm.html#driver-capabilities) for
-#'   more details.
+#' [`tags`](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two
+#' items, namely a `key` and a `value`. The conversion between `.osm.pbf` and
+#' `.gpkg` formats is governed by a `CONFIG` file that lists which tags must
+#' be explicitly added to the `.gpkg` file. All the other keys are
+#' automatically stored using an `other_tags` field with a syntax compatible
+#' with the PostgreSQL HSTORE type. See
+#' [here](https://gdal.org/drivers/vector/osm.html#driver-capabilities) for
+#' more details.
 #'
-#'   When the argument `values` is `TRUE`, then the function returns a named
-#'   list of class `oe_key_values_list` that, for each key, summarises the
-#'   corresponding values. The key-value pairs are stored using the following
-#'   format: `list(key1 = c("value1", "value1", "value2", ...), key2 =
-#'   c("value1", ...) ...)`. We decided to implement an ad-hoc method for
-#'   printing objects of class `oe_key_values_list` using the following
-#'   structure:\preformatted{ key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
-#'   ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ... }
-#'   where `n1` denotes the number of times that value1 is repeated, `n2`
-#'   denotes the number of times that value2 is repeated and so on. Also the
-#'   values are listed according to the number of occurrences in decreasing
-#'   order. By default, the function prints only the ten most common keys, but
-#'   the number can be adjusted using the option `oe_max_print_keys`.
+#' When the argument `values` is `TRUE`, then the function returns a named list
+#' of class `oe_key_values_list` that, for each key, summarises the
+#' corresponding values. The key-value pairs are stored using the following
+#' format:
+#' `list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)`.
+#' We decided to implement an ad-hoc method for printing objects of class
+#' `oe_key_values_list` using the following structure:\preformatted{
+#' key1 = {#value1 = n1; #value2 = n2; #value3 = n3, ...}
+#' key2 = {#value1 = n1; #value2 = n2; ...}
+#' key3 = {#value1 = n1}
+#' ...
+#' }
+#' where `n1` denotes the number of times that value1 is repeated, `n2` denotes
+#' the number of times that value2 is repeated and so on. Also the values are
+#' listed according to the number of occurrences in decreasing order. By
+#' default, the function prints only the ten most common keys, but the number
+#' can be adjusted using the option `oe_max_print_keys`.
 #'
-#'   Finally, the `hstore_get_value()` function can be used inside the `query`
-#'   argument in `oe_get()` to extract one particular tag from an existing file.
-#'   Check the introductory vignette and see examples.
+#' Finally, the `hstore_get_value()` function can be used inside the `query`
+#' argument in `oe_get()` to extract one particular tag from an existing file.
+#' Check the introductory vignette and see examples.
 #'
 #' @seealso `oe_vectortranslate()`
 #'
@@ -44,9 +48,6 @@
 #'   corresponding values, otherwise only the keys. Defaults to `FALSE. `
 #' @param which_keys Character vector used to subset only some keys and
 #'   corresponding values. Ignored if `values` is `FALSE`. See examples.
-#' @param download_directory Path of the directory that stores the `.osm.pbf`.
-#'   Only relevant when `zone` is as a character vector that must be matched to
-#'   a file via `oe_find()`.
 #' @param ... Ignored.
 #'
 #' @return If the argument `values` is `FALSE` (the default), then the function
@@ -61,7 +62,7 @@
 #' @examples
 #' # Copy ITS file to tempdir so that the examples do not require internet
 #' # connection. You can skip the next few lines (and start directly with
-#' # oe_get_keys) when running the examples locally.
+#' # oe_get_keys) when running the examples ocally.
 #' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
 #' file.copy(
 #'   from = system.file("its-example.osm.pbf", package = "osmextract"),
@@ -104,25 +105,13 @@
 #' # Remove .pbf and .gpkg files in tempdir
 #' # (since they may interact with other examples)
 #' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
-oe_get_keys = function(
-  zone,
-  layer = "lines",
-  values = FALSE,
-  which_keys = NULL,
-  download_directory = oe_download_directory()
-  ) {
+oe_get_keys = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   UseMethod("oe_get_keys")
 }
 
 #' @name oe_get_keys
 #' @export
-oe_get_keys.default = function(
-  zone,
-  layer = "lines",
-  values = FALSE,
-  which_keys = NULL,
-  download_directory = oe_download_directory()
-) {
+oe_get_keys.default = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   stop(
     "At the moment there is no support for objects of class ",
     class(zone)[1], ".",
@@ -133,13 +122,7 @@ oe_get_keys.default = function(
 
 #' @name oe_get_keys
 #' @export
-oe_get_keys.character = function(
-  zone,
-  layer = "lines",
-  values = FALSE,
-  which_keys = NULL,
-  download_directory = oe_download_directory()
-) {
+oe_get_keys.character = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   if (length(zone) != 1L) {
     stop("The input must have length 1", call. = FALSE)
   }
@@ -155,7 +138,7 @@ oe_get_keys.character = function(
           call. = FALSE
         )
       },
-      oe_find(zone, quiet = TRUE, download_directory = download_directory)
+      oe_find(zone, quiet = TRUE)
     )
 
     if (length(zone) > 1L) {
@@ -208,25 +191,28 @@ oe_get_keys.character = function(
   # both layer and query arguments are set (while it raises a warning in sf <
   # 1.0.2 when there are multiple layers and the layer argument is not set).
   # See also https://github.com/r-spatial/sf/issues/1444
-  obj = my_st_read(
-    dsn = zone,
-    layer = layer,
-    quiet = TRUE,
-    query = paste0("select other_tags from ", layer)
-  )
+
+  if (utils::packageVersion("sf") <= "1.0.1") {
+    obj = sf::st_read(
+      dsn = zone,
+      layer = layer,
+      query = paste0("select other_tags from ", layer),
+      quiet = TRUE
+    )
+  } else {
+    obj = sf::st_read(
+      dsn = zone,
+      query = paste0("select other_tags from ", layer),
+      quiet = TRUE
+    )
+  }
 
   get_keys(obj[["other_tags"]], values = values, which_keys = which_keys)
 }
 
 #' @name oe_get_keys
 #' @export
-oe_get_keys.sf = function(
-  zone,
-  layer = "lines",
-  values = FALSE,
-  which_keys = NULL,
-  download_directory = oe_download_directory()
-) {
+oe_get_keys.sf = function(zone, layer = "lines", values = FALSE, which_keys = NULL) {
   if ("other_tags" %!in% names(zone)) {
     stop("The input object must have an other_tags field.", call. = FALSE)
   }
