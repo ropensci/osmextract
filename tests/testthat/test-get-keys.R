@@ -99,25 +99,35 @@ test_that("oe_get_keys: reads from sf object", {
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
-  my_output = oe_get_keys("ITS Leeds", values = TRUE)
+  my_output = oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
   its_leeds_with_surface = oe_get(
     "ITS Leeds",
     query = "SELECT *, hstore_get_value(other_tags, 'surface') AS surface FROM lines",
-    quiet = TRUE
+    quiet = TRUE,
+    download_directory = tempdir(),
+    force_vectortranslate = TRUE
   )
 
   expect_equal(
     object = sort(table(my_output[["surface"]]), decreasing = TRUE)[1:2],
     expected = sort(table(its_leeds_with_surface[["surface"]]), decreasing = TRUE)[1:2]
   )
+
+  # Clean tempdir
+  file.remove(list.files(tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 })
 
+# Prepare the tests
+file.copy(
+  system.file("its-example.osm.pbf", package = "osmextract"),
+  file.path(tempdir(), "its-example.osm.pbf")
+)
+its_pbf = file.path(tempdir(), "its-example.osm.pbf")
 
 test_that("oe_get_keys stops when there is no other_tags field", {
   # Read data ignoring the other_tags field
   its_object = oe_read(
     its_pbf,
-    download_directory = tempdir(),
     query = "SELECT highway, geometry FROM lines",
     quiet = TRUE
   )
@@ -130,7 +140,6 @@ test_that("oe_get_keys stops when there is no other_tags field", {
   its_path = oe_read(
     its_pbf,
     download_only = TRUE,
-    download_directory = tempdir(),
     quiet = TRUE,
     vectortranslate_options = c(
       "-f", "GPKG", "-overwrite", "-select", "highway", "lines"
@@ -147,10 +156,10 @@ test_that("oe_get_keys stops when there is no other_tags field", {
 
 test_that("oe_get_keys matches input zone with file", {
   # Simplest example works
-  expect_error(oe_get_keys("ITS Leeds"), NA)
+  expect_error(oe_get_keys("ITS Leeds", download_directory = tempdir()), NA)
 
   # Cannot extract from files that were not previously downloaded
-  expect_error(oe_get_keys("Brazil"))
+  expect_error(oe_get_keys("Brazil", download_directory = tempdir()))
 })
 
 # Clean tempdir
