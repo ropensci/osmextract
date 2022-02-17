@@ -135,9 +135,10 @@ corresponding values, otherwise only the keys. Defaults to <code>FALSE. </code><
 <dd><p>Character vector used to subset only some keys and
 corresponding values. Ignored if <code>values</code> is <code>FALSE</code>. See examples.</p></dd>
 <dt>download_directory</dt>
-<dd><p>Path of the directory that stores the <code>.osm.pbf</code>.
-Only relevant when <code>zone</code> is as a character vector that must be matched to
-a file via <code><a href="oe_find.html">oe_find()</a></code>.</p></dd>
+<dd><p>Path of the directory that stores the <code>.osm.pbf</code>
+files. Only relevant when <code>zone</code> is as a character vector that must be
+matched to a file via <code><a href="oe_find.html">oe_find()</a></code>. Ignored unless <code>zone</code> is a character
+vector.</p></dd>
 <dt>x</dt>
 <dd><p>object of class <code>oe_key_values_list</code></p></dd>
 <dt>n</dt>
