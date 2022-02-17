@@ -8,13 +8,37 @@
 \alias{print.oe_key_values_list}
 \title{Return keys and (optionally) values stored in "other_tags" column}
 \usage{
-oe_get_keys(zone, layer = "lines", values = FALSE, which_keys = NULL)
+oe_get_keys(
+  zone,
+  layer = "lines",
+  values = FALSE,
+  which_keys = NULL,
+  download_directory = oe_download_directory()
+)
 
-\method{oe_get_keys}{default}(zone, layer = "lines", values = FALSE, which_keys = NULL)
+\method{oe_get_keys}{default}(
+  zone,
+  layer = "lines",
+  values = FALSE,
+  which_keys = NULL,
+  download_directory = oe_download_directory()
+)
 
-\method{oe_get_keys}{character}(zone, layer = "lines", values = FALSE, which_keys = NULL)
+\method{oe_get_keys}{character}(
+  zone,
+  layer = "lines",
+  values = FALSE,
+  which_keys = NULL,
+  download_directory = oe_download_directory()
+)
 
-\method{oe_get_keys}{sf}(zone, layer = "lines", values = FALSE, which_keys = NULL)
+\method{oe_get_keys}{sf}(
+  zone,
+  layer = "lines",
+  values = FALSE,
+  which_keys = NULL,
+  download_directory = oe_download_directory()
+)
 
 \method{print}{oe_key_values_list}(x, n = getOption("oe_max_print_keys", 10L), ...)
 }
@@ -36,6 +60,10 @@ corresponding values, otherwise only the keys. Defaults to \code{FALSE. }}
 
 \item{which_keys}{Character vector used to subset only some keys and
 corresponding values. Ignored if \code{values} is \code{FALSE}. See examples.}
+
+\item{download_directory}{Path of the directory that stores the \code{.osm.pbf}.
+Only relevant when \code{zone} is as a character vector that must be matched to
+a file via \code{oe_find()}.}
 
 \item{x}{object of class \code{oe_key_values_list}}
 
@@ -69,23 +97,18 @@ with the PostgreSQL HSTORE type. See
 \href{https://gdal.org/drivers/vector/osm.html#driver-capabilities}{here} for
 more details.
 
-When the argument \code{values} is \code{TRUE}, then the function returns a named list
-of class \code{oe_key_values_list} that, for each key, summarises the
+When the argument \code{values} is \code{TRUE}, then the function returns a named
+list of class \code{oe_key_values_list} that, for each key, summarises the
 corresponding values. The key-value pairs are stored using the following
-format:
-\verb{list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)}.
-We decided to implement an ad-hoc method for printing objects of class
-\code{oe_key_values_list} using the following structure:\preformatted{
-key1 = {#value1 = n1; #value2 = n2; #value3 = n3, ...}
-key2 = {#value1 = n1; #value2 = n2; ...}
-key3 = {#value1 = n1}
-...
-}
-where \code{n1} denotes the number of times that value1 is repeated, \code{n2} denotes
-the number of times that value2 is repeated and so on. Also the values are
-listed according to the number of occurrences in decreasing order. By
-default, the function prints only the ten most common keys, but the number
-can be adjusted using the option \code{oe_max_print_keys}.
+format: \verb{list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)}. We decided to implement an ad-hoc method for
+printing objects of class \code{oe_key_values_list} using the following
+structure:\preformatted{ key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
+  ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ... }
+where \code{n1} denotes the number of times that value1 is repeated, \code{n2}
+denotes the number of times that value2 is repeated and so on. Also the
+values are listed according to the number of occurrences in decreasing
+order. By default, the function prints only the ten most common keys, but
+the number can be adjusted using the option \code{oe_max_print_keys}.
 
 Finally, the \code{hstore_get_value()} function can be used inside the \code{query}
 argument in \code{oe_get()} to extract one particular tag from an existing file.
@@ -94,7 +117,7 @@ Check the introductory vignette and see examples.
 \examples{
 # Copy ITS file to tempdir so that the examples do not require internet
 # connection. You can skip the next few lines (and start directly with
-# oe_get_keys) when running the examples ocally.
+# oe_get_keys) when running the examples locally.
 its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
 file.copy(
   from = system.file("its-example.osm.pbf", package = "osmextract"),
