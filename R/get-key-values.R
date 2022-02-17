@@ -44,9 +44,10 @@
 #'   corresponding values, otherwise only the keys. Defaults to `FALSE. `
 #' @param which_keys Character vector used to subset only some keys and
 #'   corresponding values. Ignored if `values` is `FALSE`. See examples.
-#' @param download_directory Path of the directory that stores the `.osm.pbf`.
-#'   Only relevant when `zone` is as a character vector that must be matched to
-#'   a file via `oe_find()`.
+#' @param download_directory Path of the directory that stores the `.osm.pbf`
+#'   files. Only relevant when `zone` is as a character vector that must be
+#'   matched to a file via `oe_find()`. Ignored unless `zone` is a character
+#'   vector.
 #' @param ... Ignored.
 #'
 #' @return If the argument `values` is `FALSE` (the default), then the function

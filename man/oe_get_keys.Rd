@@ -61,9 +61,10 @@ corresponding values, otherwise only the keys. Defaults to \code{FALSE. }}
 \item{which_keys}{Character vector used to subset only some keys and
 corresponding values. Ignored if \code{values} is \code{FALSE}. See examples.}
 
-\item{download_directory}{Path of the directory that stores the \code{.osm.pbf}.
-Only relevant when \code{zone} is as a character vector that must be matched to
-a file via \code{oe_find()}.}
+\item{download_directory}{Path of the directory that stores the \code{.osm.pbf}
+files. Only relevant when \code{zone} is as a character vector that must be
+matched to a file via \code{oe_find()}. Ignored unless \code{zone} is a character
+vector.}
 
 \item{x}{object of class \code{oe_key_values_list}}
 
