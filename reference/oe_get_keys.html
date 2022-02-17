@@ -75,16 +75,40 @@ stored first.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">zone</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, values <span class="op">=</span> <span class="cn">FALSE</span>, which_keys <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">oe_get_keys</span><span class="op">(</span>
+  <span class="va">zone</span>,
+  layer <span class="op">=</span> <span class="st">"lines"</span>,
+  values <span class="op">=</span> <span class="cn">FALSE</span>,
+  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
+  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># S3 method for default</span>
-<span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">zone</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, values <span class="op">=</span> <span class="cn">FALSE</span>, which_keys <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu">oe_get_keys</span><span class="op">(</span>
+  <span class="va">zone</span>,
+  layer <span class="op">=</span> <span class="st">"lines"</span>,
+  values <span class="op">=</span> <span class="cn">FALSE</span>,
+  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
+  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># S3 method for character</span>
-<span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">zone</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, values <span class="op">=</span> <span class="cn">FALSE</span>, which_keys <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu">oe_get_keys</span><span class="op">(</span>
+  <span class="va">zone</span>,
+  layer <span class="op">=</span> <span class="st">"lines"</span>,
+  values <span class="op">=</span> <span class="cn">FALSE</span>,
+  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
+  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># S3 method for sf</span>
-<span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">zone</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, values <span class="op">=</span> <span class="cn">FALSE</span>, which_keys <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="fu">oe_get_keys</span><span class="op">(</span>
+  <span class="va">zone</span>,
+  layer <span class="op">=</span> <span class="st">"lines"</span>,
+  values <span class="op">=</span> <span class="cn">FALSE</span>,
+  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
+  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># S3 method for oe_key_values_list</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"oe_max_print_keys"</span>, <span class="fl">10L</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
@@ -110,6 +134,10 @@ corresponding values, otherwise only the keys. Defaults to <code>FALSE. </code><
 <dt>which_keys</dt>
 <dd><p>Character vector used to subset only some keys and
 corresponding values. Ignored if <code>values</code> is <code>FALSE</code>. See examples.</p></dd>
+<dt>download_directory</dt>
+<dd><p>Path of the directory that stores the <code>.osm.pbf</code>.
+Only relevant when <code>zone</code> is as a character vector that must be matched to
+a file via <code><a href="oe_find.html">oe_find()</a></code>.</p></dd>
 <dt>x</dt>
 <dd><p>object of class <code>oe_key_values_list</code></p></dd>
 <dt>n</dt>
@@ -138,22 +166,17 @@ automatically stored using an <code>other_tags</code> field with a syntax compat
 with the PostgreSQL HSTORE type. See
 <a href="https://gdal.org/drivers/vector/osm.html#driver-capabilities" class="external-link">here</a> for
 more details.</p>
-<p>When the argument <code>values</code> is <code>TRUE</code>, then the function returns a named list
-of class <code>oe_key_values_list</code> that, for each key, summarises the
+<p>When the argument <code>values</code> is <code>TRUE</code>, then the function returns a named
+list of class <code>oe_key_values_list</code> that, for each key, summarises the
 corresponding values. The key-value pairs are stored using the following
-format:
-<code>list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)</code>.
-We decided to implement an ad-hoc method for printing objects of class
-<code>oe_key_values_list</code> using the following structure:</p><div class="sourceCode"><pre><code>
-key1 = {#value1 = n1; #value2 = n2; #value3 = n3, ...}
-key2 = {#value1 = n1; #value2 = n2; ...}
-key3 = {#value1 = n1}
-...
-</code></pre></div><p>where <code>n1</code> denotes the number of times that value1 is repeated, <code>n2</code> denotes
-the number of times that value2 is repeated and so on. Also the values are
-listed according to the number of occurrences in decreasing order. By
-default, the function prints only the ten most common keys, but the number
-can be adjusted using the option <code>oe_max_print_keys</code>.</p>
+format: <code>list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)</code>. We decided to implement an ad-hoc method for
+printing objects of class <code>oe_key_values_list</code> using the following
+structure:</p><div class="sourceCode"><pre><code> key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
+  ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ... </code></pre></div><p>where <code>n1</code> denotes the number of times that value1 is repeated, <code>n2</code>
+denotes the number of times that value2 is repeated and so on. Also the
+values are listed according to the number of occurrences in decreasing
+order. By default, the function prints only the ten most common keys, but
+the number can be adjusted using the option <code>oe_max_print_keys</code>.</p>
 <p>Finally, the <code>hstore_get_value()</code> function can be used inside the <code>query</code>
 argument in <code><a href="oe_get.html">oe_get()</a></code> to extract one particular tag from an existing file.
 Check the introductory vignette and see examples.</p>
@@ -167,7 +190,7 @@ Check the introductory vignette and see examples.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span>
 <span class="r-in"><span class="co"># connection. You can skip the next few lines (and start directly with</span></span>
-<span class="r-in"><span class="co"># oe_get_keys) when running the examples ocally.</span></span>
+<span class="r-in"><span class="co"># oe_get_keys) when running the examples locally.</span></span>
 <span class="r-in"><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
 <span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
