@@ -29,6 +29,7 @@ check_layer_provider = function(layer, provider) {
 # https://github.com/r-spatial/sf/issues/1444. The following function is used
 # to circumvent this problem and set the appropriate arguments.
 my_st_read <- function(dsn, layer, quiet, ...) {
+  dots_names = extract_dots_names_safely(...)
   if (utils::packageVersion("sf") <= "1.0.1") {
     sf::st_read(
       dsn = dsn,
@@ -37,7 +38,7 @@ my_st_read <- function(dsn, layer, quiet, ...) {
       ...
     )
   } else {
-    if ("query" %in% ...names()) {
+    if ("query" %in% dots_names) {
       sf::st_read(
         dsn = dsn,
         quiet = quiet,
@@ -88,4 +89,21 @@ oe_message <- function(..., quiet) {
 # ?devtools::release()
 release_questions = function() {
   c("Did you check that the original osmconf.ini file was not updated?")
+}
+
+# Extract the names in ... safely
+extract_dots_names_safely <- function(...) {
+  if (!...length()) {
+    return(NULL)
+  }
+  tryCatch(
+    names(list(...)),
+    error = function(e) {
+      stop(
+        "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
+        "Please check also that you didn't add an extra comma at the end of your call.",
+        call. = FALSE
+      )
+    }
+  )
 }

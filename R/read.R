@@ -99,13 +99,8 @@ oe_read = function(
 
   # Check that all arguments inside ... are named arguments. See also
   # https://github.com/ropensci/osmextract/issues/234
-  if (
-    ...length() &&
-    # The following is a workaround until
-    # https://github.com/r-lib/backports/issues/65 is fixed or, at least,
-    # sorted out
-    (any(is.na(...names())) | any(is.null(...names())))
-  ) {
+  dots_names = extract_dots_names_safely(...)
+  if (...length() && (any(is.null(dots_names)) | any(dots_names == ""))) {
     stop(
       "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
       "Please check also that you didn't add an extra comma at the end of your call.",
@@ -117,7 +112,7 @@ oe_read = function(
   # https://github.com/ropensci/osmextract/issues/122. Moreover, I had to use
   # ...names() instead of names(list(...)) because of
   # https://github.com/ropensci/osmextract/issues/234
-  if ("query" %in% ...names()) {
+  if ("query" %in% dots_names) {
     # Check if the query argument (which is passed to sf::st_read) was defined using a
     # layer different than layer argument. Indeed:
     # Extracted from sf::st_read docs: For query with a character dsn the query
@@ -176,7 +171,7 @@ oe_read = function(
     # returns a notes in the R CMD checks related to :::. Hence, I decided to
     # use names(formals("st_read.character", envir = getNamespace("sf")))
     any(
-      ...names() %!in%
+      dots_names %!in%
       # The ... arguments in st_read are passed to st_as_sf so I need to add the
       # formals of st_as_sf.
       # See https://github.com/ropensci/osmextract/issues/152
@@ -191,7 +186,7 @@ oe_read = function(
       "The following arguments were probably misspelled: ",
       paste(
         setdiff(
-          ...names(),
+          dots_names,
           union(
             names(formals(get("st_read.character", envir = getNamespace("sf")))),
             names(formals(get("st_as_sf.data.frame", envir = getNamespace("sf"))))

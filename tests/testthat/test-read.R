@@ -234,6 +234,17 @@ test_that("oe_read returns an error with unnamed arguments in ...", {
     "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
   )
 
+  # Named + unnamed argument:
+  expect_error(
+    oe_read(
+      file_path = its_pbf,
+      layer = "lines",
+      query = "SELECT * FROM lines",
+      "ABC"
+    ),
+    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+  )
+
   # Extra comma:
   expect_error(
     oe_read(
