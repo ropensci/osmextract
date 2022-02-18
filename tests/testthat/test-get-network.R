@@ -5,36 +5,38 @@ file.copy(
 )
 
 test_that("oe_get_network: simplest examples work", {
-  expect_error(oe_get_network("ITS Leeds", quiet = TRUE), NA)
+  expect_error(oe_get_network("ITS Leeds", quiet = TRUE, download_directory = tempdir()), NA)
 })
 
 test_that("oe_get_network: options in ... work correctly", {
-  expect_warning(oe_get_network("ITS Leeds", layer = "points", quiet = TRUE))
-  expect_message(oe_get_network("ITS Leeds", quiet = TRUE), NA)
+  expect_warning(oe_get_network("ITS Leeds", layer = "points", quiet = TRUE, download_directory = tempdir()))
+  expect_message(oe_get_network("ITS Leeds", quiet = TRUE, download_directory = tempdir()), NA)
 
   driving_network_with_area_tag = oe_get_network(
     "ITS Leeds",
     mode = "driving",
     extra_tags = "area",
-    quiet = TRUE
+    quiet = TRUE,
+    download_directory = tempdir()
   )
   expect_true("area" %in% colnames(driving_network_with_area_tag))
 
   expect_error(oe_get_network(
     place = "ITS Leeds",
     quiet = TRUE,
-    vectortranslate_options = c("-where", "ABC")
+    vectortranslate_options = c("-where", "ABC"),
+    download_directory = tempdir()
   ))
 
   walking_network_27700 = oe_get_network(
     "ITS Leeds",
     mode = "walking",
     vectortranslate_options = c("-t_srs", "EPSG:27700"),
-    quiet = TRUE
+    quiet = TRUE,
+    download_directory = tempdir()
   )
   expect_true(sf::st_crs(walking_network_27700) == sf::st_crs(27700))
 })
-
 
 # Clean tempdir
 file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
