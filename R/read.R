@@ -98,13 +98,17 @@ oe_read = function(
   check_layer_provider(layer, provider)
 
   # Check that all arguments inside ... are named arguments. See also
-  # https://github.com/ropensci/osmextract/issues/234
+  # https://github.com/ropensci/osmextract/issues/234. I extract the names in
+  # ... and save the result in dots_names since names(list(...)) returns an
+  # error when there is a missing element in ... See the examples in utils.R. I
+  # need to check null and "" values. See utils.R for examples. See
+  # https://github.com/ropensci/osmextract/issues/241 and corresponding PR for a
+  # discussion.
   dots_names = extract_dots_names_safely(...)
   if (...length() && (any(is.null(dots_names)) | any(dots_names == ""))) {
-    stop(
-      "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named. ",
-      "Please check also that you didn't add an extra comma at the end of your call.",
-      call. = FALSE
+    stop_custom(
+      .subclass = "osmext-names-dots-error",
+      message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check also that you didn't add an extra comma at the end of your call.",
     )
   }
 
