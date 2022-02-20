@@ -223,34 +223,58 @@ test_that("warning when setting boundary and spat/clipsrc options", {
   ))
 })
 
-test_that("oe_read returns an error with unnamed arguments in ...", {
-  # Unnamed argument:
+test_that("oe_read returns an error with unnamed arguments", {
   expect_error(
     oe_read(
       file_path = its_pbf,
       layer = "lines",
       "SELECT * FROM lines"
     ),
-    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+    class = "osmext-names-dots-error"
   )
+})
 
-  # Extra comma:
+test_that("oe_read returns an error with named and unnamed arguments", {
+  expect_error(
+    oe_read(
+      file_path = its_pbf,
+      layer = "lines",
+      query = "SELECT * FROM lines",
+      "ABC"
+    ),
+    class = "osmext-names-dots-error"
+  )
+})
+
+test_that("oe_read returns an error with extra comma", {
   expect_error(
     oe_read(
       file_path = its_pbf,
       layer = "lines",
     ),
-    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+    class = "osmext-names-dots-error"
   )
+})
 
-  # Named argument + extra comma:
+test_that("oe_read returns an error with named argument + extra comma", {
   expect_error(
     oe_read(
       file_path = its_pbf,
       layer = "lines",
       query = "SELECT * FROM lines",
     ),
-    "All arguments in oe_get and oe_read beside 'place' and 'layer' must be named"
+    class = "osmext-names-dots-error"
+  )
+})
+
+test_that("oe_read returns an error with unnamed argument and extra comma", {
+  expect_error(
+    oe_read(
+      file_path = its_pbf,
+      layer = "lines",
+      query = "SELECT * FROM lines",
+    ),
+    class = "osmext-names-dots-error"
   )
 })
 
