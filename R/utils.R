@@ -127,7 +127,8 @@ extract_dots_names_safely <- function(...) {
 
 # See https://adv-r.hadley.nz/conditions.html#signalling. Code taken from that
 # book (and I think that's possible since the code is released with MIT
-# license).
+# license). The main benefit of this approach is that I can test the class of
+# the error instead of the message.
 stop_custom <- function(.subclass, message, call = NULL, ...) {
   err <- structure(
     list(
