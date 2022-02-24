@@ -88,7 +88,7 @@
 
       
 
-      </header><script src="providers_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Add new OpenStreetMap providers</h1>
@@ -142,8 +142,8 @@
 </ol>
 <p>The object must also include the fields <code>level</code> and <code>id</code>, which are used, respectively, for spatial matching and updating. See <code><a href="../reference/oe_match.html">oe_match()</a></code> and <code><a href="../reference/oe_update.html">oe_update()</a></code>.</p>
 <p>The best way to start creating a new <code>_zones</code> object for a new provider is probably by looking at the code we wrote for the first supported provider in <a href="https://github.com/ropensci/osmextract/blob/master/data-raw/geofabrik_zones.R" class="external-link"><code>data-raw/geofabrik_zones.R</code></a>. The following commands will clone this repo and open the relevant file:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">git</span> clone git@github.com:ropensci/osmextract</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:ropensci/osmextract</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
 <p>Then in RStudio:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/geofabrik_zones.R"</span><span class="op">)</span></code></pre></div>
