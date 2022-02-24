@@ -140,3 +140,24 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
   )
   stop(err)
 }
+
+#' Clean download directory
+#'
+#' This functions can be used to delete all `.osm.pbf` and `.gpkg` files in the
+#' `oe_download_directory`.
+#'
+#' @return The same as `unlink()`
+#' @export
+#'
+#' @examples
+#' # Warning: the following removes all files in download dir
+#' \donttest{
+#' oe_clean}
+oe_clean <- function() {
+  my_files = list.files(
+    path = oe_download_directory(),
+    pattern = "\\.(osm\\.pbf|gpkg)$",
+    full.names = TRUE
+  )
+  unlink(my_files)
+}
