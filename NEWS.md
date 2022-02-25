@@ -1,5 +1,8 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+* Fixed a bug in `oe_match()` that occurred every time `oe_match()` found an exact match between the input `place` and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `different-provider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. Fixed in #246. 
+
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
 * Added a more informative error message when `oe_get()` or `oe_read()` are run with empty or unnamed arguments in `...` (#234 and #241).
