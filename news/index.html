@@ -66,6 +66,10 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="osmextract-development-version">osmextract (development version)<a class="anchor" aria-label="anchor" href="#osmextract-development-version"></a></h2>
 <div class="section level4">
+<h4 id="major-changes-development-version">MAJOR CHANGES<a class="anchor" aria-label="anchor" href="#major-changes-development-version"></a></h4>
+<ul><li>Fixed a bug in <code><a href="../reference/oe_match.html">oe_match()</a></code> that occurred every time <code><a href="../reference/oe_match.html">oe_match()</a></code> found an exact match between the input <code>place</code> and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as <code>geofabrik_xyz.osm.pbf</code> instead of <code>different-provider_xyz.osm.pbf</code>. Reported by <a href="https://github.com/GretaTimaite" class="external-link">@GretaTimaite</a>, thanks. Fixed in <a href="https://github.com/ropensci/osmextract/issues/246" class="external-link">#246</a>.</li>
+</ul></div>
+<div class="section level4">
 <h4 id="minor-changes-development-version">MINOR CHANGES<a class="anchor" aria-label="anchor" href="#minor-changes-development-version"></a></h4>
 <ul><li>The <code>boundary</code> argument can be specified using <code>bbox</code> objects. The <code>bbox</code> object is converted to <code>sfc</code> object with <code><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">sf::st_as_sfc</a></code> and preserves the same CRS.</li>
 <li>Added a more informative error message when <code><a href="../reference/oe_get.html">oe_get()</a></code> or <code><a href="../reference/oe_read.html">oe_read()</a></code> are run with empty or unnamed arguments in <code>...</code> (<a href="https://github.com/ropensci/osmextract/issues/234" class="external-link">#234</a> and <a href="https://github.com/ropensci/osmextract/issues/241" class="external-link">#241</a>).</li>
