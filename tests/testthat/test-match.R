@@ -163,6 +163,6 @@ test_that("oe_match returns a warning message with missing CRS in input place", 
 })
 
 test_that("oe_match does not create a variable in global env after https://github.com/ropensci/osmextract/pull/246", {
-  oe_match("Leeds")
+  oe_match("Leeds", quiet = TRUE)
   expect_false(exists("provider", where = .GlobalEnv))
 })
