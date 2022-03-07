@@ -180,12 +180,18 @@ the vectortranslate process.
 }
 \examples{
 # First we need to match an input zone with a .osm.pbf file
-its_match = oe_match("ITS Leeds")
-\dontshow{file.copy(
+(its_match = oe_match("ITS Leeds"))
+
+# Copy ITS file to tempdir so that the examples do not require internet
+# connection. You can skip the next 3 lines (and start directly with
+# oe_get_keys) when running the examples locally.
+
+file.copy(
   from = system.file("its-example.osm.pbf", package = "osmextract"),
   to = file.path(tempdir(), "test_its-example.osm.pbf"),
   overwrite = TRUE
-)}
+)
+
 # The we can download the .osm.pbf file (is it was not already downloaded)
 its_pbf = oe_download(
   file_url = its_match$url,
@@ -195,13 +201,13 @@ its_pbf = oe_download(
 )
 
 # Check that the file was downloaded
-list.files(tempdir(), pattern = "pbf|gpkg", full.names = TRUE)
+list.files(tempdir(), pattern = "pbf|gpkg")
 
 # Convert to gpkg format
 its_gpkg = oe_vectortranslate(its_pbf)
 
 # Now there is an extra .gpkg file
-list.files(tempdir(), pattern = "pbf|gpkg", full.names = TRUE)
+list.files(tempdir(), pattern = "pbf|gpkg")
 
 # Check the layers of the .gpkg file
 sf::st_layers(its_gpkg, do_count = TRUE)
@@ -225,7 +231,6 @@ oe_vectortranslate(
   vectortranslate_options = c("-limit", 10)
 )
 sf::st_layers(its_gpkg, do_count = TRUE)
-
 
 # Remove .pbf and .gpkg files in tempdir
 # (since they may interact with other examples)

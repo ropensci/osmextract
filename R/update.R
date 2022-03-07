@@ -57,7 +57,7 @@
 #' # Check the directory
 #' list.files(fake_dir, pattern = "gpkg|pbf")
 #' # Update all .pbf files and delete all .gpkg files
-#' oe_update(fake_dir)
+#' oe_update(fake_dir, quiet = TRUE)
 #' list.files(fake_dir, pattern = "gpkg|pbf")}
 oe_update = function(
   download_directory = oe_download_directory(),

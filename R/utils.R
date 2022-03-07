@@ -152,7 +152,7 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #' @examples
 #' # Warning: the following removes all files in download dir
 #' \donttest{
-#' oe_clean}
+#' oe_clean()}
 oe_clean <- function() {
   my_files = list.files(
     path = oe_download_directory(),

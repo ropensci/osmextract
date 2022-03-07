@@ -76,7 +76,7 @@ file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"}
 path.
 }
 \examples{
-its_match = oe_match("ITS Leeds", quiet = TRUE)
+(its_match = oe_match("ITS Leeds", quiet = TRUE))
 
 \dontrun{
 oe_download(

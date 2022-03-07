@@ -103,8 +103,8 @@ list of class \code{oe_key_values_list} that, for each key, summarises the
 corresponding values. The key-value pairs are stored using the following
 format: \verb{list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)}. We decided to implement an ad-hoc method for
 printing objects of class \code{oe_key_values_list} using the following
-structure:\preformatted{ key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
-  ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ... }
+structure:\preformatted{key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
+  ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ...}
 where \code{n1} denotes the number of times that value1 is repeated, \code{n2}
 denotes the number of times that value2 is repeated and so on. Also the
 values are listed according to the number of occurrences in decreasing
@@ -117,8 +117,9 @@ Check the introductory vignette and see examples.
 }
 \examples{
 # Copy ITS file to tempdir so that the examples do not require internet
-# connection. You can skip the next few lines (and start directly with
+# connection. You can skip the next 4 lines (and start directly with
 # oe_get_keys) when running the examples locally.
+
 its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
 file.copy(
   from = system.file("its-example.osm.pbf", package = "osmextract"),
@@ -127,16 +128,19 @@ file.copy(
 )
 
 # Get keys
-oe_get_keys("ITS Leeds")
+oe_get_keys("ITS Leeds", download_directory = tempdir())
 
 # Get keys and values
-oe_get_keys("ITS Leeds", values = TRUE)
+oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
 
 # Subset some keys
-oe_get_keys("ITS Leeds", values = TRUE, which_keys = c("surface", "lanes"))
+oe_get_keys(
+  "ITS Leeds", values = TRUE, which_keys = c("surface", "lanes"),
+  download_directory = tempdir()
+)
 
 # Print all (non-NA) values for a given set of keys
-oe_get_keys("ITS Leeds", values = TRUE)["surface"]
+oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())["surface"]
 
 # Get keys from an existing sf object
 \dontrun{
@@ -145,12 +149,16 @@ oe_get_keys(its, values = TRUE)}
 
 # Get keys from a character vector pointing to a file (might be faster than
 # reading the complete file)
-its_path = oe_get("ITS Leeds", download_only = TRUE, download_directory = tempdir())
+its_path = oe_get(
+  "ITS Leeds", download_only = TRUE,
+  download_directory = tempdir(), quiet = TRUE
+)
 oe_get_keys(its_path, values = TRUE)
 
 # Add a key to an existing .gpkg file without repeating the
 # vectortranslate operations
 \dontrun{
+its = oe_get("ITS Leeds")
 colnames(its)
 colnames(oe_read(
   its_path,

@@ -80,13 +80,21 @@
 #'
 #' @examples
 #' # default value returned by OSM
-#' its = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
+#' its = oe_get(
+#'   "ITS Leeds", quiet = TRUE, download_directory = tempdir()
+#' )
 #' plot(its["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 #' # walking mode of transport
-#' its_walking = oe_get_network("ITS Leeds", mode = "walking", quiet = TRUE)
+#' its_walking = oe_get_network(
+#'   "ITS Leeds", mode = "walking",
+#'   download_directory = tempdir(), quiet = TRUE
+#' )
 #' plot(its_walking["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 #' # driving mode of transport
-#' its_driving = oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
+#' its_driving = oe_get_network(
+#'   "ITS Leeds", mode = "driving",
+#'   download_directory = tempdir(), quiet = TRUE
+#' )
 #' plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 #'
 #' # Remove .pbf and .gpkg files in tempdir

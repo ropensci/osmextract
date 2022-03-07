@@ -31,11 +31,11 @@
 #' @examples
 #' # Read an existing .pbf file. First we need to copy a .pbf file into a
 #' # temporary directory
+#'
 #' file.copy(
 #'   from = system.file("its-example.osm.pbf", package = "osmextract"),
 #'   to = file.path(tempdir(), "its-example.osm.pbf")
 #' )
-#'
 #' my_pbf = file.path(tempdir(), "its-example.osm.pbf")
 #' oe_read(my_pbf)
 #'

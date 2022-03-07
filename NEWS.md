@@ -10,7 +10,8 @@
 * Included a new function named `oe_clean()` to remove all `.pbf` and `.gpkg` files in the `download_directory()`. 
 
 ### DOCUMENTATION FIXES
-* Update description for `boundary` and `boundary_type` arguments. 
+* Update description for `boundary` and `boundary_type` arguments.
+* The main vignette and all examples save their files in `tempdir()` (#247). 
 
 # osmextract 0.4.0 
 

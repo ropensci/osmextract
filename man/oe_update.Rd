@@ -77,6 +77,6 @@ oe_get("Andorra", download_directory = fake_dir, download_only = TRUE)
 # Check the directory
 list.files(fake_dir, pattern = "gpkg|pbf")
 # Update all .pbf files and delete all .gpkg files
-oe_update(fake_dir)
+oe_update(fake_dir, quiet = TRUE)
 list.files(fake_dir, pattern = "gpkg|pbf")}
 }

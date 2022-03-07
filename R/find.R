@@ -30,12 +30,15 @@
 #'   corresponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
-#' \dontshow{
+#' # Copy ITS file to tempdir so that the examples do not require internet
+#' # connection. You can skip the next 4 lines (and start directly with
+#' # oe_get_keys) when running the examples locally.
+#'
 #' res = file.copy(
 #'   from = system.file("its-example.osm.pbf", package = "osmextract"),
 #'   to = file.path(tempdir(), "test_its-example.osm.pbf"),
 #'   overwrite = TRUE
-#' )}
+#' )
 #' res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 #' oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
 #'
