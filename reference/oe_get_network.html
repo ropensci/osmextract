@@ -32,7 +32,7 @@ to each each mode of transport."><meta property="og:image" content="/logo.svg"><
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -159,15 +159,23 @@ modes of transport.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># default value returned by OSM</span></span>
-<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">its</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span>, key.pos <span class="op">=</span> <span class="fl">4</span>, key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">lcm</a></span><span class="op">(</span><span class="fl">2.75</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="oe_get_network-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># walking mode of transport</span></span>
-<span class="r-in"><span class="va">its_walking</span> <span class="op">=</span> <span class="fu">oe_get_network</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, mode <span class="op">=</span> <span class="st">"walking"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_walking</span> <span class="op">=</span> <span class="fu">oe_get_network</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, mode <span class="op">=</span> <span class="st">"walking"</span>,</span>
+<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">its_walking</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span>, key.pos <span class="op">=</span> <span class="fl">4</span>, key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">lcm</a></span><span class="op">(</span><span class="fl">2.75</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="oe_get_network-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># driving mode of transport</span></span>
-<span class="r-in"><span class="va">its_driving</span> <span class="op">=</span> <span class="fu">oe_get_network</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, mode <span class="op">=</span> <span class="st">"driving"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_driving</span> <span class="op">=</span> <span class="fu">oe_get_network</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, mode <span class="op">=</span> <span class="st">"driving"</span>,</span>
+<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">its_driving</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span>, key.pos <span class="op">=</span> <span class="fl">4</span>, key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">lcm</a></span><span class="op">(</span><span class="fl">2.75</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="oe_get_network-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>

@@ -32,7 +32,7 @@ of the wrapped functions to understand the details behind all parameters."><meta
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -238,8 +238,9 @@ performs the other three operations.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span>
-<span class="r-in"><span class="co"># connection. You can skip the next few lines when running the examples</span></span>
+<span class="r-in"><span class="co"># connection. You can skip the next 4 lines when running the examples</span></span>
 <span class="r-in"><span class="co"># locally.</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
 <span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
@@ -249,13 +250,13 @@ performs the other three operations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Match, download (not really) and convert OSM extracts associated to a simple test.</span></span>
-<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpM2ESto/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpEubBse/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -268,14 +269,14 @@ performs the other three operations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Get another layer from ITS Leeds extract</span></span>
-<span class="r-in"><span class="va">its_points</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_points</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Adding a new layer to the .gpkg file</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmpM2ESto/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmpEubBse/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -286,20 +287,29 @@ performs the other three operations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Get the .osm.pbf and .gpkg files paths</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpM2ESto/test_its-example.gpkg"</span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpM2ESto/test_its-example.osm.pbf"</span>
+<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpEubBse/test_its-example.gpkg"</span>
+<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpEubBse/test_its-example.osm.pbf"</span>
 <span class="r-in"><span class="co"># See also ?oe_find()</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Add additional tags</span></span>
-<span class="r-in"><span class="va">its_with_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, extra_tags <span class="op">=</span> <span class="st">"oneway"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_with_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, extra_tags <span class="op">=</span> <span class="st">"oneway"</span>,</span>
+<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpM2ESto/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpEubBse/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -316,11 +326,11 @@ performs the other three operations.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Use the query argument to get only oneway streets:</span></span>
 <span class="r-in"><span class="va">q</span> <span class="op">=</span> <span class="st">"SELECT * FROM 'lines' WHERE oneway == 'yes'"</span></span>
-<span class="r-in"><span class="va">its_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, query <span class="op">=</span> <span class="va">q</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, query <span class="op">=</span> <span class="va">q</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/RtmpM2ESto/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/RtmpEubBse/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 13 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -360,19 +370,22 @@ performs the other three operations.</p>
 <span class="r-in">  <span class="op">)</span>,</span>
 <span class="r-in">  crs <span class="op">=</span> <span class="fl">4326</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">its_spat</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_spat</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpM2ESto/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpEubBse/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 77 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.552941 ymax: 53.81102</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="va">its_clipped</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, boundary_type <span class="op">=</span> <span class="st">"clipsrc"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">its_clipped</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, boundary_type <span class="op">=</span> <span class="st">"clipsrc"</span>,</span>
+<span class="r-in">  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span>, reset <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="st">"lightgrey"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_boundary</a></span><span class="op">(</span><span class="va">its_poly</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"black"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

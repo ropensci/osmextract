@@ -32,7 +32,7 @@ stored first."><meta property="og:image" content="/logo.svg"><!-- mathjax --><sc
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -172,8 +172,8 @@ list of class <code>oe_key_values_list</code> that, for each key, summarises the
 corresponding values. The key-value pairs are stored using the following
 format: <code>list(key1 = c("value1", "value1", "value2", ...), key2 = c("value1", ...) ...)</code>. We decided to implement an ad-hoc method for
 printing objects of class <code>oe_key_values_list</code> using the following
-structure:</p><div class="sourceCode"><pre><code> key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
-  ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ... </code></pre></div><p>where <code>n1</code> denotes the number of times that value1 is repeated, <code>n2</code>
+structure:</p><div class="sourceCode"><pre><code>key1 = {#value1 = n1; #value2 = n2; #value3 = n3,
+  ...} key2 = {#value1 = n1; #value2 = n2; ...} key3 = {#value1 = n1} ...</code></pre></div><p>where <code>n1</code> denotes the number of times that value1 is repeated, <code>n2</code>
 denotes the number of times that value2 is repeated and so on. Also the
 values are listed according to the number of occurrences in decreasing
 order. By default, the function prints only the ten most common keys, but
@@ -190,8 +190,9 @@ Check the introductory vignette and see examples.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span>
-<span class="r-in"><span class="co"># connection. You can skip the next few lines (and start directly with</span></span>
+<span class="r-in"><span class="co"># connection. You can skip the next 4 lines (and start directly with</span></span>
 <span class="r-in"><span class="co"># oe_get_keys) when running the examples locally.</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
 <span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
@@ -201,7 +202,7 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Get keys</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "surface"             "lanes"               "bicycle"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "lit"                 "access"              "oneway"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "maxspeed"            "ref"                 "foot"               </span>
@@ -217,7 +218,7 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [37] "voltage"             "website"            </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Get keys and values</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lanes (92% NAs) = {#2 = 9; #1 = 7}</span>
@@ -232,13 +233,16 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [Truncated output...]</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Subset some keys</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, which_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"surface"</span>, <span class="st">"lanes"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, which_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"surface"</span>, <span class="st">"lanes"</span><span class="op">)</span>,</span>
+<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 2 unique keys, printed in ascending order of % NA values. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lanes (92% NAs) = {#2 = 9; #1 = 7}</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Print all (non-NA) values for a given set of keys</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="st">"surface"</span><span class="op">]</span></span>
+<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="st">"surface"</span><span class="op">]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $surface</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "asphalt"       "asphalt"       "asphalt"       "asphalt"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "asphalt"       "asphalt"       "paved"         "cobblestone"  </span>
@@ -254,12 +258,10 @@ Check the introductory vignette and see examples.</p>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Get keys from a character vector pointing to a file (might be faster than</span></span>
 <span class="r-in"><span class="co"># reading the complete file)</span></span>
-<span class="r-in"><span class="va">its_path</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
+<span class="r-in"><span class="va">its_path</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
@@ -277,6 +279,7 @@ Check the introductory vignette and see examples.</p>
 <span class="r-in"><span class="co"># Add a key to an existing .gpkg file without repeating the</span></span>
 <span class="r-in"><span class="co"># vectortranslate operations</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu"><a href="oe_read.html">oe_read</a></span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">its_path</span>,</span>

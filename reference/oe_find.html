@@ -30,7 +30,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -136,17 +136,20 @@ an error.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontshow{</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span>
+<span class="r-in"><span class="co"># connection. You can skip the next 4 lines (and start directly with</span></span>
+<span class="r-in"><span class="co"># oe_get_keys) when running the examples locally.</span></span>
+<span class="r-in"></span>
 <span class="r-in"><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
 <span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
 <span class="r-in">  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span>,</span>
 <span class="r-in">  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span><span class="co"># }</span></span>
+<span class="r-in"><span class="op">)</span></span>
 <span class="r-in"><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">oe_find</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpM2ESto/test_its-example.gpkg"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmpM2ESto/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpEubBse/test_its-example.gpkg"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmpEubBse/test_its-example.osm.pbf"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Isle of Wight"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
