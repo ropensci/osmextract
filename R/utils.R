@@ -158,6 +158,19 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #' \dontrun{
 #' oe_clean()}
 oe_clean <- function() {
+  continue = 1L
+  if (interactive()) {
+    message("You are going to delete pbf and gpkg files in oe_download_directory()")
+    continue = utils::menu(
+      choices = c("Yes", "No"),
+      title = "Are you sure that you want to proceed?"
+    )
+  }
+
+  if (continue != 1L) {
+    stop("Aborted by user", call. = FALSE)
+  }
+
   my_files = list.files(
     path = oe_download_directory(),
     pattern = "\\.(osm\\.pbf|gpkg)$",
