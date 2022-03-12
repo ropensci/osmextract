@@ -15,6 +15,6 @@ This functions can be used to delete all \code{.osm.pbf} and \code{.gpkg} files 
 }
 \examples{
 # Warning: the following removes all files in download dir
-\donttest{
+\dontrun{
 oe_clean()}
 }
