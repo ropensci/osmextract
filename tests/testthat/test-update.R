@@ -1,12 +1,18 @@
 test_that("oe_update(): simplest example works", {
   # I always need internet connection when running oe_update()
   skip_on_cran()
-  skip_if_offline("github.com")
+  skip_if_offline("download.geofabrik.de")
 
-  # expect_error(oe_update(tempdir(), quiet = TRUE), NA)
+  nau <- oe_get("nauru", quiet = TRUE, download_directory = tempdir()) # smallest geofabrik extract
+  expect_error(oe_update(tempdir(), quiet = TRUE), NA)
 
   # AG: I decided to comment out that test since I don't see any benefit testing
-  # the "verbose" output during R CMD checks (that I rarely check manually)
+  # the "verbose" output during R CMD checks (something that I rarely check
+  # manually)
+
   # expect_message(oe_update(fake_dir, quiet = FALSE))
   # file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
+
+
+  file.remove(list.files(tempdir(), "(pbf|gpkg)$", full.names = TRUE))
 })
