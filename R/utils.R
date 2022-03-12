@@ -31,14 +31,14 @@ check_layer_provider = function(layer, provider) {
 my_st_read <- function(dsn, layer, quiet, ...) {
   # See below and read.R for more details on extract_dots_names_safely()
   dots_names = extract_dots_names_safely(...)
-  if (utils::packageVersion("sf") <= "1.0.1") {
+  if (utils::packageVersion("sf") <= "1.0.1") { # nocov start
     sf::st_read(
       dsn = dsn,
       layer = layer,
       quiet = quiet,
       ...
     )
-  } else {
+  } else { # nocov end
     if ("query" %in% dots_names) {
       sf::st_read(
         dsn = dsn,
@@ -72,7 +72,7 @@ my_st_read <- function(dsn, layer, quiet, ...) {
 oe_download_directory = function() {
   download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", tempdir())
   if (!dir.exists(download_directory)) {
-    dir.create(download_directory)
+    dir.create(download_directory) # nocov
   }
   normalizePath(download_directory)
 }
@@ -86,11 +86,15 @@ oe_message <- function(..., quiet) {
   invisible(0)
 }
 
+# nocov start
+
 # Adds additional question to devtools::release(). See Details section in
 # ?devtools::release()
 release_questions = function() {
   c("Did you check that the original osmconf.ini file was not updated?")
 }
+
+# nocov end
 
 # Extract the names in ... safely. I cannot use ...names() since that was
 # introduced in R 4.1. I also cannot freely use names(list(...)) since that

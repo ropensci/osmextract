@@ -10,6 +10,7 @@
     sep = "\n"
   ))
 
+  # nocov start
   if (
     sf::sf_extSoftVersion()["GDAL"] < "3.0.0" ||
     sf::sf_extSoftVersion()["proj.4"] < "6.0.0"
@@ -22,4 +23,5 @@
       " Check the README for more details."
     ))
   }
+  # nocov end
 }
