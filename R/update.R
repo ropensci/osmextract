@@ -187,6 +187,9 @@ oe_update = function(
       skip_vectortranslate = TRUE,
       max_file_size = max_file_size,
       quiet = quiet,
+      # The files should always be updated in that download_directory (which may
+      # not be the default one)
+      download_directory = download_directory,
       ...
     )
   }
