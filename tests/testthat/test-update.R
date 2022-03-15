@@ -1,9 +1,9 @@
 test_that("oe_update(): simplest example works", {
   # I always need internet connection when running oe_update()
   skip_on_cran()
-  skip_if_offline("download.geofabrik.de")
+  skip_if_offline("download.openstreetmap.fr")
 
-  nau <- oe_get("nauru", quiet = TRUE, download_directory = tempdir()) # smallest geofabrik extract
+  seva <- oe_get("Sevastopol", download_directory = tempdir()) # smallest openstreetmap.fr extract
   expect_error(oe_update(tempdir(), quiet = TRUE), NA)
 
   # AG: I decided to comment out that test since I don't see any benefit testing
@@ -12,7 +12,6 @@ test_that("oe_update(): simplest example works", {
 
   # expect_message(oe_update(fake_dir, quiet = FALSE))
   # file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
-
 
   file.remove(list.files(tempdir(), "(pbf|gpkg)$", full.names = TRUE))
 })
