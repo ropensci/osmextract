@@ -112,7 +112,7 @@ oe_read = function(
     )
   }
 
-  # Test if there is a misalignment between query and layer argumetn. See also
+  # Test if there is a misalignment between query and layer argument. See also
   # https://github.com/ropensci/osmextract/issues/122. Moreover, I had to use
   # ...names() instead of names(list(...)) because of
   # https://github.com/ropensci/osmextract/issues/234
@@ -149,15 +149,6 @@ oe_read = function(
         "https://github.com/ropensci/osmextract/issues",
         call. = FALSE
       )
-    }
-
-    if (layer_clean[[1]] != layer) {
-      warning(
-        "The query selected a layer which is different from layer argument. ",
-        "We replaced the layer argument.",
-        call. = FALSE
-      )
-      layer = layer_clean[[1]]
     }
   }
 

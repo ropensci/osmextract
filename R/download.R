@@ -129,6 +129,8 @@ oe_download = function(
       stop("Aborted by user.", call. = FALSE)
     }
 
+    oe_message("Downloading the OSM extract:", quiet = quiet)
+
     resp = httr::GET(
       url = file_url,
       if (isFALSE(quiet)) httr::progress(),

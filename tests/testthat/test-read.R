@@ -77,23 +77,6 @@ test_that("oe_read fails with misspelled arguments", {
   file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
 
-test_that("oe_read returns a warning message when query != layer", {
-  # Run tests
-  expect_warning(
-    object = oe_read(
-      its_pbf,
-      layer = "points",
-      # Testing also that the layer argument can be specified using upper case
-      query = "SELECT * FROM LINES",
-      quiet = TRUE
-    ),
-    regexp = "The query selected a layer which is different from layer argument."
-  )
-
-  # Remove the files
-  file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
-})
-
 test_that("extra_tags are not ignored when vectortranslate_options is not NULL", {
   its_gpkg = oe_read(
     its_pbf,
