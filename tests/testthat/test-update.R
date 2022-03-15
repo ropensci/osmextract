@@ -3,7 +3,7 @@ test_that("oe_update(): simplest example works", {
   skip_on_cran()
   skip_if_offline("download.openstreetmap.fr")
 
-  seva <- oe_get("Sevastopol", download_directory = tempdir()) # smallest openstreetmap.fr extract
+  seva <- oe_get("Sevastopol", download_directory = tempdir(), quiet = TRUE) # smallest openstreetmap.fr extract
   expect_error(oe_update(tempdir(), quiet = TRUE), NA)
 
   # AG: I decided to comment out that test since I don't see any benefit testing
