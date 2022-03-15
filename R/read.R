@@ -150,6 +150,10 @@ oe_read = function(
         call. = FALSE
       )
     }
+
+    if (layer_clean[[1]] != layer) {
+      layer = layer_clean[[1]]
+    }
   }
 
   # See https://github.com/ropensci/osmextract/issues/114
