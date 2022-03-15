@@ -8,6 +8,7 @@
 * Added a more informative error message when `oe_get()` or `oe_read()` are run with empty or unnamed arguments in `...` (#234 and #241).
 * The function `oe_get_keys()` gains a new argument named `download_directory` that can be used to specify the path of the directory that stores the `.osm.pbf` files. 
 * Included a new function named `oe_clean()` to remove all `.pbf` and `.gpkg` files in the `download_directory()`. 
+* Added a message to `oe_download()` and removed a warning from `oe_read()`. The message is printed every time a user downloads a new OSM extract from a certain provider, whereas the warning used to be raised when a given `query` selected a layer different from the `layer` argument (#240). 
 
 ### DOCUMENTATION FIXES
 * Update description for `boundary` and `boundary_type` arguments.
