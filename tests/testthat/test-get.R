@@ -35,7 +35,16 @@ test_that("The provider is overwritten when oe_match find a different provider",
   skip_if_offline("download.openstreetmap.fr")
 
   # I should also check the status code of the provider
-  my_status <- httr::status_code(httr::GET("https://download.openstreetmap.fr/"))
+  my_status <- try(
+    httr::status_code(
+      httr::GET(
+        "https://download.openstreetmap.fr/",
+        httr::timeout(15L)
+      )
+    ),
+    silent = TRUE
+  )
+  skip_if(inherits(my_status, "try-error"))
   skip_if_not(my_status == 200L)
 
   expect_match(
