@@ -184,24 +184,14 @@ oe_get_keys.character = function(
   # 1.0.2 when there are multiple layers and the layer argument is not set).
   # See also https://github.com/r-spatial/sf/issues/1444
 
-  if (utils::packageVersion("sf") <= "1.0.1") {
-    existing_fields = colnames(
-      sf::st_read(
-        dsn = zone,
-        layer = layer,
-        query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
-        quiet = TRUE
-      )
+  existing_fields = colnames(
+    my_st_read(
+      dsn = zone,
+      layer = layer,
+      quiet = TRUE,
+      query = paste0("SELECT * FROM ", layer, " LIMIT 0")
     )
-  } else {
-    existing_fields = colnames(
-      sf::st_read(
-        dsn = zone,
-        query = paste0("SELECT * FROM ", layer, " LIMIT 0"),
-        quiet = TRUE
-      )
-    )
-  }
+  )
 
   if ("other_tags" %!in% existing_fields) {
     stop(
