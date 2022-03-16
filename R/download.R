@@ -113,7 +113,7 @@ oe_download = function(
       !is.null(file_size) &&
       !is.na(file_size) &&
       file_size >= max_file_size
-    ) {
+    ) { # nocov start
       message("You are trying to download a file from ", file_url)
       message("This is a large file (", round(file_size / 1048576), " MB)!")
       continue = utils::menu(
@@ -123,7 +123,7 @@ oe_download = function(
 
       # It think it's always useful to see the progress bar for large files
       quiet = FALSE
-    }
+    } # nocov end
 
     if (continue != 1L) {
       stop("Aborted by user.", call. = FALSE)

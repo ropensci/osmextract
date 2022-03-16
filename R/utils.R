@@ -159,13 +159,13 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #' oe_clean()}
 oe_clean <- function() {
   continue = 1L
-  if (interactive()) {
+  if (interactive()) { # nocov start
     message("You are going to delete pbf and gpkg files in oe_download_directory()")
     continue = utils::menu(
       choices = c("Yes", "No"),
       title = "Are you sure that you want to proceed?"
     )
-  }
+  } # nocov end
 
   if (continue != 1L) {
     stop("Aborted by user", call. = FALSE)
