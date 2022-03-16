@@ -32,10 +32,14 @@ test_that("We can specify path using ~", {
 test_that("The provider is overwritten when oe_match find a different provider", {
   # See https://github.com/ropensci/osmextract/issues/245
   skip_on_cran()
-  skip_if_offline("github.com")
+  skip_if_offline("download.openstreetmap.fr")
+
+  # I should also check the status code of the provider
+  my_status <- httr::status_code(httr::GET("https://download.openstreetmap.fr/"))
+  skip_if_not(my_status == 200L)
 
   expect_match(
-    oe_get("Canarias", download_only = TRUE, skip_vectortranslate = TRUE, quiet = TRUE, download_directory = tempdir()),
+    oe_get("Sevastopol", download_only = TRUE, skip_vectortranslate = TRUE, quiet = TRUE, download_directory = tempdir()),
     regexp = "openstreetmap_fr"
   )
   file.remove(list.files(tempdir(), pattern = "pbf", full.names = TRUE))

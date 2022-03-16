@@ -3,6 +3,10 @@ test_that("oe_update(): simplest example works", {
   skip_on_cran()
   skip_if_offline("download.openstreetmap.fr")
 
+  # I should also check the status code of the provider
+  my_status <- httr::status_code(httr::GET("https://download.openstreetmap.fr/"))
+  skip_if_not(my_status == 200L)
+
   seva <- oe_get("Sevastopol", download_directory = tempdir(), quiet = TRUE) # smallest openstreetmap.fr extract
   expect_error(oe_update(tempdir(), quiet = TRUE), NA)
 
