@@ -247,7 +247,7 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
     # 1. Follow ^" or ," (where ^ denotes the start of a line)
     # and
     # 2. Precede the character "=>" (i.e. the delimiter)
-    pattern = '(?<=^\\"|,\\").+?(?=\\"=>\\")',
+    pattern = '(?<=^\\"|\\",\\").+?(?=\\"=>\\")',
     text = text,
     perl = TRUE
   )
@@ -266,7 +266,7 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
   # 4. Otherwise, we need to extract the values. I will use a regex that is
   # analogous to the previous query (inverting the lookahead and lookbehind)
   regexp_values = gregexpr(
-    pattern = '(?<=(\\"=>\\")).+?(?=\\"$|\\",)',
+    pattern = '(?<=(\\"=>\\")).*?(?=\\"$|\\",\\"|,\\")',
     text = text,
     perl = TRUE
   )

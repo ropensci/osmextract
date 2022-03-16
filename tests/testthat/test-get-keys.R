@@ -56,6 +56,14 @@ test_that("get_keys (values): more complicated examples", {
     expected = list(C = c("D", "E")),
     ignore_attr = TRUE
   )
+
+  # there might be empty values or newlines, see
+  # https://github.com/ropensci/osmextract/issues/250
+  expect_identical(
+    object = unclass(get_keys('"A"=>"\n","B"=>"C","D"=>""', values = TRUE)),
+    expected = list(A = "", B = "C", D = ""),
+    ignore_attr = TRUE
+  )
 })
 
 test_that("oe_get_keys: simplest examples work", {
