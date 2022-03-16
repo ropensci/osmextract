@@ -362,7 +362,7 @@ print.oe_key_values_list = function(x, n = getOption("oe_max_print_keys", 10L), 
     # As written before, I want to create an output like:
     # key = {#value1 = n1; #value2 = n2; ...}
     # so I start printing the ith key and the opening curly bracket
-    cat(keys[i], paste0("(", sprintf("%1.0f%%", perc_NA[i]), " NAs)"), "= {")
+    cat(keys[i], paste0("(", sprintf("%1.0f%%", floor(perc_NA[i])), " NAs)"), "= {")
     # Then I need to check the number of characters of the string that
     # summarises the values corresponding to the ith key. The object
     # width_keys_and_brackets counts the number of characters taken my the ith
