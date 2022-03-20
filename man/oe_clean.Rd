@@ -4,17 +4,21 @@
 \alias{oe_clean}
 \title{Clean download directory}
 \usage{
-oe_clean()
+oe_clean(download_directory = oe_download_directory())
+}
+\arguments{
+\item{download_directory}{The directory where the \code{.osm.pbf} and \code{.gpkg}
+files are saved. Default value is \code{oe_download_directory()}}
 }
 \value{
-The same as \code{unlink()}
+The same as \code{unlink()}.
 }
 \description{
-This functions can be used to delete all \code{.osm.pbf} and \code{.gpkg} files in the
-\code{oe_download_directory}.
+This functions is a wrapper around \code{unlink()} that can be used to delete all
+\code{.osm.pbf} and \code{.gpkg} files in a given directory.
 }
 \examples{
-# Warning: the following removes all files in download dir
+# Warning: the following removes all files in oe_download_directory()
 \dontrun{
 oe_clean()}
 }

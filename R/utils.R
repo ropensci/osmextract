@@ -147,32 +147,35 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 
 #' Clean download directory
 #'
-#' This functions can be used to delete all `.osm.pbf` and `.gpkg` files in the
-#' `oe_download_directory`.
+#' This functions is a wrapper around `unlink()` that can be used to delete all
+#' `.osm.pbf` and `.gpkg` files in a given directory.
 #'
-#' @return The same as `unlink()`
+#' @param download_directory The directory where the `.osm.pbf` and `.gpkg`
+#'   files are saved. Default value is `oe_download_directory()`
+#'
+#' @return The same as `unlink()`.
 #' @export
 #'
 #' @examples
-#' # Warning: the following removes all files in download dir
+#' # Warning: the following removes all files in oe_download_directory()
 #' \dontrun{
 #' oe_clean()}
-oe_clean <- function() {
+oe_clean <- function(download_directory = oe_download_directory()) {
   continue = 1L
   if (interactive()) { # nocov start
-    message("You are going to delete pbf and gpkg files in oe_download_directory()")
+    message("You are going to delete pbf and gpkg files in the `download_directory`")
     continue = utils::menu(
       choices = c("Yes", "No"),
       title = "Are you sure that you want to proceed?"
     )
-  } # nocov end
+  }
 
   if (continue != 1L) {
     stop("Aborted by user", call. = FALSE)
-  }
+  } # nocov end
 
   my_files = list.files(
-    path = oe_download_directory(),
+    path = download_directory,
     pattern = "\\.(osm\\.pbf|gpkg)$",
     full.names = TRUE
   )

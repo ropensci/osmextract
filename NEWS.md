@@ -1,14 +1,14 @@
 # osmextract (development version)
 
 ### MAJOR CHANGES
-* Fixed a bug in `oe_match()` that occurred every time `oe_match()` found an exact match between the input `place` and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `different-provider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. See #246. 
+* Fixed a bug in `oe_match()` that occurred every time `oe_match()` found an exact match between the input `place` and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `different-provider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. See #246. This is a quite major bug, and we suggest you erase all `.pbf` and `.gpkg` files stored in the persistent download directory (see also `?oe_clean`). 
 * Fixed a bug in `oe_get_keys()` that occurred when the value for a given key was either empty or equal to `\n` (#250). 
 
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
 * Added a more informative error message when `oe_get()` or `oe_read()` are run with empty or unnamed arguments in `...` (#234 and #241).
 * The function `oe_get_keys()` gains a new argument named `download_directory` that can be used to specify the path of the directory that stores the `.osm.pbf` files. 
-* Included a new function named `oe_clean()` to remove all `.pbf` and `.gpkg` files in the `download_directory()`. 
+* Included a new function named `oe_clean()` to remove all `.pbf` and `.gpkg` files stored in a given directory. Default value is `oe_download_directory()`. 
 * Added a message to `oe_download()` and removed a warning from `oe_read()`. The message is printed every time a user downloads a new OSM extract from a certain provider, whereas the warning used to be raised when a given `query` selected a layer different from the `layer` argument (#240). 
 
 ### DOCUMENTATION FIXES
