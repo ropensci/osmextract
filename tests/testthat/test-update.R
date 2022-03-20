@@ -1,5 +1,6 @@
 test_that("oe_update(): simplest example works", {
   # I always need internet connection when running oe_update()
+  # skip("I don't want to stress OSM servers")
   skip_on_cran()
   skip_if_offline("download.openstreetmap.fr")
 

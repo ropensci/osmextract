@@ -43,6 +43,7 @@ test_that("The provider is overwritten when oe_match find a different provider",
   )
 
   # See https://github.com/ropensci/osmextract/issues/245
+  # skip("I don't want to stress OSM servers")
   skip_on_cran()
   skip_if_offline("download.openstreetmap.fr")
 
