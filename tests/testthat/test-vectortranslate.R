@@ -155,4 +155,4 @@ test_that("vectortranslate is not skipped if force_download is TRUE", {
 })
 
 # Clean tempdir
-file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
+oe_clean(tempdir())

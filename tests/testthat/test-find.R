@@ -21,11 +21,18 @@ test_that("oe_find: simplest example works", {
 })
 
 # Clean tempdir
-file.remove(list.files(tempdir(), "(pbf|gpkg)$", full.names = TRUE))
+oe_clean(tempdir())
 
 test_that("download_if_missing in oe_find works", {
   skip_on_cran()
   skip_if_offline("github.com")
+
+  # Clean tempdir
+  on.exit(
+    oe_clean(tempdir()),
+    add = TRUE,
+    after = TRUE
+  )
 
   # Test that tempdir is really empty
   expect_true(!file.exists(file.path(tempdir(), "its-example.osm.pbf")))
@@ -40,7 +47,4 @@ test_that("download_if_missing in oe_find works", {
   )
   expect_type(its_leeds_find, "character")
   expect_length(its_leeds_find, 2)
-
-  # Clean tempdir
-  file.remove(its_leeds_find)
 })

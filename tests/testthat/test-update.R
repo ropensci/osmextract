@@ -3,6 +3,13 @@ test_that("oe_update(): simplest example works", {
   skip_on_cran()
   skip_if_offline("download.openstreetmap.fr")
 
+  # Clean tempdir
+  on.exit(
+    oe_clean(tempdir()),
+    add = TRUE,
+    after = TRUE
+  )
+
   # I should also check the status code of the provider
   my_status <- try(
     httr::status_code(
@@ -25,6 +32,4 @@ test_that("oe_update(): simplest example works", {
 
   # expect_message(oe_update(fake_dir, quiet = FALSE))
   # file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
-
-  file.remove(list.files(tempdir(), "(pbf|gpkg)$", full.names = TRUE))
 })

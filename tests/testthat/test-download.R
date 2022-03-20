@@ -1,6 +1,11 @@
 test_that("oe_download: simplest examples work", {
   skip_on_cran()
   skip_if_offline("github.com")
+  on.exit(
+    oe_clean(tempdir()),
+    add = TRUE,
+    after = TRUE
+  )
 
   # Run tests
   its_match = oe_match("ITS Leeds", quiet = TRUE)
@@ -23,9 +28,6 @@ test_that("oe_download: simplest examples work", {
     ),
     "Skip downloading."
   )
-
-  # Clean tempdir
-  file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
 })
 
 test_that("oe_download: fails with more than one URL", {

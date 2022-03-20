@@ -107,6 +107,13 @@ test_that("oe_get_keys: reads from sf object", {
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
+  # Clean tempdir
+  on.exit(
+    oe_clean(tempdir()),
+    add = TRUE,
+    after = TRUE
+  )
+
   my_output = oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
   its_leeds_with_surface = oe_get(
     "ITS Leeds",
@@ -120,9 +127,6 @@ test_that("the output from oe_get_keys is the same as for hstore_get_values", {
     object = sort(table(my_output[["surface"]]), decreasing = TRUE)[1:2],
     expected = sort(table(its_leeds_with_surface[["surface"]]), decreasing = TRUE)[1:2]
   )
-
-  # Clean tempdir
-  file.remove(list.files(tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
 })
 
 # Prepare the tests
@@ -171,4 +175,4 @@ test_that("oe_get_keys matches input zone with file", {
 })
 
 # Clean tempdir
-file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
+oe_clean(tempdir())

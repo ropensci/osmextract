@@ -9,6 +9,13 @@ test_that("oe_get_network: simplest examples work", {
 })
 
 test_that("oe_get_network: options in ... work correctly", {
+  # Clean tempdir
+  on.exit(
+    oe_clean(tempdir()),
+    add = TRUE,
+    after = TRUE
+  )
+
   expect_warning(oe_get_network("ITS Leeds", layer = "points", quiet = TRUE, download_directory = tempdir()))
   expect_message(oe_get_network("ITS Leeds", quiet = TRUE, download_directory = tempdir()), NA)
 
@@ -37,6 +44,3 @@ test_that("oe_get_network: options in ... work correctly", {
   )
   expect_true(sf::st_crs(walking_network_27700) == sf::st_crs(27700))
 })
-
-# Clean tempdir
-file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))

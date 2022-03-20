@@ -7,6 +7,13 @@ file.copy(
 its_pbf = file.path(tempdir(), "its-example.osm.pbf")
 
 test_that("oe_read: simplest examples work", {
+  # Clean tempdir
+  on.exit(
+    oe_clean(tempdir()),
+    add = TRUE,
+    after = TRUE
+  )
+
   # Read in data
   osm_data = oe_read(its_pbf, quiet = TRUE)
 
@@ -24,9 +31,6 @@ test_that("oe_read: simplest examples work", {
     as.character(unique(sf::st_geometry_type(osm_data_points))),
     "POINT"
   )
-
-  # Remove its-example from tempdir()
-  file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
 
 test_that("or_read: simplest example with a URL works", {
@@ -55,7 +59,7 @@ file.copy(
 )
 its_pbf = file.path(tempdir(), "its-example.osm.pbf")
 
-test_that("oe_read fails with a clear error message with wrong URL of file path", {
+test_that("oe_read fails with a clear error message with wrong URL or file path", {
   expect_error(
     oe_read("geofabrik_typo-in-path.osm.pbf"),
     "The input file_path does not correspond to any existing file and it doesn't look like a URL."
@@ -73,7 +77,7 @@ test_that("oe_read fails with misspelled arguments", {
     "no simple features"
   )
 
-  # Remove the .gpkg file from the inst/ directory
+  # Remove the .gpkg file from the temp directory
   file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
 
@@ -263,4 +267,4 @@ test_that("oe_read returns an error with unnamed argument and extra comma", {
 
 # Clean tempdir
 rm(its_poly)
-file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
+oe_clean(tempdir())
