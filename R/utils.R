@@ -162,7 +162,11 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #' oe_clean()}
 oe_clean <- function(download_directory = oe_download_directory()) {
   continue = 1L
-  if (interactive()) { # nocov start
+  if ( # nocov start
+    interactive() &&
+    !identical(Sys.getenv("TESTTHAT"), "true") &&
+    !isTRUE(getOption("knitr.in.progress"))
+  ) {
     message("You are going to delete pbf and gpkg files in the `download_directory`")
     continue = utils::menu(
       choices = c("Yes", "No"),
