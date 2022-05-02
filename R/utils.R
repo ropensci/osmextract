@@ -167,7 +167,10 @@ oe_clean <- function(download_directory = oe_download_directory()) {
     !identical(Sys.getenv("TESTTHAT"), "true") &&
     !isTRUE(getOption("knitr.in.progress"))
   ) {
-    message("You are going to delete pbf and gpkg files in the `download_directory`")
+    message(
+      "You are going to delete all pbf and gpkg files in ",
+      download_directory
+    )
     continue = utils::menu(
       choices = c("Yes", "No"),
       title = "Are you sure that you want to proceed?"
