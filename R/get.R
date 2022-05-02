@@ -211,8 +211,7 @@
 #' oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
 #'
 #' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+#' oe_clean(tempdir())
 oe_get = function(
   place,
   layer = "lines",

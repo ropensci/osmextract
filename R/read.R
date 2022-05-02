@@ -71,8 +71,7 @@
 #' oe_read(my_url, provider = "test", quiet = FALSE)}
 #'
 #' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+#' oe_clean(tempdir())
 oe_read = function(
   file_path,
   layer = "lines",

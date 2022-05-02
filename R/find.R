@@ -30,9 +30,9 @@
 #'   corresponding `.pbf` (and `.gpkg`) files.
 #' @export
 #' @examples
-#' # Copy ITS file to tempdir so that the examples do not require internet
-#' # connection. You can skip the next 4 lines (and start directly with
-#' # oe_get_keys) when running the examples locally.
+#' # Copy the ITS file to tempdir() to make sure that the examples do not
+#' # require internet connection. You can skip the next 4 lines (and start
+#' # directly with oe_get_keys) when running the examples locally.
 #'
 #' res = file.copy(
 #'   from = system.file("its-example.osm.pbf", package = "osmextract"),
@@ -53,8 +53,7 @@
 #' )}
 #'
 #' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+#' oe_clean(tempdir())
 oe_find = function(
   place,
   provider = "geofabrik",

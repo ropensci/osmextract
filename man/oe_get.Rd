@@ -257,8 +257,7 @@ oe_get("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
 oe_get("Andora", stringsAsFactors = FALSE, quiet = TRUE, as_tibble = TRUE)}
 
 # Remove .pbf and .gpkg files in tempdir
-# (since they may interact with other examples)
-file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+oe_clean(tempdir())
 }
 \seealso{
 \code{\link[=oe_match]{oe_match()}}, \code{\link[=oe_download]{oe_download()}}, \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}, and

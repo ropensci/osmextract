@@ -233,8 +233,7 @@ oe_vectortranslate(
 sf::st_layers(its_gpkg, do_count = TRUE)
 
 # Remove .pbf and .gpkg files in tempdir
-# (since they may interact with other examples)
-file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+oe_clean(tempdir())
 }
 \seealso{
 \code{\link[=oe_get_keys]{oe_get_keys()}}

@@ -60,9 +60,9 @@
 #' @export
 #'
 #' @examples
-#' # Copy ITS file to tempdir so that the examples do not require internet
-#' # connection. You can skip the next 4 lines (and start directly with
-#' # oe_get_keys) when running the examples locally.
+#' # Copy the ITS file to tempdir() to make sure that the examples do not
+#' # require internet connection. You can skip the next 4 lines (and start
+#' # directly with oe_get_keys) when running the examples locally.
 #'
 #' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
 #' file.copy(
@@ -111,8 +111,7 @@
 #' ))}
 #'
 #' # Remove .pbf and .gpkg files in tempdir
-#' # (since they may interact with other examples)
-#' file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+#' oe_clean(tempdir())
 oe_get_keys = function(
   zone,
   layer = "lines",

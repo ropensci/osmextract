@@ -114,8 +114,7 @@ its_driving = oe_get_network(
 plot(its_driving["highway"], lwd = 2, key.pos = 4, key.width = lcm(2.75))
 
 # Remove .pbf and .gpkg files in tempdir
-# (since they may interact with other examples)
-file.remove(list.files(path = tempdir(), pattern = "(pbf|gpkg)", full.names = TRUE))
+oe_clean(tempdir())
 }
 \seealso{
 \code{\link[=oe_get]{oe_get()}}
