@@ -2,13 +2,15 @@
 % Please edit documentation in R/find.R
 \name{oe_find}
 \alias{oe_find}
-\title{Get the location of files}
+\title{Get the path of .pbf and .gpkg files associated with an input OSM extract}
 \usage{
 oe_find(
   place,
   provider = "geofabrik",
   download_directory = oe_download_directory(),
   download_if_missing = FALSE,
+  return_pbf = TRUE,
+  return_gpkg = TRUE,
   quiet = FALSE,
   ...
 )
@@ -33,6 +35,12 @@ are stored. By default it is equal to \code{\link[=oe_download_directory]{oe_dow
 \item{download_if_missing}{Attempt to download the file if it cannot be
 found? \code{FALSE} by default.}
 
+\item{return_pbf}{Logical of length 1. If \code{TRUE}, the function returns the
+path of the pbf file that matches the input \code{place}.}
+
+\item{return_gpkg}{Logical of length 1. If \code{TRUE}, the function returns the
+path of the gpkg file that matches the input \code{place}.}
+
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
 \href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
@@ -44,27 +52,31 @@ Please note that you cannot modify the argument \code{download_only}.}
 }
 \value{
 A character vector of length one (or two) representing the path(s) of the
-corresponding \code{.pbf} (and \code{.gpkg}) files.
+\code{.pbf}/\code{.gpkg} files associated with the input \code{place}.
 }
 \description{
-This function takes a \code{place} name and it returns the path of \code{.pbf} and
-\code{.gpkg} files associated with it.
+This function takes a \code{place} name and returns the path of \code{.pbf}/\code{.gpkg}
+files associated with it.
 }
 \details{
-The matching between the existing files (saved in a directory
+The matching between the existing files (saved in the directory
 specified by \code{download_directory} parameter) and the input \code{place} is
-performed using \code{list.files}, setting a pattern equal to the basename of
-the URL associated to the input \code{place}. For example, if you specify
-\code{place = "Isle of Wight"}, then the input \code{place} is matched with a URL of
-a \code{.osm.pbf} file (via \code{\link[=oe_match]{oe_match()}}) and the matching is performed setting a
-pattern equal to the basename of that URL.
+performed using \code{list.files()}, setting the \code{pattern} equal to the basename
+of the URL associated to the input \code{place}. For example, if you specify
+\code{place = "Isle of Wight"}, then the input is matched (via \code{\link[=oe_match]{oe_match()}})
+with the URL of Isle of Wight's \code{.osm.pbf} file, and the files are selected
+using a pattern equal to the basename of that URL.
 
-If there is no file in \code{download_directory} that can be matched with the
-basename and \code{download_if_missing} parameter is equal to \code{TRUE}, then the
-function tries to download and translate a new file from the chosen
+If there is no file in the \code{download_directory} that can be matched with the
+basename of the URL and \code{download_if_missing} parameter is equal to \code{TRUE}, then the
+function tries to download and read a new file from the chosen
 provider (\code{geofabrik} is the default provider). If \code{download_if_missing}
 parameter is equal to \code{FALSE} (default value), then the function stops with
 an error.
+
+By default, this function returns the path of \code{.pbf} and \code{.gpkg} files
+associated with the input place (if any). You can exclude one of the two
+formats setting the arguments \code{return_pbf} or \code{return_gpkg} to \code{FALSE}.
 }
 \examples{
 # Copy the ITS file to tempdir() to make sure that the examples do not
@@ -78,6 +90,10 @@ res = file.copy(
 )
 res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
+oe_find(
+  "ITS Leeds", provider = "test",
+  download_directory = tempdir(), return_gpkg = FALSE
+)
 
 \dontrun{
 oe_find("Isle of Wight", download_directory = tempdir())
