@@ -35,15 +35,16 @@ test_that("We can specify path using ~", {
 })
 
 test_that("The provider is overwritten when oe_match find a different provider", {
-  # Clean tempdir
+  # See https://github.com/ropensci/osmextract/issues/245
+
+  # Clean tempdir on exit
   on.exit(
     oe_clean(tempdir()),
     add = TRUE,
     after = TRUE
   )
 
-  # See https://github.com/ropensci/osmextract/issues/245
-  # skip("I don't want to stress OSM servers")
+  skip_on_ci() # I can just run these tests on local laptop
   skip_on_cran()
   skip_if_offline("download.openstreetmap.fr")
 

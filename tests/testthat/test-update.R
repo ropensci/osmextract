@@ -1,10 +1,10 @@
 test_that("oe_update(): simplest example works", {
-  # I always need internet connection when running oe_update()
-  # skip("I don't want to stress OSM servers")
+  skip_on_ci() # I can just run these tests on local laptop
   skip_on_cran()
+  # I always need internet connection when running oe_update()
   skip_if_offline("download.openstreetmap.fr")
 
-  # Clean tempdir
+  # Clean tempdir on exit
   on.exit(
     oe_clean(tempdir()),
     add = TRUE,
