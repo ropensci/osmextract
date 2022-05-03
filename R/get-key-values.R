@@ -149,7 +149,7 @@ oe_get_keys.character = function(
   download_directory = oe_download_directory()
 ) {
   if (length(zone) != 1L) {
-    stop("The input must have length 1", call. = FALSE)
+    stop("The input to argument zone must have length 1", call. = FALSE)
   }
 
   if (!file.exists(zone)) {
