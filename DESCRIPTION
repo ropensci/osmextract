@@ -34,7 +34,8 @@ Suggests:
     testthat (>= 3.0.2),
     knitr,
     rmarkdown,
-    covr
+    covr,
+    withr
 VignetteBuilder: knitr
 Language: en_GB
 Config/testthat/edition: 3
