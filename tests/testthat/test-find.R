@@ -20,6 +20,30 @@ test_that("oe_find: simplest example works", {
   expect_length(its_leeds_find, 2)
 })
 
+test_that("oe_find: return_gpkg and return_pbf arguments work", {
+  pbf_find = oe_find(
+    "ITS Leeds",
+    download_directory = tempdir(),
+    quiet = TRUE,
+    return_gpkg = FALSE
+  )
+  gpkg_find = oe_find(
+    "ITS Leeds",
+    download_directory = tempdir(),
+    quiet = TRUE,
+    return_pbf = FALSE
+  )
+
+  expect_length(pbf_find, 1)
+  expect_length(gpkg_find, 1)
+
+  expect_type(pbf_find, "character")
+  expect_type(gpkg_find, "character")
+
+  expect_match(pbf_find, "pbf")
+  expect_match(gpkg_find, "gpkg")
+})
+
 # Clean tempdir
 oe_clean(tempdir())
 
@@ -48,3 +72,6 @@ test_that("download_if_missing in oe_find works", {
   expect_type(its_leeds_find, "character")
   expect_length(its_leeds_find, 2)
 })
+
+# Clean tempdir
+oe_clean(tempdir())
