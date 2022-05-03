@@ -5,11 +5,11 @@
 #'
 #' @details The matching between the existing files (saved in the directory
 #'   specified by `download_directory` parameter) and the input `place` is
-#'   performed using `list.files()`, setting the `pattern` equal to the basename
-#'   of the URL associated to the input `place`. For example, if you specify
-#'   `place = "Isle of Wight"`, then the input is matched (via [`oe_match()`])
-#'   with the URL of Isle of Wight's `.osm.pbf` file, and the files are selected
-#'   using a pattern equal to the basename of that URL.
+#'   performed using `list.files()`, setting the `pattern` argument equal to the
+#'   basename of the URL associated to the input `place`. For example, if you
+#'   specify `place = "Isle of Wight"`, then the input is matched (via
+#'   [`oe_match()`]) with the URL of Isle of Wight's `.osm.pbf` file, and the
+#'   files are selected using a pattern equal to the basename of that URL.
 #'
 #'   If there is no file in the `download_directory` that can be matched with the
 #'   basename of the URL and `download_if_missing` parameter is equal to `TRUE`, then the
@@ -34,8 +34,10 @@
 #'   Please note that you cannot modify the argument `download_only`.
 #' @inheritParams oe_get
 #'
-#' @return A character vector of length one (or two) representing the path(s) of the
-#'   `.pbf`/`.gpkg` files associated with the input `place`.
+#' @return A character vector of length one (or two) representing the path(s) of
+#'   the `.pbf`/`.gpkg` files associated with the input `place`. The files are
+#'   sorted in alphabetical order which implies that if both formats are present
+#'   in the `download_directory`, then the `.gpkg` file is returned first.
 #'
 #' @export
 #' @examples
@@ -62,7 +64,8 @@
 #'   "Leeds",
 #'   provider = "bbbike",
 #'   download_if_missing = TRUE,
-#'   download_directory = tempdir()
+#'   download_directory = tempdir(),
+#'   return_pbf = FALSE
 #' )}
 #'
 #' # Remove .pbf and .gpkg files in tempdir

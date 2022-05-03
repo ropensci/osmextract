@@ -51,8 +51,10 @@ display a progress bar.}
 Please note that you cannot modify the argument \code{download_only}.}
 }
 \value{
-A character vector of length one (or two) representing the path(s) of the
-\code{.pbf}/\code{.gpkg} files associated with the input \code{place}.
+A character vector of length one (or two) representing the path(s) of
+the \code{.pbf}/\code{.gpkg} files associated with the input \code{place}. The files are
+sorted in alphabetical order which implies that if both formats are present
+in the \code{download_directory}, then the \code{.gpkg} file is returned first.
 }
 \description{
 This function takes a \code{place} name and returns the path of \code{.pbf}/\code{.gpkg}
@@ -61,11 +63,11 @@ files associated with it.
 \details{
 The matching between the existing files (saved in the directory
 specified by \code{download_directory} parameter) and the input \code{place} is
-performed using \code{list.files()}, setting the \code{pattern} equal to the basename
-of the URL associated to the input \code{place}. For example, if you specify
-\code{place = "Isle of Wight"}, then the input is matched (via \code{\link[=oe_match]{oe_match()}})
-with the URL of Isle of Wight's \code{.osm.pbf} file, and the files are selected
-using a pattern equal to the basename of that URL.
+performed using \code{list.files()}, setting the \code{pattern} argument equal to the
+basename of the URL associated to the input \code{place}. For example, if you
+specify \code{place = "Isle of Wight"}, then the input is matched (via
+\code{\link[=oe_match]{oe_match()}}) with the URL of Isle of Wight's \code{.osm.pbf} file, and the
+files are selected using a pattern equal to the basename of that URL.
 
 If there is no file in the \code{download_directory} that can be matched with the
 basename of the URL and \code{download_if_missing} parameter is equal to \code{TRUE}, then the
@@ -102,7 +104,8 @@ oe_find(
   "Leeds",
   provider = "bbbike",
   download_if_missing = TRUE,
-  download_directory = tempdir()
+  download_directory = tempdir(),
+  return_pbf = FALSE
 )}
 
 # Remove .pbf and .gpkg files in tempdir
