@@ -1,18 +1,5 @@
-# Copy its-example.osm.pbf to tempdir(). See also
-# https://github.com/ropensci/osmextract/issues/175
-file.copy(
-  system.file("its-example.osm.pbf", package = "osmextract"),
-  file.path(tempdir(), "its-example.osm.pbf")
-)
-its_pbf = file.path(tempdir(), "its-example.osm.pbf")
-
 test_that("oe_read: simplest examples work", {
-  # Clean tempdir
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
-  )
+  setup_pbf(its_pbf)
 
   # Read in data
   osm_data = oe_read(its_pbf, quiet = TRUE)
@@ -36,37 +23,29 @@ test_that("oe_read: simplest examples work", {
 test_that("or_read: simplest example with a URL works", {
   skip_on_cran()
   skip_if_offline("github.com")
+  withr::defer(oe_clean(tempdir()))
 
   my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
   expect_error(
     oe_read(
       my_url,
       provider = "test",
-      quiet = TRUE,
-      download_directory = tempdir()
+      quiet = TRUE
     ),
     NA
   )
-
-  # Clean tempdir
-  file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
 })
-
-# Refill tempdir
-file.copy(
-  system.file("its-example.osm.pbf", package = "osmextract"),
-  file.path(tempdir(), "its-example.osm.pbf")
-)
-its_pbf = file.path(tempdir(), "its-example.osm.pbf")
 
 test_that("oe_read fails with a clear error message with wrong URL or file path", {
   expect_error(
-    oe_read("geofabrik_typo-in-path.osm.pbf"),
+    oe_read("geofabrik_with-typo-in-path.osm.pbf"),
     "The input file_path does not correspond to any existing file and it doesn't look like a URL."
   )
 })
 
 test_that("oe_read fails with misspelled arguments", {
+  setup_pbf(its_pbf)
+
   # Run tests
   expect_error(
     suppressWarnings(oe_read(
@@ -76,12 +55,11 @@ test_that("oe_read fails with misspelled arguments", {
     )),
     "no simple features"
   )
-
-  # Remove the .gpkg file from the temp directory
-  file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
 
 test_that("extra_tags are not ignored when vectortranslate_options is not NULL", {
+  setup_pbf(its_pbf)
+
   its_gpkg = oe_read(
     its_pbf,
     quiet = TRUE,
@@ -90,9 +68,6 @@ test_that("extra_tags are not ignored when vectortranslate_options is not NULL",
   )
 
   expect_true("oneway" %in% colnames(its_gpkg))
-
-  # clean tempdir
-  file.remove(list.files(tempdir(), pattern = "its-example.gpkg", full.names = TRUE))
 })
 
 # Create a fake osmconf_ini
@@ -103,6 +78,8 @@ temp_ini = tempfile(fileext = ".ini")
 writeLines(custom_osmconf_ini, temp_ini)
 
 test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL", {
+  setup_pbf(its_pbf)
+
   # Regular output
   its_gpkg = oe_read(its_pbf, quiet = TRUE)
   # Ad hoc osmconf_ini + vectortranslate options
@@ -120,6 +97,8 @@ test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL",
 })
 
 test_that("warning with ad_hoc osmconf_ini + extra_tags", {
+  setup_pbf(its_pbf)
+
   # Warning with adhoc osmconf_ini + extra_tags
   expect_warning(
     oe_read(
@@ -133,6 +112,8 @@ test_that("warning with ad_hoc osmconf_ini + extra_tags", {
 })
 
 test_that("warning with ad-hoc osmconf_ini + CONFIG_FILE in vectortranslate_options", {
+  setup_pbf(its_pbf)
+
   # Warning
   expect_warning(
     oe_read(
@@ -160,7 +141,9 @@ its_poly = sf::st_sfc(
   crs = 4326
 )
 
-test_that("boundary and boundary_type arguments from oe_vectortranslate works", {
+test_that("boundary and boundary_type arguments from oe_vectortranslate work", {
+  setup_pbf(its_pbf)
+
   # Spatial filters work
   its = oe_read(its_pbf, quiet = TRUE)
   its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
@@ -170,12 +153,16 @@ test_that("boundary and boundary_type arguments from oe_vectortranslate works", 
 })
 
 test_that("spatial filters work with bbox objects", {
+  setup_pbf(its_pbf)
+
   its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
   its_spat_bbox = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700) %>% sf::st_bbox(), quiet = TRUE)
   expect_gte(nrow(its_spat_bbox), nrow(its_spat))
 })
 
 test_that("we can combine boundary = ... with other vectortranslate arguments", {
+  setup_pbf(its_pbf)
+
   its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
   its_clipsrc = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc")
   its_clipsrc_small = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc", vectortranslate_options = c("-where", "highway = 'footway'"))
@@ -184,17 +171,23 @@ test_that("we can combine boundary = ... with other vectortranslate arguments", 
 })
 
 test_that("get a warning for more than 1 polygon in boundary = ...", {
+  setup_pbf(its_pbf)
+
   # Warning for more than 1 POLYGON
   expect_warning(oe_read(its_pbf, boundary = c(its_poly, its_poly), quiet = TRUE))
 })
 
 test_that("get error when boundary is not a POLYGON/MULTIPOLYGON", {
+  setup_pbf(its_pbf)
+
   # Error for non POLYGON boundary. I need suppressWarnings for the warning on
   # centroids for lat/long data
   suppressWarnings(expect_error(oe_read(its_pbf, boundary = sf::st_centroid(its_poly), quiet = TRUE)))
 })
 
 test_that("warning when setting boundary and spat/clipsrc options", {
+  setup_pbf(its_pbf)
+
   expect_warning(oe_read(
     file_path = its_pbf,
     boundary = its_poly,
@@ -211,6 +204,8 @@ test_that("warning when setting boundary and spat/clipsrc options", {
 })
 
 test_that("oe_read returns an error with unnamed arguments", {
+  setup_pbf(its_pbf)
+
   expect_error(
     oe_read(
       file_path = its_pbf,
@@ -222,6 +217,8 @@ test_that("oe_read returns an error with unnamed arguments", {
 })
 
 test_that("oe_read returns an error with named and unnamed arguments", {
+  setup_pbf(its_pbf)
+
   expect_error(
     oe_read(
       file_path = its_pbf,
@@ -234,6 +231,8 @@ test_that("oe_read returns an error with named and unnamed arguments", {
 })
 
 test_that("oe_read returns an error with extra comma", {
+  setup_pbf(its_pbf)
+
   expect_error(
     oe_read(
       file_path = its_pbf,
@@ -244,6 +243,8 @@ test_that("oe_read returns an error with extra comma", {
 })
 
 test_that("oe_read returns an error with named argument + extra comma", {
+  setup_pbf(its_pbf)
+
   expect_error(
     oe_read(
       file_path = its_pbf,
@@ -255,6 +256,8 @@ test_that("oe_read returns an error with named argument + extra comma", {
 })
 
 test_that("oe_read returns an error with unnamed argument and extra comma", {
+  setup_pbf(its_pbf)
+
   expect_error(
     oe_read(
       file_path = its_pbf,
@@ -265,6 +268,5 @@ test_that("oe_read returns an error with unnamed argument and extra comma", {
   )
 })
 
-# Clean tempdir
+# Clean
 rm(its_poly)
-oe_clean(tempdir())

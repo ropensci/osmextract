@@ -1,10 +1,3 @@
-# Prepare the tests
-file.copy(
-  system.file("its-example.osm.pbf", package = "osmextract"),
-  file.path(tempdir(), "its-example.osm.pbf")
-)
-its_pbf = file.path(tempdir(), "its-example.osm.pbf")
-
 test_that("get_keys (keys): simplest examples work", {
   expect_equal(get_keys('"A"=>"B"'), "A")
   expect_equal(get_keys(c('"A"=>"B"', '"C"=>"D"')), c("A", "C"))
@@ -67,6 +60,8 @@ test_that("get_keys (values): more complicated examples", {
 })
 
 test_that("oe_get_keys: simplest examples work", {
+  setup_pbf(its_pbf)
+
   # Define path to gpkg object
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
 
@@ -78,18 +73,16 @@ test_that("oe_get_keys: simplest examples work", {
   expect_type(keys1, "character")
   expect_type(keys2, "character")
   expect_equal(length(keys1), length(keys2))
-
-  file.remove(its_gpkg)
 })
 
 test_that("oe_get_keys + values: printing method", {
+  setup_pbf(its_pbf)
+
   expect_snapshot_output(oe_get_keys(its_pbf, values = TRUE))
 
   # Define path to gpkg object
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
   expect_snapshot_output(oe_get_keys(its_gpkg, values = TRUE))
-
-  file.remove(its_gpkg)
 })
 
 test_that("oe_get_keys: returns error with wrong inputs", {
@@ -97,29 +90,25 @@ test_that("oe_get_keys: returns error with wrong inputs", {
     oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
     "there is no support for objects of class"
   )
-  expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
-  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg"))) # length > 1
+  expect_error(oe_get_keys("xxx.gpkg"), "input file does not exist") # file does not exist
+  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg")), "must have length 1") # length > 1
 })
 
 test_that("oe_get_keys: reads from sf object", {
-  its_object = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
-  expect_error(oe_get_keys(its_object), NA)
+  setup_pbf(its_pbf)
+
+  its = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
+  expect_error(oe_get_keys(its), NA)
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
-  # Clean tempdir
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
-  )
+  setup_pbf(its_pbf)
 
-  my_output = oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
+  my_output = oe_get_keys("ITS Leeds", values = TRUE)
   its_leeds_with_surface = oe_get(
     "ITS Leeds",
     query = "SELECT *, hstore_get_value(other_tags, 'surface') AS surface FROM lines",
     quiet = TRUE,
-    download_directory = tempdir(),
     force_vectortranslate = TRUE
   )
 
@@ -129,14 +118,9 @@ test_that("the output from oe_get_keys is the same as for hstore_get_values", {
   )
 })
 
-# Prepare the tests
-file.copy(
-  system.file("its-example.osm.pbf", package = "osmextract"),
-  file.path(tempdir(), "its-example.osm.pbf")
-)
-its_pbf = file.path(tempdir(), "its-example.osm.pbf")
-
 test_that("oe_get_keys stops when there is no other_tags field", {
+  setup_pbf(its_pbf)
+
   # Read data ignoring the other_tags field
   its_object = oe_read(
     its_pbf,
@@ -149,7 +133,7 @@ test_that("oe_get_keys stops when there is no other_tags field", {
   )
 
   # Translate data ignoring the other_tags field
-  its_path = oe_read(
+  its_gpkg = oe_read(
     its_pbf,
     download_only = TRUE,
     quiet = TRUE,
@@ -158,21 +142,17 @@ test_that("oe_get_keys stops when there is no other_tags field", {
     )
   )
   expect_error(
-    oe_get_keys(its_path),
+    oe_get_keys(its_gpkg),
     "The input file must have an other_tags field."
   )
-
-  # Clean tempdir
-  file.remove(its_path)
 })
 
 test_that("oe_get_keys matches input zone with file", {
+  setup_pbf(its_pbf)
+
   # Simplest example works
-  expect_error(oe_get_keys("ITS Leeds", download_directory = tempdir()), NA)
+  expect_error(oe_get_keys("ITS Leeds"), NA)
 
   # Cannot extract from files that were not previously downloaded
-  expect_error(oe_get_keys("Brazil", download_directory = tempdir()))
+  expect_error(oe_get_keys("Brazil"))
 })
-
-# Clean tempdir
-oe_clean(tempdir())

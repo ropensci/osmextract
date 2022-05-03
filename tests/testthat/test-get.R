@@ -1,26 +1,20 @@
 test_that("oe_get: simplest examples work", {
-  # Clean tempdir
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
-  )
-
-  # since it requires internet connection
   skip_on_cran()
   skip_if_offline("github.com")
+  withr::defer(oe_clean(tempdir()))
 
   expect_s3_class(
-    oe_get("ITS Leeds", provider = "test", quiet = TRUE, download_directory = tempdir()),
+    oe_get("ITS Leeds", provider = "test", quiet = TRUE),
     "sf"
   )
 })
 
-test_that("We can specify path using ~", {
+test_that("We can specify a path using ~", {
   # I think that we cannot safely add a directory on CRAN tests
   # See also https://github.com/ropensci/osmextract/issues/175
   skip_on_cran()
   skip_if_offline("github.com")
+  withr::defer(unlink("~/test_for_tilde_in_R_osmextract", recursive = TRUE))
 
   dir.create("~/test_for_tilde_in_R_osmextract")
   expect_s3_class(
@@ -31,18 +25,13 @@ test_that("We can specify path using ~", {
     ),
     class = "sf"
   )
-  unlink("~/test_for_tilde_in_R_osmextract", recursive = TRUE)
+
 })
 
-test_that("The provider is overwritten when oe_match find a different provider", {
+test_that("The provider is overwritten when oe_match finds a different provider", {
   # See https://github.com/ropensci/osmextract/issues/245
 
-  # Clean tempdir on exit
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
-  )
+  withr::defer(oe_clean(tempdir()))
 
   skip_on_ci() # I can just run these tests on local laptop
   skip_on_cran()
@@ -62,7 +51,7 @@ test_that("The provider is overwritten when oe_match find a different provider",
   skip_if_not(my_status == 200L)
 
   expect_match(
-    oe_get("Sevastopol", download_only = TRUE, skip_vectortranslate = TRUE, quiet = TRUE, download_directory = tempdir()),
+    oe_get("Sevastopol", download_only = TRUE, skip_vectortranslate = TRUE, quiet = TRUE),
     regexp = "openstreetmap_fr"
   )
 })

@@ -99,6 +99,7 @@ test_that("oe_match can use different providers", {
 test_that("oe_match looks for a place location online", {
   skip_on_cran()
   skip_if_offline("github.com")
+  skip_on_ci()
 
   expect_match(
     oe_match("Olginate", quiet = TRUE)$url,

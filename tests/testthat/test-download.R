@@ -1,19 +1,13 @@
 test_that("oe_download: simplest examples work", {
   skip_on_cran()
   skip_if_offline("github.com")
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
-  )
+  withr::defer(oe_clean(tempdir()))
 
-  # Run tests
   its_match = oe_match("ITS Leeds", quiet = TRUE)
   expect_error(
     oe_download(
       file_url = its_match$url,
       provider = "test",
-      download_directory = tempdir(),
       quiet = TRUE
     ),
     NA
@@ -23,7 +17,6 @@ test_that("oe_download: simplest examples work", {
     oe_download(
       file_url = its_match$url,
       provider = "test",
-      download_directory = tempdir(),
       quiet = FALSE
     ),
     "Skip downloading."
