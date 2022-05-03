@@ -77,6 +77,7 @@
 <li>The function <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> gains a new argument named <code>download_directory</code> that can be used to specify the path of the directory that stores the <code>.osm.pbf</code> files.</li>
 <li>Included a new function named <code><a href="../reference/oe_clean.html">oe_clean()</a></code> to remove all <code>.pbf</code> and <code>.gpkg</code> files stored in a given directory. Default value is <code><a href="../reference/oe_download_directory.html">oe_download_directory()</a></code>.</li>
 <li>Added a message to <code><a href="../reference/oe_download.html">oe_download()</a></code> and removed a warning from <code><a href="../reference/oe_read.html">oe_read()</a></code>. The message is printed every time a user downloads a new OSM extract from a certain provider, whereas the warning used to be raised when a given <code>query</code> selected a layer different from the <code>layer</code> argument (<a href="https://github.com/ropensci/osmextract/issues/240" class="external-link">#240</a>).</li>
+<li>Added two new parameters to <code>oe_find</code> named <code>return_pbf</code> and <code>return_gpkg</code>. They can be used to select which file formats should the function return (<a href="https://github.com/ropensci/osmextract/issues/253" class="external-link">#253</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-fixes-development-version">DOCUMENTATION FIXES<a class="anchor" aria-label="anchor" href="#documentation-fixes-development-version"></a></h4>
