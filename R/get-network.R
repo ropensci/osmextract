@@ -79,6 +79,17 @@
 #' @seealso [oe_get()]
 #'
 #' @examples
+#' # Copy the ITS file to tempdir() to make sure that the examples do not
+#' # require internet connection. You can skip the next 4 lines (and start
+#' # directly with oe_get_keys) when running the examples locally.
+#'
+#' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+#' file.copy(
+#'   from = system.file("its-example.osm.pbf", package = "osmextract"),
+#'   to = its_pbf,
+#'   overwrite = TRUE
+#' )
+#'
 #' # default value returned by OSM
 #' its = oe_get(
 #'   "ITS Leeds", quiet = TRUE, download_directory = tempdir()

@@ -184,7 +184,7 @@ the vectortranslate process.
 
 # Copy ITS file to tempdir so that the examples do not require internet
 # connection. You can skip the next 3 lines (and start directly with
-# oe_get_keys) when running the examples locally.
+# oe_download()) when running the examples locally.
 
 file.copy(
   from = system.file("its-example.osm.pbf", package = "osmextract"),
@@ -192,7 +192,7 @@ file.copy(
   overwrite = TRUE
 )
 
-# The we can download the .osm.pbf file (is it was not already downloaded)
+# The we can download the .osm.pbf file (if it was not already downloaded)
 its_pbf = oe_download(
   file_url = its_match$url,
   file_size = its_match$file_size,

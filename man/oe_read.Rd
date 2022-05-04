@@ -141,30 +141,29 @@ the tags in \code{other_tags} field as new columns. See examples and
 \examples{
 # Read an existing .pbf file. First we need to copy a .pbf file into a
 # temporary directory
-
+its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
 file.copy(
   from = system.file("its-example.osm.pbf", package = "osmextract"),
-  to = file.path(tempdir(), "its-example.osm.pbf")
+  to = its_pbf
 )
-my_pbf = file.path(tempdir(), "its-example.osm.pbf")
-oe_read(my_pbf)
+oe_read(its_pbf)
 
 # Read a new layer
-oe_read(my_pbf, layer = "points")
+oe_read(its_pbf, layer = "points")
 
 # The following example shows how to add new tags
-names(oe_read(my_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
+names(oe_read(its_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
 
-# Read an existing .gpkg file. This file was created by oe_read
-my_gpkg = file.path(tempdir(), "its-example.gpkg")
-oe_read(my_gpkg)
+# Read an existing .gpkg file. This file was created internally by oe_read().
+its_gpkg = file.path(tempdir(), "test_its-example.gpkg")
+oe_read(its_gpkg)
 
 # You cannot add any new layer to an existing .gpkg file but you can extract
 # some of the tags in other_tags. Check oe_get_keys() for more details.
-names(oe_read(my_gpkg, extra_tags = c("maxspeed"))) # doesn't work
+names(oe_read(its_gpkg, extra_tags = c("maxspeed"))) # doesn't work
 # Instead, use the query argument
 names(oe_read(
-  my_gpkg,
+  its_gpkg,
   quiet = TRUE,
   query =
   "SELECT *,

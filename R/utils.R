@@ -151,7 +151,7 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #' `.osm.pbf` and `.gpkg` files in a given directory.
 #'
 #' @param download_directory The directory where the `.osm.pbf` and `.gpkg`
-#'   files are saved. Default value is `oe_download_directory()`
+#'   files are saved. Default value is `oe_download_directory()`.
 #'
 #' @return The same as `unlink()`.
 #' @export

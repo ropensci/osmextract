@@ -8,7 +8,7 @@ oe_clean(download_directory = oe_download_directory())
 }
 \arguments{
 \item{download_directory}{The directory where the \code{.osm.pbf} and \code{.gpkg}
-files are saved. Default value is \code{oe_download_directory()}}
+files are saved. Default value is \code{oe_download_directory()}.}
 }
 \value{
 The same as \code{unlink()}.
