@@ -1,11 +1,25 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_get_network: simplest examples work", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_error(oe_get_network("ITS Leeds", quiet = TRUE), NA)
 })
 
 test_that("oe_get_network: options in ... work correctly", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_warning(oe_get_network("ITS Leeds", layer = "points", quiet = TRUE))
   expect_message(oe_get_network("ITS Leeds", quiet = TRUE), NA)

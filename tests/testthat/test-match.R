@@ -1,3 +1,11 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_match: simplest examples work", {
   expect_match(oe_match("Italy", quiet = TRUE)$url, "italy")
   expect_match(oe_match("Leeds", provider = "bbbike", quiet = TRUE)$url, "Leeds")

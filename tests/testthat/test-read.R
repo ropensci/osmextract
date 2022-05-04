@@ -1,5 +1,16 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_read: simplest examples work", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Read in data
   osm_data = oe_read(its_pbf, quiet = TRUE)
@@ -24,6 +35,9 @@ test_that("or_read: simplest example with a URL works", {
   skip_on_cran()
   skip_if_offline("github.com")
   withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
   expect_error(
@@ -44,7 +58,10 @@ test_that("oe_read fails with a clear error message with wrong URL or file path"
 })
 
 test_that("oe_read fails with misspelled arguments", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Run tests
   expect_error(
@@ -58,7 +75,10 @@ test_that("oe_read fails with misspelled arguments", {
 })
 
 test_that("extra_tags are not ignored when vectortranslate_options is not NULL", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   its_gpkg = oe_read(
     its_pbf,
@@ -78,7 +98,10 @@ temp_ini = tempfile(fileext = ".ini")
 writeLines(custom_osmconf_ini, temp_ini)
 
 test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Regular output
   its_gpkg = oe_read(its_pbf, quiet = TRUE)
@@ -97,7 +120,10 @@ test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL",
 })
 
 test_that("warning with ad_hoc osmconf_ini + extra_tags", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Warning with adhoc osmconf_ini + extra_tags
   expect_warning(
@@ -112,7 +138,10 @@ test_that("warning with ad_hoc osmconf_ini + extra_tags", {
 })
 
 test_that("warning with ad-hoc osmconf_ini + CONFIG_FILE in vectortranslate_options", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Warning
   expect_warning(
@@ -142,7 +171,10 @@ its_poly = sf::st_sfc(
 )
 
 test_that("boundary and boundary_type arguments from oe_vectortranslate work", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Spatial filters work
   its = oe_read(its_pbf, quiet = TRUE)
@@ -153,7 +185,10 @@ test_that("boundary and boundary_type arguments from oe_vectortranslate work", {
 })
 
 test_that("spatial filters work with bbox objects", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
   its_spat_bbox = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700) %>% sf::st_bbox(), quiet = TRUE)
@@ -161,7 +196,10 @@ test_that("spatial filters work with bbox objects", {
 })
 
 test_that("we can combine boundary = ... with other vectortranslate arguments", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
   its_clipsrc = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc")
@@ -171,14 +209,20 @@ test_that("we can combine boundary = ... with other vectortranslate arguments", 
 })
 
 test_that("get a warning for more than 1 polygon in boundary = ...", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Warning for more than 1 POLYGON
   expect_warning(oe_read(its_pbf, boundary = c(its_poly, its_poly), quiet = TRUE))
 })
 
 test_that("get error when boundary is not a POLYGON/MULTIPOLYGON", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Error for non POLYGON boundary. I need suppressWarnings for the warning on
   # centroids for lat/long data
@@ -186,7 +230,10 @@ test_that("get error when boundary is not a POLYGON/MULTIPOLYGON", {
 })
 
 test_that("warning when setting boundary and spat/clipsrc options", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_warning(oe_read(
     file_path = its_pbf,
@@ -204,7 +251,10 @@ test_that("warning when setting boundary and spat/clipsrc options", {
 })
 
 test_that("oe_read returns an error with unnamed arguments", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_error(
     oe_read(
@@ -217,7 +267,10 @@ test_that("oe_read returns an error with unnamed arguments", {
 })
 
 test_that("oe_read returns an error with named and unnamed arguments", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_error(
     oe_read(
@@ -231,7 +284,10 @@ test_that("oe_read returns an error with named and unnamed arguments", {
 })
 
 test_that("oe_read returns an error with extra comma", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_error(
     oe_read(
@@ -243,7 +299,10 @@ test_that("oe_read returns an error with extra comma", {
 })
 
 test_that("oe_read returns an error with named argument + extra comma", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_error(
     oe_read(
@@ -256,7 +315,10 @@ test_that("oe_read returns an error with named argument + extra comma", {
 })
 
 test_that("oe_read returns an error with unnamed argument and extra comma", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_error(
     oe_read(

@@ -1,7 +1,17 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_clean removes all files in download_directory", {
+  withr::defer(oe_clean(tempdir()))
+
   file.copy(
     from = system.file("its-example.osm.pbf", package = "osmextract"),
-    to = its_pbf
+    to = file.path(tempdir(), "test_its-example.osm.pbf")
   )
 
   oe_clean(tempdir())

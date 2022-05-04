@@ -1,3 +1,11 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("get_keys (keys): simplest examples work", {
   expect_equal(get_keys('"A"=>"B"'), "A")
   expect_equal(get_keys(c('"A"=>"B"', '"C"=>"D"')), c("A", "C"))
@@ -60,7 +68,10 @@ test_that("get_keys (values): more complicated examples", {
 })
 
 test_that("oe_get_keys: simplest examples work", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Define path to gpkg object
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
@@ -76,7 +87,10 @@ test_that("oe_get_keys: simplest examples work", {
 })
 
 test_that("oe_get_keys + values: printing method", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_snapshot_output(oe_get_keys(its_pbf, values = TRUE))
 
@@ -95,14 +109,20 @@ test_that("oe_get_keys: returns error with wrong inputs", {
 })
 
 test_that("oe_get_keys: reads from sf object", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   its = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
   expect_error(oe_get_keys(its), NA)
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   my_output = oe_get_keys("ITS Leeds", values = TRUE)
   its_leeds_with_surface = oe_get(
@@ -119,7 +139,10 @@ test_that("the output from oe_get_keys is the same as for hstore_get_values", {
 })
 
 test_that("oe_get_keys stops when there is no other_tags field", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Read data ignoring the other_tags field
   its_object = oe_read(
@@ -148,7 +171,10 @@ test_that("oe_get_keys stops when there is no other_tags field", {
 })
 
 test_that("oe_get_keys matches input zone with file", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Simplest example works
   expect_error(oe_get_keys("ITS Leeds"), NA)

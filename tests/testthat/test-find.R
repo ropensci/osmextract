@@ -1,5 +1,16 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_find: simplest example works", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   oe_vectortranslate(
     file_path = its_pbf,
@@ -15,7 +26,10 @@ test_that("oe_find: simplest example works", {
 })
 
 test_that("oe_find: return_gpkg and return_pbf arguments work", {
-  setup_pbf(its_pbf)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   oe_vectortranslate(
     file_path = its_pbf,
@@ -47,9 +61,12 @@ test_that("download_if_missing in oe_find works", {
   skip_on_cran()
   skip_if_offline("github.com")
   withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   # Test that tempdir is really empty
-  expect_true(!file.exists(its_pbf))
+  expect_true(!file.exists(file.path(tempdir(), "test_its-example.osm.pbf")))
 
   # Test download_if_missing
   its_leeds_find = oe_find(

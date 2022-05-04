@@ -1,7 +1,18 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_download: simplest examples work", {
   skip_on_cran()
   skip_if_offline("github.com")
   withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   its_match = oe_match("ITS Leeds", quiet = TRUE)
   expect_error(

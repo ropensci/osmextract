@@ -1,7 +1,18 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+################################################################################
+
 test_that("oe_get: simplest examples work", {
   skip_on_cran()
   skip_if_offline("github.com")
   withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   expect_s3_class(
     oe_get("ITS Leeds", provider = "test", quiet = TRUE),
@@ -32,6 +43,9 @@ test_that("The provider is overwritten when oe_match finds a different provider"
   # See https://github.com/ropensci/osmextract/issues/245
 
   withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
 
   skip_on_ci() # I can just run these tests on local laptop
   skip_on_cran()

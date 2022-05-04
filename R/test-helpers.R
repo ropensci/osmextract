@@ -5,11 +5,16 @@
 # function performs the follwing steps:
 
 # 1. Setup the cleaning of all pbf/gpkg files in the folder where "path" is
-# defined
+# defined using oe_clean.
 # 2. Copy the "its-example.osm.pbf" file to "path"
 # 3. Return that "path" (invisibly)
 
-setup_pbf <- function(path, env = parent.frame()) {
+# The returned path is used to define the "its_pbf" variable inside each test.
+
+setup_pbf <- function(
+    path = file.path(tempdir(), "test_its-example.osm.pbf"),
+    env = parent.frame()
+  ) {
   withr::defer({
     oe_clean(dirname(path), force = TRUE)
   }, envir = env)
@@ -21,12 +26,3 @@ setup_pbf <- function(path, env = parent.frame()) {
 
   invisible(path)
 }
-
-# NB: It might be quite boring to debug the tests interactively since the
-# options in "tests/testthat/setup-tests.R" are set only by devtools::test. For
-# this reason, I copied the same code to "tests/testthat/help-tests.R" since
-# that file is also run by "devtools::load_all()". The only problem is that I
-# need to restart the R session at the end of each test to reset those options.
-# At the moment, I commented all the code since I don't need those options every
-# time I run load_all().
-
