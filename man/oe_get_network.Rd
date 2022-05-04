@@ -44,7 +44,7 @@ The \code{cycling} mode of transport (i.e. the default value for \code{mode}
 parameter) selects the OSM ways that meet the following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
-\item The \code{highway} tag is not equal to \code{abandonded}, \code{bus_guideway}, \code{byway},
+\item The \code{highway} tag is not equal to \code{abandoned}, \code{bus_guideway}, \code{byway},
 \code{construction}, \code{corridor}, \code{elevator}, \code{fixme}, \code{escalator}, \code{gallop},
 \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed}, \code{raceway} or
 \code{steps};
@@ -64,7 +64,7 @@ The \code{walking} mode of transport selects the OSM ways that meet the
 following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
-\item The \code{highway} tag is not equal to \code{abandonded}, \code{bus_guideway},
+\item The \code{highway} tag is not equal to \code{abandoned}, \code{bus_guideway},
 \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{raceway}, \code{motorway} or \code{motorway_link};
@@ -81,7 +81,7 @@ The \code{driving} mode of transport selects the OSM ways that meet the
 following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
-\item The \code{highway} tag is not equal to \code{abandonded},
+\item The \code{highway} tag is not equal to \code{abandoned},
 \code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{cycleway}, \code{pedestrian}, \code{bridleway}, \code{path}, or \code{footway};

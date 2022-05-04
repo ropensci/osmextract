@@ -28,7 +28,7 @@
 #'   parameter) selects the OSM ways that meet the following conditions:
 #'
 #'   - The `highway` tag is not missing;
-#'   - The `highway` tag is not equal to `abandonded`, `bus_guideway`, `byway`,
+#'   - The `highway` tag is not equal to `abandoned`, `bus_guideway`, `byway`,
 #'   `construction`, `corridor`, `elevator`, `fixme`, `escalator`, `gallop`,
 #'   `historic`, `no`, `planned`, `platform`, `proposed`, `raceway` or
 #'   `steps`;
@@ -47,7 +47,7 @@
 #'   following conditions:
 #'
 #'   - The `highway` tag is not missing;
-#'   - The `highway` tag is not equal to `abandonded`, `bus_guideway`,
+#'   - The `highway` tag is not equal to `abandoned`, `bus_guideway`,
 #'   `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `raceway`, `motorway` or `motorway_link`;
@@ -63,7 +63,7 @@
 #'   following conditions:
 #'
 #'   - The `highway` tag is not missing;
-#'   - The `highway` tag is not equal to `abandonded`,
+#'   - The `highway` tag is not equal to `abandoned`,
 #'   `bus_guideway`, `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `cycleway`, `pedestrian`, `bridleway`, `path`, or `footway`;
@@ -153,7 +153,7 @@ load_options_cycling = function(place) {
     (highway IS NOT NULL)
     AND
     (highway NOT IN (
-    'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'raceway', 'steps'
     ))
@@ -192,7 +192,7 @@ load_options_walking = function(place) {
     "-where", "
     (highway IS NOT NULL)
     AND
-    (highway NOT IN ('abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    (highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform', 'proposed', 'raceway',
     'motorway', 'motorway_link'))
     AND
@@ -226,7 +226,7 @@ load_options_driving = function(place) {
     (highway IS NOT NULL)
     AND
     (highway NOT IN (
-    'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway',
     'steps'
