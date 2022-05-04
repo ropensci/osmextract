@@ -14,9 +14,9 @@ In the last case, it is assumed that the EPSG code is 4326 specified as
 c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
 Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
-\item{mode}{A character string denoting the desired mode of transport. Can be
-abbreviated. Currently \code{cycling} (the default), \code{driving} and \code{walking} are
-supported.}
+\item{mode}{A character string of length one denoting the desired mode of
+transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
+and \code{walking} are supported.}
 
 \item{...}{Additional arguments passed to \code{oe_get()} such as \code{boundary} or
 \code{force_download}.}

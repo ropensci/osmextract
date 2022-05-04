@@ -6,9 +6,9 @@
 #' to each each mode of transport.
 #'
 #' @inheritParams oe_get
-#' @param mode A character string denoting the desired mode of transport. Can be
-#'   abbreviated. Currently `cycling` (the default), `driving` and `walking` are
-#'   supported.
+#' @param mode A character string of length one denoting the desired mode of
+#'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
+#'   and `walking` are supported.
 #' @param ... Additional arguments passed to `oe_get()` such as `boundary` or
 #'   `force_download`.
 #'
