@@ -131,12 +131,25 @@ oe_download = function(
 
     oe_message("Downloading the OSM extract:", quiet = quiet)
 
-    resp = httr::GET(
-      url = file_url,
-      if (isFALSE(quiet)) httr::progress(),
-      # if (isFALSE(quiet)) httr::verbose(),
-      httr::write_disk(file_path, overwrite = TRUE),
-      httr::timeout(300L)
+    resp = tryCatch(
+      expr = {
+        httr::GET(
+          url = file_url,
+          if (isFALSE(quiet)) httr::progress(),
+          # if (isFALSE(quiet)) httr::verbose(),
+          httr::write_disk(file_path, overwrite = TRUE),
+          httr::timeout(300L)
+        )
+      },
+      error = function(e) {
+        stop(
+          "Download operation was aborted. ",
+          "We suggest you to remove the partially downloaded pbf file running the ",
+          "following code (possibly in a new R session):\n",
+          "file.remove(", dQuote(file_path, q = FALSE), ")",
+          call. = FALSE
+        )
+      }
     )
 
     httr::stop_for_status(resp, "download data from the provider")
