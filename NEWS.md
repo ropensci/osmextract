@@ -11,6 +11,7 @@
 * Included a new function named `oe_clean()` to remove all `.pbf` and `.gpkg` files stored in a given directory. Default value is `oe_download_directory()`. 
 * Added a message to `oe_download()` and removed a warning from `oe_read()`. The message is printed every time a user downloads a new OSM extract from a certain provider, whereas the warning used to be raised when a given `query` selected a layer different from the `layer` argument (#240). 
 * Added two new parameters to `oe_find` named `return_pbf` and `return_gpkg`. They can be used to select which file formats should the function return (#253). 
+* Added a more informative error message in case `oe_download()` fails explaining that partially downloaded `.pbf` files should be removed to avoid problems while running other functions (#221). 
 
 ### DOCUMENTATION FIXES
 * Update description for `boundary` and `boundary_type` arguments.
