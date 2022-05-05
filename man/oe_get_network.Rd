@@ -14,9 +14,9 @@ In the last case, it is assumed that the EPSG code is 4326 specified as
 c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
 Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
-\item{mode}{A character string denoting the desired mode of transport. Can be
-abbreviated. Currently \code{cycling} (the default), \code{driving} and \code{walking} are
-supported.}
+\item{mode}{A character string of length one denoting the desired mode of
+transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
+and \code{walking} are supported.}
 
 \item{...}{Additional arguments passed to \code{oe_get()} such as \code{boundary} or
 \code{force_download}.}
@@ -44,7 +44,7 @@ The \code{cycling} mode of transport (i.e. the default value for \code{mode}
 parameter) selects the OSM ways that meet the following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
-\item The \code{highway} tag is not equal to \code{abandonded}, \code{bus_guideway}, \code{byway},
+\item The \code{highway} tag is not equal to \code{abandoned}, \code{bus_guideway}, \code{byway},
 \code{construction}, \code{corridor}, \code{elevator}, \code{fixme}, \code{escalator}, \code{gallop},
 \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed}, \code{raceway} or
 \code{steps};
@@ -64,7 +64,7 @@ The \code{walking} mode of transport selects the OSM ways that meet the
 following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
-\item The \code{highway} tag is not equal to \code{abandonded}, \code{bus_guideway},
+\item The \code{highway} tag is not equal to \code{abandoned}, \code{bus_guideway},
 \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{raceway}, \code{motorway} or \code{motorway_link};
@@ -81,7 +81,7 @@ The \code{driving} mode of transport selects the OSM ways that meet the
 following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
-\item The \code{highway} tag is not equal to \code{abandonded},
+\item The \code{highway} tag is not equal to \code{abandoned},
 \code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{cycleway}, \code{pedestrian}, \code{bridleway}, \code{path}, or \code{footway};
@@ -95,6 +95,17 @@ modifications to the current filters or propose new values for alternative
 modes of transport.
 }
 \examples{
+# Copy the ITS file to tempdir() to make sure that the examples do not
+# require internet connection. You can skip the next 4 lines (and start
+# directly with oe_get_keys) when running the examples locally.
+
+its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"),
+  to = its_pbf,
+  overwrite = TRUE
+)
+
 # default value returned by OSM
 its = oe_get(
   "ITS Leeds", quiet = TRUE, download_directory = tempdir()

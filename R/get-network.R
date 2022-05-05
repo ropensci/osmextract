@@ -6,9 +6,9 @@
 #' to each each mode of transport.
 #'
 #' @inheritParams oe_get
-#' @param mode A character string denoting the desired mode of transport. Can be
-#'   abbreviated. Currently `cycling` (the default), `driving` and `walking` are
-#'   supported.
+#' @param mode A character string of length one denoting the desired mode of
+#'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
+#'   and `walking` are supported.
 #' @param ... Additional arguments passed to `oe_get()` such as `boundary` or
 #'   `force_download`.
 #'
@@ -28,7 +28,7 @@
 #'   parameter) selects the OSM ways that meet the following conditions:
 #'
 #'   - The `highway` tag is not missing;
-#'   - The `highway` tag is not equal to `abandonded`, `bus_guideway`, `byway`,
+#'   - The `highway` tag is not equal to `abandoned`, `bus_guideway`, `byway`,
 #'   `construction`, `corridor`, `elevator`, `fixme`, `escalator`, `gallop`,
 #'   `historic`, `no`, `planned`, `platform`, `proposed`, `raceway` or
 #'   `steps`;
@@ -47,7 +47,7 @@
 #'   following conditions:
 #'
 #'   - The `highway` tag is not missing;
-#'   - The `highway` tag is not equal to `abandonded`, `bus_guideway`,
+#'   - The `highway` tag is not equal to `abandoned`, `bus_guideway`,
 #'   `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `raceway`, `motorway` or `motorway_link`;
@@ -63,7 +63,7 @@
 #'   following conditions:
 #'
 #'   - The `highway` tag is not missing;
-#'   - The `highway` tag is not equal to `abandonded`,
+#'   - The `highway` tag is not equal to `abandoned`,
 #'   `bus_guideway`, `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `cycleway`, `pedestrian`, `bridleway`, `path`, or `footway`;
@@ -79,6 +79,17 @@
 #' @seealso [oe_get()]
 #'
 #' @examples
+#' # Copy the ITS file to tempdir() to make sure that the examples do not
+#' # require internet connection. You can skip the next 4 lines (and start
+#' # directly with oe_get_keys) when running the examples locally.
+#'
+#' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+#' file.copy(
+#'   from = system.file("its-example.osm.pbf", package = "osmextract"),
+#'   to = its_pbf,
+#'   overwrite = TRUE
+#' )
+#'
 #' # default value returned by OSM
 #' its = oe_get(
 #'   "ITS Leeds", quiet = TRUE, download_directory = tempdir()
@@ -153,7 +164,7 @@ load_options_cycling = function(place) {
     (highway IS NOT NULL)
     AND
     (highway NOT IN (
-    'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'raceway', 'steps'
     ))
@@ -192,7 +203,7 @@ load_options_walking = function(place) {
     "-where", "
     (highway IS NOT NULL)
     AND
-    (highway NOT IN ('abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    (highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform', 'proposed', 'raceway',
     'motorway', 'motorway_link'))
     AND
@@ -226,7 +237,7 @@ load_options_driving = function(place) {
     (highway IS NOT NULL)
     AND
     (highway NOT IN (
-    'abandonded', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway',
     'steps'
