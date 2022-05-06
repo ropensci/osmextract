@@ -212,7 +212,7 @@ oe_get_keys.character = function(
   if (layer %!in% sf::st_layers(zone)[["name"]]) {
     stop(
       "The matched file does not contain the selected layer. ",
-      "Check the docs to see how to add it.",
+      "Check the examples in the docs to see how to add it.",
       call. = FALSE
     )
   }
