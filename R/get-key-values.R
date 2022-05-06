@@ -212,6 +212,8 @@ oe_get_keys.character = function(
   if (layer %!in% sf::st_layers(zone)[["name"]]) {
     stop(
       "The matched file does not contain the selected layer. ",
+      "You can add it running oe_get() with layer = ",
+      dQuote(layer, q = FALSE),  ". ",
       "Check the examples in the docs to see how to add it.",
       call. = FALSE
     )
@@ -254,7 +256,9 @@ oe_get_keys.character = function(
   if (any(existing_fields %!in% default_fields)) {
     warning(
       "The following keys were already extracted from the other_tags field: ",
-      paste0(setdiff(existing_fields, default_fields), collapse = " - "),
+      paste0(setdiff(existing_fields, default_fields), collapse = " - "), ". ",
+      "You can reset them running oe_get(...) with ",
+      "force_vectortranslate = TRUE.",
       call. = FALSE
     )
   }
