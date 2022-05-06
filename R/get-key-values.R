@@ -296,6 +296,9 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
   # 2. Extract the keys
   keys = regmatches(text, regexp_keys)
 
+  # Clean
+  rm(regexp_keys); gc(verbose = FALSE)
+
   # 3. If values is FALSE, then just return the (unique and sorted) keys
   if (isFALSE(values)) {
     keys = unlist(keys)
@@ -315,6 +318,9 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
   # 5. Extract the values
   values = regmatches(text, regexp_values)
 
+  # Clean
+  rm(regexp_values); gc(verbose = FALSE)
+
   # 6. Check that each key corresponds to a value
   if (!all(lengths(keys) == lengths(values))) {
     stop(
@@ -332,6 +338,9 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
 
   # 8. Nest the two objects
   nested_key_values = split(values, keys)
+
+  # Clean
+  rm(keys, values); gc(verbose = FALSE)
 
   # 9. If which_kyes is not NULL, then filter only the corresponding keys
   if (!is.null(which_keys)) {

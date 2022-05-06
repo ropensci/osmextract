@@ -170,7 +170,7 @@ colnames(its_extra)
 \dontrun{
 oe_get_keys(its_path, layer = "points")}
 
-# Add a layer and read keys
+# Add layer and read keys
 its_path = oe_get(
   "ITS Leeds", layer = "points", download_only = TRUE,
   download_directory = tempdir(), quiet = TRUE
