@@ -242,6 +242,19 @@ oe_get_keys.character = function(
     )
   }
 
+  default_fields <- c(
+    "osm_id", "osm_way_id", "other_tags", "geometry", "z_order",
+    get_fields_default(layer)
+  )
+
+  if (any(existing_fields %!in% default_fields)) {
+    warning(
+      "The following keys were already extracted from the other_tags field: ",
+      paste0(setdiff(existing_fields, default_fields), collapse = " - "),
+      call. = FALSE
+    )
+  }
+
   # Read the gpkg or pbf file selecting only the other_tags column.
 
   # Moreover, starting from sf 1.0.2, sf::st_read raises a warning message when
