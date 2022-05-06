@@ -173,6 +173,21 @@ oe_get_keys.character = function(
     )
 
     if (length(zone) > 1L) {
+      # The paths returned by oe_find are sorted in alphabetical order, so
+      # zone[1L] should contain the .gpkg file. I run the following tests to
+      # benchmark the two approaches (i.e. read from .pbf and from .gpkg files)
+      # and I noticed that it's much faster to read from the .gpkg file:
+
+      # oe_get("London", download_only = TRUE)
+      # bench::mark(
+      #   {pbf = oe_get_keys(oe_find("London", return_gpkg = FALSE))},
+      #   {gpkg = oe_get_keys(oe_find("London", return_pbf = FALSE))},
+      #   iterations = 5L
+      # )
+
+      # Therefore, I try to prefer the .gpkg files. The only problem is that
+      # some of the keys might be excluded from the other-tags field in a .gpkg
+      # file, so I will add a warning message.
       zone = zone[1L]
     }
   }
