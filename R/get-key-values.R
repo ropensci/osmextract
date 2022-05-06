@@ -158,12 +158,18 @@ oe_get_keys.character = function(
     zone = tryCatch(
       error = function(cnd) {
         stop(
-          "The input file does not exist and can't be matched with any existing file.",
-          " You can download it using oe_get(zone, download_only = TRUE).",
+          "The input does not correspond to an existing file and can't be ",
+          " matched with any existing pbf/gpkg file. You can download the ",
+          "relevant OSM extract using:\n oe_get(", dQuote(zone, q = FALSE),
+          ", download_only = TRUE).",
           call. = FALSE
         )
       },
-      oe_find(zone, quiet = TRUE, download_directory = download_directory)
+      oe_find(
+        zone,
+        quiet = TRUE,
+        download_directory = download_directory
+      )
     )
 
     if (length(zone) > 1L) {
