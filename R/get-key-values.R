@@ -242,6 +242,10 @@ oe_get_keys.character = function(
     )
   }
 
+  # The following manual fields were included since they are also included by
+  # default in the output of .osm.pbf/.gpkg files returned by st_read().
+  # osm_way_id is used only by multipolyons layer while z_order is used only by
+  # lines layer.
   default_fields <- c(
     "osm_id", "osm_way_id", "other_tags", "geometry", "z_order",
     get_fields_default(layer)
