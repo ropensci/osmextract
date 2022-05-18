@@ -222,12 +222,14 @@ oe_get_keys.character = function(
 
   # Check that the selected file contains the selected layer
   if (layer %!in% sf::st_layers(zone)[["name"]]) {
-    stop(
-      "The matched file does not contain the selected layer. ",
-      "You can add it running oe_get() with layer = ",
-      dQuote(layer, q = FALSE),  ". ",
-      "Check the examples in the docs to see how to add it.",
-      call. = FALSE
+    stop_custom(
+      .subclass = "osmext-oe_get_keys-missing_selected_layer",
+      message = paste0(
+        "The matched file does not contain the selected layer. ",
+        "You can add it running oe_get() with layer = ",
+        dQuote(layer, q = FALSE),  ". ",
+        "Check also the examples in the docs."
+      )
     )
   }
 

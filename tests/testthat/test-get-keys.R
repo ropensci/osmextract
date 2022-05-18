@@ -195,3 +195,29 @@ test_that("oe_get_keys matches input zone with file", {
   # Cannot extract from files that were not previously downloaded
   expect_error(oe_get_keys("Brazil"))
 })
+
+test_that("oe_get_keys errors when asking for non existing layer", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+  its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
+
+  expect_error(
+    object = oe_get_keys(its_gpkg, layer = "points"),
+    class = "osmext-oe_get_keys-missing_selected_layer"
+  )
+})
+
+test_that("oe_get_keys emits warning when some keys were already extracted", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+  its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE, extra_tags = "amenity")
+
+  expect_warning(
+    object = oe_get_keys(its_gpkg),
+    regexp = "The following keys were already extracted"
+  )
+})
