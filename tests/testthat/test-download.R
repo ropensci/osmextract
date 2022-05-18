@@ -1,19 +1,31 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+#                                                                              #
+# I could also set the same option at the beginning of the script but that     #
+# makes the debugging more difficult since I have to manually reset the        #
+# options at the end of the debugging process.                                 #
+#                                                                              #
+# See R/test-helpers.R for more details                                        #
+#                                                                              #
+################################################################################
+
 test_that("oe_download: simplest examples work", {
   skip_on_cran()
   skip_if_offline("github.com")
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
+  withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
   )
 
-  # Run tests
   its_match = oe_match("ITS Leeds", quiet = TRUE)
   expect_error(
     oe_download(
       file_url = its_match$url,
       provider = "test",
-      download_directory = tempdir(),
       quiet = TRUE
     ),
     NA
@@ -23,7 +35,6 @@ test_that("oe_download: simplest examples work", {
     oe_download(
       file_url = its_match$url,
       provider = "test",
-      download_directory = tempdir(),
       quiet = FALSE
     ),
     "Skip downloading."
