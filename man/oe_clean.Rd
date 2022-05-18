@@ -4,11 +4,14 @@
 \alias{oe_clean}
 \title{Clean download directory}
 \usage{
-oe_clean(download_directory = oe_download_directory())
+oe_clean(download_directory = oe_download_directory(), force = FALSE)
 }
 \arguments{
 \item{download_directory}{The directory where the \code{.osm.pbf} and \code{.gpkg}
 files are saved. Default value is \code{oe_download_directory()}.}
+
+\item{force}{Internal option. It can be used to skip the checks run at the
+beginning of the function and force the removal of all \code{pbf}/\code{gpkg} files.}
 }
 \value{
 The same as \code{unlink()}.

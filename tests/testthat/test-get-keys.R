@@ -1,9 +1,17 @@
-# Prepare the tests
-file.copy(
-  system.file("its-example.osm.pbf", package = "osmextract"),
-  file.path(tempdir(), "its-example.osm.pbf")
-)
-its_pbf = file.path(tempdir(), "its-example.osm.pbf")
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+#                                                                              #
+# I could also set the same option at the beginning of the script but that     #
+# makes the debugging more difficult since I have to manually reset the        #
+# options at the end of the debugging process.                                 #
+#                                                                              #
+# See R/test-helpers.R for more details                                        #
+#                                                                              #
+################################################################################
 
 test_that("get_keys (keys): simplest examples work", {
   expect_equal(get_keys('"A"=>"B"'), "A")
@@ -67,6 +75,11 @@ test_that("get_keys (values): more complicated examples", {
 })
 
 test_that("oe_get_keys: simplest examples work", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+
   # Define path to gpkg object
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
 
@@ -78,18 +91,19 @@ test_that("oe_get_keys: simplest examples work", {
   expect_type(keys1, "character")
   expect_type(keys2, "character")
   expect_equal(length(keys1), length(keys2))
-
-  file.remove(its_gpkg)
 })
 
 test_that("oe_get_keys + values: printing method", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+
   expect_snapshot_output(oe_get_keys(its_pbf, values = TRUE))
 
   # Define path to gpkg object
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
   expect_snapshot_output(oe_get_keys(its_gpkg, values = TRUE))
-
-  file.remove(its_gpkg)
 })
 
 test_that("oe_get_keys: returns error with wrong inputs", {
@@ -97,29 +111,31 @@ test_that("oe_get_keys: returns error with wrong inputs", {
     oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
     "there is no support for objects of class"
   )
-  expect_error(oe_get_keys("xxx.gpkg")) # file does not exist
-  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg"))) # length > 1
+  expect_error(oe_get_keys("xxx.gpkg"), "input file does not exist") # file does not exist
+  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg")), "must have length 1") # length > 1
 })
 
 test_that("oe_get_keys: reads from sf object", {
-  its_object = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
-  expect_error(oe_get_keys(its_object), NA)
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+
+  its = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
+  expect_error(oe_get_keys(its), NA)
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
-  # Clean tempdir
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
   )
 
-  my_output = oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
+  my_output = oe_get_keys("ITS Leeds", values = TRUE)
   its_leeds_with_surface = oe_get(
     "ITS Leeds",
     query = "SELECT *, hstore_get_value(other_tags, 'surface') AS surface FROM lines",
     quiet = TRUE,
-    download_directory = tempdir(),
     force_vectortranslate = TRUE
   )
 
@@ -129,14 +145,12 @@ test_that("the output from oe_get_keys is the same as for hstore_get_values", {
   )
 })
 
-# Prepare the tests
-file.copy(
-  system.file("its-example.osm.pbf", package = "osmextract"),
-  file.path(tempdir(), "its-example.osm.pbf")
-)
-its_pbf = file.path(tempdir(), "its-example.osm.pbf")
-
 test_that("oe_get_keys stops when there is no other_tags field", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+
   # Read data ignoring the other_tags field
   its_object = oe_read(
     its_pbf,
@@ -149,7 +163,7 @@ test_that("oe_get_keys stops when there is no other_tags field", {
   )
 
   # Translate data ignoring the other_tags field
-  its_path = oe_read(
+  its_gpkg = oe_read(
     its_pbf,
     download_only = TRUE,
     quiet = TRUE,
@@ -158,21 +172,20 @@ test_that("oe_get_keys stops when there is no other_tags field", {
     )
   )
   expect_error(
-    oe_get_keys(its_path),
+    oe_get_keys(its_gpkg),
     "The input file must have an other_tags field."
   )
-
-  # Clean tempdir
-  file.remove(its_path)
 })
 
 test_that("oe_get_keys matches input zone with file", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+
   # Simplest example works
-  expect_error(oe_get_keys("ITS Leeds", download_directory = tempdir()), NA)
+  expect_error(oe_get_keys("ITS Leeds"), NA)
 
   # Cannot extract from files that were not previously downloaded
-  expect_error(oe_get_keys("Brazil", download_directory = tempdir()))
+  expect_error(oe_get_keys("Brazil"))
 })
-
-# Clean tempdir
-oe_clean(tempdir())

@@ -152,6 +152,8 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #'
 #' @param download_directory The directory where the `.osm.pbf` and `.gpkg`
 #'   files are saved. Default value is `oe_download_directory()`.
+#' @param force Internal option. It can be used to skip the checks run at the
+#'   beginning of the function and force the removal of all `pbf`/`gpkg` files.
 #'
 #' @return The same as `unlink()`.
 #' @export
@@ -160,12 +162,13 @@ stop_custom <- function(.subclass, message, call = NULL, ...) {
 #' # Warning: the following removes all files in oe_download_directory()
 #' \dontrun{
 #' oe_clean()}
-oe_clean <- function(download_directory = oe_download_directory()) {
+oe_clean <- function(download_directory = oe_download_directory(), force = FALSE) {
   continue = 1L
   if ( # nocov start
     interactive() &&
     !identical(Sys.getenv("TESTTHAT"), "true") &&
-    !isTRUE(getOption("knitr.in.progress"))
+    !isTRUE(getOption("knitr.in.progress")) &&
+    !force
   ) {
     message(
       "You are going to delete all pbf and gpkg files in ",

@@ -1,3 +1,18 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+#                                                                              #
+# I could also set the same option at the beginning of the script but that     #
+# makes the debugging more difficult since I have to manually reset the        #
+# options at the end of the debugging process.                                 #
+#                                                                              #
+# See R/test-helpers.R for more details                                        #
+#                                                                              #
+################################################################################
+
 test_that("oe_update(): simplest example works", {
   skip_on_ci() # I can just run these tests on local laptop
   skip_on_cran()

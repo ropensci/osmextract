@@ -1,3 +1,18 @@
+################################################################################
+# NB: ALWAYS REMEMBER TO SET                                                   #
+# withr::local_envvar(                                                         #
+#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
+# )                                                                            #
+# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
+#                                                                              #
+# I could also set the same option at the beginning of the script but that     #
+# makes the debugging more difficult since I have to manually reset the        #
+# options at the end of the debugging process.                                 #
+#                                                                              #
+# See R/test-helpers.R for more details                                        #
+#                                                                              #
+################################################################################
+
 test_that("oe_match: simplest examples work", {
   expect_match(oe_match("Italy", quiet = TRUE)$url, "italy")
   expect_match(oe_match("Leeds", provider = "bbbike", quiet = TRUE)$url, "Leeds")
@@ -99,6 +114,7 @@ test_that("oe_match can use different providers", {
 test_that("oe_match looks for a place location online", {
   skip_on_cran()
   skip_if_offline("github.com")
+  skip_on_ci()
 
   expect_match(
     oe_match("Olginate", quiet = TRUE)$url,
