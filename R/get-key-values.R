@@ -143,11 +143,13 @@ oe_get_keys.default = function(
   which_keys = NULL,
   download_directory = oe_download_directory()
 ) {
-  stop(
-    "At the moment there is no support for objects of class ",
-    class(zone)[1], ".",
-    " Feel free to open a new issue at github.com/ropensci/osmextract",
-    call. = FALSE
+  stop_custom(
+    .subclass = "osmext-oe_get_keys-no_support",
+    message = paste0(
+      "At the moment there is no support for objects of class ",
+      class(zone)[1], ". ",
+      "Feel free to open a new issue at github.com/ropensci/osmextract."
+    )
   )
 }
 
@@ -161,7 +163,10 @@ oe_get_keys.character = function(
   download_directory = oe_download_directory()
 ) {
   if (length(zone) != 1L) {
-    stop("The input to argument zone must have length 1", call. = FALSE)
+    stop_custom(
+      .subclass = "osmext-oe_get_keys-length_1_input",
+      message = "The input to argument zone must have length 1."
+    )
   }
 
   if (!file.exists(zone)) {
@@ -169,12 +174,19 @@ oe_get_keys.character = function(
     # otherwise stop
     zone = tryCatch(
       error = function(cnd) {
-        stop(
-          "The input does not correspond to an existing file and can't be ",
-          " matched with any existing pbf/gpkg file. You can download the ",
-          "relevant OSM extract using:\n oe_get(", dQuote(zone, q = FALSE),
-          ", download_only = TRUE).",
-          call. = FALSE
+        # The following message is added conditionally since the text doesn't
+        # make sense if zone represents the path of a (misspecified) file.
+        extra_message <- paste0(
+          "You can download the relevant OSM extract running the following code:\n",
+          "oe_get(", dQuote(zone, q = FALSE), ", download_only = TRUE)"
+        )
+        stop_custom(
+          .subclass = "osmext-oe_get_keys-matched_input_missing",
+          message = paste0(
+            "The input does not correspond to an existing file and can't be ",
+            "matched with any existing pbf/gpkg file. ",
+            if (!grepl("(pbf|gpkg)", zone)) extra_message
+          )
         )
       },
       oe_find(
@@ -250,6 +262,11 @@ oe_get_keys.character = function(
   # lines layer.
   default_fields <- c(
     "osm_id", "osm_way_id", "other_tags", "geometry", "z_order",
+    "_ogr_geometry_",
+    # NB: "_ogr_geometry_" may be returned when reading 0 features from a pbf
+    # file. For example
+    # system.file("its-example.osm.pbf", package = "osmextract") |>
+    # sf::st_read(quiet = TRUE, query = "SELECT * FROM lines LIMIT 0")
     get_fields_default(layer)
   )
 

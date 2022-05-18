@@ -109,10 +109,16 @@ test_that("oe_get_keys + values: printing method", {
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(
     oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
-    "there is no support for objects of class"
+    class = "osmext-oe_get_keys-no_support"
   )
-  expect_error(oe_get_keys("xxx.gpkg"), "input file does not exist") # file does not exist
-  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg")), "must have length 1") # length > 1
+  expect_error( # file does not exist
+    oe_get_keys("xxx.gpkg"),
+    class = "osmext-oe_get_keys-matched_input_missing"
+  )
+  expect_error( # length > 1
+    oe_get_keys(c("a.gpkg", "b.gpkg")),
+    class = "osmext-oe_get_keys-length_1_input"
+  )
 })
 
 test_that("oe_get_keys: reads from sf object", {
