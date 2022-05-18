@@ -140,15 +140,15 @@ oe_get_keys(
 )
 
 # Print all (non-NA) values for a given set of keys
-oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())["surface"]
+res = oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
+res["surface"]
 
 # Get keys from an existing sf object
-\dontrun{
-its = oe_get("ITS Leeds")
-oe_get_keys(its, values = TRUE)}
+its = oe_get("ITS Leeds", download_directory = tempdir())
+oe_get_keys(its, values = TRUE)
 
 # Get keys from a character vector pointing to a file (might be faster than
-# reading the complete file)
+# reading the complete file and then filter it)
 its_path = oe_get(
   "ITS Leeds", download_only = TRUE,
   download_directory = tempdir(), quiet = TRUE
@@ -157,16 +157,28 @@ oe_get_keys(its_path, values = TRUE)
 
 # Add a key to an existing .gpkg file without repeating the
 # vectortranslate operations
-\dontrun{
-its = oe_get("ITS Leeds")
+its = oe_get("ITS Leeds", download_directory = tempdir())
 colnames(its)
-colnames(oe_read(
+its_extra = oe_read(
   its_path,
   query = "SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
   quiet = TRUE
-))}
+)
+colnames(its_extra)
+
+# The following fails since there is no points layer in the .gpkg file
+\dontrun{
+oe_get_keys(its_path, layer = "points")}
+
+# Add layer and read keys
+its_path = oe_get(
+  "ITS Leeds", layer = "points", download_only = TRUE,
+  download_directory = tempdir(), quiet = TRUE
+)
+oe_get_keys(its_path, layer = "points")
 
 # Remove .pbf and .gpkg files in tempdir
+rm(its_pbf, res, its_path, its, its_extra)
 oe_clean(tempdir())
 }
 \seealso{

@@ -84,15 +84,15 @@
 #' )
 #'
 #' # Print all (non-NA) values for a given set of keys
-#' oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())["surface"]
+#' res = oe_get_keys("ITS Leeds", values = TRUE, download_directory = tempdir())
+#' res["surface"]
 #'
 #' # Get keys from an existing sf object
-#' \dontrun{
-#' its = oe_get("ITS Leeds")
-#' oe_get_keys(its, values = TRUE)}
+#' its = oe_get("ITS Leeds", download_directory = tempdir())
+#' oe_get_keys(its, values = TRUE)
 #'
 #' # Get keys from a character vector pointing to a file (might be faster than
-#' # reading the complete file)
+#' # reading the complete file and then filter it)
 #' its_path = oe_get(
 #'   "ITS Leeds", download_only = TRUE,
 #'   download_directory = tempdir(), quiet = TRUE
@@ -101,16 +101,28 @@
 #'
 #' # Add a key to an existing .gpkg file without repeating the
 #' # vectortranslate operations
-#' \dontrun{
-#' its = oe_get("ITS Leeds")
+#' its = oe_get("ITS Leeds", download_directory = tempdir())
 #' colnames(its)
-#' colnames(oe_read(
+#' its_extra = oe_read(
 #'   its_path,
 #'   query = "SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines",
 #'   quiet = TRUE
-#' ))}
+#' )
+#' colnames(its_extra)
+#'
+#' # The following fails since there is no points layer in the .gpkg file
+#' \dontrun{
+#' oe_get_keys(its_path, layer = "points")}
+#'
+#' # Add layer and read keys
+#' its_path = oe_get(
+#'   "ITS Leeds", layer = "points", download_only = TRUE,
+#'   download_directory = tempdir(), quiet = TRUE
+#' )
+#' oe_get_keys(its_path, layer = "points")
 #'
 #' # Remove .pbf and .gpkg files in tempdir
+#' rm(its_pbf, res, its_path, its, its_extra)
 #' oe_clean(tempdir())
 oe_get_keys = function(
   zone,
@@ -131,11 +143,13 @@ oe_get_keys.default = function(
   which_keys = NULL,
   download_directory = oe_download_directory()
 ) {
-  stop(
-    "At the moment there is no support for objects of class ",
-    class(zone)[1], ".",
-    " Feel free to open a new issue at github.com/ropensci/osmextract",
-    call. = FALSE
+  stop_custom(
+    .subclass = "osmext-oe_get_keys-no_support",
+    message = paste0(
+      "At the moment there is no support for objects of class ",
+      class(zone)[1], ". ",
+      "Feel free to open a new issue at github.com/ropensci/osmextract."
+    )
   )
 }
 
@@ -149,7 +163,10 @@ oe_get_keys.character = function(
   download_directory = oe_download_directory()
 ) {
   if (length(zone) != 1L) {
-    stop("The input to argument zone must have length 1", call. = FALSE)
+    stop_custom(
+      .subclass = "osmext-oe_get_keys-length_1_input",
+      message = "The input to argument zone must have length 1."
+    )
   }
 
   if (!file.exists(zone)) {
@@ -157,22 +174,63 @@ oe_get_keys.character = function(
     # otherwise stop
     zone = tryCatch(
       error = function(cnd) {
-        stop(
-          "The input file does not exist and can't be matched with any existing file.",
-          " You can download it using oe_get(zone, download_only = TRUE).",
-          call. = FALSE
+        # The following message is added conditionally since the text doesn't
+        # make sense if zone represents the path of a (misspecified) file.
+        extra_message <- paste0(
+          "You can download the relevant OSM extract running the following code:\n",
+          "oe_get(", dQuote(zone, q = FALSE), ", download_only = TRUE)"
+        )
+        stop_custom(
+          .subclass = "osmext-oe_get_keys-matched_input_missing",
+          message = paste0(
+            "The input does not correspond to an existing file and can't be ",
+            "matched with any existing pbf/gpkg file. ",
+            if (!grepl("(pbf|gpkg)", zone)) extra_message
+          )
         )
       },
-      oe_find(zone, quiet = TRUE, download_directory = download_directory)
+      oe_find(
+        zone,
+        quiet = TRUE,
+        download_directory = download_directory
+      )
     )
 
     if (length(zone) > 1L) {
+      # The paths returned by oe_find are sorted in alphabetical order, so
+      # zone[1L] should contain the .gpkg file. I run the following tests to
+      # benchmark the two approaches (i.e. read from .pbf and from .gpkg files)
+      # and I noticed that it's much faster to read from the .gpkg file:
+
+      # oe_get("London", download_only = TRUE)
+      # bench::mark(
+      #   {pbf = oe_get_keys(oe_find("London", return_gpkg = FALSE))},
+      #   {gpkg = oe_get_keys(oe_find("London", return_pbf = FALSE))},
+      #   iterations = 5L
+      # )
+
+      # Therefore, I try to prefer the .gpkg files. The only problem is that
+      # some of the keys might be excluded from the other-tags field in a .gpkg
+      # file, so I will add a warning message.
       zone = zone[1L]
     }
   }
 
   if (tools::file_ext(zone) %!in% c("gpkg", "pbf")) {
     stop("The input file must have .pbf or .gpkg extension", call. = FALSE)
+  }
+
+  # Check that the selected file contains the selected layer
+  if (layer %!in% sf::st_layers(zone)[["name"]]) {
+    stop_custom(
+      .subclass = "osmext-oe_get_keys-missing_selected_layer",
+      message = paste0(
+        "The matched file does not contain the selected layer. ",
+        "You can add it running oe_get() with layer = ",
+        dQuote(layer, q = FALSE),  ". ",
+        "Check also the examples in the docs."
+      )
+    )
   }
 
   # Check that the input file contains the other_tags field
@@ -196,6 +254,30 @@ oe_get_keys.character = function(
     stop(
       "The input file must have an other_tags field.",
       " You may need to rerun the vectortranslate process.",
+      call. = FALSE
+    )
+  }
+
+  # The following manual fields were included since they are also included by
+  # default in the output of .osm.pbf/.gpkg files returned by st_read().
+  # osm_way_id is used only by multipolyons layer while z_order is used only by
+  # lines layer.
+  default_fields <- c(
+    "osm_id", "osm_way_id", "other_tags", "geometry", "z_order",
+    "_ogr_geometry_",
+    # NB: "_ogr_geometry_" may be returned when reading 0 features from a pbf
+    # file. For example
+    # system.file("its-example.osm.pbf", package = "osmextract") |>
+    # sf::st_read(quiet = TRUE, query = "SELECT * FROM lines LIMIT 0")
+    get_fields_default(layer)
+  )
+
+  if (any(existing_fields %!in% default_fields)) {
+    warning(
+      "The following keys were already extracted from the other_tags field: ",
+      paste0(setdiff(existing_fields, default_fields), collapse = " - "), ". ",
+      "You can reset them running oe_get(...) with ",
+      "force_vectortranslate = TRUE.",
       call. = FALSE
     )
   }
@@ -254,6 +336,9 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
   # 2. Extract the keys
   keys = regmatches(text, regexp_keys)
 
+  # Clean
+  rm(regexp_keys); gc(verbose = FALSE)
+
   # 3. If values is FALSE, then just return the (unique and sorted) keys
   if (isFALSE(values)) {
     keys = unlist(keys)
@@ -273,6 +358,9 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
   # 5. Extract the values
   values = regmatches(text, regexp_values)
 
+  # Clean
+  rm(regexp_values); gc(verbose = FALSE)
+
   # 6. Check that each key corresponds to a value
   if (!all(lengths(keys) == lengths(values))) {
     stop(
@@ -290,6 +378,9 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
 
   # 8. Nest the two objects
   nested_key_values = split(values, keys)
+
+  # Clean
+  rm(keys, values); gc(verbose = FALSE)
 
   # 9. If which_kyes is not NULL, then filter only the corresponding keys
   if (!is.null(which_keys)) {

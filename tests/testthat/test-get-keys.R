@@ -109,10 +109,16 @@ test_that("oe_get_keys + values: printing method", {
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(
     oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
-    "there is no support for objects of class"
+    class = "osmext-oe_get_keys-no_support"
   )
-  expect_error(oe_get_keys("xxx.gpkg"), "input file does not exist") # file does not exist
-  expect_error(oe_get_keys(c("a.gpkg", "b.gpkg")), "must have length 1") # length > 1
+  expect_error( # file does not exist
+    oe_get_keys("xxx.gpkg"),
+    class = "osmext-oe_get_keys-matched_input_missing"
+  )
+  expect_error( # length > 1
+    oe_get_keys(c("a.gpkg", "b.gpkg")),
+    class = "osmext-oe_get_keys-length_1_input"
+  )
 })
 
 test_that("oe_get_keys: reads from sf object", {
@@ -188,4 +194,30 @@ test_that("oe_get_keys matches input zone with file", {
 
   # Cannot extract from files that were not previously downloaded
   expect_error(oe_get_keys("Brazil"))
+})
+
+test_that("oe_get_keys errors when asking for non existing layer", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+  its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
+
+  expect_error(
+    object = oe_get_keys(its_gpkg, layer = "points"),
+    class = "osmext-oe_get_keys-missing_selected_layer"
+  )
+})
+
+test_that("oe_get_keys emits warning when some keys were already extracted", {
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+  its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE, extra_tags = "amenity")
+
+  expect_warning(
+    object = oe_get_keys(its_gpkg),
+    regexp = "The following keys were already extracted"
+  )
 })
