@@ -14,6 +14,7 @@
 * Added a more informative error message in case `oe_download()` fails explaining that partially downloaded `.pbf` files should be removed to avoid problems while running other functions (#221). 
 * We are experimenting with the new features of `testthat` and we implemented the so-called test-fixtures to run tests in a more isolated environment (#255). This is however still experimental for us.
 * Added more informative error and warning messages to `oe_get_keys()` (#251).
+* The file path returned by `oe_download()` is specified using `/` instead of `\\` separator on Windows. 
 
 ### DOCUMENTATION FIXES
 * Update description for `boundary` and `boundary_type` arguments.

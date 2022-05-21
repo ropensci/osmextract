@@ -90,7 +90,8 @@ oe_download = function(
   )
 
   # Normalise the file_path. I set winslash = "/" since it helps the printing of
-  # the file_path in case there is any error in the next code lines.
+  # the file_path (since "\\" is escaped to "\" which throws an error) in case
+  # there is any error in the next code lines.
   file_path = normalizePath(file_path, winslash = "/", mustWork = FALSE)
 
   # If the file exists and force_download is FALSE, then raise a message and
