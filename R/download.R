@@ -89,9 +89,11 @@ oe_download = function(
     paste(provider, file_basename, sep = "_")
   )
 
-  # Normalise the file_path. I set winslash = "/" since it helps the printing of
-  # the file_path (since "\\" is escaped to "\" which throws an error) in case
-  # there is any error in the next code lines.
+  # Normalise the file_path. I set winslash = "/" because it helps the printing
+  # of the file_path in case there is any error in the next code lines. In fact,
+  # "\\" is escaped to "\" when printing and the problem is that I cannot run
+  # file.remove("C:/something/..../whatever.osm.pbf") which is exactly the
+  # suggestion that may be returned by the tryCatch below
   file_path = normalizePath(file_path, winslash = "/", mustWork = FALSE)
 
   # If the file exists and force_download is FALSE, then raise a message and
