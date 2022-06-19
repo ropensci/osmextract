@@ -19,14 +19,14 @@ test_that("oe_update(): simplest example works", {
   # I always need internet connection when running oe_update()
   skip_if_offline("download.openstreetmap.fr")
 
-  # Clean tempdir on exit
-  on.exit(
-    oe_clean(tempdir()),
-    add = TRUE,
-    after = TRUE
+  # Clean tempdir on exit + options
+  withr::defer(oe_clean(tempdir()))
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
   )
 
-  # I should also check the status code of the provider
+  # I should also check the status code of the provider since there might be a
+  # problem with the provider for whatever reason.
   my_status <- try(
     httr::status_code(
       httr::GET(
@@ -39,13 +39,15 @@ test_that("oe_update(): simplest example works", {
   skip_if(inherits(my_status, "try-error"))
   skip_if_not(my_status == 200L)
 
-  seva <- oe_get("Sevastopol", download_directory = tempdir(), quiet = TRUE) # smallest openstreetmap.fr extract
-  expect_error(oe_update(tempdir(), quiet = TRUE), NA)
+  # NB: Sevastopol is the smallest openstreetmap.fr extract available
+  cana <- oe_get("Canarias", provider = "openstreetmap_fr", quiet = TRUE)
 
-  # AG: I decided to comment out that test since I don't see any benefit testing
-  # the "verbose" output during R CMD checks (something that I rarely check
-  # manually)
+  # Simplest example
+  expect_error(oe_update(quiet = TRUE), NA)
 
-  # expect_message(oe_update(fake_dir, quiet = FALSE))
-  # file.remove(list.files(tempdir(), pattern = "its-example", full.names = TRUE))
+  # The oe_update() should have removed the .gpkg file
+  expect_identical(
+    object = list.files(oe_download_directory(), pattern = "gpkg$"),
+    expected = character(0)
+  )
 })
