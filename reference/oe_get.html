@@ -108,6 +108,8 @@ a <code>.osm.pbf</code> file. Can be either a length-1 character vector, an
 In the last case, it is assumed that the EPSG code is 4326 specified as
 c(LON, LAT), while you can use any CRS with <code>sf</code>/<code>sfc</code>/<code>bbox</code> objects. See
 Details and Examples in <code><a href="oe_match.html">oe_match()</a></code>.</p></dd>
+
+
 <dt>layer</dt>
 <dd><p>Which <code>layer</code> should be read in? Typically <code>points</code>, <code>lines</code>
 (the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>. If
@@ -115,22 +117,30 @@ you specify an ad-hoc query using the argument <code>query</code> (see introduct
 vignette and examples), then <code>oe_get()</code> and <code><a href="oe_read.html">oe_read()</a></code> will read the layer
 specified in the query and ignore <code>layer</code>. See also
 <a href="https://github.com/ropensci/osmextract/issues/122" class="external-link">#122</a>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>(Named) arguments that will be passed to <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code>, like
 <code>query</code>, <code>wkt_filter</code> or <code>stringsAsFactors</code>.  Check the introductory
 vignette to understand how to create your own (SQL-like) queries.</p></dd>
+
+
 <dt>provider</dt>
 <dd><p>Which provider should be used to download the data? Available
 providers can be found with the following command: <code><a href="oe_providers.html">oe_providers()</a></code>. For
 <code>oe_get()</code> and <code><a href="oe_match.html">oe_match()</a></code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
 <code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
 internal tests.</p></dd>
+
+
 <dt>match_by</dt>
 <dd><p>Which column of the provider's database should be used for
 matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is <code>"name"</code>.
 Check Details and Examples in <code><a href="oe_match.html">oe_match()</a></code> to understand how this parameter
 works. Ignored if <code>place</code> is not a character vector since the matching is
 performed through a spatial operation.</p></dd>
+
+
 <dt>max_string_dist</dt>
 <dd><p>Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching (i.e. Approximate String Distance, see
@@ -141,6 +151,8 @@ Nominatim API? This parameter is set equal to 0 if <code>match_by</code> is equa
 <code><a href="oe_match.html">oe_match()</a></code> to understand why this parameter is important. Ignored if
 <code>place</code> is not a character vector since the matching is performed through a
 spatial operation.</p></dd>
+
+
 <dt>level</dt>
 <dd><p>An integer representing the desired hierarchical level in case
 of spatial matching. For the <code>geofabrik</code> provider, for example, <code>1</code>
@@ -149,6 +161,8 @@ corresponds to regions and <code>4</code> to subregions. Hence, we could approxi
 say that smaller administrative units correspond to bigger levels. If
 <code>NULL</code>, the default, the <code>oe_*</code> functions will select the highest available
 level. See Details and Examples in <code><a href="oe_match.html">oe_match()</a></code>.</p></dd>
+
+
 <dt>download_directory</dt>
 <dd><p>Where to download the file containing the OSM data?
 By default this is equal to <code><a href="oe_download_directory.html">oe_download_directory()</a></code>, which is equal to
@@ -156,27 +170,39 @@ By default this is equal to <code><a href="oe_download_directory.html">oe_downlo
 persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
 file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
 <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></dd>
+
+
 <dt>force_download</dt>
 <dd><p>Should the <code>.osm.pbf</code> file be updated if it has already
 been downloaded? <code>FALSE</code> by default. This parameter is used to update old
 <code>.osm.pbf</code> files.</p></dd>
+
+
 <dt>max_file_size</dt>
 <dd><p>The maximum file size to download without asking in
 interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></dd>
+
+
 <dt>vectortranslate_options</dt>
 <dd><p>Options passed to the <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html" class="external-link">sf::gdal_utils()</a></code>
 argument <code>options</code>. Set by default. Check details in the introductory
 vignette and the help page of <code><a href="oe_vectortranslate.html">oe_vectortranslate()</a></code>.</p></dd>
+
+
 <dt>osmconf_ini</dt>
 <dd><p>The configuration file. See documentation at
 <a href="https://gdal.org/drivers/vector/osm.html" class="external-link">gdal.org</a>. Check details in the
 introductory vignette and the help page of <code><a href="oe_vectortranslate.html">oe_vectortranslate()</a></code>. Set by
 default.</p></dd>
+
+
 <dt>extra_tags</dt>
 <dd><p>Which additional columns, corresponding to OSM tags, should
 be in the resulting dataset? <code>NULL</code> by default. Check the introductory
 vignette and the help pages of <code><a href="oe_vectortranslate.html">oe_vectortranslate()</a></code> and <code><a href="oe_get_keys.html">oe_get_keys()</a></code>.
 Ignored when <code>osmconf_ini</code> is not <code>NULL</code>.</p></dd>
+
+
 <dt>force_vectortranslate</dt>
 <dd><p>Boolean. Force the original <code>.pbf</code> file to be
 translated into a <code>.gpkg</code> file, even if a <code>.gpkg</code> with the same name
@@ -185,39 +211,54 @@ previously translated <code>.gpkg</code> files no translation occurs (see
 <a href="https://github.com/ropensci/osmextract/issues/173" class="external-link">#173</a> for details).
 Check the introductory vignette and the help page of
 <code><a href="oe_vectortranslate.html">oe_vectortranslate()</a></code>.</p></dd>
+
+
 <dt>boundary</dt>
 <dd><p>An <code>sf</code>/<code>sfc</code>/<code>bbox</code> object that will be used to create a
 spatial filter during the vectortranslate operations. The type of filter
 can be chosen using the argument <code>boundary_type</code>.</p></dd>
+
+
 <dt>boundary_type</dt>
 <dd><p>A character vector of length 1 specifying the type of
 spatial filter. The <code>spat</code> filter selects only those features that
 intersect a given area, while <code>clipsrc</code> also clips the geometries. Check
 the examples and also <a href="https://gdal.org/programs/ogr2ogr.html" class="external-link">here</a> for
 more details.</p></dd>
+
+
 <dt>download_only</dt>
 <dd><p>Boolean. If <code>TRUE</code>, then the function only returns the
 path where the matched file is stored, instead of reading it. <code>FALSE</code> by
 default.</p></dd>
+
+
 <dt>skip_vectortranslate</dt>
 <dd><p>Boolean. If <code>TRUE</code>, then the function skips all
 vectortranslate operations and it reads (or simply returns the path) of the
 <code>.osm.pbf</code> file. <code>FALSE</code> by default.</p></dd>
+
+
 <dt>never_skip_vectortranslate</dt>
 <dd><p>Boolean. This is used in case the user
 passed its own <code>.ini</code> file or vectortranslate options (since, in those
 case, it's too difficult to determine if an existing <code>.gpkg</code> file was
 generated following the same options.)</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
 Starting from <code>sf</code> version
 <a href="https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13" class="external-link">0.9.6</a>,
 if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
 display a progress bar.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An <code>sf</code> object.</p>
+    
+
+<p>An <code>sf</code> object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -256,7 +297,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp6JEmLR/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -276,7 +317,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmp6JEmLR/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -291,12 +332,12 @@ performs the other three operations.</p>
 <span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp6JEmLR/test_its-example.gpkg"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.gpkg"</span>
 <span class="r-in"><span class="fu">oe_get</span><span class="op">(</span></span>
 <span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp6JEmLR/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.osm.pbf"</span>
 <span class="r-in"><span class="co"># See also ?oe_find()</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Add additional tags</span></span>
@@ -309,7 +350,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp6JEmLR/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -330,7 +371,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/Rtmp6JEmLR/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 13 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -376,7 +417,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp6JEmLR/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 77 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -435,7 +476,7 @@ performs the other three operations.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

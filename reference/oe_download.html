@@ -90,13 +90,19 @@ the package. The URL is specified through the parameter <code>file_url</code>.</
     <dl><dt>file_url</dt>
 <dd><p>A URL pointing to a <code>.osm.pbf</code> file that should be
 downloaded.</p></dd>
+
+
 <dt>provider</dt>
 <dd><p>Which provider stores the file? If <code>NULL</code> (the default), it
 may be inferred from the URL, but it must be specified for non-standard
 cases. See details and examples.</p></dd>
+
+
 <dt>file_basename</dt>
 <dd><p>The basename of the file. The default behaviour is to
 auto-generate it from the URL using <code><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename()</a></code>.</p></dd>
+
+
 <dt>download_directory</dt>
 <dd><p>Where to download the file containing the OSM data?
 By default this is equal to <code><a href="oe_download_directory.html">oe_download_directory()</a></code>, which is equal to
@@ -104,28 +110,39 @@ By default this is equal to <code><a href="oe_download_directory.html">oe_downlo
 persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
 file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
 <code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></dd>
+
+
 <dt>file_size</dt>
 <dd><p>How big is the file? Optional. <code>NA</code> by default. If it's
 bigger than <code>max_file_size</code> and the function is run in interactive mode,
 then an interactive menu is displayed, asking for permission for
 downloading the file.</p></dd>
+
+
 <dt>force_download</dt>
 <dd><p>Should the <code>.osm.pbf</code> file be updated if it has already
 been downloaded? <code>FALSE</code> by default. This parameter is used to update old
 <code>.osm.pbf</code> files.</p></dd>
+
+
 <dt>max_file_size</dt>
 <dd><p>The maximum file size to download without asking in
 interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
 Starting from <code>sf</code> version
 <a href="https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13" class="external-link">0.9.6</a>,
 if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
 display a progress bar.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A character string representing the file's path.</p>
+    
+
+<p>A character string representing the file's path.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -188,7 +205,7 @@ path.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

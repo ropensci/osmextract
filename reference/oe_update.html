@@ -87,24 +87,35 @@ Details.</p>
     <dl><dt>download_directory</dt>
 <dd><p>Character string of the path of the directory
 where the <code>.osm.pbf</code> files are saved.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Boolean. If <code>FALSE</code> the function prints informative
 messages. See Details.</p></dd>
+
+
 <dt>delete_gpkg</dt>
 <dd><p>Boolean. if <code>TRUE</code> the function deletes the old <code>.gpkg</code>
 files. We added this parameter to minimize the probability of accidentally
 reading-in old and not-synchronized <code>.gpkg</code> files. See Details. Defaults to
 <code>TRUE</code>.</p></dd>
+
+
 <dt>max_file_size</dt>
 <dd><p>The maximum file size to download without asking in
 interactive mode. Default: <code>5e+8</code>, half a gigabyte.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional parameter that will be passed to <code><a href="oe_get.html">oe_get()</a></code> (such as
 <code>stringsAsFactors</code> or <code>query</code>).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The path(s) of the <code>.osm.pbf</code> file(s) that were updated.</p>
+    
+
+<p>The path(s) of the <code>.osm.pbf</code> file(s) that were updated.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -161,7 +172,7 @@ Check <code><a href="https://rdrr.io/r/base/file.info.html" class="external-link
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

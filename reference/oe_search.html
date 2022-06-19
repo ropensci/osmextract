@@ -86,18 +86,27 @@ finding the geographical location of place names.</p>
     <dl><dt>place</dt>
 <dd><p>Text string containing the name of a place the location of
 which is to be found, such as <code>"Leeds"</code> or <code>"Milan"</code>.</p></dd>
+
+
 <dt>base_url</dt>
 <dd><p>The URL of the nominatim server to use. The main
 open server hosted by OpenStreetMap is the default.</p></dd>
+
+
 <dt>destfile</dt>
 <dd><p>The name of the destination file where the output
 of the search query, a <code>.geojson</code> file, should be saved.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Extra arguments that are passed to <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An <code>sf</code> object corresponding to the input place. The <code>sf</code> object is
+    
+
+<p>An <code>sf</code> object corresponding to the input place. The <code>sf</code> object is
 read by <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code> and it is based on a <code>geojson</code> file returned by
 Nominatim API.</p>
     </div>
@@ -114,7 +123,7 @@ Nominatim API.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

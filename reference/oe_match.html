@@ -110,14 +110,20 @@ a <code>.osm.pbf</code> file. Can be either a length-1 character vector, an
 In the last case, it is assumed that the EPSG code is 4326 specified as
 c(LON, LAT), while you can use any CRS with <code>sf</code>/<code>sfc</code>/<code>bbox</code> objects. See
 Details and Examples in <code>oe_match()</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed to other methods</p></dd>
+
+
 <dt>provider</dt>
 <dd><p>Which provider should be used to download the data? Available
 providers can be found with the following command: <code><a href="oe_providers.html">oe_providers()</a></code>. For
 <code><a href="oe_get.html">oe_get()</a></code> and <code>oe_match()</code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
 <code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
 internal tests.</p></dd>
+
+
 <dt>level</dt>
 <dd><p>An integer representing the desired hierarchical level in case
 of spatial matching. For the <code>geofabrik</code> provider, for example, <code>1</code>
@@ -126,18 +132,24 @@ corresponds to regions and <code>4</code> to subregions. Hence, we could approxi
 say that smaller administrative units correspond to bigger levels. If
 <code>NULL</code>, the default, the <code>oe_*</code> functions will select the highest available
 level. See Details and Examples in <code>oe_match()</code>.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
 Starting from <code>sf</code> version
 <a href="https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13" class="external-link">0.9.6</a>,
 if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
 display a progress bar.</p></dd>
+
+
 <dt>match_by</dt>
 <dd><p>Which column of the provider's database should be used for
 matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is <code>"name"</code>.
 Check Details and Examples in <code>oe_match()</code> to understand how this parameter
 works. Ignored if <code>place</code> is not a character vector since the matching is
 performed through a spatial operation.</p></dd>
+
+
 <dt>max_string_dist</dt>
 <dd><p>Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching (i.e. Approximate String Distance, see
@@ -148,10 +160,13 @@ Nominatim API? This parameter is set equal to 0 if <code>match_by</code> is equa
 <code>oe_match()</code> to understand why this parameter is important. Ignored if
 <code>place</code> is not a character vector since the matching is performed through a
 spatial operation.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with two elements, named <code>url</code> and <code>file_size</code>. The first
+    
+
+<p>A list with two elements, named <code>url</code> and <code>file_size</code>. The first
 element is the URL of the <code>.osm.pbf</code> file associated with the input
 <code>place</code>, while the second element is the size of the file in bytes (which
 may be <code>NULL</code> or <code>NA</code>)</p>
@@ -337,7 +352,7 @@ to perform matching operations using <a href="https://en.wikipedia.org/wiki/ISO_
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
