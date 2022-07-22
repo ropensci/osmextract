@@ -142,7 +142,7 @@ oe_download = function(
           if (isFALSE(quiet)) httr::progress(),
           # if (isFALSE(quiet)) httr::verbose(),
           httr::write_disk(file_path, overwrite = TRUE),
-          httr::timeout(300L)
+          httr::timeout(max(300L, getOption("timeout")))
         )
       },
       error = function(e) {
