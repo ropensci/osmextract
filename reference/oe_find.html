@@ -71,16 +71,16 @@ files associated with it.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">oe_find</span><span class="op">(</span>
-  <span class="va">place</span>,
-  provider <span class="op">=</span> <span class="st">"geofabrik"</span>,
-  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>,
-  download_if_missing <span class="op">=</span> <span class="cn">FALSE</span>,
-  return_pbf <span class="op">=</span> <span class="cn">TRUE</span>,
-  return_gpkg <span class="op">=</span> <span class="cn">TRUE</span>,
-  quiet <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_find</span><span class="op">(</span></span>
+<span>  <span class="va">place</span>,</span>
+<span>  provider <span class="op">=</span> <span class="st">"geofabrik"</span>,</span>
+<span>  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  download_if_missing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  return_pbf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  return_gpkg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -166,40 +166,40 @@ formats setting the arguments <code>return_pbf</code> or <code>return_gpkg</code
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy the ITS file to tempdir() to make sure that the examples do not</span></span>
-<span class="r-in"><span class="co"># require internet connection. You can skip the next 4 lines (and start</span></span>
-<span class="r-in"><span class="co"># directly with oe_get_keys) when running the examples locally.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
-<span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
-<span class="r-in">  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span>,</span>
-<span class="r-in">  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">oe_find</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Copy the ITS file to tempdir() to make sure that the examples do not</span></span></span>
+<span class="r-in"><span><span class="co"># require internet connection. You can skip the next 4 lines (and start</span></span></span>
+<span class="r-in"><span><span class="co"># directly with oe_get_keys) when running the examples locally.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.gpkg"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/Rtmp8cXuTh/test_its-example.osm.pbf"</span>
-<span class="r-in"><span class="fu">oe_find</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, return_gpkg <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmphLrWl4/test_its-example.gpkg"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmphLrWl4/test_its-example.osm.pbf"</span>
+<span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, return_gpkg <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.osm.pbf"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Isle of Wight"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Malta"</span>, download_if_missing <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">oe_find</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"Leeds"</span>,</span>
-<span class="r-in">  provider <span class="op">=</span> <span class="st">"bbbike"</span>,</span>
-<span class="r-in">  download_if_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  return_pbf <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span>
-<span class="r-in"><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmphLrWl4/test_its-example.osm.pbf"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Isle of Wight"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Malta"</span>, download_if_missing <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"Leeds"</span>,</span></span>
+<span class="r-in"><span>  provider <span class="op">=</span> <span class="st">"bbbike"</span>,</span></span>
+<span class="r-in"><span>  download_if_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  return_pbf <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -214,7 +214,7 @@ formats setting the arguments <code>return_pbf</code> or <code>return_gpkg</code
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

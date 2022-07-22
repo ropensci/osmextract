@@ -75,28 +75,28 @@ of the wrapped functions to understand the details behind all parameters.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">oe_get</span><span class="op">(</span>
-  <span class="va">place</span>,
-  layer <span class="op">=</span> <span class="st">"lines"</span>,
-  <span class="va">...</span>,
-  provider <span class="op">=</span> <span class="st">"geofabrik"</span>,
-  match_by <span class="op">=</span> <span class="st">"name"</span>,
-  max_string_dist <span class="op">=</span> <span class="fl">1</span>,
-  level <span class="op">=</span> <span class="cn">NULL</span>,
-  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>,
-  force_download <span class="op">=</span> <span class="cn">FALSE</span>,
-  max_file_size <span class="op">=</span> <span class="fl">5e+08</span>,
-  vectortranslate_options <span class="op">=</span> <span class="cn">NULL</span>,
-  osmconf_ini <span class="op">=</span> <span class="cn">NULL</span>,
-  extra_tags <span class="op">=</span> <span class="cn">NULL</span>,
-  force_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,
-  boundary <span class="op">=</span> <span class="cn">NULL</span>,
-  boundary_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spat"</span>, <span class="st">"clipsrc"</span><span class="op">)</span>,
-  download_only <span class="op">=</span> <span class="cn">FALSE</span>,
-  skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,
-  never_skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,
-  quiet <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_get</span><span class="op">(</span></span>
+<span>  <span class="va">place</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  provider <span class="op">=</span> <span class="st">"geofabrik"</span>,</span>
+<span>  match_by <span class="op">=</span> <span class="st">"name"</span>,</span>
+<span>  max_string_dist <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  level <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  force_download <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  max_file_size <span class="op">=</span> <span class="fl">5e+08</span>,</span>
+<span>  vectortranslate_options <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  osmconf_ini <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extra_tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  force_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  boundary <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  boundary_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spat"</span>, <span class="st">"clipsrc"</span><span class="op">)</span>,</span>
+<span>  download_only <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  never_skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -278,106 +278,106 @@ performs the other three operations.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span>
-<span class="r-in"><span class="co"># connection. You can skip the next 4 lines when running the examples</span></span>
-<span class="r-in"><span class="co"># locally.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
-<span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
-<span class="r-in">  to <span class="op">=</span> <span class="va">its_pbf</span>,</span>
-<span class="r-in">  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span></span>
+<span class="r-in"><span><span class="co"># connection. You can skip the next 4 lines when running the examples</span></span></span>
+<span class="r-in"><span><span class="co"># locally.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="va">its_pbf</span>,</span></span>
+<span class="r-in"><span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Match, download (not really) and convert OSM extracts associated to a simple test.</span></span>
-<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Match, download (not really) and convert OSM extracts associated to a simple test.</span></span></span>
+<span class="r-in"><span><span class="va">its</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "sf"         "data.frame"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry_type.html" class="external-link">st_geometry_type</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry_type.html" class="external-link">st_geometry_type</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get another layer from ITS Leeds extract</span></span>
-<span class="r-in"><span class="va">its_points</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get another layer from ITS Leeds extract</span></span></span>
+<span class="r-in"><span><span class="va">its_points</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Adding a new layer to the .gpkg file</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.568766 ymin: 53.80569 xmax: -1.549451 ymax: 53.81136</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry_type.html" class="external-link">st_geometry_type</a></span><span class="op">(</span><span class="va">its_points</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry_type.html" class="external-link">st_geometry_type</a></span><span class="op">(</span><span class="va">its_points</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18 Levels: GEOMETRY POINT LINESTRING POLYGON MULTIPOINT ... TRIANGLE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get the .osm.pbf and .gpkg files paths</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.gpkg"</span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.osm.pbf"</span>
-<span class="r-in"><span class="co"># See also ?oe_find()</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add additional tags</span></span>
-<span class="r-in"><span class="va">its_with_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, extra_tags <span class="op">=</span> <span class="st">"oneway"</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get the .osm.pbf and .gpkg files paths</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmphLrWl4/test_its-example.gpkg"</span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmphLrWl4/test_its-example.osm.pbf"</span>
+<span class="r-in"><span><span class="co"># See also ?oe_find()</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add additional tags</span></span></span>
+<span class="r-in"><span><span class="va">its_with_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, extra_tags <span class="op">=</span> <span class="st">"oneway"</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">its_with_oneway</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">its_with_oneway</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "oneway"     "z_order"    "other_tags"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "geometry"  </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">its_with_oneway</span><span class="op">$</span><span class="va">oneway</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">its_with_oneway</span><span class="op">$</span><span class="va">oneway</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  yes &lt;NA&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   13  176 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Use the query argument to get only oneway streets:</span></span>
-<span class="r-in"><span class="va">q</span> <span class="op">=</span> <span class="st">"SELECT * FROM 'lines' WHERE oneway == 'yes'"</span></span>
-<span class="r-in"><span class="va">its_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, query <span class="op">=</span> <span class="va">q</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use the query argument to get only oneway streets:</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">=</span> <span class="st">"SELECT * FROM 'lines' WHERE oneway == 'yes'"</span></span></span>
+<span class="r-in"><span><span class="va">its_oneway</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, query <span class="op">=</span> <span class="va">q</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes'' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 13 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.558828 ymin: 53.80595 xmax: -1.548899 ymax: 53.809</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="va">its_oneway</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">9</span><span class="op">)</span><span class="op">]</span></span>
+<span class="r-in"><span><span class="va">its_oneway</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">9</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 13 features and 3 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -395,73 +395,73 @@ performs the other three operations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8  151645336 residential       3 LINESTRING (-1.552181 53.80...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  160502811     service       0 LINESTRING (-1.553221 53.80...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 552695946  trunk_link       8 LINESTRING (-1.551952 53.80...</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Apply a spatial filter during the vectortranslate operations</span></span>
-<span class="r-in"><span class="va">its_poly</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_polygon</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55577</span>, <span class="fl">53.80850</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55787</span>, <span class="fl">53.80926</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.56096</span>, <span class="fl">53.80891</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.56096</span>, <span class="fl">53.80736</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55675</span>, <span class="fl">53.80658</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55495</span>, <span class="fl">53.80749</span><span class="op">)</span>,</span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55577</span>, <span class="fl">53.80850</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  crs <span class="op">=</span> <span class="fl">4326</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="va">its_spat</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Apply a spatial filter during the vectortranslate operations</span></span></span>
+<span class="r-in"><span><span class="va">its_poly</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_polygon</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55577</span>, <span class="fl">53.80850</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55787</span>, <span class="fl">53.80926</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.56096</span>, <span class="fl">53.80891</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.56096</span>, <span class="fl">53.80736</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55675</span>, <span class="fl">53.80658</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55495</span>, <span class="fl">53.80749</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.55577</span>, <span class="fl">53.80850</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  crs <span class="op">=</span> <span class="fl">4326</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">its_spat</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 77 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.552941 ymax: 53.81102</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="va">its_clipped</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, boundary_type <span class="op">=</span> <span class="st">"clipsrc"</span>,</span>
-<span class="r-in">  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span>, reset <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="st">"lightgrey"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_boundary</a></span><span class="op">(</span><span class="va">its_poly</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"black"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_boundary</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">its_poly</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"black"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its_spat</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its_clipped</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">its_clipped</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, boundary <span class="op">=</span> <span class="va">its_poly</span>, boundary_type <span class="op">=</span> <span class="st">"clipsrc"</span>,</span></span>
+<span class="r-in"><span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span>, reset <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="st">"lightgrey"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_boundary</a></span><span class="op">(</span><span class="va">its_poly</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"black"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_boundary</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">its_poly</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"black"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its_spat</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">its_clipped</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="oe_get-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># More complex examples</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">west_yorkshire</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"West Yorkshire"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># If you run it again, the function will not download the file</span></span>
-<span class="r-in"><span class="co"># or convert it again</span></span>
-<span class="r-in"><span class="va">west_yorkshire</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"West Yorkshire"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Match with place name</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Milan"</span><span class="op">)</span> <span class="co"># Warning: the .pbf file is 400MB</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Vatican City"</span><span class="op">)</span> <span class="co"># Check all providers</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Zurich"</span><span class="op">)</span> <span class="co"># Use Nominatim API for geolocating places</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Match with coordinates (any EPSG)</span></span>
-<span class="r-in"><span class="va">milan_duomo</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1514924</span>, <span class="fl">5034552</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">3003</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="va">milan_duomo</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Warning: the .pbf file is 400MB</span></span>
-<span class="r-in"><span class="co"># Match with numeric coordinates (EPSG = 4326)</span></span>
-<span class="r-in"><span class="fu"><a href="oe_match.html">oe_match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9.1916</span>, <span class="fl">45.4650</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Check also alternative providers</span></span>
-<span class="r-in"><span class="va">baku</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span>place <span class="op">=</span> <span class="st">"Baku"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Other examples:</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"RU"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># The following example mimics read_sf</span></span>
-<span class="r-in"><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Andora"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, as_tibble <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span>
-<span class="r-in"><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># More complex examples</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">west_yorkshire</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"West Yorkshire"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># If you run it again, the function will not download the file</span></span></span>
+<span class="r-in"><span><span class="co"># or convert it again</span></span></span>
+<span class="r-in"><span><span class="va">west_yorkshire</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span><span class="st">"West Yorkshire"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Match with place name</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Milan"</span><span class="op">)</span> <span class="co"># Warning: the .pbf file is 400MB</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Vatican City"</span><span class="op">)</span> <span class="co"># Check all providers</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Zurich"</span><span class="op">)</span> <span class="co"># Use Nominatim API for geolocating places</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Match with coordinates (any EPSG)</span></span></span>
+<span class="r-in"><span><span class="va">milan_duomo</span> <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1514924</span>, <span class="fl">5034552</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">3003</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span><span class="va">milan_duomo</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># Warning: the .pbf file is 400MB</span></span></span>
+<span class="r-in"><span><span class="co"># Match with numeric coordinates (EPSG = 4326)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="oe_match.html">oe_match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9.1916</span>, <span class="fl">45.4650</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check also alternative providers</span></span></span>
+<span class="r-in"><span><span class="va">baku</span> <span class="op">=</span> <span class="fu">oe_get</span><span class="op">(</span>place <span class="op">=</span> <span class="st">"Baku"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Other examples:</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span><span class="st">"RU"</span>, match_by <span class="op">=</span> <span class="st">"iso3166_1_alpha2"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># The following example mimics read_sf</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span><span class="st">"Andora"</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, as_tibble <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -476,7 +476,7 @@ performs the other three operations.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

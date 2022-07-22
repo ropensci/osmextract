@@ -103,17 +103,17 @@
     
 <p>This vignette aims to provide a simple guide on adding a new provider to <code>osmextract</code>. Let’ start loading the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/" class="external-link">osmextract</a></span><span class="op">)</span>
-<span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span>
-<span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/" class="external-link">osmextract</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span></span>
+<span><span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></span></code></pre></div>
 <p>As of summer 2020, there are several services providing bulk OSM datasets listed <a href="https://wiki.openstreetmap.org/wiki/Processed_data_providers" class="external-link">here</a> and <a href="https://wiki.openstreetmap.org/wiki/Planet.osm#Country_and_area_extracts" class="external-link">here</a>. At the moment, we support the following providers:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</span>
-<span class="co">#&gt;   available_providers          database_name number_of_zones number_of_fields</span>
-<span class="co">#&gt; 1           geofabrik        geofabrik_zones             430               14</span>
-<span class="co">#&gt; 2              bbbike           bbbike_zones             235               10</span>
-<span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             903                6</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</span></span>
+<span><span class="co">#&gt;   available_providers          database_name number_of_zones number_of_fields</span></span>
+<span><span class="co">#&gt; 1           geofabrik        geofabrik_zones             430               14</span></span>
+<span><span class="co">#&gt; 2              bbbike           bbbike_zones             235               10</span></span>
+<span><span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             903                6</span></span></code></pre></div>
 <p>Check the “Comparing the supported OSM providers” for more details on the existing providers.</p>
 <p>This package is designed to make it easy to add new providers. There are three main steps to add a new provider: creating the zones, adding the provider and documenting it. They are outlined below.</p>
 <div class="section level2">
@@ -121,19 +121,19 @@
 </h2>
 <p>The first and hardest step is to create an <code>sf</code> object analogous to the <code>test_zones</code> object shown below:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">)</span>
-<span class="co">#&gt; [1] "id"            "name"          "parent"        "level"        </span>
-<span class="co">#&gt; [5] "pbf_file_size" "pbf"           "geometry"</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; Classes 'sf' and 'data.frame':   2 obs. of  3 variables:</span>
-<span class="co">#&gt;  $ name    : chr  "Isle of Wight" "ITS Leeds"</span>
-<span class="co">#&gt;  $ pbf     : chr  "https://github.com/ropensci/osmextract/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf" "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"</span>
-<span class="co">#&gt;  $ geometry:sfc_POLYGON of length 2; first list element: List of 1</span>
-<span class="co">#&gt;   ..$ : num [1:7, 1:2] -1.52 -1.66 -1.31 -1.11 -1.03 ...</span>
-<span class="co">#&gt;   ..- attr(*, "class")= chr [1:3] "XY" "POLYGON" "sfg"</span>
-<span class="co">#&gt;  - attr(*, "sf_column")= chr "geometry"</span>
-<span class="co">#&gt;  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "name" "pbf"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "id"            "name"          "parent"        "level"        </span></span>
+<span><span class="co">#&gt; [5] "pbf_file_size" "pbf"           "geometry"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Classes 'sf' and 'data.frame':   2 obs. of  3 variables:</span></span>
+<span><span class="co">#&gt;  $ name    : chr  "Isle of Wight" "ITS Leeds"</span></span>
+<span><span class="co">#&gt;  $ pbf     : chr  "https://github.com/ropensci/osmextract/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf" "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"</span></span>
+<span><span class="co">#&gt;  $ geometry:sfc_POLYGON of length 2; first list element: List of 1</span></span>
+<span><span class="co">#&gt;   ..$ : num [1:7, 1:2] -1.52 -1.66 -1.31 -1.11 -1.03 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "class")= chr [1:3] "XY" "POLYGON" "sfg"</span></span>
+<span><span class="co">#&gt;  - attr(*, "sf_column")= chr "geometry"</span></span>
+<span><span class="co">#&gt;  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:2] "name" "pbf"</span></span></code></pre></div>
 <p>The output shows the three most important column names:</p>
 <ol style="list-style-type: decimal">
 <li>The zone <code>name</code> (that is used for matching the input <code>place</code>, see <code><a href="../reference/oe_match.html">oe_match()</a></code>);</li>
@@ -146,12 +146,12 @@
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
 <p>Then in RStudio:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/geofabrik_zones.R"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/geofabrik_zones.R"</span><span class="op">)</span></span></code></pre></div>
 <p>Create a new script to document the code that generates the new object, e.g. for <code>bbbike</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/bbbike_zones.R"</span><span class="op">)</span>
-<span class="co"># or, even better, use</span>
-<span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_data_raw</span><span class="op">(</span><span class="st">"bbbike_zones"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/bbbike_zones.R"</span><span class="op">)</span></span>
+<span><span class="co"># or, even better, use</span></span>
+<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_data_raw</span><span class="op">(</span><span class="st">"bbbike_zones"</span><span class="op">)</span></span></code></pre></div>
 <p>After you have created the new provider <code>_zones</code> file, it’s time to add the provider to the package.</p>
 </div>
 <div class="section level2">
@@ -196,7 +196,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

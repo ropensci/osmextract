@@ -75,43 +75,43 @@ stored first.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">oe_get_keys</span><span class="op">(</span>
-  <span class="va">zone</span>,
-  layer <span class="op">=</span> <span class="st">"lines"</span>,
-  values <span class="op">=</span> <span class="cn">FALSE</span>,
-  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
-  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">oe_get_keys</span><span class="op">(</span>
-  <span class="va">zone</span>,
-  layer <span class="op">=</span> <span class="st">"lines"</span>,
-  values <span class="op">=</span> <span class="cn">FALSE</span>,
-  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
-  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for character</span>
-<span class="fu">oe_get_keys</span><span class="op">(</span>
-  <span class="va">zone</span>,
-  layer <span class="op">=</span> <span class="st">"lines"</span>,
-  values <span class="op">=</span> <span class="cn">FALSE</span>,
-  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
-  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for sf</span>
-<span class="fu">oe_get_keys</span><span class="op">(</span>
-  <span class="va">zone</span>,
-  layer <span class="op">=</span> <span class="st">"lines"</span>,
-  values <span class="op">=</span> <span class="cn">FALSE</span>,
-  which_keys <span class="op">=</span> <span class="cn">NULL</span>,
-  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for oe_key_values_list</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"oe_max_print_keys"</span>, <span class="fl">10L</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_get_keys</span><span class="op">(</span></span>
+<span>  <span class="va">zone</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  values <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  which_keys <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">oe_get_keys</span><span class="op">(</span></span>
+<span>  <span class="va">zone</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  values <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  which_keys <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for character</span></span>
+<span><span class="fu">oe_get_keys</span><span class="op">(</span></span>
+<span>  <span class="va">zone</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  values <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  which_keys <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for sf</span></span>
+<span><span class="fu">oe_get_keys</span><span class="op">(</span></span>
+<span>  <span class="va">zone</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  values <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  which_keys <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  download_directory <span class="op">=</span> <span class="fu"><a href="oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for oe_key_values_list</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"oe_max_print_keys"</span>, <span class="fl">10L</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -206,20 +206,20 @@ Check the introductory vignette and see examples.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Copy the ITS file to tempdir() to make sure that the examples do not</span></span>
-<span class="r-in"><span class="co"># require internet connection. You can skip the next 4 lines (and start</span></span>
-<span class="r-in"><span class="co"># directly with oe_get_keys) when running the examples locally.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
-<span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
-<span class="r-in">  to <span class="op">=</span> <span class="va">its_pbf</span>,</span>
-<span class="r-in">  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Copy the ITS file to tempdir() to make sure that the examples do not</span></span></span>
+<span class="r-in"><span><span class="co"># require internet connection. You can skip the next 4 lines (and start</span></span></span>
+<span class="r-in"><span><span class="co"># directly with oe_get_keys) when running the examples locally.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="va">its_pbf</span>,</span></span>
+<span class="r-in"><span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get keys</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get keys</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "surface"             "lanes"               "bicycle"            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "lit"                 "access"              "oneway"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "maxspeed"            "ref"                 "foot"               </span>
@@ -233,9 +233,9 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31] "maxheight"           "operator"            "power"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [34] "source:geometry"     "substation"          "turn:lanes:backward"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [37] "voltage"             "website"            </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get keys and values</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get keys and values</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lanes (91% NAs) = {#2 = 9; #1 = 7}</span>
@@ -248,19 +248,19 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foot (95% NAs) = {#yes = 5; #designated = 4}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> natural (96% NAs) = {#tree_row = 7}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [Truncated output...]</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Subset some keys</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, which_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"surface"</span>, <span class="st">"lanes"</span><span class="op">)</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Subset some keys</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, which_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"surface"</span>, <span class="st">"lanes"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 2 unique keys, printed in ascending order of % NA values. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lanes (91% NAs) = {#2 = 9; #1 = 7}</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Print all (non-NA) values for a given set of keys</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">=</span> <span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span><span class="op">[</span><span class="st">"surface"</span><span class="op">]</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Print all (non-NA) values for a given set of keys</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu">oe_get_keys</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, values <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span><span class="op">[</span><span class="st">"surface"</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $surface</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "asphalt"       "asphalt"       "asphalt"       "asphalt"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "asphalt"       "asphalt"       "paved"         "cobblestone"  </span>
@@ -268,21 +268,21 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "paving_stones" "asphalt"       "asphalt"       "asphalt"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [17] "asphalt"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get keys from an existing sf object</span></span>
-<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get keys from an existing sf object</span></span></span>
+<span class="r-in"><span><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lanes (91% NAs) = {#2 = 9; #1 = 7}</span>
@@ -295,14 +295,14 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foot (95% NAs) = {#yes = 5; #designated = 4}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> natural (96% NAs) = {#tree_row = 7}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [Truncated output...]</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get keys from a character vector pointing to a file (might be faster than</span></span>
-<span class="r-in"><span class="co"># reading the complete file and then filter it)</span></span>
-<span class="r-in"><span class="va">its_path</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get keys from a character vector pointing to a file (might be faster than</span></span></span>
+<span class="r-in"><span><span class="co"># reading the complete file and then filter it)</span></span></span>
+<span class="r-in"><span><span class="va">its_path</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, values <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Found 38 unique keys, printed in ascending order of % NA values. The first 10 keys are: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> surface (91% NAs) = {#asphalt = 12; #paved = 3; #cobblestone = 1; #paving_sto...}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lanes (91% NAs) = {#2 = 9; #1 = 7}</span>
@@ -315,42 +315,42 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> foot (95% NAs) = {#yes = 5; #designated = 4}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> natural (96% NAs) = {#tree_row = 7}</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [Truncated output...]</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add a key to an existing .gpkg file without repeating the</span></span>
-<span class="r-in"><span class="co"># vectortranslate operations</span></span>
-<span class="r-in"><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a key to an existing .gpkg file without repeating the</span></span></span>
+<span class="r-in"><span><span class="co"># vectortranslate operations</span></span></span>
+<span class="r-in"><span><span class="va">its</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp8cXuTh/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmphLrWl4/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </span>
-<span class="r-in"><span class="va">its_extra</span> <span class="op">=</span> <span class="fu"><a href="oe_read.html">oe_read</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">its_path</span>,</span>
-<span class="r-in">  query <span class="op">=</span> <span class="st">"SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"</span>,</span>
-<span class="r-in">  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its_extra</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">its_extra</span> <span class="op">=</span> <span class="fu"><a href="oe_read.html">oe_read</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">its_path</span>,</span></span>
+<span class="r-in"><span>  query <span class="op">=</span> <span class="st">"SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"</span>,</span></span>
+<span class="r-in"><span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its_extra</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "geometry"  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The following fails since there is no points layer in the .gpkg file</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add layer and read keys</span></span>
-<span class="r-in"><span class="va">its_path</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"ITS Leeds"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The following fails since there is no points layer in the .gpkg file</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add layer and read keys</span></span></span>
+<span class="r-in"><span><span class="va">its_path</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, layer <span class="op">=</span> <span class="st">"points"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">oe_get_keys</span><span class="op">(</span><span class="va">its_path</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "amenity"                 "addr:postcode"          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "addr:street"             "addr:city"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "fhrs:id"                 "capacity"               </span>
@@ -394,10 +394,10 @@ Check the introductory vignette and see examples.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [81] "recycling:glass_bottles" "recycling:paper"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [83] "traffic_signals"         "url"                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [85] "wikidata"               </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">its_pbf</span>, <span class="va">res</span>, <span class="va">its_path</span>, <span class="va">its</span>, <span class="va">its_extra</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">its_pbf</span>, <span class="va">res</span>, <span class="va">its_path</span>, <span class="va">its</span>, <span class="va">its_extra</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -412,7 +412,7 @@ Check the introductory vignette and see examples.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

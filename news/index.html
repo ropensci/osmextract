@@ -82,6 +82,8 @@
 <li>We are experimenting with the new features of <code>testthat</code> and we implemented the so-called test-fixtures to run tests in a more isolated environment (<a href="https://github.com/ropensci/osmextract/issues/255" class="external-link">#255</a>). This is however still experimental for us.</li>
 <li>Added more informative error and warning messages to <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> (<a href="https://github.com/ropensci/osmextract/issues/251" class="external-link">#251</a>).</li>
 <li>The file path returned by <code><a href="../reference/oe_download.html">oe_download()</a></code> is specified using <code>/</code> instead of <code>\\</code> separator on Windows.</li>
+<li>
+<code><a href="../reference/oe_download.html">oe_download()</a></code> takes into account the <code>timeout</code> option again. Unfortunately, we forgot to adjust the code when switching from <code>download.file</code> to <code>httr</code>.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-fixes-development-version">DOCUMENTATION FIXES<a class="anchor" aria-label="anchor" href="#documentation-fixes-development-version"></a></h4>
@@ -210,7 +212,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

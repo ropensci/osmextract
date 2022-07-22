@@ -81,18 +81,18 @@ usage, and check the introductory vignette for more complex use-cases.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">oe_vectortranslate</span><span class="op">(</span>
-  <span class="va">file_path</span>,
-  layer <span class="op">=</span> <span class="st">"lines"</span>,
-  vectortranslate_options <span class="op">=</span> <span class="cn">NULL</span>,
-  osmconf_ini <span class="op">=</span> <span class="cn">NULL</span>,
-  extra_tags <span class="op">=</span> <span class="cn">NULL</span>,
-  force_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,
-  never_skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,
-  boundary <span class="op">=</span> <span class="cn">NULL</span>,
-  boundary_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spat"</span>, <span class="st">"clipsrc"</span><span class="op">)</span>,
-  quiet <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_vectortranslate</span><span class="op">(</span></span>
+<span>  <span class="va">file_path</span>,</span>
+<span>  layer <span class="op">=</span> <span class="st">"lines"</span>,</span>
+<span>  vectortranslate_options <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  osmconf_ini <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  extra_tags <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  force_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  never_skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  boundary <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  boundary_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spat"</span>, <span class="st">"clipsrc"</span><span class="op">)</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -266,8 +266,8 @@ the vectortranslate process.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># First we need to match an input zone with a .osm.pbf file</span></span>
-<span class="r-in"><span class="op">(</span><span class="va">its_match</span> <span class="op">=</span> <span class="fu"><a href="oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># First we need to match an input zone with a .osm.pbf file</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">its_match</span> <span class="op">=</span> <span class="fu"><a href="oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"</span>
@@ -275,96 +275,96 @@ the vectortranslate process.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $file_size</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 40792</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span>
-<span class="r-in"><span class="co"># connection. You can skip the next 3 lines (and start directly with</span></span>
-<span class="r-in"><span class="co"># oe_download()) when running the examples locally.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span>
-<span class="r-in">  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span>
-<span class="r-in">  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span>,</span>
-<span class="r-in">  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Copy ITS file to tempdir so that the examples do not require internet</span></span></span>
+<span class="r-in"><span><span class="co"># connection. You can skip the next 3 lines (and start directly with</span></span></span>
+<span class="r-in"><span><span class="co"># oe_download()) when running the examples locally.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The we can download the .osm.pbf file (if it was not already downloaded)</span></span>
-<span class="r-in"><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="oe_download.html">oe_download</a></span><span class="op">(</span></span>
-<span class="r-in">  file_url <span class="op">=</span> <span class="va">its_match</span><span class="op">$</span><span class="va">url</span>,</span>
-<span class="r-in">  file_size <span class="op">=</span> <span class="va">its_match</span><span class="op">$</span><span class="va">file_size</span>,</span>
-<span class="r-in">  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  provider <span class="op">=</span> <span class="st">"test"</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The we can download the .osm.pbf file (if it was not already downloaded)</span></span></span>
+<span class="r-in"><span><span class="va">its_pbf</span> <span class="op">=</span> <span class="fu"><a href="oe_download.html">oe_download</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  file_url <span class="op">=</span> <span class="va">its_match</span><span class="op">$</span><span class="va">url</span>,</span></span>
+<span class="r-in"><span>  file_size <span class="op">=</span> <span class="va">its_match</span><span class="op">$</span><span class="va">file_size</span>,</span></span>
+<span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  provider <span class="op">=</span> <span class="st">"test"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Check that the file was downloaded</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check that the file was downloaded</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test_its-example.osm.pbf"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Convert to gpkg format</span></span>
-<span class="r-in"><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu">oe_vectortranslate</span><span class="op">(</span><span class="va">its_pbf</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Convert to gpkg format</span></span></span>
+<span class="r-in"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu">oe_vectortranslate</span><span class="op">(</span><span class="va">its_pbf</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Now there is an extra .gpkg file</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now there is an extra .gpkg file</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"pbf|gpkg"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test_its-example.gpkg"    "test_its-example.osm.pbf"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Check the layers of the .gpkg file</span></span>
-<span class="r-in"><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Check the layers of the .gpkg file</span></span></span>
+<span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Driver: GPKG </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available layers:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   layer_name geometry_type features fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      lines   Line String      189      9</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add points layer</span></span>
-<span class="r-in"><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu">oe_vectortranslate</span><span class="op">(</span><span class="va">its_pbf</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   layer_name geometry_type features fields crs_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      lines   Line String      189      9   WGS 84</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add points layer</span></span></span>
+<span class="r-in"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu">oe_vectortranslate</span><span class="op">(</span><span class="va">its_pbf</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Adding a new layer to the .gpkg file</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-in"><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Driver: GPKG </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available layers:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   layer_name geometry_type features fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      lines   Line String      189      9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     points         Point      186     10</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add extra tags to the lines layer</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">its_gpkg</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   layer_name geometry_type features fields crs_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      lines   Line String      189      9   WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     points         Point      186     10   WGS 84</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add extra tags to the lines layer</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">its_gpkg</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </span>
-<span class="r-in"><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu">oe_vectortranslate</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">its_pbf</span>,</span>
-<span class="r-in">  extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oneway"</span>, <span class="st">"maxspeed"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu">oe_vectortranslate</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">its_pbf</span>,</span></span>
+<span class="r-in"><span>  extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oneway"</span>, <span class="st">"maxspeed"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">its_gpkg</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">its_gpkg</span>, layer <span class="op">=</span> <span class="st">"lines"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "oneway"     "maxspeed"   "z_order"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "other_tags" "geometry"  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Adjust vectortranslate options and convert only 10 features</span></span>
-<span class="r-in"><span class="co"># for the lines layer</span></span>
-<span class="r-in"><span class="fu">oe_vectortranslate</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">its_pbf</span>,</span>
-<span class="r-in">  vectortranslate_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-limit"</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Adjust vectortranslate options and convert only 10 features</span></span></span>
+<span class="r-in"><span><span class="co"># for the lines layer</span></span></span>
+<span class="r-in"><span><span class="fu">oe_vectortranslate</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">its_pbf</span>,</span></span>
+<span class="r-in"><span>  vectortranslate_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-limit"</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Start with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmp8cXuTh/test_its-example.gpkg"</span>
-<span class="r-in"><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmphLrWl4/test_its-example.gpkg"</span>
+<span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Driver: GPKG </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available layers:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   layer_name geometry_type features fields</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     points         Point      186     10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      lines   Line String       10      9</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span>
-<span class="r-in"><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   layer_name geometry_type features fields crs_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     points         Point      186     10   WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      lines   Line String       10      9   WGS 84</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Remove .pbf and .gpkg files in tempdir</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="oe_clean.html">oe_clean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -379,7 +379,7 @@ the vectortranslate process.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
