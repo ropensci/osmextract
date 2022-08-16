@@ -151,7 +151,8 @@ oe_download = function(
           "If this was not intentional, you may want to increase the timeout value. ",
           "We also suggest you to remove the partially downloaded file running the ",
           "following code (possibly in a new R session): ",
-          "file.remove(", dQuote(file_path, q = FALSE), ").",
+          # NB: Don't add a full stop since that make copying code really annoying
+          "file.remove(", dQuote(file_path, q = FALSE), ")",
           call. = FALSE
         )
       }

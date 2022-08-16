@@ -420,7 +420,7 @@ oe_vectortranslate = function(
   }
 
   oe_message(
-    "Start with the vectortranslate operations on the input file!",
+    "Starting with the vectortranslate operations on the input file!",
     quiet = quiet
   )
 
