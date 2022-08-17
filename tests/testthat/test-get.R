@@ -9,7 +9,10 @@
 # makes the debugging more difficult since I have to manually reset the        #
 # options at the end of the debugging process.                                 #
 #                                                                              #
-# See R/test-helpers.R for more details                                        #
+# See R/test-helpers.R for more details.                                       #
+#                                                                              #
+# NB2: I don't need to set withr::defer when using setup_pbf() since that      #
+# function automatically sets it.                                              #
 #                                                                              #
 ################################################################################
 
@@ -48,7 +51,6 @@ test_that("We can specify a path using ~", {
 
 test_that("The provider is overwritten when oe_match finds a different provider", {
   # See https://github.com/ropensci/osmextract/issues/245
-
   withr::defer(oe_clean(tempdir()))
   withr::local_envvar(
     .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
@@ -76,4 +78,5 @@ test_that("The provider is overwritten when oe_match finds a different provider"
     regexp = "openstreetmap_fr"
   )
 })
+
 

@@ -9,7 +9,10 @@
 # makes the debugging more difficult since I have to manually reset the        #
 # options at the end of the debugging process.                                 #
 #                                                                              #
-# See R/test-helpers.R for more details                                        #
+# See R/test-helpers.R for more details.                                       #
+#                                                                              #
+# NB2: I don't need to set withr::defer when using setup_pbf() since that      #
+# function automatically sets it.                                              #
 #                                                                              #
 ################################################################################
 
