@@ -78,5 +78,3 @@ test_that("The provider is overwritten when oe_match finds a different provider"
     regexp = "openstreetmap_fr"
   )
 })
-
-

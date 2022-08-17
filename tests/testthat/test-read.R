@@ -344,3 +344,24 @@ test_that("oe_read returns an error with unnamed argument and extra comma", {
 
 # Clean
 rm(its_poly)
+
+test_that("Vectortranslate operations are not repeated when extra_fields include the character :", {
+  # See also https://github.com/ropensci/osmextract/issues/260
+  its_pbf = setup_pbf()
+  withr::local_envvar(
+    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+  )
+  osm_data = oe_read(
+    file_path = its_pbf,
+    extra_tags = c("lanes", "turn:lanes"),
+    quiet = TRUE
+  )
+  expect_message(
+    object = {oe_read(
+      file_path = its_pbf,
+      extra_tags = c("lanes", "turn:lanes"),
+      download_only = TRUE
+    )},
+    regexp = "Skip vectortranslate operations"
+  )
+})

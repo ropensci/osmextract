@@ -3,6 +3,7 @@
 ### MAJOR CHANGES
 * Fixed a bug in `oe_match()` that occurred every time `oe_match()` found an exact match between the input `place` and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `different-provider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. See #246. This is a quite major bug, and we suggest you erase all `.pbf` and `.gpkg` files stored in the persistent download directory (see also `?oe_clean`). 
 * Fixed a bug in `oe_get_keys()` that occurred when the value for a given key was either empty or equal to `\n` (#250). 
+* Fixed a bug in `oe_vectortranslate()` that occurred when the attributed specified in the `extra_tags` argument included the character `:`. In fact, the presence of attributes like "lanes:left" always triggered the vectortranslate operations (#260). 
 
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 

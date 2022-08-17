@@ -279,7 +279,20 @@ oe_vectortranslate = function(
         ))
       }
 
-      if (all(extra_tags %in% old_tags)) {
+      # Convert the character ":" into "_" for the extra_tags argument (see also
+      # https://github.com/ropensci/osmextract/issues/260 for more details). I
+      # create a temp object since I don't need to actually change the argument.
+
+      # NB: The laundering of ":" into "_" by GDAL is actually controlled by the
+      # attribute_name_laundering tag in osmconf.ini. However, since we do not
+      # support the "extra_tag" and "osmconf_ini" arguments at the same time, we
+      # do not need to check whether attribute_name_laundering=no is uncommented in
+      # the .ini file. In fact, if osmconf_ini is not NULL, the
+      # vectortranslate operations are never skipped.
+
+      temp_extra_tags <- gsub(":", "_", extra_tags)
+
+      if (all(temp_extra_tags %in% old_tags)) {
         force_vectortranslate = FALSE
       }
     }
