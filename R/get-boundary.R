@@ -37,6 +37,9 @@
 #' plot(st_geometry(komo), add = TRUE, col = my_cols[2])
 #' plot(st_geometry(komo_pt), add = TRUE, col = my_cols[3:5])
 #' par(opar)
+#'
+#' # Get all boundaries
+#' (oe_get_boundary("Gabon", name = "%", exact = FALSE, quiet = TRUE)[, 1:2])
 #' }
 
 oe_get_boundary <- function(
