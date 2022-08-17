@@ -61,5 +61,10 @@ par(opar)
 
 # Get all boundaries
 (oe_get_boundary("Gabon", name = "\%", exact = FALSE, quiet = TRUE)[, 1:2])
+
+# If the basic approach doesn't work, i.e.
+oe_get_boundary("Leeds", quiet = TRUE)
+# try to consider larger regions, i.e.
+oe_get_boundary("West Yorkshire", "Leeds", quiet = TRUE)
 }
 }
