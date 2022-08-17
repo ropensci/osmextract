@@ -4,6 +4,10 @@
 #' an administrative boundary. The objects are extracted from the
 #' `multipolygons` layer of a given OSM extract.
 #'
+#' The function may return an empty result when the corresponding GPKG file
+#' already exists and contains partial results. In that case, you can try
+#' running the function setting `never_skip_vectortranslate = TRUE`.
+#'
 #' @inheritParams oe_get
 #' @param name A character vector of length 1 that describes the relevant area.
 #'   By default, this is equal to `place`, but this parameter can be tuned to

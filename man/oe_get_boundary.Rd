@@ -35,6 +35,11 @@ This function can be used to obtain polygon/multipolygon objects representing
 an administrative boundary. The objects are extracted from the
 \code{multipolygons} layer of a given OSM extract.
 }
+\details{
+The function may return an empty result when the corresponding GPKG file
+already exists and contains partial results. In that case, you can try
+running the function setting \code{never_skip_vectortranslate = TRUE}.
+}
 \examples{
 \dontrun{
 library(sf)
