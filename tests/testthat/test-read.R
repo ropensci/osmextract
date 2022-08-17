@@ -15,6 +15,7 @@
 
 test_that("oe_read: simplest examples work", {
   its_pbf = setup_pbf()
+  withr::defer(oe_clean(tempdir()))
   withr::local_envvar(
     .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
   )
