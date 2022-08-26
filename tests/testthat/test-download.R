@@ -40,7 +40,7 @@ test_that("oe_download: simplest examples work", {
       provider = "test",
       quiet = FALSE
     ),
-    "Skip downloading."
+    class = "oe_skip_downloading"
   )
 })
 

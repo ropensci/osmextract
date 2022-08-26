@@ -103,7 +103,8 @@ oe_download = function(
     oe_message(
       "The chosen file was already detected in the download directory. ",
       "Skip downloading.",
-      quiet = quiet
+      quiet = quiet,
+      .subclass = "oe_skip_downloading"
     )
     return(file_path)
   }
