@@ -1,5 +1,7 @@
 # osmextract 0.4.1
 
+Help files below `man/` have been re-generated, so that they give rise to valid HTML5 (#259). 
+
 # osmextract 0.4.0 
 
 ### MAJOR CHANGES
