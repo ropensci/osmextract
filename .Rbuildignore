@@ -17,3 +17,4 @@ docs/
 ^\.lintr$
 my-covr.R
 internal-tests.R
+tests/testthat/README.md

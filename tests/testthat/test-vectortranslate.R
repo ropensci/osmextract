@@ -1,36 +1,24 @@
-################################################################################
-# NB: ALWAYS REMEMBER TO SET                                                   #
-# withr::local_envvar(                                                         #
-#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
-# )                                                                            #
-# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
-#                                                                              #
-# I could also set the same option at the beginning of the script but that     #
-# makes the debugging more difficult since I have to manually reset the        #
-# options at the end of the debugging process.                                 #
-#                                                                              #
-# See R/test-helpers.R for more details.                                       #
-#                                                                              #
-# NB2: I don't need to set withr::defer when using setup_pbf() since that      #
-# function automatically sets it.                                              #
-#                                                                              #
-################################################################################
-
 test_that("oe_vectortranslate: simplest examples work", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
   expect_equal(tools::file_ext(its_gpkg), "gpkg")
 })
 
 test_that("oe_vectortranslate returns file_path when .gpkg exists", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
   expect_message(
@@ -40,10 +28,13 @@ test_that("oe_vectortranslate returns file_path when .gpkg exists", {
 })
 
 test_that("oe_vectortranslate succesfully adds new tags", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   # Check all layers, ref https://github.com/ropensci/osmextract/issues/229
   # Check points:
@@ -109,10 +100,13 @@ test_that("oe_vectortranslate succesfully adds new tags", {
 })
 
 test_that("oe_vectortranslate adds new tags to existing file", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
   new_its_gpkg = oe_vectortranslate(its_pbf, extra_tags = c("oneway"), quiet = TRUE)
@@ -123,10 +117,13 @@ test_that("oe_vectortranslate adds new tags to existing file", {
 })
 
 test_that("oe_vectortranslate returns no warning with duplicated field in extra_tags", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   # The idea is that the user may request one or more fields that are already
   # included in the default ones. In that case, GDAL returns a message like:
@@ -143,10 +140,13 @@ test_that("oe_vectortranslate returns no warning with duplicated field in extra_
 })
 
 test_that("vectortranslate_options are autocompleted", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   expect_error(
     oe_vectortranslate(
@@ -159,10 +159,13 @@ test_that("vectortranslate_options are autocompleted", {
 })
 
 test_that("vectortranslate is not skipped if force_download is TRUE", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   # See https://github.com/ropensci/osmextract/issues/144
   # I need to download the following files in a new directory since they could

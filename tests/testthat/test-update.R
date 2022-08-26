@@ -1,21 +1,3 @@
-################################################################################
-# NB: ALWAYS REMEMBER TO SET                                                   #
-# withr::local_envvar(                                                         #
-#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
-# )                                                                            #
-# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
-#                                                                              #
-# I could also set the same option at the beginning of the script but that     #
-# makes the debugging more difficult since I have to manually reset the        #
-# options at the end of the debugging process.                                 #
-#                                                                              #
-# See R/test-helpers.R for more details.                                       #
-#                                                                              #
-# NB2: I don't need to set withr::defer when using setup_pbf() since that      #
-# function automatically sets it.                                              #
-#                                                                              #
-################################################################################
-
 test_that("oe_update(): simplest example works", {
   skip_on_ci() # I can just run these tests on local laptop
   skip_on_cran()
@@ -23,10 +5,13 @@ test_that("oe_update(): simplest example works", {
   skip_if_offline("download.openstreetmap.fr")
 
   # Clean tempdir on exit + options
-  withr::defer(oe_clean(tempdir()))
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  withr::defer(oe_clean(tempdir()))
 
   # I should also check the status code of the provider since there might be a
   # problem with the provider for whatever reason.

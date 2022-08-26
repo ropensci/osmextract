@@ -1,21 +1,3 @@
-################################################################################
-# NB: ALWAYS REMEMBER TO SET                                                   #
-# withr::local_envvar(                                                         #
-#   .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())                       #
-# )                                                                            #
-# IF YOU NEED TO MODIFY THE OSMEXT_DOWNLOAD_DIRECTORY envvar INSIDE THE TESTS. #
-#                                                                              #
-# I could also set the same option at the beginning of the script but that     #
-# makes the debugging more difficult since I have to manually reset the        #
-# options at the end of the debugging process.                                 #
-#                                                                              #
-# See R/test-helpers.R for more details.                                       #
-#                                                                              #
-# NB2: I don't need to set withr::defer when using setup_pbf() since that      #
-# function automatically sets it.                                              #
-#                                                                              #
-################################################################################
-
 test_that("get_keys (keys): simplest examples work", {
   expect_equal(get_keys('"A"=>"B"'), "A")
   expect_equal(get_keys(c('"A"=>"B"', '"C"=>"D"')), c("A", "C"))
@@ -78,10 +60,13 @@ test_that("get_keys (values): more complicated examples", {
 })
 
 test_that("oe_get_keys: simplest examples work", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   # Define path to gpkg object
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
@@ -97,10 +82,13 @@ test_that("oe_get_keys: simplest examples work", {
 })
 
 test_that("oe_get_keys + values: printing method", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   expect_snapshot_output(oe_get_keys(its_pbf, values = TRUE))
 
@@ -125,20 +113,26 @@ test_that("oe_get_keys: returns error with wrong inputs", {
 })
 
 test_that("oe_get_keys: reads from sf object", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   its = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
   expect_error(oe_get_keys(its), NA)
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   my_output = oe_get_keys("ITS Leeds", values = TRUE)
   its_leeds_with_surface = oe_get(
@@ -155,10 +149,13 @@ test_that("the output from oe_get_keys is the same as for hstore_get_values", {
 })
 
 test_that("oe_get_keys stops when there is no other_tags field", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   # Read data ignoring the other_tags field
   its_object = oe_read(
@@ -187,10 +184,13 @@ test_that("oe_get_keys stops when there is no other_tags field", {
 })
 
 test_that("oe_get_keys matches input zone with file", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
 
   # Simplest example works
   expect_error(oe_get_keys("ITS Leeds"), NA)
@@ -200,10 +200,13 @@ test_that("oe_get_keys matches input zone with file", {
 })
 
 test_that("oe_get_keys errors when asking for non existing layer", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
-    .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
+  its_pbf = setup_pbf()
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
 
   expect_error(
