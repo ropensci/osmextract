@@ -6,7 +6,7 @@
 \alias{osmextract-package}
 \title{osmextract: Download and Import Open Street Map Data Extracts}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 Match, download, convert and import Open Street Map data extracts obtained from several providers.
 }
