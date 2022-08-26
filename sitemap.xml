@@ -43,9 +43,6 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/oe_clean.html</loc>
-  </url>
-  <url>
     <loc>/reference/oe_download.html</loc>
   </url>
   <url>
@@ -56,9 +53,6 @@
   </url>
   <url>
     <loc>/reference/oe_get.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_get_boundary.html</loc>
   </url>
   <url>
     <loc>/reference/oe_get_keys.html</loc>
