@@ -86,6 +86,7 @@
 <li>The file path returned by <code><a href="../reference/oe_download.html">oe_download()</a></code> is specified using <code>/</code> instead of <code>\\</code> separator on Windows.</li>
 <li>
 <code><a href="../reference/oe_download.html">oe_download()</a></code> takes into account the <code>timeout</code> option again. Unfortunately, we forgot to adjust the code when switching from <code>download.file</code> to <code>httr</code>.</li>
+<li>The <code><a href="../reference/oe_vectortranslate.html">oe_vectortranslate()</a></code> function tries to correct the possible geometrical problem of the input <code>boundary</code> using <code><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">sf::st_make_valid()</a></code>.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-fixes-development-version">DOCUMENTATION FIXES<a class="anchor" aria-label="anchor" href="#documentation-fixes-development-version"></a></h4>
@@ -94,7 +95,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.4.1" id="osmextract-041">osmextract 0.4.1<a class="anchor" aria-label="anchor" href="#osmextract-041"></a></h2>
+<h2 class="page-header" data-toc-text="0.4.1" id="osmextract-041">osmextract 0.4.1<small>2022-08-26</small><a class="anchor" aria-label="anchor" href="#osmextract-041"></a></h2>
 <p>Help files below <code>man/</code> have been re-generated, so that they give rise to valid HTML5 (<a href="https://github.com/ropensci/osmextract/issues/259" class="external-link">#259</a>).</p>
 </div>
     <div class="section level2">
