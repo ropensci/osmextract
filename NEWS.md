@@ -17,7 +17,8 @@
 * We are experimenting with the new features of `testthat` and we implemented the so-called test-fixtures to run tests in a more isolated environment (#255). This is however still experimental for us.
 * Added more informative error and warning messages to `oe_get_keys()` (#251).
 * The file path returned by `oe_download()` is specified using `/` instead of `\\` separator on Windows. 
-* `oe_download()` takes into account the `timeout` option again. Unfortunately, we forgot to adjust the code when switching from `download.file` to `httr`.   
+* `oe_download()` takes into account the `timeout` option again. Unfortunately, we forgot to adjust the code when switching from `download.file` to `httr`. 
+* The `oe_vectortranslate()` function tries to correct the possible geometrical problem of the input `boundary` using `sf::st_make_valid()`. 
 
 ### DOCUMENTATION FIXES
 * Update description for `boundary` and `boundary_type` arguments.

@@ -562,6 +562,10 @@ process_boundary = function(
   if (sf::st_crs(boundary) != sf::st_crs(4326)) {
     boundary = sf::st_transform(boundary, 4326)
   }
+  # Try to fix the boundary in case it's not valid
+  if (! sf::st_is_valid(boundary)) {
+    boundary = sf::st_make_valid(boundary)
+  }
 
   # Add and return
   switch(
