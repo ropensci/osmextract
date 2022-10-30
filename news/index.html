@@ -113,13 +113,15 @@
 </ul></div>
 <div class="section level4">
 <h4 id="minor-changes-0-4-0">MINOR CHANGES<a class="anchor" aria-label="anchor" href="#minor-changes-0-4-0"></a></h4>
-<ul><li>The duplicated fields in <code>extra_tags</code> are now removed before modifying the <code>osmconf.ini</code> file. Duplicated tags means something like <code>extra_tags = c("A", "A")</code> or even fields that are included by default (i.e. <code>extra_tags = "highway"</code> for the <code>lines</code> layer). See discussion in <a href="https://github.com/ropensci/osmextract/issues/229" class="external-link">#229</a>.</li></ul></div>
+<ul><li>The duplicated fields in <code>extra_tags</code> are now removed before modifying the <code>osmconf.ini</code> file. Duplicated tags means something like <code>extra_tags = c("A", "A")</code> or even fields that are included by default (i.e. <code>extra_tags = "highway"</code> for the <code>lines</code> layer). See discussion in <a href="https://github.com/ropensci/osmextract/issues/229" class="external-link">#229</a>.</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.1" id="osmextract-031">osmextract 0.3.1<small>2021-07-27</small><a class="anchor" aria-label="anchor" href="#osmextract-031"></a></h2>
 <div class="section level4">
 <h4 id="major-changes-0-3-1">MAJOR CHANGES<a class="anchor" aria-label="anchor" href="#major-changes-0-3-1"></a></h4>
-<ul><li>Added a new (but still experimental) function named <code><a href="../reference/oe_get_network.html">oe_get_network()</a></code> to import a road network used by a specific mode of transport. For the moment, we support the following modes of transport: cycling (default), walking, and driving. Check <code><a href="../reference/oe_get_network.html">?oe_get_network</a></code> for more details and examples (<a href="https://github.com/ropensci/osmextract/issues/218" class="external-link">#218</a>).</li></ul></div>
+<ul><li>Added a new (but still experimental) function named <code><a href="../reference/oe_get_network.html">oe_get_network()</a></code> to import a road network used by a specific mode of transport. For the moment, we support the following modes of transport: cycling (default), walking, and driving. Check <code><a href="../reference/oe_get_network.html">?oe_get_network</a></code> for more details and examples (<a href="https://github.com/ropensci/osmextract/issues/218" class="external-link">#218</a>).</li>
+</ul></div>
 <div class="section level4">
 <h4 id="minor-changes-0-3-1">MINOR CHANGES<a class="anchor" aria-label="anchor" href="#minor-changes-0-3-1"></a></h4>
 <ul><li>The <code>layer</code> argument is now converted to lower case before checking if the required layer is admissible.</li>
@@ -170,7 +172,8 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.1" id="osmextract-021">osmextract 0.2.1<small>2021-02-15</small><a class="anchor" aria-label="anchor" href="#osmextract-021"></a></h2>
 <p>This is a minor release.</p>
-<ul><li>We modified several examples and tests to fix several errors noticed during CRAN tests (<a href="https://github.com/ropensci/osmextract/issues/175" class="external-link">#175</a>).</li></ul></div>
+<ul><li>We modified several examples and tests to fix several errors noticed during CRAN tests (<a href="https://github.com/ropensci/osmextract/issues/175" class="external-link">#175</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.0" id="osmextract-020">osmextract 0.2.0<small>2021-02-11</small><a class="anchor" aria-label="anchor" href="#osmextract-020"></a></h2>
 <p>Published on CRAN!</p>

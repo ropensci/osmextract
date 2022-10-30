@@ -96,6 +96,7 @@
 <a class="anchor" aria-label="anchor" href="#osmextract-"></a>
 </h1></div>
 <!-- badges: start -->
+
 <p>The goal of <code>osmextract</code> is to make it easier for people to access OpenStreetMap (OSM) data for reproducible research. OSM data is the premier source of freely available, community created geographic data worldwide. We aim to enable you to extract it for data-driven work in the public interest.</p>
 <p><code>osmextract</code> matches, downloads, converts and imports bulk OSM data hosted by providers such as <a href="http://download.geofabrik.de" class="external-link">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/" class="external-link">bbbike</a>. For information on alternative providers and how to add them see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html" class="external-link">providers vignette</a>.</p>
 <div class="section level2">
@@ -202,7 +203,13 @@
 <p>You can always check the default <code>download_directory</code> used by <code><a href="reference/oe_get.html">oe_get()</a></code> with:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<!-- The following section was removed since now oe_download sets the timeout value. See https://github.com/ropensci/osmextract/issues/222 --><!-- ## Troubleshooting --><!-- Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`.  --><!-- If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value.  --><!-- This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script. --><!-- If you need to update an existing `.pbf` file or replace an incomplete extract, you can use the argument `force_download`, i.e `oe_get("some-place", force_download = TRUE)`.    --><!-- Check `?oe_get` and `?oe_download` for more details.  -->
+<!-- The following section was removed since now oe_download sets the timeout value. See https://github.com/ropensci/osmextract/issues/222 -->
+<!-- ## Troubleshooting -->
+<!-- Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`.  -->
+<!-- If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value.  -->
+<!-- This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script. -->
+<!-- If you need to update an existing `.pbf` file or replace an incomplete extract, you can use the argument `force_download`, i.e `oe_get("some-place", force_download = TRUE)`.    -->
+<!-- Check `?oe_get` and `?oe_download` for more details.  -->
 </div>
 <div class="section level2">
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
@@ -213,17 +220,24 @@
 <h2 id="licence">Licence<a class="anchor" aria-label="anchor" href="#licence"></a>
 </h2>
 <p>We hope this package will provide easy access to OSM data for reproducible research in the public interest, adhering to the condition of the <a href="https://opendatacommons.org/licenses/odbl/" class="external-link">OdBL licence</a> which states that</p>
-<blockquote><p>Any Derivative Database that You Publicly Use must be only under the terms of:</p></blockquote>
+<blockquote>
+<p>Any Derivative Database that You Publicly Use must be only under the terms of:</p>
+</blockquote>
 <ul>
-<li><ol style="list-style-type: decimal"><li>This License;</li></ol></li>
-<li><ol start="2" style="list-style-type: decimal"><li>A later version of this License similar in spirit to this</li></ol></li>
+<li><ol style="list-style-type: decimal">
+<li>This License;</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>A later version of this License similar in spirit to this</li>
+</ol></li>
 </ul>
 <p>See the <a href="https://docs.ropensci.org/osmextract/articles/osmextract.html" class="external-link">Introducing osmextract vignette</a> for more details.</p>
 </div>
 <div class="section level2">
 <h2 id="other-approaches">Other approaches<a class="anchor" aria-label="anchor" href="#other-approaches"></a>
 </h2>
-<!-- todo: add links to other packages --><ul>
+<!-- todo: add links to other packages -->
+<ul>
 <li>
 <a href="https://github.com/ropensci/osmdata" class="external-link">osmdata</a> is an R package for importing small datasets directly from OSM servers</li>
 <li>
@@ -251,7 +265,9 @@
 <h2 id="contributor-code-of-conduct">Contributor Code of Conduct<a class="anchor" aria-label="anchor" href="#contributor-code-of-conduct"></a>
 </h2>
 <p>Please note that this package is released with a <a href="https://ropensci.org/code-of-conduct/" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
-<!-- :) --><!-- :) --><!-- :) -->
+<!-- :) -->
+<!-- :) -->
+<!-- :) -->
 </div>
 </div>
   </div>
