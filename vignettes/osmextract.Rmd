@@ -127,7 +127,7 @@ oe_match("Italy")
 oe_match("Leeds", provider = "bbbike")
 ```
 
-The geographical zone is chosen by calculating the Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider’s dataset.
+The geographical zone is chosen by calculating the Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider's dataset.
 Then, the function selects the closest match. 
 By default, `oe_match()` uses the `name` field and `Geofabrik` provider, but you can select a different field via the argument `match_by`. 
 We refer to the providers' help pages for a detailed description of all available fields. 
@@ -806,7 +806,7 @@ knitr::include_graphics("../man/figures/104243054-4966ce80-5460-11eb-951b-ca1ce9
 ```
 
 This approach has its pros and cons. 
-First of all, it’s slightly slower than the GDAL routines, mainly because several unnecessary features are being converted to the `.gpkg` format. 
+First of all, it is slightly slower than the GDAL routines, mainly because several unnecessary features are being converted to the `.gpkg` format. 
 Hence, it may become unfeasible for larger `.pbf` files, probably starting from 300/500MB. 
 We will test more cases and add more benchmarks in the near future. 
 On the other side, it does not require a new time-consuming `ogr2ogr` conversion every time a user defines a new query. 
