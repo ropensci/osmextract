@@ -6,7 +6,11 @@ library(jsonlite)
 library(purrr)
 library(httr)
 library(dplyr)
+library(rvest)
 library(s2)
+library(conflicted)
+
+conflict_prefer("filter", "dplyr", quiet = TRUE)
 
 # Download official description of geofabrik data.
 geofabrik_zones = st_read("https://download.geofabrik.de/index-v1.json", stringsAsFactors = FALSE) %>%
@@ -37,6 +41,7 @@ my_fix_iso3166 = function(list_column) {
 # situation happens with the US states where the ISO3166 code is c("US", state).
 geofabrik_zones$iso3166_2 = my_fix_iso3166(geofabrik_zones$iso3166_2)
 geofabrik_zones$iso3166_1_alpha2 = my_fix_iso3166(geofabrik_zones$iso3166_1_alpha2)
+rm(my_fix_iso3166)
 
 # We need to preprocess the urls column since it was read in a JSON format:
 # geofabrik_zones$urls[[1]]
@@ -57,25 +62,106 @@ geofabrik_zones$urls = NULL # This is just to remove the urls column
 # data.frame directly and use st_sf on its result, or use bind_cols; see
 # examples.
 geofabrik_zones = st_sf(data.frame(geofabrik_zones, geofabrik_urls))
+rm(geofabrik_urls)
 
-# Now we are going to add to the geofabrik_zones sf object other useful
-# information for each pbf file such as it's content-length (i.e. the file size
-# in bytes). We can get this information from the headers of each file.
-# Idea from:
-# https://stackoverflow.com/questions/2301009/get-file-size-before-downloading-counting-how-much-already-downloaded-httpru/2301030
-geofabrik_zones[["pbf_file_size"]] = 0
+# Now we are going to add to the geofabrik_zones object other useful information
+# for each pbf file such as the file size. Parents extracted by hand from
+# http://download.geofabrik.de/europe/ and similar pages.
 
-###############################################################################
-###### RUN THE FOLLOWING CODE CAREFULLY SINCE IT CREATES HUNDREDS OF HEAD #####
-###### REQUESTS THAT CAN BLOCK YOUR IP ADDRESS ################################
-###############################################################################
+# Define parents
+parents <- c(
+  "africa",
+  "asia", "asia/india", "asia/indonesia", "asia/japan",
+  "australia-oceania",
+  "central-america",
+  "europe", "europe/france",
+  "europe/germany", "europe/germany/baden-wuerttemberg",
+  "europe/germany/bayern", "europe/germany/nordrhein-westfalen",
+  "europe/great-britain", "europe/great-britain/england",
+  "europe/great-britain/england/london/",
+  "europe/italy",
+  "europe/netherlands",
+  "europe/poland",
+  "europe/spain",
+  "north-america", "north-america/canada", "north-america/us", "north-america/us/california/",
+  "russia",
+  "south-america", "south-america/brazil"
+)
 
-my_pb = txtProgressBar(min = 0, max = nrow(geofabrik_zones), style = 3)
-for (i in seq_len(nrow(geofabrik_zones))) {
-  my_ith_url = geofabrik_zones[["pbf"]][[i]]
-  geofabrik_zones[["pbf_file_size"]][[i]] = as.numeric(headers(HEAD(my_ith_url))$`content-length`)
-  setTxtProgressBar(my_pb, i)
-}
+size_table <- map_dfr(
+  .x = parents,
+  .f = function(parent) {
+    # Read-in row table
+    url <- paste0("https://download.geofabrik.de/", parent, "/")
+    table <- read_html(url) |> html_table()
+
+    # Subset table and extract only "latest" ".osm.pbf" files
+    lapply(
+      table,
+      function(x, parent) {
+        x |>
+          janitor::clean_names() |>
+          filter(grepl("-latest.osm.pbf$", name, perl = TRUE)) |>
+          mutate(parent = parent)
+      },
+      parent = parent
+    )
+  }
+)
+
+# Add highest level parents by hand
+size_table <- bind_rows(
+  size_table,
+  data.frame(
+    x = NA,
+    name = c(
+      "africa-latest.osm.pbf", "antarctica-latest.osm.pbf", "asia-latest.osm.pbf",
+      "australia-oceania-latest.osm.pbf", "central-america-latest.osm.pbf",
+      "europe-latest.osm.pbf", "north-america-latest.osm.pbf",
+      "russia-latest.osm.pbf", "south-america-latest.osm.pbf"
+    ),
+    last_modified = NA,
+    size = c(
+      "5.6G", "31.1M", "11.5G", "1.0G", "590M", "26.3G", "12.1G", "3.2G", "3.0G"
+    ),
+    description = NA
+  )
+)
+
+# Add id and remove useless stuff
+size_table <- size_table |>
+  select(-x, -description, -last_modified) |>
+  mutate(
+    unit = regmatches(size, regexpr("[a-zA-Z]+", size, perl = TRUE)),
+    size = readr::parse_number(size),
+  ) |>
+  mutate(
+    id = regmatches(name, regexpr("[a-z-]+(?=-latest)", name, perl = TRUE))
+  ) |>
+  mutate(
+    pbf_file_size = case_when(
+      unit == "K" ~ size * 1000,
+      unit == "M" ~ size * 1000 ^ 2,
+      unit == "G" ~ size * 1000 ^ 3
+    )
+  ) |>
+  select(-size, -unit)
+
+# Fix some tiny problems
+size_table <- size_table |>
+  mutate(
+    id = case_when(
+      parent == "north-america/us" ~ paste0("us/", id),
+      .default = id
+    )
+  )
+
+geofabrik_zones <- inner_join(
+  x = geofabrik_zones,
+  y = size_table |> select(-name, -parent),
+  by = "id"
+)
+rm(size_table, parents)
 
 # Add a new column named "level", which is used for spatial matching. It has
 # four categories named "1", "2", "3", and "4", and it is based on the geofabrik
@@ -119,4 +205,3 @@ st_geometry(geofabrik_zones) <- st_as_sfc(
 
 # The end
 usethis::use_data(geofabrik_zones, version = 3, overwrite = TRUE)
-
