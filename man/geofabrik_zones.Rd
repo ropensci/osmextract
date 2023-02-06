@@ -5,7 +5,7 @@
 \alias{geofabrik_zones}
 \title{An sf object of geographical zones taken from Geofabrik}
 \format{
-An sf object with 430 rows and
+An sf object with 475 rows and
 15 columns:
 \describe{
 \item{id}{A unique identifier. It contains letters, numbers and potentially
