@@ -147,14 +147,17 @@ oe_download = function(
         )
       },
       error = function(e) {
-        stop(
-          "The download operation was aborted. ",
-          "If this was not intentional, you may want to increase the timeout value. ",
-          "We also suggest you to remove the partially downloaded file running the ",
-          "following code (possibly in a new R session): ",
-          # NB: Don't add a full stop since that make copying code really annoying
-          "file.remove(", dQuote(file_path, q = FALSE), ")",
-          call. = FALSE
+        stop_custom(
+          .subclass = "osmext-download-aborted",
+          message = paste0(
+            "The download operation was aborted. ",
+            "If this was not intentional, you may want to increase the timeout for internet operations ",
+            "to a value >= 300 using options(timeout = ...) before re-running this function. ",
+            "We also suggest you to remove the partially downloaded file by running the ",
+            "following code (possibly in a new R session): ",
+            # NB: Don't add a full stop since that make copying code really annoying
+            "file.remove(", dQuote(file_path, q = FALSE), ")"
+          )
         )
       }
     )
