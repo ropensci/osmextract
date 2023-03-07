@@ -90,16 +90,6 @@ oe_message <- function(..., quiet, .subclass = "oe_message") {
   invisible(0)
 }
 
-# nocov start
-
-# Adds additional question to devtools::release(). See Details section in
-# ?devtools::release()
-release_questions = function() {
-  c("Did you check that the original osmconf.ini file was not updated?")
-}
-
-# nocov end
-
 # Extract the names in ... safely. I cannot use ...names() since that was
 # introduced in R 4.1. I also cannot freely use names(list(...)) since that
 # returns an error when there is a missing element in the dotdotdot. For
