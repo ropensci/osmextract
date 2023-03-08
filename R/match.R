@@ -428,10 +428,7 @@ oe_match.character = function(
 #'
 #' @param pattern Character string representing the pattern that should be
 #'   explored.
-#' @param match_by Column name of the provider's database that will be used to
-#'   find the match.
-#' @param full_row Boolean. Return all columns for the matching rows? `FALSE` by
-#'   default.
+#' @param ... arguments passed to other methods
 #'
 #' @return A list of character vectors or `sf` objects (according to the value
 #'   of the parameter `full_row`). If no OSM zone can be matched with the input
@@ -444,23 +441,95 @@ oe_match.character = function(
 #' res = oe_match_pattern("Yorkshire", full_row = TRUE)
 #' lapply(res, function(x) sf::st_drop_geometry(x)[, 1:3])
 #'
-#' oe_match_pattern("ABC")
-#' oe_match_pattern("Yorkshire", match_by = "ABC")
-oe_match_pattern = function(
+#' oe_match_pattern(c(9, 45)) # long/lat for Milan, Italy
+oe_match_pattern = function(pattern, ...) {
+  UseMethod("oe_match_pattern")
+}
+
+#' @name oe_match_pattern
+#' @export
+oe_match_pattern.numeric = function(
   pattern,
-  match_by = "name",
-  full_row = FALSE
+  full_row = FALSE,
+  ...
 ) {
-  # Check that the input pattern is a character vector
-  if (!is.character(pattern)) {
-    pattern = structure( # taken from base::grep
-      as.character(pattern),
-      names = names(pattern)
+  if (length(pattern) != 2L) {
+    stop_custom(
+      .subclass = "osmext-oe_match_pattern-numericInputLengthNe2",
+      message = paste0(
+        "You need to provide a pair of coordinates and you passed as input",
+        " a vector of length ",
+        length(pattern),
+      )
     )
   }
 
-  # NB: The argument provider was removed in version 0.3.0
+  # Build the sfc_POINT object
+  pattern = sf::st_sfc(sf::st_point(pattern), crs = 4326)
 
+  oe_match_pattern(pattern, full_row = full_row , ...)
+}
+
+#' @name oe_match_pattern
+#' @export
+oe_match_pattern.sfc = function(
+  pattern,
+  full_row = FALSE,
+  ...
+) {
+  # Create an empty list that will contain the output
+  matches = list()
+
+  # If there is more than one sfg object, I will combine them
+  if (length(pattern) > 1L) {
+    pattern = sf::st_combine(pattern)
+  }
+
+  if (is.na(sf::st_crs(pattern))) {
+    warning(
+      "The input has no CRS, setting crs = 4326.",
+      call. = FALSE
+    )
+    pattern = sf::st_set_crs(pattern, 4326)
+  }
+
+  for (id in setdiff(oe_available_providers(), "test")) {
+    # Load provider
+    provider_data = load_provider_data(id)
+
+    # Check the CRS
+    if (sf::st_crs(pattern) != sf::st_crs(provider_data)) {
+      pattern = sf::st_transform(pattern, crs = sf::st_crs(provider_data))
+    }
+
+    # Match and add to list
+    match = provider_data[pattern, "name", op = sf::st_contains]
+    if (NROW(match)) {
+      if (!full_row) {
+        match = match[["name"]]
+      }
+      matches[[id]] = match
+    }
+  }
+
+  matches
+}
+
+#' @param match_by Name of the column in the provider's database that will be
+#'   used to find the match in case of character input. In all the other cases,
+#'   the match is performed using a spatial overlay operation and the output
+#'   returns the values stored in the `name` column (or even the full `sf`
+#'   object when `full_row` is `TRUE`).
+#' @param full_row Boolean. Return all columns for the matching rows? `FALSE` by
+#'   default.
+#' @name oe_match_pattern
+#' @export
+oe_match_pattern.character = function(
+  pattern,
+  match_by = "name",
+  full_row = FALSE,
+  ...
+) {
   # Create an empty list that will contain the output
   matches = list()
 

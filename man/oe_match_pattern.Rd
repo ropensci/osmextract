@@ -2,19 +2,33 @@
 % Please edit documentation in R/match.R
 \name{oe_match_pattern}
 \alias{oe_match_pattern}
+\alias{oe_match_pattern.numeric}
+\alias{oe_match_pattern.sfc}
+\alias{oe_match_pattern.character}
 \title{Check patterns in the provider's databases}
 \usage{
-oe_match_pattern(pattern, match_by = "name", full_row = FALSE)
+oe_match_pattern(pattern, ...)
+
+\method{oe_match_pattern}{numeric}(pattern, full_row = FALSE, ...)
+
+\method{oe_match_pattern}{sfc}(pattern, full_row = FALSE, ...)
+
+\method{oe_match_pattern}{character}(pattern, match_by = "name", full_row = FALSE, ...)
 }
 \arguments{
 \item{pattern}{Character string representing the pattern that should be
 explored.}
 
-\item{match_by}{Column name of the provider's database that will be used to
-find the match.}
+\item{...}{arguments passed to other methods}
 
 \item{full_row}{Boolean. Return all columns for the matching rows? \code{FALSE} by
 default.}
+
+\item{match_by}{Name of the column in the provider's database that will be
+used to find the match in case of character input. In all the other cases,
+the match is performed using a spatial overlay operation and the output
+returns the values stored in the \code{name} column (or even the full \code{sf}
+object when \code{full_row} is \code{TRUE}).}
 }
 \value{
 A list of character vectors or \code{sf} objects (according to the value
@@ -32,6 +46,5 @@ oe_match_pattern("Yorkshire")
 res = oe_match_pattern("Yorkshire", full_row = TRUE)
 lapply(res, function(x) sf::st_drop_geometry(x)[, 1:3])
 
-oe_match_pattern("ABC")
-oe_match_pattern("Yorkshire", match_by = "ABC")
+oe_match_pattern(c(9, 45)) # long/lat for Milan, Italy
 }
