@@ -73,7 +73,16 @@ patterns. This function can be useful in combination with <code><a href="oe_matc
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="va">pattern</span>, match_by <span class="op">=</span> <span class="st">"name"</span>, full_row <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="va">pattern</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for numeric</span></span>
+<span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="va">pattern</span>, full_row <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for sfc</span></span>
+<span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="va">pattern</span>, full_row <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for character</span></span>
+<span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="va">pattern</span>, match_by <span class="op">=</span> <span class="st">"name"</span>, full_row <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -83,14 +92,21 @@ patterns. This function can be useful in combination with <code><a href="oe_matc
 explored.</p></dd>
 
 
-<dt>match_by</dt>
-<dd><p>Column name of the provider's database that will be used to
-find the match.</p></dd>
+<dt>...</dt>
+<dd><p>arguments passed to other methods</p></dd>
 
 
 <dt>full_row</dt>
 <dd><p>Boolean. Return all columns for the matching rows? <code>FALSE</code> by
 default.</p></dd>
+
+
+<dt>match_by</dt>
+<dd><p>Name of the column in the provider's database that will be
+used to find the match in case of character input. In all the other cases,
+the match is performed using a spatial overlay operation and the output
+returns the values stored in the <code>name</code> column (or even the full <code>sf</code>
+object when <code>full_row</code> is <code>TRUE</code>).</p></dd>
 
 </dl></div>
     <div id="value">
@@ -127,10 +143,13 @@ string, then the function returns an empty list.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 606 yorkshire_and_the_humber Yorkshire And The Humber england</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="st">"ABC"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
-<span class="r-in"><span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="st">"Yorkshire"</span>, match_by <span class="op">=</span> <span class="st">"ABC"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-in"><span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span> <span class="co"># long/lat for Milan, Italy</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $geofabrik</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Europe"     "Italy"      "Nord-Ovest"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $openstreetmap_fr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Europe"    "Italy"     "Lombardia"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </div>
