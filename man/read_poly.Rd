@@ -30,10 +30,9 @@ defined
 \href{https://wiki.openstreetmap.org/wiki/Osmosis/Polygon_Filter_File_Python_Parsing}{here}.
 
 \href{https://download.geofabrik.de/}{Geofabrik} stores the \code{.poly} files used
-to generate their extracts. Furthermore, a slowly-growing collection of
-exact-border poly files that are created from cities with an OSM Relation
-ID is available in this git repository on github:
-\url{https://github.com/jameschevalier/cities}.
+to generate their extracts. Furthermore, a nice collection of exact-border
+poly files created from cities with an OSM Relation ID is available in this
+git repository on github: \url{https://github.com/jameschevalier/cities}.
 
 The default value for the \code{crs} argument is "OGC:CRS84" instead of "4326"
 or "EPSG:4326" since, by definition, the coordinates are provided as
