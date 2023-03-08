@@ -3,7 +3,7 @@
 
 # The idea is to automatically run some specific tasks (see below) before and
 # after each test and "leave the world exactly as we found it". More precisely,
-# the function performs the follwing steps:
+# the function performs the following steps:
 
 # 1. Setup the cleaning of all pbf/gpkg files in the folder where "path" is
 # defined using oe_clean.
