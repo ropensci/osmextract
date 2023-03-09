@@ -2,13 +2,13 @@
 
 # packages ----------------------------------------------------------------
 library(rvest)
-# remotes::install_github("agila5/polyread")
-library(polyread)
 library(sf)
 library(purrr)
 library(httr)
 library(sf)
 library(s2)
+devtools::load_all(".")
+library(conflicted)
 
 # Starting point is: http://download.openstreetmap.fr/
 # A list of extract sources is here: https://wiki.openstreetmap.org/wiki/Planet.osm#Country_and_area_extracts
@@ -34,12 +34,7 @@ my_organize_osm_data = function(poly_folder, level, parent = NA, verbose = TRUE)
   # Download .poly files and convert them to MULTIPOLYGON format
   multipoly = lapply(
     X = poly_urls,
-    FUN = function(x) {
-      my_url = url(x)
-      res = convert_poly_to_sfc(my_url)
-      close(my_url)
-      res
-    }
+    FUN = read_poly
   )
   multipoly_sfc = do.call("c", multipoly)
 
