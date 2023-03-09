@@ -182,9 +182,9 @@ installed.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones)</span></span>
 <span><span class="co">#&gt;   available_providers          database_name number_of_zones number_of_fields</span></span>
-<span><span class="co">#&gt; 1           geofabrik        geofabrik_zones             475               14</span></span>
-<span><span class="co">#&gt; 2              bbbike           bbbike_zones             235               10</span></span>
-<span><span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones             903                6</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           geofabrik        geofabrik_zones             475               10</span></span>
+<span><span class="co">#&gt; 2              bbbike           bbbike_zones             236                5</span></span>
+<span><span class="co">#&gt; 3    openstreetmap_fr openstreetmap_fr_zones            1135                6</span></span></code></pre></div>
 <p>Each element in the column <code>database_name</code> is a data
 object that is packaged with <code>osmextract</code>. You can read a
 detailed description of each provider data running, for example,
@@ -252,7 +252,7 @@ providers. For example:</p>
 <span><span class="co">#&gt; [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 19376705</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 24362749</span></span></code></pre></div>
 <p>The geographical zone is chosen by calculating the Approximate String
 Distance (<code>?adist()</code>) between the input <code>place</code>
 and one of the fields in the provider’s dataset. Then, the function
@@ -346,14 +346,15 @@ each provider’s data:</p>
 <span><span class="co">#&gt; 172 israel-and-palestine Israel and Palestine   asia MULTIPOLYGON (((34.07929 31...</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $openstreetmap_fr</span></span>
-<span><span class="co">#&gt; Simple feature collection with 2 features and 3 fields</span></span>
+<span><span class="co">#&gt; Simple feature collection with 3 features and 3 fields</span></span>
 <span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: 33.935 ymin: 29.31 xmax: 36.04 ymax: 33.485</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt;                      id                 name parent                       geometry</span></span>
-<span><span class="co">#&gt; 72               israel               Israel   asia MULTIPOLYGON (((34.25 31.20...</span></span>
-<span><span class="co">#&gt; 73 israel_and_palestine Israel And Palestine   asia MULTIPOLYGON (((34.115 31.2...</span></span></code></pre></div>
+<span><span class="co">#&gt;                       id                 name parent                       geometry</span></span>
+<span><span class="co">#&gt; 116               israel               Israel   asia MULTIPOLYGON (((34.25 31.20...</span></span>
+<span><span class="co">#&gt; 117 israel_and_palestine Israel And Palestine   asia MULTIPOLYGON (((34.115 31.2...</span></span>
+<span><span class="co">#&gt; 118     israel_west_bank     Israel West Bank   asia MULTIPOLYGON (((34.865 31.3...</span></span></code></pre></div>
 <p>We can combine the two functions as follows:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_match_pattern.html">oe_match_pattern</a></span><span class="op">(</span><span class="st">"Valencia"</span><span class="op">)</span></span>
@@ -361,14 +362,14 @@ each provider’s data:</p>
 <span><span class="co">#&gt; [1] "Valencia"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $openstreetmap_fr</span></span>
-<span><span class="co">#&gt; [1] "Comunitat Valenciana"</span></span>
+<span><span class="co">#&gt; [1] "Comunitat Valenciana" "Valencia"</span></span>
 <span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Comunitat Valenciana"</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; The input place was matched with: Comunitat Valenciana</span></span>
 <span><span class="co">#&gt; $url</span></span>
 <span><span class="co">#&gt; [1] "http://download.openstreetmap.fr/extracts/europe/spain/comunitat_valenciana-latest.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 88121611</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 109632873</span></span></code></pre></div>
 <p>The parameter <code>max_string_dist</code> (default value is 1)
 represents the maximum tolerable distance between the input place and
 the closest match in <code>match_by</code> column. This value can always
@@ -399,7 +400,7 @@ providers. For example:</p>
 <span><span class="co">#&gt; [1] "https://download.bbbike.org/osm/bbbike/Leeds/Leeds.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 19376705</span></span>
+<span><span class="co">#&gt; [1] 24362749</span></span>
 <span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"London"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; No exact match found for place = London and provider = geofabrik. Best match is Jordan. </span></span>
 <span><span class="co">#&gt; Checking the other providers.</span></span>
@@ -408,7 +409,7 @@ providers. For example:</p>
 <span><span class="co">#&gt; [1] "https://download.bbbike.org/osm/bbbike/London/London.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 63441698</span></span>
+<span><span class="co">#&gt; [1] 97431675</span></span>
 <span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="st">"Vatican City"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; No exact match found for place = Vatican City and provider = geofabrik. Best match is Valencia. </span></span>
 <span><span class="co">#&gt; Checking the other providers.</span></span>
@@ -417,7 +418,7 @@ providers. For example:</p>
 <span><span class="co">#&gt; [1] "http://download.openstreetmap.fr/extracts/europe/vatican_city-latest.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 509536</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 663447</span></span></code></pre></div>
 <p>Finally, if there is no exact match with any of the supported
 providers and <code>match_by</code> argument is equal to
 <code>"name"</code>, then <code><a href="../reference/oe_match.html">oe_match()</a></code> will use the <a href="https://nominatim.org/release-docs/develop/api/Overview/" class="external-link">Nominatim
@@ -475,7 +476,7 @@ and <code>4</code> the subregions:</p>
 <span><span class="co">#&gt; [1] "https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 2.41e+08</span></span>
+<span><span class="co">#&gt; [1] 2.42e+08</span></span>
 <span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">yak</span>, level <span class="op">=</span> <span class="fl">3</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># error</span></span>
 <span><span class="co">#&gt; Error in oe_match.sfc(place, provider = provider, quiet = quiet, ...): The input place does not intersect any area at the chosen level.</span></span></code></pre></div>
 <p>If there are multiple OSM extract intersecting the input
@@ -568,7 +569,7 @@ point to a directory that will persist, you can add
 by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmpoc2GK3"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpB0NoZB"</span></span></code></pre></div>
 <p>We strongly advise you setting a persistent directory since
 downloading and converting (see the next sub-section) <code>.pbf</code>
 files are expensive operations, that can be skipped if the functions
@@ -840,7 +841,7 @@ path or URL.</p>
 <code>its-gpkg</code> file:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -852,7 +853,7 @@ file, the vectortranslate operations can be skipped using the parameter
 will ignore the conversion step.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.osm.pbf' using driver `OSM'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.osm.pbf' using driver `OSM'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -886,7 +887,7 @@ follows:</p>
 <span><span class="co">#&gt; The input place was matched with: ITS Leeds</span></span>
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -983,7 +984,7 @@ file:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -997,7 +998,7 @@ file:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1022,7 +1023,7 @@ ignored (with a warning message), if you are using an ad-hoc
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1052,7 +1053,7 @@ performing vectortranslate operations:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1094,7 +1095,7 @@ that will be passed to <code>ogr2ogr:</code></p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1157,7 +1158,7 @@ via the argument <code>boundary</code>:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 5 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1311,7 +1312,7 @@ rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortran
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
 <span><span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'</span></span>
-<span><span class="co">#&gt; from data source `/tmp/Rtmpoc2GK3/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; from data source `/tmp/RtmpB0NoZB/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
