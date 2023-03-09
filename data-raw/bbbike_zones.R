@@ -3,6 +3,7 @@ library(sf)
 library(s2)
 library(rvest)
 library(httr)
+devtools::load_all(".")
 library(conflicted)
 
 # Download and process data
@@ -13,13 +14,13 @@ table <- html_table(webpage)[[1]]
 table
 
 # We need to remove the first row, the "Size" and "Type" columns and clean names
-table <- janitor::clean_names(table[-1, c("Name", "Last Modified")])
+table <- janitor::clean_names(table[-1, c("Name"), drop = FALSE])
 
 # Remove the trailing "/" from the name
 table[["name"]] <- gsub("/", "", table[["name"]])
 
 # Define the URL for the .poly file
-table[["poly_url"]] <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".poly")
+poly_url <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".poly")
 
 # Define the URL for the pbf
 table[["pbf"]] <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".osm.pbf")
@@ -37,7 +38,7 @@ table[["id"]] <- table[["name"]]
 table[["level"]] <- 3L
 
 # Download the geometries
-polies <- do.call(c, lapply(table[["poly_url"]], read_poly))
+polies <- do.call(c, lapply(poly_url, read_poly))
 
 # Create the output object
 table <- st_sf(table, geometry = polies)
@@ -47,6 +48,10 @@ table <- st_sf(table, geometry = polies)
 st_geometry(table) <- st_as_sfc(
   s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(table)), check = FALSE))
 )
+
+# Check the geoms are fine
+all(st_is_valid(table))
+
 bbbike_zones <- table
 
-usethis::use_data(bbbike_zones, version = 3, overwrite = TRUE)
+usethis::use_data(bbbike_zones, version = 3, overwrite = TRUE, compress = "xz")

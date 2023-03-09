@@ -92,11 +92,14 @@ openstreetmap_fr_zones = my_organize_osm_data("http://download.openstreetmap.fr/
 # Exclude NA in pbf
 openstreetmap_fr_zones = openstreetmap_fr_zones[!is.na(openstreetmap_fr_zones$pbf_file_size), ]
 
-# Fix problem with S2 (see https://github.com/ropensci/osmextract/issues/194 and
-# https://github.com/r-spatial/sf/issues/1649)
+# Rebuild the geometries
 st_geometry(openstreetmap_fr_zones) <- st_as_sfc(
   s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(openstreetmap_fr_zones)), check = FALSE))
 )
 
+# Unfortunately, there are 2 problematic areas that wrap the dateline. For
+# simplicity, I will remove them.
+openstreetmap_fr_zones <- openstreetmap_fr_zones[st_is_valid(openstreetmap_fr_zones), ]
+
 # The end
-usethis::use_data(openstreetmap_fr_zones, overwrite = TRUE, version = 3)
+usethis::use_data(openstreetmap_fr_zones, overwrite = TRUE, version = 3, compress = "xz")

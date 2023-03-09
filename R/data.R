@@ -45,16 +45,9 @@
 #'   \item{pbf}{Link to the latest `.osm.pbf` file for this region.}
 #'   \item{bz2}{Link to the latest `.osm.bz2` file for this region.}
 #'   \item{shp}{Link to the latest shape file for this region.}
-#'   \item{pbf.internal}{Link to the latest `.osm.pbf` file with user data for
-#'   this region (requires OSM login).}
-#'   \item{history}{Link to the latest history file for this region (requires
-#'   OSM login).}
-#'   \item{taginfo}{Link to the Geofabrik taginfo instance for this region.}
-#'   \item{updates}{Link to the updates directory (append /state.txt for status
-#'   file).}
+#'   \item{pbf_file_size}{Size of the `.pbf` file in bytes.}
 #'   \item{geometry}{The sfc for that geographical region. These are not the
 #'   country boundaries but a buffer around countries.}
-#'   \item{pbf_file_size}{Size of the `.pbf` file in bytes.}
 #' }
 #'
 #' @family provider's-database
@@ -71,11 +64,7 @@
 #' `r ncol(bbbike_zones)` columns:
 #' \describe{
 #'   \item{name}{The, usually English, long-form name of the city.}
-#'   \item{last_modified}{When was it last modified?}
-#'   \item{type}{empty}
 #'   \item{pbf_file_size}{Size of the pbf file in bytes.}
-#'   \item{base_url}{The base URL for the city.}
-#'   \item{poly_url}{The `.poly` file location.}
 #'   \item{pbf}{Link to the latest `.osm.pbf` file for this region.}
 #'   \item{level}{An integer code always equal to 3 (since the bbbike
 #'   data represent non-hierarchical geographical zones). This is used only for

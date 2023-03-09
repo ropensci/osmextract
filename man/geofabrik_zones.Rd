@@ -6,7 +6,7 @@
 \title{An sf object of geographical zones taken from Geofabrik}
 \format{
 An sf object with 475 rows and
-15 columns:
+11 columns:
 \describe{
 \item{id}{A unique identifier. It contains letters, numbers and potentially
 the characters "-" and "/".}
@@ -43,16 +43,9 @@ the state.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
 \item{bz2}{Link to the latest \code{.osm.bz2} file for this region.}
 \item{shp}{Link to the latest shape file for this region.}
-\item{pbf.internal}{Link to the latest \code{.osm.pbf} file with user data for
-this region (requires OSM login).}
-\item{history}{Link to the latest history file for this region (requires
-OSM login).}
-\item{taginfo}{Link to the Geofabrik taginfo instance for this region.}
-\item{updates}{Link to the updates directory (append /state.txt for status
-file).}
+\item{pbf_file_size}{Size of the \code{.pbf} file in bytes.}
 \item{geometry}{The sfc for that geographical region. These are not the
 country boundaries but a buffer around countries.}
-\item{pbf_file_size}{Size of the \code{.pbf} file in bytes.}
 }
 }
 \source{

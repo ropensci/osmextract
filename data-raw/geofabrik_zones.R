@@ -203,5 +203,11 @@ st_geometry(geofabrik_zones) <- st_as_sfc(
   s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(geofabrik_zones)), check = FALSE))
 )
 
+# Remove (typically) useless column
+geofabrik_zones$pbf.internal = NULL
+geofabrik_zones$history = NULL
+geofabrik_zones$taginfo = NULL
+geofabrik_zones$updates = NULL
+
 # The end
-usethis::use_data(geofabrik_zones, version = 3, overwrite = TRUE)
+usethis::use_data(geofabrik_zones, version = 3, overwrite = TRUE, compress = "xz")

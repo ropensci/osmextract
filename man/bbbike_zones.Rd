@@ -6,14 +6,10 @@
 \title{An sf object of geographical zones taken from bbbike.org}
 \format{
 An \code{sf} object with 236 rows and
-7 columns:
+6 columns:
 \describe{
 \item{name}{The, usually English, long-form name of the city.}
-\item{last_modified}{When was it last modified?}
-\item{type}{empty}
 \item{pbf_file_size}{Size of the pbf file in bytes.}
-\item{base_url}{The base URL for the city.}
-\item{poly_url}{The \code{.poly} file location.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
 \item{level}{An integer code always equal to 3 (since the bbbike
 data represent non-hierarchical geographical zones). This is used only for

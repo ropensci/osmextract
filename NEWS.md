@@ -3,9 +3,10 @@
 ### MAJOR CHANGES
 * Fixed a bug in `oe_match()` that occurred every time `oe_match()` found an exact match between the input `place` and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `different-provider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. See #246. This is a quite major bug, and we suggest you erase all `.pbf` and `.gpkg` files stored in the persistent download directory (see also `?oe_clean`). 
 * Fixed a bug in `oe_get_keys()` that occurred when the value for a given key was either empty or equal to `\n` (#250). 
-* Fixed a bug in `oe_vectortranslate()` that occurred when the attributed specified in the `extra_tags` argument included the character `:`. In fact, the presence of attributes like "lanes:left" always triggered the vectortranslate operations (#260). 
+* Fixed a bug in `oe_vectortranslate()` that occurred when the attributed specified in the `extra_tags` argument included the character `:`. In fact, the presence of attributes like "lanes:left" always triggered the vectortranslate operations (#260).
 * We implemented a new function named `oe_get_boundary()` that can be used to obtain administrative geographical boundaries of a given area (#206). 
 * Added a new function named `read_poly()` to read `.poly` files (#277). 
+* All the databases storing the data for the supported providers were updated. For simplicity, some fields were removed from the saved objects. More precisely, we removed the columns `pbf.internal`, `history`, `taginfo` and `updates` from `geofabrik_zones`; `last_modified`, `type`, `base_url` and `poly_url` from `bbbike_zones`. 
 
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
