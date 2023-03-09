@@ -18,6 +18,7 @@ test_that("read-poly: simplest example work", {
     crs = "OGC:CRS84"
   )
   expect_identical(out, manual_output)
+  expect_error(read_poly(1))
 })
 
 test_that("read-poly: polygon with hole", {
@@ -113,7 +114,11 @@ test_that("read-poly: read from file", {
 })
 
 test_that("read-poly: read from URL", {
-  # TODO. The problem is that I'm not sure how to properly point to a (stable)
-  # .poly file saved only. Might just load one on github and point to that file.
-  expect_equal(TRUE, TRUE)
+  skip_on_cran()
+  skip_if_offline("github.com")
+  toy_poly <- read_poly("https://raw.githubusercontent.com/ropensci/osmextract/master/inst/toy-example.poly")
+  milan_duomo <- sf::st_sfc(sf::st_point(c(9.1895, 45.4646)), crs = 4326)
+  expect_true(
+    object = sf::st_contains(toy_poly, milan_duomo, sparse = FALSE)
+  )
 })
