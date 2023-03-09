@@ -5,6 +5,7 @@
 * Fixed a bug in `oe_get_keys()` that occurred when the value for a given key was either empty or equal to `\n` (#250). 
 * Fixed a bug in `oe_vectortranslate()` that occurred when the attributed specified in the `extra_tags` argument included the character `:`. In fact, the presence of attributes like "lanes:left" always triggered the vectortranslate operations (#260). 
 * We implemented a new function named `oe_get_boundary()` that can be used to obtain administrative geographical boundaries of a given area (#206). 
+* Added a new function named `read_poly()` to read `.poly` files (#277). 
 
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
