@@ -330,7 +330,7 @@ oe_vectortranslate = function(
     # by GDAL at stored at the following link:
     # https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini
     # It was saved on the 9th of July 2020.
-    osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+    osmconf_ini = system.file("gdal/osmconf.ini", package = "sf")
   }
 
   # Add the extra tags to the default osmconf.ini. If the user set its own
@@ -338,7 +338,7 @@ oe_vectortranslate = function(
   if (
     !is.null(extra_tags) &&
     # The following condition checks whether the user set its own CONFIG file
-    osmconf_ini == system.file("osmconf.ini", package = "osmextract")
+    osmconf_ini == system.file("gdal/osmconf.ini", package = "sf")
   ) {
     temp_ini = readLines(osmconf_ini)
     id_old = get_id_layer(layer)

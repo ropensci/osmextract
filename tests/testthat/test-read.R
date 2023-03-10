@@ -97,7 +97,7 @@ test_that("extra_tags are not ignored when vectortranslate_options is not NULL",
 })
 
 # Create a fake osmconf_ini
-custom_osmconf_ini = readLines(system.file("osmconf.ini", package = "osmextract"))
+custom_osmconf_ini = readLines(system.file("gdal/osmconf.ini", package = "sf"))
 custom_osmconf_ini[[18]] = "report_all_nodes=yes"
 custom_osmconf_ini[[21]] = "report_all_ways=yes"
 temp_ini = tempfile(fileext = ".ini")

@@ -527,7 +527,7 @@ The following example shows how to create an ad-hoc `CONFIG` file, which is used
 First, we load a local copy of the default `osmconf.ini` file, taken from the following [link](https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini). 
 
 ```{r}
-custom_osmconf_ini = readLines(system.file("osmconf.ini", package = "osmextract"))
+custom_osmconf_ini = readLines(system.file("gdal/osmconf.ini", package = "sf"))
 ```
 
 Then, we modify the code at lines 18 and 21 asking GDAL to report all nodes and ways (even without any significant tag).
