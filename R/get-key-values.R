@@ -143,7 +143,7 @@ oe_get_keys.default = function(
   which_keys = NULL,
   download_directory = oe_download_directory()
 ) {
-  stop_custom(
+  oe_stop(
     .subclass = "osmext-oe_get_keys-no_support",
     message = paste0(
       "At the moment there is no support for objects of class ",
@@ -163,7 +163,7 @@ oe_get_keys.character = function(
   download_directory = oe_download_directory()
 ) {
   if (length(zone) != 1L) {
-    stop_custom(
+    oe_stop(
       .subclass = "osmext-oe_get_keys-length_1_input",
       message = "The input to argument zone must have length 1."
     )
@@ -180,7 +180,7 @@ oe_get_keys.character = function(
           "You can download the relevant OSM extract running the following code:\n",
           "oe_get(", dQuote(zone, q = FALSE), ", download_only = TRUE)"
         )
-        stop_custom(
+        oe_stop(
           .subclass = "osmext-oe_get_keys-matched_input_missing",
           message = paste0(
             "The input does not correspond to an existing file and can't be ",
@@ -222,7 +222,7 @@ oe_get_keys.character = function(
 
   # Check that the selected file contains the selected layer
   if (layer %!in% sf::st_layers(zone)[["name"]]) {
-    stop_custom(
+    oe_stop(
       .subclass = "osmext-oe_get_keys-missing_selected_layer",
       message = paste0(
         "The matched file does not contain the selected layer. ",

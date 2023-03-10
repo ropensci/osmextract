@@ -59,7 +59,7 @@ oe_get_boundary <- function(
     ...
 ) {
   if (length(name) != 1L || !is.character(name)) {
-    stop_custom(
+    oe_stop(
       .subclass = "osmext-name-get-boundary",
       message = "The name argument must be a character vector of length one."
     )

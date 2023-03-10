@@ -147,7 +147,7 @@ oe_download = function(
         )
       },
       error = function(e) {
-        stop_custom(
+        oe_stop(
           .subclass = "osmext-download-aborted",
           message = paste0(
             "The download operation was aborted. ",

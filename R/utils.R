@@ -115,7 +115,7 @@ extract_dots_names_safely <- function(...) {
   tryCatch(
     names(list(...)),
     error = function(cnd) {
-      stop_custom(
+      oe_stop(
         .subclass = "osmext-names-dots-error",
         message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check that you didn't add an extra comma at the end of your call.",
       )
@@ -127,7 +127,7 @@ extract_dots_names_safely <- function(...) {
 # book (and I think that's possible since the code is released with MIT
 # license). The main benefit of this approach is that I can test the class of
 # the error instead of the message.
-stop_custom <- function(.subclass, message, call = NULL, ...) {
+oe_stop <- function(.subclass, message, call = NULL, ...) {
   err <- structure(
     list(
       message = message,

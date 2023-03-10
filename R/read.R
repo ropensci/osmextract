@@ -104,7 +104,7 @@ oe_read = function(
   # discussion.
   dots_names = extract_dots_names_safely(...)
   if (...length() && (any(is.null(dots_names)) | any(dots_names == ""))) {
-    stop_custom(
+    oe_stop(
       .subclass = "osmext-names-dots-error",
       message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check also that you didn't add an extra comma at the end of your call.",
     )

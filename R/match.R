@@ -457,7 +457,7 @@ oe_match_pattern.numeric = function(
   ...
 ) {
   if (length(pattern) != 2L) {
-    stop_custom(
+    oe_stop(
       .subclass = "osmext-oe_match_pattern-numericInputLengthNe2",
       message = paste0(
         "You need to provide a pair of coordinates and you passed as input",
