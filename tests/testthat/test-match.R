@@ -1,3 +1,5 @@
+# Tests for oe_match ------------------------------------------------------
+
 test_that("oe_match: simplest examples work", {
   expect_match(oe_match("Italy", quiet = TRUE)$url, "italy")
   expect_match(oe_match("Leeds", provider = "bbbike", quiet = TRUE)$url, "Leeds")
@@ -45,6 +47,11 @@ test_that("oe_match: numeric input", {
   expect_match(oe_match(c(9.1916, 45.4650), quiet = TRUE)$url, "italy")
 })
 
+test_that("oe_match: sf input", {
+  my_pt = sf::st_as_sf(sf::st_sfc(sf::st_point(c(9.1916, 45.4650)), crs = 4326))
+  expect_match(oe_match(my_pt, quiet = TRUE)$url, "italy")
+})
+
 test_that("oe_match: different providers, match_by or max_string_dist args", {
   expect_error(oe_match("Italy", provider = "XXX", quiet = TRUE))
   expect_error(oe_match("Italy", match_by = "XXX", quiet = TRUE))
@@ -73,27 +80,6 @@ test_that("oe_match: Cannot specify more than one place", {
   # numeric
   expect_error(oe_match(c(9.1916, 45.4650, -1.543794, 53.698968)))
   expect_error(oe_match(c(9.1916, 45.4650), c(-1.543794, 53.698968)))
-})
-
-test_that("oe_match_pattern: simplest examples work", {
-  match_yorkshire = oe_match_pattern("Yorkshire")
-  expect_gte(length(match_yorkshire), 1)
-
-  match_yorkshire = oe_match_pattern("Yorkshire", full_row = TRUE)
-  expect_gte(length(match_yorkshire), 1)
-
-  match_empty_no_place = oe_match_pattern("ABC")
-  expect_length(match_empty_no_place, 0L)
-
-  match_empty_no_field = oe_match_pattern("Yorkshire", match_by = "ABC")
-  expect_length(match_empty_no_field, 0L)
-})
-
-test_that("oe_match can use different providers", {
-  expect_match(
-    oe_match("leeds", quiet = TRUE)$url,
-    "bbbike/Leeds/Leeds\\.osm\\.pbf"
-  )
 })
 
 test_that("oe_match looks for a place location online", {
@@ -140,6 +126,13 @@ test_that("oe_match:sfc objects with multiple places", {
   )
 })
 
+test_that("oe_match can use different providers", {
+  expect_match(
+    oe_match("leeds", quiet = TRUE)$url,
+    "bbbike/Leeds/Leeds\\.osm\\.pbf"
+  )
+})
+
 test_that("oe_match works with a bbox in input", {
   # See https://github.com/ropensci/osmextract/issues/185
   my_bbox = sf::st_bbox(
@@ -152,7 +145,7 @@ test_that("oe_match works with a bbox in input", {
   )
 })
 
-test_that("oe_match returns a warning message with missing CRS in input place", {
+test_that("oe_match returns a warning message with missing CRS in bbox input", {
   # See https://github.com/ropensci/osmextract/issues/185#issuecomment-810378795
   my_bbox = sf::st_bbox(
     c(xmin = 11.23602, ymin = 47.80478, xmax = 11.88867, ymax = 48.24261)
@@ -166,4 +159,55 @@ test_that("oe_match returns a warning message with missing CRS in input place", 
 test_that("oe_match does not create a variable in global env after https://github.com/ropensci/osmextract/pull/246", {
   oe_match("Leeds", quiet = TRUE)
   expect_false(exists("provider", where = .GlobalEnv))
+})
+
+# Tests for oe_match_pattern ----------------------------------------------
+
+test_that("oe_match_pattern: simplest examples work", {
+  match_yorkshire = oe_match_pattern("Yorkshire")
+  expect_gte(length(match_yorkshire), 1)
+
+  match_yorkshire = oe_match_pattern("Yorkshire", full_row = TRUE)
+  expect_gte(length(match_yorkshire), 1)
+
+  match_empty_no_place = oe_match_pattern("ABC")
+  expect_length(match_empty_no_place, 0L)
+
+  match_empty_no_field = oe_match_pattern("Yorkshire", match_by = "ABC")
+  expect_length(match_empty_no_field, 0L)
+})
+
+test_that("oe_match_pattern: works with numeric input", {
+  skip_on_cran() # since it takes several seconds
+  match_milan = oe_match_pattern(c(9, 45))
+  expect_gte(length(match_milan), 1)
+
+  match_milan = oe_match_pattern(c(9, 45), full_row = TRUE)
+  expect_gte(length(match_milan), 1)
+
+  expect_error(oe_match_pattern(1:3), class = "osmext-oe_match_pattern-numericInputLengthNe2")
+})
+
+test_that("oe_match_pattern: works with sf/bbox input", {
+  skip_on_cran() # since it takes several seconds
+  milan = sf::st_bbox(c(xmin = 9.1293, ymin = 45.4399, xmax = 9.2282, ymax = 45.5049))
+  expect_warning(oe_match_pattern(milan), "The input has no CRS")
+  sf::st_crs(milan) = 4326
+
+  match_milan = oe_match_pattern(milan)
+  expect_gte(length(match_milan), 1)
+
+  match_milan = oe_match_pattern(
+    sf::st_transform(sf::st_as_sf(sf::st_as_sfc(milan)), 3003),
+    full_row = TRUE
+  )
+  expect_gte(length(match_milan), 1)
+})
+
+test_that("oe_match_pattern: test spatial combine", {
+  skip_on_cran()
+  milan = sf::st_point(c(9, 45))
+  palermo = sf::st_point(c(13, 38))
+  MI_PA = sf::st_sfc(milan, palermo, crs = 4326)
+  expect_identical(oe_match_pattern(MI_PA)$geofabrik, c("Europe", "Italy"))
 })

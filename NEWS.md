@@ -7,6 +7,7 @@
 * We implemented a new function named `oe_get_boundary()` that can be used to obtain administrative geographical boundaries of a given area (#206). 
 * Added a new function named `read_poly()` to read `.poly` files (#277). 
 * All the databases storing the data for the supported providers were updated. For simplicity, some fields were removed from the saved objects. More precisely, we removed the columns `pbf.internal`, `history`, `taginfo` and `updates` from `geofabrik_zones`; `last_modified`, `type`, `base_url` and `poly_url` from `bbbike_zones`. 
+* The function `oe_match_pattern()` now accepts `numeric`/`sfc`/`bbox`/`sf` inputs, following the same logic as `oe_match()` (#266). 
 
 ### MINOR CHANGES
 * The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 

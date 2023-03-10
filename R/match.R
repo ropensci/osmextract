@@ -377,7 +377,7 @@ oe_match.character = function(
       )
     }
 
-    # 3. Otherwise, if match_by == name (since I think it doesn't make sense to
+    # 3. Otherwise, if match_by == "name" (since I think it doesn't make sense to
     # use Nominatim with other fields), then we can use oe_search to look for
     # the lat/long coordinates of the input place
     if (match_by == "name") {
@@ -422,12 +422,15 @@ oe_match.character = function(
 
 #' Check patterns in the provider's databases
 #'
-#' This function is used to explore the provider's databases and look for
-#' patterns. This function can be useful in combination with [`oe_match()`] and
-#' [`oe_get()`] for an easy match. See Examples.
+#' This function is used to explore all provider's databases and look for
+#' matches. This function can be useful in combination with [`oe_match()`] and
+#' [`oe_get()`] for an exploratory analysis and an easy match. See Examples.
 #'
-#' @param pattern Character string representing the pattern that should be
-#'   explored.
+#' @param pattern Description of the pattern. Can be either a length-1 character
+#'   vector, an `sf`/`sfc`/`bbox` object, or a numeric vector of coordinates
+#'   with length 2. In the last case, it is assumed that the EPSG code is 4326
+#'   specified as c(LON, LAT), while you can use any CRS with `sf`/`sfc`/`bbox`
+#'   objects.
 #' @param ... arguments passed to other methods
 #'
 #' @return A list of character vectors or `sf` objects (according to the value
@@ -459,7 +462,7 @@ oe_match_pattern.numeric = function(
       message = paste0(
         "You need to provide a pair of coordinates and you passed as input",
         " a vector of length ",
-        length(pattern),
+        length(pattern)
       )
     )
   }
@@ -468,6 +471,26 @@ oe_match_pattern.numeric = function(
   pattern = sf::st_sfc(sf::st_point(pattern), crs = 4326)
 
   oe_match_pattern(pattern, full_row = full_row , ...)
+}
+
+#' @name oe_match_pattern
+#' @export
+oe_match_pattern.sf = function(
+  pattern,
+  full_row = FALSE,
+  ...
+) {
+  oe_match_pattern(sf::st_geometry(pattern), full_row = full_row, ...)
+}
+
+#' @name oe_match_pattern
+#' @export
+oe_match_pattern.bbox = function(
+  pattern,
+  full_row = FALSE,
+  ...
+) {
+  oe_match_pattern(sf::st_as_sfc(pattern), full_row = full_row, ...)
 }
 
 #' @name oe_match_pattern

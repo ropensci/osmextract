@@ -3,6 +3,8 @@
 \name{oe_match_pattern}
 \alias{oe_match_pattern}
 \alias{oe_match_pattern.numeric}
+\alias{oe_match_pattern.sf}
+\alias{oe_match_pattern.bbox}
 \alias{oe_match_pattern.sfc}
 \alias{oe_match_pattern.character}
 \title{Check patterns in the provider's databases}
@@ -11,13 +13,20 @@ oe_match_pattern(pattern, ...)
 
 \method{oe_match_pattern}{numeric}(pattern, full_row = FALSE, ...)
 
+\method{oe_match_pattern}{sf}(pattern, full_row = FALSE, ...)
+
+\method{oe_match_pattern}{bbox}(pattern, full_row = FALSE, ...)
+
 \method{oe_match_pattern}{sfc}(pattern, full_row = FALSE, ...)
 
 \method{oe_match_pattern}{character}(pattern, match_by = "name", full_row = FALSE, ...)
 }
 \arguments{
-\item{pattern}{Character string representing the pattern that should be
-explored.}
+\item{pattern}{Description of the pattern. Can be either a length-1 character
+vector, an \code{sf}/\code{sfc}/\code{bbox} object, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects.}
 
 \item{...}{arguments passed to other methods}
 
@@ -36,9 +45,9 @@ of the parameter \code{full_row}). If no OSM zone can be matched with the input
 string, then the function returns an empty list.
 }
 \description{
-This function is used to explore the provider's databases and look for
-patterns. This function can be useful in combination with \code{\link[=oe_match]{oe_match()}} and
-\code{\link[=oe_get]{oe_get()}} for an easy match. See Examples.
+This function is used to explore all provider's databases and look for
+matches. This function can be useful in combination with \code{\link[=oe_match]{oe_match()}} and
+\code{\link[=oe_get]{oe_get()}} for an exploratory analysis and an easy match. See Examples.
 }
 \examples{
 oe_match_pattern("Yorkshire")
