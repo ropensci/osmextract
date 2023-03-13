@@ -200,9 +200,12 @@ oe_vectortranslate = function(
       "points", "lines", "multipolygons", "multilinestrings", "other_relations"
     )
   ) {
-    stop(
-      "You need to specify the layer parameter and it must be one of",
-      " points, lines, multipolygons, multilinestrings or other_relations."
+    oe_stop(
+      .subclass = "oe_vectortranslate-layerNotProperlySpecified",
+      message = paste0(
+        "You need to specify the layer parameter and it must be one of",
+        " points, lines, multipolygons, multilinestrings or other_relations."
+      )
     )
   }
 
@@ -393,9 +396,9 @@ oe_vectortranslate = function(
         which_f == length(vectortranslate_options) ||
         vectortranslate_options[which_f + 1] != "GPKG"
       ) {
-        stop(
-          "The oe_vectortranslate function should translate only to GPKG format",
-          call. = FALSE
+        oe_stop(
+          .subclass = "oe_vectortranslate_shouldTranslateToGPKGOnly",
+          message = "The oe_vectortranslate function should translate to GPKG format only"
         )
       }
     }

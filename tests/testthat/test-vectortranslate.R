@@ -23,7 +23,7 @@ test_that("oe_vectortranslate returns file_path when .gpkg exists", {
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE)
   expect_message(
     oe_vectortranslate(its_pbf),
-    "Skip vectortranslate operations."
+    class = "oe_vectortranslate_skipOperations"
   )
 })
 

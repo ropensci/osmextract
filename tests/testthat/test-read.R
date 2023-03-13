@@ -53,7 +53,7 @@ test_that("or_read: simplest example with a URL works", {
 test_that("oe_read fails with a clear error message with wrong URL or file path", {
   expect_error(
     oe_read("geofabrik_with-typo-in-path.osm.pbf"),
-    "The input file_path does not correspond to any existing file and it doesn't look like a URL."
+    class = "oe_read-inputDoesNotCorrespondToExistingFileOrURL"
   )
 })
 
@@ -102,6 +102,8 @@ custom_osmconf_ini[[18]] = "report_all_nodes=yes"
 custom_osmconf_ini[[21]] = "report_all_ways=yes"
 temp_ini = tempfile(fileext = ".ini")
 writeLines(custom_osmconf_ini, temp_ini)
+
+rm(custom_osmconf_ini)
 
 test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL", {
   withr::local_envvar(
@@ -298,7 +300,7 @@ test_that("oe_read returns an error with unnamed arguments", {
       layer = "lines",
       "SELECT * FROM lines"
     ),
-    class = "osmext-names-dots-error"
+    class = "oe_read-namesDotsError"
   )
 })
 
@@ -318,7 +320,7 @@ test_that("oe_read returns an error with named and unnamed arguments", {
       query = "SELECT * FROM lines",
       "ABC"
     ),
-    class = "osmext-names-dots-error"
+    class = "oe_read-namesDotsError"
   )
 })
 
@@ -336,7 +338,7 @@ test_that("oe_read returns an error with extra comma", {
       file_path = its_pbf,
       layer = "lines",
     ),
-    class = "osmext-names-dots-error"
+    class = "oe_read-namesDotsError"
   )
 })
 
@@ -355,7 +357,7 @@ test_that("oe_read returns an error with named argument + extra comma", {
       layer = "lines",
       query = "SELECT * FROM lines",
     ),
-    class = "osmext-names-dots-error"
+    class = "oe_read-namesDotsError"
   )
 })
 
@@ -374,7 +376,7 @@ test_that("oe_read returns an error with unnamed argument and extra comma", {
       layer = "lines",
       query = "SELECT * FROM lines",
     ),
-    class = "osmext-names-dots-error"
+    class = "oe_read-namesDotsError"
   )
 })
 
@@ -402,6 +404,6 @@ test_that("Vectortranslate operations are not repeated when extra_fields include
       extra_tags = c("lanes", "turn:lanes"),
       download_only = TRUE
     )},
-    regexp = "Skip vectortranslate operations"
+    class = "oe_vectortranslate_skipOperations"
   )
 })
