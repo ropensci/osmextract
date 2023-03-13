@@ -166,7 +166,7 @@ oe_download = function(
           message = paste0(
             "The download operation was aborted. ",
             "If this was not intentional, you may want to increase the timeout for internet operations ",
-            "to a value >= 300 using options(timeout = ...) before re-running this function. ",
+            "to a value >= 300 by using options(timeout = ...) before re-running this function. ",
             "We also suggest you to remove the partially downloaded file by running the ",
             "following code (possibly in a new R session): ",
             # NB: Don't add a full stop since that makes copying code really annoying
