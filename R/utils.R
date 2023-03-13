@@ -1,5 +1,5 @@
 # Auxiliary functions (not exported)
-'%!in%' = function(x, y) !('%in%'(x, y))
+'%!in%' = Negate('%in%')
 
 # See https://github.com/ropensci/osmextract/issues/134
 is_like_url = function(URL) {
@@ -79,7 +79,7 @@ oe_download_directory = function() {
 
 # Print a message if quiet argument is FALSE. I defined this function since the
 # same pattern is repeated several times in the package.
-oe_message <- function(..., quiet, .subclass = "oe_message") {
+oe_message <- function(..., quiet, .subclass) {
   if (isFALSE(quiet)) {
     msg <- structure(
       list(message = .makeMessage(..., appendLF = TRUE)),

@@ -70,10 +70,13 @@ oe_download = function(
 
   ## At the moment the function works only with a single URL
   if (length(file_url) != 1L) {
-    stop(
-      "The parameter file_url must have length 1 but you specified ",
-      length(file_url),
-      " elements."
+    oe_stop(
+      .subclass = "oe_download_LengthFileUrlGt2",
+      message = paste0(
+        "The parameter file_url must have length 1 but you specified ",
+        length(file_url),
+        " elements."
+      ),
     )
   }
 
@@ -104,7 +107,7 @@ oe_download = function(
       "The chosen file was already detected in the download directory. ",
       "Skip downloading.",
       quiet = quiet,
-      .subclass = "oe_skip_downloading"
+      .subclass = "oe_download_skipDownloading"
     )
     return(file_path)
   }
@@ -119,8 +122,12 @@ oe_download = function(
       !is.na(file_size) &&
       file_size >= max_file_size
     ) { # nocov start
-      message("You are trying to download a file from ", file_url)
-      message("This is a large file (", round(file_size / 1048576), " MB)!")
+      oe_message(
+        "You are trying to download a file from ", file_url,
+        "This is a large file (", round(file_size / 1048576), " MB)!",
+        quiet = FALSE,
+        .subclass = "oe_download_LargeFile"
+      )
       continue = utils::menu(
         choices = c("Yes", "No"),
         title = "Are you sure that you want to download it?"
@@ -131,10 +138,17 @@ oe_download = function(
     } # nocov end
 
     if (continue != 1L) {
-      stop("Aborted by user.", call. = FALSE)
+      oe_stop(
+        .subclass = "oe_download_AbortedByUser",
+        message = "Aborted by user"
+      )
     }
 
-    oe_message("Downloading the OSM extract:", quiet = quiet)
+    oe_message(
+      "Downloading the OSM extract:",
+      quiet = quiet,
+      .subclass = "oe_download_StartDownloading"
+    )
 
     resp = tryCatch(
       expr = {
@@ -148,14 +162,14 @@ oe_download = function(
       },
       error = function(e) {
         oe_stop(
-          .subclass = "osmext-download-aborted",
+          .subclass = "oe_download_DownloadAborted",
           message = paste0(
             "The download operation was aborted. ",
             "If this was not intentional, you may want to increase the timeout for internet operations ",
             "to a value >= 300 using options(timeout = ...) before re-running this function. ",
             "We also suggest you to remove the partially downloaded file by running the ",
             "following code (possibly in a new R session): ",
-            # NB: Don't add a full stop since that make copying code really annoying
+            # NB: Don't add a full stop since that makes copying code really annoying
             "file.remove(", dQuote(file_path, q = FALSE), ")"
           )
         )
@@ -164,7 +178,11 @@ oe_download = function(
 
     httr::stop_for_status(resp, "download data from the provider")
 
-    oe_message("File downloaded!", quiet = quiet)
+    oe_message(
+      "File downloaded!",
+      quiet = quiet,
+      .subclass = "oe_download_FileDownloaded"
+    )
   }
 
   file_path
@@ -178,7 +196,10 @@ infer_provider_from_url = function(file_url) {
   )
   m = regexpr(pattern = providers_regex, file_url)
   if (m == -1L) {
-    stop("Cannot infer the provider from the url, please specify it.")
+    oe_stop(
+      .subclass = "oe_download_CannotInferProviderFromUrl",
+      message = "Cannot infer the provider from the url, please specify it."
+    )
   }
   matching_provider = regmatches(x = file_url, m = m)
   matching_provider

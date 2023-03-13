@@ -184,7 +184,10 @@ oe_vectortranslate = function(
   # Check that the input file was specified using the format
   # ".../something.pbf". This is important for creating the .gpkg file path.
   if (tools::file_ext(file_path) != "pbf" || !file.exists(file_path)) {
-    stop("The parameter file_path must correspond to an existing .pbf file")
+    oe_stop(
+      .subclass = "oe_vectortranslate_filePathMissingOrNotPbf",
+      message = "The parameter file_path must correspond to an existing .pbf file"
+    )
   }
 
   # Check that the layer param is not NA or NULL
@@ -232,7 +235,11 @@ oe_vectortranslate = function(
   if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
     if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
       # Try to add the new layer from the .osm.pbf file to the .gpkg file
-      oe_message("Adding a new layer to the .gpkg file", quiet = quiet)
+      oe_message(
+        "Adding a new layer to the .gpkg file",
+        quiet = quiet,
+        .subclass = "oe_vectortranslate_addingNewLayer"
+      )
 
       force_vectortranslate = TRUE
     }
@@ -304,7 +311,8 @@ oe_vectortranslate = function(
     oe_message(
       "The corresponding gpkg file was already detected. ",
       "Skip vectortranslate operations.",
-      quiet = quiet
+      quiet = quiet,
+      .subclass = "oe_vectortranslate_skipOperations"
     )
     return(gpkg_file_path)
   }
@@ -434,7 +442,8 @@ oe_vectortranslate = function(
 
   oe_message(
     "Starting with the vectortranslate operations on the input file!",
-    quiet = quiet
+    quiet = quiet,
+    .subclass = "oe_vectortranslate_startVectortranslate"
   )
 
   # Now we can apply the vectortranslate operation from gdal_utils: See
@@ -450,7 +459,8 @@ oe_vectortranslate = function(
 
   oe_message(
     "Finished the vectortranslate operations on the input file!",
-    quiet = quiet
+    quiet = quiet,
+    .subclass = "oe_vectortranslate_finishedVectortranslate"
   )
 
   # and return the path of the gpkg file

@@ -6,7 +6,7 @@ test_that("oe_match: simplest examples work", {
 })
 
 test_that("oe_match: error with new classes", {
-  expect_error(oe_match(c(1 + 2i, 1 - 2i)))
+  expect_error(oe_match(c(1 + 2i, 1 - 2i)), class = "oe_match_NoSupportForClass")
   # See #97 for new classes
 })
 
@@ -22,10 +22,10 @@ test_that("oe_match: sfc_POINT objects", {
   # an sfc_POINT object that does not intersect anything
   # the point is in the middle of the atlantic ocean
   ocean = sf::st_sfc(sf::st_point(c(-39.325649, 29.967632)), crs = 4326)
-  expect_error(oe_match(ocean, quiet = TRUE), regexp = "input place does not intersect")
+  expect_error(oe_match(ocean, quiet = TRUE), class = "oe_match_noIntersectProvider")
   expect_error(
     oe_match(ocean, provider = "bbbike", quiet = TRUE),
-    regexp = "input place does not intersect"
+    class = "oe_match_noIntersectProvider"
   )
 
   # See https://github.com/osmextract/osmextract/issues/98
@@ -53,8 +53,8 @@ test_that("oe_match: sf input", {
 })
 
 test_that("oe_match: different providers, match_by or max_string_dist args", {
-  expect_error(oe_match("Italy", provider = "XXX", quiet = TRUE))
-  expect_error(oe_match("Italy", match_by = "XXX", quiet = TRUE))
+  expect_error(oe_match("Italy", provider = "XXX", quiet = TRUE), class = "load_provider_data-InvalidProvider")
+  expect_error(oe_match("Italy", match_by = "XXX", quiet = TRUE), class = "oe_match_chosenColumnDoesNotExist")
   expect_match(oe_match("RU", match_by = "iso3166_1_alpha2", quiet = TRUE)$url, "russia")
 
   # expect_null(oe_match("Isle Wight"))
@@ -66,8 +66,8 @@ test_that("oe_match: different providers, match_by or max_string_dist args", {
 
 test_that("oe_match: Cannot specify more than one place", {
   # Characters
-  expect_error(oe_match(c("Italy", "Spain")))
-  expect_error(oe_match("Italy", "Spain"))
+  expect_error(oe_match(c("Italy", "Spain")), class = "oe_match_characterPlaceLengthOne")
+  expect_error(oe_match("Italy", "Spain"), class = "load_provider_data-InvalidProvider")
 
   # sfc_POINT
   milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003) %>%
@@ -75,11 +75,11 @@ test_that("oe_match: Cannot specify more than one place", {
   leeds = sf::st_sfc(sf::st_point(c(430147.8, 433551.5)), crs = 27700) %>%
     sf::st_transform(4326)
   # expect_error(oe_match(c(milan_duomo, leeds)))
-  expect_error(oe_match(milan_duomo, leeds))
+  expect_error(oe_match(milan_duomo, leeds), class = "load_provider_data-InvalidProvider")
 
   # numeric
-  expect_error(oe_match(c(9.1916, 45.4650, -1.543794, 53.698968)))
-  expect_error(oe_match(c(9.1916, 45.4650), c(-1.543794, 53.698968)))
+  expect_error(oe_match(c(9.1916, 45.4650, -1.543794, 53.698968)), class = "oe_match_placeLength2")
+  expect_error(oe_match(c(9.1916, 45.4650), c(-1.543794, 53.698968)), class = "load_provider_data-InvalidProvider")
 })
 
 test_that("oe_match looks for a place location online", {
@@ -94,7 +94,10 @@ test_that("oe_match looks for a place location online", {
 })
 
 test_that("oe_match: error when input place is far from all zones and match_by != name", {
-  expect_error(oe_match("Olginate", match_by = "id", quiet = TRUE), "No tolerable match was found")
+  expect_error(
+    object = oe_match("Olginate", match_by = "id", quiet = TRUE),
+    class = "oe_match_noTolerableMatchFound"
+  )
 })
 
 test_that("oe_match: test level parameter", {
@@ -111,7 +114,7 @@ test_that("oe_match: test level parameter", {
   )
   expect_error(
     oe_match(yak, level = 3, quiet = TRUE),
-    "The input place does not intersect any area at the chosen level."
+    class = "oe_match_noIntersectLevel"
   )
 })
 
@@ -185,7 +188,7 @@ test_that("oe_match_pattern: works with numeric input", {
   match_milan = oe_match_pattern(c(9, 45), full_row = TRUE)
   expect_gte(length(match_milan), 1)
 
-  expect_error(oe_match_pattern(1:3), class = "osmext-oe_match_pattern-numericInputLengthNe2")
+  expect_error(oe_match_pattern(1:3), class = "oe_match_pattern-numericInputLengthNe2")
 })
 
 test_that("oe_match_pattern: works with sf/bbox input", {

@@ -81,10 +81,12 @@ oe_find = function(
   ...
   ) {
   if (!return_gpkg && !return_pbf) {
-    stop(
-      "At least one of 'return_pbf' and 'return_gpkg' arguments must be ",
-      "equal to TRUE.",
-      call. = FALSE
+    oe_stop(
+      .subclass = "oe_find_AtLeastOneOfMustBeTrue",
+      message = paste0(
+        "At least one of 'return_pbf' and 'return_gpkg' arguments must be ",
+        "equal to TRUE."
+      )
     )
   }
 
@@ -133,7 +135,8 @@ oe_find = function(
     oe_message(
       "No file associated with that place name could be found.\n",
       "Trying to download osm data with oe_get().",
-      quiet = quiet
+      quiet = quiet,
+      .subclass = "oe_find_TryingDownload"
     )
     oe_get(
       place,
@@ -155,8 +158,8 @@ oe_find = function(
     )
   }
 
-  stop(
-    "No file associated with that place name could be found.",
-    call. = FALSE
+  oe_stop(
+    .subclass = "oe_find_NoFile",
+    message = "No file could be found."
   )
 }
