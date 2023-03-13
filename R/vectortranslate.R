@@ -239,7 +239,7 @@ oe_vectortranslate = function(
     if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
       # Try to add the new layer from the .osm.pbf file to the .gpkg file
       oe_message(
-        "Adding a new layer to the .gpkg file",
+        "Adding a new layer to the .gpkg file.",
         quiet = quiet,
         .subclass = "oe_vectortranslate_addingNewLayer"
       )
