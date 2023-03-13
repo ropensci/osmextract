@@ -1,0 +1,41 @@
+---
+title: "Advanced usage of osmextract package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Advanced usage of Osmextract Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+TODO
+
+```{r setup}
+library(osmextract)
+```
+
+## Tips for increased performances
+
+TODO
+
+(Config Options?)
+
+## Extract transport networks
+
+TODO
+
+## Get geographical boundaries
+
+TODO
+
+### oe_get_boundary
+
+### read_poly 
+
+
