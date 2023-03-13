@@ -69,7 +69,7 @@ As you can see, the name of the most important functions in this package start w
 `oe_providers()` lists the providers that are currently available with the version of `osmextract` you have installed.
 
 ```{r}
-oe_providers()
+oe_providers(quiet = TRUE)
 ```
 
 Each element in the column `database_name` is a data object that is packaged with `osmextract`. 
@@ -78,7 +78,7 @@ You can read a detailed description of each provider data running, for example, 
 Perhaps, the best known bulk OSM data provider is [Geofabrik](https://www.geofabrik.de/), and its extracts are summarised as a `data.frame` in the packaged object `geofabrik_zones`.
 
 ```{r}
-class(geofabrik_zones)
+str(geofabrik_zones, max.level = 1, give.attr = FALSE, vec.len = 2)
 ```
 
 Note that in addition to being a data frame with rows and columns, `geofabrik_zones` is also an `sf` object, as defined in the [package](https://r-spatial.github.io/sf/) of the same name.
@@ -115,11 +115,11 @@ knitr::include_graphics(
 As shown in the visualisation above of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, that provider offers rectangular extracts of the major cities.
 We are working on adding support for manually selected regions from the BBBike website (see https://github.com/ropensci/osmextract/issues/100).
 
-Check the ["Comparing the supported OSM providers"](https://docs.ropensci.org/osmextract/articles/providers_comparisons.html) vignette for some simple guidelines on how to choose the best provider. 
+See also the ["Comparing the supported OSM providers"](https://docs.ropensci.org/osmextract/articles/providers_comparisons.html) vignette for some simple guidelines on how to choose the best provider. 
 
 ## `oe_match()`: Match an input place with an OSM extract
 
-The function `oe_match()` takes in input a string through the parameter `place`, and it returns a named list of length two with the URL and the size (in bytes) of a `.osm.pbf`^[The `.pbf` format is a highly optimised binary format used by OSM providers to store and share OSM extracts.] file representing a geographical zone stored by one of the supported providers. 
+The function `oe_match()` takes in input a string through the parameter `place`, and it returns a named list of length two with the URL and the size (in bytes) of a `.osm.pbf`^[The `.pbf` format is a highly optimised binary format used by OSM providers to store and share OSM extracts. We refer to <https://wiki.openstreetmap.org/wiki/PBF_Format> for more details.] file representing a geographical zone stored by one of the supported providers. 
 For example: 
 
 ```{r}
@@ -129,7 +129,7 @@ oe_match("Leeds", provider = "bbbike")
 
 The geographical zone is chosen by calculating the Approximate String Distance (`?adist()`) between the input `place` and one of the fields in the provider's dataset.
 Then, the function selects the closest match. 
-By default, `oe_match()` uses the `name` field and `Geofabrik` provider, but you can select a different field via the argument `match_by`. 
+By default, `oe_match()` uses the `name` field and the `Geofabrik` provider, but you can select a different field via the argument `match_by`. 
 We refer to the providers' help pages for a detailed description of all available fields. 
 If you are using Geofabrik provider, a useful and interesting alternative field is represented by the (unique and unambiguous) [`iso3166-1 alpha2` codes](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2): 
 
@@ -178,7 +178,7 @@ oe_match("Comunitat Valenciana", provider = "openstreetmap_fr")
 The parameter `max_string_dist` (default value is 1) represents the maximum tolerable distance between the input place and the closest match in `match_by` column. 
 This value can always be increased to help the matching operations, but that can lead to false matches:
 
-```{r, error = TRUE}
+```{r}
 # erroneous match
 oe_match("Milan", max_string_dist = 2)
 ```
@@ -211,7 +211,7 @@ oe_match("Milan")
 ### Finding zones based on geographic inputs
 
 The input `place` can also be specified using an `sf`, `sfc`, or `bbox` object with arbitrary CRS^[If the input spatial object has no CRS, then `oe_match()` raises a warning message and sets `CRS = 4326`.], as documented in the following example. 
-`oe_match()` will return a named list of length two with the URL and the size of a `.pbf` file representing a zone that geographically contains the `sf` or `sfc` object  (or an error if the input is not contained into any geographical area).
+As in the previous case, `oe_match()` will return a named list of length two with the URL and the size of a `.pbf` file representing a zone that geographically contains the `sf` or `sfc` object  (or an error in case the input is not contained into any geographical area).
 
 ```{r}
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
@@ -219,7 +219,7 @@ oe_match(milan_duomo)
 ```
 
 If the input `place` intersects multiple geographically nested areas and the argument `level` is equal to `NULL` (the default value), then `oe_match()` automatically returns the extract with the highest `level`. 
-In particular, we could roughly say that smaller geographical areas are associated with higher `level`(s). 
+We could roughly say that smaller geographical areas are associated with higher `level`(s).
 For example, `level = 1` may correspond to continent-size extracts, `2` is for countries, `3` represents the regions and `4` the subregions:
 
 ```{r, error = TRUE}
@@ -261,6 +261,13 @@ In that case, the CRS is assumed to be [EPSG:4326](https://spatialreference.org/
 oe_match(c(9.1916, 45.4650)) # Duomo di Milano using EPSG: 4326
 ```
 
+Starting from version `0.5`, we can use the function `oe_match_pattern()` to explore all available providers starting from a given spatial pattern
+
+```{r}
+westminster_abbey <- c(-0.127, 51.5) 
+oe_match_pattern(westminster_abbey)
+```
+
 Finally, to reduce unnecessary computational resources and save bandwidth/electricity, we will use a small OSM extract in subsequent sections that can be matched as follows:
 
 ```{r}
@@ -296,18 +303,18 @@ You can always check the default `download_directory` used by `oe_download()` wi
 oe_download_directory()
 ```
 
-We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` files are expensive operations, that can be skipped if the functions detect that the requested extract was already downloaded and/or converted.
+We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` files are expensive operations that can be skipped if the functions detect that the requested extract was already downloaded and/or converted.
 
 More precisely, `oe_download()` runs several checks before actually downloading a new file, to avoid overloading the OSM providers. 
 The first step is the definition of the path associated with the input `file_url`. 
 The path is created by pasting together the `download_directory`, the name of the chosen provider (specified by `provider` argument or inferred from the input URL), and the `basename()` of the URL. 
 For example, if `file_url` is equal to `"https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and `download_directory = "/tmp/`, then the path is built as `/tmp/geofabrik_italy-latest.osm.pbf`. 
-In the second step, the function checks if the new path/file already exists (using `file.exists()`) and, in that case, it returns the path, without downloading anything^[The parameter `force_download` can be used to override this behaviour in case you need to update an old OSM extract.]. 
-Otherwise, it downloads a new file (using `download.file()` with `mode = "wb"`) and then it returns the path.
+In the second step, the function checks if the newly defined file already exists (using `file.exists()`) and, in that case, it returns the path, without downloading anything^[The parameter `force_download` can be used to override this behaviour in case you need to update an old OSM extract. See also `oe_update()`.]. 
+Otherwise, it downloads a new file (using ` httr::GET()` with `httr::write_disk()`) and then it returns the path.
 
 ## `oe_vectortranslate()`: Convert to gpkg format
 
-The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, compact format for transferring geospatial information*. See [here](http://www.geopackage.org/).]. 
+The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, and compact format for transferring geospatial information*. See [here](http://www.geopackage.org/).]. 
 It takes in input a string representing the path to an existing `.pbf` file, and it returns the path to the newly generated `.gpkg` file. 
 The `.gpkg` file is created in the same directory as the input `.pbf` file and with the same name. 
 The conversion is performed using [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in `sf::gdal_utils()`.
@@ -439,7 +446,7 @@ In that case, the function will return the path of the `.gpkg` file.
 This behaviour can be overwritten by setting `force_vectortranslate = TRUE`. 
 If the arguments `osmconf_ini`, `vectortranslate_options` or `boundary` parameters are not `NULL`, the vectortranslate operations are never skipped.
 
-Starting from `sf` version [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13), if `quiet` argument is equal to `FALSE`, then `oe_vectortranslate()` will display a progress bar during he vectortranslate process.
+Starting from `sf` version [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13), if `quiet` argument is equal to `FALSE`, then `oe_vectortranslate()` will display a progress bar during the vectortranslate process.
 
 ## `oe_read()`: Read-in OSM data 
 
@@ -544,8 +551,7 @@ custom_osmconf_ini[[45]] = "osm_id=no"
 custom_osmconf_ini[[53]] = "attributes=highway,lanes"
 ```
 
-Another relevant parameter that could be customised during the creating of an ad-hoc `osmconf.ini` file is `closed_ways_area_polygons` (see lines 5-7 of the default CONFIG file). 
-We can now write a local copy of the `custom_osmconf_ini` file: 
+Another relevant parameter that could be customised during the creating of an ad-hoc `osmconf.ini` file is `closed_ways_area_polygons` (see lines 5-7 of the default CONFIG file and the discussion at the following link: <https://github.com/ropensci/osmextract/discussions/228>). We can now write a local copy of the `custom_osmconf_ini` file: 
 
 ```{r}
 temp_ini = tempfile(fileext = ".ini")
@@ -837,7 +843,7 @@ The first provider supported was [Geofabrik](http://download.geofabrik.de/).
 The second was [bbbike](https://download.bbbike.org/osm/bbbike/).
 The package can be extended to support additional providers, as seen in the following [commit](https://github.com/ropensci/osmextract/commit/dbf131667a80e5a6837a6c8eb3b967075e1aba16) that adds a working provider.
 
-For information on adding new providers to the package, see the [providers vignette](https://docs.ropensci.org/osmextract/articles/providers.html).
+For information on adding new providers to the package, see the [providers vignette](https://docs.ropensci.org/osmextract/articles/providers.html). 
 
 # More on OpenStreetMap
 
