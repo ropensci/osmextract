@@ -185,7 +185,7 @@ oe_get_keys.character = function(
           message = paste0(
             "The input does not correspond to an existing file and can't be ",
             "matched with any existing pbf/gpkg file. ",
-            if (!grepl("(pbf|gpkg)", zone)) extra_message
+            if (!grepl("(osm|pbf|gpkg)", zone)) extra_message
           )
         )
       },
@@ -216,8 +216,8 @@ oe_get_keys.character = function(
     }
   }
 
-  if (tools::file_ext(zone) %!in% c("gpkg", "pbf")) {
-    stop("The input file must have .pbf or .gpkg extension", call. = FALSE)
+  if (tools::file_ext(zone) %!in% c("gpkg", "pbf", "osm")) {
+    stop("The input file must have .osm/.pbf/.gpkg extension", call. = FALSE)
   }
 
   # Check that the selected file contains the selected layer

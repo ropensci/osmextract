@@ -255,7 +255,7 @@ oe_read = function(
   # skip_vectortranslate = TRUE, then we just need to return the pbf path or
   # read it.
   if (
-    tools::file_ext(file_path) == "pbf" &&
+    tools::file_ext(file_path) %in% c("pbf", "osm") &&
     isTRUE(skip_vectortranslate)
   ) {
     if (isTRUE(download_only)) {

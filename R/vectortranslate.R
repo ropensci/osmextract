@@ -183,7 +183,7 @@ oe_vectortranslate = function(
 ) {
   # Check that the input file was specified using the format
   # ".../something.pbf". This is important for creating the .gpkg file path.
-  if (tools::file_ext(file_path) != "pbf" || !file.exists(file_path)) {
+  if (! tools::file_ext(file_path) %in% c("pbf", "osm") || !file.exists(file_path)) {
     oe_stop(
       .subclass = "oe_vectortranslate_filePathMissingOrNotPbf",
       message = "The parameter file_path must correspond to an existing .pbf file"

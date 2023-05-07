@@ -180,7 +180,7 @@ oe_clean <- function(download_directory = oe_download_directory(), force = FALSE
 
   my_files = list.files(
     path = download_directory,
-    pattern = "\\.(osm\\.pbf|gpkg)$",
+    pattern = "\\.(osm|osm\\.pbf|gpkg)$",
     full.names = TRUE
   )
   unlink(my_files)
