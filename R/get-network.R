@@ -281,10 +281,12 @@ check_args_network = function(dots_args, oe_get_options) {
   if (!is.null(dots_args[["vectortranslate_options"]])) {
     if ("-where" %in% dots_args[["vectortranslate_options"]]) {
       # Raise an error since -where arg must be set by the function
-      stop(
-        "The vectortranslate_options inside oe_get_network() cannot be used",
-        "to define a query with the -where argument. Use the query argument",
-        call. = FALSE
+      oe_stop(
+        .subclass = "oe_get_network-cannotUseWhere",
+        message = paste0(
+          "The vectortranslate_options inside oe_get_network() cannot be used ",
+          "to define a query with the -where argument. Use the query argument"
+        )
       )
     }
     # Otherwise append the two vectors

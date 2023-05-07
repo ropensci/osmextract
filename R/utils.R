@@ -116,8 +116,8 @@ extract_dots_names_safely <- function(...) {
     names(list(...)),
     error = function(cnd) {
       oe_stop(
-        .subclass = "osmext-names-dots-error",
-        message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check that you didn't add an extra comma at the end of your call.",
+        .subclass = "oe_read-namesDotsError",
+        message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check also that you didn't add an extra comma at the end of your call.",
       )
     }
   )
@@ -175,7 +175,10 @@ oe_clean <- function(download_directory = oe_download_directory(), force = FALSE
   }
 
   if (continue != 1L) {
-    stop("Aborted by user", call. = FALSE)
+    oe_stop(
+      .subclass = "oe_clean-aborted",
+      message = "Aborted by user"
+    )
   } # nocov end
 
   my_files = list.files(

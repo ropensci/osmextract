@@ -72,7 +72,7 @@ oe_providers = function(quiet = FALSE) {
 
   oe_message(
     "Check the corresponding help pages to read more details about the ",
-    "fields in each database (e.g. ?geofabrik_zones)",
+    "fields in each database (e.g. ?geofabrik_zones).",
     quiet = quiet,
     .subclass = "oe_providers_Info"
   )

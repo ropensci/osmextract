@@ -144,7 +144,7 @@ oe_get_keys.default = function(
   download_directory = oe_download_directory()
 ) {
   oe_stop(
-    .subclass = "osmext-oe_get_keys-no_support",
+    .subclass = "oe_get_keys-noSupport",
     message = paste0(
       "At the moment there is no support for objects of class ",
       class(zone)[1], ". ",
@@ -164,7 +164,7 @@ oe_get_keys.character = function(
 ) {
   if (length(zone) != 1L) {
     oe_stop(
-      .subclass = "osmext-oe_get_keys-length_1_input",
+      .subclass = "oe_get_keys-lengthOneCharacterInput",
       message = "The input to argument zone must have length 1."
     )
   }
@@ -177,11 +177,11 @@ oe_get_keys.character = function(
         # The following message is added conditionally since the text doesn't
         # make sense if zone represents the path of a (misspecified) file.
         extra_message <- paste0(
-          "You can download the relevant OSM extract running the following code:\n",
+          "You can download the relevant OSM extract running the following code: ",
           "oe_get(", dQuote(zone, q = FALSE), ", download_only = TRUE)"
         )
         oe_stop(
-          .subclass = "osmext-oe_get_keys-matched_input_missing",
+          .subclass = "oe_get_keys-matchedFileMissing",
           message = paste0(
             "The input does not correspond to an existing file and can't be ",
             "matched with any existing pbf/gpkg file. ",
@@ -217,13 +217,16 @@ oe_get_keys.character = function(
   }
 
   if (tools::file_ext(zone) %!in% c("gpkg", "pbf", "osm")) {
-    stop("The input file must have .osm/.pbf/.gpkg extension", call. = FALSE)
+    oe_stop(
+      .subclass = "oe_get_keys-fileMustHavePbfGpkgExtension",
+      message = "The input file must have .pbf or .gpkg extension"
+    )
   }
 
   # Check that the selected file contains the selected layer
   if (layer %!in% sf::st_layers(zone)[["name"]]) {
     oe_stop(
-      .subclass = "osmext-oe_get_keys-missing_selected_layer",
+      .subclass = "oe_get_keys-missingLayerSelected",
       message = paste0(
         "The matched file does not contain the selected layer. ",
         "You can add it running oe_get() with layer = ",
@@ -251,10 +254,12 @@ oe_get_keys.character = function(
   )
 
   if ("other_tags" %!in% existing_fields) {
-    stop(
-      "The input file must have an other_tags field.",
-      " You may need to rerun the vectortranslate process.",
-      call. = FALSE
+    oe_stop(
+      .subclass = "oe_get_keys-matchedFileMustHaveOtherTagsFields",
+      message = paste0(
+        "The matched file must have an other_tags field.",
+        " You may need to rerun the vectortranslate process."
+      )
     )
   }
 
@@ -308,7 +313,10 @@ oe_get_keys.sf = function(
   download_directory = oe_download_directory()
 ) {
   if ("other_tags" %!in% names(zone)) {
-    stop("The input object must have an other_tags field.", call. = FALSE)
+    oe_stop(
+      .subclass = "oe_get_keys-inputMustHaveOtherTagsField",
+      message = "The input object must have an other_tags field."
+    )
   }
 
   get_keys(zone[["other_tags"]], values = values, which_keys = which_keys)
@@ -363,10 +371,12 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
 
   # 6. Check that each key corresponds to a value
   if (!all(lengths(keys) == lengths(values))) {
-    stop(
-      "There are more keys than values (or vice-versa). ",
-      "Please raise a new issue at https://github.com/ropensci/osmextract",
-      call. = FALSE
+    oe_stop(
+      .subclass = "get_keys_lengthKeysNELengthValues",
+      message = paste0(
+        "There are more keys than values (or vice-versa). ",
+        "Please raise a new issue at https://github.com/ropensci/osmextract"
+      )
     )
   }
 

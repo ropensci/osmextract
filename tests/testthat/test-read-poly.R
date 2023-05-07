@@ -109,7 +109,7 @@ test_that("read-poly: read from file", {
   expect_identical(out, manual_output)
   expect_error(
     object = read_poly("nonesitingfile.poly"),
-    class = "osmext-read_poly-noURLorFileExists"
+    class = "read_poly-noURLorFileExists"
   )
 })
 

@@ -31,11 +31,14 @@ test_that("oe_get_network: options in ... work correctly", {
   expect_true("area" %in% colnames(driving_network_with_area_tag))
 
   # Cannot use -where arg
-  expect_error(oe_get_network(
-    place = "ITS Leeds",
-    quiet = TRUE,
-    vectortranslate_options = c("-where", "ABC")
-  ))
+  expect_error(
+    object = oe_get_network(
+      place = "ITS Leeds",
+      quiet = TRUE,
+      vectortranslate_options = c("-where", "ABC")
+    ),
+    class = "oe_get_network-cannotUseWhere"
+  )
 
   walking_network_27700 = oe_get_network(
     "ITS Leeds",
@@ -43,5 +46,5 @@ test_that("oe_get_network: options in ... work correctly", {
     vectortranslate_options = c("-t_srs", "EPSG:27700"),
     quiet = TRUE
   )
-  expect_true(sf::st_crs(walking_network_27700) == sf::st_crs(27700))
+  expect_true(sf::st_crs(walking_network_27700) == sf::st_crs("EPSG:27700"))
 })
