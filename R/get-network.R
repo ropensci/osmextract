@@ -17,7 +17,7 @@
 #'
 #' @details The definition of usable transport network was taken from the Python
 #'   packages
-#'   [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py) and
+#'   [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/_downloader.py) and
 #'   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
 #'   documents found online, i.e.
 #'   <https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions>,
