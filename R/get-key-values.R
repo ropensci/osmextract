@@ -375,6 +375,7 @@ get_keys = function(text, values = FALSE, which_keys = NULL) {
       .subclass = "get_keys_lengthKeysNELengthValues",
       message = paste0(
         "There are more keys than values (or vice-versa). ",
+        "This should not happen.",
         "Please raise a new issue at https://github.com/ropensci/osmextract"
       )
     )
