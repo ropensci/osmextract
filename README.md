@@ -118,7 +118,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+#> Linking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE
 ```
 
 ### Warnings:
@@ -127,10 +127,10 @@ The functions defined in this package may return a warning message like
 
     st_crs<- : replacing crs does not reproject data; use st_transform for that 
 
-if the user is running an old version of GDAL (&lt;= 3.0.0) or PROJ
-(&lt;= 6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419)
-for more details. Nevertheless, every function should still work
-correctly. Please, raise [a new
+if the user is running an old version of GDAL (\<= 3.0.0) or PROJ (\<=
+6.0.0). See [here](https://github.com/r-spatial/sf/issues/1419) for more
+details. Nevertheless, every function should still work correctly.
+Please, raise [a new
 issue](https://github.com/ropensci/osmextract/issues) if you find any
 odd behaviour.
 
@@ -149,9 +149,9 @@ can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 48281
+#> [1] 51226
 nrow(osm_points)
-#> [1] 61329
+#> [1] 67783
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -265,9 +265,9 @@ states that
 > Any Derivative Database that You Publicly Use must be only under the
 > terms of:
 
--   1.  This License;
+- 1.  This License;
 
--   2.  A later version of this License similar in spirit to this
+- 2.  A later version of this License similar in spirit to this
 
 See the [Introducing osmextract
 vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html)
@@ -277,23 +277,23 @@ for more details.
 
 <!-- todo: add links to other packages -->
 
--   [osmdata](https://github.com/ropensci/osmdata) is an R package for
-    importing small datasets directly from OSM servers
--   [geofabrik](https://cran.r-project.org/package=geofabrik) is an R
-    package to download OSM data from
-    [Geofabrik](https://download.geofabrik.de/)
--   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python
-    package for reading .pbf files
--   [pydriosm](https://pypi.org/project/pydriosm/) is a Python package
-    to download, read and import OSM extracts
--   [osmium](https://pypi.org/project/osmium/) provides python bindings
-    for the Libosmium C++ library
--   [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is
-    a Julia package for reading and analysing .osm files
--   [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
-    is an established spatial database that works well with large OSM
-    datasets
--   Any others? Let us know!
+- [osmdata](https://github.com/ropensci/osmdata) is an R package for
+  importing small datasets directly from OSM servers
+- [geofabrik](https://cran.r-project.org/package=geofabrik) is an R
+  package to download OSM data from
+  [Geofabrik](https://download.geofabrik.de/)
+- [pyrosm](https://pyrosm.readthedocs.io/en/latest/) is a Python package
+  for reading .pbf files
+- [pydriosm](https://pypi.org/project/pydriosm/) is a Python package to
+  download, read and import OSM extracts
+- [osmium](https://pypi.org/project/osmium/) provides python bindings
+  for the Libosmium C++ library
+- [OpenStreetMapX.jl](https://github.com/pszufe/OpenStreetMapX.jl) is a
+  Julia package for reading and analysing .osm files
+- [PostGIS](https://www.bostongis.com/PrinterFriendly.aspx?content_name=loading_osm_postgis)
+  is an established spatial database that works well with large OSM
+  datasets
+- Any others? Let us know!
 
 ## Contribution
 
@@ -315,6 +315,7 @@ Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
+<!-- :) -->
 <!-- :) -->
 <!-- :) -->
 <!-- :) -->
