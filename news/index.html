@@ -64,7 +64,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.5.0" id="osmextract-050">osmextract 0.5.0<a class="anchor" aria-label="anchor" href="#osmextract-050"></a></h2>
+<h2 class="page-header" data-toc-text="0.5.0" id="osmextract-050">osmextract 0.5.0<small>2023-08-10</small><a class="anchor" aria-label="anchor" href="#osmextract-050"></a></h2>
 <div class="section level4">
 <h4 id="major-changes-0-5-0">MAJOR CHANGES<a class="anchor" aria-label="anchor" href="#major-changes-0-5-0"></a></h4>
 <ul><li>Fixed a bug in <code><a href="../reference/oe_match.html">oe_match()</a></code> that occurred every time the function found an exact match between the input <code>place</code> and a non-default OSM data provider (i.e. everything but Geofabrik). In those cases, the downloaded file was named as <code>geofabrik_xyz.osm.pbf</code> instead of <code>differentprovider_xyz.osm.pbf</code>. Reported by <a href="https://github.com/GretaTimaite" class="external-link">@GretaTimaite</a>, thanks. See <a href="https://github.com/ropensci/osmextract/pull/246" class="external-link">#246</a>. This is a major bug and, for safety, we suggest you erase all <code>.pbf</code> and <code>.gpkg</code> files currently stored in the persistent download directory (see also <code><a href="../reference/oe_clean.html">oe_clean()</a></code>).</li>
