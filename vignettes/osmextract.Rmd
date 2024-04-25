@@ -599,7 +599,7 @@ First of all, we need to build a character vector with the options that will be 
 my_vectortranslate = c(
   "-t_srs", "EPSG:27700", 
   # SQL-like query where we select only the following fields
-  "-select", "osm_id, highway", 
+  "-select", "osm_id,highway", 
   # SQL-like query where we filter only the features where highway is equal to footway or cycleway
   "-where", "highway IN ('footway', 'cycleway')"
 )
