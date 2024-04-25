@@ -624,7 +624,7 @@ oe_get("Portugal", download_only = TRUE, skip_vectortranslate = TRUE)
 # 2. Define the vectortranslate options
 my_vectortranslate = c(
   # SQL-like query where we select only the features where highway in (primary, secondary, tertiary)
-  "-select", "osm_id, highway",
+  "-select", "osm_id,highway",
   "-where", "highway IN ('primary', 'secondary', 'tertiary')"
 )
 
