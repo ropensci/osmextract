@@ -131,7 +131,8 @@ oe_read = function(
       oe_stop(
         .subclass = "oe_read-errorInQuery1",
         message = paste0(
-          "There is an error in the query or in oe_read. Please open a new issue at ",
+          "The query should be formatted as 'SELECT ... FROM ... <WHERE ...>'. ",
+          "If that's already the case, please open a new issue at ",
           "https://github.com/ropensci/osmextract/issues"
         )
       )
