@@ -1,5 +1,10 @@
 # osmextract (development version)
 
+### MINOR CHANGES
+
+* Updated the code in the main vignette to fix a bug in the `ogr2ogr` options detected by GDAL v3.9 ([#291](https://github.com/ropensci/osmextract/issues/291)). 
+* More informative error message in case of malformed query ([#290](https://github.com/ropensci/osmextract/issues/290)). 
+
 # osmextract 0.5.0
 
 ### MAJOR CHANGES
