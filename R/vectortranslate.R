@@ -29,7 +29,7 @@
 #'   reads and processes a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
 #'   file, that can be checked at the following
-#'   [link](https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini).
+#'   [link](https://github.com/OSGeo/gdal/blob/master/ogr/ogrsf_frmts/osm/data/osmconf.ini).
 #'   The basic components of OSM data are called
 #'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
 #'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
