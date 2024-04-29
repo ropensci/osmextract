@@ -22,7 +22,7 @@ table[["name"]] <- gsub("/", "", table[["name"]])
 # Define the URL for the .poly file
 poly_url <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".poly")
 
-# Define the URL for the pbf
+# Define the URL for the pbf files
 table[["pbf"]] <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".osm.pbf")
 
 # Add the file_size

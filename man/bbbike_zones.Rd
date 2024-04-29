@@ -5,7 +5,7 @@
 \alias{bbbike_zones}
 \title{An sf object of geographical zones taken from bbbike.org}
 \format{
-An \code{sf} object with 236 rows and
+An \code{sf} object with 237 rows and
 6 columns:
 \describe{
 \item{name}{The, usually English, long-form name of the city.}
