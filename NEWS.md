@@ -7,7 +7,7 @@
 * Updated the Open Street Map providers. In particular: 
   - The bbbike databse has a new area: Los Angeles
   - The geofabrik database has a new area: United Kingdom
-  - The openstreetmap.fr database has 51 new areas: Asia/Europe/Philippines and its [subregions](download.openstreetmap.fr/polygons/asia/philippines/)/Turkey and its [subregions](http://download.openstreetmap.fr/polygons/europe/turkey/)/Portugal's [subregions](http://download.openstreetmap.fr/polygons/europe/portugal/)/Tuvalu/Chukotka Autonomous Okrug/Fiji/France Metro Dom Com Nc/Kiribati. 
+  - The openstreetmap.fr database has 51 new areas: Asia/Europe/Philippines and its [subregions](https://download.openstreetmap.fr/polygons/asia/philippines/)/Turkey and its [subregions](https://download.openstreetmap.fr/polygons/europe/turkey/)/Portugal's [subregions](https://download.openstreetmap.fr/polygons/europe/portugal/)/Tuvalu/Chukotka Autonomous Okrug/Fiji/France Metro Dom Com Nc/Kiribati. 
 
 # osmextract 0.5.0
 
