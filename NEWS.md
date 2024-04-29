@@ -4,6 +4,10 @@
 
 * Updated the code in the main vignette to fix a bug in the `ogr2ogr` options detected by GDAL v3.9 ([#291](https://github.com/ropensci/osmextract/issues/291)). 
 * More informative error message in case of malformed query ([#290](https://github.com/ropensci/osmextract/issues/290)). 
+* Updated the Open Street Map providers. In particular: 
+  - The bbbike databse has a new area: LosAngeles
+  - The geofabrik database has a new area: United Kingdom
+  - The openstreetmap.fr database has 51 new areas: Asia/Europe/Philippines and its [subregions](download.openstreetmap.fr/polygons/asia/philippines/)/Turkey and its [subregions](http://download.openstreetmap.fr/polygons/europe/turkey/)/Portugal's [subregions](http://download.openstreetmap.fr/polygons/europe/portugal/)/Tuvalu/Chukotka Autonomous Okrug/Fiji/France Metro Dom Com Nc/Kiribati. 
 
 # osmextract 0.5.0
 
