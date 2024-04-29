@@ -1,5 +1,3 @@
-## code to prepare `geofabrik_zones` dataset goes here
-
 # packages
 library(sf)
 library(jsonlite)
