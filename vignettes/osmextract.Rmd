@@ -564,7 +564,7 @@ If we compare it with the default output:
 oe_get("ITS Leeds", provider = "test", quiet = FALSE, force_vectortranslate = TRUE)
 ```
 
-we can see that there are 2 extra features in the `sf` object that was read-in using the customized `CONFIG` file (i.e. 191 features instead of 189 since we set `"report_all_nodes=yes"` and `"report_all_ways=yes"`) and just 4 field: `highway`, `lanes` (see the code a few chunks above), `z_order` (check the code [here](https://github.com/OSGeo/gdal/blob/9f31018839b32aeeafad7663a8de662153a956c3/gdal/data/osmconf.ini#L65-L71)), and `other_tags`.
+we can see that there are 2 extra features in the `sf` object that was read-in using the customized `CONFIG` file (i.e. 191 features instead of 189 since we set `"report_all_nodes=yes"` and `"report_all_ways=yes"`) and just 4 field: `highway`, `lanes` (see the code a few chunks above), `z_order` (check the code [here](https://github.com/OSGeo/gdal/blob/94c80fdb5659541b522896b094c732200044b17c/ogr/ogrsf_frmts/osm/data/osmconf.ini#L70-L76)), and `other_tags`.
 
 Please note that the argument `extra_tags` is always ignored (with a warning message), if you are using an ad-hoc `osmconf.ini` file: 
 
