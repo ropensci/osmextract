@@ -1,5 +1,6 @@
 ## Release summary
 
+- Following the previous reviews, we fixed the invalid URLs (also in the vignette) and added the URI protocol when relevant. Apologies for these troubles.  
 - We fixed a bug to preserve compatibility with GDAL 3.9 and slightly adjust an error message. We also updated the Open Street Map databases within the package. 
 
 ## Test environments
