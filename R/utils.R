@@ -188,3 +188,19 @@ oe_clean <- function(download_directory = oe_download_directory(), force = FALSE
   )
   unlink(my_files)
 }
+
+
+#' Get the path of the osmconf.ini file used by default
+#'
+#' @return A character vector
+#'
+#' @export
+#' @examples
+#' get_default_osmconf_ini()
+get_default_osmconf_ini = function() {
+  osmconf_ini = file.path(Sys.getenv("GDAL_DATA"), "osmconf.ini")
+  if (osmconf_ini == "") {
+    stop("THERE IS A PROBLEM WITH THE NEW IMPLEMENTATION!", call. = FALSE)
+  }
+  osmconf_ini
+}
