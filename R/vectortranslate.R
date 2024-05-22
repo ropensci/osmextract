@@ -472,11 +472,11 @@ oe_vectortranslate = function(
 
 get_id_layer = function(layer) {
   default_id = list(
-    points = 33L,
-    lines = 53L,
-    multipolygons = 85L,
-    multilinestrings = 103L,
-    other_relations = 121L
+    points = 38L,
+    lines = 58L,
+    multipolygons = 90L,
+    multilinestrings = 108L,
+    other_relations = 126L
   )
   default_id[[layer]]
 }
@@ -498,7 +498,8 @@ get_fields_default = function(layer) {
       "waterway",
       "aerialway",
       "barrier",
-      "man_made"
+      "man_made",
+      "railway"
     ),
     multipolygons = c(
       "name",
