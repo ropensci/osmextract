@@ -2,6 +2,12 @@
 
 ### MINOR CHANGES
 
+* Updated the `osmconf.ini` file to be in synch with the GDAL version. 
+
+# osmextract 0.5.1
+
+### MINOR CHANGES
+
 * Updated the code in the main vignette to fix a bug in the `ogr2ogr` options detected by GDAL v3.9 ([#291](https://github.com/ropensci/osmextract/issues/291)). 
 * More informative error message in case of malformed query ([#290](https://github.com/ropensci/osmextract/issues/290)). 
 * Updated the Open Street Map providers. In particular: 
