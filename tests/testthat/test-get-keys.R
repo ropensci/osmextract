@@ -216,10 +216,10 @@ test_that("oe_get_keys errors when asking for non existing layer", {
 })
 
 test_that("oe_get_keys emits warning when some keys were already extracted", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
     .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
   )
+  its_pbf = setup_pbf()
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE, extra_tags = "amenity")
 
   expect_warning(
