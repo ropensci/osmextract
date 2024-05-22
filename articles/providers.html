@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">osmextract</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1.900</span>
       </span>
     </div>
 
@@ -131,8 +131,9 @@ analogous to the <code>test_zones</code> object shown below:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "id"            "name"          "parent"        "level"        </span></span>
-<span><span class="co">#&gt; [5] "pbf_file_size" "pbf"           "geometry"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [5] "pbf_file_size" "pbf"           "geometry"</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">test_zones</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">7</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Classes 'sf' and 'data.frame':   2 obs. of  3 variables:</span></span>
 <span><span class="co">#&gt;  $ name    : chr  "Isle of Wight" "ITS Leeds"</span></span>
 <span><span class="co">#&gt;  $ pbf     : chr  "https://github.com/ropensci/osmextract/releases/download/0.0.1/geofabrik_isle-of-wight-latest.osm.pbf" "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"</span></span>
@@ -158,14 +159,14 @@ new provider is probably by looking at the code we wrote for the first
 supported provider in <a href="https://github.com/ropensci/osmextract/blob/master/data-raw/geofabrik_zones.R" class="external-link"><code>data-raw/geofabrik_zones.R</code></a>.
 The following commands will clone this repo and open the relevant
 file:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:ropensci/osmextract</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:ropensci/osmextract</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">rstudio</span> osmextract/osmextract.Rproj</span></code></pre></div>
 <p>Then in RStudio:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/geofabrik_zones.R"</span><span class="op">)</span></span></code></pre></div>
 <p>Create a new script to document the code that generates the new
 object, e.g. for <code>bbbike</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/file.edit.html" class="external-link">file.edit</a></span><span class="op">(</span><span class="st">"data-raw/bbbike_zones.R"</span><span class="op">)</span></span>
 <span><span class="co"># or, even better, use</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_data_raw</span><span class="op">(</span><span class="st">"bbbike_zones"</span><span class="op">)</span></span></code></pre></div>

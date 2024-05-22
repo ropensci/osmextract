@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">osmextract</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1.900</span>
       </span>
     </div>
 
@@ -115,28 +115,31 @@ example, but, first of all, we have to load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/" class="external-link">osmextract</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span></span>
-<span><span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></span></code></pre></div>
 <p>We geocode the coordinates of Lima, the Capital of Peru,</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lima</span> <span class="op">=</span> <span class="fu">tmaptools</span><span class="fu">::</span><span class="fu">geocode_OSM</span><span class="op">(</span><span class="st">"Lima, Peru"</span><span class="op">)</span><span class="op">$</span><span class="va">coords</span></span></code></pre></div>
 <p>and look for a match in the OSM extracts using
 <code><a href="../reference/oe_match.html">oe_match()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">lima</span>, provider <span class="op">=</span> <span class="st">"geofabrik"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $url</span></span>
 <span><span class="co">#&gt; [1] "https://download.geofabrik.de/south-america/peru-latest.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 2.06e+08</span></span>
-<span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">lima</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2.06e+08</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">lima</span>, provider <span class="op">=</span> <span class="st">"bbbike"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $url</span></span>
 <span><span class="co">#&gt; [1] "https://download.bbbike.org/osm/bbbike/Lima/Lima.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
-<span><span class="co">#&gt; [1] 17905003</span></span>
-<span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">lima</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 17905003</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">lima</span>, provider <span class="op">=</span> <span class="st">"openstreetmap_fr"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $url</span></span>
 <span><span class="co">#&gt; [1] "http://download.openstreetmap.fr/extracts/south-america-latest.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -165,12 +168,12 @@ provider.</p>
 and free downloads of OSM extracts that are updated daily. These
 extracts are based on a division of the world into different regions,
 covering a whole continent (plus Russian Federation):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">[</span><span class="va">geofabrik_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-5-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>or several countries all around the world:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">[</span><span class="va">geofabrik_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">2</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Geofabrik also defines several special zones, such as Alps, Britain
@@ -178,7 +181,7 @@ and Ireland, Germany, Austria and Switzerland, US Midwest, US Northeast,
 US Pacific, US South and US West. Moreover, it contains extracts
 relative to some administrative subregions, mainly in Europe, Russia,
 Canada and South America:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">[</span><span class="va">geofabrik_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-7-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Check <code><a href="../reference/geofabrik_zones.html">?geofabrik_zones</a></code> and the <a href="http://download.geofabrik.de/" class="external-link">provider’s webpage</a> for more
@@ -190,13 +193,13 @@ details.</p>
 <p><code>openstreetmap_fr</code> extracts are taken from <a href="http://download.openstreetmap.fr/" class="external-link uri">http://download.openstreetmap.fr/</a>, a web-service that
 provides OSM data updated every few minutes. The extracts are based on
 several regions, such as the continents:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Russian federation is considered as a level 1 zone</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-8-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>or some countries around the world (less than
 <code>geofabrik</code>):</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">2</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-9-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>It can be noticed that there are several holes (such as Peru, which
@@ -205,22 +208,22 @@ America data), implying that <code>openstreetmap_fr</code> cannot always
 be used for geographical matching of a <code>place</code>. Nevertheless,
 it provides extremely detailed extracts for some regions of the world,
 like China,</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">==</span> <span class="st">"china"</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-10-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>India,</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">==</span> <span class="st">"india"</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-11-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>France,</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"france"</span></span>
 <span><span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">ids_2</span> <span class="op">|</span> <span class="va">ids_3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="providers_comparisons_files/figure-html/unnamed-chunk-12-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>and Brazil</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"brazil"</span></span>
 <span><span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span></span>
 <span></span>
@@ -233,7 +236,7 @@ like China,</p>
 <p><code>bbbike</code> provider is based on <a href="https://download.bbbike.org/osm/bbbike/" class="external-link uri">https://download.bbbike.org/osm/bbbike/</a>. It is quite
 different from any other provider supported in <code>osmextract</code>
 since it contains OSM data for more than 200 cities worldwide.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu">spData</span><span class="fu">::</span><span class="va">world</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bbbike_zones</span><span class="op">)</span>, border <span class="op">=</span> <span class="st">"darkred"</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
