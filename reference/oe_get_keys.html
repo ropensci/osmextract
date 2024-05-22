@@ -276,8 +276,8 @@ Check the introductory vignette and see examples.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpCNzWhq/test_its-example.gpkg' using driver `GPKG'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpYuuxqD/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
@@ -322,15 +322,16 @@ Check the introductory vignette and see examples.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpCNzWhq/test_its-example.gpkg' using driver `GPKG'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 9 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpYuuxqD/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "railway"    "z_order"    "other_tags"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "geometry"  </span>
 <span class="r-in"><span><span class="va">its_extra</span> <span class="op">=</span> <span class="fu"><a href="oe_read.html">oe_read</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">its_path</span>,</span></span>
 <span class="r-in"><span>  query <span class="op">=</span> <span class="st">"SELECT *, hstore_get_value(other_tags, 'oneway') AS oneway FROM lines"</span>,</span></span>
@@ -338,8 +339,8 @@ Check the introductory vignette and see examples.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">its_extra</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "oneway"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "geometry"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "barrier"    "man_made"   "railway"    "z_order"    "other_tags"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "oneway"     "geometry"  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The following fails since there is no points layer in the .gpkg file</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>

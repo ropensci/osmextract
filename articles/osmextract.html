@@ -580,7 +580,7 @@ point to a directory that will persist, you can add
 by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpN1rFiB"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpKIZi3E"</span></span></code></pre></div>
 <p>We strongly advise you setting a persistent directory since
 downloading and converting (see the next sub-section) <code>.pbf</code>
 files are expensive operations, that can be skipped if the functions
@@ -670,7 +670,7 @@ change that using the parameter <code>layer</code>.</p>
 <span><span class="co">#&gt; Driver: GPKG </span></span>
 <span><span class="co">#&gt; Available layers:</span></span>
 <span><span class="co">#&gt;   layer_name geometry_type features fields crs_name</span></span>
-<span><span class="co">#&gt; 1      lines   Line String      189      9   WGS 84</span></span></code></pre></div>
+<span><span class="co">#&gt; 1      lines   Line String      189     10   WGS 84</span></span></code></pre></div>
 <p>We can add another layer as follows:</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_vectortranslate.html">oe_vectortranslate</a></span><span class="op">(</span><span class="va">its_pbf</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span>
@@ -683,7 +683,7 @@ change that using the parameter <code>layer</code>.</p>
 <span><span class="co">#&gt; Driver: GPKG </span></span>
 <span><span class="co">#&gt; Available layers:</span></span>
 <span><span class="co">#&gt;   layer_name geometry_type features fields crs_name</span></span>
-<span><span class="co">#&gt; 1      lines   Line String      189      9   WGS 84</span></span>
+<span><span class="co">#&gt; 1      lines   Line String      189     10   WGS 84</span></span>
 <span><span class="co">#&gt; 2     points         Point      186     10   WGS 84</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -854,8 +854,8 @@ path or URL.</p>
 <code>its-gpkg</code> file:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
@@ -866,7 +866,7 @@ file, the vectortranslate operations can be skipped using the parameter
 will ignore the conversion step.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.osm.pbf' using driver `OSM'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.osm.pbf' using driver `OSM'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -900,8 +900,8 @@ follows:</p>
 <span><span class="co">#&gt; The input place was matched with: ITS Leeds</span></span>
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
@@ -997,9 +997,11 @@ file:</p>
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
+<span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
+<span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
@@ -1012,8 +1014,8 @@ file:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
@@ -1036,9 +1038,11 @@ ignored (with a warning message), if you are using an ad-hoc
 <span><span class="co">#&gt; Warning: The argument extra_tags is ignored when osmconf_ini is not NULL.</span></span>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
+<span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
+<span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 191 features and 4 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
@@ -1067,8 +1071,8 @@ performing vectortranslate operations:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: 428911.1 ymin: 434356.9 xmax: 429858.1 ymax: 435067</span></span>
@@ -1109,7 +1113,7 @@ that will be passed to <code>ogr2ogr:</code></p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1172,8 +1176,8 @@ via the argument <code>boundary</code>:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 5 features and 9 fields</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 5 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.559731 ymin: 53.80676 xmax: -1.556762 ymax: 53.80945</span></span>
@@ -1301,7 +1305,7 @@ rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortran
 <code class="sourceCode R"><span><span class="co"># No extra tag</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"  </span></span>
-<span><span class="co">#&gt;  [8] "z_order"    "other_tags" "geometry"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [8] "railway"    "z_order"    "other_tags" "geometry"</span></span></code></pre></div>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Check extra tags</span></span>
@@ -1328,14 +1332,14 @@ rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortran
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
 <span><span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'</span></span>
-<span><span class="co">#&gt; from data source `/tmp/RtmpN1rFiB/test_its-example.gpkg' using driver `GPKG'</span></span>
-<span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
+<span><span class="co">#&gt; from data source `/tmp/RtmpKIZi3E/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt;  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway"  "barrier"    "man_made"  </span></span>
-<span><span class="co">#&gt;  [8] "z_order"    "other_tags" "bicycle"    "geometry"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [8] "railway"    "z_order"    "other_tags" "bicycle"    "geometry"</span></span></code></pre></div>
 </div>
 </div>
 </div>
