@@ -123,7 +123,7 @@ oe_download = function(
       file_size >= max_file_size
     ) { # nocov start
       oe_message(
-        "You are trying to download a file from ", file_url,
+        "You are trying to download a file from ", file_url, ". ",
         "This is a large file (", round(file_size / 1048576), " MB)!",
         quiet = FALSE,
         .subclass = "oe_download_LargeFile"
