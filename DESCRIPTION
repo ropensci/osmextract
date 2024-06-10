@@ -37,6 +37,6 @@ Suggests:
     covr,
     withr
 VignetteBuilder: knitr
-Language: en_GB
+Language: en-GB
 Config/testthat/edition: 3
 Config/build/copy-method: link
