@@ -279,6 +279,11 @@ for more details.
 
 - [osmdata](https://github.com/ropensci/osmdata) is an R package for
   importing small datasets directly from OSM servers
+- [osmapiR](https://docs.ropensci.org/osmapiR/) is an R interface to the
+  [OpenStreetMap API v0.6](https://wiki.openstreetmap.org/wiki/API_v0.6)
+  for fetching and saving raw from/to the OpenStreetMap database
+  including map data as well as map notes, GPS traces, changelogs, and
+  users data.
 - [geofabrik](https://cran.r-project.org/package=geofabrik) is an R
   package to download OSM data from
   [Geofabrik](https://download.geofabrik.de/)
