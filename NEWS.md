@@ -1,5 +1,9 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+
+* Bump minimum R version from 3.5.0 to 3.6.0 since that's a requirement for one of our indirect dependencies (i.e. [evaluate](https://cran.r-project.org/package=evaluate)). 
+
 ### MINOR CHANGES
 
 * Updated the `osmconf.ini` file to be in synch with the GDAL version. 
