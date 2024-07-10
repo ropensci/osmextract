@@ -1,99 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/osmextract.html</loc>
-  </url>
-  <url>
-    <loc>/articles/providers.html</loc>
-  </url>
-  <url>
-    <loc>/articles/providers_comparisons.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bbbike_zones.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geofabrik_zones.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_clean.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_download.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_download_directory.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_find.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_get.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_get_boundary.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_get_keys.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_get_network.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_match.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_match_pattern.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_providers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_read.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_search.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_update.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oe_vectortranslate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/openstreetmap_fr_zones.html</loc>
-  </url>
-  <url>
-    <loc>/reference/osmextract-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_poly.html</loc>
-  </url>
-  <url>
-    <loc>/reference/test_zones.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CONTRIBUTING.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/osmextract.html</loc></url>
+<url><loc>/articles/providers.html</loc></url>
+<url><loc>/articles/providers_comparisons.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/bbbike_zones.html</loc></url>
+<url><loc>/reference/geofabrik_zones.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/oe_clean.html</loc></url>
+<url><loc>/reference/oe_download.html</loc></url>
+<url><loc>/reference/oe_download_directory.html</loc></url>
+<url><loc>/reference/oe_find.html</loc></url>
+<url><loc>/reference/oe_get.html</loc></url>
+<url><loc>/reference/oe_get_boundary.html</loc></url>
+<url><loc>/reference/oe_get_keys.html</loc></url>
+<url><loc>/reference/oe_get_network.html</loc></url>
+<url><loc>/reference/oe_match.html</loc></url>
+<url><loc>/reference/oe_match_pattern.html</loc></url>
+<url><loc>/reference/oe_providers.html</loc></url>
+<url><loc>/reference/oe_read.html</loc></url>
+<url><loc>/reference/oe_search.html</loc></url>
+<url><loc>/reference/oe_update.html</loc></url>
+<url><loc>/reference/oe_vectortranslate.html</loc></url>
+<url><loc>/reference/openstreetmap_fr_zones.html</loc></url>
+<url><loc>/reference/osmextract-package.html</loc></url>
+<url><loc>/reference/read_poly.html</loc></url>
+<url><loc>/reference/test_zones.html</loc></url>
 </urlset>
+
