@@ -108,10 +108,10 @@ provider's databases. See <code><a href="oe_providers.html">oe_providers()</a></
 <dl><dt id="arg-place">place<a class="anchor" aria-label="anchor" href="#arg-place"></a></dt>
 <dd><p>Description of the geographical area that should be matched with
 a <code>.osm.pbf</code> file. Can be either a length-1 character vector, an
-<code>sf</code>/<code>sfc</code>/<code>bbox</code> object, or a numeric vector of coordinates with length 2.
-In the last case, it is assumed that the EPSG code is 4326 specified as
-c(LON, LAT), while you can use any CRS with <code>sf</code>/<code>sfc</code>/<code>bbox</code> objects. See
-Details and Examples in <code>oe_match()</code>.</p></dd>
+<code>sf</code>/<code>sfc</code>/<code>bbox</code> object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with <code>sf</code>/<code>sfc</code>/<code>bbox</code>
+objects. See Details and Examples in <code>oe_match()</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -120,9 +120,9 @@ Details and Examples in <code>oe_match()</code>.</p></dd>
 
 <dt id="arg-provider">provider<a class="anchor" aria-label="anchor" href="#arg-provider"></a></dt>
 <dd><p>Which provider should be used to download the data? Available
-providers can be found with the following command: <code><a href="oe_providers.html">oe_providers()</a></code>. For
-<code><a href="oe_get.html">oe_get()</a></code> and <code>oe_match()</code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
-<code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
+providers can be browsed with <code><a href="oe_providers.html">oe_providers()</a></code>. For <code><a href="oe_get.html">oe_get()</a></code> and
+<code>oe_match()</code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then <code>provider</code> is
+internally set equal to <code>"test"</code>. This is just for simple examples and
 internal tests.</p></dd>
 
 
@@ -148,20 +148,20 @@ display a progress bar.</p></dd>
 <dd><p>Which column of the provider's database should be used for
 matching the input <code>place</code> with a <code>.osm.pbf</code> file? The default is <code>"name"</code>.
 Check Details and Examples in <code>oe_match()</code> to understand how this parameter
-works. Ignored if <code>place</code> is not a character vector since the matching is
-performed through a spatial operation.</p></dd>
+works. Ignored when <code>place</code> is not a character vector since, in that case,
+the matching is performed through a spatial operation.</p></dd>
 
 
 <dt id="arg-max-string-dist">max_string_dist<a class="anchor" aria-label="anchor" href="#arg-max-string-dist"></a></dt>
 <dd><p>Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching (i.e. Approximate String Distance, see
-<code><a href="https://rdrr.io/r/utils/adist.html" class="external-link">adist()</a></code>) between input <code>place</code> and <code>match_by</code> column to tolerate before
-testing alternative providers or looking for geographical matching with
-Nominatim API? This parameter is set equal to 0 if <code>match_by</code> is equal to
-<code>iso3166_1_alpha2</code> or <code>iso3166_2</code>. Check Details and Examples in
-<code>oe_match()</code> to understand why this parameter is important. Ignored if
-<code>place</code> is not a character vector since the matching is performed through a
-spatial operation.</p></dd>
+<code><a href="https://rdrr.io/r/utils/adist.html" class="external-link">adist()</a></code>) between input <code>place</code> and <code>match_by</code> column that can be
+tolerated before testing alternative providers or looking for geographical
+matching with Nominatim API? This parameter is set equal to 0 if <code>match_by</code>
+is equal to <code>iso3166_1_alpha2</code> or <code>iso3166_2</code>. Check Details and Examples
+in <code>oe_match()</code> to understand why this parameter is important. Ignored when
+<code>place</code> is not a character vector since, in that case, the matching is
+performed through a spatial operation.</p></dd>
 
 </dl></div>
     <div id="value">

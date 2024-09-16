@@ -106,12 +106,7 @@ auto-generate it from the URL using <code><a href="https://rdrr.io/r/base/basena
 
 
 <dt id="arg-download-directory">download_directory<a class="anchor" aria-label="anchor" href="#arg-download-directory"></a></dt>
-<dd><p>Where to download the file containing the OSM data?
-By default this is equal to <code><a href="oe_download_directory.html">oe_download_directory()</a></code>, which is equal to
-<code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> and it changes each time you restart R. You can set a
-persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
-file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
-<code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></dd>
+<dd><p>Directory to store the file containing OSM data?.</p></dd>
 
 
 <dt id="arg-file-size">file_size<a class="anchor" aria-label="anchor" href="#arg-file-size"></a></dt>
@@ -122,9 +117,9 @@ downloading the file.</p></dd>
 
 
 <dt id="arg-force-download">force_download<a class="anchor" aria-label="anchor" href="#arg-force-download"></a></dt>
-<dd><p>Should the <code>.osm.pbf</code> file be updated if it has already
-been downloaded? <code>FALSE</code> by default. This parameter is used to update old
-<code>.osm.pbf</code> files.</p></dd>
+<dd><p>Should the <code>.osm.pbf</code> file be updated even if it has
+already been downloaded? <code>FALSE</code> by default. This parameter is used to
+update old <code>.osm.pbf</code> files.</p></dd>
 
 
 <dt id="arg-max-file-size">max_file_size<a class="anchor" aria-label="anchor" href="#arg-max-file-size"></a></dt>

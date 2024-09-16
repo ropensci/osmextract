@@ -113,7 +113,7 @@ then it must be specified using HTTP/HTTPS protocol.</p></dd>
 (the default), <code>multilinestrings</code>, <code>multipolygons</code> or <code>other_relations</code>. If
 you specify an ad-hoc query using the argument <code>query</code> (see introductory
 vignette and examples), then <code><a href="oe_get.html">oe_get()</a></code> and <code>oe_read()</code> will read the layer
-specified in the query and ignore <code>layer</code>. See also
+specified in the query and ignore <code>layer</code> argument. See also
 <a href="https://github.com/ropensci/osmextract/issues/122" class="external-link">#122</a>.</p></dd>
 
 
@@ -125,19 +125,14 @@ vignette to understand how to create your own (SQL-like) queries.</p></dd>
 
 <dt id="arg-provider">provider<a class="anchor" aria-label="anchor" href="#arg-provider"></a></dt>
 <dd><p>Which provider should be used to download the data? Available
-providers can be found with the following command: <code><a href="oe_providers.html">oe_providers()</a></code>. For
-<code><a href="oe_get.html">oe_get()</a></code> and <code><a href="oe_match.html">oe_match()</a></code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then
-<code>provider</code> is set equal to <code>test</code>. This is just for simple examples and
+providers can be browsed with <code><a href="oe_providers.html">oe_providers()</a></code>. For <code><a href="oe_get.html">oe_get()</a></code> and
+<code><a href="oe_match.html">oe_match()</a></code>, if <code>place</code> is equal to <code>ITS Leeds</code>, then <code>provider</code> is
+internally set equal to <code>"test"</code>. This is just for simple examples and
 internal tests.</p></dd>
 
 
 <dt id="arg-download-directory">download_directory<a class="anchor" aria-label="anchor" href="#arg-download-directory"></a></dt>
-<dd><p>Where to download the file containing the OSM data?
-By default this is equal to <code><a href="oe_download_directory.html">oe_download_directory()</a></code>, which is equal to
-<code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> and it changes each time you restart R. You can set a
-persistent <code>download_directory</code> by adding the following to your <code>.Renviron</code>
-file (e.g. with <code>edit_r_environ</code> function in <code>usethis</code> package):
-<code>OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data</code>.</p></dd>
+<dd><p>Directory to store the file containing OSM data?.</p></dd>
 
 
 <dt id="arg-file-size">file_size<a class="anchor" aria-label="anchor" href="#arg-file-size"></a></dt>
@@ -148,9 +143,9 @@ the file.</p></dd>
 
 
 <dt id="arg-force-download">force_download<a class="anchor" aria-label="anchor" href="#arg-force-download"></a></dt>
-<dd><p>Should the <code>.osm.pbf</code> file be updated if it has already
-been downloaded? <code>FALSE</code> by default. This parameter is used to update old
-<code>.osm.pbf</code> files.</p></dd>
+<dd><p>Should the <code>.osm.pbf</code> file be updated even if it has
+already been downloaded? <code>FALSE</code> by default. This parameter is used to
+update old <code>.osm.pbf</code> files.</p></dd>
 
 
 <dt id="arg-max-file-size">max_file_size<a class="anchor" aria-label="anchor" href="#arg-max-file-size"></a></dt>
@@ -260,7 +255,7 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp6xxpz5/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp5dvNgB/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -273,7 +268,7 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmp6xxpz5/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmp5dvNgB/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -289,7 +284,7 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-in"><span><span class="co"># Read an existing .gpkg file. This file was created internally by oe_read().</span></span></span>
 <span class="r-in"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.gpkg"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp6xxpz5/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp5dvNgB/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -299,7 +294,7 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-in"><span><span class="co"># You cannot add any new layer to an existing .gpkg file but you can extract</span></span></span>
 <span class="r-in"><span><span class="co"># some of the tags in other_tags. Check oe_get_keys() for more details.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_gpkg</span>, extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"maxspeed"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># doesn't work</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp6xxpz5/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmp5dvNgB/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
