@@ -9,10 +9,10 @@ oe_get_boundary(place, name = place, exact = TRUE, ...)
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
 a \code{.osm.pbf} file. Can be either a length-1 character vector, an
-\code{sf}/\code{sfc}/\code{bbox} object, or a numeric vector of coordinates with length 2.
-In the last case, it is assumed that the EPSG code is 4326 specified as
-c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
-Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{name}{A character vector of length 1 that describes the relevant area.
 By default, this is equal to \code{place}, but this parameter can be tuned to

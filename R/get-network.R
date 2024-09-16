@@ -1,6 +1,6 @@
 #' Import transport networks used by a specific mode of transport
 #'
-#' This function is a wrapper around `oe_get()` and can be used to import a road
+#' This function is a wrapper around [oe_get()] and can be used to import a road
 #' network given a `place` and a mode of transport. Check the Details for a
 #' precise description of the procedures used to filter the OSM ways according
 #' to each each mode of transport.
@@ -9,7 +9,7 @@
 #' @param mode A character string of length one denoting the desired mode of
 #'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
 #'   and `walking` are supported.
-#' @param ... Additional arguments passed to `oe_get()` such as `boundary` or
+#' @param ... Additional arguments passed to [oe_get()] such as `boundary` or
 #'   `force_download`.
 #'
 #' @return An `sf` object.

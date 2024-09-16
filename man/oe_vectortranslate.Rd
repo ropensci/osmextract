@@ -24,8 +24,8 @@ oe_vectortranslate(
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
 you specify an ad-hoc query using the argument \code{query} (see introductory
-vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
-specified in the query and ignore \code{layer}. See also
+vignette and examples), then \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_read]{oe_read()}} will read the layer
+specified in the query and ignore \code{layer} argument. See also
 \href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{vectortranslate_options}{Options passed to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}

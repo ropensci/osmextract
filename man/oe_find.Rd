@@ -18,15 +18,15 @@ oe_find(
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
 a \code{.osm.pbf} file. Can be either a length-1 character vector, an
-\code{sf}/\code{sfc}/\code{bbox} object, or a numeric vector of coordinates with length 2.
-In the last case, it is assumed that the EPSG code is 4326 specified as
-c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
-Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
-\code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
-\code{provider} is set equal to \code{test}. This is just for simple examples and
+providers can be browsed with \code{\link[=oe_providers]{oe_providers()}}. For \code{\link[=oe_get]{oe_get()}} and
+\code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then \code{provider} is
+internally set equal to \code{"test"}. This is just for simple examples and
 internal tests.}
 
 \item{download_directory}{Directory where the files downloaded by osmextract
