@@ -6,7 +6,8 @@
 
 ### MINOR CHANGES
 
-* Updated the `osmconf.ini` file to be in synch with the GDAL version. 
+* Updated the `osmconf.ini` file to be in synch with the GDAL version.
+* Added `oneway` as column by default when using `get_network(mode = "driving")`, which indicates if a link represents an uni-directional road ([#296](https://github.com/ropensci/osmextract/issues/296))
 
 # osmextract 0.5.1
 

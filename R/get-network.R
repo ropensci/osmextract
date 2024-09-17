@@ -231,7 +231,7 @@ load_options_driving = function(place) {
   list(
     place = place,
     layer = "lines",
-    extra_tags = c("access", "service"),
+    extra_tags = c("access", "service","oneway"),
     vectortranslate_options = c(
     "-where", "
     (highway IS NOT NULL)
