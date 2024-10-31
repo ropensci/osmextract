@@ -160,8 +160,8 @@ load_options_cycling = function(place) {
     layer = "lines",
     extra_tags = c("access", "bicycle", "service"),
     vectortranslate_options = c(
-    "-where", "
-    (highway IS NOT NULL)
+    "-where", 
+    "(highway IS NOT NULL)
     AND
     (highway NOT IN (
     'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
@@ -177,8 +177,7 @@ load_options_cycling = function(place) {
     AND
     (bicycle NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
-    (service NOT ILIKE 'private%')
-    "
+    (service NOT ILIKE 'private%')"
     )
   )
 }
@@ -200,8 +199,8 @@ load_options_walking = function(place) {
     layer = "lines",
     extra_tags = c("access", "foot", "service"),
     vectortranslate_options = c(
-    "-where", "
-    (highway IS NOT NULL)
+    "-where", 
+    "(highway IS NOT NULL)
     AND
     (highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform', 'proposed', 'raceway',
@@ -213,8 +212,7 @@ load_options_walking = function(place) {
     AND
     (foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
-    (service NOT ILIKE 'private%')
-    "
+    (service NOT ILIKE 'private%')"
     )
   )
 }
@@ -233,8 +231,8 @@ load_options_driving = function(place) {
     layer = "lines",
     extra_tags = c("access", "service","oneway"),
     vectortranslate_options = c(
-    "-where", "
-    (highway IS NOT NULL)
+    "-where", 
+    "(highway IS NOT NULL)
     AND
     (highway NOT IN (
     'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
@@ -245,8 +243,7 @@ load_options_driving = function(place) {
     AND
     (access NOT IN ('private', 'no'))
     AND
-    (service NOT ILIKE 'private%')
-    "
+    (service NOT ILIKE 'private%')"
     )
   )
 }
