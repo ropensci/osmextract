@@ -3,6 +3,8 @@
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - '.devcontainer/**'
   pull_request:
     branches: [main, master]
 
