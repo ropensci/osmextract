@@ -3,6 +3,8 @@
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - '.devcontainer/**'
   release:
     types: [published]
 
