@@ -148,7 +148,9 @@ oe_get_network = function(
 # evaluates as false, while previously it would evaluate as true. Therefore, in
 # the following code, when building the -where clause, we need to be explicit
 # and include possible NULL values in the expression. See also the discussion in
-# #298 and the fix implemented by @rouault.
+# #298 and the fix implemented by @rouault. See also
+# https://github.com/OSGeo/gdal/blob/779871e56134111d61f1fe2859b8d19f8f04fcdf/MIGRATION_GUIDE.TXT#L4
+# for official docs.
 
 # A cycling mode of transport includes the following scenarios:
 # - highway IS NOT NULL (since usually that means that's not a road);
