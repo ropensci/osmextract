@@ -19,3 +19,5 @@ my-covr.R
 internal-tests.R
 tests/testthat/README.md
 ^CRAN-SUBMISSION$
+^\.devcontainer/
+
