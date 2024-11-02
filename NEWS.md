@@ -3,11 +3,12 @@
 ### MAJOR CHANGES
 
 * Bump minimum R version from 3.5.0 to 3.6.0 since that's a requirement for one of our indirect dependencies (i.e. [evaluate](https://cran.r-project.org/package=evaluate)). 
+* Adjusted the SQL syntax used inside `oe_get_network` so that the queries are compatible with GDAL 3.10 ([#298](https://github.com/ropensci/osmextract/issues/291)). 
 
 ### MINOR CHANGES
 
 * Updated the `osmconf.ini` file to be in synch with the GDAL version.
-* Added `oneway` as column by default when using `get_network(mode = "driving")`, which indicates if a link represents an uni-directional road ([#296](https://github.com/ropensci/osmextract/issues/296))
+* Added `oneway` as column by default when using `oe_get_network(mode = "driving")`, which indicates if a link represents an uni-directional road ([#296](https://github.com/ropensci/osmextract/issues/296))
 
 # osmextract 0.5.1
 
