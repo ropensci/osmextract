@@ -68,11 +68,12 @@
 <div class="section level4">
 <h4 id="major-changes-development-version">MAJOR CHANGES<a class="anchor" aria-label="anchor" href="#major-changes-development-version"></a></h4>
 <ul><li>Bump minimum R version from 3.5.0 to 3.6.0 since that’s a requirement for one of our indirect dependencies (i.e. <a href="https://cran.r-project.org/package=evaluate" class="external-link">evaluate</a>).</li>
+<li>Adjusted the SQL syntax used inside <code>oe_get_network</code> so that the queries are compatible with GDAL 3.10 (<a href="https://github.com/ropensci/osmextract/issues/291" class="external-link">#298</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="minor-changes-development-version">MINOR CHANGES<a class="anchor" aria-label="anchor" href="#minor-changes-development-version"></a></h4>
 <ul><li>Updated the <code>osmconf.ini</code> file to be in synch with the GDAL version.</li>
-<li>Added <code>oneway</code> as column by default when using <code>get_network(mode = "driving")</code>, which indicates if a link represents an uni-directional road (<a href="https://github.com/ropensci/osmextract/issues/296" class="external-link">#296</a>)</li>
+<li>Added <code>oneway</code> as column by default when using <code>oe_get_network(mode = "driving")</code>, which indicates if a link represents an uni-directional road (<a href="https://github.com/ropensci/osmextract/issues/296" class="external-link">#296</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
