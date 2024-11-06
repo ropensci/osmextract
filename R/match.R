@@ -234,11 +234,15 @@ oe_match.sfc = function(
 
   url <- matched_zones[["pbf"]]
   url <- adjust_version_in_url(version, url)
+  file_size <- matched_zones[["pbf_file_size"]]
+  if (version != "latest") {
+    file_size <- NA  # The file size is not available for older versions
+  }
 
   # Return a list with the URL and the file_size of the matched place
   result = list(
     url = url,
-    file_size = matched_zones[["pbf_file_size"]]
+    file_size = file_size
   )
   result
 }
@@ -440,10 +444,14 @@ oe_match.character = function(
 
   url <- best_matched_place[["pbf"]]
   url <- adjust_version_in_url(version, url)
+  file_size <- best_matched_place[["pbf_file_size"]]
+  if (version != "latest") {
+    file_size <- NA  # The file size is not available for older versions
+  }
 
   result = list(
     url = url,
-    file_size = best_matched_place[["pbf_file_size"]]
+    file_size = file_size
   )
   result
 }
