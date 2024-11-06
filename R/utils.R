@@ -30,6 +30,27 @@ check_layer_provider = function(layer, provider) {
   invisible(0)
 }
 
+check_version <- function(version, provider) {
+  # Currently, the only provider that includes historic data for the OSM
+  # extracts is geofabrik.
+  if (version != "latest" && provider != "geofabrik") {
+    warning(
+      "version != 'latest' is only supported for 'geofabrik' provider.",
+      "Overriding it to 'latest'.",
+      call. = FALSE
+    )
+    return("latest")
+  }
+  version
+}
+adjust_version_in_url <- function(version, url) {
+  if (version == "latest") {
+    return(url)
+  }
+  gsub("latest(?=\\.osm\\.pbf$)", version, url, perl = TRUE)
+}
+
+
 # Starting from sf 1.0.2, sf::st_read raises a warning message when both layer
 # and query arguments are set, while it raises a warning in sf < 1.0.2 when
 # there are multiple layers and the layer argument is not set. See also
