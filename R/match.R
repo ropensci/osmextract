@@ -397,7 +397,8 @@ oe_match.character = function(
          provider = other_provider,
          match_by = match_by,
          quiet = TRUE,
-         max_string_dist = max_string_dist
+         max_string_dist = max_string_dist,
+         version = version
         )
       )
     }
