@@ -29,8 +29,7 @@ Imports:
     utils,
     tools,
     httr,
-    jsonlite,
-    evaluate (>= 0.23)
+    jsonlite
 Suggests: 
     testthat (>= 3.0.2),
     knitr,
@@ -41,5 +40,3 @@ VignetteBuilder: knitr
 Language: en-GB
 Config/testthat/edition: 3
 Config/build/copy-method: link
-Remotes: 
-    r-lib/evaluate

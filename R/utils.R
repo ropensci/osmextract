@@ -1,13 +1,6 @@
 # Auxiliary functions (not exported)
 '%!in%' = Negate('%in%')
 
-# FIXME! I added this function just to silence the "All declared Imports should
-# be used" note. I will remove it as soon as the new version of evaluate hits
-# CRAN.
-.tmp <- function(input, ...) {
-  evaluate::evaluate(input, ...)
-}
-
 # See https://github.com/ropensci/osmextract/issues/134
 is_like_url = function(URL) {
   grepl(
