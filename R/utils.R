@@ -28,7 +28,7 @@ check_version <- function(version, provider) {
   # extracts is geofabrik.
   if (version != "latest" && provider != "geofabrik") {
     warning(
-      "version != 'latest' is only supported for 'geofabrik' provider.",
+      "version != 'latest' is only supported for 'geofabrik' provider. ",
       "Overriding it to 'latest'.",
       call. = FALSE
     )
