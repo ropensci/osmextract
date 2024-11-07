@@ -419,7 +419,8 @@ oe_match.character = function(
         oe_match(
           place = sf::st_geometry(place_online),
           provider = provider,
-          quiet = quiet
+          quiet = quiet,
+          version = version
         )
       )
     }
