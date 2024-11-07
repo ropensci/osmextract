@@ -23,7 +23,7 @@ also \code{oe_get_boundary()} to extract the proper geographical boundaries.}
 }
 }
 \source{
-\url{https://download.bbbike.org/osm/}
+\url{http://download.openstreetmap.fr/}
 }
 \usage{
 openstreetmap_fr_zones
