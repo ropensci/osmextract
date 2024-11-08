@@ -177,8 +177,7 @@ Rstudio or similar IDE(s)).</p>
 available with the version of <code>osmextract</code> you have
 installed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones).</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_providers.html">oe_providers</a></span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   available_providers          database_name number_of_zones number_of_fields</span></span>
 <span><span class="co">#&gt; 1           geofabrik        geofabrik_zones             476                8</span></span>
 <span><span class="co">#&gt; 2              bbbike           bbbike_zones             237                5</span></span>
@@ -469,15 +468,15 @@ and <code>4</code> the subregions:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
 <span><span class="co">#&gt; [1] 1.21e+10</span></span>
-<span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">yak</span>, level <span class="op">=</span> <span class="fl">2</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># the default</span></span>
+<span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">yak</span>, level <span class="op">=</span> <span class="fl">2</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $url</span></span>
 <span><span class="co">#&gt; [1] "https://download.geofabrik.de/north-america/us/washington-latest.osm.pbf"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $file_size</span></span>
 <span><span class="co">#&gt; [1] 2.78e+08</span></span>
-<span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">yak</span>, level <span class="op">=</span> <span class="fl">3</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># error</span></span>
+<span><span class="fu"><a href="../reference/oe_match.html">oe_match</a></span><span class="op">(</span><span class="va">yak</span>, level <span class="op">=</span> <span class="fl">3</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error: The input place does not intersect any area at the chosen level.</span></span></code></pre></div>
-<p>If there are multiple OSM extract intersecting the input
+<p>If there are multiple OSM extracts intersecting the input
 <code>place</code> at the same <code>level</code>, then
 <code><a href="../reference/oe_match.html">oe_match()</a></code> will return the area whose centroid is closest
 to the input <code>place</code>.</p>
@@ -567,7 +566,7 @@ point to a directory that will persist, you can add
 by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpZiaMAk"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpQYPep8"</span></span></code></pre></div>
 <p>We strongly advise you setting a persistent directory since
 downloading and converting (see the next sub-section) <code>.pbf</code>
 files are expensive operations, that can be skipped if the functions
@@ -578,17 +577,20 @@ actually downloading a new file, to avoid overloading the OSM providers.
 The first step is the definition of the path associated with the input
 <code>file_url</code>. The path is created by pasting together the
 <code>download_directory</code>, the name of the chosen provider
-(specified by <code>provider</code> argument or inferred from the input
-URL), and the <code><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename()</a></code> of the URL. For example, if
+(specified by the <code>provider</code> argument or inferred from the
+input URL), and the <code><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename()</a></code> of the URL. For example, if
 <code>file_url</code> is equal to
 <code>"https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>,
 and <code>download_directory = "/tmp/</code>, then the path is built as
 <code>/tmp/geofabrik_italy-latest.osm.pbf</code>. In the second step,
 the function checks if the new path/file already exists (using
 <code><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists()</a></code>) and, in that case, it returns the path,
-without downloading anything<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Otherwise, it downloads a new file (using
-<code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> with <code>mode = "wb"</code>) and then it
-returns the path.</p>
+without downloading anything<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Otherwise, it downloads a new file and
+then it returns the path.</p>
+<p>Beware that the <code><a href="../reference/oe_download.html">oe_download()</a></code> functions internally sets
+a time-out value for the download process which (at minimum) is equal to
+300 seconds. You can increase this value using the <code>timeout</code>
+option.</p>
 </div>
 <div class="section level3">
 <h3 id="oe_vectortranslate-convert-to-gpkg-format">
@@ -702,12 +704,12 @@ fields, while all the other tags are stored in the
 <code>other_tags</code> column (see <a href="https://gdal.org/drivers/vector/osm.html#other-tags-field" class="external-link">here</a>
 for more details). The parameter <code>extra_tags</code> (default value:
 <code>NULL</code>) governs which tags are explicitly reported in the
-<code>.gpkg</code> file and are omitted from the <code>other_tags</code>
+<code>.gpkg</code> file and omitted from the <code>other_tags</code>
 field. The default tags are always included (unless you modify the
 <code>CONFIG</code> file or the <code>vectortranslate_options</code>).
 Please note that the argument <code>extra_tags</code> is ignored if
-<code>osmconf_ini</code> is not <code>NULL</code> (since we do not know
-how you generated the new <code>.ini</code> file).</p>
+<code>osmconf_ini</code> is not <code>NULL</code> (since we cannot not
+know how you generated the new <code>osmconf.ini</code> file).</p>
 <p>Lastly, the <code><a href="../reference/oe_get_keys.html">oe_get_keys()</a></code> function can be used to check
 all <code>keys</code> that are stored in the <code>other_tags</code>
 field for a given <code>.gpkg</code> or <code>.pbf</code> file. For
@@ -839,7 +841,7 @@ path or URL.</p>
 <code>its-gpkg</code> file:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -851,7 +853,7 @@ file, the vectortranslate operations can be skipped using the parameter
 will ignore the conversion step.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.osm.pbf' using driver `OSM'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.osm.pbf' using driver `OSM'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 9 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -885,7 +887,7 @@ follows:</p>
 <span><span class="co">#&gt; The input place was matched with: ITS Leeds</span></span>
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -984,7 +986,7 @@ file:</p>
 <span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
 <span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -998,7 +1000,7 @@ file:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1025,7 +1027,7 @@ ignored (with a warning message), if you are using an ad-hoc
 <span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
 <span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1055,7 +1057,7 @@ performing vectortranslate operations:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1097,7 +1099,7 @@ that will be passed to <code>ogr2ogr:</code></p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1160,7 +1162,7 @@ via the argument <code>boundary</code>:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 5 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1314,7 +1316,7 @@ rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortran
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
 <span><span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'</span></span>
-<span><span class="co">#&gt; from data source `/tmp/RtmpZiaMAk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; from data source `/tmp/RtmpQYPep8/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1377,7 +1379,8 @@ binary format used by OSM providers to store and share OSM extracts.<a href="#fn
 <code><a href="../reference/oe_match.html">oe_match()</a></code> raises a warning message and sets
 <code>CRS = 4326</code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>The parameter <code>force_download</code> can be used to
-override this behaviour in case you need to update an old OSM extract.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+override this behaviour in case you need to update an old OSM extract.
+See also <code><a href="../reference/oe_update.html">?oe_update</a></code>.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
 <li id="fn4"><p>The GeoPackage (<code>.gpkg</code>) is an <em>open,
 standards-based, platform-independent, portable, self-descripting,
 compact format for transferring geospatial information</em>. See <a href="http://www.geopackage.org/" class="external-link">here</a>.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>

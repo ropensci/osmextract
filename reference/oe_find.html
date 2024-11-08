@@ -178,14 +178,14 @@ formats setting the arguments <code>return_pbf</code> or <code>return_gpkg</code
 <span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpHUXfrB/test_its-example.gpkg"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmpHUXfrB/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpPU9YOl/test_its-example.gpkg"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmpPU9YOl/test_its-example.osm.pbf"</span>
 <span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>,</span></span>
 <span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, return_gpkg <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpHUXfrB/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpPU9YOl/test_its-example.osm.pbf"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Isle of Wight"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
