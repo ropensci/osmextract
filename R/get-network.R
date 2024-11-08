@@ -181,7 +181,7 @@ load_options_cycling = function(place) {
     'pedestrian') OR bicycle IN ('yes', 'designated', 'permissive', 'destination')
     )
     AND
-    (access IS NULL OR access NOT IN ('private', 'no'))
+    (access IS NULL OR (access NOT IN ('private', 'no') OR bicycle IN ('yes', 'permissive', 'designated')))
     AND
     (bicycle IS NULL OR bicycle NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
@@ -217,7 +217,7 @@ load_options_walking = function(place) {
     AND
     (highway IS NULL OR highway <> 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination'))
     AND
-    (access IS NULL OR access NOT IN ('private', 'no'))
+    (access IS NULL OR (access NOT IN ('private', 'no') OR foot IN ('yes', 'permissive', 'designated')))
     AND
     (foot IS NULL OR foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
