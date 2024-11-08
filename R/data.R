@@ -104,7 +104,7 @@
 #' }
 #'
 #' @family provider's-database
-#' @source \url{https://download.bbbike.org/osm/}
+#' @source \url{http://download.openstreetmap.fr/}
 "openstreetmap_fr_zones"
 
 #' An sf object of geographical zones taken from download.openstreetmap.fr

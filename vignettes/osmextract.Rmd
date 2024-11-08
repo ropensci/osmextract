@@ -69,7 +69,7 @@ As you can see, the name of the most important functions in this package start w
 `oe_providers()` lists the providers that are currently available with the version of `osmextract` you have installed.
 
 ```{r}
-oe_providers()
+oe_providers(quiet = TRUE)
 ```
 
 Each element in the column `database_name` is a data object that is packaged with `osmextract`. 
@@ -178,7 +178,7 @@ oe_match("Comunitat Valenciana", provider = "openstreetmap_fr")
 The parameter `max_string_dist` (default value is 1) represents the maximum tolerable distance between the input place and the closest match in `match_by` column. 
 This value can always be increased to help the matching operations, but that can lead to false matches:
 
-```{r, error = TRUE}
+```{r}
 # erroneous match
 oe_match("Milan", max_string_dist = 2)
 ```
@@ -225,11 +225,11 @@ For example, `level = 1` may correspond to continent-size extracts, `2` is for c
 ```{r, error = TRUE}
 yak = c(-120.51084, 46.60156)
 oe_match(yak, level = 1, quiet = TRUE)
-oe_match(yak, level = 2, quiet = TRUE) # the default
-oe_match(yak, level = 3, quiet = TRUE) # error
+oe_match(yak, level = 2, quiet = TRUE)
+oe_match(yak, level = 3, quiet = TRUE)
 ```
 
-If there are multiple OSM extract intersecting the input `place` at the same `level`, then `oe_match()` will return the area whose centroid is closest to the input `place`.
+If there are multiple OSM extracts intersecting the input `place` at the same `level`, then `oe_match()` will return the area whose centroid is closest to the input `place`.
 
 If you specify more than one geometry into the `sf` or `sfc` object, then `oe_match()` will select an area that contains all of them. 
 
@@ -300,10 +300,12 @@ We strongly advise you setting a persistent directory since downloading and conv
 
 More precisely, `oe_download()` runs several checks before actually downloading a new file, to avoid overloading the OSM providers. 
 The first step is the definition of the path associated with the input `file_url`. 
-The path is created by pasting together the `download_directory`, the name of the chosen provider (specified by `provider` argument or inferred from the input URL), and the `basename()` of the URL. 
+The path is created by pasting together the `download_directory`, the name of the chosen provider (specified by the `provider` argument or inferred from the input URL), and the `basename()` of the URL. 
 For example, if `file_url` is equal to `"https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and `download_directory = "/tmp/`, then the path is built as `/tmp/geofabrik_italy-latest.osm.pbf`. 
-In the second step, the function checks if the new path/file already exists (using `file.exists()`) and, in that case, it returns the path, without downloading anything^[The parameter `force_download` can be used to override this behaviour in case you need to update an old OSM extract.]. 
-Otherwise, it downloads a new file (using `download.file()` with `mode = "wb"`) and then it returns the path.
+In the second step, the function checks if the new path/file already exists (using `file.exists()`) and, in that case, it returns the path, without downloading anything^[The parameter `force_download` can be used to override this behaviour in case you need to update an old OSM extract. See also `?oe_update`.]. 
+Otherwise, it downloads a new file and then it returns the path. 
+
+Beware that the `oe_download()` functions internally sets a time-out value for the download process which (at minimum) is equal to 300 seconds. You can increase this value using the `timeout` option.
 
 ## `oe_vectortranslate()`: Convert to gpkg format
 
@@ -383,9 +385,9 @@ If `osmconf_ini` is equal to `NULL` (the default), then `oe_vectortranslate()` f
 Another example can be presented as follows. 
 OSM data is usually described using several [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two items: a *key* and a *value*.
 The code at lines 33, 53, 85, 103, and 121 of the default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields, while all the other tags are stored in the `other_tags` column (see [here](https://gdal.org/drivers/vector/osm.html#other-tags-field) for more details). 
-The parameter `extra_tags` (default value: `NULL`) governs which tags are explicitly reported in the `.gpkg` file and are omitted from the `other_tags` field. 
+The parameter `extra_tags` (default value: `NULL`) governs which tags are explicitly reported in the `.gpkg` file and omitted from the `other_tags` field. 
 The default tags are always included (unless you modify the `CONFIG` file or the `vectortranslate_options`). 
-Please note that the argument `extra_tags` is ignored if `osmconf_ini` is not `NULL` (since we do not know how you generated the new `.ini` file). 
+Please note that the argument `extra_tags` is ignored if `osmconf_ini` is not `NULL` (since we cannot not know how you generated the new `osmconf.ini` file). 
 
 Lastly, the `oe_get_keys()` function can be used to check all `keys` that are stored in the `other_tags` field for a given `.gpkg` or `.pbf` file. 
 For example, 
