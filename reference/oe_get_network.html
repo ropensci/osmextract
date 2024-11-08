@@ -127,7 +127,8 @@ parameter) selects the OSM ways that meet the following conditions:</p><ul><li><
 to <code>yes</code>, <code>designated</code>, <code>permissive</code> or <code>destination</code> (see
 <a href="https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions" class="external-link">here</a>
 for more details);</p></li>
-<li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code>;</p></li>
+<li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code> unless <code>bicycle</code> is
+equal to <code>yes</code>, <code>permissive</code> or <code>designated</code> (see #289);</p></li>
 <li><p>The <code>bicycle</code> tag is not equal to <code>no</code>, <code>use_sidepath</code>, <code>private</code>, or
 <code>restricted</code>;</p></li>
 <li><p>The <code>service</code> tag does not contain the string <code>private</code> (i.e.
@@ -140,7 +141,8 @@ following conditions:</p><ul><li><p>The <code>highway</code> tag is not missing;
 <code>raceway</code>, <code>motorway</code> or <code>motorway_link</code>;</p></li>
 <li><p>The <code>highway</code> tag is not equal to <code>cycleway</code> unless the <code>foot</code> tag is
 equal to <code>yes</code>;</p></li>
-<li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code>;</p></li>
+<li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code> unless <code>foot</code> is
+equal to <code>yes</code>, <code>permissive</code>, or <code>designated</code> (see #289);</p></li>
 <li><p>The <code>foot</code> tag is not equal to <code>no</code>, <code>use_sidepath</code>, <code>private</code>, or
 <code>restricted</code>;</p></li>
 <li><p>The <code>service</code> tag does not contain the string <code>private</code>
@@ -151,7 +153,8 @@ following conditions:</p><ul><li><p>The <code>highway</code> tag is not missing;
 <code>bus_guideway</code>, <code>byway</code>, <code>construction</code>, <code>corridor</code>, <code>elevator</code>, <code>fixme</code>,
 <code>escalator</code>, <code>gallop</code>, <code>historic</code>, <code>no</code>, <code>planned</code>, <code>platform</code>, <code>proposed</code>,
 <code>cycleway</code>, <code>pedestrian</code>, <code>bridleway</code>, <code>path</code>, or <code>footway</code>;</p></li>
-<li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code>;</p></li>
+<li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code> unless <code>motor_vehicle</code> is
+equal to <code>yes</code>, <code>permissive</code>, or <code>designated</code> (see #289);</p></li>
 <li><p>The <code>service</code> tag does not contain the string <code>private</code> (i.e. <code>private</code>,
 <code>private_access</code> and similar).</p></li>
 </ul><p>Feel free to create a new issue in the <a href="https://github.com/ropensci/osmextract" class="external-link">github repo</a> if you want to suggest
