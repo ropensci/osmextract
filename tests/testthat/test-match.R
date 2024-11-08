@@ -233,5 +233,3 @@ test_that("oe-match: warning with version and provider", {
     regexp = "version != 'latest' is only supported for 'geofabrik' provider."
   )
 })
-
-debug(oe_match)
