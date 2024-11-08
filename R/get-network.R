@@ -155,16 +155,6 @@ oe_get_network = function(
 # https://github.com/OSGeo/gdal/blob/779871e56134111d61f1fe2859b8d19f8f04fcdf/MIGRATION_GUIDE.TXT#L4
 # for official docs.
 
-# A cycling mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road);
-# - highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
-# 'elevator', 'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned',
-# 'platform', 'proposed', 'raceway', 'steps');
-# - highway NOT IN IN ('motorway', 'motorway_link', 'bridleway', 'footway',
-# 'pedestrian) OR bicycle IN ('yes', 'designated', 'permissive', 'destination');
-# - access NOT IN ('no', 'private');
-# - bicycle NOT IN ('no', 'use_sidepath')
-# - service does not look like 'private' (ILIKE is string matching case insensitive)
 load_options_cycling = function(place) {
   list(
     place = place,
@@ -196,15 +186,6 @@ load_options_cycling = function(place) {
 
 # See also https://wiki.openstreetmap.org/wiki/Key:footway and
 # https://wiki.openstreetmap.org/wiki/Key:foot
-# A walking mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road);
-# - highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
-# 'elevator', 'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned',
-# 'platform', 'proposed', 'raceway', 'motorway', 'motorway_link');
-# - highway != 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination');
-# - access NOT IN ('no', 'private');
-# - foot NOT IN ('no', 'use_sidepath', 'private', 'restricted')
-# - service does not look like 'private' (ILIKE is string matching case insensitive)
 load_options_walking = function(place) {
   list(
     place = place,
@@ -230,14 +211,6 @@ load_options_walking = function(place) {
   )
 }
 
-# A motorcar/motorcycle mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road);
-# - highway NOT IN ('bus_guideway', 'byway' (not sure what it means), 'construction',
-# 'corridor', 'cycleway', 'elevator', 'fixme', 'footway', 'gallop', 'historic',
-# 'no', 'pedestrian', 'platform', 'proposed', 'steps', 'pedestrian',
-# 'bridleway', 'path', 'platform');
-# - access NOT IN ('private', 'no');
-# - service NOT ILIKE 'private%';
 load_options_driving = function(place) {
   list(
     place = place,
