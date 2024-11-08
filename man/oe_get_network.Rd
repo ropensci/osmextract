@@ -53,7 +53,8 @@ parameter) selects the OSM ways that meet the following conditions:
 to \code{yes}, \code{designated}, \code{permissive} or \code{destination} (see
 \href{https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions}{here}
 for more details);
-\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{bicycle} is
+equal to \code{yes}, \code{permissive} or \code{designated} (see #289);
 \item The \code{bicycle} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, or
 \code{restricted};
 \item The \code{service} tag does not contain the string \code{private} (i.e.
@@ -70,7 +71,8 @@ following conditions:
 \code{raceway}, \code{motorway} or \code{motorway_link};
 \item The \code{highway} tag is not equal to \code{cycleway} unless the \code{foot} tag is
 equal to \code{yes};
-\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{foot} is
+equal to \code{yes}, \code{permissive}, or \code{designated} (see #289);
 \item The \code{foot} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, or
 \code{restricted};
 \item The \code{service} tag does not contain the string \code{private}
@@ -85,7 +87,8 @@ following conditions:
 \code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{cycleway}, \code{pedestrian}, \code{bridleway}, \code{path}, or \code{footway};
-\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{motor_vehicle} is
+equal to \code{yes}, \code{permissive}, or \code{designated} (see #289);
 \item The \code{service} tag does not contain the string \code{private} (i.e. \code{private},
 \code{private_access} and similar).
 }
