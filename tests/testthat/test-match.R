@@ -214,3 +214,22 @@ test_that("oe_match_pattern: test spatial combine", {
   MI_PA = sf::st_sfc(milan, palermo, crs = 4326)
   expect_identical(oe_match_pattern(MI_PA)$geofabrik, c("Europe", "Italy"))
 })
+
+test_that("oe-match: detecting version works", {
+  latest_match <- oe_match("Italy", quiet = TRUE)
+  expect_true(grepl("latest", latest_match$url))
+
+  version2020_match <- oe_match("Italy", quiet = TRUE, version = "200101")
+  expect_true(grepl("200101", version2020_match$url))
+})
+
+test_that("oe-match: warning with version and provider", {
+  expect_warning(
+    oe_match("Leeds", provider = "bbbike", version = "2", quiet = TRUE),
+    regexp = "version != 'latest' is only supported for 'geofabrik' provider."
+  )
+  expect_warning(
+    oe_match("Lombardia", version = "ABC", quiet = TRUE),
+    regexp = "version != 'latest' is only supported for 'geofabrik' provider."
+  )
+})

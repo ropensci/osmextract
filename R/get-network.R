@@ -79,6 +79,9 @@
 #'   modifications to the current filters or propose new values for alternative
 #'   modes of transport.
 #'
+#'   Starting from version 0.5.2, the `version` argument (see [oe_get()]) can be
+#'   used to download historical OSM extracts from Geofabrik provider.
+#'
 #' @seealso [oe_get()]
 #'
 #' @examples

@@ -268,6 +268,34 @@ Finally, to reduce unnecessary computational resources and save bandwidth/electr
 (its_details = oe_match("ITS Leeds"))
 ```
 
+### Matching historical OSM extracts
+
+Starting from `osmextract` v0.5.2, the `version` argument can be used to match historical OSM extracts stored by Geofabrik provider. The default value is `"latest"` which corresponds to the most recent OSM extract. Other values can be specified using the format `"YYMMDD"`. The available extracts for each zone can be browsed from Geofabrik  [website](https://download.geofabrik.de/). 
+
+For example: 
+
+```{r}
+oe_match("Italy", quiet = TRUE)$url
+oe_match("Italy", version = "200101", quiet = TRUE)$url # OSM data up to January 1st 2020
+oe_match(c(9.1916, 45.4650), version = "210101", quiet = TRUE)$url
+```
+
+Unfortunately, Geofabrik is the only provider which currently stores historical OSM extracts. Therefore, `version != "latest"` is ignored (with a warning message) if you select a different provider
+
+```{r}
+oe_match("Leeds", provider = "bbbike", version = "200101")
+```
+
+or if the input `place` is not matched with Geofabrik provider.
+
+```{r}
+oe_match("Leeds", version = "200101")
+```
+
+<!-- TODO: Get in contact with Geofabrik to check the status of historical OSM extract.  -->
+
+Beware that the default value, i.e. `"latest"`, selects an _always evolving_ OSM extract. On the other hand, historical OSM extracts are static and they may be preferable for reproducibility purposes.
+
 ## `oe_download()`: Download OSM extracts 
 
 The `oe_download()` function is used to download `.pbf` files representing OSM extracts.
