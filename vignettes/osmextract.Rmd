@@ -280,11 +280,21 @@ oe_match("Italy", version = "200101", quiet = TRUE)$url # OSM data up to January
 oe_match(c(9.1916, 45.4650), version = "210101", quiet = TRUE)$url
 ```
 
-Unfortunately, Geofabrik is the only provider which currently stores historical OSM extracts. Therefore, `version != "latest"` is ignored (with a warning message) if the input `place` is not matched with Geofabrik provider.
+Unfortunately, Geofabrik is the only provider which currently stores historical OSM extracts. Therefore, `version != "latest"` is ignored (with a warning message) if you select a different provider
+
+```{r}
+oe_match("Leeds", provider = "bbbike", version = "200101")
+```
+
+or if the input `place` is not matched with Geofabrik provider.
 
 ```{r}
 oe_match("Leeds", version = "200101")
 ```
+
+<!-- TODO: Get in contact with Geofabrik to check the status of historical OSM extract.  -->
+
+Beware that the default value, i.e. `"latest"`, selects an _always evolving_ OSM extract. On the other hand, historical OSM extracts are static and they may be preferable for reproducibility purposes.
 
 ## `oe_download()`: Download OSM extracts 
 
