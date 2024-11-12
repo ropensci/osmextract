@@ -334,14 +334,8 @@ oe_vectortranslate = function(
     extra_tags = NULL
   }
 
-  # First we need to set the values for the parameter osmconf_ini (if it is set
-  # to NULL, i.e. the default).
   if (is.null(osmconf_ini)) {
-    # The file osmconf.ini stored in the package is the default osmconf.ini used
-    # by GDAL at stored at the following link:
-    # https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini
-    # It was saved on the 9th of July 2020.
-    osmconf_ini = system.file("osmconf.ini", package = "osmextract")
+    osmconf_ini = get_default_osmconf_ini()
   }
 
   # Add the extra tags to the default osmconf.ini. If the user set its own
@@ -349,12 +343,12 @@ oe_vectortranslate = function(
   if (
     !is.null(extra_tags) &&
     # The following condition checks whether the user set its own CONFIG file
-    osmconf_ini == system.file("osmconf.ini", package = "osmextract")
+    osmconf_ini == get_default_osmconf_ini()
   ) {
     temp_ini = readLines(osmconf_ini)
-    id_old = get_id_layer(layer)
-    fields_old = get_fields_default(layer)
-    temp_ini[[id_old]] = paste0(
+    id_layer = get_id_layer(layer, temp_ini)
+    fields_old = get_fields_default(layer, temp_ini)
+    temp_ini[[id_layer]] = paste0(
       "attributes=",
       paste(unique(c(fields_old, extra_tags)), collapse = ",")
     )
@@ -470,65 +464,68 @@ oe_vectortranslate = function(
   gpkg_file_path
 }
 
-get_id_layer = function(layer) {
-  default_id = list(
-    points = 38L,
-    lines = 58L,
-    multipolygons = 90L,
-    multilinestrings = 108L,
-    other_relations = 126L
+get_id_layer = function(layer, file) {
+  # Detect the ID of the row which specifies the attributes that must be
+  # included in the ogr2ogr conversion from .osm to .gpkg file for a given
+  # layer. The following pattern uses a simple heuristic which is based on the
+  # current (2024-11-12) structure of the osmconf.ini file, i.e. the attributes
+  # are specified in a single row which starts with "attributes=". The available
+  # layers are described below in that precise order. I need to make this ID
+  # detection automatic for #261 so I do not need to link the ogr2ogr operations
+  # to a fixed osmconf.ini file.
+  id_attributes <- grepl(
+    pattern = "^attributes=",
+    x = file,
+    perl = TRUE
   )
-  default_id[[layer]]
+  id_attributes <- which(id_attributes)
+  stopifnot(length(id_attributes) == 5L)
+  stopifnot(layer %in% c("points", "lines", "multipolygons", "multilinestrings", "other_relations"))
+  switch(
+    layer,
+    "points" = id_attributes[1L],
+    "lines" = id_attributes[2L],
+    "multipolygons" = id_attributes[3L],
+    "multilinestrings" = id_attributes[4L],
+    "other_relations" = id_attributes[5L]
+  )
 }
-get_fields_default = function(layer) {
-  def_layers = list(
-    points = c(
-      "name",
-      "barrier",
-      "highway",
-      "ref",
-      "address",
-      "is_in",
-      "place",
-      "man_made"
-    ),
-    lines = c(
-      "name",
-      "highway",
-      "waterway",
-      "aerialway",
-      "barrier",
-      "man_made",
-      "railway"
-    ),
-    multipolygons = c(
-      "name",
-      "type",
-      "aeroway",
-      "amenity",
-      "admin_level",
-      "barrier",
-      "boundary",
-      "building",
-      "craft",
-      "geological",
-      "historic",
-      "land_area",
-      "landuse",
-      "leisure",
-      "man_made",
-      "military",
-      "natural",
-      "office",
-      "place",
-      "shop",
-      "sport",
-      "tourism"
-    ),
-    multilinestrings = c("name", "type"),
-    other_relations = c("name", "type")
+get_fields_default = function(layer, file) {
+  # The following code is used to extract the default keys which must be
+  # included in the ogr2ogr conversion from .osm to .gpkg format for a given
+  # layer. The following pattern uses a simple heuristic which is based on the
+  # current (2024-11-12) structure of the osmconf.ini file, i.e. the attributes
+  # are specified in a single row which starts with "attributes=". This
+  # automatic detection is required to implement #261.
+
+  # I cannot simply use grep(value = TRUE) since that matches the whole row, not
+  # only the part which I'm interested in. I need regexpr + regmatch
+  m = regexpr(
+    pattern = "(?<=^attributes=)\\S*",
+    text = file,
+    perl = TRUE
   )
-  def_layers[[layer]]
+  keys <- regmatches(x = file, m = m)
+  # The output of regmatches is a (character vector) which includes the matched
+  # substrings. It has a syntax like
+  # [1] a,b,c,d
+  # [2] a,d,e,f
+  # [3] b,f,g
+  # ...
+  # I need to split such sequence of keys using "," as a delimiter.
+  keys <- strsplit(keys, ",")
+  # I assume there are 5 layers specified according to the following order:
+  stopifnot(length(keys) == 5L)
+  stopifnot(layer %in% c("points", "lines", "multipolygons", "multilinestrings", "other_relations"))
+  # The output of strsplit is a list so I need [[i]] syntax.
+  switch(
+    layer,
+    "points" = keys[[1L]],
+    "lines" = keys[[2L]],
+    "multipolygons" = keys[[3L]],
+    "multilinestrings" = keys[[4L]],
+    "other_relations" = keys[[5L]]
+  )
 }
 
 process_boundary = function(
@@ -597,4 +594,34 @@ process_spat = function(vectortranslate_options, boundary) {
 # Add "-clipsrc" + WKT
 process_clipsrc = function(vectortranslate_options, boundary) {
   c(vectortranslate_options, "-clipsrc", sf::st_as_text(boundary))
+}
+
+# Get default osmconf.ini
+get_default_osmconf_ini <- function() {
+  # I guess we have 3 options to retrieve the osmconf.ini file used by GDAL
+  # 1. Check the output of gdal-config --datadir (if possible)
+  # 2. Get the file bundled by sf (especially when using binary install of sf)
+  # 3. Fallback: osmconf.ini file shipped by this package
+
+  # Option 1
+  file <- try({
+    system2("gdal-config", args = "--datadir", stdout = TRUE)
+    },
+    silent = TRUE
+  )
+  if (!inherits(file, "try-error")) {
+    return(file.path(file, "osmconf.ini"))
+  }
+  # Option 2
+  file <- system.file("gdal/osmconf.ini", package = "sf")
+  if (!file.exists(file)) {
+    # Option 3
+    warning(
+      "The package couldn't retrive the osmconf.ini from GDAL installation. ",
+      "Defaulting to the one bundled in this package. ",
+      "Please raise a new issue at https://github.com/ropensci/osmextract/issues"
+    )
+    file <- system.file("osmconf.ini", package = "osmextract")
+  }
+  file
 }
