@@ -13,11 +13,19 @@ name: R-CMD-check
 jobs:
   R-CMD-check:
     if: "!(contains(github.event.head_commit.message, 'skip ci')||contains(github.event.head_commit.message, 'ci skip')||contains(github.event.head_commit.message, 'skip-ci')||contains(github.event.head_commit.message, 'ci-skip')||contains(github.event.head_commit.message, 'skip_ci')||contains(github.event.head_commit.message, 'ci_skip'))"
-    runs-on: ubuntu-latest
+
+    runs-on: ${{ matrix.config.os }}
+
     timeout-minutes: 30
+
     strategy:
+      fail-fast: false
       matrix:
-        R: ['3.6.3', 'release']
+        config:
+          - {os: macos-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: '3.6.3'}
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
@@ -29,7 +37,7 @@ jobs:
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
-          r-version: ${{ matrix.R }}
+          r-version: ${{ matrix.config.r }}
 
       - name: Setup R Dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
