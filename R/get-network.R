@@ -1,6 +1,6 @@
 #' Import transport networks used by a specific mode of transport
 #'
-#' This function is a wrapper around `oe_get()` and can be used to import a road
+#' This function is a wrapper around [oe_get()] and can be used to import a road
 #' network given a `place` and a mode of transport. Check the Details for a
 #' precise description of the procedures used to filter the OSM ways according
 #' to each each mode of transport.
@@ -9,7 +9,7 @@
 #' @param mode A character string of length one denoting the desired mode of
 #'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
 #'   and `walking` are supported.
-#' @param ... Additional arguments passed to `oe_get()` such as `boundary` or
+#' @param ... Additional arguments passed to [oe_get()] such as `boundary` or
 #'   `force_download`.
 #'
 #' @return An `sf` object.
@@ -17,7 +17,7 @@
 #'
 #' @details The definition of usable transport network was taken from the Python
 #'   packages
-#'   [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py) and
+#'   [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/_downloader.py) and
 #'   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
 #'   documents found online, i.e.
 #'   <https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions>,
@@ -37,7 +37,8 @@
 #'   to `yes`, `designated`, `permissive` or `destination` (see
 #'   [here](https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions)
 #'   for more details);
-#'   - The `access` tag is not equal to `private` or `no`;
+#'   - The `access` tag is not equal to `private` or `no` unless `bicycle` is
+#'   equal to `yes`, `permissive` or `designated` (see #289);
 #'   - The `bicycle` tag is not equal to `no`, `use_sidepath`, `private`, or
 #'   `restricted`;
 #'   - The `service` tag does not contain the string `private` (i.e.
@@ -53,7 +54,8 @@
 #'   `raceway`, `motorway` or `motorway_link`;
 #'   - The `highway` tag is not equal to `cycleway` unless the `foot` tag is
 #'   equal to `yes`;
-#'   - The `access` tag is not equal to `private` or `no`;
+#'   - The `access` tag is not equal to `private` or `no` unless `foot` is
+#'   equal to `yes`, `permissive`, or `designated` (see #289);
 #'   - The `foot` tag is not equal to `no`, `use_sidepath`, `private`, or
 #'   `restricted`;
 #'   - The `service` tag does not contain the string `private`
@@ -67,7 +69,8 @@
 #'   `bus_guideway`, `byway`, `construction`, `corridor`, `elevator`, `fixme`,
 #'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
 #'   `cycleway`, `pedestrian`, `bridleway`, `path`, or `footway`;
-#'   - The `access` tag is not equal to `private` or `no`;
+#'   - The `access` tag is not equal to `private` or `no` unless `motor_vehicle` is
+#'   equal to `yes`, `permissive`, or `designated` (see #289);
 #'   - The `service` tag does not contain the string `private` (i.e. `private`,
 #'   `private_access` and similar).
 #'
@@ -144,16 +147,14 @@ oe_get_network = function(
 # accepted but have support among many mappers. More precise options are defined
 # by other tags. See also: https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions
 
-# A cycling mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road);
-# - highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
-# 'elevator', 'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned',
-# 'platform', 'proposed', 'raceway', 'steps');
-# - highway NOT IN IN ('motorway', 'motorway_link', 'bridleway', 'footway',
-# 'pedestrian) OR bicycle IN ('yes', 'designated', 'permissive', 'destination');
-# - access NOT IN ('no', 'private');
-# - bicycle NOT IN ('no', 'use_sidepath')
-# - service does not look like 'private' (ILIKE is string matching case insensitive)
+# WARNING: Starting from GDAL 3.10, an expression like "foo NOT IN ('bar')"
+# evaluates as false, while previously it would evaluate as true. Therefore, in
+# the following code, when building the -where clause, we need to be explicit
+# and include possible NULL values in the expression. See also the discussion in
+# #298 and the fix implemented by @rouault. See also
+# https://github.com/OSGeo/gdal/blob/779871e56134111d61f1fe2859b8d19f8f04fcdf/MIGRATION_GUIDE.TXT#L4
+# for official docs.
+
 load_options_cycling = function(place) {
   list(
     place = place,
@@ -163,21 +164,21 @@ load_options_cycling = function(place) {
     "-where", "
     (highway IS NOT NULL)
     AND
-    (highway NOT IN (
+    (highway IS NULL OR highway NOT IN (
     'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'raceway', 'steps'
     ))
     AND
-    (highway NOT IN ('motorway', 'motorway_link', 'footway', 'bridleway',
+    (highway IS NULL OR highway NOT IN ('motorway', 'motorway_link', 'footway', 'bridleway',
     'pedestrian') OR bicycle IN ('yes', 'designated', 'permissive', 'destination')
     )
     AND
-    (access NOT IN ('private', 'no'))
+    (access IS NULL OR (access NOT IN ('private', 'no') OR bicycle IN ('yes', 'permissive', 'designated')))
     AND
-    (bicycle NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
+    (bicycle IS NULL OR bicycle NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
-    (service NOT ILIKE 'private%')
+    (service IS NULL OR service NOT ILIKE 'private%')
     "
     )
   )
@@ -185,15 +186,6 @@ load_options_cycling = function(place) {
 
 # See also https://wiki.openstreetmap.org/wiki/Key:footway and
 # https://wiki.openstreetmap.org/wiki/Key:foot
-# A walking mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road);
-# - highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor',
-# 'elevator', 'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned',
-# 'platform', 'proposed', 'raceway', 'motorway', 'motorway_link');
-# - highway != 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination');
-# - access NOT IN ('no', 'private');
-# - foot NOT IN ('no', 'use_sidepath', 'private', 'restricted')
-# - service does not look like 'private' (ILIKE is string matching case insensitive)
 load_options_walking = function(place) {
   list(
     place = place,
@@ -203,49 +195,41 @@ load_options_walking = function(place) {
     "-where", "
     (highway IS NOT NULL)
     AND
-    (highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
+    (highway IS NULL OR highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform', 'proposed', 'raceway',
     'motorway', 'motorway_link'))
     AND
-    (highway <> 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination'))
+    (highway IS NULL OR highway <> 'cycleway' OR foot IN ('yes', 'designated', 'permissive', 'destination'))
     AND
-    (access NOT IN ('private', 'no'))
+    (access IS NULL OR (access NOT IN ('private', 'no') OR foot IN ('yes', 'permissive', 'designated')))
     AND
-    (foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
+    (foot IS NULL OR foot NOT IN ('private', 'no', 'use_sidepath', 'restricted'))
     AND
-    (service NOT ILIKE 'private%')
+    (service IS NULL OR service NOT ILIKE 'private%')
     "
     )
   )
 }
 
-# A motorcar/motorcycle mode of transport includes the following scenarios:
-# - highway IS NOT NULL (since usually that means that's not a road);
-# - highway NOT IN ('bus_guideway', 'byway' (not sure what it means), 'construction',
-# 'corridor', 'cycleway', 'elevator', 'fixme', 'footway', 'gallop', 'historic',
-# 'no', 'pedestrian', 'platform', 'proposed', 'steps', 'pedestrian',
-# 'bridleway', 'path', 'platform');
-# - access NOT IN ('private', 'no');
-# - service NOT ILIKE 'private%';
 load_options_driving = function(place) {
   list(
     place = place,
     layer = "lines",
-    extra_tags = c("access", "service"),
+    extra_tags = c("access", "service", "oneway", "motor_vehicle"),
     vectortranslate_options = c(
     "-where", "
     (highway IS NOT NULL)
     AND
-    (highway NOT IN (
+    (highway IS NULL OR highway NOT IN (
     'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
     'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
     'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway',
     'steps'
     ))
     AND
-    (access NOT IN ('private', 'no'))
+    (access IS NULL OR (access NOT IN ('private', 'no') OR motor_vehicle IN ('yes', 'permissive', 'designated')))
     AND
-    (service NOT ILIKE 'private%')
+    (service IS NULL OR service NOT ILIKE 'private%')
     "
     )
   )
@@ -281,10 +265,12 @@ check_args_network = function(dots_args, oe_get_options) {
   if (!is.null(dots_args[["vectortranslate_options"]])) {
     if ("-where" %in% dots_args[["vectortranslate_options"]]) {
       # Raise an error since -where arg must be set by the function
-      stop(
-        "The vectortranslate_options inside oe_get_network() cannot be used",
-        "to define a query with the -where argument. Use the query argument",
-        call. = FALSE
+      oe_stop(
+        .subclass = "oe_get_network-cannotUseWhere",
+        message = paste0(
+          "The vectortranslate_options inside oe_get_network() cannot be used ",
+          "to define a query with the -where argument. Use the query argument"
+        )
       )
     }
     # Otherwise append the two vectors

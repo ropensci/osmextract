@@ -3,6 +3,8 @@
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - '.devcontainer/**'
   release:
     types: [published]
 
@@ -16,8 +18,9 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 

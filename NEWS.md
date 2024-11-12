@@ -1,33 +1,57 @@
 # osmextract (development version)
 
 ### MAJOR CHANGES
-* Fixed a bug in `oe_match()` that occurred every time `oe_match()` found an exact match between the input `place` and a non-default OSM data provider (i.e. non Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `different-provider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. See #246. This is a quite major bug, and we suggest you erase all `.pbf` and `.gpkg` files stored in the persistent download directory (see also `?oe_clean`). 
-* Fixed a bug in `oe_get_keys()` that occurred when the value for a given key was either empty or equal to `\n` (#250). 
-* Fixed a bug in `oe_vectortranslate()` that occurred when the attributed specified in the `extra_tags` argument included the character `:`. In fact, the presence of attributes like "lanes:left" always triggered the vectortranslate operations (#260).
-* We implemented a new function named `oe_get_boundary()` that can be used to obtain administrative geographical boundaries of a given area (#206). 
-* Added a new function named `read_poly()` to read `.poly` files (#277). 
-* All the databases storing the data for the supported providers were updated. For simplicity, some fields were removed from the saved objects. More precisely, we removed the columns `pbf.internal`, `history`, `taginfo` and `updates` from `geofabrik_zones`; `last_modified`, `type`, `base_url` and `poly_url` from `bbbike_zones`. 
-* The function `oe_match_pattern()` now accepts `numeric`/`sfc`/`bbox`/`sf` inputs, following the same logic as `oe_match()` (#266). 
+
+* Bump minimum R version from 3.5.0 to 3.6.0 since that's a requirement for one of our indirect dependencies (i.e. [evaluate](https://cran.r-project.org/package=evaluate)). 
+* Adjusted the SQL syntax used inside `oe_get_network` so that the queries are compatible with GDAL 3.10 ([#298](https://github.com/ropensci/osmextract/issues/291)). 
+* The output of `oe_get_network` does not drop elements tagged as `access = 'no'` as long as the `foot`/`bicycle`/`motor_vehicle` (according to the chosen mode of transport) key is equal to `yes`, `permissive`, or `designated` ([#289](https://github.com/ropensci/osmextract/issues/289)). 
 
 ### MINOR CHANGES
-* The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc` and preserves the same CRS. 
-* Added a more informative error message when `oe_get()` or `oe_read()` are run with empty or unnamed arguments in `...` (#234 and #241).
+
+* Updated the `osmconf.ini` file to be in synch with the GDAL version.
+* Added `oneway` as column by default when using `oe_get_network(mode = "driving")`, which indicates if a link represents an uni-directional road ([#296](https://github.com/ropensci/osmextract/issues/296))
+* Furthermore, `oe_get_network(mode = "driving")` also include the `motor_vehicle` field (see [#303](https://github.com/ropensci/osmextract/pull/303)). 
+
+# osmextract 0.5.1
+
+### MINOR CHANGES
+
+* Updated the code in the main vignette to fix a bug in the `ogr2ogr` options detected by GDAL v3.9 ([#291](https://github.com/ropensci/osmextract/issues/291)). 
+* More informative error message in case of malformed query ([#290](https://github.com/ropensci/osmextract/issues/290)). 
+* Updated the Open Street Map providers. In particular: 
+  - The bbbike databse has a new area: Los Angeles
+  - The geofabrik database has a new area: United Kingdom
+  - The openstreetmap.fr database has 51 new areas: Asia/Europe/Philippines and its [subregions](https://download.openstreetmap.fr/polygons/asia/philippines/)/Turkey and its [subregions](https://download.openstreetmap.fr/polygons/europe/turkey/)/Portugal's [subregions](https://download.openstreetmap.fr/polygons/europe/portugal/)/Tuvalu/Chukotka Autonomous Okrug/Fiji/France Metro Dom Com Nc/Kiribati. 
+
+# osmextract 0.5.0
+
+### MAJOR CHANGES
+* Fixed a bug in `oe_match()` that occurred every time the function found an exact match between the input `place` and a non-default OSM data provider (i.e. everything but Geofabrik). In those cases, the downloaded file was named as `geofabrik_xyz.osm.pbf` instead of `differentprovider_xyz.osm.pbf`. Reported by @GretaTimaite, thanks. See [#246](https://github.com/ropensci/osmextract/pull/246). This is a major bug and, for safety, we suggest you erase all `.pbf` and `.gpkg` files currently stored in the persistent download directory (see also `oe_clean()`). 
+* Fixed a bug in `oe_get_keys()` that occurred when the value for a given key was either empty or equal to `\n` ([#250](https://github.com/ropensci/osmextract/issues/250)). 
+* Fixed a bug in `oe_vectortranslate()` that occurred when the attributes specified in the `extra_tags` argument included the character `:`. In fact, the presence of attributes like "lanes:left" always triggered the vectortranslate operations ([#260](https://github.com/ropensci/osmextract/issues/260)).
+* We implemented a new function named `oe_get_boundary()` that can be used to obtain administrative geographical boundaries of a given area ([#206](https://github.com/ropensci/osmextract/issues/206)). 
+* Added a new function named `read_poly()` to read `.poly` files ([#277](https://github.com/ropensci/osmextract/issues/277)). 
+* All the databases storing the data for the supported providers were updated. For simplicity, some fields were removed from the saved objects. More precisely, we removed the columns `pbf.internal`, `history`, `taginfo`, `updates`, `bz2`, and `shp` from `geofabrik_zones`; `last_modified`, `type`, `base_url` and `poly_url` from `bbbike_zones`. 
+* The function `oe_match_pattern()` now accepts `numeric`/`sfc`/`bbox`/`sf` inputs, following the same logic as `oe_match()` ([#266](https://github.com/ropensci/osmextract/issues/266)). 
+
+### MINOR CHANGES
+* The `boundary` argument can be specified using `bbox` objects. The `bbox` object is converted to `sfc` object with `sf::st_as_sfc()` and preserves the same CRS. 
+* Added a more informative error message when `oe_get()` or `oe_read()` are run with empty or unnamed arguments in `...` ([#234](https://github.com/ropensci/osmextract/issues/234) and [#241](https://github.com/ropensci/osmextract/issues/241)).
 * The function `oe_get_keys()` gains a new argument named `download_directory` that can be used to specify the path of the directory that stores the `.osm.pbf` files. 
 * Included a new function named `oe_clean()` to remove all `.pbf` and `.gpkg` files stored in a given directory. Default value is `oe_download_directory()`. 
-* Added a message to `oe_download()` and removed a warning from `oe_read()`. The message is printed every time a user downloads a new OSM extract from a certain provider, whereas the warning used to be raised when a given `query` selected a layer different from the `layer` argument (#240). 
-* Added two new parameters to `oe_find` named `return_pbf` and `return_gpkg`. They can be used to select which file formats should the function return (#253). 
-* Added a more informative error message in case `oe_download()` fails explaining that partially downloaded `.pbf` files should be removed to avoid problems while running other functions (#221). 
-* We are experimenting with the new features of `testthat` and we implemented the so-called test-fixtures to run tests in a more isolated environment (#255). This is however still experimental for us.
-* Added more informative error and warning messages to `oe_get_keys()` (#251).
+* Added a message to `oe_download()` and removed a warning from `oe_read()`. The message is printed every time a user downloads a new OSM extract from a certain provider, whereas the warning used to be raised when a given `query` selected a layer different from the `layer` argument ([#240](https://github.com/ropensci/osmextract/issues/240)). 
+* Added two new parameters to `oe_find()` named `return_pbf` and `return_gpkg`. They can be used to select which file formats should the function return ([#253](https://github.com/ropensci/osmextract/pull/253)). 
+* Added a more informative error message in case `oe_download()` fails, explaining that partially downloaded `.pbf` files should be removed to avoid problems while running other functions ([#221](https://github.com/ropensci/osmextract/issues/221)). 
+* We are experimenting with the new (i.e. third edition) features of `testthat` and we implemented the so-called test-fixtures to run tests in a more isolated environment ([#255](https://github.com/ropensci/osmextract/pull/255)). This is however still experimental for us.
+* Added more informative error and warning messages to `oe_get_keys()` ([#251](https://github.com/ropensci/osmextract/issues/251)).
 * The file path returned by `oe_download()` is specified using `/` instead of `\\` separator on Windows. 
 * `oe_download()` takes into account the `timeout` option again. Unfortunately, we forgot to adjust the code when switching from `download.file` to `httr`. 
-* The `oe_vectortranslate()` function tries to correct the possible geometrical problem of the input `boundary` using `sf::st_make_valid()`. 
-* Updated the `geofabrik_zones` database (#270). 
-
+* The `oe_vectortranslate()` function tries to correct the possible geometrical problem(s) of the input `boundary` using `sf::st_make_valid()`. 
+* Updated the `geofabrik_zones` database ([#270](https://github.com/ropensci/osmextract/issues/270)). 
 
 ### DOCUMENTATION FIXES
 * Update description for `boundary` and `boundary_type` arguments.
-* The main vignette and all examples save their files in `tempdir()` (#247). 
+* The main vignette and all examples save their files in `tempdir()` ([#247](https://github.com/ropensci/osmextract/issues/247)). 
 
 # osmextract 0.4.1
 

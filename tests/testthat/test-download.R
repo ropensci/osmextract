@@ -7,6 +7,7 @@ test_that("oe_download: simplest examples work", {
       "TESTTHAT" = "true"
     )
   )
+  # I need to add the withr::defer since I don't use setup pbf here
   withr::defer(oe_clean(tempdir()))
 
   its_match = oe_match("ITS Leeds", quiet = TRUE)
@@ -25,18 +26,18 @@ test_that("oe_download: simplest examples work", {
       provider = "test",
       quiet = FALSE
     ),
-    class = "oe_skip_downloading"
+    class = "oe_download_skipDownloading"
   )
 })
 
 test_that("oe_download: fails with more than one URL", {
-  expect_error(oe_download(c("a", "b")))
+  expect_error(oe_download(c("a", "b")), class = "oe_download_LengthFileUrlGt2")
 })
 
 test_that("infer_provider_from_url: simplest examples work", {
   expect_error(
     infer_provider_from_url("https://github.com/ropensci/osmextract"),
-    "Cannot infer the provider from the url, please specify it."
+    class = "oe_download_CannotInferProviderFromUrl"
   )
   expect_match(
     infer_provider_from_url("https://download.geofabrik.de/africa-latest.osm.pbf"),

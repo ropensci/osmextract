@@ -24,8 +24,8 @@ oe_vectortranslate(
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
 you specify an ad-hoc query using the argument \code{query} (see introductory
-vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
-specified in the query and ignore \code{layer}. See also
+vignette and examples), then \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_read]{oe_read()}} will read the layer
+specified in the query and ignore \code{layer} argument. See also
 \href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{vectortranslate_options}{Options passed to the \code{\link[sf:gdal_utils]{sf::gdal_utils()}}
@@ -104,7 +104,7 @@ The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how GD
 reads and processes a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
 file, that can be checked at the following
-\href{https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini}{link}.
+\href{https://github.com/OSGeo/gdal/blob/master/ogr/ogrsf_frmts/osm/data/osmconf.ini}{link}.
 The basic components of OSM data are called
 \href{https://wiki.openstreetmap.org/wiki/Elements}{\emph{elements}} and they are
 divided into \emph{nodes}, \emph{ways} or \emph{relations}, so, for example, the code at

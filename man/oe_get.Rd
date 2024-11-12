@@ -30,16 +30,16 @@ oe_get(
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
 a \code{.osm.pbf} file. Can be either a length-1 character vector, an
-\code{sf}/\code{sfc}/\code{bbox} object, or a numeric vector of coordinates with length 2.
-In the last case, it is assumed that the EPSG code is 4326 specified as
-c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
-Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
 you specify an ad-hoc query using the argument \code{query} (see introductory
-vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
-specified in the query and ignore \code{layer}. See also
+vignette and examples), then \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_read]{oe_read()}} will read the layer
+specified in the query and ignore \code{layer} argument. See also
 \href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{...}{(Named) arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
@@ -47,26 +47,26 @@ specified in the query and ignore \code{layer}. See also
 vignette to understand how to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
-\code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
-\code{provider} is set equal to \code{test}. This is just for simple examples and
+providers can be browsed with \code{\link[=oe_providers]{oe_providers()}}. For \code{\link[=oe_get]{oe_get()}} and
+\code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then \code{provider} is
+internally set equal to \code{"test"}. This is just for simple examples and
 internal tests.}
 
 \item{match_by}{Which column of the provider's database should be used for
 matching the input \code{place} with a \code{.osm.pbf} file? The default is \code{"name"}.
 Check Details and Examples in \code{\link[=oe_match]{oe_match()}} to understand how this parameter
-works. Ignored if \code{place} is not a character vector since the matching is
-performed through a spatial operation.}
+works. Ignored when \code{place} is not a character vector since, in that case,
+the matching is performed through a spatial operation.}
 
 \item{max_string_dist}{Numerical value greater or equal than 0. What is the
 maximum distance in fuzzy matching (i.e. Approximate String Distance, see
-\code{\link[=adist]{adist()}}) between input \code{place} and \code{match_by} column to tolerate before
-testing alternative providers or looking for geographical matching with
-Nominatim API? This parameter is set equal to 0 if \code{match_by} is equal to
-\code{iso3166_1_alpha2} or \code{iso3166_2}. Check Details and Examples in
-\code{\link[=oe_match]{oe_match()}} to understand why this parameter is important. Ignored if
-\code{place} is not a character vector since the matching is performed through a
-spatial operation.}
+\code{\link[=adist]{adist()}}) between input \code{place} and \code{match_by} column that can be
+tolerated before testing alternative providers or looking for geographical
+matching with Nominatim API? This parameter is set equal to 0 if \code{match_by}
+is equal to \code{iso3166_1_alpha2} or \code{iso3166_2}. Check Details and Examples
+in \code{\link[=oe_match]{oe_match()}} to understand why this parameter is important. Ignored when
+\code{place} is not a character vector since, in that case, the matching is
+performed through a spatial operation.}
 
 \item{level}{An integer representing the desired hierarchical level in case
 of spatial matching. For the \code{geofabrik} provider, for example, \code{1}
@@ -74,18 +74,13 @@ corresponds with continent-level datasets, \code{2} for countries, \code{3}
 corresponds to regions and \code{4} to subregions. Hence, we could approximately
 say that smaller administrative units correspond to bigger levels. If
 \code{NULL}, the default, the \verb{oe_*} functions will select the highest available
-level. See Details and Examples in \code{oe_match()}.}
+level. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
-\item{download_directory}{Where to download the file containing the OSM data?
-By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
-\code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
-persistent \code{download_directory} by adding the following to your \code{.Renviron}
-file (e.g. with \code{edit_r_environ} function in \code{usethis} package):
-\verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
+\item{download_directory}{Directory to store the file containing OSM data?.}
 
-\item{force_download}{Should the \code{.osm.pbf} file be updated if it has already
-been downloaded? \code{FALSE} by default. This parameter is used to update old
-\code{.osm.pbf} files.}
+\item{force_download}{Should the \code{.osm.pbf} file be updated even if it has
+already been downloaded? \code{FALSE} by default. This parameter is used to
+update old \code{.osm.pbf} files.}
 
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}
@@ -145,10 +140,11 @@ display a progress bar.}
 An \code{sf} object.
 }
 \description{
-This function is used to find, download, translate and read OSM extracts
+This function is used to find, download, translate, and read OSM extracts
 obtained from several providers. It is a wrapper around \code{\link[=oe_match]{oe_match()}} and
-\code{\link[=oe_read]{oe_read()}}. Check the introductory vignette, the examples and the help pages
-of the wrapped functions to understand the details behind all parameters.
+\code{\link[=oe_read]{oe_read()}}. Check the introductory vignette, the examples, and the help
+pages of the wrapped functions to understand the details behind all
+parameters.
 }
 \details{
 The algorithm that we use for importing an OSM extract data into R

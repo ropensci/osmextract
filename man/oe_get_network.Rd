@@ -9,23 +9,23 @@ oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
 a \code{.osm.pbf} file. Can be either a length-1 character vector, an
-\code{sf}/\code{sfc}/\code{bbox} object, or a numeric vector of coordinates with length 2.
-In the last case, it is assumed that the EPSG code is 4326 specified as
-c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox} objects. See
-Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
 \item{mode}{A character string of length one denoting the desired mode of
 transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
 and \code{walking} are supported.}
 
-\item{...}{Additional arguments passed to \code{oe_get()} such as \code{boundary} or
+\item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
 \code{force_download}.}
 }
 \value{
 An \code{sf} object.
 }
 \description{
-This function is a wrapper around \code{oe_get()} and can be used to import a road
+This function is a wrapper around \code{\link[=oe_get]{oe_get()}} and can be used to import a road
 network given a \code{place} and a mode of transport. Check the Details for a
 precise description of the procedures used to filter the OSM ways according
 to each each mode of transport.
@@ -33,7 +33,7 @@ to each each mode of transport.
 \details{
 The definition of usable transport network was taken from the Python
 packages
-\href{https://github.com/gboeing/osmnx/blob/main/osmnx/downloader.py}{osmnx} and
+\href{https://github.com/gboeing/osmnx/blob/main/osmnx/_downloader.py}{osmnx} and
 \href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
 documents found online, i.e.
 \url{https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions},
@@ -53,7 +53,8 @@ parameter) selects the OSM ways that meet the following conditions:
 to \code{yes}, \code{designated}, \code{permissive} or \code{destination} (see
 \href{https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions}{here}
 for more details);
-\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{bicycle} is
+equal to \code{yes}, \code{permissive} or \code{designated} (see #289);
 \item The \code{bicycle} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, or
 \code{restricted};
 \item The \code{service} tag does not contain the string \code{private} (i.e.
@@ -70,7 +71,8 @@ following conditions:
 \code{raceway}, \code{motorway} or \code{motorway_link};
 \item The \code{highway} tag is not equal to \code{cycleway} unless the \code{foot} tag is
 equal to \code{yes};
-\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{foot} is
+equal to \code{yes}, \code{permissive}, or \code{designated} (see #289);
 \item The \code{foot} tag is not equal to \code{no}, \code{use_sidepath}, \code{private}, or
 \code{restricted};
 \item The \code{service} tag does not contain the string \code{private}
@@ -85,7 +87,8 @@ following conditions:
 \code{bus_guideway}, \code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
 \code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
 \code{cycleway}, \code{pedestrian}, \code{bridleway}, \code{path}, or \code{footway};
-\item The \code{access} tag is not equal to \code{private} or \code{no};
+\item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{motor_vehicle} is
+equal to \code{yes}, \code{permissive}, or \code{designated} (see #289);
 \item The \code{service} tag does not contain the string \code{private} (i.e. \code{private},
 \code{private_access} and similar).
 }

@@ -75,11 +75,13 @@ oe_update = function(
   # The following is used to check if the directory is empty since list.files
   # returns character(0) in case of empty dir
   if (identical(list.files(download_directory), character(0))) {
-    stop(
-      "The download directory, ",
-      download_directory,
-      ", is empty.",
-      call. = FALSE
+    oe_stop(
+      .subclass = "oe_update-emptyDownloadDirectory",
+      message = paste0(
+        "The download directory, ",
+        download_directory,
+        ", is empty."
+      )
     )
   }
 

@@ -27,8 +27,7 @@ test_that("oe_update(): simplest example works", {
   skip_if(inherits(my_status, "try-error"))
   skip_if_not(my_status == 200L)
 
-  # NB: Sevastopol is the smallest openstreetmap.fr extract available
-  cana <- oe_get("Canarias", provider = "openstreetmap_fr", quiet = TRUE)
+  bi <- oe_get("Bouvet Island", provider = "openstreetmap_fr", quiet = TRUE)
 
   # Simplest example
   expect_error(oe_update(quiet = TRUE), NA)

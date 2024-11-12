@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Andrea Gilardi \email{andrea.gilardi@unimib.it} (\href{https://orcid.org/0000-0002-9424-7439}{ORCID})
+\strong{Maintainer}: Andrea Gilardi \email{andrea.gilardi@polimi.it} (\href{https://orcid.org/0000-0002-9424-7439}{ORCID})
 
 Authors:
 \itemize{

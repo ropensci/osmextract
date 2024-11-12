@@ -104,8 +104,8 @@ oe_read = function(
   # discussion.
   dots_names = extract_dots_names_safely(...)
   if (...length() && (any(is.null(dots_names)) | any(dots_names == ""))) {
-    stop_custom(
-      .subclass = "osmext-names-dots-error",
+    oe_stop(
+      .subclass = "oe_read-namesDotsError",
       message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check also that you didn't add an extra comma at the end of your call.",
     )
   }
@@ -128,10 +128,13 @@ oe_read = function(
     layer_raw = regmatches(query, regexpr(query_pattern, query, perl = TRUE))
 
     if (length(layer_raw) != 1L) {
-      stop(
-        "There is an error in the query or in oe_read. Please open a new issue at ",
-        "https://github.com/ropensci/osmextract/issues",
-        call. = FALSE
+      oe_stop(
+        .subclass = "oe_read-errorInQuery1",
+        message = paste0(
+          "The query should be formatted as 'SELECT ... FROM ... <WHERE ...>'. ",
+          "If that's already the case, please open a new issue at ",
+          "https://github.com/ropensci/osmextract/issues"
+        )
       )
     }
 
@@ -142,10 +145,12 @@ oe_read = function(
     )
 
     if (length(layer_clean) != 1L) {
-      stop(
-        "There is an error in the query or in oe_read. Please open a new issue at ",
-        "https://github.com/ropensci/osmextract/issues",
-        call. = FALSE
+      oe_stop(
+        .subclass = "oe_read-errorInQuery2",
+        message = paste0(
+          "There is an error in the query or in oe_read. Please open a new issue at ",
+          "https://github.com/ropensci/osmextract/issues"
+        )
       )
     }
 
@@ -191,7 +196,8 @@ oe_read = function(
         ),
         collapse = " - "
       ),
-      call. = FALSE
+      call. = FALSE,
+      immediate. = TRUE
     )
   }
 
@@ -219,10 +225,12 @@ oe_read = function(
     like_url = is_like_url(file_path)
 
     if (!like_url) {
-      stop(
-        "The input file_path does not correspond to any existing file ",
-        "and it doesn't look like a URL.",
-        call. = FALSE
+      oe_stop(
+        .subclass = "oe_read-inputDoesNotCorrespondToExistingFileOrURL",
+        message = paste0(
+          "The input file_path does not correspond to any existing file ",
+          "and it doesn't look like a URL."
+        )
       )
     }
 
@@ -238,7 +246,13 @@ oe_read = function(
   }
 
   if (!file.exists(file_path)) {
-    stop("An error occurred during the download process", call. = FALSE)
+    oe_stop(
+      .subclass = "oe_read-errorAfterDownload",
+      message = paste0(
+        "An error occurred during the download process. ",
+        "Please raise a new issue at https://github.com/ropensci/osmextract/issues"
+      )
+    )
   }
 
   # Now file_path should always point to an existing .pbf or .gpkg file Again,
@@ -255,7 +269,7 @@ oe_read = function(
   # skip_vectortranslate = TRUE, then we just need to return the pbf path or
   # read it.
   if (
-    tools::file_ext(file_path) == "pbf" &&
+    tools::file_ext(file_path) %in% c("pbf", "osm") &&
     isTRUE(skip_vectortranslate)
   ) {
     if (isTRUE(download_only)) {
@@ -296,7 +310,10 @@ oe_read = function(
 
   # Add another test since maybe there was an error during the vectortranslate process:
   if (!file.exists(gpkg_file_path)) {
-    stop("An error occurred during the vectortranslate process", call. = FALSE)
+    oe_stop(
+      .subclass = "oe_read-errorAfterVectortranslate",
+      message = "A fatal error occurred during the vectortranslate process."
+    )
   }
 
   # Read the file

@@ -29,7 +29,7 @@
 #'   reads and processes a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
 #'   file, that can be checked at the following
-#'   [link](https://github.com/OSGeo/gdal/blob/master/data/osmconf.ini).
+#'   [link](https://github.com/OSGeo/gdal/blob/master/ogr/ogrsf_frmts/osm/data/osmconf.ini).
 #'   The basic components of OSM data are called
 #'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
 #'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
@@ -183,8 +183,11 @@ oe_vectortranslate = function(
 ) {
   # Check that the input file was specified using the format
   # ".../something.pbf". This is important for creating the .gpkg file path.
-  if (tools::file_ext(file_path) != "pbf" || !file.exists(file_path)) {
-    stop("The parameter file_path must correspond to an existing .pbf file")
+  if (! tools::file_ext(file_path) %in% c("pbf", "osm") || !file.exists(file_path)) {
+    oe_stop(
+      .subclass = "oe_vectortranslate_filePathMissingOrNotPbf",
+      message = "The parameter file_path must correspond to an existing .pbf file"
+    )
   }
 
   # Check that the layer param is not NA or NULL
@@ -197,9 +200,12 @@ oe_vectortranslate = function(
       "points", "lines", "multipolygons", "multilinestrings", "other_relations"
     )
   ) {
-    stop(
-      "You need to specify the layer parameter and it must be one of",
-      " points, lines, multipolygons, multilinestrings or other_relations."
+    oe_stop(
+      .subclass = "oe_vectortranslate-layerNotProperlySpecified",
+      message = paste0(
+        "You need to specify the layer parameter and it must be one of",
+        " points, lines, multipolygons, multilinestrings or other_relations."
+      )
     )
   }
 
@@ -232,7 +238,11 @@ oe_vectortranslate = function(
   if (file.exists(gpkg_file_path) && isFALSE(force_vectortranslate)) {
     if (layer %!in% sf::st_layers(gpkg_file_path)[["name"]]) {
       # Try to add the new layer from the .osm.pbf file to the .gpkg file
-      oe_message("Adding a new layer to the .gpkg file", quiet = quiet)
+      oe_message(
+        "Adding a new layer to the .gpkg file.",
+        quiet = quiet,
+        .subclass = "oe_vectortranslate_addingNewLayer"
+      )
 
       force_vectortranslate = TRUE
     }
@@ -304,7 +314,8 @@ oe_vectortranslate = function(
     oe_message(
       "The corresponding gpkg file was already detected. ",
       "Skip vectortranslate operations.",
-      quiet = quiet
+      quiet = quiet,
+      .subclass = "oe_vectortranslate_skipOperations"
     )
     return(gpkg_file_path)
   }
@@ -385,9 +396,9 @@ oe_vectortranslate = function(
         which_f == length(vectortranslate_options) ||
         vectortranslate_options[which_f + 1] != "GPKG"
       ) {
-        stop(
-          "The oe_vectortranslate function should translate only to GPKG format",
-          call. = FALSE
+        oe_stop(
+          .subclass = "oe_vectortranslate_shouldTranslateToGPKGOnly",
+          message = "The oe_vectortranslate function should translate to GPKG format only"
         )
       }
     }
@@ -434,7 +445,8 @@ oe_vectortranslate = function(
 
   oe_message(
     "Starting with the vectortranslate operations on the input file!",
-    quiet = quiet
+    quiet = quiet,
+    .subclass = "oe_vectortranslate_startVectortranslate"
   )
 
   # Now we can apply the vectortranslate operation from gdal_utils: See
@@ -450,7 +462,8 @@ oe_vectortranslate = function(
 
   oe_message(
     "Finished the vectortranslate operations on the input file!",
-    quiet = quiet
+    quiet = quiet,
+    .subclass = "oe_vectortranslate_finishedVectortranslate"
   )
 
   # and return the path of the gpkg file
@@ -459,11 +472,11 @@ oe_vectortranslate = function(
 
 get_id_layer = function(layer) {
   default_id = list(
-    points = 33L,
-    lines = 53L,
-    multipolygons = 85L,
-    multilinestrings = 103L,
-    other_relations = 121L
+    points = 38L,
+    lines = 58L,
+    multipolygons = 90L,
+    multilinestrings = 108L,
+    other_relations = 126L
   )
   default_id[[layer]]
 }
@@ -485,7 +498,8 @@ get_fields_default = function(layer) {
       "waterway",
       "aerialway",
       "barrier",
-      "man_made"
+      "man_made",
+      "railway"
     ),
     multipolygons = c(
       "name",

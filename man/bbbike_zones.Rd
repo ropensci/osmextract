@@ -5,18 +5,22 @@
 \alias{bbbike_zones}
 \title{An sf object of geographical zones taken from bbbike.org}
 \format{
-An \code{sf} object with 236 rows and
+An \code{sf} object with 237 rows and
 6 columns:
 \describe{
 \item{name}{The, usually English, long-form name of the city.}
-\item{pbf_file_size}{Size of the pbf file in bytes.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
-\item{level}{An integer code always equal to 3 (since the bbbike
-data represent non-hierarchical geographical zones). This is used only for
+\item{pbf_file_size}{Size of the pbf file in bytes.}
+\item{id}{A unique identifier. It contains letters, numbers and potentially
+the characters "-" and "/".}
+\item{level}{An integer code always equal to 3 (since the bbbike data
+represent non-hierarchical geographical zones). This is used only for
 matching operations in case of spatial input. The oe_* functions will
 select the geographical area closest to the input place with the highest
-"level". See \link{geofabrik_zones} for an example of a hierarchical structure.}
-\item{geometry}{The \code{sfg} for that geographical region, rectangular.}
+"level". See \link{geofabrik_zones} for an example of a (proper) hierarchical
+structure.}
+\item{geometry}{The \code{sfg} for that geographical region, rectangular. See
+also \code{oe_get_boundary()} to extract the proper geographical boundaries.}
 }
 }
 \source{
@@ -29,7 +33,8 @@ bbbike_zones
 Start bicycle routing for... everywhere!
 }
 \details{
-An \code{sf} object containing the URLs, names and file_size of the OSM extracts.
+An \code{sf} object containing the URLs, names, and file_size of the OSM extracts
+stored at \url{https://download.bbbike.org/osm/bbbike/}.
 }
 \seealso{
 Other provider's-database: 

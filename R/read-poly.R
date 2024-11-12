@@ -57,8 +57,8 @@ read_poly <- function(input, crs = "OGC:CRS84", ...) {
       con <- url(input)
       input <- readLines(con, ...)
     } else {
-      stop_custom(
-        .subclass = "osmext-read_poly-noURLorFileExists",
+      oe_stop(
+        .subclass = "read_poly-noURLorFileExists",
         message = paste0(
           "The input object does not point to an existing file ",
           "and does not look like a URL."

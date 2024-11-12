@@ -1,5 +1,3 @@
-## code to prepare `openstreetmap_fr_zones` dataset goes here
-
 # packages ----------------------------------------------------------------
 library(rvest)
 library(sf)

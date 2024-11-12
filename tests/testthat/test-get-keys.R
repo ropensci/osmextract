@@ -100,15 +100,15 @@ test_that("oe_get_keys + values: printing method", {
 test_that("oe_get_keys: returns error with wrong inputs", {
   expect_error(
     oe_get_keys(sf::st_sfc(sf::st_point(c(1, 1)), crs = 4326)),
-    class = "osmext-oe_get_keys-no_support"
+    class = "oe_get_keys-noSupport"
   )
   expect_error( # file does not exist
     oe_get_keys("xxx.gpkg"),
-    class = "osmext-oe_get_keys-matched_input_missing"
+    class = "oe_get_keys-matchedFileMissing"
   )
   expect_error( # length > 1
     oe_get_keys(c("a.gpkg", "b.gpkg")),
-    class = "osmext-oe_get_keys-length_1_input"
+    class = "oe_get_keys-lengthOneCharacterInput"
   )
 })
 
@@ -165,7 +165,7 @@ test_that("oe_get_keys stops when there is no other_tags field", {
   )
   expect_error(
     oe_get_keys(its_object),
-    "The input object must have an other_tags field."
+    class = "oe_get_keys-inputMustHaveOtherTagsField"
   )
 
   # Translate data ignoring the other_tags field
@@ -179,7 +179,7 @@ test_that("oe_get_keys stops when there is no other_tags field", {
   )
   expect_error(
     oe_get_keys(its_gpkg),
-    "The input file must have an other_tags field."
+    class = "oe_get_keys-matchedFileMustHaveOtherTagsFields"
   )
 })
 
@@ -196,7 +196,7 @@ test_that("oe_get_keys matches input zone with file", {
   expect_error(oe_get_keys("ITS Leeds"), NA)
 
   # Cannot extract from files that were not previously downloaded
-  expect_error(oe_get_keys("Brazil"))
+  expect_error(oe_get_keys("Brazil"), class = "oe_get_keys-matchedFileMissing")
 })
 
 test_that("oe_get_keys errors when asking for non existing layer", {
@@ -211,15 +211,15 @@ test_that("oe_get_keys errors when asking for non existing layer", {
 
   expect_error(
     object = oe_get_keys(its_gpkg, layer = "points"),
-    class = "osmext-oe_get_keys-missing_selected_layer"
+    class = "oe_get_keys-missingLayerSelected"
   )
 })
 
 test_that("oe_get_keys emits warning when some keys were already extracted", {
-  its_pbf = setup_pbf()
   withr::local_envvar(
     .new = list("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir())
   )
+  its_pbf = setup_pbf()
   its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE, extra_tags = "amenity")
 
   expect_warning(

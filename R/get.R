@@ -1,57 +1,53 @@
 #' Find, download, translate and read OSM extracts from several providers
 #'
-#' This function is used to find, download, translate and read OSM extracts
+#' This function is used to find, download, translate, and read OSM extracts
 #' obtained from several providers. It is a wrapper around [oe_match()] and
-#' [oe_read()]. Check the introductory vignette, the examples and the help pages
-#' of the wrapped functions to understand the details behind all parameters.
+#' [oe_read()]. Check the introductory vignette, the examples, and the help
+#' pages of the wrapped functions to understand the details behind all
+#' parameters.
 #'
 #' @param place Description of the geographical area that should be matched with
 #'   a `.osm.pbf` file. Can be either a length-1 character vector, an
-#'   `sf`/`sfc`/`bbox` object, or a numeric vector of coordinates with length 2.
-#'   In the last case, it is assumed that the EPSG code is 4326 specified as
-#'   c(LON, LAT), while you can use any CRS with `sf`/`sfc`/`bbox` objects. See
-#'   Details and Examples in [oe_match()].
+#'   `sf`/`sfc`/`bbox` object with any CRS, or a numeric vector of coordinates
+#'   with length 2. In the last case, it is assumed that the EPSG code is 4326
+#'   specified as c(LON, LAT), while you can use any CRS with `sf`/`sfc`/`bbox`
+#'   objects. See Details and Examples in [oe_match()].
 #' @param layer Which `layer` should be read in? Typically `points`, `lines`
 #'   (the default), `multilinestrings`, `multipolygons` or `other_relations`. If
 #'   you specify an ad-hoc query using the argument `query` (see introductory
-#'   vignette and examples), then `oe_get()` and `oe_read()` will read the layer
-#'   specified in the query and ignore `layer`. See also
+#'   vignette and examples), then [oe_get()] and [oe_read()] will read the layer
+#'   specified in the query and ignore `layer` argument. See also
 #'   [#122](https://github.com/ropensci/osmextract/issues/122).
 #' @param provider Which provider should be used to download the data? Available
-#'   providers can be found with the following command: [oe_providers()]. For
-#'   [`oe_get()`] and [`oe_match()`], if `place` is equal to `ITS Leeds`, then
-#'   `provider` is set equal to `test`. This is just for simple examples and
+#'   providers can be browsed with [oe_providers()]. For [oe_get()] and
+#'   [oe_match()], if `place` is equal to `ITS Leeds`, then `provider` is
+#'   internally set equal to `"test"`. This is just for simple examples and
 #'   internal tests.
 #' @param match_by Which column of the provider's database should be used for
 #'   matching the input `place` with a `.osm.pbf` file? The default is `"name"`.
 #'   Check Details and Examples in [oe_match()] to understand how this parameter
-#'   works. Ignored if `place` is not a character vector since the matching is
-#'   performed through a spatial operation.
+#'   works. Ignored when `place` is not a character vector since, in that case,
+#'   the matching is performed through a spatial operation.
 #' @param max_string_dist Numerical value greater or equal than 0. What is the
 #'   maximum distance in fuzzy matching (i.e. Approximate String Distance, see
-#'   [adist()]) between input `place` and `match_by` column to tolerate before
-#'   testing alternative providers or looking for geographical matching with
-#'   Nominatim API? This parameter is set equal to 0 if `match_by` is equal to
-#'   `iso3166_1_alpha2` or `iso3166_2`. Check Details and Examples in
-#'   [oe_match()] to understand why this parameter is important. Ignored if
-#'   `place` is not a character vector since the matching is performed through a
-#'   spatial operation.
+#'   [adist()]) between input `place` and `match_by` column that can be
+#'   tolerated before testing alternative providers or looking for geographical
+#'   matching with Nominatim API? This parameter is set equal to 0 if `match_by`
+#'   is equal to `iso3166_1_alpha2` or `iso3166_2`. Check Details and Examples
+#'   in [oe_match()] to understand why this parameter is important. Ignored when
+#'   `place` is not a character vector since, in that case, the matching is
+#'   performed through a spatial operation.
 #' @param level  An integer representing the desired hierarchical level in case
 #'   of spatial matching. For the `geofabrik` provider, for example, `1`
 #'   corresponds with continent-level datasets, `2` for countries, `3`
 #'   corresponds to regions and `4` to subregions. Hence, we could approximately
 #'   say that smaller administrative units correspond to bigger levels. If
 #'   `NULL`, the default, the `oe_*` functions will select the highest available
-#'   level. See Details and Examples in `oe_match()`.
-#' @param download_directory Where to download the file containing the OSM data?
-#'   By default this is equal to [oe_download_directory()], which is equal to
-#'   [`tempdir()`] and it changes each time you restart R. You can set a
-#'   persistent `download_directory` by adding the following to your `.Renviron`
-#'   file (e.g. with `edit_r_environ` function in `usethis` package):
-#'   `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
-#' @param force_download Should the `.osm.pbf` file be updated if it has already
-#'   been downloaded? `FALSE` by default. This parameter is used to update old
-#'   `.osm.pbf` files.
+#'   level. See Details and Examples in [oe_match()].
+#' @param download_directory Directory to store the file containing OSM data?.
+#' @param force_download Should the `.osm.pbf` file be updated even if it has
+#'   already been downloaded? `FALSE` by default. This parameter is used to
+#'   update old `.osm.pbf` files.
 #' @param max_file_size The maximum file size to download without asking in
 #'   interactive mode. Default: `5e+8`, half a gigabyte.
 #' @param vectortranslate_options Options passed to the [`sf::gdal_utils()`]
@@ -82,7 +78,7 @@
 #' @param quiet Boolean. If `FALSE`, the function prints informative messages.
 #'   Starting from `sf` version
 #'   [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
-#'    if `quiet` is equal to `FALSE`, then vectortranslate operations will
+#'   if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
 #' @param boundary An `sf`/`sfc`/`bbox` object that will be used to create a
 #'   spatial filter during the vectortranslate operations. The type of filter

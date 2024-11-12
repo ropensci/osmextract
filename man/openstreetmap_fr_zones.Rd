@@ -5,7 +5,7 @@
 \alias{openstreetmap_fr_zones}
 \title{An sf object of geographical zones taken from download.openstreetmap.fr}
 \format{
-An \code{sf} object with 1135 rows and
+An \code{sf} object with 1187 rows and
 7 columns:
 \describe{
 \item{id}{A unique ID for each area. It is used by \code{oe_update()}.}
@@ -13,22 +13,23 @@ An \code{sf} object with 1135 rows and
 \item{parent}{The identifier of the next larger excerpts that contains
 this one, if present.}
 \item{level}{An integer code between 1 and 4. Check
-\url{http://download.openstreetmap.fr/polygons/} to see the hierarchical
+\url{http://download.openstreetmap.fr/polygons/} to understand the hierarchical
 structure of the zones. 1L correspond to the biggest areas. This is used
 only for matching operations in case of spatial input.}
 \item{pbf}{Link to the latest \code{.osm.pbf} file for this region.}
 \item{pbf_file_size}{Size of the pbf file in bytes.}
-\item{geometry}{The \code{sfg} for that geographical region, rectangular.}
+\item{geometry}{The \code{sfg} for that geographical region, rectangular. See
+also \code{oe_get_boundary()} to extract the proper geographical boundaries.}
 }
 }
 \source{
-\url{https://download.bbbike.org/osm/}
+\url{http://download.openstreetmap.fr/}
 }
 \usage{
 openstreetmap_fr_zones
 }
 \description{
-An \code{sf} object containing the URLs, names and file-sizes of the OSM
+An \code{sf} object containing the URLs, names, and file-sizes of the OSM
 extracts stored at \url{http://download.openstreetmap.fr/}.
 }
 \seealso{

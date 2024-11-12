@@ -1,5 +1,3 @@
-## code to prepare `geofabrik_zones` dataset goes here
-
 # packages
 library(sf)
 library(jsonlite)
@@ -208,6 +206,8 @@ geofabrik_zones$pbf.internal = NULL
 geofabrik_zones$history = NULL
 geofabrik_zones$taginfo = NULL
 geofabrik_zones$updates = NULL
+geofabrik_zones$bz2 = NULL
+geofabrik_zones$shp = NULL
 
 # The end
 usethis::use_data(geofabrik_zones, version = 3, overwrite = TRUE, compress = "xz")

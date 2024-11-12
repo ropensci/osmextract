@@ -32,8 +32,8 @@ then it must be specified using HTTP/HTTPS protocol.}
 \item{layer}{Which \code{layer} should be read in? Typically \code{points}, \code{lines}
 (the default), \code{multilinestrings}, \code{multipolygons} or \code{other_relations}. If
 you specify an ad-hoc query using the argument \code{query} (see introductory
-vignette and examples), then \code{oe_get()} and \code{oe_read()} will read the layer
-specified in the query and ignore \code{layer}. See also
+vignette and examples), then \code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_read]{oe_read()}} will read the layer
+specified in the query and ignore \code{layer} argument. See also
 \href{https://github.com/ropensci/osmextract/issues/122}{#122}.}
 
 \item{...}{(Named) arguments that will be passed to \code{\link[sf:st_read]{sf::st_read()}}, like
@@ -41,26 +41,21 @@ specified in the query and ignore \code{layer}. See also
 vignette to understand how to create your own (SQL-like) queries.}
 
 \item{provider}{Which provider should be used to download the data? Available
-providers can be found with the following command: \code{\link[=oe_providers]{oe_providers()}}. For
-\code{\link[=oe_get]{oe_get()}} and \code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then
-\code{provider} is set equal to \code{test}. This is just for simple examples and
+providers can be browsed with \code{\link[=oe_providers]{oe_providers()}}. For \code{\link[=oe_get]{oe_get()}} and
+\code{\link[=oe_match]{oe_match()}}, if \code{place} is equal to \verb{ITS Leeds}, then \code{provider} is
+internally set equal to \code{"test"}. This is just for simple examples and
 internal tests.}
 
-\item{download_directory}{Where to download the file containing the OSM data?
-By default this is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}, which is equal to
-\code{\link[=tempdir]{tempdir()}} and it changes each time you restart R. You can set a
-persistent \code{download_directory} by adding the following to your \code{.Renviron}
-file (e.g. with \code{edit_r_environ} function in \code{usethis} package):
-\verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.}
+\item{download_directory}{Directory to store the file containing OSM data?.}
 
 \item{file_size}{How big is the file? Optional. \code{NA} by default. If it's
 bigger than \code{max_file_size} and the function is run in interactive mode,
 then an interactive menu is displayed, asking for permission to download
 the file.}
 
-\item{force_download}{Should the \code{.osm.pbf} file be updated if it has already
-been downloaded? \code{FALSE} by default. This parameter is used to update old
-\code{.osm.pbf} files.}
+\item{force_download}{Should the \code{.osm.pbf} file be updated even if it has
+already been downloaded? \code{FALSE} by default. This parameter is used to
+update old \code{.osm.pbf} files.}
 
 \item{max_file_size}{The maximum file size to download without asking in
 interactive mode. Default: \code{5e+8}, half a gigabyte.}

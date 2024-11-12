@@ -1,5 +1,5 @@
 # Auxiliary functions (not exported)
-'%!in%' = function(x, y) !('%in%'(x, y))
+'%!in%' = Negate('%in%')
 
 # See https://github.com/ropensci/osmextract/issues/134
 is_like_url = function(URL) {
@@ -79,7 +79,7 @@ oe_download_directory = function() {
 
 # Print a message if quiet argument is FALSE. I defined this function since the
 # same pattern is repeated several times in the package.
-oe_message <- function(..., quiet, .subclass = "oe_message") {
+oe_message <- function(..., quiet, .subclass) {
   if (isFALSE(quiet)) {
     msg <- structure(
       list(message = .makeMessage(..., appendLF = TRUE)),
@@ -115,9 +115,9 @@ extract_dots_names_safely <- function(...) {
   tryCatch(
     names(list(...)),
     error = function(cnd) {
-      stop_custom(
-        .subclass = "osmext-names-dots-error",
-        message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check that you didn't add an extra comma at the end of your call.",
+      oe_stop(
+        .subclass = "oe_read-namesDotsError",
+        message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check also that you didn't add an extra comma at the end of your call.",
       )
     }
   )
@@ -127,7 +127,7 @@ extract_dots_names_safely <- function(...) {
 # book (and I think that's possible since the code is released with MIT
 # license). The main benefit of this approach is that I can test the class of
 # the error instead of the message.
-stop_custom <- function(.subclass, message, call = NULL, ...) {
+oe_stop <- function(.subclass, message, call = NULL, ...) {
   err <- structure(
     list(
       message = message,
@@ -175,12 +175,15 @@ oe_clean <- function(download_directory = oe_download_directory(), force = FALSE
   }
 
   if (continue != 1L) {
-    stop("Aborted by user", call. = FALSE)
+    oe_stop(
+      .subclass = "oe_clean-aborted",
+      message = "Aborted by user"
+    )
   } # nocov end
 
   my_files = list.files(
     path = download_directory,
-    pattern = "\\.(osm\\.pbf|gpkg)$",
+    pattern = "\\.(osm|osm\\.pbf|gpkg)$",
     full.names = TRUE
   )
   unlink(my_files)
