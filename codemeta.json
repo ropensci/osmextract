@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ropensci/osmextract",
   "issueTracker": "https://github.com/ropensci/osmextract/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -121,7 +121,7 @@
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 3.5.0"
+      "version": ">= 3.6.0"
     },
     "2": {
       "@type": "SoftwareApplication",
@@ -172,7 +172,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3676.091KB",
+  "fileSize": "3678.118KB",
   "releaseNotes": "https://github.com/ropensci/osmextract/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
   "contIntegration": ["https://github.com/ropensci/osmextract/actions", "https://app.codecov.io/gh/ropensci/osmextract?branch=master"],
