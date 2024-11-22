@@ -73,7 +73,7 @@ usage, and check the introductory vignette for more complex use-cases."><meta pr
     <div class="ref-description">
     <p>This function is used to translate a <code>.osm.pbf</code> file into <code>.gpkg</code> format.
 The conversion is performed using
-<a href="https://gdal.org/programs/ogr2ogr.html#ogr2ogr" class="external-link">ogr2ogr</a> via the
+<a href="https://gdal.org/en/stable/programs/ogr2ogr.html" class="external-link">ogr2ogr</a> via the
 <code>vectortranslate</code> utility in <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html" class="external-link">sf::gdal_utils()</a></code> . It was created following
 <a href="https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053" class="external-link">the suggestions</a>
 of the maintainers of GDAL. See Details and Examples to understand the basic
@@ -121,7 +121,7 @@ vignette and the help page of <code>oe_vectortranslate()</code>.</p></dd>
 
 <dt id="arg-osmconf-ini">osmconf_ini<a class="anchor" aria-label="anchor" href="#arg-osmconf-ini"></a></dt>
 <dd><p>The configuration file. See documentation at
-<a href="https://gdal.org/drivers/vector/osm.html" class="external-link">gdal.org</a>. Check details in the
+<a href="https://gdal.org/en/stable/drivers/vector/osm.html" class="external-link">gdal.org</a>. Check details in the
 introductory vignette and the help page of <code>oe_vectortranslate()</code>. Set by
 default.</p></dd>
 
@@ -160,7 +160,7 @@ can be chosen using the argument <code>boundary_type</code>.</p></dd>
 <dd><p>A character vector of length 1 specifying the type of
 spatial filter. The <code>spat</code> filter selects only those features that
 intersect a given area, while <code>clipsrc</code> also clips the geometries. Check
-the examples and also <a href="https://gdal.org/programs/ogr2ogr.html" class="external-link">here</a> for
+the examples and also <a href="https://gdal.org/en/stable/programs/ogr2ogr.html" class="external-link">here</a> for
 more details.</p></dd>
 
 
@@ -186,7 +186,7 @@ customized in several ways modifying the parameters <code>layer</code>, <code>ex
 <p>The <code>.osm.pbf</code> files processed by GDAL are usually categorized into 5
 layers, named <code>points</code>, <code>lines</code>, <code>multilinestrings</code>, <code>multipolygons</code> and
 <code>other_relations</code>. Check the first paragraphs
-<a href="https://gdal.org/drivers/vector/osm.html" class="external-link">here</a> for more details. This
+<a href="https://gdal.org/en/stable/drivers/vector/osm.html" class="external-link">here</a> for more details. This
 function can covert only one layer at a time, and the parameter <code>layer</code> is
 used to specify which layer of the <code>.osm.pbf</code> file should be converted.
 Several layers with different names can be stored in the same <code>.gpkg</code> file.
@@ -235,11 +235,11 @@ to</p>
 <li><p><code>"-overwrite</code> is used to delete an existing layer and recreate
 it empty;</p></li>
 <li><p><code>"-oo", paste0("CONFIG_FILE=", osmconf_ini)</code> is used to set the
-<a href="https://gdal.org/drivers/vector/osm.html#open-options" class="external-link">Open Options</a>
+<a href="https://gdal.org/en/stable/drivers/vector/osm.html#open-options" class="external-link">Open Options</a>
 for the <code>.osm.pbf</code> file and change the <code>CONFIG</code> file (in case the user
 asks for any extra tag or a totally different CONFIG file);</p></li>
 <li><p><code>"-lco", "GEOMETRY_NAME=geometry"</code> is used to change the
-<a href="https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options" class="external-link">layer creation options</a>
+<a href="https://gdal.org/en/stable/drivers/vector/gpkg.html#layer-creation-options" class="external-link">layer creation options</a>
 for the <code>.gpkg</code> file and modify the name of the geometry column;</p></li>
 <li><p><code>layer</code> indicates which layer should be converted.</p></li>
 </ul><p>If <code>vectortranslate_options</code> is not <code>NULL</code>, then the options <code>c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", path-to-config-file, "-lco", "GEOMETRY_NAME=geometry", layer)</code> are always appended unless the user
@@ -255,7 +255,7 @@ added to the <code>vectortranslate_options</code> (unless a user explicitly sets
 different default options). Check Examples in <code><a href="oe_get.html">oe_get()</a></code> and the
 introductory vignette.</p>
 <p>See also the help page of <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html" class="external-link">sf::gdal_utils()</a></code> and
-<a href="https://gdal.org/programs/ogr2ogr.html" class="external-link">ogr2ogr</a> for more examples and
+<a href="https://gdal.org/en/stable/programs/ogr2ogr.html" class="external-link">ogr2ogr</a> for more examples and
 extensive documentation on all available options that can be tuned during
 the vectortranslate process.</p>
     </div>
@@ -356,7 +356,7 @@ the vectortranslate process.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpzObBSi/test_its-example.gpkg"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpPtEWhR/test_its-example.gpkg"</span>
 <span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Driver: GPKG </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available layers:</span>
