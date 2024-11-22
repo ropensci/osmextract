@@ -79,7 +79,7 @@
 #'   for the `.osm.pbf` file and change the `CONFIG` file (in case the user
 #'   asks for any extra tag or a totally different CONFIG file);
 #'   * `"-lco", "GEOMETRY_NAME=geometry"` is used to change the
-#'   [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options)
+#'   [layer creation options](https://gdal.org/en/latest/drivers/vector/gpkg.html#layer-creation-options)
 #'   for the `.gpkg` file and modify the name of the geometry column;
 #'   * `layer` indicates which layer should be converted.
 #'

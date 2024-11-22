@@ -154,7 +154,7 @@ it empty;
 for the \code{.osm.pbf} file and change the \code{CONFIG} file (in case the user
 asks for any extra tag or a totally different CONFIG file);
 \item \verb{"-lco", "GEOMETRY_NAME=geometry"} is used to change the
-\href{https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options}{layer creation options}
+\href{https://gdal.org/en/latest/drivers/vector/gpkg.html#layer-creation-options}{layer creation options}
 for the \code{.gpkg} file and modify the name of the geometry column;
 \item \code{layer} indicates which layer should be converted.
 }
