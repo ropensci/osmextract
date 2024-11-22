@@ -12,7 +12,7 @@
 #'   be explicitly added to the `.gpkg` file. All the other keys are
 #'   automatically stored using an `other_tags` field with a syntax compatible
 #'   with the PostgreSQL HSTORE type. See
-#'   [here](https://gdal.org/drivers/vector/osm.html#driver-capabilities) for
+#'   [here](https://gdal.org/en/stable/drivers/vector/osm.html#driver-capabilities) for
 #'   more details.
 #'
 #'   When the argument `values` is `TRUE`, then the function returns a named

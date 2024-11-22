@@ -90,7 +90,7 @@ argument \code{options}. Set by default. Check details in the introductory
 vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{osmconf_ini}{The configuration file. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check details in the
+\href{https://gdal.org/en/stable/drivers/vector/osm.html}{gdal.org}. Check details in the
 introductory vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}. Set by
 default.}
 
@@ -114,7 +114,7 @@ can be chosen using the argument \code{boundary_type}.}
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that
 intersect a given area, while \code{clipsrc} also clips the geometries. Check
-the examples and also \href{https://gdal.org/programs/ogr2ogr.html}{here} for
+the examples and also \href{https://gdal.org/en/stable/programs/ogr2ogr.html}{here} for
 more details.}
 
 \item{download_only}{Boolean. If \code{TRUE}, then the function only returns the

@@ -74,7 +74,7 @@ knitr::include_graphics("man/figures/89990770-22bf2480-dc83-11ea-9092-7645945349
 
 The package is designed to complement `osmdata`, which has advantages over `osmextract` for small datasets: `osmdata` is likely to be quicker for datasets less than a few MB in size, provides up-to-date data and has an intuitive interface. 
 `osmdata` can provide data in a range of formats, while `osmextract` only returns [`sf`](https://github.com/r-spatial/sf) objects. 
-`osmextract`'s niche is that it provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R package for working with geographic data [`sf`](https://github.com/r-spatial/sf).
+`osmextract`'s niche is that it provides a fast way to download large OSM datasets in the highly compressed `pbf` format and read them in via the fast C library [GDAL](https://gdal.org/en/stable/drivers/vector/osm.html) and the popular R package for working with geographic data [`sf`](https://github.com/r-spatial/sf).
 
 ## Installation
 

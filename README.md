@@ -84,8 +84,8 @@ formats, while `osmextract` only returns
 [`sf`](https://github.com/r-spatial/sf) objects. `osmextract`’s niche is
 that it provides a fast way to download large OSM datasets in the highly
 compressed `pbf` format and read them in via the fast C library
-[GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R
-package for working with geographic data
+[GDAL](https://gdal.org/en/stable/drivers/vector/osm.html) and the
+popular R package for working with geographic data
 [`sf`](https://github.com/r-spatial/sf).
 
 ## Installation

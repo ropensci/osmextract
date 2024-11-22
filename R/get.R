@@ -54,7 +54,7 @@
 #'   argument `options`. Set by default. Check details in the introductory
 #'   vignette and the help page of [oe_vectortranslate()].
 #' @param osmconf_ini The configuration file. See documentation at
-#'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check details in the
+#'   [gdal.org](https://gdal.org/en/stable/drivers/vector/osm.html). Check details in the
 #'   introductory vignette and the help page of [oe_vectortranslate()]. Set by
 #'   default.
 #' @param extra_tags Which additional columns, corresponding to OSM tags, should
@@ -86,7 +86,7 @@
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
 #'   intersect a given area, while `clipsrc` also clips the geometries. Check
-#'   the examples and also [here](https://gdal.org/programs/ogr2ogr.html) for
+#'   the examples and also [here](https://gdal.org/en/stable/programs/ogr2ogr.html) for
 #'   more details.
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
