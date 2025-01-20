@@ -152,11 +152,13 @@ oe_match.sfc = function(
   place,
   provider = "geofabrik",
   level = NULL,
+  version = "latest",
   quiet = FALSE,
   ...
 ) {
   # Load the data associated with the chosen provider.
   provider_data = load_provider_data(provider)
+  version <- check_version(version, provider)
 
   # Check if place has no CRS (i.e. NA_crs_, see ?st_crs) and, in that case, set
   # 4326 + raise a warning message.
@@ -216,7 +218,6 @@ oe_match.sfc = function(
   # If, again, there are multiple matches with the same "level", we will select
   # only the area closest to the input place.
   if (nrow(matched_zones) > 1L) {
-
     nearest_id_centroid = sf::st_nearest_feature(
       place,
       sf::st_centroid(sf::st_geometry(matched_zones))
@@ -231,13 +232,19 @@ oe_match.sfc = function(
     .subclass = "oe_match_sfcInputMatchedWith"
   )
 
+  url <- matched_zones[["pbf"]]
+  url <- adjust_version_in_url(version, url)
+  file_size <- matched_zones[["pbf_file_size"]]
+  if (version != "latest") {
+    file_size <- NA  # The file size is not available for older versions
+  }
+
   # Return a list with the URL and the file_size of the matched place
   result = list(
-    url = matched_zones[["pbf"]],
-    file_size = matched_zones[["pbf_file_size"]]
+    url = url,
+    file_size = file_size
   )
   result
-
 }
 
 #' @inheritParams oe_get
@@ -277,6 +284,7 @@ oe_match.character = function(
   quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
+  version = "latest",
   ...
   ) {
   # For the moment we support only length-one character vectors
@@ -290,6 +298,7 @@ oe_match.character = function(
       )
     )
   }
+  version <- check_version(version, provider)
 
   # See https://github.com/ropensci/osmextract/pull/125
   if (place == "ITS Leeds") {
@@ -339,7 +348,6 @@ oe_match.character = function(
   # If the approximate string distance between the best match is greater than
   # the max_string_dist threshold, then:
   if (isTRUE(high_distance)) {
-
     # 1. Raise a message
     oe_message(
       "No exact match found for place = ", place,
@@ -389,7 +397,8 @@ oe_match.character = function(
          provider = other_provider,
          match_by = match_by,
          quiet = TRUE,
-         max_string_dist = max_string_dist
+         max_string_dist = max_string_dist,
+         version = version
         )
       )
     }
@@ -410,7 +419,8 @@ oe_match.character = function(
         oe_match(
           place = sf::st_geometry(place_online),
           provider = provider,
-          quiet = quiet
+          quiet = quiet,
+          version = version
         )
       )
     }
@@ -434,9 +444,16 @@ oe_match.character = function(
     .subclass = "oe_match_characterinputmatchedWith"
   )
 
+  url <- best_matched_place[["pbf"]]
+  url <- adjust_version_in_url(version, url)
+  file_size <- best_matched_place[["pbf_file_size"]]
+  if (version != "latest") {
+    file_size <- NA  # The file size is not available for older versions
+  }
+
   result = list(
-    url = best_matched_place[["pbf"]],
-    file_size = best_matched_place[["pbf_file_size"]]
+    url = url,
+    file_size = file_size
   )
   result
 }
