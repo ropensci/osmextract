@@ -33,7 +33,7 @@ to each each mode of transport.
 \details{
 The definition of usable transport network was taken from the Python
 packages
-\href{https://github.com/gboeing/osmnx/blob/main/osmnx/_downloader.py}{osmnx} and
+\href{https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py}{osmnx} and
 \href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
 documents found online, i.e.
 \url{https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions},

@@ -84,8 +84,8 @@ formats, while `osmextract` only returns
 [`sf`](https://github.com/r-spatial/sf) objects. `osmextract`’s niche is
 that it provides a fast way to download large OSM datasets in the highly
 compressed `pbf` format and read them in via the fast C library
-[GDAL](https://gdal.org/drivers/vector/osm.html) and the popular R
-package for working with geographic data
+[GDAL](https://gdal.org/en/stable/drivers/vector/osm.html) and the
+popular R package for working with geographic data
 [`sf`](https://github.com/r-spatial/sf).
 
 ## Installation
@@ -118,7 +118,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE
+#> Linking to GEOS 3.11.2, GDAL 3.7.2, PROJ 9.3.0; sf_use_s2() is TRUE
 ```
 
 ### Warnings:
@@ -149,9 +149,9 @@ can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 51226
+#> [1] 51875
 nrow(osm_points)
-#> [1] 67783
+#> [1] 68660
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -167,7 +167,8 @@ roads. The column names in the `osm_lines` object are as follows:
 ``` r
 names(osm_lines) # default variable names
 #>  [1] "osm_id"     "name"       "highway"    "waterway"   "aerialway" 
-#>  [6] "barrier"    "man_made"   "z_order"    "other_tags" "geometry"
+#>  [6] "barrier"    "man_made"   "railway"    "z_order"    "other_tags"
+#> [11] "geometry"
 ```
 
 Once imported, you can use all functions for data frames in base R and
@@ -266,7 +267,6 @@ states that
 > terms of:
 
 - 1.  This License;
-
 - 2.  A later version of this License similar in spirit to this
 
 See the [Introducing osmextract
@@ -320,6 +320,7 @@ Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
 
+<!-- :) -->
 <!-- :) -->
 <!-- :) -->
 <!-- :) -->

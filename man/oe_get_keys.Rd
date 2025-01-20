@@ -95,7 +95,7 @@ items, namely a \code{key} and a \code{value}. The conversion between \code{.osm
 be explicitly added to the \code{.gpkg} file. All the other keys are
 automatically stored using an \code{other_tags} field with a syntax compatible
 with the PostgreSQL HSTORE type. See
-\href{https://gdal.org/drivers/vector/osm.html#driver-capabilities}{here} for
+\href{https://gdal.org/en/stable/drivers/vector/osm.html#driver-capabilities}{here} for
 more details.
 
 When the argument \code{values} is \code{TRUE}, then the function returns a named
