@@ -142,14 +142,14 @@ string, then the function returns an empty list.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">res</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $geofabrik</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           id                     name  parent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 106 east-yorkshire-with-hull East Yorkshire with Hull england</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 275          north-yorkshire          North Yorkshire england</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 352          south-yorkshire          South Yorkshire england</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 465           west-yorkshire           West Yorkshire england</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 109 east-yorkshire-with-hull East Yorkshire with Hull england</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 297          north-yorkshire          North Yorkshire england</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 380          south-yorkshire          South Yorkshire england</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 495           west-yorkshire           West Yorkshire england</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $openstreetmap_fr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                           id                     name  parent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 745 yorkshire_and_the_humber Yorkshire And The Humber england</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 751 yorkshire_and_the_humber Yorkshire And The Humber england</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">oe_match_pattern</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">9</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span> <span class="co"># long/lat for Milan, Italy</span></span></span>
@@ -157,7 +157,7 @@ string, then the function returns an empty list.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Europe"     "Italy"      "Nord-Ovest"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $openstreetmap_fr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Europe"    "Italy"     "Lombardia"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Italy"     "Lombardia"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
