@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/osmextract",
   "issueTracker": "https://github.com/ropensci/osmextract/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.1 (2023-06-16 ucrt)",
+  "runtimePlatform": "R version 4.4.2 (2024-10-31 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -26,7 +26,7 @@
       "@type": "Person",
       "givenName": "Andrea",
       "familyName": "Gilardi",
-      "email": "andrea.gilardi@polimi.it",
+      "email": "andrea.gilardi@unimib.it",
       "@id": "https://orcid.org/0000-0002-9424-7439"
     },
     {
@@ -49,7 +49,7 @@
       "@type": "Person",
       "givenName": "Andrea",
       "familyName": "Gilardi",
-      "email": "andrea.gilardi@polimi.it",
+      "email": "andrea.gilardi@unimib.it",
       "@id": "https://orcid.org/0000-0002-9424-7439"
     }
   ],
@@ -172,7 +172,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "3678.118KB",
+  "fileSize": "3770.484KB",
   "releaseNotes": "https://github.com/ropensci/osmextract/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/osmextract/blob/master/README.md",
   "contIntegration": ["https://github.com/ropensci/osmextract/actions", "https://app.codecov.io/gh/ropensci/osmextract?branch=master"],

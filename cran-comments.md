@@ -1,12 +1,11 @@
 ## Release summary
 
-- Fixed the invalid language tag in DESCRIPTION file. 
-- Fixed a bug to preserve compatibility with GDAL 3.10. 
-- Several minor improvements. 
+- Added a new argument named 'version' to 'oe_match()'
+- Changed the maintainer's email address. I've already sent an email to CRAN-submissions@R-project.org explaining the reasons behind this change.  
 
 ## Test environments
 
-- local Windows, R 4.3.1
+- local Windows, R 4.4.2
 - Github Actions: ubuntu-latest (r-release)
 
 ## R CMD check results
