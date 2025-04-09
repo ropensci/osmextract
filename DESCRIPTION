@@ -1,7 +1,7 @@
 Package: osmextract
 Type: Package
 Title: Download and Import Open Street Map Data Extracts
-Version: 0.5.3
+Version: 0.5.3.9000
 Authors@R: c(
     person("Andrea", "Gilardi", email = "andrea.gilardi@unimib.it", role=c("aut", "cre"),
       comment = c(ORCID = "0000-0002-9424-7439")),
