@@ -118,7 +118,7 @@ attaching this geographic data package as follows:
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.11.2, GDAL 3.7.2, PROJ 9.3.0; sf_use_s2() is TRUE
+#> Linking to GEOS 3.13.0, GDAL 3.10.1, PROJ 9.5.1; sf_use_s2() is TRUE
 ```
 
 ### Warnings:
@@ -149,9 +149,9 @@ can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 51875
+#> [1] 51966
 nrow(osm_points)
-#> [1] 68660
+#> [1] 68769
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
