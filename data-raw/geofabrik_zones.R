@@ -17,6 +17,9 @@ geofabrik_zones = st_read("https://download.geofabrik.de/index-v1.json", strings
 # Check the result
 str(geofabrik_zones, max.level = 1, nchar.max = 64, give.attr = FALSE)
 
+# Are all geometries valid?
+all(st_is_valid(geofabrik_zones))
+
 # There are a few problems with the ISO3166 columns (i.e. they are read as list
 # columns with character(0) instead of NA/NULL).
 my_fix_iso3166 = function(list_column) {
@@ -215,6 +218,23 @@ geofabrik_zones = geofabrik_zones %>%
 st_geometry(geofabrik_zones) <- st_as_sfc(
   s2_rebuild(s2_geog_from_wkb(st_as_binary(st_geometry(geofabrik_zones)), check = FALSE))
 )
+
+# Manually fix invalid geometries
+which(!st_is_valid(st_geometry(geofabrik_zones)))
+
+faulty_geom <- st_geometry(geofabrik_zones)[194]
+
+# I cannot simply apply st_make_valid since that returns an invalid geometry
+# again. So I need to adjust the precision.
+st_precision(faulty_geom) <- 100000
+valid_geom <- st_make_valid(faulty_geom)
+st_is_valid(valid_geom)
+
+st_geometry(geofabrik_zones)[194] <- valid_geom
+rm(valid_geom, faulty_geom)
+
+# Are all geometries valid?
+all(st_is_valid(geofabrik_zones))
 
 # Remove (typically) useless column
 geofabrik_zones$pbf.internal = NULL
