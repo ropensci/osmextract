@@ -63,27 +63,40 @@ geofabrik_zones = st_sf(data.frame(geofabrik_zones, geofabrik_urls))
 rm(geofabrik_urls)
 
 # Now we are going to add to the geofabrik_zones object other useful information
-# for each pbf file such as the file size. Parents extracted by hand from
-# http://download.geofabrik.de/europe/ and similar pages.
+# for each pbf file such as the file size. Parents are extracted from the unique
+# name included into the field name 'parent'.
+table(geofabrik_zones[["parent"]]) |> sort(decreasing = TRUE)
 
 # Define parents
 parents <- c(
   "africa",
-  "asia", "asia/india", "asia/indonesia", "asia/japan",
+  "asia",
+  "asia/china",
+  "asia/india",
+  "asia/indonesia",
+  "asia/japan",
   "australia-oceania",
   "central-america",
-  "europe", "europe/france",
-  "europe/germany", "europe/germany/baden-wuerttemberg",
-  "europe/germany/bayern", "europe/germany/nordrhein-westfalen",
-  "europe/great-britain", "europe/great-britain/england",
-  "europe/great-britain/england/london/",
+  "europe",
+  "europe/france",
+  "europe/germany",
+  "europe/germany/baden-wuerttemberg",
+  "europe/germany/bayern",
+  "europe/germany/nordrhein-westfalen",
   "europe/italy",
   "europe/netherlands",
   "europe/poland",
   "europe/spain",
-  "north-america", "north-america/canada", "north-america/us", "north-america/us/california/",
+  "europe/united-kingdom",
+  "europe/united-kingdom/england",
+  "europe/united-kingdom/england/london",
+  "north-america",
+  "north-america/canada",
+  "north-america/us",
+  "north-america/us/california/",
   "russia",
-  "south-america", "south-america/brazil"
+  "south-america",
+  "south-america/brazil"
 )
 
 size_table <- map_dfr(
@@ -107,7 +120,7 @@ size_table <- map_dfr(
   }
 )
 
-# Add highest level parents by hand
+# Add highest level parents by hand. The sizes can be checked from https://download.geofabrik.de/
 size_table <- bind_rows(
   size_table,
   data.frame(
@@ -120,7 +133,7 @@ size_table <- bind_rows(
     ),
     last_modified = NA,
     size = c(
-      "5.6G", "31.1M", "11.5G", "1.0G", "590M", "26.3G", "12.1G", "3.2G", "3.0G"
+      "6.7GB", "31.5MB", "13.7GB", "1.3GB", "701MB", "30.0GB", "16.0GB", "3.6GB", "3.4GB"
     ),
     description = NA
   )
@@ -140,7 +153,9 @@ size_table <- size_table |>
     pbf_file_size = case_when(
       unit == "K" ~ size * 1000,
       unit == "M" ~ size * 1000 ^ 2,
-      unit == "G" ~ size * 1000 ^ 3
+      unit == "G" ~ size * 1000 ^ 3,
+      unit == "MB" ~ size * 1024 ^ 2,
+      unit == "GB" ~ size * 1024 ^ 3
     )
   ) |>
   select(-size, -unit)
@@ -185,7 +200,7 @@ geofabrik_zones = geofabrik_zones %>%
       is.na(parent) ~ 1L,
       parent %in% c(
         "africa", "asia", "australia-oceania", "central-america", "europe",
-        "north-america", "south-america", "great-britain"
+        "north-america", "south-america"
       )             ~ 2L,
       parent %in% c(
         "baden-wuerttemberg", "bayern", "greater-london", "nordrhein-westfalen"
