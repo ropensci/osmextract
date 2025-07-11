@@ -152,9 +152,8 @@ URL. For example, if <code>file_url</code> is equal to
 <code>"/tmp/geofabrik_italy-latest.osm.pbf"</code>. Thereafter, the function checks
 the existence of that file and, if it founds it, then it returns the path.
 The parameter <code>force_download</code> is used to modify this behaviour. If there
-is no file associated with the new path, then the function downloads a new
-file using <code><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file()</a></code> with <code>mode = "wb"</code>, and, again, it returns the
-path.</p>
+is no file associated with the new path, the function downloads a new
+extract using <code><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">httr::GET()</a></code> and, again, returns the path.</p>
     </div>
 
     <div id="ref-examples">
