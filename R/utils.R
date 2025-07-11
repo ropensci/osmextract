@@ -91,7 +91,8 @@ my_st_read <- function(dsn, layer, quiet, ...) {
 #' @examples
 #' oe_download_directory()
 oe_download_directory = function() {
-  download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", tempdir())
+  default_dir = tools::R_user_dir("osmextract", "data")
+  download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", default_dir)
   if (!dir.exists(download_directory)) {
     dir.create(download_directory) # nocov
   }
