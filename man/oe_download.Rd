@@ -66,9 +66,8 @@ URL. For example, if \code{file_url} is equal to
 \code{"/tmp/geofabrik_italy-latest.osm.pbf"}. Thereafter, the function checks
 the existence of that file and, if it founds it, then it returns the path.
 The parameter \code{force_download} is used to modify this behaviour. If there
-is no file associated with the new path, then the function downloads a new
-file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"}, and, again, it returns the
-path.
+is no file associated with the new path, the function downloads a new
+extract using \code{\link[httr:GET]{httr::GET()}} and, again, returns the path.
 }
 \examples{
 (its_match = oe_match("ITS Leeds", quiet = TRUE))
