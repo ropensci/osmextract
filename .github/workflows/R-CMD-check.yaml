@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        R: ['4.0.0', 'release']
+        R: ['4.1.0', 'release']
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
