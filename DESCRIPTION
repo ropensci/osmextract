@@ -23,7 +23,7 @@ RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 URL: https://docs.ropensci.org/osmextract/, https://github.com/ropensci/osmextract
 BugReports: https://github.com/ropensci/osmextract/issues
-Depends: R (>= 3.6.0)
+Depends: R (>= 4.0.0)
 Imports: 
     sf (>= 0.8.1),
     utils,

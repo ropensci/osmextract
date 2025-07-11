@@ -1,5 +1,10 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+
+* The default directory used to store `.osm.pbf` and `.gpkg` files downloaded or created by this package this package has changed from `tempdir()` to `tools::R_user_dir("osmextract", "data")` ([#302](https://github.com/ropensci/osmextract/issues/302)).  
+* Bump the minimum required R version to 4.0.0 as `tools::R_user_dir()` was introduced in that release ([#302](https://github.com/ropensci/osmextract/issues/302)).
+
 # osmextract 0.5.3
 
 ### MAJOR CHANGES
