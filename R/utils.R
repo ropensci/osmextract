@@ -94,6 +94,9 @@ oe_download_directory = function() {
   default_dir = tools::R_user_dir("osmextract", "data")
   download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", default_dir)
   if (!dir.exists(download_directory)) {
+    # recursive = TRUE is required since the output of tools::R_user_dir maybe a
+    # directory which is nested inside another missing directory that also must
+    # be created.
     dir.create(download_directory, recursive = TRUE) # nocov
   }
   normalizePath(download_directory)
