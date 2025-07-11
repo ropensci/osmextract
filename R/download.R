@@ -8,7 +8,7 @@
 #'   file to avoid overloading the OSM providers. The first step is the
 #'   definition of the file's path associated to the input `file_url`. The path
 #'   is created by pasting together the `download_directory`, the name of chosen
-#'   provider (which may be inferred from the URL) and the `basename()` of the
+#'   provider (which may be inferred from the URL) and the `basename` of the
 #'   URL. For example, if `file_url` is equal to
 #'   `"https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and
 #'   `download_directory = "/tmp"`, then the path is built as

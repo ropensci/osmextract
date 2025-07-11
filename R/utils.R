@@ -79,10 +79,10 @@ my_st_read <- function(dsn, layer, quiet, ...) {
 
 #' Return the download directory used by the package
 #'
-#' By default, the download directory is equal to `tempdir()`. You can set a
-#' persistent download directory by adding the following command to your
-#' `.Renviron` file (e.g. with `edit_r_environ` function in `usethis` package):
-#' `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
+#' By default, the download directory is equal to `tools::R_user_dir("osmextract", "data")`.
+#' You can set a different persistent or temporary download directory by adding
+#' the following command to your `.Renviron` file (e.g. with `edit_r_environ`
+#' function in `usethis` package): `OSMEXT_DOWNLOAD_DIRECTORY=/path/where/to/save/osm/data`.
 #'
 #' @return A character vector representing the path for the download directory
 #'   used by the package.
