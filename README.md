@@ -149,9 +149,9 @@ can be read-in by changing the `layer` argument:
 osm_lines = oe_get("Isle of Wight", stringsAsFactors = FALSE, quiet = TRUE)
 osm_points = oe_get("Isle of Wight", layer = "points", stringsAsFactors = FALSE, quiet = TRUE)
 nrow(osm_lines)
-#> [1] 51966
+#> [1] 52151
 nrow(osm_points)
-#> [1] 68769
+#> [1] 68880
 par(mar = rep(0, 4))
 plot(st_geometry(osm_lines), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
 plot(st_geometry(osm_points), xlim = c(-1.59, -1.1), ylim = c(50.5, 50.8))
@@ -212,26 +212,21 @@ For further details on using the package, see the [Introducing
 osmextract
 vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html).
 
-## Persistent download directory
+## Changing the download directory
 
-The default behaviour of `oe_get()` is to save all the files in a
-temporary directory, which is erased every time you restart your R
-session. If you want to set a directory that will persist, you can add
-`OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file,
-e.g. with:
+The default behaviour of `oe_get()` is to save all files in a package
+specific directory located at `tools::R_user_dir("osmextract", "data")`.
+If you prefer using any other persistent or temporary directory, you can
+add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` to your `.Renviron`
+file, e.g. with:
 
 ``` r
 usethis::edit_r_environ()
-# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/where/to/save/files
 ```
 
-We strongly advise you setting a persistent directory since working with
-`.pbf` files is an expensive operation, that is skipped by `oe_*()`
-functions if they detect that the input `.pbf` file was already
-downloaded.
-
-You can always check the default `download_directory` used by `oe_get()`
-with:
+You can always check the default `download_directory` used by this
+package with:
 
 ``` r
 oe_download_directory()
