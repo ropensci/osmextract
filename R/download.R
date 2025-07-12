@@ -66,7 +66,6 @@ oe_download = function(
   quiet = FALSE
   ) {
 
-  ## At the moment the function works only with a single URL
   if (length(file_url) != 1L) {
     oe_stop(
       .subclass = "oe_download_LengthFileUrlGt2",
@@ -78,28 +77,22 @@ oe_download = function(
     )
   }
 
-  ## Try to infer the provider from URL
   if (is.null(provider)) {
     provider = infer_provider_from_url(file_url)
   }
 
-  # We need to build the file_path combining the download_directory,
-  # the provider and the file_basename
   file_path = file.path(
     download_directory,
     paste(provider, file_basename, sep = "_")
   )
 
-  # Normalise the file_path. I set winslash = "/" because it helps the printing
-  # of the file_path in case there is any error in the next code lines. In fact,
-  # "\\" is escaped to "\" when printing and the problem is that I cannot run
+  # I set winslash = "/" because it helps the printing of the file_path in case
+  # there is any error in the next code lines. In fact, "\\" is escaped to "\"
+  # when printing and the problem is that I cannot run
   # file.remove("C:/something/..../whatever.osm.pbf") which is exactly the
   # suggestion that may be returned by the tryCatch below
   file_path = normalizePath(file_path, winslash = "/", mustWork = FALSE)
 
-  # If the file exists and force_download is FALSE, then raise a message and
-  # return the file_path. Otherwise we download it after checking for the
-  # file_size.
   if (file.exists(file_path) && !isTRUE(force_download)) {
     oe_message(
       "The chosen file was already detected in the download directory. ",
@@ -111,8 +104,6 @@ oe_download = function(
   }
 
   if (!file.exists(file_path) || isTRUE(force_download)) {
-    # If working in interactive session and file_size > max_file_size, then we
-    # double check if we really want to download the file.
     continue = 1L
     if (
       interactive() &&
