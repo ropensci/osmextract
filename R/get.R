@@ -44,6 +44,12 @@
 #'   say that smaller administrative units correspond to bigger levels. If
 #'   `NULL`, the default, the `oe_*` functions will select the highest available
 #'   level. See Details and Examples in [oe_match()].
+#' @param version The version of the OSM extract to download. The default is
+#'   "latest". Other possible values are typically specified using the format
+#'   YYMMDD (e.g. "200101"). The complete list of all available historic files
+#'   for a given extract can be browsed from the Geofabrik website (e.g.
+#'   <https://download.geofabrik.de/europe/italy.html> and then click on 'raw
+#'   directory index').
 #' @param download_directory Directory to store the file containing OSM data?.
 #' @param force_download Should the `.osm.pbf` file be updated even if it has
 #'   already been downloaded? `FALSE` by default. This parameter is used to
@@ -54,7 +60,7 @@
 #'   argument `options`. Set by default. Check details in the introductory
 #'   vignette and the help page of [oe_vectortranslate()].
 #' @param osmconf_ini The configuration file. See documentation at
-#'   [gdal.org](https://gdal.org/drivers/vector/osm.html). Check details in the
+#'   [gdal.org](https://gdal.org/en/stable/drivers/vector/osm.html). Check details in the
 #'   introductory vignette and the help page of [oe_vectortranslate()]. Set by
 #'   default.
 #' @param extra_tags Which additional columns, corresponding to OSM tags, should
@@ -86,7 +92,7 @@
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
 #'   intersect a given area, while `clipsrc` also clips the geometries. Check
-#'   the examples and also [here](https://gdal.org/programs/ogr2ogr.html) for
+#'   the examples and also [here](https://gdal.org/en/stable/programs/ogr2ogr.html) for
 #'   more details.
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
@@ -216,6 +222,7 @@ oe_get = function(
   match_by = "name",
   max_string_dist = 1,
   level = NULL,
+  version = "latest",
   download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+8,
@@ -246,6 +253,7 @@ oe_get = function(
     match_by = match_by,
     max_string_dist = max_string_dist,
     level = level,
+    version = version,
     quiet = quiet
   )
 

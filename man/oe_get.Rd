@@ -12,6 +12,7 @@ oe_get(
   match_by = "name",
   max_string_dist = 1,
   level = NULL,
+  version = "latest",
   download_directory = oe_download_directory(),
   force_download = FALSE,
   max_file_size = 5e+08,
@@ -76,6 +77,13 @@ say that smaller administrative units correspond to bigger levels. If
 \code{NULL}, the default, the \verb{oe_*} functions will select the highest available
 level. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 
+\item{version}{The version of the OSM extract to download. The default is
+"latest". Other possible values are typically specified using the format
+YYMMDD (e.g. "200101"). The complete list of all available historic files
+for a given extract can be browsed from the Geofabrik website (e.g.
+\url{https://download.geofabrik.de/europe/italy.html} and then click on 'raw
+directory index').}
+
 \item{download_directory}{Directory to store the file containing OSM data?.}
 
 \item{force_download}{Should the \code{.osm.pbf} file be updated even if it has
@@ -90,7 +98,7 @@ argument \code{options}. Set by default. Check details in the introductory
 vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{osmconf_ini}{The configuration file. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check details in the
+\href{https://gdal.org/en/stable/drivers/vector/osm.html}{gdal.org}. Check details in the
 introductory vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}. Set by
 default.}
 
@@ -114,7 +122,7 @@ can be chosen using the argument \code{boundary_type}.}
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that
 intersect a given area, while \code{clipsrc} also clips the geometries. Check
-the examples and also \href{https://gdal.org/programs/ogr2ogr.html}{here} for
+the examples and also \href{https://gdal.org/en/stable/programs/ogr2ogr.html}{here} for
 more details.}
 
 \item{download_only}{Boolean. If \code{TRUE}, then the function only returns the

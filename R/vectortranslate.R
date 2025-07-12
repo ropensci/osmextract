@@ -2,7 +2,7 @@
 #'
 #' This function is used to translate a `.osm.pbf` file into `.gpkg` format.
 #' The conversion is performed using
-#' [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) via the
+#' [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html) via the
 #' `vectortranslate` utility in [sf::gdal_utils()] . It was created following
 #' [the
 #' suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053)
@@ -18,7 +18,7 @@
 #'   The `.osm.pbf` files processed by GDAL are usually categorized into 5
 #'   layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
 #'   `other_relations`. Check the first paragraphs
-#'   [here](https://gdal.org/drivers/vector/osm.html) for more details. This
+#'   [here](https://gdal.org/en/stable/drivers/vector/osm.html) for more details. This
 #'   function can covert only one layer at a time, and the parameter `layer` is
 #'   used to specify which layer of the `.osm.pbf` file should be converted.
 #'   Several layers with different names can be stored in the same `.gpkg` file.
@@ -75,11 +75,11 @@
 #'   * `"-overwrite` is used to delete an existing layer and recreate
 #'   it empty;
 #'   * `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to set the
-#'   [Open Options](https://gdal.org/drivers/vector/osm.html#open-options)
+#'   [Open Options](https://gdal.org/en/stable/drivers/vector/osm.html#open-options)
 #'   for the `.osm.pbf` file and change the `CONFIG` file (in case the user
 #'   asks for any extra tag or a totally different CONFIG file);
 #'   * `"-lco", "GEOMETRY_NAME=geometry"` is used to change the
-#'   [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options)
+#'   [layer creation options](https://gdal.org/en/stable/drivers/vector/gpkg.html#layer-creation-options)
 #'   for the `.gpkg` file and modify the name of the geometry column;
 #'   * `layer` indicates which layer should be converted.
 #'
@@ -100,7 +100,7 @@
 #'   introductory vignette.
 #'
 #'   See also the help page of [`sf::gdal_utils()`] and
-#'   [ogr2ogr](https://gdal.org/programs/ogr2ogr.html) for more examples and
+#'   [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html) for more examples and
 #'   extensive documentation on all available options that can be tuned during
 #'   the vectortranslate process.
 #'

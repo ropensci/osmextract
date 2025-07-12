@@ -33,7 +33,7 @@ to each each mode of transport.
 \details{
 The definition of usable transport network was taken from the Python
 packages
-\href{https://github.com/gboeing/osmnx/blob/main/osmnx/_downloader.py}{osmnx} and
+\href{https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py}{osmnx} and
 \href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
 documents found online, i.e.
 \url{https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions},
@@ -96,6 +96,9 @@ equal to \code{yes}, \code{permissive}, or \code{designated} (see #289);
 Feel free to create a new issue in the \href{https://github.com/ropensci/osmextract}{github repo} if you want to suggest
 modifications to the current filters or propose new values for alternative
 modes of transport.
+
+Starting from version 0.5.2, the \code{version} argument (see \code{\link[=oe_get]{oe_get()}}) can be
+used to download historical OSM extracts from Geofabrik provider.
 }
 \examples{
 # Copy the ITS file to tempdir() to make sure that the examples do not

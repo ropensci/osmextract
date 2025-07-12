@@ -268,6 +268,34 @@ Finally, to reduce unnecessary computational resources and save bandwidth/electr
 (its_details = oe_match("ITS Leeds"))
 ```
 
+### Matching historical OSM extracts
+
+Starting from `osmextract` v0.5.2, the `version` argument can be used to match historical OSM extracts stored by Geofabrik provider. The default value is `"latest"` which corresponds to the most recent OSM extract. Other values can be specified using the format `"YYMMDD"`. The available extracts for each zone can be browsed from Geofabrik  [website](https://download.geofabrik.de/). 
+
+For example: 
+
+```{r}
+oe_match("Italy", quiet = TRUE)$url
+oe_match("Italy", version = "200101", quiet = TRUE)$url # OSM data up to January 1st 2020
+oe_match(c(9.1916, 45.4650), version = "210101", quiet = TRUE)$url
+```
+
+Unfortunately, Geofabrik is the only provider which currently stores historical OSM extracts. Therefore, `version != "latest"` is ignored (with a warning message) if you select a different provider
+
+```{r}
+oe_match("Leeds", provider = "bbbike", version = "200101")
+```
+
+or if the input `place` is not matched with Geofabrik provider.
+
+```{r}
+oe_match("Leeds", version = "200101")
+```
+
+<!-- TODO: Get in contact with Geofabrik to check the status of historical OSM extract.  -->
+
+Beware that the default value, i.e. `"latest"`, selects an _always evolving_ OSM extract. On the other hand, historical OSM extracts are static and they may be preferable for reproducibility purposes.
+
 ## `oe_download()`: Download OSM extracts 
 
 The `oe_download()` function is used to download `.pbf` files representing OSM extracts.
@@ -312,7 +340,7 @@ Beware that the `oe_download()` functions internally sets a time-out value for t
 The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, compact format for transferring geospatial information*. See [here](http://www.geopackage.org/).]. 
 It takes in input a string representing the path to an existing `.pbf` file, and it returns the path to the newly generated `.gpkg` file. 
 The `.gpkg` file is created in the same directory as the input `.pbf` file and with the same name. 
-The conversion is performed using [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in `sf::gdal_utils()`.
+The conversion is performed using [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in `sf::gdal_utils()`.
 
 We decided to adopt this approach following [the suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053) of the maintainers of GDAL.
 Moreover, GeoPackage files have database capabilities like random access and querying that are extremely important for OSM data (see below). 
@@ -345,7 +373,7 @@ The vectortranslate operation can be customised in several ways modifying the pa
 
 ### `layer` argument
 
-The `.pbf` files processed by GDAL are usually categorized into 5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and `other_relations`^[Check the first paragraphs [here](https://gdal.org/drivers/vector/osm.html) for more details.]. 
+The `.pbf` files processed by GDAL are usually categorized into 5 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and `other_relations`^[Check the first paragraphs [here](https://gdal.org/en/stable/drivers/vector/osm.html) for more details.]. 
 The `oe_vectortranslate()` function can covert only one layer at a time. 
 Nevertheless, several layers with different names can be stored in the same `.gpkg` file. 
 By default, the function will convert the `lines` layer (which is the most common one according to our experience), but you can change that using the parameter `layer`. 
@@ -384,7 +412,7 @@ If `osmconf_ini` is equal to `NULL` (the default), then `oe_vectortranslate()` f
 
 Another example can be presented as follows. 
 OSM data is usually described using several [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two items: a *key* and a *value*.
-The code at lines 33, 53, 85, 103, and 121 of the default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields, while all the other tags are stored in the `other_tags` column (see [here](https://gdal.org/drivers/vector/osm.html#other-tags-field) for more details). 
+The code at lines 33, 53, 85, 103, and 121 of the default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields, while all the other tags are stored in the `other_tags` column (see [here](https://gdal.org/en/stable/drivers/vector/osm.html#other-tags-field) for more details). 
 The parameter `extra_tags` (default value: `NULL`) governs which tags are explicitly reported in the `.gpkg` file and omitted from the `other_tags` field. 
 The default tags are always included (unless you modify the `CONFIG` file or the `vectortranslate_options`). 
 Please note that the argument `extra_tags` is ignored if `osmconf_ini` is not `NULL` (since we cannot not know how you generated the new `osmconf.ini` file). 
@@ -422,8 +450,8 @@ Explanation:
 
 * `"-f", "GPKG"` says that the output format is `GPKG`. This is mandatory for GDAL < 2.3;
 * `"-overwrite` is used to delete an existing layer and recreate it empty;
-* `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to modify the [open options](https://gdal.org/drivers/vector/osm.html#open-options) for the `.osm.pbf` file and set the path of the `CONFIG` file;
-* `"-lco", "GEOMETRY_NAME=geometry"` adjust the [layer creation options](https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options) for the `.gpkg` file, modifying the name of the geometry column; 
+* `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to modify the [open options](https://gdal.org/en/stable/drivers/vector/osm.html#open-options) for the `.osm.pbf` file and set the path of the `CONFIG` file;
+* `"-lco", "GEOMETRY_NAME=geometry"` adjust the [layer creation options](https://gdal.org/en/stable/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options) for the `.gpkg` file, modifying the name of the geometry column; 
 * `layer` indicates which layer should be converted.
 
 Starting from version 0.3.0, the options `c("-f", "GPKG", "-overwrite", "-oo", "CONFIG_FILE=", paste0("CONFIG_FILE=", osmconf_ini), "-lco", "GEOMETRY_NAME=geometry", layer)` are always appended at the end of `vectortranslate_options` unless you explicitly set different default parameters for the arguments `-f`, `-oo` and `-lco`. 
@@ -576,7 +604,7 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE, ex
 
 ### `vectortranslate_options` + `boundary` and `boundary_type`
 
-The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/programs/ogr2ogr.html#ogr2ogr). 
+The parameter `vectortranslate_options` is used to modify the options that are passed to [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html#ogr2ogr). 
 This is extremely important because if we tune the `vectortranslate_options` parameter, then we can analyse small parts of an enormous `.pbf` files without fully reading it in memory. 
 
 The first example, reported in the following chunk, shows how to use the argument `-t_srs` to modify the CRS of the output `.gpkg` object (i.e. transform from [`EPSG:4326`](https://epsg.io/4326) to [`EPSG:27700`](https://epsg.io/27700)) while performing vectortranslate operations: 
@@ -593,7 +621,7 @@ Please note that the default options (i.e. `c("-f", "GPKG", "-overwrite", "-oo",
 
 The next example illustrates how to apply an SQL-like query during the vectortranslate process. 
 More precisely, we can use the arguments `-select` and `-where` to create an SQL-like query that is run during the vectortranslate process. 
-Check [here](https://gdal.org/user/ogr_sql_dialect.html) for more details on the OGR SQL dialect. 
+Check [here](https://gdal.org/en/stable/user/ogr_sql_dialect.html) for more details on the OGR SQL dialect. 
 
 First of all, we need to build a character vector with the options that will be passed to `ogr2ogr: `
 
