@@ -105,23 +105,22 @@ internal tests.</p></dd>
 
 
 <dt id="arg-download-directory">download_directory<a class="anchor" aria-label="anchor" href="#arg-download-directory"></a></dt>
-<dd><p>Directory where the files downloaded by osmextract
-are stored. By default it is equal to <code><a href="oe_download_directory.html">oe_download_directory()</a></code>.</p></dd>
+<dd><p>Directory where the function looks for matches.</p></dd>
 
 
 <dt id="arg-download-if-missing">download_if_missing<a class="anchor" aria-label="anchor" href="#arg-download-if-missing"></a></dt>
-<dd><p>Attempt to download the file if it cannot be
-found? <code>FALSE</code> by default.</p></dd>
+<dd><p>Should we attempt to download the matched file if
+it cannot be found? <code>FALSE</code> by default.</p></dd>
 
 
 <dt id="arg-return-pbf">return_pbf<a class="anchor" aria-label="anchor" href="#arg-return-pbf"></a></dt>
 <dd><p>Logical of length 1. If <code>TRUE</code>, the function returns the
-path of the pbf file that matches the input <code>place</code>.</p></dd>
+path of the .osm.pbf file that matches the input <code>place</code>.</p></dd>
 
 
 <dt id="arg-return-gpkg">return_gpkg<a class="anchor" aria-label="anchor" href="#arg-return-gpkg"></a></dt>
 <dd><p>Logical of length 1. If <code>TRUE</code>, the function returns the
-path of the gpkg file that matches the input <code>place</code>.</p></dd>
+path of the .gpkg file that matches the input <code>place</code>.</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
@@ -134,15 +133,16 @@ display a progress bar.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Extra arguments that are passed to <code><a href="oe_match.html">oe_match()</a></code> and <code><a href="oe_get.html">oe_get()</a></code>.
-Please note that you cannot modify the argument <code>download_only</code>.</p></dd>
+Please note that you cannot pass the argument <code>download_only</code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A character vector of length one (or two) representing the path(s) of
 the <code>.pbf</code>/<code>.gpkg</code> files associated with the input <code>place</code>. The files are
-sorted in alphabetical order which implies that if both formats are present
-in the <code>download_directory</code>, then the <code>.gpkg</code> file is returned first.</p>
+sorted in alphabetical order, which implies that if both formats are
+present in the <code>download_directory</code>, then the <code>.gpkg</code> file should be
+returned first.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -150,18 +150,16 @@ in the <code>download_directory</code>, then the <code>.gpkg</code> file is retu
 specified by <code>download_directory</code> parameter) and the input <code>place</code> is
 performed using <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code>, setting the <code>pattern</code> argument equal to the
 basename of the URL associated to the input <code>place</code>. For example, if you
-specify <code>place = "Isle of Wight"</code>, then the input is matched (via
-<code><a href="oe_match.html">oe_match()</a></code>) with the URL of Isle of Wight's <code>.osm.pbf</code> file, and the
-files are selected using a pattern equal to the basename of that URL.</p>
-<p>If there is no file in the <code>download_directory</code> that can be matched with the
-basename of the URL and <code>download_if_missing</code> parameter is equal to <code>TRUE</code>, then the
-function tries to download and read a new file from the chosen
-provider (<code>geofabrik</code> is the default provider). If <code>download_if_missing</code>
-parameter is equal to <code>FALSE</code> (default value), then the function stops with
-an error.</p>
-<p>By default, this function returns the path of <code>.pbf</code> and <code>.gpkg</code> files
-associated with the input place (if any). You can exclude one of the two
-formats setting the arguments <code>return_pbf</code> or <code>return_gpkg</code> to <code>FALSE</code>.</p>
+specify <code>place = "Isle of Wight"</code>, then your input is matched (via
+<code><a href="oe_match.html">oe_match()</a></code>) with the URL of Isle of Wight. Finally, the files are
+selected using a <code>pattern</code> equal to the basename of that URL.</p>
+<p>If there is no file in the <code>download_directory</code> that can be matched with
+the basename of the URL and <code>download_if_missing</code> is <code>TRUE</code>, then the
+function tries to download it (<code>geofabrik</code> is the default provider) and
+returns the path. Otherwise it stops with an error.</p>
+<p>By default, this function returns the path of both <code>.osm.pbf</code> and <code>.gpkg</code>
+files associated with the input place (if any). You can exclude one of the
+two formats using the arguments <code>return_pbf</code> or <code>return_gpkg</code> to <code>FALSE</code>.</p>
     </div>
 
     <div id="ref-examples">
@@ -169,7 +167,6 @@ formats setting the arguments <code>return_pbf</code> or <code>return_gpkg</code
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Copy the ITS file to tempdir() to make sure that the examples do not</span></span></span>
 <span class="r-in"><span><span class="co"># require internet connection. You can skip the next 4 lines (and start</span></span></span>
 <span class="r-in"><span><span class="co"># directly with oe_get_keys) when running the examples locally.</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"its-example.osm.pbf"</span>, package <span class="op">=</span> <span class="st">"osmextract"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.osm.pbf"</span><span class="op">)</span>,</span></span>
@@ -178,14 +175,14 @@ formats setting the arguments <code>return_pbf</code> or <code>return_gpkg</code
 <span class="r-in"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpVHMcD9/test_its-example.gpkg"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmpVHMcD9/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmptmenDN/test_its-example.gpkg"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/tmp/RtmptmenDN/test_its-example.osm.pbf"</span>
 <span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>,</span></span>
 <span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, return_gpkg <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The input place was matched with: ITS Leeds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpVHMcD9/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmptmenDN/test_its-example.osm.pbf"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="fu">oe_find</span><span class="op">(</span><span class="st">"Isle of Wight"</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
