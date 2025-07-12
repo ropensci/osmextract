@@ -18,7 +18,14 @@ oe_match(place, ...)
 
 \method{oe_match}{sf}(place, ...)
 
-\method{oe_match}{sfc}(place, provider = "geofabrik", level = NULL, quiet = FALSE, ...)
+\method{oe_match}{sfc}(
+  place,
+  provider = "geofabrik",
+  level = NULL,
+  version = "latest",
+  quiet = FALSE,
+  ...
+)
 
 \method{oe_match}{numeric}(place, provider = "geofabrik", quiet = FALSE, ...)
 
@@ -28,6 +35,7 @@ oe_match(place, ...)
   quiet = FALSE,
   match_by = "name",
   max_string_dist = 1,
+  version = "latest",
   ...
 )
 }
@@ -54,6 +62,13 @@ corresponds to regions and \code{4} to subregions. Hence, we could approximately
 say that smaller administrative units correspond to bigger levels. If
 \code{NULL}, the default, the \verb{oe_*} functions will select the highest available
 level. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+
+\item{version}{The version of the OSM extract to download. The default is
+"latest". Other possible values are typically specified using the format
+YYMMDD (e.g. "200101"). The complete list of all available historic files
+for a given extract can be browsed from the Geofabrik website (e.g.
+\url{https://download.geofabrik.de/europe/italy.html} and then click on 'raw
+directory index').}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version

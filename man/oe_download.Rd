@@ -59,16 +59,15 @@ This function runs several checks before actually downloading a new
 file to avoid overloading the OSM providers. The first step is the
 definition of the file's path associated to the input \code{file_url}. The path
 is created by pasting together the \code{download_directory}, the name of chosen
-provider (which may be inferred from the URL) and the \code{basename()} of the
+provider (which may be inferred from the URL) and the \code{basename} of the
 URL. For example, if \code{file_url} is equal to
 \code{"https://download.geofabrik.de/europe/italy-latest.osm.pbf"}, and
 \code{download_directory = "/tmp"}, then the path is built as
 \code{"/tmp/geofabrik_italy-latest.osm.pbf"}. Thereafter, the function checks
 the existence of that file and, if it founds it, then it returns the path.
 The parameter \code{force_download} is used to modify this behaviour. If there
-is no file associated with the new path, then the function downloads a new
-file using \code{\link[=download.file]{download.file()}} with \code{mode = "wb"}, and, again, it returns the
-path.
+is no file associated with the new path, the function downloads a new
+extract using \code{\link[httr:GET]{httr::GET()}} and, again, returns the path.
 }
 \examples{
 (its_match = oe_match("ITS Leeds", quiet = TRUE))

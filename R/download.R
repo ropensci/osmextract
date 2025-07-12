@@ -8,16 +8,15 @@
 #'   file to avoid overloading the OSM providers. The first step is the
 #'   definition of the file's path associated to the input `file_url`. The path
 #'   is created by pasting together the `download_directory`, the name of chosen
-#'   provider (which may be inferred from the URL) and the `basename()` of the
+#'   provider (which may be inferred from the URL) and the `basename` of the
 #'   URL. For example, if `file_url` is equal to
 #'   `"https://download.geofabrik.de/europe/italy-latest.osm.pbf"`, and
 #'   `download_directory = "/tmp"`, then the path is built as
 #'   `"/tmp/geofabrik_italy-latest.osm.pbf"`. Thereafter, the function checks
 #'   the existence of that file and, if it founds it, then it returns the path.
 #'   The parameter `force_download` is used to modify this behaviour. If there
-#'   is no file associated with the new path, then the function downloads a new
-#'   file using [download.file()] with `mode = "wb"`, and, again, it returns the
-#'   path.
+#'   is no file associated with the new path, the function downloads a new
+#'   extract using [httr::GET()] and, again, returns the path.
 #'
 #' @inheritParams oe_get
 #' @param file_url A URL pointing to a `.osm.pbf` file that should be

@@ -17,7 +17,7 @@
 #'
 #' @details The definition of usable transport network was taken from the Python
 #'   packages
-#'   [osmnx](https://github.com/gboeing/osmnx/blob/main/osmnx/_downloader.py) and
+#'   [osmnx](https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py) and
 #'   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
 #'   documents found online, i.e.
 #'   <https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions>,
@@ -78,6 +78,9 @@
 #'   repo](https://github.com/ropensci/osmextract) if you want to suggest
 #'   modifications to the current filters or propose new values for alternative
 #'   modes of transport.
+#'
+#'   Starting from version 0.5.2, the `version` argument (see [oe_get()]) can be
+#'   used to download historical OSM extracts from Geofabrik provider.
 #'
 #' @seealso [oe_get()]
 #'

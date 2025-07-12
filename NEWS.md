@@ -2,6 +2,19 @@
 
 ### MAJOR CHANGES
 
+* The default directory used to store `.osm.pbf` and `.gpkg` files downloaded or created by this package has changed from `tempdir()` to `tools::R_user_dir("osmextract", "data")` ([#302](https://github.com/ropensci/osmextract/issues/302)).  
+* Bump minimum R version to 4.1.0 because that's a requirement for one of our indirect dependencies (i.e. svglite). This also ensures that we can properly use `tools::R_user_dir()` since that function was introduced in R 4.0.0 ([#302](https://github.com/ropensci/osmextract/issues/302)).
+
+# osmextract 0.5.3
+
+### MAJOR CHANGES
+
+* Added a `version` argument to `oe_match` to simplify the download of old extracts from Geofabrik provider ([#295](https://github.com/ropensci/osmextract/issues/295))
+
+# osmextract 0.5.2
+
+### MAJOR CHANGES
+
 * Bump minimum R version from 3.5.0 to 3.6.0 since that's a requirement for one of our indirect dependencies (i.e. [evaluate](https://cran.r-project.org/package=evaluate)). 
 * Adjusted the SQL syntax used inside `oe_get_network` so that the queries are compatible with GDAL 3.10 ([#298](https://github.com/ropensci/osmextract/issues/291)). 
 * The output of `oe_get_network` does not drop elements tagged as `access = 'no'` as long as the `foot`/`bicycle`/`motor_vehicle` (according to the chosen mode of transport) key is equal to `yes`, `permissive`, or `designated` ([#289](https://github.com/ropensci/osmextract/issues/289)). 
@@ -9,8 +22,8 @@
 ### MINOR CHANGES
 
 * Updated the `osmconf.ini` file to be in synch with the GDAL version.
-* Added `oneway` as column by default when using `oe_get_network(mode = "driving")`, which indicates if a link represents an uni-directional road ([#296](https://github.com/ropensci/osmextract/issues/296))
-* Furthermore, `oe_get_network(mode = "driving")` also include the `motor_vehicle` field (see [#303](https://github.com/ropensci/osmextract/pull/303)). 
+* Added `oneway` column by default when using `oe_get_network(mode = "driving")`, which indicates if a link represents a uni-directional road ([#296](https://github.com/ropensci/osmextract/issues/296))
+* Furthermore, `oe_get_network(mode = "driving")` always include the `motor_vehicle` field (see [#303](https://github.com/ropensci/osmextract/pull/303)). 
 
 # osmextract 0.5.1
 

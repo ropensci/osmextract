@@ -33,7 +33,7 @@ argument \code{options}. Set by default. Check details in the introductory
 vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{osmconf_ini}{The configuration file. See documentation at
-\href{https://gdal.org/drivers/vector/osm.html}{gdal.org}. Check details in the
+\href{https://gdal.org/en/stable/drivers/vector/osm.html}{gdal.org}. Check details in the
 introductory vignette and the help page of \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}. Set by
 default.}
 
@@ -62,7 +62,7 @@ can be chosen using the argument \code{boundary_type}.}
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that
 intersect a given area, while \code{clipsrc} also clips the geometries. Check
-the examples and also \href{https://gdal.org/programs/ogr2ogr.html}{here} for
+the examples and also \href{https://gdal.org/en/stable/programs/ogr2ogr.html}{here} for
 more details.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
@@ -77,7 +77,7 @@ Character string representing the path of the \code{.gpkg} file.
 \description{
 This function is used to translate a \code{.osm.pbf} file into \code{.gpkg} format.
 The conversion is performed using
-\href{https://gdal.org/programs/ogr2ogr.html#ogr2ogr}{ogr2ogr} via the
+\href{https://gdal.org/en/stable/programs/ogr2ogr.html}{ogr2ogr} via the
 \code{vectortranslate} utility in \code{\link[sf:gdal_utils]{sf::gdal_utils()}} . It was created following
 \href{https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053}{the suggestions}
 of the maintainers of GDAL. See Details and Examples to understand the basic
@@ -93,7 +93,7 @@ customized in several ways modifying the parameters \code{layer}, \code{extra_ta
 The \code{.osm.pbf} files processed by GDAL are usually categorized into 5
 layers, named \code{points}, \code{lines}, \code{multilinestrings}, \code{multipolygons} and
 \code{other_relations}. Check the first paragraphs
-\href{https://gdal.org/drivers/vector/osm.html}{here} for more details. This
+\href{https://gdal.org/en/stable/drivers/vector/osm.html}{here} for more details. This
 function can covert only one layer at a time, and the parameter \code{layer} is
 used to specify which layer of the \code{.osm.pbf} file should be converted.
 Several layers with different names can be stored in the same \code{.gpkg} file.
@@ -150,11 +150,11 @@ Explanation:
 \item \verb{"-overwrite} is used to delete an existing layer and recreate
 it empty;
 \item \verb{"-oo", paste0("CONFIG_FILE=", osmconf_ini)} is used to set the
-\href{https://gdal.org/drivers/vector/osm.html#open-options}{Open Options}
+\href{https://gdal.org/en/stable/drivers/vector/osm.html#open-options}{Open Options}
 for the \code{.osm.pbf} file and change the \code{CONFIG} file (in case the user
 asks for any extra tag or a totally different CONFIG file);
 \item \verb{"-lco", "GEOMETRY_NAME=geometry"} is used to change the
-\href{https://gdal.org/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options}{layer creation options}
+\href{https://gdal.org/en/stable/drivers/vector/gpkg.html#layer-creation-options}{layer creation options}
 for the \code{.gpkg} file and modify the name of the geometry column;
 \item \code{layer} indicates which layer should be converted.
 }
@@ -174,7 +174,7 @@ different default options). Check Examples in \code{oe_get()} and the
 introductory vignette.
 
 See also the help page of \code{\link[sf:gdal_utils]{sf::gdal_utils()}} and
-\href{https://gdal.org/programs/ogr2ogr.html}{ogr2ogr} for more examples and
+\href{https://gdal.org/en/stable/programs/ogr2ogr.html}{ogr2ogr} for more examples and
 extensive documentation on all available options that can be tuned during
 the vectortranslate process.
 }

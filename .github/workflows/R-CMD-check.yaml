@@ -24,8 +24,7 @@ jobs:
         config:
           - {os: macos-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: '3.6.3'}
-
+          - {os: ubuntu-latest,   r: '4.1.0'}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes

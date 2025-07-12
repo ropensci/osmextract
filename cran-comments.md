@@ -1,11 +1,11 @@
 ## Release summary
 
-- Following the previous reviews, we fixed the invalid URLs (also in the vignette) and added the URI protocol when relevant. Apologies for these troubles.  
-- We fixed a bug to preserve compatibility with GDAL 3.9 and slightly adjust an error message. We also updated the Open Street Map databases within the package. 
+- Added a new argument named 'version' to 'oe_match()'
+- Changed the maintainer's email address. I've already sent an email to CRAN-submissions@R-project.org explaining the reasons behind this change.  
 
 ## Test environments
 
-- local Windows, R 4.3.1
+- local Windows, R 4.4.2
 - Github Actions: ubuntu-latest (r-release)
 
 ## R CMD check results
