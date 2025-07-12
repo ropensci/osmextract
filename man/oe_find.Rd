@@ -29,17 +29,16 @@ providers can be browsed with \code{\link[=oe_providers]{oe_providers()}}. For \
 internally set equal to \code{"test"}. This is just for simple examples and
 internal tests.}
 
-\item{download_directory}{Directory where the files downloaded by osmextract
-are stored. By default it is equal to \code{\link[=oe_download_directory]{oe_download_directory()}}.}
+\item{download_directory}{Directory where the function looks for matches.}
 
-\item{download_if_missing}{Attempt to download the file if it cannot be
-found? \code{FALSE} by default.}
+\item{download_if_missing}{Should we attempt to download the matched file if
+it cannot be found? \code{FALSE} by default.}
 
 \item{return_pbf}{Logical of length 1. If \code{TRUE}, the function returns the
-path of the pbf file that matches the input \code{place}.}
+path of the .osm.pbf file that matches the input \code{place}.}
 
 \item{return_gpkg}{Logical of length 1. If \code{TRUE}, the function returns the
-path of the gpkg file that matches the input \code{place}.}
+path of the .gpkg file that matches the input \code{place}.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
@@ -48,13 +47,14 @@ if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 
 \item{...}{Extra arguments that are passed to \code{\link[=oe_match]{oe_match()}} and \code{\link[=oe_get]{oe_get()}}.
-Please note that you cannot modify the argument \code{download_only}.}
+Please note that you cannot pass the argument \code{download_only}.}
 }
 \value{
 A character vector of length one (or two) representing the path(s) of
 the \code{.pbf}/\code{.gpkg} files associated with the input \code{place}. The files are
-sorted in alphabetical order which implies that if both formats are present
-in the \code{download_directory}, then the \code{.gpkg} file is returned first.
+sorted in alphabetical order, which implies that if both formats are
+present in the \code{download_directory}, then the \code{.gpkg} file should be
+returned first.
 }
 \description{
 This function takes a \code{place} name and returns the path of \code{.pbf}/\code{.gpkg}
@@ -65,26 +65,23 @@ The matching between the existing files (saved in the directory
 specified by \code{download_directory} parameter) and the input \code{place} is
 performed using \code{list.files()}, setting the \code{pattern} argument equal to the
 basename of the URL associated to the input \code{place}. For example, if you
-specify \code{place = "Isle of Wight"}, then the input is matched (via
-\code{\link[=oe_match]{oe_match()}}) with the URL of Isle of Wight's \code{.osm.pbf} file, and the
-files are selected using a pattern equal to the basename of that URL.
+specify \code{place = "Isle of Wight"}, then your input is matched (via
+\code{\link[=oe_match]{oe_match()}}) with the URL of Isle of Wight. Finally, the files are
+selected using a \code{pattern} equal to the basename of that URL.
 
-If there is no file in the \code{download_directory} that can be matched with the
-basename of the URL and \code{download_if_missing} parameter is equal to \code{TRUE}, then the
-function tries to download and read a new file from the chosen
-provider (\code{geofabrik} is the default provider). If \code{download_if_missing}
-parameter is equal to \code{FALSE} (default value), then the function stops with
-an error.
+If there is no file in the \code{download_directory} that can be matched with
+the basename of the URL and \code{download_if_missing} is \code{TRUE}, then the
+function tries to download it (\code{geofabrik} is the default provider) and
+returns the path. Otherwise it stops with an error.
 
-By default, this function returns the path of \code{.pbf} and \code{.gpkg} files
-associated with the input place (if any). You can exclude one of the two
-formats setting the arguments \code{return_pbf} or \code{return_gpkg} to \code{FALSE}.
+By default, this function returns the path of both \code{.osm.pbf} and \code{.gpkg}
+files associated with the input place (if any). You can exclude one of the
+two formats using the arguments \code{return_pbf} or \code{return_gpkg} to \code{FALSE}.
 }
 \examples{
 # Copy the ITS file to tempdir() to make sure that the examples do not
 # require internet connection. You can skip the next 4 lines (and start
 # directly with oe_get_keys) when running the examples locally.
-
 res = file.copy(
   from = system.file("its-example.osm.pbf", package = "osmextract"),
   to = file.path(tempdir(), "test_its-example.osm.pbf"),
