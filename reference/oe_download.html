@@ -90,14 +90,13 @@ the package. The URL is specified through the parameter <code>file_url</code>.</
 
 
 <dl><dt id="arg-file-url">file_url<a class="anchor" aria-label="anchor" href="#arg-file-url"></a></dt>
-<dd><p>A URL pointing to a <code>.osm.pbf</code> file that should be
-downloaded.</p></dd>
+<dd><p>A URL pointing to a (typically <code>.osm.pbf</code>) file.</p></dd>
 
 
 <dt id="arg-provider">provider<a class="anchor" aria-label="anchor" href="#arg-provider"></a></dt>
-<dd><p>Which provider stores the file? If <code>NULL</code> (the default), it
-may be inferred from the URL, but it must be specified for non-standard
-cases. See details and examples.</p></dd>
+<dd><p>Which provider stores the file? If <code>NULL</code> (the default), the
+function tries to infer it. It must be specified for non-standard cases.
+See details and examples.</p></dd>
 
 
 <dt id="arg-file-basename">file_basename<a class="anchor" aria-label="anchor" href="#arg-file-basename"></a></dt>
@@ -143,17 +142,17 @@ display a progress bar.</p></dd>
     <h2>Details</h2>
     <p>This function runs several checks before actually downloading a new
 file to avoid overloading the OSM providers. The first step is the
-definition of the file's path associated to the input <code>file_url</code>. The path
-is created by pasting together the <code>download_directory</code>, the name of chosen
-provider (which may be inferred from the URL) and the <code>basename</code> of the
+definition of the file path associated to the input <code>file_url</code>. The path is
+created by pasting together the <code>download_directory</code>, the name of chosen
+provider (which may be inferred from the URL), and the <code>basename</code> of the
 URL. For example, if <code>file_url</code> is equal to
 <code>"https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and
 <code>download_directory = "/tmp"</code>, then the path is built as
-<code>"/tmp/geofabrik_italy-latest.osm.pbf"</code>. Thereafter, the function checks
-the existence of that file and, if it founds it, then it returns the path.
-The parameter <code>force_download</code> is used to modify this behaviour. If there
-is no file associated with the new path, the function downloads a new
-extract using <code><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">httr::GET()</a></code> and, again, returns the path.</p>
+<code>"/tmp/geofabrik_italy-latest.osm.pbf"</code>. If this file already exists, the
+function just returns its path. The parameter <code>force_download</code> can be used
+to modify this behaviour. If there is no file associated with the new path,
+the function downloads it using <code><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">httr::GET()</a></code>. The timeout for the download
+can be modified using <code>options("timeout")</code>. The default value is 300s.</p>
     </div>
 
     <div id="ref-examples">
