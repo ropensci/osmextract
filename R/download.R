@@ -103,7 +103,6 @@ oe_download = function(
     return(file_path)
   }
 
-
   continue = 1L
   if (
     interactive() &&
@@ -144,6 +143,7 @@ oe_download = function(
       httr::GET(
         url = file_url,
         if (isFALSE(quiet)) httr::progress(),
+        # TODO: Add the possibility of using httr::verbose?
         # if (isFALSE(quiet)) httr::verbose(),
         httr::write_disk(file_path, overwrite = TRUE),
         httr::timeout(max(300L, getOption("timeout")))
