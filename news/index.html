@@ -65,6 +65,11 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="osmextract-development-version">osmextract (development version)<a class="anchor" aria-label="anchor" href="#osmextract-development-version"></a></h2>
+<div class="section level4">
+<h4 id="major-changes-development-version">MAJOR CHANGES<a class="anchor" aria-label="anchor" href="#major-changes-development-version"></a></h4>
+<ul><li>The default directory used to store <code>.osm.pbf</code> and <code>.gpkg</code> files downloaded or created by this package has changed from <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> to <code>tools::R_user_dir("osmextract", "data")</code> (<a href="https://github.com/ropensci/osmextract/issues/302" class="external-link">#302</a>).<br></li>
+<li>Bump minimum R version to 4.1.0 because that’s a requirement for one of our indirect dependencies (i.e. svglite). This also ensures that we can properly use <code><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">tools::R_user_dir()</a></code> since that function was introduced in R 4.0.0 (<a href="https://github.com/ropensci/osmextract/issues/302" class="external-link">#302</a>).</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5.3" id="osmextract-053">osmextract 0.5.3<small>2025-04-09</small><a class="anchor" aria-label="anchor" href="#osmextract-053"></a></h2>

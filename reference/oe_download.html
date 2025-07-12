@@ -145,7 +145,7 @@ display a progress bar.</p></dd>
 file to avoid overloading the OSM providers. The first step is the
 definition of the file's path associated to the input <code>file_url</code>. The path
 is created by pasting together the <code>download_directory</code>, the name of chosen
-provider (which may be inferred from the URL) and the <code><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename()</a></code> of the
+provider (which may be inferred from the URL) and the <code>basename</code> of the
 URL. For example, if <code>file_url</code> is equal to
 <code>"https://download.geofabrik.de/europe/italy-latest.osm.pbf"</code>, and
 <code>download_directory = "/tmp"</code>, then the path is built as
