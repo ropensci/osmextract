@@ -103,76 +103,75 @@ oe_download = function(
     return(file_path)
   }
 
-  if (!file.exists(file_path) || isTRUE(force_download)) {
-    continue = 1L
-    if (
-      interactive() &&
-      !is.null(file_size) &&
-      !is.na(file_size) &&
-      file_size >= max_file_size
-    ) { # nocov start
-      oe_message(
-        "You are trying to download a file from ", file_url, ". ",
-        "This is a large file (", round(file_size / 1048576), " MB)!",
-        quiet = FALSE,
-        .subclass = "oe_download_LargeFile"
-      )
-      continue = utils::menu(
-        choices = c("Yes", "No"),
-        title = "Are you sure that you want to download it?"
-      )
 
-      # It think it's always useful to see the progress bar for large files
-      quiet = FALSE
-    } # nocov end
-
-    if (continue != 1L) {
-      oe_stop(
-        .subclass = "oe_download_AbortedByUser",
-        message = "Aborted by user"
-      )
-    }
-
+  continue = 1L
+  if (
+    interactive() &&
+    !is.null(file_size) &&
+    !is.na(file_size) &&
+    file_size >= max_file_size
+  ) { # nocov start
     oe_message(
-      "Downloading the OSM extract:",
-      quiet = quiet,
-      .subclass = "oe_download_StartDownloading"
+      "You are trying to download a file from ", file_url, ". ",
+      "This is a large file (", round(file_size / 1048576), " MB)!",
+      quiet = FALSE,
+      .subclass = "oe_download_LargeFile"
+    )
+    continue = utils::menu(
+      choices = c("Yes", "No"),
+      title = "Are you sure that you want to download it?"
     )
 
-    resp = tryCatch(
-      expr = {
-        httr::GET(
-          url = file_url,
-          if (isFALSE(quiet)) httr::progress(),
-          # if (isFALSE(quiet)) httr::verbose(),
-          httr::write_disk(file_path, overwrite = TRUE),
-          httr::timeout(max(300L, getOption("timeout")))
-        )
-      },
-      error = function(e) {
-        oe_stop(
-          .subclass = "oe_download_DownloadAborted",
-          message = paste0(
-            "The download operation was aborted. ",
-            "If this was not intentional, you may want to increase the timeout for internet operations ",
-            "to a value >= 300 by using options(timeout = ...) before re-running this function. ",
-            "We also suggest you to remove the partially downloaded file by running the ",
-            "following code (possibly in a new R session): ",
-            # NB: Don't add a full stop since that makes copying code really annoying
-            "file.remove(", dQuote(file_path, q = FALSE), ")"
-          )
-        )
-      }
-    )
+    # It think it's always useful to see the progress bar for large files
+    quiet = FALSE
+  } # nocov end
 
-    httr::stop_for_status(resp, "download data from the provider")
-
-    oe_message(
-      "File downloaded!",
-      quiet = quiet,
-      .subclass = "oe_download_FileDownloaded"
+  if (continue != 1L) {
+    oe_stop(
+      .subclass = "oe_download_AbortedByUser",
+      message = "Aborted by user"
     )
   }
+
+  oe_message(
+    "Downloading the OSM extract:",
+    quiet = quiet,
+    .subclass = "oe_download_StartDownloading"
+  )
+
+  resp = tryCatch(
+    expr = {
+      httr::GET(
+        url = file_url,
+        if (isFALSE(quiet)) httr::progress(),
+        # if (isFALSE(quiet)) httr::verbose(),
+        httr::write_disk(file_path, overwrite = TRUE),
+        httr::timeout(max(300L, getOption("timeout")))
+      )
+    },
+    error = function(e) {
+      oe_stop(
+        .subclass = "oe_download_DownloadAborted",
+        message = paste0(
+          "The download operation was aborted. ",
+          "If this was not intentional, you may want to increase the timeout for internet operations ",
+          "to a value >= 300 by using options(timeout = ...) before re-running this function. ",
+          "We also suggest you to remove the partially downloaded file by running the ",
+          "following code (possibly in a new R session): ",
+          # NB: Don't add a full stop since that makes copying code really annoying
+          "file.remove(", dQuote(file_path, q = FALSE), ")"
+        )
+      )
+    }
+  )
+
+  httr::stop_for_status(resp, "download data from the provider")
+
+  oe_message(
+    "File downloaded!",
+    quiet = quiet,
+    .subclass = "oe_download_FileDownloaded"
+  )
 
   file_path
 }
