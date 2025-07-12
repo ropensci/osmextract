@@ -11,10 +11,10 @@ A character vector representing the path for the download directory
 used by the package.
 }
 \description{
-By default, the download directory is equal to \code{tempdir()}. You can set a
-persistent download directory by adding the following command to your
-\code{.Renviron} file (e.g. with \code{edit_r_environ} function in \code{usethis} package):
-\verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data}.
+By default, the download directory is equal to \code{tools::R_user_dir("osmextract", "data")}.
+You can set a different persistent or temporary download directory by adding
+the following command to your \code{.Renviron} file (e.g. with \code{edit_r_environ}
+function in \code{usethis} package): \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/where/to/save/osm/data}.
 }
 \examples{
 oe_download_directory()

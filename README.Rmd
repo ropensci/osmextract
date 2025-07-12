@@ -173,19 +173,17 @@ oe_get("Milan") # Warning: It will download more than 400MB of data
 
 For further details on using the package, see the [Introducing osmextract vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html).
 
-## Persistent download directory
+## Changing the download directory
 
-The default behaviour of `oe_get()` is to save all the files in a temporary directory, which is erased every time you restart your R session. 
-If you want to set a directory that will persist, you can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+The default behaviour of `oe_get()` is to save all files in a package specific directory located at `tools::R_user_dir("osmextract", "data")`. 
+If you prefer using any other persistent or temporary directory, you can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` to your `.Renviron` file, e.g. with:
 
 ```{r, eval = FALSE}
 usethis::edit_r_environ()
-# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/to/save/files
+# Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/where/to/save/files
 ```
 
-We strongly advise you setting a persistent directory since working with `.pbf` files is an expensive operation, that is skipped by `oe_*()` functions if they detect that the input `.pbf` file was already downloaded.
-
-You can always check the default `download_directory` used by `oe_get()` with: 
+You can always check the default `download_directory` used by this package with: 
 
 ```{r, eval = FALSE}
 oe_download_directory()

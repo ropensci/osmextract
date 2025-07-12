@@ -59,7 +59,7 @@ This function runs several checks before actually downloading a new
 file to avoid overloading the OSM providers. The first step is the
 definition of the file's path associated to the input \code{file_url}. The path
 is created by pasting together the \code{download_directory}, the name of chosen
-provider (which may be inferred from the URL) and the \code{basename()} of the
+provider (which may be inferred from the URL) and the \code{basename} of the
 URL. For example, if \code{file_url} is equal to
 \code{"https://download.geofabrik.de/europe/italy-latest.osm.pbf"}, and
 \code{download_directory = "/tmp"}, then the path is built as

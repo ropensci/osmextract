@@ -79,10 +79,10 @@ my_st_read <- function(dsn, layer, quiet, ...) {
 
 #' Return the download directory used by the package
 #'
-#' By default, the download directory is equal to `tempdir()`. You can set a
-#' persistent download directory by adding the following command to your
-#' `.Renviron` file (e.g. with `edit_r_environ` function in `usethis` package):
-#' `OSMEXT_DOWNLOAD_DIRECTORY=/path/to/osm/data`.
+#' By default, the download directory is equal to `tools::R_user_dir("osmextract", "data")`.
+#' You can set a different persistent or temporary download directory by adding
+#' the following command to your `.Renviron` file (e.g. with `edit_r_environ`
+#' function in `usethis` package): `OSMEXT_DOWNLOAD_DIRECTORY=/path/where/to/save/osm/data`.
 #'
 #' @return A character vector representing the path for the download directory
 #'   used by the package.
@@ -91,9 +91,13 @@ my_st_read <- function(dsn, layer, quiet, ...) {
 #' @examples
 #' oe_download_directory()
 oe_download_directory = function() {
-  download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", tempdir())
+  default_dir = tools::R_user_dir("osmextract", "data")
+  download_directory = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", default_dir)
   if (!dir.exists(download_directory)) {
-    dir.create(download_directory) # nocov
+    # recursive = TRUE is required since the output of tools::R_user_dir may be a
+    # directory which is nested inside another missing directory that also must
+    # be created.
+    dir.create(download_directory, recursive = TRUE) # nocov
   }
   normalizePath(download_directory)
 }
