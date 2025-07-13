@@ -94,11 +94,11 @@ objects. See Details and Examples in <code><a href="oe_match.html">oe_match()</a
 By default, this is equal to <code>place</code>, but this parameter can be tuned to
 obtain more granular results starting from the same OSM extract. See
 examples. It must be always set when the <code>place</code> argument is specified
-using numeric or spatial objects.</p></dd>
+using numeric or spatial (i.e. <code>sf/sfc</code>) objects.</p></dd>
 
 
 <dt id="arg-exact">exact<a class="anchor" aria-label="anchor" href="#arg-exact"></a></dt>
-<dd><p>Boolean of length 1. If <code>TRUE</code>, then the function returns only
+<dd><p>Boolean of length 1. If <code>TRUE</code>, the function returns only
 those features where the field <code>name</code> is exactly equal to <code>name</code>. If
 <code>FALSE</code>, it performs a (case-sensitive) pattern matching.</p></dd>
 
@@ -114,21 +114,21 @@ are passed to <code><a href="oe_get.html">oe_get()</a></code>.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>The function may return an empty result when the corresponding GPKG file
-already exists and contains partial results. In that case, you can try
-running the function setting <code>never_skip_vectortranslate = TRUE</code>.</p>
+    <p>The function may return an empty result when the corresponding .gpkg
+file already exists and contains partial results. In that case, you can try
+running the function again setting <code>never_skip_vectortranslate = TRUE</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">my_cols</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">sf.colors</a></span><span class="op">(</span><span class="fl">5</span>, categorical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">gabon</span> <span class="op">=</span> <span class="fu">oe_get_boundary</span><span class="op">(</span><span class="st">"Gabon"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># country</span></span></span>
 <span class="r-in"><span><span class="va">libreville</span> <span class="op">=</span> <span class="fu">oe_get_boundary</span><span class="op">(</span><span class="st">"Gabon"</span>, <span class="st">"Libreville"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># capital</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">opar</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_boundary</a></span><span class="op">(</span><span class="va">gabon</span><span class="op">)</span><span class="op">)</span>, reset <span class="op">=</span> <span class="cn">FALSE</span>, col <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">my_cols</span> <span class="op">=</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">sf.colors</a></span><span class="op">(</span><span class="fl">5</span>, categorical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">libreville</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, col <span class="op">=</span> <span class="va">my_cols</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Exact match</span></span></span>
@@ -140,9 +140,10 @@ running the function setting <code>never_skip_vectortranslate = TRUE</code>.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get all boundaries</span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="fu">oe_get_boundary</span><span class="op">(</span><span class="st">"Gabon"</span>, name <span class="op">=</span> <span class="st">"%"</span>, exact <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">gabon</span> <span class="op">=</span> <span class="fu">oe_get_boundary</span><span class="op">(</span><span class="st">"Gabon"</span>, name <span class="op">=</span> <span class="st">"%"</span>, exact <span class="op">=</span> <span class="cn">FALSE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">gabon</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># If the basic approach doesn't work, i.e.</span></span></span>
+<span class="r-in"><span><span class="co"># If the basic approach doesn't work, e.g.</span></span></span>
 <span class="r-in"><span><span class="fu">oe_get_boundary</span><span class="op">(</span><span class="st">"Leeds"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># try to consider larger regions, i.e.</span></span></span>
