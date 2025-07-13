@@ -148,18 +148,15 @@ extract_dots_names_safely <- function(...) {
   )
 }
 
-# See https://adv-r.hadley.nz/conditions.html#signalling. Code taken from that
-# book (and I think that's possible since the code is released with MIT
-# license). The main benefit of this approach is that I can test the class of
-# the error instead of the message.
+# See https://adv-r.hadley.nz/conditions.html#signalling and ?condition. The
+# main benefit of this approach is that I can test the class of the error
+# instead of the message.
 oe_stop <- function(.subclass, message, call = NULL, ...) {
-  err <- structure(
-    list(
-      message = message,
-      call = call,
-      ...
-    ),
-    class = c(.subclass, "error", "condition")
+  err <- errorCondition(
+    message = message,
+    ...,
+    class = .subclass,
+    call = call
   )
   stop(err)
 }
