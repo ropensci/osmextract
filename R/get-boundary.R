@@ -4,17 +4,17 @@
 #' an administrative boundary. The objects are extracted from the
 #' `multipolygons` layer of a given OSM extract.
 #'
-#' The function may return an empty result when the corresponding GPKG file
-#' already exists and contains partial results. In that case, you can try
-#' running the function setting `never_skip_vectortranslate = TRUE`.
+#' @details The function may return an empty result when the corresponding .gpkg
+#'   file already exists and contains partial results. In that case, you can try
+#'   running the function again setting `never_skip_vectortranslate = TRUE`.
 #'
 #' @inheritParams oe_get
 #' @param name A character vector of length 1 that describes the relevant area.
 #'   By default, this is equal to `place`, but this parameter can be tuned to
 #'   obtain more granular results starting from the same OSM extract. See
 #'   examples. It must be always set when the `place` argument is specified
-#'   using numeric or spatial objects.
-#' @param exact Boolean of length 1. If `TRUE`, then the function returns only
+#'   using numeric or spatial (i.e. `sf/sfc`) objects.
+#' @param exact Boolean of length 1. If `TRUE`, the function returns only
 #'   those features where the field `name` is exactly equal to `name`. If
 #'   `FALSE`, it performs a (case-sensitive) pattern matching.
 #' @param ... Further arguments (e.g. `quiet` or `force_vectortranslate`) that
@@ -26,12 +26,12 @@
 #' @examples
 #' \dontrun{
 #' library(sf)
-#' my_cols = sf.colors(5, categorical = TRUE)
 #' gabon = oe_get_boundary("Gabon", quiet = TRUE) # country
 #' libreville = oe_get_boundary("Gabon", "Libreville", quiet = TRUE) # capital
 #'
 #' opar = par(mar = rep(0, 4))
 #' plot(st_geometry(st_boundary(gabon)), reset = FALSE, col = "grey")
+#' my_cols = sf.colors(5, categorical = TRUE)
 #' plot(st_geometry(libreville), add = TRUE, col = my_cols[1])
 #'
 #' # Exact match
@@ -43,9 +43,10 @@
 #' par(opar)
 #'
 #' # Get all boundaries
-#' (oe_get_boundary("Gabon", name = "%", exact = FALSE, quiet = TRUE)[, 1:2])
+#' (gabon = oe_get_boundary("Gabon", name = "%", exact = FALSE, quiet = TRUE)[, 1:2])
+#' plot(st_geometry(gabon))
 #'
-#' # If the basic approach doesn't work, i.e.
+#' # If the basic approach doesn't work, e.g.
 #' oe_get_boundary("Leeds")
 #'
 #' # try to consider larger regions, i.e.
