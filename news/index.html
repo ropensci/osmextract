@@ -83,7 +83,7 @@
 <div class="section level4">
 <h4 id="major-changes-0-5-2">MAJOR CHANGES<a class="anchor" aria-label="anchor" href="#major-changes-0-5-2"></a></h4>
 <ul><li>Bump minimum R version from 3.5.0 to 3.6.0 since that’s a requirement for one of our indirect dependencies (i.e. <a href="https://cran.r-project.org/package=evaluate" class="external-link">evaluate</a>).</li>
-<li>Adjusted the SQL syntax used inside <code>oe_get_network</code> so that the queries are compatible with GDAL 3.10 (<a href="https://github.com/ropensci/osmextract/issues/291" class="external-link">#298</a>).</li>
+<li>Adjusted the SQL syntax used inside <code>oe_get_network</code> so that the queries are compatible with GDAL 3.10 (<a href="https://github.com/ropensci/osmextract/issues/298" class="external-link">#298</a>).</li>
 <li>The output of <code>oe_get_network</code> does not drop elements tagged as <code>access = 'no'</code> as long as the <code>foot</code>/<code>bicycle</code>/<code>motor_vehicle</code> (according to the chosen mode of transport) key is equal to <code>yes</code>, <code>permissive</code>, or <code>designated</code> (<a href="https://github.com/ropensci/osmextract/issues/289" class="external-link">#289</a>).</li>
 </ul></div>
 <div class="section level4">
