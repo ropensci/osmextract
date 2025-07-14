@@ -1,0 +1,67 @@
+---
+title: "Tips and tricks for using the package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tips-and-tricks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>", 
+  fig.align = "center"
+)
+
+# save user's options and pars
+user_options = options()
+user_par = par(no.readonly = TRUE)
+
+# save files in the tempdir
+old_dd = Sys.getenv("OSMEXT_DOWNLOAD_DIRECTORY", tempdir())
+Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = tempdir())
+
+its_pbf = file.path(
+  osmextract::oe_download_directory(), 
+  "test_its-example.osm.pbf"
+)
+file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"), 
+  to = its_pbf, 
+  overwrite = TRUE
+)
+
+# set new options
+options(width = 100)
+```
+
+This vignette presents a collection of useful tips and tricks we've gathered over the years for effectively using this package to read, download, and filter OpenStreetMap (OSM) extracts. First of all, let's load the relevant packages: 
+
+```{r setup}
+library(osmextract)
+```
+
+## How can I get OSM objects by node/way id number?
+
+The example below demonstrates how to select a set of ways from an OSM extract, assuming you already know their OSM IDs:
+
+```{r}
+osm_id <- c("4419868", "6966733", "7989989", "15333726", "31705837")
+
+out <- oe_get(
+  place = "ITS Leeds",
+  query = paste0(
+    "SELECT * FROM lines WHERE osm_id IN (", paste0(osm_id, collapse = ","), ")"
+  ), 
+  quiet = TRUE
+)
+print(out, n = 0L)
+```
+
+```{r, include=FALSE}
+# reset par, options, and download directory
+options(user_options)
+par(user_par)
+Sys.setenv(OSMEXT_DOWNLOAD_DIRECTORY = old_dd)
+```
