@@ -274,7 +274,7 @@ oe_get_keys.character = function(
     # file. For example
     # system.file("its-example.osm.pbf", package = "osmextract") |>
     # sf::st_read(quiet = TRUE, query = "SELECT * FROM lines LIMIT 0")
-    get_fields_default(layer)
+    get_fields_default(layer, file = readLines(get_default_osmconf_ini()))
   )
 
   if (any(existing_fields %!in% default_fields)) {
