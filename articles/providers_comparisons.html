@@ -168,11 +168,11 @@ covering a whole continent (plus Russian Federation):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">[</span><span class="va">geofabrik_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-5-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>or several countries all around the world:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">[</span><span class="va">geofabrik_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">2</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>Geofabrik also defines several special zones, such as Alps, Britain
 and Ireland, Germany, Austria and Switzerland, US Midwest, US Northeast,
 US Pacific, US South and US West. Moreover, it contains extracts
@@ -180,7 +180,7 @@ relative to some administrative subregions, mainly in Europe, Russia,
 Canada and South America:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">[</span><span class="va">geofabrik_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-7-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>Check <code><a href="../reference/geofabrik_zones.html">?geofabrik_zones</a></code> and the <a href="http://download.geofabrik.de/" class="external-link">provider’s webpage</a> for more
 details.</p>
 </div>
@@ -193,12 +193,12 @@ several regions, such as the continents:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Russian federation is considered as a level 1 zone</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-8-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>or some countries around the world (less than
 <code>geofabrik</code>):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="fl">2</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-9-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>It can be noticed that there are several holes (such as Peru, which
 is the reason why, in the first example, Lima was matched with South
 America data), implying that <code>openstreetmap_fr</code> cannot always
@@ -207,25 +207,25 @@ it provides extremely detailed extracts for some regions of the world,
 like China,</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">==</span> <span class="st">"china"</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-10-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>India,</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op">==</span> <span class="st">"india"</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-11-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>France,</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"france"</span></span>
 <span><span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">ids_2</span> <span class="op">|</span> <span class="va">ids_3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-12-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>and Brazil</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ids_2</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="st">"brazil"</span></span>
 <span><span class="va">ids_3</span> <span class="op">=</span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">parent</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">openstreetmap_fr_zones</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="va">ids_2</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">openstreetmap_fr_zones</span><span class="op">[</span><span class="va">ids_2</span> <span class="op">|</span> <span class="va">ids_3</span>, <span class="st">"name"</span><span class="op">]</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span>, main <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-13-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="providers_comparisons_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="bbbike">BBBike<a class="anchor" aria-label="anchor" href="#bbbike"></a>
@@ -237,7 +237,7 @@ since it contains OSM data for more than 200 cities worldwide.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu">spData</span><span class="fu">::</span><span class="va">world</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bbbike_zones</span><span class="op">)</span>, border <span class="op">=</span> <span class="st">"darkred"</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../reference/figures/96640949-3f7f7480-1324-11eb-9dca-a971c8103a4e.png" width="100%" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/96640949-3f7f7480-1324-11eb-9dca-a971c8103a4e.png" class="r-plt" width="100%" style="display: block; margin: auto;"></p>
 <p><code>bbbike</code> provider is the safest choice if you are looking
 for OSM data relative to a particular city in the world.</p>
 </div>
@@ -258,7 +258,7 @@ for OSM data relative to a particular city in the world.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

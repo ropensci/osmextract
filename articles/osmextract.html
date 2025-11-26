@@ -210,7 +210,7 @@ follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">geofabrik_zones</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-5-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>The plot above shows how the provider divides geographic space into
 discrete chunks. Different providers have other zoning systems. For
 example:</p>
@@ -218,7 +218,7 @@ example:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="fu">spData</span><span class="fu">::</span><span class="va">world</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">60</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bbbike_zones</span><span class="op">)</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">60</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../reference/figures/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png" class="r-plt" width="80%" style="display: block; margin: auto;"></p>
 <p>As shown in the visualisation above of <a href="https://download.bbbike.org/osm/" class="external-link">BBBike.org</a> zones in Europe,
 that provider offers rectangular extracts of the major cities. We are
 working on adding support for manually selected regions from the BBBike
@@ -616,7 +616,7 @@ point to a directory that will persist, you can add
 by <code><a href="../reference/oe_download.html">oe_download()</a></code> with:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp7GFczm"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpNBSme2"</span></span></code></pre></div>
 <p>We strongly advise you setting a persistent directory since
 downloading and converting (see the next sub-section) <code>.pbf</code>
 files are expensive operations, that can be skipped if the functions
@@ -891,7 +891,7 @@ path or URL.</p>
 <code>its-gpkg</code> file:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -903,7 +903,7 @@ file, the vectortranslate operations can be skipped using the parameter
 will ignore the conversion step.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.osm.pbf' using driver `OSM'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.osm.pbf' using driver `OSM'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -937,7 +937,7 @@ follows:</p>
 <span><span class="co">#&gt; The input place was matched with: ITS Leeds</span></span>
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -945,7 +945,7 @@ follows:</p>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">its_lines</span><span class="op">[</span><span class="st">"highway"</span><span class="op">]</span>, lwd <span class="op">=</span> <span class="fl">2</span>, key.pos <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-42-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-42-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <p>The function <code><a href="../reference/oe_get.html">oe_get()</a></code> is a wrapper around
 <code><a href="../reference/oe_match.html">oe_match()</a></code> and <code><a href="../reference/oe_read.html">oe_read()</a></code>, and it summarizes
 the algorithm that we use for importing OSM extracts:</p>
@@ -1036,7 +1036,7 @@ file:</p>
 <span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
 <span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1050,7 +1050,7 @@ file:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1077,7 +1077,7 @@ ignored (with a warning message), if you are using an ad-hoc
 <span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
 <span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1107,7 +1107,7 @@ performing vectortranslate operations:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1149,7 +1149,7 @@ that will be passed to <code>ogr2ogr:</code></p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1212,7 +1212,7 @@ via the argument <code>boundary</code>:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 5 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1220,7 +1220,7 @@ via the argument <code>boundary</code>:</p>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
 <p>This is the output, where the bounding box was highlighted in black,
 the intersecting streets in red and all the other roads in grey.</p>
-<p><img src="osmextract_files/figure-html/unnamed-chunk-57-1.png" width="85%" style="display: block; margin: auto;"></p>
+<p><img src="osmextract_files/figure-html/unnamed-chunk-57-1.png" class="r-plt" width="85%" style="display: block; margin: auto;"></p>
 <p>Finally, the argument <code>boundary_type</code> can be used to
 select among different types of spatial filters. For the moment we
 support only two types of filters: <code>"spat"</code> (default value)
@@ -1279,7 +1279,7 @@ convert the <code>MULTILINESTRING</code> into <code>LINESTRING</code>
 <p>The following map represent the result, where we highlight the
 bounding circle and the road segments within using a dark-red colour,
 while all the other road segments are coloured in grey.</p>
-<p><img src="../reference/figures/104240598-9d6fb400-545c-11eb-93b5-3563908ff4af.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/104240598-9d6fb400-545c-11eb-93b5-3563908ff4af.png" class="r-plt" width="80%" style="display: block; margin: auto;"></p>
 <p>The process takes approximately 1 or 2 seconds, while the equivalent
 R code, reported below, is slower:</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
@@ -1294,7 +1294,7 @@ R code, reported below, is slower:</p>
 <p>The time difference gets more and more relevant for larger OSM
 extracts. Moreover, the R code crops the road segments using a
 rectangular boundary instead of the proper circular polygon:</p>
-<p><img src="../reference/figures/104241581-32bf7800-545e-11eb-896b-3f535dd1af5e.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/104241581-32bf7800-545e-11eb-896b-3f535dd1af5e.png" class="r-plt" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level4">
 <h4 id="query-and-wkt_filter-arguments">
@@ -1323,7 +1323,7 @@ defined around La Valletta:</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>This is the output and we can see that it applies a circular spatial
 filter but it doesn’t crop the features:</p>
-<p><img src="../reference/figures/104243054-4966ce80-5460-11eb-951b-ca1ce9d09f33.png" width="80%" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/104243054-4966ce80-5460-11eb-951b-ca1ce9d09f33.png" class="r-plt" width="80%" style="display: block; margin: auto;"></p>
 <p>This approach has its pros and cons. First of all, it is slightly
 slower than the GDAL routines, mainly because several unnecessary
 features are being converted to the <code>.gpkg</code> format. Hence, it
@@ -1366,7 +1366,7 @@ rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortran
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
 <span><span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'</span></span>
-<span><span class="co">#&gt; from data source `/tmp/Rtmp7GFczm/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; from data source `/tmp/RtmpNBSme2/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1455,7 +1455,7 @@ more details.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

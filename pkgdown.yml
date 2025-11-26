@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   osmextract: osmextract.html
   providers_comparisons: providers_comparisons.html
   providers: providers.html
   tips-and-tricks: tips-and-tricks.html
-last_built: 2025-07-14T12:06Z
+last_built: 2025-11-26T11:29Z
