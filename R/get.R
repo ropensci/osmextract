@@ -262,6 +262,12 @@ oe_get = function(
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]
 
+  # If place is an sf/sfc polygon or bbox, use it as boundary with clipsrc
+  if (inherits(place, "bbox") || (inherits(place, c("sf", "sfc")) && all(sf::st_geometry_type(place) %in% c("POLYGON", "MULTIPOLYGON")))) {
+    boundary = place
+    boundary_type = "clipsrc"
+  }
+
   oe_read(
     file_path = file_url,
     layer = layer,
