@@ -88,7 +88,9 @@
 #'   display a progress bar.
 #' @param boundary An `sf`/`sfc`/`bbox` object that will be used to create a
 #'   spatial filter during the vectortranslate operations. The type of filter
-#'   can be chosen using the argument `boundary_type`.
+#'   can be chosen using the argument `boundary_type`. If `place` is an `sf`/`sfc`
+#'   polygon or a `bbox`, then it will be used as `boundary` if the latter is not
+#'   specified.
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
 #'   intersect a given area, while `clipsrc` also clips the geometries. Check
@@ -262,10 +264,9 @@ oe_get = function(
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]
 
-  # If place is an sf/sfc polygon or bbox, use it as boundary with clipsrc
-  if (inherits(place, "bbox") || (inherits(place, c("sf", "sfc")) && all(sf::st_geometry_type(place) %in% c("POLYGON", "MULTIPOLYGON")))) {
+  # If place is an sf/sfc polygon or bbox, use it as boundary
+  if (is.null(boundary) && (inherits(place, "bbox") || (inherits(place, c("sf", "sfc")) && all(sf::st_geometry_type(place) %in% c("POLYGON", "MULTIPOLYGON"))))) {
     boundary = place
-    boundary_type = "clipsrc"
   }
 
   oe_read(
