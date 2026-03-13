@@ -88,7 +88,9 @@
 #'   display a progress bar.
 #' @param boundary An `sf`/`sfc`/`bbox` object that will be used to create a
 #'   spatial filter during the vectortranslate operations. The type of filter
-#'   can be chosen using the argument `boundary_type`.
+#'   can be chosen using the argument `boundary_type`. If `place` is an `sf`/`sfc`
+#'   polygon or a `bbox`, then it will be used as `boundary` if the latter is not
+#'   specified.
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
 #'   intersect a given area, while `clipsrc` also clips the geometries. Check
@@ -261,6 +263,13 @@ oe_get = function(
   # osmext-download function.
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]
+
+  # If place is an sf/sfc polygon or bbox, use it as boundary
+  if (is.null(boundary) && (inherits(place, "bbox") || (inherits(place, c("sf", "sfc")) && sf::st_dimension(place) == 2))) {
+    message("Setting boundary = place to geographically subset the output.")
+    message("Use boundary = NULL to import full extract.")
+    boundary = place
+  }
 
   oe_read(
     file_path = file_url,
