@@ -266,6 +266,8 @@ oe_get = function(
 
   # If place is an sf/sfc polygon or bbox, use it as boundary
   if (is.null(boundary) && (inherits(place, "bbox") || (inherits(place, c("sf", "sfc")) && all(sf::st_geometry_type(place) %in% c("POLYGON", "MULTIPOLYGON"))))) {
+    message("Setting boundary = place to geographically subset the output.")
+    message("Use boundary = NULL to import full extract.")
     boundary = place
   }
 
