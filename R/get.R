@@ -87,10 +87,10 @@
 #'   if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
 #' @param boundary An `sf`/`sfc`/`bbox` object that will be used to create a
-#'   spatial filter during the vectortranslate operations. The type of filter
-#'   can be chosen using the argument `boundary_type`. If `place` is an `sf`/`sfc`
-#'   polygon or a `bbox`, then it will be used as `boundary` if the latter is not
-#'   specified.
+#'   spatial filter during the vectortranslate operations. If you are running
+#'   `oe_get()` and `place` is an `sf`/`sfc` polygon or a `bbox`, then it will
+#'   be used as `boundary` if the latter is not specified. Set `boundary = NA`
+#'   to override this behaviour and forcefully import the full extract.
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
 #'   intersect a given area, while `clipsrc` also clips the geometries. Check
@@ -264,11 +264,22 @@ oe_get = function(
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]
 
-  # If place is an sf/sfc polygon or bbox, use it as boundary
-  if (is.null(boundary) && (inherits(place, "bbox") || (inherits(place, c("sf", "sfc")) && sf::st_dimension(place) == 2))) {
-    message("Setting boundary = place to geographically subset the output.")
-    message("Use boundary = NULL to import full extract.")
-    boundary = place
+  # If place is an sf/sfc polygon or bbox, use it as boundary. See also #313 and
+  # #314.The following !identical(x, NA) is required since is.na(NULL) returns
+  # logical(0)
+  if (!identical(boundary, NA)) {
+    if (
+      is.null(boundary) && (
+        inherits(place, "bbox") ||
+        (inherits(place, c("sf", "sfc")) && sf::st_dimension(place) == 2) # The last test checks for POLYGON / MULTIPOLYGON
+      )
+    ) {
+      oe_message(
+        "Setting boundary = place to geographically subset the output. Use boundary = NA to import full extract.",
+        quiet = quiet
+      )
+      boundary = place
+    }
   }
 
   oe_read(

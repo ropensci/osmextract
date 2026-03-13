@@ -536,8 +536,8 @@ process_boundary = function(
   boundary = NULL,
   boundary_type = c("spat", "clipsrc")
 ) {
-  # Checks
-  if (is.null(boundary)) {
+  # Starting from #313, boundary might be NA on purpose
+  if (is.na(boundary) || is.null(boundary)) {
     return(vectortranslate_options)
   }
 
