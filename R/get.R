@@ -52,7 +52,9 @@
 #'   directory index'). Note: the geographical coverage of an extract may
 #'   change over time. For example, recent (2021+) extracts for Barcelona are
 #'   at the regional level (cataluna), while older (2012-2021) extracts are at
-#'   the national level (spain).
+#'   the national level (spain). This means that downloading historical data
+#'   for a place like Barcelona may require changing the `place` argument to
+#'   "spain" for older versions.
 #' @param download_directory Directory to store the file containing OSM data?.
 #' @param force_download Should the `.osm.pbf` file be updated even if it has
 #'   already been downloaded? `FALSE` by default. This parameter is used to
