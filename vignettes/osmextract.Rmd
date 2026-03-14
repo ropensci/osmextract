@@ -270,7 +270,7 @@ Finally, to reduce unnecessary computational resources and save bandwidth/electr
 
 ### Matching historical OSM extracts
 
-Starting from `osmextract` v0.5.2, the `version` argument can be used to match historical OSM extracts stored by Geofabrik provider. The default value is `"latest"` which corresponds to the most recent OSM extract. Other values can be specified using the format `"YYMMDD"`. The available extracts for each zone can be browsed from Geofabrik  [website](https://download.geofabrik.de/). 
+Starting from `osmextract` v0.5.2, the `version` argument can be used to match historical OSM extracts stored by Geofabrik provider. The default value is `"latest"` which corresponds to the most recent OSM extract. Other values can be specified using the format `"YYMMDD"`. The available extracts for each zone can be browsed from Geofabrik  [website](https://download.geofabrik.de/). Note that the geographical coverage of an extract may change over time. For example, recent (2021+) extracts for Barcelona are at the regional level (cataluna), while older (2012-2021) extracts are at the national level (spain).
 
 For example: 
 
