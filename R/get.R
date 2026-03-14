@@ -49,7 +49,10 @@
 #'   YYMMDD (e.g. "200101"). The complete list of all available historic files
 #'   for a given extract can be browsed from the Geofabrik website (e.g.
 #'   <https://download.geofabrik.de/europe/italy.html> and then click on 'raw
-#'   directory index').
+#'   directory index'). Note: the geographical coverage of an extract may
+#'   change over time. For example, recent (2021+) extracts for Barcelona are
+#'   at the regional level (cataluna), while older (2012-2021) extracts are at
+#'   the national level (spain).
 #' @param download_directory Directory to store the file containing OSM data?.
 #' @param force_download Should the `.osm.pbf` file be updated even if it has
 #'   already been downloaded? `FALSE` by default. This parameter is used to
