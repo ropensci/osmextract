@@ -20,7 +20,7 @@ check_layer_provider = function(layer, provider) {
       call. = FALSE
     )
   }
-  invisible(0)
+  invisible()
 }
 
 check_version <- function(version, provider) {
@@ -112,7 +112,7 @@ oe_message <- function(..., quiet, .subclass) {
     )
     message(msg)
   }
-  invisible(0)
+  invisible()
 }
 
 # Extract the names in ... safely. I cannot use ...names() since that was

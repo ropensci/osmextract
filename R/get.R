@@ -112,9 +112,13 @@
 #' @export
 #'
 #' @details The algorithm that we use for importing an OSM extract data into R
-#'   is divided into 4 steps: 1) match the input `place` with the url of a
-#'   `.pbf` file; 2) download the `.pbf` file; 3) convert it into `.gpkg` format
-#'   and 4) read-in the `.gpkg` file. The function `oe_match()` is used to
+#'   is divided into 4 steps:
+#'   1. match the input `place` with the url of a `.pbf` file;
+#'   2. download the `.pbf` file;
+#'   3. convert it into `.gpkg` format;
+#'   4. read-in the `.gpkg` file.
+#'
+#'   The function `oe_match()` is used to
 #'   perform the first operation and the function `oe_read()` (which is a
 #'   wrapper around `oe_download()`, `oe_vectortranslate()` and `sf::st_read()`)
 #'   performs the other three operations.

@@ -82,7 +82,12 @@ level. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 YYMMDD (e.g. "200101"). The complete list of all available historic files
 for a given extract can be browsed from the Geofabrik website (e.g.
 \url{https://download.geofabrik.de/europe/italy.html} and then click on 'raw
-directory index').}
+directory index'). Note: the geographical coverage of an extract may
+change over time. For example, recent (2021+) extracts for Barcelona are
+at the regional level (cataluna), while older (2012-2021) extracts are at
+the national level (spain). This means that downloading historical data
+for a place like Barcelona may require changing the \code{place} argument to
+"spain" for older versions.}
 
 \item{download_directory}{Directory to store the file containing OSM data?.}
 
@@ -158,9 +163,15 @@ parameters.
 }
 \details{
 The algorithm that we use for importing an OSM extract data into R
-is divided into 4 steps: 1) match the input \code{place} with the url of a
-\code{.pbf} file; 2) download the \code{.pbf} file; 3) convert it into \code{.gpkg} format
-and 4) read-in the \code{.gpkg} file. The function \code{oe_match()} is used to
+is divided into 4 steps:
+\enumerate{
+\item match the input \code{place} with the url of a \code{.pbf} file;
+\item download the \code{.pbf} file;
+\item convert it into \code{.gpkg} format;
+\item read-in the \code{.gpkg} file.
+}
+
+The function \code{oe_match()} is used to
 perform the first operation and the function \code{oe_read()} (which is a
 wrapper around \code{oe_download()}, \code{oe_vectortranslate()} and \code{sf::st_read()})
 performs the other three operations.
