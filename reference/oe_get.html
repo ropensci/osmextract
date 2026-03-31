@@ -177,7 +177,12 @@ level. See Details and Examples in <code><a href="oe_match.html">oe_match()</a><
 YYMMDD (e.g. "200101"). The complete list of all available historic files
 for a given extract can be browsed from the Geofabrik website (e.g.
 <a href="https://download.geofabrik.de/europe/italy.html" class="external-link">https://download.geofabrik.de/europe/italy.html</a> and then click on 'raw
-directory index').</p></dd>
+directory index'). Note: the geographical coverage of an extract may
+change over time. For example, recent (2021+) extracts for Barcelona are
+at the regional level (cataluna), while older (2012-2021) extracts are at
+the national level (spain). This means that downloading historical data
+for a place like Barcelona may require changing the <code>place</code> argument to
+"spain" for older versions.</p></dd>
 
 
 <dt id="arg-download-directory">download_directory<a class="anchor" aria-label="anchor" href="#arg-download-directory"></a></dt>
@@ -275,9 +280,11 @@ display a progress bar.</p></dd>
     <div id="details">
     <h2>Details</h2>
     <p>The algorithm that we use for importing an OSM extract data into R
-is divided into 4 steps: 1) match the input <code>place</code> with the url of a
-<code>.pbf</code> file; 2) download the <code>.pbf</code> file; 3) convert it into <code>.gpkg</code> format
-and 4) read-in the <code>.gpkg</code> file. The function <code><a href="oe_match.html">oe_match()</a></code> is used to
+is divided into 4 steps:</p><ol><li><p>match the input <code>place</code> with the url of a <code>.pbf</code> file;</p></li>
+<li><p>download the <code>.pbf</code> file;</p></li>
+<li><p>convert it into <code>.gpkg</code> format;</p></li>
+<li><p>read-in the <code>.gpkg</code> file.</p></li>
+</ol><p>The function <code><a href="oe_match.html">oe_match()</a></code> is used to
 perform the first operation and the function <code><a href="oe_read.html">oe_read()</a></code> (which is a
 wrapper around <code><a href="oe_download.html">oe_download()</a></code>, <code><a href="oe_vectortranslate.html">oe_vectortranslate()</a></code> and <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code>)
 performs the other three operations.</p>
@@ -309,7 +316,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpbl0MZ1/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpl4zEOS/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -329,7 +336,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmpbl0MZ1/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/Rtmpl4zEOS/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -344,12 +351,12 @@ performs the other three operations.</p>
 <span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpbl0MZ1/test_its-example.gpkg"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpl4zEOS/test_its-example.gpkg"</span>
 <span class="r-in"><span><span class="fu">oe_get</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"ITS Leeds"</span>, download_only <span class="op">=</span> <span class="cn">TRUE</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  quiet <span class="op">=</span> <span class="cn">TRUE</span>, download_directory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpbl0MZ1/test_its-example.osm.pbf"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/Rtmpl4zEOS/test_its-example.osm.pbf"</span>
 <span class="r-in"><span><span class="co"># See also ?oe_find()</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Add additional tags</span></span></span>
@@ -362,7 +369,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpbl0MZ1/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpl4zEOS/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 11 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -384,7 +391,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The chosen file was already detected in the download directory. Skip downloading.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes''</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> from data source `/tmp/Rtmpbl0MZ1/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> from data source `/tmp/Rtmpl4zEOS/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 13 features and 11 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -430,7 +437,7 @@ performs the other three operations.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpbl0MZ1/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/Rtmpl4zEOS/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 77 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
