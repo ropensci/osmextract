@@ -284,7 +284,8 @@ oe_get = function(
       )
     ) {
       oe_message(
-        "Setting boundary = place to geographically subset the output. Use boundary = NA to import full extract.",
+        "Setting 'boundary = place' to geographically subset the output. Use boundary = NA to import full extract.",
+        .subclass = "oe_get_overwriting_boundary",
         quiet = quiet
       )
       boundary = place
