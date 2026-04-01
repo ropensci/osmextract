@@ -193,7 +193,7 @@
 #' )
 #'
 #' plot(sf::st_geometry(its), reset = FALSE, col = "lightgrey")
-#' plot(sf::st_boundary(its_poly), col = "black", add = TRUE)
+#' plot(sf::st_boundary(its_poly), col = "black", add = TRUE, lty = 2)
 #' plot(sf::st_boundary(sf::st_as_sfc(sf::st_bbox(its_poly))), col = "black", add = TRUE)
 #' plot(sf::st_geometry(its_spat), add = TRUE, col = "darkred")
 #' plot(sf::st_geometry(its_clipped), add = TRUE, col = "orange")
@@ -207,7 +207,7 @@
 #' # Match with place name
 #' oe_get("Milan") # Warning: the .pbf file is 400MB
 #' oe_get("Vatican City") # Check all providers
-#' oe_get("Zurich") # Use Nominatim API for geolocating places
+#' oe_get("Zurich") # Uses Nominatim API for geolocating places
 #'
 #' # Match with coordinates (any EPSG)
 #' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
