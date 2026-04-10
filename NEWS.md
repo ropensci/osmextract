@@ -4,6 +4,7 @@
 
 * The default directory used to store `.osm.pbf` and `.gpkg` files downloaded or created by this package has changed from `tempdir()` to `tools::R_user_dir("osmextract", "data")` ([#302](https://github.com/ropensci/osmextract/issues/302)).  
 * Bump minimum R version to 4.1.0 because that's a requirement for one of our indirect dependencies (i.e. svglite). This also ensures that we can properly use `tools::R_user_dir()` since that function was introduced in R 4.0.0 ([#302](https://github.com/ropensci/osmextract/issues/302)).
+* Updated the behaviour of the `oe_get()` and related functions (`oe_get_boundary()`, `oe_get_network()`, ...) when a `sf/sfc/bbox` is provided as input for `place`. If `boundary` is not `NA`, it is automatically set to match `place` so only the relevant portion of the extract is processed ([#313](https://github.com/ropensci/osmextract/issues/313)). Thanks to @juanfonsecaLS1. 
 
 # osmextract 0.5.3
 
@@ -16,7 +17,7 @@
 ### MAJOR CHANGES
 
 * Bump minimum R version from 3.5.0 to 3.6.0 since that's a requirement for one of our indirect dependencies (i.e. [evaluate](https://cran.r-project.org/package=evaluate)). 
-* Adjusted the SQL syntax used inside `oe_get_network` so that the queries are compatible with GDAL 3.10 ([#298](https://github.com/ropensci/osmextract/issues/291)). 
+* Adjusted the SQL syntax used inside `oe_get_network` so that the queries are compatible with GDAL 3.10 ([#298](https://github.com/ropensci/osmextract/issues/298)). 
 * The output of `oe_get_network` does not drop elements tagged as `access = 'no'` as long as the `foot`/`bicycle`/`motor_vehicle` (according to the chosen mode of transport) key is equal to `yes`, `permissive`, or `designated` ([#289](https://github.com/ropensci/osmextract/issues/289)). 
 
 ### MINOR CHANGES

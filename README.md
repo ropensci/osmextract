@@ -24,7 +24,7 @@ premier source of freely available, community created geographic data
 worldwide. We aim to enable you to extract it for data-driven work in
 the public interest.
 
-`osmextract` matches, downloads, converts and imports bulk OSM data
+`osmextract` matches, downloads, converts, and imports bulk OSM data
 hosted by providers such as [Geofabrik
 GmbH](http://download.geofabrik.de) and
 [bbbike](https://download.bbbike.org/osm/). For information on
@@ -232,13 +232,9 @@ package with:
 oe_download_directory()
 ```
 
-<!-- The following section was removed since now oe_download sets the timeout value. See https://github.com/ropensci/osmextract/issues/222 -->
-<!-- ## Troubleshooting -->
-<!-- Depending on the `.pbf` file selected and your connection speed, you may experience an error stating `Timeout of 60 seconds was reached`.  -->
-<!-- If so, before calling `oe_get()`, you can adjust the timeout using `options(timeout = 300)`, choosing an appropriate value.  -->
-<!-- This setting affects all calls to [download.file()](https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/download.file), so you may need to reset it for the rest of your script. -->
-<!-- If you need to update an existing `.pbf` file or replace an incomplete extract, you can use the argument `force_download`, i.e `oe_get("some-place", force_download = TRUE)`.    -->
-<!-- Check `?oe_get` and `?oe_download` for more details.  -->
+The `force_download` argument can be used to refresh OSM extracts
+already present in the download directory. See also `oe_update()`and the
+introductory vignette for more details.
 
 ## Next steps
 
@@ -269,8 +265,6 @@ vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html)
 for more details.
 
 ## Other approaches
-
-<!-- todo: add links to other packages -->
 
 - [osmdata](https://github.com/ropensci/osmdata) is an R package for
   importing small datasets directly from OSM servers
@@ -314,9 +308,3 @@ have been explained better, please let us know.
 Please note that this package is released with a [Contributor Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
-
-<!-- :) -->
-<!-- :) -->
-<!-- :) -->
-<!-- :) -->
-<!-- :) -->

@@ -66,3 +66,43 @@ test_that("The provider is overwritten when oe_match finds a different provider"
     regexp = "openstreetmap_fr"
   )
 })
+
+test_that("place = sf/sfc and boundary = NULL correctly filters input object", {
+  # See discussion in https://github.com/ropensci/osmextract/issues/313
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  # Define a toy boundary object within ITS
+  its_poly = sf::st_sfc(
+    sf::st_polygon(
+      list(rbind(
+        c(-1.55577, 53.80850),
+        c(-1.55787, 53.80926),
+        c(-1.56096, 53.80891),
+        c(-1.56096, 53.80736),
+        c(-1.55675, 53.80658),
+        c(-1.55495, 53.80749),
+        c(-1.55577, 53.80850)
+      ))
+    ),
+    crs = 4326
+  )
+
+  # Old approach: Read and manually apply the boundary filter
+  old <- oe_get("ITS Leeds", boundary = its_poly, quiet = TRUE)
+
+  # New approach: Just set the boundary object as the first argument
+  new <- oe_get(its_poly, provider = "test", quiet = TRUE)
+
+  expect_identical(old, new)
+
+  # Boundary = NA forces the full import
+  full_new <- oe_get(its_poly, provider = "test", boundary = NA, quiet = TRUE)
+  full_old <- oe_get("ITS Leeds", force_vectortranslate = TRUE, quiet = TRUE)
+  expect_identical(full_old, full_new)
+})

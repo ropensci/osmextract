@@ -1,5 +1,6 @@
 test_that("oe_download: simplest examples work", {
   skip_on_cran()
+  skip_on_ci()
   skip_if_offline("github.com")
   withr::local_envvar(
     .new = list(

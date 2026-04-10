@@ -56,8 +56,10 @@ case, it's too difficult to determine if an existing \code{.gpkg} file was
 generated following the same options.)}
 
 \item{boundary}{An \code{sf}/\code{sfc}/\code{bbox} object that will be used to create a
-spatial filter during the vectortranslate operations. The type of filter
-can be chosen using the argument \code{boundary_type}.}
+spatial filter during the vectortranslate operations. If you are running
+\code{oe_get()} and \code{place} is an \code{sf}/\code{sfc} polygon or a \code{bbox}, then it will
+be used as \code{boundary} if the latter is not specified. Set \code{boundary = NA}
+to override this behaviour and forcefully import the full extract.}
 
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that

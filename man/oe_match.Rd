@@ -68,7 +68,12 @@ level. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 YYMMDD (e.g. "200101"). The complete list of all available historic files
 for a given extract can be browsed from the Geofabrik website (e.g.
 \url{https://download.geofabrik.de/europe/italy.html} and then click on 'raw
-directory index').}
+directory index'). Note: the geographical coverage of an extract may
+change over time. For example, recent (2021+) extracts for Barcelona are
+at the regional level (cataluna), while older (2012-2021) extracts are at
+the national level (spain). This means that downloading historical data
+for a place like Barcelona may require changing the \code{place} argument to
+"spain" for older versions.}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version

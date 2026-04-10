@@ -18,9 +18,9 @@ objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 By default, this is equal to \code{place}, but this parameter can be tuned to
 obtain more granular results starting from the same OSM extract. See
 examples. It must be always set when the \code{place} argument is specified
-using numeric or spatial objects.}
+using numeric or spatial (i.e. \code{sf/sfc}) objects.}
 
-\item{exact}{Boolean of length 1. If \code{TRUE}, then the function returns only
+\item{exact}{Boolean of length 1. If \code{TRUE}, the function returns only
 those features where the field \code{name} is exactly equal to \code{name}. If
 \code{FALSE}, it performs a (case-sensitive) pattern matching.}
 
@@ -36,19 +36,19 @@ an administrative boundary. The objects are extracted from the
 \code{multipolygons} layer of a given OSM extract.
 }
 \details{
-The function may return an empty result when the corresponding GPKG file
-already exists and contains partial results. In that case, you can try
-running the function setting \code{never_skip_vectortranslate = TRUE}.
+The function may return an empty result when the corresponding .gpkg
+file already exists and contains partial results. In that case, you can try
+running the function again setting \code{never_skip_vectortranslate = TRUE}.
 }
 \examples{
 \dontrun{
 library(sf)
-my_cols = sf.colors(5, categorical = TRUE)
 gabon = oe_get_boundary("Gabon", quiet = TRUE) # country
 libreville = oe_get_boundary("Gabon", "Libreville", quiet = TRUE) # capital
 
 opar = par(mar = rep(0, 4))
 plot(st_geometry(st_boundary(gabon)), reset = FALSE, col = "grey")
+my_cols = sf.colors(5, categorical = TRUE)
 plot(st_geometry(libreville), add = TRUE, col = my_cols[1])
 
 # Exact match
@@ -60,9 +60,10 @@ plot(st_geometry(komo_pt), add = TRUE, col = my_cols[3:5])
 par(opar)
 
 # Get all boundaries
-(oe_get_boundary("Gabon", name = "\%", exact = FALSE, quiet = TRUE)[, 1:2])
+(gabon = oe_get_boundary("Gabon", name = "\%", exact = FALSE, quiet = TRUE)[, 1:2])
+plot(st_geometry(gabon))
 
-# If the basic approach doesn't work, i.e.
+# If the basic approach doesn't work, e.g.
 oe_get_boundary("Leeds")
 
 # try to consider larger regions, i.e.

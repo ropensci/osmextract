@@ -49,7 +49,12 @@
 #'   YYMMDD (e.g. "200101"). The complete list of all available historic files
 #'   for a given extract can be browsed from the Geofabrik website (e.g.
 #'   <https://download.geofabrik.de/europe/italy.html> and then click on 'raw
-#'   directory index').
+#'   directory index'). Note: the geographical coverage of an extract may
+#'   change over time. For example, recent (2021+) extracts for Barcelona are
+#'   at the regional level (cataluna), while older (2012-2021) extracts are at
+#'   the national level (spain). This means that downloading historical data
+#'   for a place like Barcelona may require changing the `place` argument to
+#'   "spain" for older versions.
 #' @param download_directory Directory to store the file containing OSM data?.
 #' @param force_download Should the `.osm.pbf` file be updated even if it has
 #'   already been downloaded? `FALSE` by default. This parameter is used to
@@ -87,8 +92,10 @@
 #'   if `quiet` is equal to `FALSE`, then vectortranslate operations will
 #'   display a progress bar.
 #' @param boundary An `sf`/`sfc`/`bbox` object that will be used to create a
-#'   spatial filter during the vectortranslate operations. The type of filter
-#'   can be chosen using the argument `boundary_type`.
+#'   spatial filter during the vectortranslate operations. If you are running
+#'   `oe_get()` and `place` is an `sf`/`sfc` polygon or a `bbox`, then it will
+#'   be used as `boundary` if the latter is not specified. Set `boundary = NA`
+#'   to override this behaviour and forcefully import the full extract.
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
 #'   intersect a given area, while `clipsrc` also clips the geometries. Check
@@ -105,9 +112,13 @@
 #' @export
 #'
 #' @details The algorithm that we use for importing an OSM extract data into R
-#'   is divided into 4 steps: 1) match the input `place` with the url of a
-#'   `.pbf` file; 2) download the `.pbf` file; 3) convert it into `.gpkg` format
-#'   and 4) read-in the `.gpkg` file. The function `oe_match()` is used to
+#'   is divided into 4 steps:
+#'   1. match the input `place` with the url of a `.pbf` file;
+#'   2. download the `.pbf` file;
+#'   3. convert it into `.gpkg` format;
+#'   4. read-in the `.gpkg` file.
+#'
+#'   The function `oe_match()` is used to
 #'   perform the first operation and the function `oe_read()` (which is a
 #'   wrapper around `oe_download()`, `oe_vectortranslate()` and `sf::st_read()`)
 #'   performs the other three operations.
@@ -182,7 +193,7 @@
 #' )
 #'
 #' plot(sf::st_geometry(its), reset = FALSE, col = "lightgrey")
-#' plot(sf::st_boundary(its_poly), col = "black", add = TRUE)
+#' plot(sf::st_boundary(its_poly), col = "black", add = TRUE, lty = 2)
 #' plot(sf::st_boundary(sf::st_as_sfc(sf::st_bbox(its_poly))), col = "black", add = TRUE)
 #' plot(sf::st_geometry(its_spat), add = TRUE, col = "darkred")
 #' plot(sf::st_geometry(its_clipped), add = TRUE, col = "orange")
@@ -196,7 +207,7 @@
 #' # Match with place name
 #' oe_get("Milan") # Warning: the .pbf file is 400MB
 #' oe_get("Vatican City") # Check all providers
-#' oe_get("Zurich") # Use Nominatim API for geolocating places
+#' oe_get("Zurich") # Uses Nominatim API for geolocating places
 #'
 #' # Match with coordinates (any EPSG)
 #' milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)
@@ -261,6 +272,25 @@ oe_get = function(
   # osmext-download function.
   file_url = matched_zone[["url"]]
   file_size = matched_zone[["file_size"]]
+
+  # If place is an sf/sfc polygon or bbox, use it as boundary. See also #313 and
+  # #314.The following !identical(x, NA) is required since is.na(NULL) returns
+  # logical(0)
+  if (!identical(boundary, NA)) {
+    if (
+      is.null(boundary) && (
+        inherits(place, "bbox") ||
+        (inherits(place, c("sf", "sfc")) && sf::st_dimension(place) == 2) # The last test checks for POLYGON / MULTIPOLYGON
+      )
+    ) {
+      oe_message(
+        "Setting 'boundary = place' to geographically subset the output. Use boundary = NA to import full extract.",
+        .subclass = "oe_get_overwriting_boundary",
+        quiet = quiet
+      )
+      boundary = place
+    }
+  }
 
   oe_read(
     file_path = file_url,

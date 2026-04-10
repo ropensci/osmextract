@@ -22,7 +22,10 @@ table[["name"]] <- gsub("/", "", table[["name"]])
 # Define the URL for the .poly file
 poly_url <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".poly")
 
-# Define the URL for the pbf files
+# Download the geometries
+polies <- do.call(c, lapply(poly_url, read_poly))
+
+# Define the URL for the .osm.pbf files
 table[["pbf"]] <- paste0("https://download.bbbike.org/osm/bbbike/", table[["name"]], "/", table[["name"]], ".osm.pbf")
 
 # Add the file_size
@@ -36,9 +39,6 @@ table[["pbf_file_size"]] <- vapply(
 # Add id and level
 table[["id"]] <- table[["name"]]
 table[["level"]] <- 3L
-
-# Download the geometries
-polies <- do.call(c, lapply(poly_url, read_poly))
 
 # Create the output object
 table <- st_sf(table, geometry = polies)

@@ -61,7 +61,7 @@ The package is composed of the following main functions:
 1. `oe_get()`: Match, download, (vector)translate, and import data, all in one step.
 
 For many users who just want to get OSM data quickly, `oe_get()` may be sufficient, as covered in the README.
-We will demonstrate each function in turn, following the same order in which they are typically used. 
+Here, we will demonstrate each function in turn, following the same order in which they are typically used. 
 As you can see, the name of the most important functions in this package start with `oe_*` prefix, which means that you can easily use auto-completion features (with Rstudio or similar IDE(s)). 
 
 ## `oe_providers()`: List providers
@@ -270,7 +270,7 @@ Finally, to reduce unnecessary computational resources and save bandwidth/electr
 
 ### Matching historical OSM extracts
 
-Starting from `osmextract` v0.5.2, the `version` argument can be used to match historical OSM extracts stored by Geofabrik provider. The default value is `"latest"` which corresponds to the most recent OSM extract. Other values can be specified using the format `"YYMMDD"`. The available extracts for each zone can be browsed from Geofabrik  [website](https://download.geofabrik.de/). 
+Starting from `osmextract` v0.5.2, the `version` argument can be used to match historical OSM extracts stored by Geofabrik provider. The default value is `"latest"` which corresponds to the most recent OSM extract. Other values can be specified using the format `"YYMMDD"`. The available extracts for each zone can be browsed from Geofabrik  [website](https://download.geofabrik.de/). Note that the geographical coverage of an extract may change over time. For example, recent (2021+) extracts for Barcelona are at the regional level (cataluna), while older (2012-2021) extracts are at the national level (spain). This means that downloading historical data for a place like Barcelona may require changing the `place` argument to "spain" for older versions.
 
 For example: 
 
@@ -299,7 +299,7 @@ Beware that the default value, i.e. `"latest"`, selects an _always evolving_ OSM
 ## `oe_download()`: Download OSM extracts 
 
 The `oe_download()` function is used to download `.pbf` files representing OSM extracts.
-It takes in input a URL, through the parameter `file_url`, and it downloads the requested data in a directory (specified by the parameter `download_directory`):
+It takes in input a URL, through the parameter `file_url`, and it downloads the requested data in a directory specified by the parameter `download_directory`:
 
 ```{r, eval = FALSE}
 oe_download(
@@ -310,19 +310,24 @@ oe_download(
 )
 ```
 
-The argument `provider` can be omitted if the input `file_url` is associated with one of the supported providers.
-The default value for `download_directory` is `tempdir()` (see `?tempdir`), but, if you want to point to a directory that will persist, you can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
+The argument `provider` can be omitted if the input `file_url` is associated with one of the supported providers (see `oe_providers()`).
+
+The default value for `download_directory` is `oe_download_directory()` which, by default, points to the R-related user-specific data directory returned by `tools::R_user_dir("osmextract", "data")` (see `?tools::R_user_dir`):  
+
+```{r}
+oe_download_directory()
+```
+
+Another relevant alternative for temporary downloads might be `tempdir()`. Use this if you want to avoid persisting downloaded files between R sessions.
+
+You can add `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` in your `.Renviron` file, e.g. with:
 
 ```{r, eval = FALSE}
 usethis::edit_r_environ()
 # Add a line containing: OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data
 ```
 
-You can always check the default `download_directory` used by `oe_download()` with: 
-
-```{r}
-oe_download_directory()
-```
+to overwrite the default behaviour of `oe_download_directory()` and indicate a different persistent data directory to be used by `oe_download()`.  
 
 We strongly advise you setting a persistent directory since downloading and converting (see the next sub-section) `.pbf` files are expensive operations, that can be skipped if the functions detect that the requested extract was already downloaded and/or converted.
 
@@ -333,14 +338,14 @@ For example, if `file_url` is equal to `"https://download.geofabrik.de/europe/it
 In the second step, the function checks if the new path/file already exists (using `file.exists()`) and, in that case, it returns the path, without downloading anything^[The parameter `force_download` can be used to override this behaviour in case you need to update an old OSM extract. See also `?oe_update`.]. 
 Otherwise, it downloads a new file and then it returns the path. 
 
-Beware that the `oe_download()` functions internally sets a time-out value for the download process which (at minimum) is equal to 300 seconds. You can increase this value using the `timeout` option.
+Beware that the `oe_download()` functions internally sets a time-out value for the download process which (at minimum) is equal to 300 seconds. You can increase this value using the `timeout` option (see `?options`).
 
 ## `oe_vectortranslate()`: Convert to gpkg format
 
 The `oe_vectortranslate()` function translates a `.pbf` file into `.gpkg` format^[The GeoPackage (`.gpkg`) is an *open, standards-based, platform-independent, portable, self-descripting, compact format for transferring geospatial information*. See [here](http://www.geopackage.org/).]. 
 It takes in input a string representing the path to an existing `.pbf` file, and it returns the path to the newly generated `.gpkg` file. 
 The `.gpkg` file is created in the same directory as the input `.pbf` file and with the same name. 
-The conversion is performed using [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html#ogr2ogr) through `vectortranslate` utility in `sf::gdal_utils()`.
+The conversion is performed using the [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html#ogr2ogr) utility through `vectortranslate` in `sf::gdal_utils()`.
 
 We decided to adopt this approach following [the suggestions](https://github.com/OSGeo/gdal/issues/2100#issuecomment-565707053) of the maintainers of GDAL.
 Moreover, GeoPackage files have database capabilities like random access and querying that are extremely important for OSM data (see below). 
@@ -507,8 +512,6 @@ To simplify the steps outlined above, while enabling modularity if needs be, we 
 
 ```{r}
 its_lines = oe_get("ITS Leeds")
-par(mar = rep(0.1, 4))
-plot(its_lines["highway"], lwd = 2, key.pos = NULL)
 ```
 
 The function `oe_get()` is a wrapper around `oe_match()` and `oe_read()`, and it summarizes the algorithm that we use for importing OSM extracts: 
@@ -518,13 +521,20 @@ The function `oe_get()` is a wrapper around `oe_match()` and `oe_read()`, and it
 3. Convert it into `.gpkg` format using `oe_vectortranslate()`; 
 4. Read-in one layer of the `.gpkg` file using `sf::st_read()`. 
 
+A graphical representation of the result: 
+
+```{r}
+par(mar = rep(0.1, 4))
+plot(its_lines["highway"], lwd = 2, key.pos = NULL)
+```
+
 The following commands (not evaluated here) show how `oe_get()` can be used to import the OSM extracts associated with the desired input `place`, after downloading the `.pbf` file and performing the vectortranslate operations. 
 We suggest you run the commands and check the output. 
 
 ```{r, eval = FALSE}
 oe_get("Andorra")
 oe_get("Leeds")
-oe_get("Goa")
+oe_get("Goa") # A state in India
 oe_get("Malta", layer = "points", quiet = FALSE)
 oe_match("RU", match_by = "iso3166_1_alpha2", quiet = FALSE)
 
@@ -671,8 +681,8 @@ while the classical approach (also not run in the vignette) is slower and provid
 ```{r, eval = FALSE}
 system.time({
   portugal2 = oe_get("Portugal", quiet = FALSE, force_vectortranslate = TRUE)
-  portugal2 = portugal2 %>% 
-    dplyr::select(osm_id, highway) %>% 
+  portugal2 = portugal2 |> 
+    dplyr::select(osm_id, highway) |> 
     dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary'))
 })
 #   user  system elapsed 
@@ -686,10 +696,19 @@ Starting from version 0.3.0, the arguments `boundary` and `boundary_type` can be
 In particular, a spatial boundary can be created using an `sf` or `sfc` object (with `POLYGON` or `MULTIPOLYGON` geometry) via the argument `boundary`: 
 
 ```{r}
-its_bbox = st_bbox(c(xmin = -1.559184 , ymin = 53.807739 , xmax = -1.557375 , ymax = 53.808094), crs = 4326) %>% 
+its_bbox = st_bbox(
+  c(xmin = -1.559184 , ymin = 53.807739 , xmax = -1.557375 , ymax = 53.808094), 
+  crs = 4326
+) |>  
   st_as_sfc()
 
-its_small = oe_get ("ITS Leeds", boundary = its_bbox)
+its_small = oe_get("ITS Leeds", boundary = its_bbox)
+```
+
+Starting from version 0.6, the same operation can be performed by setting the boundary object as the first argument of `oe_get()`. In this case, the function automatically applies the spatial clipping operation: 
+
+```{r}
+its_small = oe_get(its_bbox, provider = "test") 
 ```
 
 This is the output, where the bounding box was highlighted in black, the intersecting streets in red and all the other roads in grey. 
@@ -713,7 +732,7 @@ We select and clip only the road segments that intersect a 5 kilometres circular
 
 ```{r, eval = FALSE}
 # 1. Define the polygonal boundary
-la_valletta = st_sfc(st_point(c(456113.1, 3972853)), crs = 32633) %>%
+la_valletta = st_sfc(st_point(c(456113.1, 3972853)), crs = 32633) |>
   st_buffer(5000)
 
 # 2. Define the vectortranslate options
@@ -729,7 +748,7 @@ oe_get("Malta", skip_vectortranslate = TRUE, download_only = TRUE)
 
 # 4. Read-in data
 system.time({
-  oe_get("Malta", vectortranslate_options = my_vectortranslate, boundary = la_valletta, boundary_type = "clipsrc")
+  oe_get(la_valletta, vectortranslate_options = my_vectortranslate, boundary_type = "clipsrc")
 })
 # The input place was matched with: Malta
 # The chosen file was already detected in the download directory. Skip downloading.
@@ -754,8 +773,8 @@ You can use `st_cast()` to convert the `MULTILINESTRING` into `LINESTRING` (whic
 The following map represent the result, where we highlight the bounding circle and the road segments within using a dark-red colour, while all the other road segments are coloured in grey.
 
 ```{r, echo = FALSE, eval = FALSE}
-malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
-  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
+malta_regular = oe_get("Malta", force_vectortranslate = TRUE) |> 
+  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) |> 
   st_transform(32633)
 malta_small = oe_get("Malta", vectortranslate_options = my_vectortranslate, boundary = la_valletta, boundary_type = "clipsrc")
 
@@ -773,9 +792,9 @@ The process takes approximately 1 or 2 seconds, while the equivalent R code, rep
 
 ```{r, eval = FALSE}
 system.time({
-  malta_crop = oe_get("Malta", force_vectortranslate = TRUE) %>% 
-    dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
-    st_transform(32633) %>% 
+  malta_crop = oe_get("Malta", force_vectortranslate = TRUE) |> 
+    dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) |> 
+    st_transform(32633) |> 
     st_crop(la_valletta)
 })
 #> user  system elapsed 
@@ -786,8 +805,8 @@ The time difference gets more and more relevant for larger OSM extracts.
 Moreover, the R code crops the road segments using a rectangular boundary instead of the proper circular polygon: 
 
 ```{r, echo = FALSE, eval = FALSE}
-malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
-  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) %>% 
+malta_regular = oe_get("Malta", force_vectortranslate = TRUE) |> 
+  dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified')) |> 
   st_transform(32633)
 
 par(mar = rep(0.1, 4))
@@ -822,12 +841,12 @@ malta_small = oe_get(
 This is the output and we can see that it applies a circular spatial filter but it doesn't crop the features: 
 
 ```{r, echo = FALSE, eval = FALSE}
-malta_regular = oe_get("Malta", force_vectortranslate = TRUE) %>% 
+malta_regular = oe_get("Malta", force_vectortranslate = TRUE) |> 
   dplyr::filter(highway %in% c('primary', 'secondary', 'tertiary', 'unclassified'))
 
 par(mar = rep(0.1, 4))
 plot(st_geometry(malta_regular), col = "grey", reset = FALSE)
-plot(st_boundary(la_valletta) %>% st_transform(4326), add = TRUE, lwd = 2)
+plot(st_boundary(la_valletta) |> st_transform(4326), add = TRUE, lwd = 2)
 plot(st_geometry(malta_small), col = "darkred", add = TRUE, lwd = 2)
 ```
 

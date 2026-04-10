@@ -57,7 +57,7 @@ rm(my_fix_iso3166)
 # }"
 
 (geofabrik_urls = map_dfr(geofabrik_zones$urls, fromJSON))
-geofabrik_zones$urls = NULL # This is just to remove the urls column
+geofabrik_zones$urls = NULL
 
 # From rbind.sf docs: If you need to cbind e.g. a data.frame to an sf, use
 # data.frame directly and use st_sf on its result, or use bind_cols; see
@@ -115,8 +115,15 @@ size_table <- map_dfr(
       function(x, parent) {
         x |>
           janitor::clean_names() |>
-          filter(grepl("-latest.osm.pbf$", name, perl = TRUE)) |>
-          mutate(parent = parent)
+          filter(grepl(".osm.pbf$", name, perl = TRUE)) |>
+          mutate(
+            id = regmatches(
+              name,
+              regexpr("[a-z-]*(?=-[0-9]{6})", name, perl = TRUE)
+            ),
+            parent = parent
+          ) |>
+          slice_tail(n = 1L, by = id)
       },
       parent = parent
     )
@@ -134,9 +141,13 @@ size_table <- bind_rows(
       "europe-latest.osm.pbf", "north-america-latest.osm.pbf",
       "russia-latest.osm.pbf", "south-america-latest.osm.pbf"
     ),
+    id = c(
+      "africa", "antarctica", "asia", "australia-oceania", "central-america",
+      "europe", "north-america", "russia", "south-america"
+    ),
     last_modified = NA,
     size = c(
-      "6.7GB", "31.5MB", "13.7GB", "1.3GB", "701MB", "30.0GB", "16.0GB", "3.6GB", "3.4GB"
+      "7.1GB", "31.5MB", "14.7GB", "1.4GB", "733MB", "31.8GB", "17.6GB", "3.8GB", "3.6GB"
     ),
     description = NA
   )
@@ -148,9 +159,6 @@ size_table <- size_table |>
   mutate(
     unit = regmatches(size, regexpr("[a-zA-Z]+", size, perl = TRUE)),
     size = readr::parse_number(size),
-  ) |>
-  mutate(
-    id = regmatches(name, regexpr("[a-z-]+(?=-latest)", name, perl = TRUE))
   ) |>
   mutate(
     pbf_file_size = case_when(
@@ -222,7 +230,7 @@ st_geometry(geofabrik_zones) <- st_as_sfc(
 # Manually fix invalid geometries
 which(!st_is_valid(st_geometry(geofabrik_zones)))
 
-faulty_geom <- st_geometry(geofabrik_zones)[194]
+faulty_geom <- st_geometry(geofabrik_zones)[196]
 
 # I cannot simply apply st_make_valid since that returns an invalid geometry
 # again. So I need to adjust the precision.
@@ -230,7 +238,7 @@ st_precision(faulty_geom) <- 100000
 valid_geom <- st_make_valid(faulty_geom)
 st_is_valid(valid_geom)
 
-st_geometry(geofabrik_zones)[194] <- valid_geom
+st_geometry(geofabrik_zones)[196] <- valid_geom
 rm(valid_geom, faulty_geom)
 
 # Are all geometries valid?

@@ -16,12 +16,11 @@ oe_download(
 )
 }
 \arguments{
-\item{file_url}{A URL pointing to a \code{.osm.pbf} file that should be
-downloaded.}
+\item{file_url}{A URL pointing to a (typically \code{.osm.pbf}) file.}
 
-\item{provider}{Which provider stores the file? If \code{NULL} (the default), it
-may be inferred from the URL, but it must be specified for non-standard
-cases. See details and examples.}
+\item{provider}{Which provider stores the file? If \code{NULL} (the default), the
+function tries to infer it. It must be specified for non-standard cases.
+See details and examples.}
 
 \item{file_basename}{The basename of the file. The default behaviour is to
 auto-generate it from the URL using \code{basename()}.}
@@ -57,17 +56,17 @@ the package. The URL is specified through the parameter \code{file_url}.
 \details{
 This function runs several checks before actually downloading a new
 file to avoid overloading the OSM providers. The first step is the
-definition of the file's path associated to the input \code{file_url}. The path
-is created by pasting together the \code{download_directory}, the name of chosen
-provider (which may be inferred from the URL) and the \code{basename} of the
+definition of the file path associated to the input \code{file_url}. The path is
+created by pasting together the \code{download_directory}, the name of chosen
+provider (which may be inferred from the URL), and the \code{basename} of the
 URL. For example, if \code{file_url} is equal to
 \code{"https://download.geofabrik.de/europe/italy-latest.osm.pbf"}, and
 \code{download_directory = "/tmp"}, then the path is built as
-\code{"/tmp/geofabrik_italy-latest.osm.pbf"}. Thereafter, the function checks
-the existence of that file and, if it founds it, then it returns the path.
-The parameter \code{force_download} is used to modify this behaviour. If there
-is no file associated with the new path, the function downloads a new
-extract using \code{\link[httr:GET]{httr::GET()}} and, again, returns the path.
+\code{"/tmp/geofabrik_italy-latest.osm.pbf"}. If this file already exists, the
+function just returns its path. The parameter \code{force_download} can be used
+to modify this behaviour. If there is no file associated with the new path,
+the function downloads it using \code{\link[httr:GET]{httr::GET()}}. The timeout for the download
+can be modified using \code{options("timeout")}. The default value is 300s.
 }
 \examples{
 (its_match = oe_match("ITS Leeds", quiet = TRUE))

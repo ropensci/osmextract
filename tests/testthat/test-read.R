@@ -234,7 +234,7 @@ test_that("we can combine boundary = ... with other vectortranslate arguments", 
   expect_equal(nrow(its_clipsrc_small), sum(its_clipsrc[["highway"]] == "footway", na.rm = TRUE))
 })
 
-test_that("get a warning for more than 1 polygon in boundary = ...", {
+test_that("get warning for more than 1 polygon in boundary = ...", {
   withr::local_envvar(
     .new = list(
       "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),

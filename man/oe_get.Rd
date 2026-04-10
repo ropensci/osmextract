@@ -82,7 +82,12 @@ level. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 YYMMDD (e.g. "200101"). The complete list of all available historic files
 for a given extract can be browsed from the Geofabrik website (e.g.
 \url{https://download.geofabrik.de/europe/italy.html} and then click on 'raw
-directory index').}
+directory index'). Note: the geographical coverage of an extract may
+change over time. For example, recent (2021+) extracts for Barcelona are
+at the regional level (cataluna), while older (2012-2021) extracts are at
+the national level (spain). This means that downloading historical data
+for a place like Barcelona may require changing the \code{place} argument to
+"spain" for older versions.}
 
 \item{download_directory}{Directory to store the file containing OSM data?.}
 
@@ -116,8 +121,10 @@ Check the introductory vignette and the help page of
 \code{\link[=oe_vectortranslate]{oe_vectortranslate()}}.}
 
 \item{boundary}{An \code{sf}/\code{sfc}/\code{bbox} object that will be used to create a
-spatial filter during the vectortranslate operations. The type of filter
-can be chosen using the argument \code{boundary_type}.}
+spatial filter during the vectortranslate operations. If you are running
+\code{oe_get()} and \code{place} is an \code{sf}/\code{sfc} polygon or a \code{bbox}, then it will
+be used as \code{boundary} if the latter is not specified. Set \code{boundary = NA}
+to override this behaviour and forcefully import the full extract.}
 
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that
@@ -156,9 +163,15 @@ parameters.
 }
 \details{
 The algorithm that we use for importing an OSM extract data into R
-is divided into 4 steps: 1) match the input \code{place} with the url of a
-\code{.pbf} file; 2) download the \code{.pbf} file; 3) convert it into \code{.gpkg} format
-and 4) read-in the \code{.gpkg} file. The function \code{oe_match()} is used to
+is divided into 4 steps:
+\enumerate{
+\item match the input \code{place} with the url of a \code{.pbf} file;
+\item download the \code{.pbf} file;
+\item convert it into \code{.gpkg} format;
+\item read-in the \code{.gpkg} file.
+}
+
+The function \code{oe_match()} is used to
 perform the first operation and the function \code{oe_read()} (which is a
 wrapper around \code{oe_download()}, \code{oe_vectortranslate()} and \code{sf::st_read()})
 performs the other three operations.
@@ -230,7 +243,7 @@ its_clipped = oe_get(
 )
 
 plot(sf::st_geometry(its), reset = FALSE, col = "lightgrey")
-plot(sf::st_boundary(its_poly), col = "black", add = TRUE)
+plot(sf::st_boundary(its_poly), col = "black", add = TRUE, lty = 2)
 plot(sf::st_boundary(sf::st_as_sfc(sf::st_bbox(its_poly))), col = "black", add = TRUE)
 plot(sf::st_geometry(its_spat), add = TRUE, col = "darkred")
 plot(sf::st_geometry(its_clipped), add = TRUE, col = "orange")
@@ -244,7 +257,7 @@ west_yorkshire = oe_get("West Yorkshire")
 # Match with place name
 oe_get("Milan") # Warning: the .pbf file is 400MB
 oe_get("Vatican City") # Check all providers
-oe_get("Zurich") # Use Nominatim API for geolocating places
+oe_get("Zurich") # Uses Nominatim API for geolocating places
 
 # Match with coordinates (any EPSG)
 milan_duomo = sf::st_sfc(sf::st_point(c(1514924, 5034552)), crs = 3003)

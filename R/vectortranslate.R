@@ -533,8 +533,11 @@ process_boundary = function(
   boundary = NULL,
   boundary_type = c("spat", "clipsrc")
 ) {
-  # Checks
-  if (is.null(boundary)) {
+  # Starting from #313, boundary might be NA on purpose.
+  # FIXME: How to handle the case where, for whatever reason, boundary is like
+  # c(NA, valid_polygon)? For the moment I'll just bypass this situation and
+  # ignore any boundary arg which contains at least one NA.
+  if (anyNA(boundary) || is.null(boundary)) {
     return(vectortranslate_options)
   }
 
@@ -560,7 +563,7 @@ process_boundary = function(
   # Check the number of geometries
   if (length(boundary) > 1L) {
     warning(
-      "The boundary is composed by more than one features. Selecting the first. ",
+      "The boundary is composed by more than one feature. Selecting the first.",
       call. = FALSE
     )
     boundary = boundary[1L]
