@@ -325,8 +325,9 @@ oe_vectortranslate = function(
     extra_tags = NULL
   }
 
+  default_ini = get_default_osmconf_ini()
   if (is.null(osmconf_ini)) {
-    osmconf_ini = get_default_osmconf_ini()
+    osmconf_ini = default_ini
   }
 
   # Add the extra tags to the default osmconf.ini. If the user set its own
@@ -334,7 +335,7 @@ oe_vectortranslate = function(
   if (
     !is.null(extra_tags) &&
     # The following condition checks whether the user set its own CONFIG file
-    osmconf_ini == get_default_osmconf_ini()
+    osmconf_ini == default_ini
   ) {
     temp_ini = readLines(osmconf_ini)
     id_layer = get_id_layer(layer, temp_ini)
@@ -613,8 +614,11 @@ get_default_osmconf_ini <- function() {
     },
     silent = TRUE
   )
-  if (!inherits(file, "try-error")) {
-    return(file.path(file, "osmconf.ini"))
+  if (!inherits(file, "try-error") && length(file) > 0) {
+    candidate <- file.path(file[[1L]], "osmconf.ini")
+    if (file.exists(candidate)) {
+      return(candidate)
+    }
   }
   # Option 2
   file <- system.file("gdal/osmconf.ini", package = "sf")
