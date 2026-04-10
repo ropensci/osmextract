@@ -5,7 +5,7 @@
 * The default directory used to store `.osm.pbf` and `.gpkg` files downloaded or created by this package has changed from `tempdir()` to `tools::R_user_dir("osmextract", "data")` ([#302](https://github.com/ropensci/osmextract/issues/302)).  
 * Bump minimum R version to 4.1.0 because that's a requirement for one of our indirect dependencies (i.e. svglite). This also ensures that we can properly use `tools::R_user_dir()` since that function was introduced in R 4.0.0 ([#302](https://github.com/ropensci/osmextract/issues/302)).
 * Updated the behaviour of the `oe_get()` and related functions (`oe_get_boundary()`, `oe_get_network()`, ...) when a `sf/sfc/bbox` is provided as input for `place`. If `boundary` is not `NA`, it is automatically set to match `place` so only the relevant portion of the extract is processed ([#313](https://github.com/ropensci/osmextract/issues/313)). Thanks to @juanfonsecaLS1. 
-* The CONFIG file used by `oe_vectortranslate` is now always in synch with the one provided by `sf` or `GDAL`. A fall-back is provided in case of problems ([#261]((https://github.com/ropensci/osmextract/issues/261)).
+* The CONFIG file used by `oe_vectortranslate` is now always in synch with the one provided by `sf` or `GDAL`. A fall-back is provided in case of problems ([#261](https://github.com/ropensci/osmextract/issues/261)).
 
 # osmextract 0.5.3
 
