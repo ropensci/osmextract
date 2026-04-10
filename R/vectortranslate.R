@@ -621,7 +621,7 @@ get_default_osmconf_ini <- function() {
   if (!file.exists(file)) {
     # Option 3
     warning(
-      "The package couldn't retrive the osmconf.ini from GDAL installation. ",
+      "The package couldn't retrieve the osmconf.ini from GDAL installation. ",
       "Defaulting to the one bundled in this package. ",
       "Please raise a new issue at https://github.com/ropensci/osmextract/issues"
     )
