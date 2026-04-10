@@ -325,8 +325,9 @@ oe_vectortranslate = function(
     extra_tags = NULL
   }
 
+  default_ini <- get_default_osmconf_ini()
   if (is.null(osmconf_ini)) {
-    osmconf_ini = get_default_osmconf_ini()
+    osmconf_ini = default_ini
   }
 
   # Add the extra tags to the default osmconf.ini. If the user set its own
@@ -334,7 +335,7 @@ oe_vectortranslate = function(
   if (
     !is.null(extra_tags) &&
     # The following condition checks whether the user set its own CONFIG file
-    osmconf_ini == get_default_osmconf_ini()
+    osmconf_ini == default_ini
   ) {
     temp_ini = readLines(osmconf_ini)
     id_layer = get_id_layer(layer, temp_ini)
@@ -469,7 +470,13 @@ get_id_layer = function(layer, file) {
     perl = TRUE
   )
   id_attributes <- which(id_attributes)
-  stopifnot(length(id_attributes) == 5L)
+  if (length(id_attributes) != 5L) {
+    stop(
+      "An error occurred when detecting the default attributes from the CONFIG file.",
+      "Please raise a new issue at https://github.com/ropensci/osmextract/issues",
+      call. = FALSE
+    )
+  }
   stopifnot(layer %in% c("points", "lines", "multipolygons", "multilinestrings", "other_relations"))
   switch(
     layer,
@@ -505,7 +512,13 @@ get_fields_default = function(layer, file) {
   # I need to split such sequence of keys using "," as a delimiter.
   keys <- strsplit(keys, ",")
   # I assume there are 5 layers specified according to the following order:
-  stopifnot(length(keys) == 5L)
+  if (length(keys) != 5L) {
+    stop(
+      "An error occurred when detecting the fields from the CONFIG file.",
+      "Please raise a new issue at https://github.com/ropensci/osmextract/issues",
+      call. = FALSE
+    )
+  }
   stopifnot(layer %in% c("points", "lines", "multipolygons", "multilinestrings", "other_relations"))
   # The output of strsplit is a list so I need [[i]] syntax.
   switch(
