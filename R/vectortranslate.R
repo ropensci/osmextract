@@ -28,18 +28,15 @@
 #'   The arguments `osmconf_ini` and `extra_tags` are used to modify how GDAL
 #'   reads and processes a `.osm.pbf` file. More precisely, several operations
 #'   that GDAL performs on the input `.osm.pbf` file are governed by a `CONFIG`
-#'   file, that can be checked at the following
-#'   [link](https://github.com/OSGeo/gdal/blob/master/ogr/ogrsf_frmts/osm/data/osmconf.ini).
-#'   The basic components of OSM data are called
-#'   [*elements*](https://wiki.openstreetmap.org/wiki/Elements) and they are
-#'   divided into *nodes*, *ways* or *relations*, so, for example, the code at
-#'   line 7 of that file is used to determine which *ways* are assumed to be
-#'   polygons (according to the simple-feature definition of polygon) if they
-#'   are closed. Moreover, OSM data is usually described using several
-#'   [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e pairs of two items:
-#'   a key and a value. The code at lines 33, 53, 85, 103, and 121 is used to
-#'   determine, for each layer, which tags should be explicitly reported as
-#'   fields (while all the other tags are stored in the `other_tags` column).
+#'   file. If `osmconf_ini` is equal to `NULL` (the default value), then the
+#'   function uses a standard `CONFIG` file provided by `sf` or `GDAL`.
+#'   Otherwise, it implements a fall-back based on an historical config file
+#'   available
+#'   [here](https://raw.githubusercontent.com/ropensci/osmextract/refs/heads/master/inst/osmconf.ini).
+#'   You can override the default `CONFIG` file in case you need more control
+#'   over the GDAL operations. Check the package introductory vignette for an
+#'   example.
+#'
 #'   The parameter `extra_tags` is used to determine which extra tags (i.e.
 #'   key/value pairs) should be added to the `.gpkg` file (other than the
 #'   default ones).
@@ -52,12 +49,6 @@
 #'   The vectortranslate operations are never skipped if `osmconf_ini`,
 #'   `vectortranslate_options`, `boundary` or `boundary_type` arguments are not
 #'   `NULL`.
-#'
-#'   The parameter `osmconf_ini` is used to pass your own `CONFIG` file in case
-#'   you need more control over the GDAL operations. Check the package
-#'   introductory vignette for an example. If `osmconf_ini` is equal to `NULL`
-#'   (the default value), then the function uses the standard `osmconf.ini` file
-#'   defined by GDAL (but for the extra tags).
 #'
 #'   The parameter `vectortranslate_options` is used to control the options that
 #'   are passed to `ogr2ogr` via [sf::gdal_utils()] when converting between
@@ -444,8 +435,7 @@ oe_vectortranslate = function(
   )
 
   # Now we can apply the vectortranslate operation from gdal_utils: See
-  # https://github.com/ropensci/osmextract/issues/150 for a discussion on
-  # normalizePath
+  # #150 for a discussion on normalizePath
   sf::gdal_utils(
     util = "vectortranslate",
     source = normalizePath(file_path),
@@ -599,12 +589,23 @@ process_clipsrc = function(vectortranslate_options, boundary) {
   c(vectortranslate_options, "-clipsrc", sf::st_as_text(boundary))
 }
 
-# Get default osmconf.ini
+#' Get default osmconf.ini
+#'
+#' Returns the path to the `CONFIG` file used by this package when running the
+#' `.osm.pbf` -> `.gpkg` conversion
+#'
+#' @return Path to the file
+#' @export
+#'
+#' @examples
+#' get_default_osmconf_ini()
 get_default_osmconf_ini <- function() {
   # I guess we have 3 options to retrieve the osmconf.ini file used by GDAL
   # 1. Check the output of gdal-config --datadir (if possible)
   # 2. Get the file bundled by sf (especially when using binary install of sf)
   # 3. Fallback: osmconf.ini file shipped by this package
+
+  # See #261
 
   # Option 1
   file <- try({

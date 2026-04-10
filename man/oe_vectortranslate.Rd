@@ -105,18 +105,15 @@ common one according to our experience).
 The arguments \code{osmconf_ini} and \code{extra_tags} are used to modify how GDAL
 reads and processes a \code{.osm.pbf} file. More precisely, several operations
 that GDAL performs on the input \code{.osm.pbf} file are governed by a \code{CONFIG}
-file, that can be checked at the following
-\href{https://github.com/OSGeo/gdal/blob/master/ogr/ogrsf_frmts/osm/data/osmconf.ini}{link}.
-The basic components of OSM data are called
-\href{https://wiki.openstreetmap.org/wiki/Elements}{\emph{elements}} and they are
-divided into \emph{nodes}, \emph{ways} or \emph{relations}, so, for example, the code at
-line 7 of that file is used to determine which \emph{ways} are assumed to be
-polygons (according to the simple-feature definition of polygon) if they
-are closed. Moreover, OSM data is usually described using several
-\href{https://wiki.openstreetmap.org/wiki/Tags}{\emph{tags}}, i.e pairs of two items:
-a key and a value. The code at lines 33, 53, 85, 103, and 121 is used to
-determine, for each layer, which tags should be explicitly reported as
-fields (while all the other tags are stored in the \code{other_tags} column).
+file. If \code{osmconf_ini} is equal to \code{NULL} (the default value), then the
+function uses a standard \code{CONFIG} file provided by \code{sf} or \code{GDAL}.
+Otherwise, it implements a fall-back based on an historical config file
+available
+\href{https://raw.githubusercontent.com/ropensci/osmextract/refs/heads/master/inst/osmconf.ini}{here}.
+You can override the default \code{CONFIG} file in case you need more control
+over the GDAL operations. Check the package introductory vignette for an
+example.
+
 The parameter \code{extra_tags} is used to determine which extra tags (i.e.
 key/value pairs) should be added to the \code{.gpkg} file (other than the
 default ones).
@@ -129,12 +126,6 @@ This behaviour can be overwritten setting \code{force_vectortranslate = TRUE}.
 The vectortranslate operations are never skipped if \code{osmconf_ini},
 \code{vectortranslate_options}, \code{boundary} or \code{boundary_type} arguments are not
 \code{NULL}.
-
-The parameter \code{osmconf_ini} is used to pass your own \code{CONFIG} file in case
-you need more control over the GDAL operations. Check the package
-introductory vignette for an example. If \code{osmconf_ini} is equal to \code{NULL}
-(the default value), then the function uses the standard \code{osmconf.ini} file
-defined by GDAL (but for the extra tags).
 
 The parameter \code{vectortranslate_options} is used to control the options that
 are passed to \code{ogr2ogr} via \code{\link[sf:gdal_utils]{sf::gdal_utils()}} when converting between
