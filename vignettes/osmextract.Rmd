@@ -451,7 +451,7 @@ If `NULL` (default value), then `vectortranslate_options` is set equal to `c("-f
 Explanation:
 
 * `"-f", "GPKG"` says that the output format is `GPKG`. This is mandatory for GDAL < 2.3;
-* `"-overwrite` is used to delete an existing layer and recreate it;
+* `"-overwrite"` is used to delete an existing layer and recreate it;
 * `"-oo", paste0("CONFIG_FILE=", osmconf_ini)` is used to modify the [open options](https://gdal.org/en/stable/drivers/vector/osm.html#open-options) for the `.osm.pbf` file and set the path of the `CONFIG` file;
 * `"-lco", "GEOMETRY_NAME=geometry"` adjust the [layer creation options](https://gdal.org/en/stable/drivers/vector/gpkg.html?highlight=gpkg#layer-creation-options) for the `.gpkg` file, modifying the name of the geometry column; 
 * `layer` indicates which layer should be converted.
