@@ -410,12 +410,16 @@ More precisely, several operations that GDAL performs on a `.pbf` file are gover
 If `osmconf_ini` is equal to `NULL` (the default), then `oe_vectortranslate()` uses a standard `CONFIG` file provided by `GDAL` or `sf`: 
 
 ```{r}
-get_default_osmconf_ini()
+(default_config <- get_default_osmconf_ini())
 ```
 
 This parameter can be used to specify the path to a different `CONFIG` file in case you need more control over GDAL operations. See the next sub-sections for an example. 
 
-OSM data is usually described using several [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two items: a *key* and a *value*. The code at lines `r osmextract:::get_id_layer("points", readLines(get_default_osmconf_ini()))`, `r osmextract:::get_id_layer("lines", readLines(get_default_osmconf_ini()))`, `r osmextract:::get_id_layer("multipolygons", readLines(get_default_osmconf_ini()))`, `r osmextract:::get_id_layer("multilinestrings", readLines(get_default_osmconf_ini()))`, and `r osmextract:::get_id_layer("other_relations", readLines(get_default_osmconf_ini()))` of the default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields, while all the other tags are stored in the `other_tags` column (see [here](https://gdal.org/en/stable/drivers/vector/osm.html#other-tags-field) for more details). 
+```{r, echo=FALSE}
+default_config_lines <- readLines(default_config)
+```
+
+OSM data is usually described using several [*tags*](https://wiki.openstreetmap.org/wiki/Tags), i.e. pairs of two items: a *key* and a *value*. The code at lines `r osmextract:::get_id_layer("points", default_config_lines)`, `r osmextract:::get_id_layer("lines", default_config_lines)`, `r osmextract:::get_id_layer("multipolygons", default_config_lines)`, `r osmextract:::get_id_layer("multilinestrings", default_config_lines)`, and `r osmextract:::get_id_layer("other_relations", default_config_lines)` of the default `CONFIG` file determines, for each layer, which tags are explicitly reported as fields, while all the other tags are stored in the `other_tags` column (see [here](https://gdal.org/en/stable/drivers/vector/osm.html#other-tags-field) for more details). 
 The parameter `extra_tags` (default value: `NULL`) governs which tags, other than the default ones, are explicitly reported in the `.gpkg` file and omitted from the `other_tags` field. 
 Please note that the argument `extra_tags` is ignored if `osmconf_ini` is not `NULL` (since we cannot not know how you generated the new `osmconf.ini` file). 
 

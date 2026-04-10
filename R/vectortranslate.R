@@ -614,6 +614,7 @@ get_default_osmconf_ini <- function() {
     silent = TRUE
   )
   if (!inherits(file, "try-error")) {
+    stopifnot(file.exists(file) && length(file) == 1L)
     return(file.path(file, "osmconf.ini"))
   }
   # Option 2
