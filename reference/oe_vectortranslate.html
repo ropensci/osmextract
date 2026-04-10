@@ -200,19 +200,15 @@ common one according to our experience).</p>
 <p>The arguments <code>osmconf_ini</code> and <code>extra_tags</code> are used to modify how GDAL
 reads and processes a <code>.osm.pbf</code> file. More precisely, several operations
 that GDAL performs on the input <code>.osm.pbf</code> file are governed by a <code>CONFIG</code>
-file, that can be checked at the following
-<a href="https://github.com/OSGeo/gdal/blob/master/ogr/ogrsf_frmts/osm/data/osmconf.ini" class="external-link">link</a>.
-The basic components of OSM data are called
-<a href="https://wiki.openstreetmap.org/wiki/Elements" class="external-link"><em>elements</em></a> and they are
-divided into <em>nodes</em>, <em>ways</em> or <em>relations</em>, so, for example, the code at
-line 7 of that file is used to determine which <em>ways</em> are assumed to be
-polygons (according to the simple-feature definition of polygon) if they
-are closed. Moreover, OSM data is usually described using several
-<a href="https://wiki.openstreetmap.org/wiki/Tags" class="external-link"><em>tags</em></a>, i.e pairs of two items:
-a key and a value. The code at lines 33, 53, 85, 103, and 121 is used to
-determine, for each layer, which tags should be explicitly reported as
-fields (while all the other tags are stored in the <code>other_tags</code> column).
-The parameter <code>extra_tags</code> is used to determine which extra tags (i.e.
+file. If <code>osmconf_ini</code> is equal to <code>NULL</code> (the default value), then the
+function uses a standard <code>CONFIG</code> file provided by <code>sf</code> or <code>GDAL</code>.
+Otherwise, it implements a fall-back based on an historical config file
+available
+<a href="https://raw.githubusercontent.com/ropensci/osmextract/refs/heads/master/inst/osmconf.ini" class="external-link">here</a>.
+You can override the default <code>CONFIG</code> file in case you need more control
+over the GDAL operations. Check the package introductory vignette for an
+example.</p>
+<p>The parameter <code>extra_tags</code> is used to determine which extra tags (i.e.
 key/value pairs) should be added to the <code>.gpkg</code> file (other than the
 default ones).</p>
 <p>By default, the vectortranslate operations are skipped if the function
@@ -223,11 +219,6 @@ This behaviour can be overwritten setting <code>force_vectortranslate = TRUE</co
 The vectortranslate operations are never skipped if <code>osmconf_ini</code>,
 <code>vectortranslate_options</code>, <code>boundary</code> or <code>boundary_type</code> arguments are not
 <code>NULL</code>.</p>
-<p>The parameter <code>osmconf_ini</code> is used to pass your own <code>CONFIG</code> file in case
-you need more control over the GDAL operations. Check the package
-introductory vignette for an example. If <code>osmconf_ini</code> is equal to <code>NULL</code>
-(the default value), then the function uses the standard <code>osmconf.ini</code> file
-defined by GDAL (but for the extra tags).</p>
 <p>The parameter <code>vectortranslate_options</code> is used to control the options that
 are passed to <code>ogr2ogr</code> via <code><a href="https://r-spatial.github.io/sf/reference/gdal_utils.html" class="external-link">sf::gdal_utils()</a></code> when converting between
 <code>.osm.pbf</code> and <code>.gpkg</code> formats. <code>ogr2ogr</code> can perform various operations
@@ -361,7 +352,7 @@ the vectortranslate process.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpcLFsRA/test_its-example.gpkg"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpJ2ZreQ/test_its-example.gpkg"</span>
 <span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_layers.html" class="external-link">st_layers</a></span><span class="op">(</span><span class="va">its_gpkg</span>, do_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Driver: GPKG </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available layers:</span>
