@@ -4,14 +4,7 @@
 \alias{oe_providers}
 \title{Summary of available providers}
 \usage{
-oe_providers(quiet = FALSE)
-}
-\arguments{
-\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
-Starting from \code{sf} version
-\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
-if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
-display a progress bar.}
+oe_providers()
 }
 \value{
 A \code{data.frame} with 4 columns representing the name of each available
@@ -24,4 +17,7 @@ of the databases associated to all available providers.
 }
 \examples{
 oe_providers()
+}
+\seealso{
+\link{geofabrik_zones}, \link{bbbike_zones}, \link{openstreetmap_fr_zones}
 }

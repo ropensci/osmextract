@@ -42,7 +42,8 @@ load_provider_data = function(provider) {
 #' This function is used to display a short summary of the major characteristics
 #' of the databases associated to all available providers.
 #'
-#' @inheritParams oe_get
+#' @seealso [geofabrik_zones], [bbbike_zones], [openstreetmap_fr_zones]
+#'
 #' @return A `data.frame` with 4 columns representing the name of each available
 #'   provider, the name of the corresponding database and the number of features
 #'   and fields.
@@ -50,7 +51,7 @@ load_provider_data = function(provider) {
 #'
 #' @examples
 #' oe_providers()
-oe_providers = function(quiet = FALSE) {
+oe_providers = function() {
   # First I need to load the names of all available providers (except "test")
   available_providers = setdiff(oe_available_providers(), "test")
 
@@ -64,13 +65,6 @@ oe_providers = function(quiet = FALSE) {
     available_providers,
     function(x) ncol(load_provider_data(x)) - 1L,
     FUN.VALUE = integer(1)
-  )
-
-  oe_message(
-    "Check the corresponding help pages to read more details about the ",
-    "fields in each database (e.g. ?geofabrik_zones).",
-    quiet = quiet,
-    .subclass = "oe_providers_Info"
   )
 
   # Summary of results

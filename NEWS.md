@@ -1,5 +1,9 @@
 # osmextract (development version)
 
+### MAJOR CHANGES
+
+* Simplified `oe_providers()` and removed the argument `quiet`. Now the function is always quiet. The corresponding message is included in the docs. 
+
 # osmextract 0.6.0
 
 ### MAJOR CHANGES

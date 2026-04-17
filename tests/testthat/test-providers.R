@@ -1,3 +1,3 @@
 test_that("oe_providers works correctly", {
-  expect_message(oe_providers(quiet = FALSE), class = "oe_providers_Info")
+  expect_s3_class(oe_providers(), class = "data.frame")
 })

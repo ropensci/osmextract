@@ -69,7 +69,7 @@ As you can see, the name of the most important functions in this package start w
 `oe_providers()` lists the providers that are currently available with the version of `osmextract` you have installed.
 
 ```{r}
-oe_providers(quiet = TRUE)
+oe_providers()
 ```
 
 Each element in the column `database_name` is a data object that is packaged with `osmextract`. 
