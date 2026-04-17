@@ -2,7 +2,7 @@
 title: "Tips and tricks for using the package"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{tips-and-tricks}
+  %\VignetteIndexEntry{Tips and tricks for using the package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
