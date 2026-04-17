@@ -74,32 +74,23 @@ of the databases associated to all available providers.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_providers</span><span class="op">(</span>quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_providers</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
-    <div id="arguments">
-    <h2>Arguments</h2>
-
-
-<dl><dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p>Boolean. If <code>FALSE</code>, the function prints informative messages.
-Starting from <code>sf</code> version
-<a href="https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13" class="external-link">0.9.6</a>,
-if <code>quiet</code> is equal to <code>FALSE</code>, then vectortranslate operations will
-display a progress bar.</p></dd>
-
-</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A <code>data.frame</code> with 4 columns representing the name of each available
 provider, the name of the corresponding database and the number of features
 and fields.</p>
     </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p><a href="geofabrik_zones.html">geofabrik_zones</a>, <a href="bbbike_zones.html">bbbike_zones</a>, <a href="openstreetmap_fr_zones.html">openstreetmap_fr_zones</a></p></div>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">oe_providers</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Check the corresponding help pages to read more details about the fields in each database (e.g. ?geofabrik_zones).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   available_providers          database_name number_of_zones number_of_fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           geofabrik        geofabrik_zones             512                8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2              bbbike           bbbike_zones             238                5</span>
