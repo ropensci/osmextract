@@ -353,7 +353,7 @@ oe_match.character = function(
       "No exact match found for place = ", place,
       " and provider = ", provider, ". ",
       "Best match is ", best_matched_place[[match_by]], ".",
-      " \nChecking the other providers.",
+      " \nChecking the other providers...",
       quiet = quiet,
       .subclass = "oe_match_CheckingTheOtherProviders"
     )
@@ -408,7 +408,7 @@ oe_match.character = function(
     # the lat/long coordinates of the input place
     if (match_by == "name") {
       oe_message(
-        "No exact match found in any OSM provider data.",
+        "No exact match found in any OSM provider data...",
         " Searching for the location online.",
         quiet = quiet,
         .subclass = "oe_match_SearchingLocationOnline"
