@@ -95,14 +95,9 @@ oe_read = function(
   # Test misspelt arguments
   check_layer_provider(layer, provider)
 
-  # Check that all arguments inside ... are named arguments. See also
-  # https://github.com/ropensci/osmextract/issues/234. I extract the names in
-  # ... and save the result in dots_names since names(list(...)) returns an
-  # error when there is a missing element in ... See the examples in utils.R. I
-  # need to check null and "" values. See utils.R for examples. See
-  # https://github.com/ropensci/osmextract/issues/241 and corresponding PR for a
-  # discussion.
-  dots_names = extract_dots_names_safely(...)
+  # Check that all arguments inside ... are named arguments since it may causes
+  # errors downstream.
+  dots_names = ...names()
   if (...length() && (any(is.null(dots_names)) | any(dots_names == ""))) {
     oe_stop(
       .subclass = "oe_read-namesDotsError",
@@ -110,17 +105,11 @@ oe_read = function(
     )
   }
 
-  # Test if there is a misalignment between query and layer argument. See also
-  # https://github.com/ropensci/osmextract/issues/122. Moreover, I had to use
-  # ...names() instead of names(list(...)) because of
-  # https://github.com/ropensci/osmextract/issues/234
+  # Test if there is a misalignment between query and layer argument.
+  # See also https://github.com/ropensci/osmextract/issues/122.
   if ("query" %in% dots_names) {
     # Check if the query argument (which is passed to sf::st_read) was defined using a
-    # layer different than layer argument. Indeed:
-    # Extracted from sf::st_read docs: For query with a character dsn the query
-    # text is handed to 'ExecuteSQL' on the GDAL/OGR data set and will result in
-    # the creation of a new layer (and layer is ignored).
-    # See also https://github.com/ropensci/osmextract/issues/122
+    # layer different than layer argument.
     query = list(...)[["query"]]
 
     # Extract everything that is specified after FROM or from

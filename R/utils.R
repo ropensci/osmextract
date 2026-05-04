@@ -50,8 +50,7 @@ adjust_version_in_url <- function(version, url) {
 # https://github.com/r-spatial/sf/issues/1444. The following function is used
 # to circumvent this problem and set the appropriate arguments.
 my_st_read <- function(dsn, layer, quiet, ...) {
-  # See below and read.R for more details on extract_dots_names_safely()
-  dots_names = extract_dots_names_safely(...)
+  dots_names = ...names()
   if (utils::packageVersion("sf") <= "1.0.1") { # nocov start
     sf::st_read(
       dsn = dsn,
@@ -113,39 +112,6 @@ oe_message <- function(..., quiet, .subclass) {
     message(msg)
   }
   invisible()
-}
-
-# Extract the names in ... safely. I cannot use ...names() since that was
-# introduced in R 4.1. I also cannot freely use names(list(...)) since that
-# returns an error when there is a missing element in the dotdotdot. For
-# example:
-# f = function(...) names(list(...))
-# f(, )
-#
-# The function extract_dots_names_safely() returns
-# NULL when I run something like
-# extract_dots_names_safely("ABC")
-# error with
-# extract_dots_names_safely(, )
-# or
-# extract_dots_names_safely("ABC", )
-# or
-# extract_dots_names_safely(a = "ABC", )
-# and "" with
-# extract_dots_names_safely(a = "ABC", "DEF")
-extract_dots_names_safely <- function(...) {
-  if (!...length()) {
-    return(NULL)
-  }
-  tryCatch(
-    names(list(...)),
-    error = function(cnd) {
-      oe_stop(
-        .subclass = "oe_read-namesDotsError",
-        message = "All arguments in oe_get() and oe_read() beside 'place' and 'layer' must be named. Please check also that you didn't add an extra comma at the end of your call.",
-      )
-    }
-  )
 }
 
 # See https://adv-r.hadley.nz/conditions.html#signalling and ?condition. The
