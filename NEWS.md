@@ -3,6 +3,7 @@
 ### MAJOR CHANGES
 
 * Simplified `oe_providers()` and removed the argument `quiet`. Now the function is always quiet. The corresponding message is included in the docs. 
+* Bump minimum R version to 4.1.3 to simplify the package's workflow and adopt ...names(). 
 
 # osmextract 0.6.0
 
