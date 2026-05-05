@@ -4,6 +4,7 @@
 
 * Simplified `oe_providers()` and removed the argument `quiet`. Now the function is always quiet. The corresponding message is included in the docs. 
 * Bump minimum R version to 4.2.0 to simplify the package's workflow and adopt ...names(). In fact, ...names() was introduced in R 4.1.0, but a relevant bug was fixed only in R 4.1.3 (that, for some reason, I cannot set as the minimum R dependency). 
+* `oe_download()` can correctly and automatically detect the openstreetmap.fr provider from an input URL. 
 
 # osmextract 0.6.0
 

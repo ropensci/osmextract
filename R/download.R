@@ -178,8 +178,16 @@ oe_download = function(
 
 # Infer the chosen provider from the file_url
 infer_provider_from_url = function(file_url) {
+  available_providers <- oe_available_providers()
+
+  # The openstreetmap.fr provider is saved as "openstreetmap_fr" but in the URL
+  # is specified as openstreetmap.fr. So I need to replace it if relevant.
+  if ("openstreetmap_fr" %in% available_providers) {
+    available_providers[available_providers == "openstreetmap_fr"] <- "openstreetmap.fr"
+  }
+
   providers_regex = paste(
-    setdiff(oe_available_providers(), "test"),
+    setdiff(available_providers, "test"),
     collapse = "|"
   )
   m = regexpr(pattern = providers_regex, file_url)
@@ -190,5 +198,11 @@ infer_provider_from_url = function(file_url) {
     )
   }
   matching_provider = regmatches(x = file_url, m = m)
+
+  # Now replace it back
+  if (matching_provider == "openstreetmap.fr") {
+    return("openstreetmap_fr")
+  }
+
   matching_provider
 }

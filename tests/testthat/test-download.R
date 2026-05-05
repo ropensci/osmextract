@@ -40,12 +40,16 @@ test_that("infer_provider_from_url: simplest examples work", {
     infer_provider_from_url("https://github.com/ropensci/osmextract"),
     class = "oe_download_CannotInferProviderFromUrl"
   )
-  expect_match(
+  expect_equal(
     infer_provider_from_url("https://download.geofabrik.de/africa-latest.osm.pbf"),
     "geofabrik"
   )
-  expect_match(
+  expect_equal(
     infer_provider_from_url("https://download.bbbike.org/osm/bbbike/Aachen/Aachen.osm.pbf"),
     "bbbike"
+  )
+  expect_equal(
+    infer_provider_from_url("http://download.openstreetmap.fr/extracts/africa-latest.osm.pbf"),
+    "openstreetmap_fr"
   )
 })
