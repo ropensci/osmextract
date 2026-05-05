@@ -621,14 +621,16 @@ get_default_osmconf_ini <- function() {
   # See #261
 
   # Option 1
-  file <- try({
-    system2("gdal-config", args = "--datadir", stdout = TRUE)
+  if (Sys.which("gdal-config") != "") {
+    file <- try({
+      system2("gdal-config", args = "--datadir", stdout = TRUE)
     },
     silent = TRUE
-  )
-  if (!inherits(file, "try-error")) {
-    stopifnot(file.exists(file) && length(file) == 1L)
-    return(file.path(file, "osmconf.ini"))
+    )
+    if (!inherits(file, "try-error")) {
+      stopifnot(file.exists(file) && length(file) == 1L)
+      return(file.path(file, "osmconf.ini"))
+    }
   }
   # Option 2
   file <- system.file("gdal/osmconf.ini", package = "sf")
