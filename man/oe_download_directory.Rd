@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{oe_download_directory}
 \alias{oe_download_directory}
-\title{Return the download directory used by the package}
+\title{Returns the download directory used by the package}
 \usage{
 oe_download_directory()
 }
@@ -11,11 +11,18 @@ A character vector representing the path for the download directory
 used by the package.
 }
 \description{
-By default, the download directory is equal to \code{tools::R_user_dir("osmextract", "data")}.
-You can set a different persistent or temporary download directory by adding
-the following command to your \code{.Renviron} file (e.g. with \code{edit_r_environ}
-function in \code{usethis} package): \verb{OSMEXT_DOWNLOAD_DIRECTORY=/path/where/to/save/osm/data}.
+This function returns the download directory used the package. By default, it
+is equal to the output of \code{tools::R_user_dir("osmextract", "data")}. Such
+value can be overwritten by setting the \code{OSMEXT_DOWNLOAD_DIRECTORY}
+environment variable. If the directory does not exist, it will be created.
 }
 \examples{
 oe_download_directory()
+
+if (requireNamespace("withr", quietly = TRUE)) {
+  withr::with_envvar(
+    c("OSMEXT_DOWNLOAD_DIRECTORY" = tempdir()),
+    oe_download_directory()
+  )
+}
 }
