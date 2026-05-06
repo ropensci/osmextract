@@ -1,8 +1,10 @@
 # Read a .pbf or .gpkg object from file or url
 
 This function is used to read a `.pbf` or `.gpkg` object from file or
-URL. It is a wrapper around [`oe_download()`](oe_download.md),
-[`oe_vectortranslate()`](oe_vectortranslate.md), and
+URL. It is a wrapper around
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md),
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md),
+and
 [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html),
 creating an easy way to download, convert, and read a `.pbf` or `.gpkg`
 file. Check the introductory vignette and the help pages of the wrapped
@@ -45,8 +47,9 @@ oe_read(
   Which `layer` should be read in? Typically `points`, `lines` (the
   default), `multilinestrings`, `multipolygons` or `other_relations`. If
   you specify an ad-hoc query using the argument `query` (see
-  introductory vignette and examples), then [`oe_get()`](oe_get.md) and
-  `oe_read()` will read the layer specified in the query and ignore
+  introductory vignette and examples), then
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and `oe_read()` will read the layer specified in the query and ignore
   `layer` argument. See also
   [\#122](https://github.com/ropensci/osmextract/issues/122).
 
@@ -61,10 +64,15 @@ oe_read(
 - provider:
 
   Which provider should be used to download the data? Available
-  providers can be browsed with [`oe_providers()`](oe_providers.md). For
-  [`oe_get()`](oe_get.md) and [`oe_match()`](oe_match.md), if `place` is
-  equal to `ITS Leeds`, then `provider` is internally set equal to
-  `"test"`. This is just for simple examples and internal tests.
+  providers can be browsed with
+  [`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md).
+  For
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md),
+  if `place` is equal to `ITS Leeds`, then `provider` is internally set
+  equal to `"test"`. This is just for simple examples and internal
+  tests.
 
 - download_directory:
 
@@ -105,22 +113,25 @@ oe_read(
   [`sf::gdal_utils()`](https://r-spatial.github.io/sf/reference/gdal_utils.html)
   argument `options`. Set by default. Check details in the introductory
   vignette and the help page of
-  [`oe_vectortranslate()`](oe_vectortranslate.md).
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md).
 
 - osmconf_ini:
 
   The configuration file. See documentation at
   [gdal.org](https://gdal.org/en/stable/drivers/vector/osm.html). Check
   details in the introductory vignette and the help page of
-  [`oe_vectortranslate()`](oe_vectortranslate.md). Set by default.
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md).
+  Set by default.
 
 - extra_tags:
 
   Which additional columns, corresponding to OSM tags, should be in the
   resulting dataset? `NULL` by default. Check the introductory vignette
-  and the help pages of [`oe_vectortranslate()`](oe_vectortranslate.md)
-  and [`oe_get_keys()`](oe_get_keys.md). Ignored when `osmconf_ini` is
-  not `NULL`.
+  and the help pages of
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+  and
+  [`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md).
+  Ignored when `osmconf_ini` is not `NULL`.
 
 - force_vectortranslate:
 
@@ -130,7 +141,7 @@ oe_read(
   translated `.gpkg` files no translation occurs (see
   [\#173](https://github.com/ropensci/osmextract/issues/173) for
   details). Check the introductory vignette and the help page of
-  [`oe_vectortranslate()`](oe_vectortranslate.md).
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md).
 
 - never_skip_vectortranslate:
 
@@ -143,10 +154,10 @@ oe_read(
 
   An `sf`/`sfc`/`bbox` object that will be used to create a spatial
   filter during the vectortranslate operations. If you are running
-  [`oe_get()`](oe_get.md) and `place` is an `sf`/`sfc` polygon or a
-  `bbox`, then it will be used as `boundary` if the latter is not
-  specified. Set `boundary = NA` to override this behaviour and
-  forcefully import the full extract.
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and `place` is an `sf`/`sfc` polygon or a `bbox`, then it will be used
+  as `boundary` if the latter is not specified. Set `boundary = NA` to
+  override this behaviour and forcefully import the full extract.
 
 - boundary_type:
 
@@ -179,7 +190,9 @@ Please note that you cannot add any field to an existing `.gpkg` file
 using the argument `extra_tags` without rerunning the vectortranslate
 process on the corresponding `.pbf` file. On the other hand, you can
 extract some of the tags in `other_tags` field as new columns. See
-examples and [`oe_get_keys()`](oe_get_keys.md) for more details.
+examples and
+[`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md)
+for more details.
 
 ## Examples
 
@@ -196,7 +209,7 @@ oe_read(its_pbf)
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -209,7 +222,7 @@ oe_read(its_pbf, layer = "points")
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `points' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `points' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 186 features and 10 fields
 #> Geometry type: POINT
 #> Dimension:     XY
@@ -225,7 +238,7 @@ names(oe_read(its_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
 # Read an existing .gpkg file. This file was created internally by oe_read().
 its_gpkg = file.path(tempdir(), "test_its-example.gpkg")
 oe_read(its_gpkg)
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -235,7 +248,7 @@ oe_read(its_gpkg)
 # You cannot add any new layer to an existing .gpkg file but you can extract
 # some of the tags in other_tags. Check oe_get_keys() for more details.
 names(oe_read(its_gpkg, extra_tags = c("maxspeed"))) # doesn't work
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY

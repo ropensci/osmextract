@@ -79,8 +79,8 @@ An sf object with 512 rows and 9 columns:
 
   The `sfg` for that geographical region. These are not the country
   boundaries, but a buffer around countries. Check
-  [`oe_get_boundary()`](oe_get_boundary.md) to extract the geographical
-  boundaries.
+  [`oe_get_boundary()`](https://docs.ropensci.org/osmextract/reference/oe_get_boundary.md)
+  to extract the geographical boundaries.
 
 ## Source
 
@@ -88,5 +88,6 @@ An sf object with 512 rows and 9 columns:
 
 ## See also
 
-Other provider's-database: [`bbbike_zones`](bbbike_zones.md),
-[`openstreetmap_fr_zones`](openstreetmap_fr_zones.md)
+Other provider's-database:
+[`bbbike_zones`](https://docs.ropensci.org/osmextract/reference/bbbike_zones.md),
+[`openstreetmap_fr_zones`](https://docs.ropensci.org/osmextract/reference/openstreetmap_fr_zones.md)

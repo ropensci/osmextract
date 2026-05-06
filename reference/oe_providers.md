@@ -17,8 +17,9 @@ features and fields.
 
 ## See also
 
-[geofabrik_zones](geofabrik_zones.md), [bbbike_zones](bbbike_zones.md),
-[openstreetmap_fr_zones](openstreetmap_fr_zones.md)
+[geofabrik_zones](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md),
+[bbbike_zones](https://docs.ropensci.org/osmextract/reference/bbbike_zones.md),
+[openstreetmap_fr_zones](https://docs.ropensci.org/osmextract/reference/openstreetmap_fr_zones.md)
 
 ## Examples
 

@@ -1,9 +1,10 @@
 # Import transport networks used by a specific mode of transport
 
-This function is a wrapper around [`oe_get()`](oe_get.md) and can be
-used to import a road network given a `place` and a mode of transport.
-Check the Details for a precise description of the procedures used to
-filter the OSM ways according to each each mode of transport.
+This function is a wrapper around
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+and can be used to import a road network given a `place` and a mode of
+transport. Check the Details for a precise description of the procedures
+used to filter the OSM ways according to each each mode of transport.
 
 ## Usage
 
@@ -21,7 +22,7 @@ oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
   coordinates with length 2. In the last case, it is assumed that the
   EPSG code is 4326 specified as c(LON, LAT), while you can use any CRS
   with `sf`/`sfc`/`bbox` objects. See Details and Examples in
-  [`oe_match()`](oe_match.md).
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md).
 
 - mode:
 
@@ -31,8 +32,9 @@ oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
 
 - ...:
 
-  Additional arguments passed to [`oe_get()`](oe_get.md) such as
-  `boundary` or `force_download`.
+  Additional arguments passed to
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  such as `boundary` or `force_download`.
 
 ## Value
 
@@ -119,12 +121,12 @@ modifications to the current filters or propose new values for
 alternative modes of transport.
 
 Starting from version 0.5.2, the `version` argument (see
-[`oe_get()`](oe_get.md)) can be used to download historical OSM extracts
-from Geofabrik provider.
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md))
+can be used to download historical OSM extracts from Geofabrik provider.
 
 ## See also
 
-[`oe_get()`](oe_get.md)
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
 
 ## Examples
 

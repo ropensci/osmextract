@@ -2,9 +2,11 @@
 
 This function is used to find, download, translate, and read OSM
 extracts obtained from several providers. It is a wrapper around
-[`oe_match()`](oe_match.md) and [`oe_read()`](oe_read.md). Check the
-introductory vignette, the examples, and the help pages of the wrapped
-functions to understand the details behind all parameters.
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+and
+[`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md).
+Check the introductory vignette, the examples, and the help pages of the
+wrapped functions to understand the details behind all parameters.
 
 ## Usage
 
@@ -44,7 +46,7 @@ oe_get(
   coordinates with length 2. In the last case, it is assumed that the
   EPSG code is 4326 specified as c(LON, LAT), while you can use any CRS
   with `sf`/`sfc`/`bbox` objects. See Details and Examples in
-  [`oe_match()`](oe_match.md).
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md).
 
 - layer:
 
@@ -52,8 +54,9 @@ oe_get(
   default), `multilinestrings`, `multipolygons` or `other_relations`. If
   you specify an ad-hoc query using the argument `query` (see
   introductory vignette and examples), then `oe_get()` and
-  [`oe_read()`](oe_read.md) will read the layer specified in the query
-  and ignore `layer` argument. See also
+  [`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
+  will read the layer specified in the query and ignore `layer`
+  argument. See also
   [\#122](https://github.com/ropensci/osmextract/issues/122).
 
 - ...:
@@ -67,17 +70,21 @@ oe_get(
 - provider:
 
   Which provider should be used to download the data? Available
-  providers can be browsed with [`oe_providers()`](oe_providers.md). For
-  `oe_get()` and [`oe_match()`](oe_match.md), if `place` is equal to
-  `ITS Leeds`, then `provider` is internally set equal to `"test"`. This
-  is just for simple examples and internal tests.
+  providers can be browsed with
+  [`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md).
+  For `oe_get()` and
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md),
+  if `place` is equal to `ITS Leeds`, then `provider` is internally set
+  equal to `"test"`. This is just for simple examples and internal
+  tests.
 
 - match_by:
 
   Which column of the provider's database should be used for matching
   the input `place` with a `.osm.pbf` file? The default is `"name"`.
-  Check Details and Examples in [`oe_match()`](oe_match.md) to
-  understand how this parameter works. Ignored when `place` is not a
+  Check Details and Examples in
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+  to understand how this parameter works. Ignored when `place` is not a
   character vector since, in that case, the matching is performed
   through a spatial operation.
 
@@ -90,9 +97,10 @@ oe_get(
   providers or looking for geographical matching with Nominatim API?
   This parameter is set equal to 0 if `match_by` is equal to
   `iso3166_1_alpha2` or `iso3166_2`. Check Details and Examples in
-  [`oe_match()`](oe_match.md) to understand why this parameter is
-  important. Ignored when `place` is not a character vector since, in
-  that case, the matching is performed through a spatial operation.
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+  to understand why this parameter is important. Ignored when `place` is
+  not a character vector since, in that case, the matching is performed
+  through a spatial operation.
 
 - level:
 
@@ -103,7 +111,7 @@ oe_get(
   approximately say that smaller administrative units correspond to
   bigger levels. If `NULL`, the default, the `oe_*` functions will
   select the highest available level. See Details and Examples in
-  [`oe_match()`](oe_match.md).
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md).
 
 - version:
 
@@ -140,22 +148,25 @@ oe_get(
   [`sf::gdal_utils()`](https://r-spatial.github.io/sf/reference/gdal_utils.html)
   argument `options`. Set by default. Check details in the introductory
   vignette and the help page of
-  [`oe_vectortranslate()`](oe_vectortranslate.md).
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md).
 
 - osmconf_ini:
 
   The configuration file. See documentation at
   [gdal.org](https://gdal.org/en/stable/drivers/vector/osm.html). Check
   details in the introductory vignette and the help page of
-  [`oe_vectortranslate()`](oe_vectortranslate.md). Set by default.
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md).
+  Set by default.
 
 - extra_tags:
 
   Which additional columns, corresponding to OSM tags, should be in the
   resulting dataset? `NULL` by default. Check the introductory vignette
-  and the help pages of [`oe_vectortranslate()`](oe_vectortranslate.md)
-  and [`oe_get_keys()`](oe_get_keys.md). Ignored when `osmconf_ini` is
-  not `NULL`.
+  and the help pages of
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+  and
+  [`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md).
+  Ignored when `osmconf_ini` is not `NULL`.
 
 - force_vectortranslate:
 
@@ -165,7 +176,7 @@ oe_get(
   translated `.gpkg` files no translation occurs (see
   [\#173](https://github.com/ropensci/osmextract/issues/173) for
   details). Check the introductory vignette and the help page of
-  [`oe_vectortranslate()`](oe_vectortranslate.md).
+  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md).
 
 - boundary:
 
@@ -227,18 +238,24 @@ divided into 4 steps:
 
 4.  read-in the `.gpkg` file.
 
-The function [`oe_match()`](oe_match.md) is used to perform the first
-operation and the function [`oe_read()`](oe_read.md) (which is a wrapper
-around [`oe_download()`](oe_download.md),
-[`oe_vectortranslate()`](oe_vectortranslate.md) and
+The function
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+is used to perform the first operation and the function
+[`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
+(which is a wrapper around
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md),
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+and
 [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html))
 performs the other three operations.
 
 ## See also
 
-[`oe_match()`](oe_match.md), [`oe_download()`](oe_download.md),
-[`oe_vectortranslate()`](oe_vectortranslate.md), and
-[`oe_read()`](oe_read.md).
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md),
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md),
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md),
+and
+[`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md).
 
 ## Examples
 
@@ -262,7 +279,7 @@ its = oe_get("ITS Leeds", download_directory = tempdir())
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -282,7 +299,7 @@ its_points = oe_get("ITS Leeds", layer = "points", download_directory = tempdir(
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `points' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `points' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 186 features and 10 fields
 #> Geometry type: POINT
 #> Dimension:     XY
@@ -297,12 +314,12 @@ oe_get(
   "ITS Leeds", download_only = TRUE, quiet = TRUE,
   download_directory = tempdir()
 )
-#> [1] "/tmp/RtmpQk2KqP/test_its-example.gpkg"
+#> [1] "/tmp/Rtmp1TKvNm/test_its-example.gpkg"
 oe_get(
   "ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE,
   quiet = TRUE, download_directory = tempdir()
 )
-#> [1] "/tmp/RtmpQk2KqP/test_its-example.osm.pbf"
+#> [1] "/tmp/Rtmp1TKvNm/test_its-example.osm.pbf"
 # See also ?oe_find()
 
 # Add additional tags
@@ -315,7 +332,7 @@ its_with_oneway = oe_get(
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -337,7 +354,7 @@ its_oneway = oe_get("ITS Leeds", query = q, download_directory = tempdir())
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
 #> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes''
-#> from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 13 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -383,7 +400,7 @@ its_spat = oe_get("ITS Leeds", boundary = its_poly, download_directory = tempdir
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 77 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY

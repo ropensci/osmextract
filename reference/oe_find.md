@@ -28,15 +28,20 @@ oe_find(
   coordinates with length 2. In the last case, it is assumed that the
   EPSG code is 4326 specified as c(LON, LAT), while you can use any CRS
   with `sf`/`sfc`/`bbox` objects. See Details and Examples in
-  [`oe_match()`](oe_match.md).
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md).
 
 - provider:
 
   Which provider should be used to download the data? Available
-  providers can be browsed with [`oe_providers()`](oe_providers.md). For
-  [`oe_get()`](oe_get.md) and [`oe_match()`](oe_match.md), if `place` is
-  equal to `ITS Leeds`, then `provider` is internally set equal to
-  `"test"`. This is just for simple examples and internal tests.
+  providers can be browsed with
+  [`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md).
+  For
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md),
+  if `place` is equal to `ITS Leeds`, then `provider` is internally set
+  equal to `"test"`. This is just for simple examples and internal
+  tests.
 
 - download_directory:
 
@@ -67,9 +72,11 @@ oe_find(
 
 - ...:
 
-  Extra arguments that are passed to [`oe_match()`](oe_match.md) and
-  [`oe_get()`](oe_get.md). Please note that you cannot pass the argument
-  `download_only`.
+  Extra arguments that are passed to
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+  and
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md).
+  Please note that you cannot pass the argument `download_only`.
 
 ## Value
 
@@ -87,9 +94,10 @@ performed using
 [`list.files()`](https://rdrr.io/r/base/list.files.html), setting the
 `pattern` argument equal to the basename of the URL associated to the
 input `place`. For example, if you specify `place = "Isle of Wight"`,
-then your input is matched (via [`oe_match()`](oe_match.md)) with the
-URL of Isle of Wight. Finally, the files are selected using a `pattern`
-equal to the basename of that URL.
+then your input is matched (via
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md))
+with the URL of Isle of Wight. Finally, the files are selected using a
+`pattern` equal to the basename of that URL.
 
 If there is no file in the `download_directory` that can be matched with
 the basename of the URL and `download_if_missing` is `TRUE`, then the
@@ -115,14 +123,14 @@ res = file.copy(
 res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
 #> The input place was matched with: ITS Leeds
-#> [1] "/tmp/RtmpQk2KqP/test_its-example.gpkg"   
-#> [2] "/tmp/RtmpQk2KqP/test_its-example.osm.pbf"
+#> [1] "/tmp/Rtmp1TKvNm/test_its-example.gpkg"   
+#> [2] "/tmp/Rtmp1TKvNm/test_its-example.osm.pbf"
 oe_find(
   "ITS Leeds", provider = "test",
   download_directory = tempdir(), return_gpkg = FALSE
 )
 #> The input place was matched with: ITS Leeds
-#> [1] "/tmp/RtmpQk2KqP/test_its-example.osm.pbf"
+#> [1] "/tmp/Rtmp1TKvNm/test_its-example.osm.pbf"
 
 if (FALSE) { # \dontrun{
 oe_find("Isle of Wight", download_directory = tempdir())

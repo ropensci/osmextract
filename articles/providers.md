@@ -57,15 +57,16 @@ str(test_zones[, c(2, 6, 7)])
 The output shows the three most important column names:
 
 1.  The zone `name` (that is used for matching the input `place`, see
-    [`oe_match()`](../reference/oe_match.md));
+    [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md));
 2.  The URL endpoint where `.pbf` files associated with each zone can be
     downloaded;
 3.  The geometry, representing the spatial extent of the dataset.
 
 The object must also include the fields `level` and `id`, which are
 used, respectively, for spatial matching and updating. See
-[`oe_match()`](../reference/oe_match.md) and
-[`oe_update()`](../reference/oe_update.md).
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+and
+[`oe_update()`](https://docs.ropensci.org/osmextract/reference/oe_update.md).
 
 The best way to start creating a new `_zones` object for a new provider
 is probably by looking at the code we wrote for the first supported

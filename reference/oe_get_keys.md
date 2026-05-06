@@ -54,16 +54,20 @@ print(x, n = getOption("oe_max_print_keys", 10L), ...)
   An `sf` object with an `other_tags` field or a character vector (of
   length 1) that can be linked to or pointing to a `.osm.pbf` or `.gpkg`
   file with an `other_tags` field. Character vectors are linked to
-  `.osm.pbf` files using [`oe_find()`](oe_find.md).
+  `.osm.pbf` files using
+  [`oe_find()`](https://docs.ropensci.org/osmextract/reference/oe_find.md).
 
 - layer:
 
   Which `layer` should be read in? Typically `points`, `lines` (the
   default), `multilinestrings`, `multipolygons` or `other_relations`. If
   you specify an ad-hoc query using the argument `query` (see
-  introductory vignette and examples), then [`oe_get()`](oe_get.md) and
-  [`oe_read()`](oe_read.md) will read the layer specified in the query
-  and ignore `layer` argument. See also
+  introductory vignette and examples), then
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and
+  [`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
+  will read the layer specified in the query and ignore `layer`
+  argument. See also
   [\#122](https://github.com/ropensci/osmextract/issues/122).
 
 - values:
@@ -80,8 +84,9 @@ print(x, n = getOption("oe_max_print_keys", 10L), ...)
 
   Path of the directory that stores the `.osm.pbf` files. Only relevant
   when `zone` is as a character vector that must be matched to a file
-  via [`oe_find()`](oe_find.md). Ignored unless `zone` is a character
-  vector.
+  via
+  [`oe_find()`](https://docs.ropensci.org/osmextract/reference/oe_find.md).
+  Ignored unless `zone` is a character vector.
 
 - x:
 
@@ -135,13 +140,14 @@ order. By default, the function prints only the ten most common keys,
 but the number can be adjusted using the option `oe_max_print_keys`.
 
 Finally, the `hstore_get_value()` function can be used inside the
-`query` argument in [`oe_get()`](oe_get.md) to extract one particular
-tag from an existing file. Check the introductory vignette and see
-examples.
+`query` argument in
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+to extract one particular tag from an existing file. Check the
+introductory vignette and see examples.
 
 ## See also
 
-[`oe_vectortranslate()`](oe_vectortranslate.md)
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
 
 ## Examples
 
@@ -216,7 +222,7 @@ its = oe_get("ITS Leeds", download_directory = tempdir())
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -262,7 +268,7 @@ its = oe_get("ITS Leeds", download_directory = tempdir())
 #> The input place was matched with: ITS Leeds
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/RtmpQk2KqP/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmp1TKvNm/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY

@@ -40,9 +40,12 @@ oe_vectortranslate(
   Which `layer` should be read in? Typically `points`, `lines` (the
   default), `multilinestrings`, `multipolygons` or `other_relations`. If
   you specify an ad-hoc query using the argument `query` (see
-  introductory vignette and examples), then [`oe_get()`](oe_get.md) and
-  [`oe_read()`](oe_read.md) will read the layer specified in the query
-  and ignore `layer` argument. See also
+  introductory vignette and examples), then
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and
+  [`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
+  will read the layer specified in the query and ignore `layer`
+  argument. See also
   [\#122](https://github.com/ropensci/osmextract/issues/122).
 
 - vectortranslate_options:
@@ -64,8 +67,8 @@ oe_vectortranslate(
   Which additional columns, corresponding to OSM tags, should be in the
   resulting dataset? `NULL` by default. Check the introductory vignette
   and the help pages of `oe_vectortranslate()` and
-  [`oe_get_keys()`](oe_get_keys.md). Ignored when `osmconf_ini` is not
-  `NULL`.
+  [`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md).
+  Ignored when `osmconf_ini` is not `NULL`.
 
 - force_vectortranslate:
 
@@ -88,10 +91,10 @@ oe_vectortranslate(
 
   An `sf`/`sfc`/`bbox` object that will be used to create a spatial
   filter during the vectortranslate operations. If you are running
-  [`oe_get()`](oe_get.md) and `place` is an `sf`/`sfc` polygon or a
-  `bbox`, then it will be used as `boundary` if the latter is not
-  specified. Set `boundary = NA` to override this behaviour and
-  forcefully import the full extract.
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and `place` is an `sf`/`sfc` polygon or a `bbox`, then it will be used
+  as `boundary` if the latter is not specified. Set `boundary = NA` to
+  override this behaviour and forcefully import the full extract.
 
 - boundary_type:
 
@@ -202,8 +205,9 @@ all features that intersect the area. Setting
 `boundary_type = "clipsrc"` clips the geometries. In both cases, the
 appropriate options are automatically added to the
 `vectortranslate_options` (unless a user explicitly sets different
-default options). Check Examples in [`oe_get()`](oe_get.md) and the
-introductory vignette.
+default options). Check Examples in
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+and the introductory vignette.
 
 See also the help page of
 [`sf::gdal_utils()`](https://r-spatial.github.io/sf/reference/gdal_utils.html)
@@ -213,7 +217,7 @@ be tuned during the vectortranslate process.
 
 ## See also
 
-[`oe_get_keys()`](oe_get_keys.md)
+[`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md)
 
 ## Examples
 
@@ -308,7 +312,7 @@ oe_vectortranslate(
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> [1] "/tmp/RtmpQk2KqP/test_its-example.gpkg"
+#> [1] "/tmp/Rtmp1TKvNm/test_its-example.gpkg"
 sf::st_layers(its_gpkg, do_count = TRUE)
 #> Driver: GPKG 
 #> Available layers:

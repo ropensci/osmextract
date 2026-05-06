@@ -2,8 +2,10 @@
 
 This function is used to explore all provider's databases and look for
 matches. This function can be useful in combination with
-[`oe_match()`](oe_match.md) and [`oe_get()`](oe_get.md) for an
-exploratory analysis and an easy match. See Examples.
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+and
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+for an exploratory analysis and an easy match. See Examples.
 
 ## Usage
 

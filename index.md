@@ -130,9 +130,11 @@ Give `osmextract` a place name and it will try to find it in a list of
 names in the specified provider
 ([Geofabrik](https://www.geofabrik.de/data/download.html) by default).
 If the name you give it matches a place, it will download and import the
-associated data into R. The function [`oe_get()`](reference/oe_get.md)
+associated data into R. The function
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
 downloads (if not already downloaded) and reads-in data from OSM
-providers as `sf` objects. By default [`oe_get()`](reference/oe_get.md)
+providers as `sf` objects. By default
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
 imports the `lines` layer, but any layer can be read-in by changing the
 `layer` argument:
 
@@ -189,8 +191,9 @@ goa = oe_get("Goa", query = "SELECT highway, geometry FROM 'lines'")
 ```
 
 If the input place does not match any of the existing names in the
-supported providers, then [`oe_get()`](reference/oe_get.md) will try to
-geocode it via [Nominatim
+supported providers, then
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+will try to geocode it via [Nominatim
 API](https://nominatim.org/release-docs/develop/api/Overview/), and it
 will select the smallest OSM extract intersecting the area. For example
 (not run):
@@ -210,8 +213,9 @@ vignette](https://docs.ropensci.org/osmextract/articles/osmextract.html).
 
 ## Changing the download directory
 
-The default behaviour of [`oe_get()`](reference/oe_get.md) is to save
-all files in a package specific directory located at
+The default behaviour of
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+is to save all files in a package specific directory located at
 `tools::R_user_dir("osmextract", "data")`. If you prefer using any other
 persistent or temporary directory, you can add
 `OSMEXT_DOWNLOAD_DIRECTORY=/path/for/osm/data` to your `.Renviron` file,
@@ -233,8 +237,8 @@ oe_download_directory()
 
 The `force_download` argument can be used to refresh OSM extracts
 already present in the download directory. See also
-[`oe_update()`](reference/oe_update.md)and the introductory vignette for
-more details.
+[`oe_update()`](https://docs.ropensci.org/osmextract/reference/oe_update.md)and
+the introductory vignette for more details.
 
 ## Next steps
 

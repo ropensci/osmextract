@@ -30,7 +30,7 @@ lima = tmaptools::geocode_OSM("Lima, Peru")$coords
 ```
 
 and look for a match in the OSM extracts using
-[`oe_match()`](../reference/oe_match.md):
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md):
 
 ``` r
 
@@ -106,8 +106,10 @@ plot(geofabrik_zones[geofabrik_zones$level == 3, "name"], key.pos = NULL, main =
 
 ![](providers_comparisons_files/figure-html/unnamed-chunk-7-1.png)
 
-Check [`?geofabrik_zones`](../reference/geofabrik_zones.md) and the
-[provider’s webpage](http://download.geofabrik.de/) for more details.
+Check
+[`?geofabrik_zones`](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md)
+and the [provider’s webpage](http://download.geofabrik.de/) for more
+details.
 
 ## Openstreetmap.fr
 

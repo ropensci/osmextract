@@ -16,7 +16,7 @@ oe_clean(download_directory = oe_download_directory(), force = FALSE)
 
   The directory where the `.osm.pbf` and `.gpkg` files are saved.
   Default value is
-  [`oe_download_directory()`](oe_download_directory.md).
+  [`oe_download_directory()`](https://docs.ropensci.org/osmextract/reference/oe_download_directory.md).
 
 - force:
 

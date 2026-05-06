@@ -16,7 +16,7 @@ An `sf` object with 1190 rows and 7 columns:
 - id:
 
   A unique ID for each area. It is used by
-  [`oe_update()`](oe_update.md).
+  [`oe_update()`](https://docs.ropensci.org/osmextract/reference/oe_update.md).
 
 - name:
 
@@ -46,8 +46,8 @@ An `sf` object with 1190 rows and 7 columns:
 - geometry:
 
   The `sfg` for that geographical region, rectangular. See also
-  [`oe_get_boundary()`](oe_get_boundary.md) to extract the proper
-  geographical boundaries.
+  [`oe_get_boundary()`](https://docs.ropensci.org/osmextract/reference/oe_get_boundary.md)
+  to extract the proper geographical boundaries.
 
 ## Source
 
@@ -55,5 +55,6 @@ An `sf` object with 1190 rows and 7 columns:
 
 ## See also
 
-Other provider's-database: [`bbbike_zones`](bbbike_zones.md),
-[`geofabrik_zones`](geofabrik_zones.md)
+Other provider's-database:
+[`bbbike_zones`](https://docs.ropensci.org/osmextract/reference/bbbike_zones.md),
+[`geofabrik_zones`](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md)

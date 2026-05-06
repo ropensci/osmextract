@@ -2,7 +2,8 @@
 
 This function is used to match an input `place` with the URL of a
 `.osm.pbf` file (and its file-size, if present). The URLs are stored in
-several provider's databases. See [`oe_providers()`](oe_providers.md)
+several provider's databases. See
+[`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md)
 and examples.
 
 ## Usage
@@ -63,10 +64,13 @@ oe_match(
 - provider:
 
   Which provider should be used to download the data? Available
-  providers can be browsed with [`oe_providers()`](oe_providers.md). For
-  [`oe_get()`](oe_get.md) and `oe_match()`, if `place` is equal to
-  `ITS Leeds`, then `provider` is internally set equal to `"test"`. This
-  is just for simple examples and internal tests.
+  providers can be browsed with
+  [`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md).
+  For
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+  and `oe_match()`, if `place` is equal to `ITS Leeds`, then `provider`
+  is internally set equal to `"test"`. This is just for simple examples
+  and internal tests.
 
 - level:
 
@@ -164,12 +168,14 @@ The fields `iso3166_1_alpha2` and `iso3166_2` are used by Geofabrik
 provider to perform matching operations using [ISO 3166-1
 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) and [ISO
 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) codes. See
-[geofabrik_zones](geofabrik_zones.md) for more details.
+[geofabrik_zones](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md)
+for more details.
 
 ## See also
 
-[`oe_providers()`](oe_providers.md) and
-[`oe_match_pattern()`](oe_match_pattern.md).
+[`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md)
+and
+[`oe_match_pattern()`](https://docs.ropensci.org/osmextract/reference/oe_match_pattern.md).
 
 ## Examples
 

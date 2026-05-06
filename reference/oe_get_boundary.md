@@ -20,7 +20,7 @@ oe_get_boundary(place, name = place, exact = TRUE, ...)
   coordinates with length 2. In the last case, it is assumed that the
   EPSG code is 4326 specified as c(LON, LAT), while you can use any CRS
   with `sf`/`sfc`/`bbox` objects. See Details and Examples in
-  [`oe_match()`](oe_match.md).
+  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md).
 
 - name:
 
@@ -39,7 +39,8 @@ oe_get_boundary(place, name = place, exact = TRUE, ...)
 - ...:
 
   Further arguments (e.g. `quiet` or `force_vectortranslate`) that are
-  passed to [`oe_get()`](oe_get.md).
+  passed to
+  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md).
 
 ## Value
 

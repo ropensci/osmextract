@@ -35,14 +35,15 @@ An `sf` object with 238 rows and 6 columns:
   non-hierarchical geographical zones). This is used only for matching
   operations in case of spatial input. The oe\_\* functions will select
   the geographical area closest to the input place with the highest
-  "level". See [geofabrik_zones](geofabrik_zones.md) for an example of a
-  (proper) hierarchical structure.
+  "level". See
+  [geofabrik_zones](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md)
+  for an example of a (proper) hierarchical structure.
 
 - geometry:
 
   The `sfg` for that geographical region, rectangular. See also
-  [`oe_get_boundary()`](oe_get_boundary.md) to extract the proper
-  geographical boundaries.
+  [`oe_get_boundary()`](https://docs.ropensci.org/osmextract/reference/oe_get_boundary.md)
+  to extract the proper geographical boundaries.
 
 ## Source
 
@@ -55,5 +56,6 @@ extracts stored at <https://download.bbbike.org/osm/bbbike/>.
 
 ## See also
 
-Other provider's-database: [`geofabrik_zones`](geofabrik_zones.md),
-[`openstreetmap_fr_zones`](openstreetmap_fr_zones.md)
+Other provider's-database:
+[`geofabrik_zones`](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md),
+[`openstreetmap_fr_zones`](https://docs.ropensci.org/osmextract/reference/openstreetmap_fr_zones.md)

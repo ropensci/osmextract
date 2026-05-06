@@ -18,7 +18,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download and Import Open Street Map Data Extracts">
 <meta name="description" content="Match, download, convert and import Open Street Map data extracts obtained from several providers.">
 <meta property="og:description" content="Match, download, convert and import Open Street Map data extracts obtained from several providers.">
-<meta property="og:image" content="/logo.svg">
+<meta property="og:image" content="https://docs.ropensci.org/osmextract/logo.svg">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -70,7 +70,7 @@
 <!-- badges: start -->
 
 <p>The goal of <code>osmextract</code> is to make it easier for people to access OpenStreetMap (OSM) data for reproducible research. OSM data is the premier source of freely available, community created geographic data worldwide. We aim to enable you to extract it for data-driven work in the public interest.</p>
-<p><code>osmextract</code> matches, downloads, converts, and imports bulk OSM data hosted by providers such as <a href="http://download.geofabrik.de" class="external-link">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/" class="external-link">bbbike</a>. For information on alternative providers and how to add them see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html" class="external-link">providers vignette</a>.</p>
+<p><code>osmextract</code> matches, downloads, converts, and imports bulk OSM data hosted by providers such as <a href="http://download.geofabrik.de" class="external-link">Geofabrik GmbH</a> and <a href="https://download.bbbike.org/osm/" class="external-link">bbbike</a>. For information on alternative providers and how to add them see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html">providers vignette</a>.</p>
 <div class="section level2">
 <h2 id="why-osmextract">Why osmextract?<a class="anchor" aria-label="anchor" href="#why-osmextract"></a>
 </h2>
@@ -84,7 +84,7 @@
 <span><span class="co"># The data included in this document is from www.openstreetmap.org. The data is made available under ODbL. runtime error: Query timed out in "query" at line 4 after 26 seconds. </span></span></code></pre></div>
 <p>The query stops with an error message after around 30 seconds. The same query can be made with <code>osmextract</code> as follows, which reads-in almost 100k linestrings in less than 10 seconds, after the data has been downloaded in the compressed <code>.pbf</code> format and converted to the open standard <code>.gpkg</code> format. The download-and-conversion operation of the OSM extract associated to England takes approximately a few minutes, but this operation must be executed only once. The following code chunk is not evaluated.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/" class="external-link">osmextract</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/">osmextract</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cycleways_england</span> <span class="op">=</span> <span class="fu"><a href="reference/oe_get.html">oe_get</a></span><span class="op">(</span></span>
 <span>  <span class="st">"England"</span>,</span>
@@ -108,7 +108,7 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ropensci/osmextract"</span><span class="op">)</span></span></code></pre></div>
 <p>Load the package with:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/" class="external-link">osmextract</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmextract/">osmextract</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright.</span></span>
 <span><span class="co">#&gt; Check the package website, https://docs.ropensci.org/osmextract/, for more details.</span></span></code></pre></div>
 <p>To use alongside functionality in the <code>sf</code> package, we also recommend attaching this geographic data package as follows:</p>
@@ -163,7 +163,7 @@
 <span><span class="co">#&gt; Checking the other providers.</span></span>
 <span><span class="co">#&gt; No exact match found in any OSM provider data. Searching for the location online.</span></span>
 <span><span class="co">#&gt; ... (extra messages here)</span></span></code></pre></div>
-<p>For further details on using the package, see the <a href="https://docs.ropensci.org/osmextract/articles/osmextract.html" class="external-link">Introducing osmextract vignette</a>.</p>
+<p>For further details on using the package, see the <a href="https://docs.ropensci.org/osmextract/articles/osmextract.html">Introducing osmextract vignette</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="changing-the-download-directory">Changing the download directory<a class="anchor" aria-label="anchor" href="#changing-the-download-directory"></a>
@@ -180,7 +180,7 @@
 <div class="section level2">
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h2>
-<p>We would love to see more providers added (see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html" class="external-link">Add new OpenStreetMap providers</a> for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
+<p>We would love to see more providers added (see the <a href="https://docs.ropensci.org/osmextract/articles/providers.html">Add new OpenStreetMap providers</a> for details) and see what people can do with OSM datasets of the type provided by this package in a reproducible and open statistical programming environment for the greater good. Any contributions to support this or any other improvements to the package are very welcome via our issue tracker.</p>
 </div>
 <div class="section level2">
 <h2 id="licence">Licence<a class="anchor" aria-label="anchor" href="#licence"></a>
@@ -197,7 +197,7 @@
 <li>A later version of this License similar in spirit to this</li>
 </ol></li>
 </ul>
-<p>See the <a href="https://docs.ropensci.org/osmextract/articles/osmextract.html" class="external-link">Introducing osmextract vignette</a> for more details.</p>
+<p>See the <a href="https://docs.ropensci.org/osmextract/articles/osmextract.html">Introducing osmextract vignette</a> for more details.</p>
 </div>
 <div class="section level2">
 <h2 id="other-approaches">Other approaches<a class="anchor" aria-label="anchor" href="#other-approaches"></a>

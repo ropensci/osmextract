@@ -50,32 +50,34 @@ detailed use cases.
 
 The package is composed of the following main functions:
 
-1.  [`oe_providers()`](../reference/oe_providers.md): Show which OSM
-    providers are available;
-2.  [`oe_match()`](../reference/oe_match.md): Match an input place with
-    one of the files stored by the OSM providers;
-3.  [`oe_download()`](../reference/oe_download.md): Download the chosen
-    file;
-4.  [`oe_vectortranslate()`](../reference/oe_vectortranslate.md):
+1.  [`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md):
+    Show which OSM providers are available;
+2.  [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md):
+    Match an input place with one of the files stored by the OSM
+    providers;
+3.  [`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md):
+    Download the chosen file;
+4.  [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md):
     Convert between `.pbf` and `.gpkg` formats;
-5.  [`oe_read()`](../reference/oe_read.md): Read `.pbf` and `.gpkg`
-    files;
-6.  [`oe_get()`](../reference/oe_get.md): Match, download,
-    (vector)translate, and import data, all in one step.
+5.  [`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md):
+    Read `.pbf` and `.gpkg` files;
+6.  [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md):
+    Match, download, (vector)translate, and import data, all in one
+    step.
 
 For many users who just want to get OSM data quickly,
-[`oe_get()`](../reference/oe_get.md) may be sufficient, as covered in
-the README. Here, we will demonstrate each function in turn, following
-the same order in which they are typically used. As you can see, the
-name of the most important functions in this package start with `oe_*`
-prefix, which means that you can easily use auto-completion features
-(with Rstudio or similar IDE(s)).
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+may be sufficient, as covered in the README. Here, we will demonstrate
+each function in turn, following the same order in which they are
+typically used. As you can see, the name of the most important functions
+in this package start with `oe_*` prefix, which means that you can
+easily use auto-completion features (with Rstudio or similar IDE(s)).
 
 ### `oe_providers()`: List providers
 
-[`oe_providers()`](../reference/oe_providers.md) lists the providers
-that are currently available with the version of `osmextract` you have
-installed.
+[`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md)
+lists the providers that are currently available with the version of
+`osmextract` you have installed.
 
 ``` r
 
@@ -89,8 +91,9 @@ oe_providers()
 Each element in the column `database_name` is a data object that is
 packaged with `osmextract`. You can read a detailed description of each
 provider data running, for example,
-[`?geofabrik_zones`](../reference/geofabrik_zones.md) or
-[`?bbbike_zones`](../reference/bbbike_zones.md).
+[`?geofabrik_zones`](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md)
+or
+[`?bbbike_zones`](https://docs.ropensci.org/osmextract/reference/bbbike_zones.md).
 
 Perhaps, the best known bulk OSM data provider is
 [Geofabrik](https://www.geofabrik.de/), and its extracts are summarised
@@ -151,11 +154,12 @@ vignette for some simple guidelines on how to choose the best provider.
 
 ### `oe_match()`: Match an input place with an OSM extract
 
-The function [`oe_match()`](../reference/oe_match.md) takes in input a
-string through the parameter `place`, and it returns a named list of
-length two with the URL and the size (in bytes) of a `.osm.pbf`[^1] file
-representing a geographical zone stored by one of the supported
-providers. For example:
+The function
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+takes in input a string through the parameter `place`, and it returns a
+named list of length two with the URL and the size (in bytes) of a
+`.osm.pbf`[^1] file representing a geographical zone stored by one of
+the supported providers. For example:
 
 ``` r
 
@@ -178,12 +182,13 @@ oe_match("Leeds", provider = "bbbike")
 The geographical zone is chosen by calculating the Approximate String
 Distance (`?adist()`) between the input `place` and one of the fields in
 the provider’s dataset. Then, the function selects the closest match. By
-default, [`oe_match()`](../reference/oe_match.md) uses the `name` field
-and `Geofabrik` provider, but you can select a different field via the
-argument `match_by`. We refer to the providers’ help pages for a
-detailed description of all available fields. If you are using Geofabrik
-provider, a useful and interesting alternative field is represented by
-the (unique and unambiguous) [`iso3166-1 alpha2`
+default,
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+uses the `name` field and `Geofabrik` provider, but you can select a
+different field via the argument `match_by`. We refer to the providers’
+help pages for a detailed description of all available fields. If you
+are using Geofabrik provider, a useful and interesting alternative field
+is represented by the (unique and unambiguous) [`iso3166-1 alpha2`
 codes](https://it.wikipedia.org/wiki/ISO_3166-1_alpha-2):
 
 ``` r
@@ -219,10 +224,10 @@ oe_match("IL", match_by = "iso3166_1_alpha2", quiet = TRUE)
 ```
 
 For this reason, we coded a function named
-[`oe_match_pattern()`](../reference/oe_match_pattern.md) to explore the
-matching operations for all available providers according to a
-pre-defined pattern. It returns a named list where the names are the
-id(s) of the supported OSM providers and the values are the matched
+[`oe_match_pattern()`](https://docs.ropensci.org/osmextract/reference/oe_match_pattern.md)
+to explore the matching operations for all available providers according
+to a pre-defined pattern. It returns a named list where the names are
+the id(s) of the supported OSM providers and the values are the matched
 names. For example:
 
 ``` r
@@ -271,8 +276,8 @@ oe_match_pattern("US", match_by = "iso3166_2")
 ```
 
 If we set `full_row = TRUE`, then
-[`oe_match_pattern()`](../reference/oe_match_pattern.md) will return the
-complete row(s) from each provider’s data:
+[`oe_match_pattern()`](https://docs.ropensci.org/osmextract/reference/oe_match_pattern.md)
+will return the complete row(s) from each provider’s data:
 
 ``` r
 
@@ -339,8 +344,8 @@ argument is equal to `iso3166_1_alpha2` or `iso3166_2`.
 
 If the approximate string distance between the closest match and the
 input `place` is greater than `max_string_dist`, then
-[`oe_match()`](../reference/oe_match.md) will also check the other
-supported providers. For example:
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+will also check the other supported providers. For example:
 
 ``` r
 
@@ -375,7 +380,8 @@ oe_match("Vatican City")
 
 Finally, if there is no exact match with any of the supported providers
 and `match_by` argument is equal to `"name"`, then
-[`oe_match()`](../reference/oe_match.md) will use the [Nominatim
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+will use the [Nominatim
 API](https://nominatim.org/release-docs/develop/api/Overview/) to
 geolocate the input place and perform a spatial matching operation
 (explained below):
@@ -397,10 +403,11 @@ oe_match("Milan")
 
 The input `place` can also be specified using an `sf`, `sfc`, or `bbox`
 object with arbitrary CRS[^2], as documented in the following example.
-[`oe_match()`](../reference/oe_match.md) will return a named list of
-length two with the URL and the size of a `.pbf` file representing a
-zone that geographically contains the `sf` or `sfc` object (or an error
-if the input is not contained into any geographical area).
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+will return a named list of length two with the URL and the size of a
+`.pbf` file representing a zone that geographically contains the `sf` or
+`sfc` object (or an error if the input is not contained into any
+geographical area).
 
 ``` r
 
@@ -416,11 +423,12 @@ oe_match(milan_duomo)
 
 If the input `place` intersects multiple geographically nested areas and
 the argument `level` is equal to `NULL` (the default value), then
-[`oe_match()`](../reference/oe_match.md) automatically returns the
-extract with the highest `level`. In particular, we could roughly say
-that smaller geographical areas are associated with higher `level`(s).
-For example, `level = 1` may correspond to continent-size extracts, `2`
-is for countries, `3` represents the regions and `4` the subregions:
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+automatically returns the extract with the highest `level`. In
+particular, we could roughly say that smaller geographical areas are
+associated with higher `level`(s). For example, `level = 1` may
+correspond to continent-size extracts, `2` is for countries, `3`
+represents the regions and `4` the subregions:
 
 ``` r
 
@@ -443,12 +451,14 @@ oe_match(yak, level = 3, quiet = TRUE)
 ```
 
 If there are multiple OSM extracts intersecting the input `place` at the
-same `level`, then [`oe_match()`](../reference/oe_match.md) will return
-the area whose centroid is closest to the input `place`.
+same `level`, then
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+will return the area whose centroid is closest to the input `place`.
 
 If you specify more than one geometry into the `sf` or `sfc` object,
-then [`oe_match()`](../reference/oe_match.md) will select an area that
-contains all of them.
+then
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+will select an area that contains all of them.
 
 ``` r
 
@@ -580,10 +590,12 @@ static and they may be preferable for reproducibility purposes.
 
 ### `oe_download()`: Download OSM extracts
 
-The [`oe_download()`](../reference/oe_download.md) function is used to
-download `.pbf` files representing OSM extracts. It takes in input a
-URL, through the parameter `file_url`, and it downloads the requested
-data in a directory specified by the parameter `download_directory`:
+The
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
+function is used to download `.pbf` files representing OSM extracts. It
+takes in input a URL, through the parameter `file_url`, and it downloads
+the requested data in a directory specified by the parameter
+`download_directory`:
 
 ``` r
 
@@ -597,10 +609,10 @@ oe_download(
 
 The argument `provider` can be omitted if the input `file_url` is
 associated with one of the supported providers (see
-[`oe_providers()`](../reference/oe_providers.md)).
+[`oe_providers()`](https://docs.ropensci.org/osmextract/reference/oe_providers.md)).
 
 The default value for `download_directory` is
-[`oe_download_directory()`](../reference/oe_download_directory.md)
+[`oe_download_directory()`](https://docs.ropensci.org/osmextract/reference/oe_download_directory.md)
 which, by default, points to the R-related user-specific data directory
 returned by `tools::R_user_dir("osmextract", "data")` (see
 [`?tools::R_user_dir`](https://rdrr.io/r/tools/userdir.html)):
@@ -608,7 +620,7 @@ returned by `tools::R_user_dir("osmextract", "data")` (see
 ``` r
 
 oe_download_directory()
-#> [1] "/tmp/RtmpxN6yL8"
+#> [1] "/tmp/Rtmpd60r7M"
 ```
 
 Another relevant alternative for temporary downloads might be
@@ -625,17 +637,18 @@ usethis::edit_r_environ()
 ```
 
 to overwrite the default behaviour of
-[`oe_download_directory()`](../reference/oe_download_directory.md) and
-indicate a different persistent data directory to be used by
-[`oe_download()`](../reference/oe_download.md).
+[`oe_download_directory()`](https://docs.ropensci.org/osmextract/reference/oe_download_directory.md)
+and indicate a different persistent data directory to be used by
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md).
 
 We strongly advise you setting a persistent directory since downloading
 and converting (see the next sub-section) `.pbf` files are expensive
 operations, that can be skipped if the functions detect that the
 requested extract was already downloaded and/or converted.
 
-More precisely, [`oe_download()`](../reference/oe_download.md) runs
-several checks before actually downloading a new file, to avoid
+More precisely,
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
+runs several checks before actually downloading a new file, to avoid
 overloading the OSM providers. The first step is the definition of the
 path associated with the input `file_url`. The path is created by
 pasting together the `download_directory`, the name of the chosen
@@ -650,15 +663,17 @@ checks if the new path/file already exists (using
 it returns the path, without downloading anything[^3]. Otherwise, it
 downloads a new file and then it returns the path.
 
-Beware that the [`oe_download()`](../reference/oe_download.md) functions
-internally sets a time-out value for the download process which (at
-minimum) is equal to 300 seconds. You can increase this value using the
-`timeout` option (see
+Beware that the
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
+functions internally sets a time-out value for the download process
+which (at minimum) is equal to 300 seconds. You can increase this value
+using the `timeout` option (see
 [`?options`](https://rdrr.io/r/base/options.html)).
 
 ### `oe_vectortranslate()`: Convert to gpkg format
 
-The [`oe_vectortranslate()`](../reference/oe_vectortranslate.md)
+The
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
 function translates a `.pbf` file into `.gpkg` format[^4]. It takes in
 input a string representing the path to an existing `.pbf` file, and it
 returns the path to the newly generated `.gpkg` file. The `.gpkg` file
@@ -705,12 +720,12 @@ modifying the parameters `layer`, `extra_tags`, `osmconf_ini`,
 The `.pbf` files processed by GDAL are usually categorized into 5
 layers, named `points`, `lines`, `multilinestrings`, `multipolygons` and
 `other_relations`[^5]. The
-[`oe_vectortranslate()`](../reference/oe_vectortranslate.md) function
-can covert only one layer at a time. Nevertheless, several layers with
-different names can be stored in the same `.gpkg` file. By default, the
-function will convert the `lines` layer (which is the most common one
-according to our experience), but you can change that using the
-parameter `layer`.
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+function can covert only one layer at a time. Nevertheless, several
+layers with different names can be stored in the same `.gpkg` file. By
+default, the function will convert the `lines` layer (which is the most
+common one according to our experience), but you can change that using
+the parameter `layer`.
 
 The `.pbf` files always contain all five layers:
 
@@ -762,8 +777,8 @@ reads and processes a `.pbf` file. More precisely, several operations
 that GDAL performs on a `.pbf` file are governed by a `CONFIG` file.
 
 If `osmconf_ini` is equal to `NULL` (the default), then
-[`oe_vectortranslate()`](../reference/oe_vectortranslate.md) uses a
-standard `CONFIG` file provided by `GDAL` or `sf`:
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+uses a standard `CONFIG` file provided by `GDAL` or `sf`:
 
 ``` r
 
@@ -788,9 +803,10 @@ in the `.gpkg` file and omitted from the `other_tags` field. Please note
 that the argument `extra_tags` is ignored if `osmconf_ini` is not `NULL`
 (since we cannot not know how you generated the new `osmconf.ini` file).
 
-Lastly, the [`oe_get_keys()`](../reference/oe_get_keys.md) function can
-be used to check all `keys` that are stored in the `other_tags` field
-for a given `.gpkg` or `.pbf` file. For example,
+Lastly, the
+[`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md)
+function can be used to check all `keys` that are stored in the
+`other_tags` field for a given `.gpkg` or `.pbf` file. For example,
 
 ``` r
 
@@ -828,7 +844,9 @@ oe_get_keys(its_gpkg, layer = "lines", values = TRUE)
 #> [Truncated output...]
 ```
 
-Check [`?oe_get_keys`](../reference/oe_get_keys.md) for more details.
+Check
+[`?oe_get_keys`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md)
+for more details.
 
 We can always re-create the `.gpkg` file adding one or more new `tags`:
 
@@ -888,10 +906,10 @@ less verbose `vectortranslate_options`.
 #### Other notes
 
 By default, the vectortranslate operations are skipped if
-[`oe_vectortranslate()`](../reference/oe_vectortranslate.md) function
-detects a file having the same path as the input file, `.gpkg` extension
-and a layer with the same name as the parameter `layer` with all
-`extra_tags`. In that case, the function will return the path of the
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+function detects a file having the same path as the input file, `.gpkg`
+extension and a layer with the same name as the parameter `layer` with
+all `extra_tags`. In that case, the function will return the path of the
 `.gpkg` file. This behaviour can be overwritten by setting
 `force_vectortranslate = TRUE`. If the arguments `osmconf_ini`,
 `vectortranslate_options` or `boundary` parameters are not `NULL`, the
@@ -900,14 +918,17 @@ vectortranslate operations are never skipped.
 Starting from `sf` version
 [0.9.6](https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13),
 if `quiet` argument is equal to `FALSE`, then
-[`oe_vectortranslate()`](../reference/oe_vectortranslate.md) will
-display a progress bar during he vectortranslate process.
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+will display a progress bar during he vectortranslate process.
 
 ### `oe_read()`: Read-in OSM data
 
-The [`oe_read()`](../reference/oe_read.md) function is a wrapper around
-[`oe_download()`](../reference/oe_download.md),
-[`oe_vectortranslate()`](../reference/oe_vectortranslate.md), and
+The
+[`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
+function is a wrapper around
+[`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md),
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md),
+and
 [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html).
 It is used for reading-in a `.pbf` or `.gpkg` file that is specified
 using its path or URL.
@@ -918,7 +939,7 @@ So, for example, the following code can be used for reading-in the
 ``` r
 
 oe_read(its_gpkg)
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -929,12 +950,13 @@ oe_read(its_gpkg)
 If the input `file_path` points to a `.osm.pbf` file, the
 vectortranslate operations can be skipped using the parameter
 `skip_vectortranslate`. In that case,
-[`oe_read()`](../reference/oe_read.md) will ignore the conversion step.
+[`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
+will ignore the conversion step.
 
 ``` r
 
 oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = FALSE)
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.osm.pbf' using driver `OSM'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.osm.pbf' using driver `OSM'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -972,7 +994,7 @@ its_lines = oe_get("ITS Leeds")
 #> The input place was matched with: ITS Leeds
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -980,17 +1002,20 @@ its_lines = oe_get("ITS Leeds")
 #> Geodetic CRS:  WGS 84
 ```
 
-The function [`oe_get()`](../reference/oe_get.md) is a wrapper around
-[`oe_match()`](../reference/oe_match.md) and
-[`oe_read()`](../reference/oe_read.md), and it summarizes the algorithm
-that we use for importing OSM extracts:
+The function
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+is a wrapper around
+[`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+and
+[`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md),
+and it summarizes the algorithm that we use for importing OSM extracts:
 
 1.  Match the input `place` with the URL of a `.pbf` file through
-    [`oe_match()`](../reference/oe_match.md);
+    [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md);
 2.  If necessary, download the corresponding `.pbf` file using
-    [`oe_download()`](../reference/oe_download.md);
+    [`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md);
 3.  Convert it into `.gpkg` format using
-    [`oe_vectortranslate()`](../reference/oe_vectortranslate.md);
+    [`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md);
 4.  Read-in one layer of the `.gpkg` file using
     [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html).
 
@@ -1005,10 +1030,11 @@ plot(its_lines["highway"], lwd = 2, key.pos = NULL)
 ![](osmextract_files/figure-html/unnamed-chunk-45-1.png)
 
 The following commands (not evaluated here) show how
-[`oe_get()`](../reference/oe_get.md) can be used to import the OSM
-extracts associated with the desired input `place`, after downloading
-the `.pbf` file and performing the vectortranslate operations. We
-suggest you run the commands and check the output.
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
+can be used to import the OSM extracts associated with the desired input
+`place`, after downloading the `.pbf` file and performing the
+vectortranslate operations. We suggest you run the commands and check
+the output.
 
 ``` r
 
@@ -1098,7 +1124,7 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE)
 #> Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field
 #> 'highway' already exists. Renaming it as 'highway2'
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 191 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1116,7 +1142,7 @@ oe_get("ITS Leeds", provider = "test", quiet = FALSE, force_vectortranslate = TR
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1146,7 +1172,7 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE, ex
 #> Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field
 #> 'highway' already exists. Renaming it as 'highway2'
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 191 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1178,7 +1204,7 @@ oe_get("ITS Leeds", vectortranslate_options = c("-t_srs", "EPSG:27700"), quiet =
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1229,7 +1255,7 @@ its_leeds = oe_get("ITS Leeds", vectortranslate_options = my_vectortranslate, qu
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 76 features and 2 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1305,7 +1331,7 @@ its_small = oe_get("ITS Leeds", boundary = its_bbox)
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 5 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1315,8 +1341,9 @@ its_small = oe_get("ITS Leeds", boundary = its_bbox)
 
 Starting from version 0.6, the same operation can be performed by
 setting the boundary object as the first argument of
-[`oe_get()`](../reference/oe_get.md). In this case, the function
-automatically applies the spatial clipping operation:
+[`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md).
+In this case, the function automatically applies the spatial clipping
+operation:
 
 ``` r
 
@@ -1327,7 +1354,7 @@ its_small = oe_get(its_bbox, provider = "test")
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 5 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1470,7 +1497,8 @@ suggested approach for querying a small OSM extract.
 Last but not least, we can use the function `hstore_get_value` to
 extract one of the tags saved in the `other_tags` column without using
 `ogr2ogr` and rerunning the
-[`oe_vectortranslate()`](../reference/oe_vectortranslate.md) function::
+[`oe_vectortranslate()`](https://docs.ropensci.org/osmextract/reference/oe_vectortranslate.md)
+function::
 
 ``` r
 
@@ -1502,7 +1530,7 @@ colnames(oe_get(
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
 #> Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'
-#> from data source `/tmp/RtmpxN6yL8/test_its-example.gpkg' using driver `GPKG'
+#> from data source `/tmp/Rtmpd60r7M/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1563,12 +1591,12 @@ Guide](https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3).
     providers to store and share OSM extracts.
 
 [^2]: If the input spatial object has no CRS, then
-    [`oe_match()`](../reference/oe_match.md) raises a warning message
-    and sets `CRS = 4326`.
+    [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
+    raises a warning message and sets `CRS = 4326`.
 
 [^3]: The parameter `force_download` can be used to override this
     behaviour in case you need to update an old OSM extract. See also
-    [`?oe_update`](../reference/oe_update.md).
+    [`?oe_update`](https://docs.ropensci.org/osmextract/reference/oe_update.md).
 
 [^4]: The GeoPackage (`.gpkg`) is an *open, standards-based,
     platform-independent, portable, self-descripting, compact format for
