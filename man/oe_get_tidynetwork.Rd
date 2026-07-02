@@ -4,10 +4,28 @@
 \alias{oe_get_tidynetwork}
 \title{Obtain a tidy sf from OpenStreetMap data}
 \usage{
-oe_get_tidynetwork(..., simplify_highway = TRUE, highway_filter = NULL)
+oe_get_tidynetwork(
+  place,
+  mode = c("cycling", "driving", "walking"),
+  ...,
+  simplify_highway = TRUE,
+  highway_filter = NULL
+)
 }
 \arguments{
-\item{...}{parameters passed to \code{oe_get_network()}}
+\item{place}{Description of the geographical area that should be matched with
+a \code{.osm.pbf} file. Can be either a length-1 character vector, an
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+
+\item{mode}{A character string of length one denoting the desired mode of
+transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
+and \code{walking} are supported.}
+
+\item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
+\code{force_download}.}
 
 \item{simplify_highway}{logical, whether to simplify the highway values by removing the "_link" suffix and filtering by \code{highway_filter}}
 

@@ -5,8 +5,7 @@
 #' network preprocessing tasks i.e. subdivision and smoothing are performed using `sfnetworks` to
 #' create a tidy `sfnetwork` object. All unique merged edge attributes are concatenated.
 #' It also allows for the creation of directed or undirected networks.
-#'
-#' @param ... parameters passed to `oe_get_network()`
+#' @inheritParams oe_get_network
 #' @param simplify_highway logical, whether to simplify the highway values by removing the "_link" suffix and filtering by `highway_filter`
 #' @param highway_filter character vector of highway types to keep, if `simplify_highway` is TRUE.
 #' If not provided, all highway types returned by `oe_get_network` are kept. Valid values
@@ -14,6 +13,7 @@
 #' "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
 #' "steps", "tertiary", "track", "trunk" and "unclassified".
 #' @param directed logical, whether to return a directed sfnetwork object (default is FALSE)
+#' @inheritParams oe_get quiet
 #'
 #' @returns a `sfnetwork` object
 #'
@@ -55,6 +55,8 @@
 #'
 
 oe_get_sfnetwork <- function(
+  place,
+  mode = c("cycling", "driving", "walking"),
   ...,
   directed = FALSE,
   simplify_highway = TRUE,
@@ -82,6 +84,10 @@ oe_get_sfnetwork <- function(
 
   # Passing the quiet argument as one of the arguments of oe_get_tidynetwork
   tidynet.args <- c(
+    list(
+      place = place,
+      mode = mode
+    ),
     args,
     list(
       quiet = quiet,
@@ -191,6 +197,8 @@ prepare_directed <- function(sfnet_und) {
 #' print(tidynet_sf_filtered)
 #'
 oe_get_tidynetwork <- function(
+  place,
+  mode = c("cycling", "driving", "walking"),
   ...,
   simplify_highway = TRUE,
   highway_filter = NULL
@@ -221,8 +229,16 @@ oe_get_tidynetwork <- function(
     quiet <- FALSE
   }
 
+  oe_get_net.args <- c(
+    list(
+      place = place,
+      mode = mode
+    ),
+    args
+  )
+
   # Get network
-  net <- do.call(oe_get_network, args)
+  net <- do.call(oe_get_network, oe_get_net.args)
 
   # Tidy highway values
   if (simplify_highway) {
@@ -245,9 +261,10 @@ oe_get_tidynetwork <- function(
 #' implied oneway restriction based on the `junction`` tag values.
 #'
 #'
-#'
-#' @param ... parameters passed to `oe_get_network()` and `dodgr::weight_streetnet()`, excluding `x` and `id_col` for the latter.
+#' @inheritParams oe_get_sfnetwork
+#' @param ... additional parameters passed to `oe_get()` and `dodgr::weight_streetnet()`, excluding `x` and `id_col` for the latter.
 #' @param highway_filter string vector of highway types to keep. By default, it includes "motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", and "residential".
+#' @inheritParams oe_get quiet
 #'
 #' @returns a `dodgr_streetnet` object
 #'
@@ -284,6 +301,8 @@ oe_get_tidynetwork <- function(
 #'  )
 #'
 oe_get_dodgrnetwork <- function(
+  place,
+  mode = c("cycling", "driving", "walking"),
   ...,
   highway_filter = NULL,
   quiet = FALSE
@@ -307,8 +326,13 @@ oe_get_dodgrnetwork <- function(
   current.args <- all.args[!names(all.args) %in% c(dodgr.pars)]
 
   # Compile the arguments for the oe_get_tidynetwork function, including the highway_filter
-  tidynet.args <- list(quiet = quiet, highway_filter = highway_filter)
-  tidynet.args <- c(current.args, tidynet.args)
+  tidynet.args <- list(
+    place = place,
+    mode = mode,
+    quiet = quiet,
+    highway_filter = highway_filter
+  )
+  tidynet.args <- c(tidynet.args, current.args)
 
   # Calling the oe_get_tidynetwork function with the filtered arguments
   net <- do.call(oe_get_tidynetwork, tidynet.args)
@@ -347,6 +371,7 @@ tidy_highway <- function(net, highway_filter) {
 #'
 #' @param net_raw a `sf` object representing a spatial network with the `oneway` and `junction` columns
 #' @param implied_oneway logical, whether to apply the implied `oneway` restriction
+#' @param quiet logical, whether to suppress messages. Default is FALSE.
 #'
 #' @returns a `sf` object with standardised oneway values
 #'

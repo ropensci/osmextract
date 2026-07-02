@@ -4,12 +4,35 @@
 \alias{oe_get_dodgrnetwork}
 \title{Obtain a weighted_streetnet from OpenStreetMap data}
 \usage{
-oe_get_dodgrnetwork(..., highway_filter = NULL, quiet = FALSE)
+oe_get_dodgrnetwork(
+  place,
+  mode = c("cycling", "driving", "walking"),
+  ...,
+  highway_filter = NULL,
+  quiet = FALSE
+)
 }
 \arguments{
-\item{...}{parameters passed to \code{oe_get_network()} and \code{dodgr::weight_streetnet()}, excluding \code{x} and \code{id_col} for the latter.}
+\item{place}{Description of the geographical area that should be matched with
+a \code{.osm.pbf} file. Can be either a length-1 character vector, an
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+
+\item{mode}{A character string of length one denoting the desired mode of
+transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
+and \code{walking} are supported.}
+
+\item{...}{additional parameters passed to \code{oe_get()} and \code{dodgr::weight_streetnet()}, excluding \code{x} and \code{id_col} for the latter.}
 
 \item{highway_filter}{string vector of highway types to keep. By default, it includes "motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", and "residential".}
+
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 }
 \value{
 a \code{dodgr_streetnet} object

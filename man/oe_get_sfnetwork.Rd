@@ -5,6 +5,8 @@
 \title{Obtain a sfnetwork object from OpenStreetMap data}
 \usage{
 oe_get_sfnetwork(
+  place,
+  mode = c("cycling", "driving", "walking"),
   ...,
   directed = FALSE,
   simplify_highway = TRUE,
@@ -13,7 +15,19 @@ oe_get_sfnetwork(
 )
 }
 \arguments{
-\item{...}{parameters passed to \code{oe_get_network()}}
+\item{place}{Description of the geographical area that should be matched with
+a \code{.osm.pbf} file. Can be either a length-1 character vector, an
+\code{sf}/\code{sfc}/\code{bbox} object with any CRS, or a numeric vector of coordinates
+with length 2. In the last case, it is assumed that the EPSG code is 4326
+specified as c(LON, LAT), while you can use any CRS with \code{sf}/\code{sfc}/\code{bbox}
+objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
+
+\item{mode}{A character string of length one denoting the desired mode of
+transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
+and \code{walking} are supported.}
+
+\item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
+\code{force_download}.}
 
 \item{directed}{logical, whether to return a directed sfnetwork object (default is FALSE)}
 
@@ -24,6 +38,12 @@ If not provided, all highway types returned by \code{oe_get_network} are kept. V
 for \code{highway_filter} are: "busway", "cycleway", "footway", "living_street", "motorway",
 "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
 "steps", "tertiary", "track", "trunk" and "unclassified".}
+
+\item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
+Starting from \code{sf} version
+\href{https://r-spatial.github.io/sf/news/index.html#version-0-9-6-2020-09-13}{0.9.6},
+if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
+display a progress bar.}
 }
 \value{
 a \code{sfnetwork} object
