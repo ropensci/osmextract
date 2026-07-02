@@ -4,7 +4,7 @@
 \alias{oe_get_dodgrnetwork}
 \title{Obtain a weighted_streetnet from OpenStreetMap data}
 \usage{
-oe_get_dodgrnetwork(..., highway_filter = NULL)
+oe_get_dodgrnetwork(..., highway_filter = NULL, quiet = FALSE)
 }
 \arguments{
 \item{...}{parameters passed to \code{oe_get_network()} and \code{dodgr::weight_streetnet()}, excluding \code{x} and \code{id_col} for the latter.}

@@ -4,7 +4,7 @@
 \alias{tidy_oneway}
 \title{Tidy the oneway values in a osm network}
 \usage{
-tidy_oneway(net_raw, implied_oneway = TRUE)
+tidy_oneway(net_raw, implied_oneway = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{net_raw}{a \code{sf} object representing a spatial network with the \code{oneway} and \code{junction} columns}

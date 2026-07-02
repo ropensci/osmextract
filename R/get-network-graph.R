@@ -8,7 +8,11 @@
 #'
 #' @param ... parameters passed to `oe_get_network()`
 #' @param simplify_highway logical, whether to simplify the highway values by removing the "_link" suffix and filtering by `highway_filter`
-#' @param highway_filter character vector of highway types to keep, if `simplify_highway` is TRUE
+#' @param highway_filter character vector of highway types to keep, if `simplify_highway` is TRUE.
+#' If not provided, all highway types returned by `oe_get_network` are kept. Valid values
+#' for `highway_filter` are: "busway", "cycleway", "footway", "living_street", "motorway",
+#' "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
+#' "steps", "tertiary", "track", "trunk" and "unclassified".
 #' @param directed logical, whether to return a directed sfnetwork object (default is FALSE)
 #'
 #' @returns a `sfnetwork` object
@@ -54,12 +58,15 @@ oe_get_sfnetwork <- function(
   ...,
   directed = FALSE,
   simplify_highway = TRUE,
-  highway_filter = NULL
+  highway_filter = NULL,
+  quiet = FALSE
 ) {
-  rlang::check_installed(
-    c("sfnetworks", "tidygraph"),
-    reason = "to use the `oe_get_sfnetwork()` function."
-  )
+  if (!requireNamespace("sfnetworks", quietly = TRUE)) {
+    stop("sfnetworks is not available. Please install it first")
+  }
+  if (!requireNamespace("tidygraph", quietly = TRUE)) {
+    stop("tidygraph is not available. Please install it first")
+  }
 
   if (!is.null(highway_filter)) {
     check_highway_filter(highway_filter)
@@ -71,14 +78,28 @@ oe_get_sfnetwork <- function(
     )
   }
 
-  net <- oe_get_tidynetwork(
-    ...,
-    simplify_highway = simplify_highway,
-    highway_filter = highway_filter
+  args <- list(...)
+
+  # Passing the quiet argument as one of the arguments of oe_get_tidynetwork
+  tidynet.args <- c(
+    args,
+    list(
+      quiet = quiet,
+      simplify_highway = simplify_highway,
+      highway_filter = highway_filter
+    )
   )
 
+  net <- do.call(oe_get_tidynetwork, tidynet.args)
+
   # Basic simplification using sfnetworks with the undirected graph
-  message("Starting basic network simplification...")
+
+  oe_message(
+    "Starting basic network pre-processing...",
+    quiet = quiet,
+    .subclass = "oe_get_sfnetwork_simplification"
+  )
+
   net <- net_2_sfnet_undirected(net)
 
   if (directed) {
@@ -194,6 +215,12 @@ oe_get_tidynetwork <- function(
     args$extra_tags <- min_tags
   }
 
+  if ("quiet" %in% names(args)) {
+    quiet <- args$quiet
+  } else {
+    quiet <- FALSE
+  }
+
   # Get network
   net <- do.call(oe_get_network, args)
 
@@ -203,7 +230,7 @@ oe_get_tidynetwork <- function(
   }
 
   # Tidy oneway
-  net <- tidy_oneway(net)
+  net <- tidy_oneway(net, quiet = quiet)
 
   net
 }
@@ -258,12 +285,12 @@ oe_get_tidynetwork <- function(
 #'
 oe_get_dodgrnetwork <- function(
   ...,
-  highway_filter = NULL
+  highway_filter = NULL,
+  quiet = FALSE
 ) {
-  rlang::check_installed(
-    c("sfnetworks", "tidygraph"),
-    reason = "to use the `oe_get_sfnetwork()` function."
-  )
+  if (!requireNamespace("dodgr", quietly = TRUE)) {
+    stop("dodgr is not available. Please install it first")
+  }
 
   if (!is.null(highway_filter)) {
     check_highway_filter(highway_filter)
@@ -280,7 +307,7 @@ oe_get_dodgrnetwork <- function(
   current.args <- all.args[!names(all.args) %in% c(dodgr.pars)]
 
   # Compile the arguments for the oe_get_tidynetwork function, including the highway_filter
-  tidynet.args <- list(highway_filter = highway_filter)
+  tidynet.args <- list(quiet = quiet, highway_filter = highway_filter)
   tidynet.args <- c(current.args, tidynet.args)
 
   # Calling the oe_get_tidynetwork function with the filtered arguments
@@ -333,7 +360,8 @@ tidy_highway <- function(net, highway_filter) {
 #' }
 tidy_oneway <- function(
   net_raw,
-  implied_oneway = TRUE
+  implied_oneway = TRUE,
+  quiet = FALSE
 ) {
   if (!is.logical(implied_oneway)) {
     stop(
@@ -354,7 +382,11 @@ tidy_oneway <- function(
   net_raw$oneway[net_raw$oneway == "-1"] <- "yes"
 
   if ("junction" %in% names(net_raw) && implied_oneway) {
-    message("The implied oneway restriction is applied.")
+    oe_message(
+      "The implied oneway restriction was applied",
+      quiet = quiet,
+      .subclass = "tidy_oneway_implied"
+    )
 
     net_raw$oneway[
       net_raw$junction %in% c("roundabout", "motorway") & net_raw$oneway == "no"

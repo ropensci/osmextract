@@ -8,7 +8,8 @@ oe_get_sfnetwork(
   ...,
   directed = FALSE,
   simplify_highway = TRUE,
-  highway_filter = NULL
+  highway_filter = NULL,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -18,7 +19,11 @@ oe_get_sfnetwork(
 
 \item{simplify_highway}{logical, whether to simplify the highway values by removing the "_link" suffix and filtering by \code{highway_filter}}
 
-\item{highway_filter}{character vector of highway types to keep, if \code{simplify_highway} is TRUE}
+\item{highway_filter}{character vector of highway types to keep, if \code{simplify_highway} is TRUE.
+If not provided, all highway types returned by \code{oe_get_network} are kept. Valid values
+for \code{highway_filter} are: "busway", "cycleway", "footway", "living_street", "motorway",
+"path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
+"steps", "tertiary", "track", "trunk" and "unclassified".}
 }
 \value{
 a \code{sfnetwork} object
