@@ -42,3 +42,6 @@ tidynet_sf_filtered <- oe_get_tidynetwork(
 print(tidynet_sf_filtered)
 
 }
+\seealso{
+\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}, \code{\link[=oe_get_dodgrnetwork]{oe_get_dodgrnetwork()}}
+}

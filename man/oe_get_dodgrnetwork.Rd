@@ -47,3 +47,6 @@ that returns a \verb{dodgr_streetnet`` object. It performs simplification of the
  )
 
 }
+\seealso{
+\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}
+}

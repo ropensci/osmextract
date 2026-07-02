@@ -24,10 +24,10 @@ oe_get_sfnetwork(
 a \code{sfnetwork} object
 }
 \description{
-This function is a wrapper around \code{oe_get_network()} that returns a sfnetwork object.
+This function is a wrapper around \code{oe_get_network()} that returns a \code{sfnetwork} object.
 It performs simplification of the highway values and filters by highway types if specified. Minimal
 network preprocessing tasks i.e. subdivision and smoothing are performed using \code{sfnetworks} to
-create a tidy sfnetwork object. All unique merged edge attributes are concatenated.
+create a tidy \code{sfnetwork} object. All unique merged edge attributes are concatenated.
 It also allows for the creation of directed or undirected networks.
 }
 \examples{
@@ -63,4 +63,7 @@ walk_sfnet <- oe_get_sfnetwork(
 )
 plot(walk_sfnet)
 
+}
+\seealso{
+\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_tidynetwork]{oe_get_tidynetwork()}}, \code{\link[=oe_get_dodgrnetwork]{oe_get_dodgrnetwork()}}
 }
