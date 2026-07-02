@@ -28,8 +28,7 @@ Imports:
     utils,
     tools,
     httr,
-    jsonlite,
-    rlang
+    jsonlite
 Suggests: 
     testthat (>= 3.0.2),
     knitr,
