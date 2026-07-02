@@ -128,3 +128,26 @@ test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects"
     expect_s3_class(undirected_net, "sfnetwork")
     expect_s3_class(directed_net, "sfnetwork")
 })
+
+test_that("oe_get_dodgrnetwork returns a dodgr_streetnet and applies highway filtering", {
+    withr::local_envvar(
+        .new = list(
+            "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+            "TESTTHAT" = "true"
+        )
+    )
+    its_pbf <- setup_pbf()
+
+    graph <- oe_get_dodgrnetwork(
+        "ITS Leeds",
+        mode = "driving",
+        wt_profile = "motorcar",
+        left_side = TRUE,
+        highway_filter = c("residential", "service"),
+        quiet = TRUE
+    )
+
+    expect_s3_class(graph, "dodgr_streetnet")
+    expect_true(all(na.omit(unique(graph$highway)) %in% c("residential", "service")))
+    expect_false(any(grepl("_link", graph$highway, fixed = TRUE)))
+})
