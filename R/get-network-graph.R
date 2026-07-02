@@ -51,10 +51,10 @@
 #'
 
 oe_get_sfnetwork <- function(
-    ...,
-    directed = FALSE,
-    simplify_highway = TRUE,
-    highway_filter = NULL
+  ...,
+  directed = FALSE,
+  simplify_highway = TRUE,
+  highway_filter = NULL
 ) {
   rlang::check_installed(
     c("sfnetworks", "tidygraph"),
@@ -65,7 +65,7 @@ oe_get_sfnetwork <- function(
     check_highway_filter(highway_filter)
   }
 
-  if (!is.logical(directed) && length(directed) != 1) {
+  if (!is.logical(directed) || length(directed) != 1) {
     stop(
       "The directed parameter must be a logical value (TRUE or FALSE)."
     )
@@ -170,11 +170,11 @@ prepare_directed <- function(sfnet_und) {
 #' print(tidynet_sf_filtered)
 #'
 oe_get_tidynetwork <- function(
-    ...,
-    simplify_highway = TRUE,
-    highway_filter = NULL
+  ...,
+  simplify_highway = TRUE,
+  highway_filter = NULL
 ) {
-  if (!is.logical(simplify_highway) && length(simplify_highway) != 1) {
+  if (!is.logical(simplify_highway) || length(simplify_highway) != 1) {
     stop(
       "The simplify_highway parameter must be a logical value (TRUE or FALSE)."
     )
@@ -257,8 +257,8 @@ oe_get_tidynetwork <- function(
 #'  )
 #'
 oe_get_dodgrnetwork <- function(
-    ...,
-    highway_filter = NULL
+  ...,
+  highway_filter = NULL
 ) {
   rlang::check_installed(
     c("sfnetworks", "tidygraph"),
@@ -300,16 +300,16 @@ oe_get_dodgrnetwork <- function(
 # This function simplifies the highway values by removing the "_link" suffix and filtering by `highway_filter` if specified.
 
 tidy_highway <- function(net, highway_filter) {
-    net$highway <- gsub(
-      pattern = "_link",
-      replacement = "",
-      x = net$highway
-    )
+  net$highway <- gsub(
+    pattern = "_link",
+    replacement = "",
+    x = net$highway
+  )
 
-    if (!is.null(highway_filter)) {
-      net <- net[net$highway %in% highway_filter, ]
-    }
-    net
+  if (!is.null(highway_filter)) {
+    net <- net[net$highway %in% highway_filter, ]
+  }
+  net
 }
 
 #' Tidy the oneway values in a osm network
@@ -332,8 +332,8 @@ tidy_highway <- function(net, highway_filter) {
 #' sf_net_tidy <- tidy_oneway(sf_net, implied_oneway = TRUE)
 #' }
 tidy_oneway <- function(
-    net_raw,
-    implied_oneway = TRUE
+  net_raw,
+  implied_oneway = TRUE
 ) {
   if (!is.logical(implied_oneway)) {
     stop(
@@ -399,4 +399,3 @@ check_highway_filter <- function(highway_filter) {
     several.ok = TRUE
   )
 }
-
