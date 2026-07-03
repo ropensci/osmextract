@@ -46,7 +46,7 @@ if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 }
 \value{
-a \code{sfnetwork} object
+A \code{sfnetwork} object
 }
 \description{
 This function is a wrapper around \code{oe_get_network()} that returns a \code{sfnetwork} object.

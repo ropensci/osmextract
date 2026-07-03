@@ -5,6 +5,7 @@
 #' network preprocessing tasks i.e. subdivision and smoothing are performed using `sfnetworks` to
 #' create a tidy `sfnetwork` object. All unique merged edge attributes are concatenated.
 #' It also allows for the creation of directed or undirected networks.
+#'
 #' @inheritParams oe_get_network
 #' @param simplify_highway logical, whether to simplify the highway values by removing the "_link" suffix and filtering by `highway_filter`
 #' @param highway_filter character vector of highway types to keep, if `simplify_highway` is TRUE.
@@ -13,9 +14,9 @@
 #' "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
 #' "steps", "tertiary", "track", "trunk" and "unclassified".
 #' @param directed logical, whether to return a directed sfnetwork object (default is FALSE)
-#' @inheritParams oe_get quiet
+#' @inheritParams oe_get
 #'
-#' @returns a `sfnetwork` object
+#' @returns A `sfnetwork` object
 #'
 #' @export
 #'
