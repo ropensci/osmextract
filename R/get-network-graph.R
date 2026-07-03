@@ -16,7 +16,7 @@
 #' @param directed logical, whether to return a directed sfnetwork object (default is FALSE)
 #' @inheritParams oe_get
 #'
-#' @returns A `sfnetwork` object
+#' @returns An `sfnetwork` object
 #'
 #' @export
 #'
