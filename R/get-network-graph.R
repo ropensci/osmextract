@@ -121,7 +121,7 @@ oe_get_sfnetwork <- function(
 #'
 #' @param net_sf a `sf` object representing a spatial network
 #'
-#' @returns a `sfnetwork` object
+#' @returns An `sfnetwork` object
 #'
 #' @examples
 #' \dontrun{
@@ -170,7 +170,7 @@ prepare_directed <- function(sfnet_und) {
 #'
 #' @inheritParams oe_get_sfnetwork
 #'
-#' @returns a `sf` object with standardised highway and oneway values
+#' @returns An `sf` object with standardised highway and oneway values
 #'
 #' @export
 #'
@@ -267,7 +267,7 @@ oe_get_tidynetwork <- function(
 #' @param highway_filter string vector of highway types to keep. By default, it includes "motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", and "residential".
 #' @inheritParams oe_get quiet
 #'
-#' @returns a `dodgr_streetnet` object
+#' @returns A `dodgr_streetnet` object
 #'
 #' @export
 #'
@@ -374,7 +374,7 @@ tidy_highway <- function(net, highway_filter) {
 #' @param implied_oneway logical, whether to apply the implied `oneway` restriction
 #' @param quiet logical, whether to suppress messages. Default is FALSE.
 #'
-#' @returns a `sf` object with standardised oneway values
+#' @returns An `sf` object with standardised oneway values
 #'
 #' @details For more information on the implied oneway restriction, see [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Key:oneway#Implied_oneway_restriction).
 #'
