@@ -9,7 +9,6 @@ oe_get_sfnetwork(
   mode = c("cycling", "driving", "walking"),
   ...,
   directed = FALSE,
-  simplify_highway = TRUE,
   highway_filter = NULL,
   quiet = FALSE
 )
@@ -31,11 +30,8 @@ and \code{walking} are supported.}
 
 \item{directed}{logical, whether to return a directed sfnetwork object (default is FALSE)}
 
-\item{simplify_highway}{logical, whether to simplify the highway values by removing the "_link" suffix and filtering by \code{highway_filter}}
-
-\item{highway_filter}{character vector of highway types to keep, if \code{simplify_highway} is TRUE.
-If not provided, all highway types returned by \code{oe_get_network} are kept. Valid values
-for \code{highway_filter} are: "busway", "cycleway", "footway", "living_street", "motorway",
+\item{highway_filter}{Character vector of highway types to keep. Ignored if clean_output is FALSE.
+Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",
 "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
 "steps", "tertiary", "track", "trunk" and "unclassified".}
 
@@ -46,7 +42,7 @@ if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 }
 \value{
-A \code{sfnetwork} object
+An \code{sfnetwork} object
 }
 \description{
 This function is a wrapper around \code{oe_get_network()} that returns a \code{sfnetwork} object.
@@ -90,5 +86,5 @@ plot(walk_sfnet)
 
 }
 \seealso{
-\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_tidynetwork]{oe_get_tidynetwork()}}, \code{\link[=oe_get_dodgrnetwork]{oe_get_dodgrnetwork()}}
+\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_dodgrnetwork]{oe_get_dodgrnetwork()}}
 }

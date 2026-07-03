@@ -10,14 +10,14 @@ net_2_sfnet_undirected(net_sf)
 \item{net_sf}{a \code{sf} object representing a spatial network}
 }
 \value{
-a \code{sfnetwork} object
+An \code{sfnetwork} object
 }
 \description{
 Convert a spatial network to an undirected sfnetwork
 }
 \examples{
 \dontrun{
-net_sf <- oe_get_tidynetwork(place = "ITS Leeds", mode = "driving")
+net_sf <- oe_get_network(place = "ITS Leeds", mode = "driving",clean_output = TRUE)
 
 sfnet_undirected <- net_2_sfnet_undirected(net_sf)
 }

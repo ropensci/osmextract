@@ -10,6 +10,29 @@ test_that("oe_get_network: simplest examples work", {
   expect_error(oe_get_network("ITS Leeds", quiet = TRUE), NA)
 })
 
+test_that("oe_get_network handles missing oneway when clean_output = TRUE", {
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  expect_message(
+    net <- oe_get_network(
+      "ITS Leeds",
+      mode = "walking",
+      clean_output = TRUE
+    ),
+    class = "tidy_oneway-missingColumn"
+  )
+
+  expect_s3_class(net, "sf")
+  expect_true("oneway" %in% names(net))
+  expect_true(all(net$oneway == "no"))
+})
+
 test_that("oe_get_network: -where clause has the same behaviour as the corresponding R code", {
   # See the discussion in #298 for more details about this test. The basic idea
   # is to test that the output of SQL code is the same as analogous R
@@ -20,28 +43,48 @@ test_that("oe_get_network: -where clause has the same behaviour as the correspon
       "TESTTHAT" = "true"
     )
   )
-  its_pbf <- setup_pbf()
+  its_pbf = setup_pbf()
 
-  its <- oe_read(its_pbf,
+  its = oe_read(
+    its_pbf,
     layer = "lines",
-    extra_tags = c("access", "service", "oneway"), quiet = TRUE
+    extra_tags = c("access", "service", "oneway"),
+    quiet = TRUE
   )
   # Replicate the SQL conditions for driving mode using regular R code
-  idx_R <- with(
+  idx_R = with(
     its,
     !is.na(highway) &
-    # NB: %in% automatically sets NA %in% ('bar') as FALSE
-    (is.na(highway) | highway %!in% c(
-      'abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
-      'fixme', 'escalator', 'gallop', 'historic', 'no', 'planned', 'platform',
-      'proposed', 'cycleway', 'pedestrian', 'bridleway', 'path', 'footway',
-      'steps'
-    )) &
-    (is.na(access) | access %!in% c('private', 'no')) &
-    (is.na(service) | !grepl('^private', service, ignore.case = TRUE))
+      # NB: %in% automatically sets NA %in% ('bar') as FALSE
+      (is.na(highway) |
+        highway %!in%
+          c(
+            'abandoned',
+            'bus_guideway',
+            'byway',
+            'construction',
+            'corridor',
+            'elevator',
+            'fixme',
+            'escalator',
+            'gallop',
+            'historic',
+            'no',
+            'planned',
+            'platform',
+            'proposed',
+            'cycleway',
+            'pedestrian',
+            'bridleway',
+            'path',
+            'footway',
+            'steps'
+          )) &
+      (is.na(access) | access %!in% c('private', 'no')) &
+      (is.na(service) | !grepl('^private', service, ignore.case = TRUE))
   )
 
-  its_driving <- oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
+  its_driving = oe_get_network("ITS Leeds", mode = "driving", quiet = TRUE)
   expect_true(nrow(its_driving) == sum(idx_R))
 })
 

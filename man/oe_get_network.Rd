@@ -4,7 +4,13 @@
 \alias{oe_get_network}
 \title{Import transport networks used by a specific mode of transport}
 \usage{
-oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
+oe_get_network(
+  place,
+  mode = c("cycling", "driving", "walking"),
+  ...,
+  clean_output = FALSE,
+  highway_filter = NULL
+)
 }
 \arguments{
 \item{place}{Description of the geographical area that should be matched with
@@ -20,6 +26,15 @@ and \code{walking} are supported.}
 
 \item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
 \code{force_download}.}
+
+\item{clean_output}{logical, whether to standardise \code{oneway}
+and simplify the highway values by removing the "_link" suffix.
+Also, if \code{highway_filter} is provided, only highways of the specified types will be kept.}
+
+\item{highway_filter}{Character vector of highway types to keep. Ignored if clean_output is FALSE.
+Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",
+"path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
+"steps", "tertiary", "track", "trunk" and "unclassified".}
 }
 \value{
 An \code{sf} object.

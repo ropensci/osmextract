@@ -9,6 +9,13 @@
 #' @param mode A character string of length one denoting the desired mode of
 #'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
 #'   and `walking` are supported.
+#' @param clean_output logical, whether to standardise `oneway`
+#' and simplify the highway values by removing the "_link" suffix.
+#' Also, if `highway_filter` is provided, only highways of the specified types will be kept.
+#' @param highway_filter Character vector of highway types to keep. Ignored if clean_output is FALSE.
+#' Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",
+#' "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
+#' "steps", "tertiary", "track", "trunk" and "unclassified".
 #' @param ... Additional arguments passed to [oe_get()] such as `boundary` or
 #'   `force_download`.
 #'
@@ -119,7 +126,9 @@
 oe_get_network = function(
   place,
   mode = c("cycling", "driving", "walking"),
-  ...
+  ...,
+  clean_output = FALSE,
+  highway_filter = NULL
 ) {
   # Load the relevant oe_get options
   mode = match.arg(mode)
@@ -130,12 +139,50 @@ oe_get_network = function(
     walking = load_options_walking(place)
   )
 
+  # Check the clean_output argument
+  if (!is.logical(clean_output) || length(clean_output) != 1) {
+    stop(
+      "The clean_output parameter must be a logical value (TRUE or FALSE)."
+    )
+  }
+
+  if (!is.null(highway_filter) && clean_output) {
+    check_highway_filter(highway_filter)
+  }
+
   # Check the other arguments supplied by the user
   dots_args = list(...)
   oe_get_options = check_args_network(dots_args, oe_get_options)
 
+  if ("quiet" %in% names(dots_args)) {
+    quiet = dots_args$quiet
+  } else {
+    quiet = FALSE
+  }
+
   # Run oe_get
-  do.call(oe_get, oe_get_options)
+  result = do.call(oe_get, oe_get_options)
+
+  # Trigger the cleaning of the output if requested by the user
+  if (clean_output) {
+    # Simplifies the highway values by removing the "_link" suffix
+    result = tidy_highway(result, highway_filter = highway_filter)
+
+    # Check if the oneway column is present, and if not,
+    # adds it with the default value "no"
+    if ("oneway" %in% names(result)) {
+      result = tidy_oneway(result, quiet = quiet)
+    } else {
+      oe_message(
+        "The 'oneway' column is missing. 'no' will be used as the default value.",
+        quiet = quiet,
+        .subclass = "tidy_oneway-missingColumn"
+      )
+      result$oneway = "no"
+    }
+  }
+
+  result
 }
 
 # The following functions are used to load several ad-hoc vectortranslate
@@ -162,9 +209,10 @@ load_options_cycling = function(place) {
   list(
     place = place,
     layer = "lines",
-    extra_tags = c("access", "bicycle", "service"),
+    extra_tags = c("access", "bicycle", "service", "oneway", "junction"),
     vectortranslate_options = c(
-    "-where", "
+      "-where",
+      "
     (highway IS NOT NULL)
     AND
     (highway IS NULL OR highway NOT IN (
@@ -195,7 +243,8 @@ load_options_walking = function(place) {
     layer = "lines",
     extra_tags = c("access", "foot", "service"),
     vectortranslate_options = c(
-    "-where", "
+      "-where",
+      "
     (highway IS NOT NULL)
     AND
     (highway IS NULL OR highway NOT IN ('abandoned', 'bus_guideway', 'byway', 'construction', 'corridor', 'elevator',
@@ -218,9 +267,10 @@ load_options_driving = function(place) {
   list(
     place = place,
     layer = "lines",
-    extra_tags = c("access", "service", "oneway", "motor_vehicle"),
+    extra_tags = c("access", "service", "oneway", "junction", "motor_vehicle"),
     vectortranslate_options = c(
-    "-where", "
+      "-where",
+      "
     (highway IS NOT NULL)
     AND
     (highway IS NULL OR highway NOT IN (
@@ -278,7 +328,8 @@ check_args_network = function(dots_args, oe_get_options) {
     }
     # Otherwise append the two vectors
     oe_get_options[["vectortranslate_options"]] = c(
-      oe_get_options[["vectortranslate_options"]], dots_args[["vectortranslate_options"]]
+      oe_get_options[["vectortranslate_options"]],
+      dots_args[["vectortranslate_options"]]
     )
 
     # Delete the value

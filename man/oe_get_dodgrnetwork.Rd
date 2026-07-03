@@ -35,7 +35,7 @@ if \code{quiet} is equal to \code{FALSE}, then vectortranslate operations will
 display a progress bar.}
 }
 \value{
-a \code{dodgr_streetnet} object
+A \code{dodgr_streetnet} object
 }
 \description{
 This function is a wrapper around \code{oe_get_network()}

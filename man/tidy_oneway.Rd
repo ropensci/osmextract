@@ -4,17 +4,15 @@
 \alias{tidy_oneway}
 \title{Tidy the oneway values in a osm network}
 \usage{
-tidy_oneway(net_raw, implied_oneway = TRUE, quiet = FALSE)
+tidy_oneway(net_raw, quiet = FALSE)
 }
 \arguments{
 \item{net_raw}{a \code{sf} object representing a spatial network with the \code{oneway} and \code{junction} columns}
 
-\item{implied_oneway}{logical, whether to apply the implied \code{oneway} restriction}
-
 \item{quiet}{logical, whether to suppress messages. Default is FALSE.}
 }
 \value{
-a \code{sf} object with standardised oneway values
+An \code{sf} object with standardised oneway values
 }
 \description{
 This helper function standardises the oneway values in a osm network.
@@ -27,6 +25,6 @@ For more information on the implied oneway restriction, see \href{https://wiki.o
 \examples{
 \dontrun{
 sf_net <- osmextract::oe_get_network(place = "ITS Leeds", mode = "driving")
-sf_net_tidy <- tidy_oneway(sf_net, implied_oneway = TRUE)
+sf_net_tidy <- tidy_oneway(sf_net)
 }
 }
