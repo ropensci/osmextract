@@ -91,6 +91,13 @@ oe_get_sfnetwork = function(
 
   net = net_2_sfnet_undirected(net)
 
+  if (directed && !"oneway" %in% names(net)) {
+    warning(
+      "The 'oneway' column is missing. 'directed' will be forced to FALSE and an undirected sfnetwork will be returned"
+    )
+    directed = FALSE
+  }
+
   if (directed) {
     # Prepare directed graph
     net = prepare_directed(net)
@@ -125,14 +132,21 @@ net_2_sfnet_undirected = function(net_sf) {
   sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision)
 
   # Simplifying the interstitial nodes segments keeping
-  # the oneway attribute and concatenating the other fields
-
-  tidygraph::convert(
-    sf_net_subdiv,
-    sfnetworks::to_spatial_smooth,
-    summarise_attributes = list(collapse_function),
-    require_equal = "oneway"
-  )
+  # the oneway attribute and concatenating the other fields (if oneway is present)
+  if ("oneway" %in% names(sf_net_subdiv)) {
+    tidygraph::convert(
+      sf_net_subdiv,
+      sfnetworks::to_spatial_smooth,
+      summarise_attributes = list(collapse_function),
+      require_equal = "oneway"
+    )
+  } else {
+    tidygraph::convert(
+      sf_net_subdiv,
+      sfnetworks::to_spatial_smooth,
+      summarise_attributes = list(collapse_function)
+    )
+  }
 }
 
 prepare_directed = function(sfnet_und) {
@@ -245,6 +259,12 @@ oe_get_dodgrnetwork = function(
   # Calling the dodgr::weight_streetnet function with the net and the remaining arguments
   dodgr_args = list(x = net)
   dodgr_args = c(dodgr_args, all.args[names(all.args) %in% dodgr.pars])
+
+  if (!"oneway" %in% names(net)) {
+    warning(
+      "The 'oneway' column is missing. All edges will be assumed to be bidirectional"
+    )
+  }
 
   # Returning the weighted_streetnetwork
   do.call(dodgr::weight_streetnet, dodgr_args)
