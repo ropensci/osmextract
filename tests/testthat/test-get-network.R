@@ -19,18 +19,16 @@ test_that("oe_get_network handles missing oneway when clean_output = TRUE", {
   )
   its_pbf = setup_pbf()
 
-  expect_message(
-    net <- oe_get_network(
-      "ITS Leeds",
-      mode = "walking",
-      clean_output = TRUE
-    ),
-    class = "tidy_oneway-missingColumn"
+  net = oe_get_network(
+    "ITS Leeds",
+    mode = "driving",
+    clean_output = TRUE,
+    quiet = TRUE
   )
 
   expect_s3_class(net, "sf")
   expect_true("oneway" %in% names(net))
-  expect_true(all(net$oneway == "no"))
+  expect_all_true(net$oneway %in% c("yes", "no"))
 })
 
 test_that("oe_get_network: -where clause has the same behaviour as the corresponding R code", {

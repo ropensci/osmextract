@@ -1,4 +1,4 @@
-test_that("tidy_highway strips _link suffix and filters values", {
+test_that("clean_highway strips _link suffix and filters values", {
   toy_net = sf::st_sf(
     highway = c("primary_link", "residential", "trunk_link"),
     oneway = c("yes", NA, "no"),
@@ -11,7 +11,7 @@ test_that("tidy_highway strips _link suffix and filters values", {
     )
   )
 
-  filtered_net = tidy_highway(
+  filtered_net = clean_highway(
     toy_net,
     highway_filter = c("primary", "residential")
   )
@@ -21,7 +21,7 @@ test_that("tidy_highway strips _link suffix and filters values", {
   expect_equal(nrow(filtered_net), 2L)
 })
 
-test_that("tidy_oneway standardises values and reverses -1 geometries", {
+test_that("clean_oneway standardises values and reverses -1 geometries", {
   toy_net = sf::st_sf(
     oneway = c(NA, "alternating", "reversible", "-1", "no"),
     junction = c("roundabout", NA, NA, NA, NA),
@@ -35,18 +35,18 @@ test_that("tidy_oneway standardises values and reverses -1 geometries", {
     )
   )
 
-  tidy_net = tidy_oneway(toy_net)
+  clean_net = clean_oneway(toy_net)
 
-  expect_identical(tidy_net$oneway, c("yes", "no", "no", "yes", "no"))
+  expect_identical(clean_net$oneway, c("yes", "no", "no", "yes", "no"))
 
-  reversed_coords = sf::st_coordinates(tidy_net$geometry[4])
+  reversed_coords = sf::st_coordinates(clean_net$geometry[4])
   expect_identical(
     unname(reversed_coords[, c("X", "Y")]),
     matrix(c(4, 0, 3, 0), ncol = 2, byrow = TRUE)
   )
 })
 
-test_that("tidy_oneway applies implied oneway only when junction column present", {
+test_that("clean_oneway applies implied oneway only when junction column present", {
   toy_with_junction = sf::st_sf(
     oneway = c(NA, "no"),
     junction = c("roundabout", NA),
@@ -67,10 +67,10 @@ test_that("tidy_oneway applies implied oneway only when junction column present"
   )
 
   expect_message(
-    out_with <- tidy_oneway(toy_with_junction, quiet = FALSE),
-    class = "tidy_oneway_implied"
+    out_with <- clean_oneway(toy_with_junction, quiet = FALSE),
+    class = "clean_oneway_implied"
   )
-  out_without = tidy_oneway(toy_without_junction, quiet = TRUE)
+  out_without = clean_oneway(toy_without_junction, quiet = TRUE)
 
   expect_identical(out_with$oneway, c("yes", "no"))
   expect_identical(out_without$oneway, c("no", "no"))
@@ -139,7 +139,7 @@ test_that("oe_get_sfnetwork returns an sfnetwork and validates directed", {
       directed = "yes",
       quiet = TRUE
     ),
-    "logical value"
+    "is.logical\\(directed\\) is not TRUE"
   )
 })
 
