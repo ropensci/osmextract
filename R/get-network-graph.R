@@ -61,11 +61,7 @@ oe_get_sfnetwork = function(
     check_highway_filter(highway_filter)
   }
 
-  if (!is.logical(directed) || length(directed) != 1) {
-    stop(
-      "The directed parameter must be a logical value (TRUE or FALSE)."
-    )
-  }
+  stopifnot(is.logical(directed), length(directed) == 1L)
 
   args = list(...)
 
@@ -260,6 +256,8 @@ oe_get_dodgrnetwork = function(
 # This function simplifies the highway values by removing the "_link" suffix and filtering by `highway_filter` if specified.
 
 clean_highway = function(net, highway_filter) {
+  stopifnot("highway" %in% names(net))
+
   net$highway = gsub(
     pattern = "_link",
     replacement = "",
