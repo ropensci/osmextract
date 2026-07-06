@@ -143,6 +143,28 @@ test_that("oe_get_sfnetwork returns an sfnetwork and validates directed", {
   )
 })
 
+test_that("oe_get_sfnetwork warns when oneway is missing", {
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  expect_warning(
+    sfnet <- oe_get_sfnetwork(
+      "ITS Leeds",
+      mode = "walking",
+      directed = TRUE,
+      quiet = TRUE
+    ),
+    regexp = "column is missing"
+  )
+
+  expect_s3_class(sfnet, "sfnetwork")
+})
+
 test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects", {
   skip_if_not_installed("sfnetworks")
   toy_net = sf::st_sf(
@@ -190,4 +212,26 @@ test_that("oe_get_dodgrnetwork returns a dodgr_streetnet and applies highway fil
     na.omit(unique(graph$highway)) %in% c("residential", "service")
   ))
   expect_false(any(grepl("_link", graph$highway, fixed = TRUE)))
+})
+
+test_that("oe_get_dodgrnetwork warns when oneway is missing", {
+  skip_if_not_installed("dodgr")
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  expect_warning(
+    graph <- oe_get_dodgrnetwork(
+      "ITS Leeds",
+      mode = "walking",
+      wt_profile = "foot"
+    ),
+    regexp = "column is missing"
+  )
+
+  expect_s3_class(graph, "dodgr_streetnet")
 })

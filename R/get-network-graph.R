@@ -93,7 +93,7 @@ oe_get_sfnetwork = function(
 
   if (directed && !"oneway" %in% names(net)) {
     warning(
-      "The 'oneway' column is missing. 'directed' will be forced to FALSE and an undirected sfnetwork will be returned"
+      "The \\'oneway\\' column is missing. 'directed' will be forced to FALSE and an undirected sfnetwork will be returned"
     )
     directed = FALSE
   }
@@ -262,7 +262,7 @@ oe_get_dodgrnetwork = function(
 
   if (!"oneway" %in% names(net)) {
     warning(
-      "The 'oneway' column is missing. All edges will be assumed to be bidirectional"
+      "The \\'oneway\\' column is missing. All edges will be assumed to be bidirectional"
     )
   }
 

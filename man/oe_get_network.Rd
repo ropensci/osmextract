@@ -27,9 +27,12 @@ and \code{walking} are supported.}
 \item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
 \code{force_download}.}
 
-\item{clean_output}{logical, whether to standardise \code{oneway}
-and simplify the highway values by removing the "_link" suffix.
-Also, if \code{highway_filter} is provided, only highways of the specified types will be kept.}
+\item{clean_output}{logical; whether to standardise \code{oneway} values
+and simplify the \code{highway} values by removing the "_link" suffix. Geometries
+of links where \code{oneway == -1} in the original data are reversed. If a \code{junction}
+column is present and its value is \code{"roundabout"} or \code{"motorway"}, the \code{oneway}
+attribute is automatically set to \code{"yes"}. Additionally, if a \code{highway_filter}
+is provided, only highways of the specified types are retained.}
 
 \item{highway_filter}{Character vector of highway types to keep. Ignored if clean_output is FALSE.
 Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",

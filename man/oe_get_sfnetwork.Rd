@@ -48,7 +48,7 @@ An \code{sfnetwork} object
 This function is a wrapper around \code{oe_get_network()} that returns a \code{sfnetwork} object.
 It performs simplification of the highway values and filters by highway types if specified. Minimal
 network preprocessing tasks i.e. subdivision and smoothing are performed using \code{sfnetworks} to
-create a tidy \code{sfnetwork} object. All unique merged edge attributes are concatenated.
+create a clean \code{sfnetwork} object. All unique merged edge attributes are concatenated.
 It also allows for the creation of directed or undirected networks.
 }
 \examples{
