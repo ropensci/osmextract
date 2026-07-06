@@ -9,9 +9,12 @@
 #' @param mode A character string of length one denoting the desired mode of
 #'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
 #'   and `walking` are supported.
-#' @param clean_output logical, whether to standardise `oneway`
-#' and simplify the highway values by removing the "_link" suffix.
-#' Also, if `highway_filter` is provided, only highways of the specified types will be kept.
+#' @param clean_output logical; whether to standardise `oneway` values
+#' and simplify the `highway` values by removing the "_link" suffix. Geometries
+#' of links where `oneway == -1` in the original data are reversed. If a `junction`
+#' column is present and its value is `"roundabout"` or `"motorway"`, the `oneway`
+#' attribute is automatically set to `"yes"`. Additionally, if a `highway_filter`
+#' is provided, only highways of the specified types are retained.
 #' @param highway_filter Character vector of highway types to keep. Ignored if clean_output is FALSE.
 #' Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",
 #' "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
