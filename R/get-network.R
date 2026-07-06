@@ -169,7 +169,7 @@ oe_get_network = function(
   # Trigger the cleaning of the output if requested by the user
   if (clean_output) {
     # Simplifies the highway values by removing the "_link" suffix
-    result = tidy_highway(result, highway_filter = highway_filter)
+    result = clean_highway(result, highway_filter = highway_filter)
 
     # Check if the oneway column is present, and if not,
     # adds it with the default value "no"

@@ -3,7 +3,7 @@
 #' This function is a wrapper around `oe_get_network()` that returns a `sfnetwork` object.
 #' It performs simplification of the highway values and filters by highway types if specified. Minimal
 #' network preprocessing tasks i.e. subdivision and smoothing are performed using `sfnetworks` to
-#' create a tidy `sfnetwork` object. All unique merged edge attributes are concatenated.
+#' create a clean `sfnetwork` object. All unique merged edge attributes are concatenated.
 #' It also allows for the creation of directed or undirected networks.
 #'
 #' @inheritParams oe_get_network
@@ -70,7 +70,7 @@ oe_get_sfnetwork = function(
   args = list(...)
 
   # Passing the quiet argument as one of the arguments of oe_get_network
-  tidynet.args = c(
+  cleannetargs = c(
     list(
       place = place,
       mode = mode
@@ -83,7 +83,7 @@ oe_get_sfnetwork = function(
     )
   )
 
-  net = do.call(oe_get_network, tidynet.args)
+  net = do.call(oe_get_network, cleannetargs)
 
   # Basic simplification using sfnetworks with the undirected graph
 
@@ -234,17 +234,17 @@ oe_get_dodgrnetwork = function(
   current.args = all.args[!names(all.args) %in% c(dodgr.pars)]
 
   # Compile the arguments for the oe_get_network function, including the highway_filter
-  tidynet.args = list(
+  cleannetargs = list(
     place = place,
     mode = mode,
     quiet = quiet,
     clean_output = TRUE,
     highway_filter = highway_filter
   )
-  tidynet.args = c(tidynet.args, current.args)
+  cleannetargs = c(cleannetargs, current.args)
 
   # Calling the oe_get_network function with the filtered arguments
-  net = do.call(oe_get_network, tidynet.args)
+  net = do.call(oe_get_network, cleannetargs)
 
   # Calling the dodgr::weight_streetnet function with the net and the remaining arguments
   dodgr_args = list(x = net)
@@ -259,7 +259,7 @@ oe_get_dodgrnetwork = function(
 
 # This function simplifies the highway values by removing the "_link" suffix and filtering by `highway_filter` if specified.
 
-tidy_highway = function(net, highway_filter) {
+clean_highway = function(net, highway_filter) {
   net$highway = gsub(
     pattern = "_link",
     replacement = "",
@@ -272,7 +272,7 @@ tidy_highway = function(net, highway_filter) {
   net
 }
 
-#' Tidy the oneway values in a osm network
+#' Clean the oneway values in a osm network
 #'
 #' This helper function standardises the oneway values in a osm network.
 #' It also applies the implied `oneway` tag restriction based on the `junction`
@@ -289,7 +289,7 @@ tidy_highway = function(net, highway_filter) {
 #' @examples
 #' \dontrun{
 #' sf_net <- osmextract::oe_get_network(place = "ITS Leeds", mode = "driving")
-#' sf_net_tidy <- clean_oneway(sf_net)
+#' sf_net_clean <- clean_oneway(sf_net)
 #' }
 clean_oneway = function(
   net_raw,
