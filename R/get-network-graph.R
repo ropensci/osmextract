@@ -295,6 +295,18 @@ clean_oneway = function(
   net_raw,
   quiet = FALSE
 ) {
+  if ("junction" %in% names(net_raw)) {
+    oe_message(
+      "The implied oneway restriction was applied based on the junction column values.",
+      quiet = quiet,
+      .subclass = "clean_oneway_implied"
+    )
+
+    net_raw$oneway[
+      net_raw$junction == "roundabout" & is.na(net_raw$oneway)
+    ] = "yes"
+  }
+
   # Simplifying the bi-directional tags
   net_raw$oneway[
     is.na(net_raw$oneway) | net_raw$oneway %in% c("alternating", "reversible")
@@ -306,18 +318,6 @@ clean_oneway = function(
   ]) = sf::st_reverse(sf::st_geometry(net_raw[net_raw$oneway == "-1", ]))
 
   net_raw$oneway[net_raw$oneway == "-1"] = "yes"
-
-  if ("junction" %in% names(net_raw)) {
-    oe_message(
-      "The implied oneway restriction was applied based on the junction column values.",
-      quiet = quiet,
-      .subclass = "clean_oneway_implied"
-    )
-
-    net_raw$oneway[
-      net_raw$junction %in% c("roundabout", "motorway") & net_raw$oneway == "no"
-    ] = "yes"
-  }
 
   net_raw
 }
