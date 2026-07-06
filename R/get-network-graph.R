@@ -165,8 +165,13 @@ prepare_directed = function(sfnet_und) {
   net_rev = sf::st_reverse(net_raw[net_raw$oneway == "no", ])
 
   # Binding the duplicated geometries
-  rbind(net_rev, net_raw) |>
-    sfnetworks::as_sfnetwork(directed = TRUE)
+  if (requireNamespace("dplyr", quietly = TRUE)) {
+    dplyr::bind_rows(net_rev, net_raw) |>
+      sfnetworks::as_sfnetwork(directed = TRUE)
+  } else {
+    rbind(net_rev, net_raw) |>
+      sfnetworks::as_sfnetwork(directed = TRUE)
+  }
 }
 
 
