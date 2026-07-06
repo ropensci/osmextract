@@ -57,13 +57,6 @@ oe_get_sfnetwork = function(
   highway_filter = NULL,
   quiet = FALSE
 ) {
-  if (!requireNamespace("sfnetworks", quietly = TRUE)) {
-    stop("sfnetworks is not available. Please install it first")
-  }
-  if (!requireNamespace("tidygraph", quietly = TRUE)) {
-    stop("tidygraph is not available. Please install it first")
-  }
-
   if (!is.null(highway_filter)) {
     check_highway_filter(highway_filter)
   }
@@ -123,6 +116,9 @@ oe_get_sfnetwork = function(
 #' sfnet_undirected <- net_2_sfnet_undirected(net_sf)
 #' }
 net_2_sfnet_undirected = function(net_sf) {
+  if (!requireNamespace("sfnetworks", quietly = TRUE)) {
+    stop("sfnetworks is not available. Please install it first")
+  }
   sfnet = sfnetworks::as_sfnetwork(
     x = net_sf,
     directed = FALSE
@@ -144,6 +140,10 @@ net_2_sfnet_undirected = function(net_sf) {
 }
 
 prepare_directed = function(sfnet_und) {
+  if (!requireNamespace("sfnetworks", quietly = TRUE)) {
+    stop("sfnetworks is not available. Please install it first")
+  }
+
   net_raw = sfnetworks::activate(sfnet_und, "edges") |>
     sf::st_as_sf()
 
@@ -289,9 +289,9 @@ tidy_highway = function(net, highway_filter) {
 #' @examples
 #' \dontrun{
 #' sf_net <- osmextract::oe_get_network(place = "ITS Leeds", mode = "driving")
-#' sf_net_tidy <- tidy_oneway(sf_net)
+#' sf_net_tidy <- clean_oneway(sf_net)
 #' }
-tidy_oneway = function(
+clean_oneway = function(
   net_raw,
   quiet = FALSE
 ) {
@@ -311,7 +311,7 @@ tidy_oneway = function(
     oe_message(
       "The implied oneway restriction was applied based on the junction column values.",
       quiet = quiet,
-      .subclass = "tidy_oneway_implied"
+      .subclass = "clean_oneway_implied"
     )
 
     net_raw$oneway[

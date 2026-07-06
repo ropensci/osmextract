@@ -174,12 +174,12 @@ oe_get_network = function(
     # Check if the oneway column is present, and if not,
     # adds it with the default value "no"
     if ("oneway" %in% names(result)) {
-      result = tidy_oneway(result, quiet = quiet)
+      result = clean_oneway(result, quiet = quiet)
     } else {
       oe_message(
         "The 'oneway' column is missing. 'no' will be used as the default value.",
         quiet = quiet,
-        .subclass = "tidy_oneway-missingColumn"
+        .subclass = "clean_oneway-missingColumn"
       )
       result$oneway = "no"
     }
