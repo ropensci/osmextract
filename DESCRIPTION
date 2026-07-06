@@ -39,7 +39,8 @@ Suggests:
     withr,
     dodgr,
     sfnetworks,
-    tidygraph
+    tidygraph,
+    dplyr
 VignetteBuilder: knitr
 Language: en-GB
 Config/testthat/edition: 3
