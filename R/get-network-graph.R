@@ -84,7 +84,7 @@ oe_get_sfnetwork = function(
   # Basic simplification using sfnetworks with the undirected graph
 
   oe_message(
-    "Starting basic network pre-processing...",
+    "Starting basic network pre-processing. This can take a few minutes for large networks...",
     quiet = quiet,
     .subclass = "oe_get_sfnetwork_simplification"
   )
