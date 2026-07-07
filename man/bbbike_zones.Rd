@@ -37,7 +37,7 @@ An \code{sf} object containing the URLs, names, and file_size of the OSM extract
 stored at \url{https://download.bbbike.org/osm/bbbike/}.
 }
 \seealso{
-Other provider's-database: 
+Other provider's-database:
 \code{\link{geofabrik_zones}},
 \code{\link{openstreetmap_fr_zones}}
 }
