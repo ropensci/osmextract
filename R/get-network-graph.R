@@ -3,14 +3,29 @@
 #' This function is a wrapper around `oe_get_network()` that returns a `sfnetwork` object.
 #' It performs simplification of the highway values and filters by highway types if specified. Minimal
 #' network preprocessing tasks i.e. subdivision and smoothing are performed using `sfnetworks` to
-#' create a clean `sfnetwork` object. All unique merged edge attributes are concatenated.
+#' create a clean `sfnetwork` object.
 #' It also allows for the creation of directed or undirected networks.
 #'
 #' @inheritParams oe_get_network
 #' @param directed logical, whether to return a directed sfnetwork object (default is FALSE)
+#' @param require_equal logical or character vector. Defaults to TRUE. If TRUE, only pseudo nodes that
+#' have incident edges with equal attribute values are removed. Alternatively, a character vector with
+#' the names of the attributes to check for equality can be provided. In that case, only those attributes
+#' are checked for equality. If FALSE, all pseudo nodes are removed regardless of attribute values.
+#' All other attributes are collapsed separated by a comma.
 #' @inheritParams oe_get
 #'
 #' @returns An `sfnetwork` object
+#'
+#' @details
+#' Note that preprocessing is performed on the undirected graph, ignoring
+#' road directionality. See the documentation for `sfnetworks` for more details on
+#' the two preprocessing steps: [subdividing edges](https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#subdivide-edges)
+#' and [smoothing pseudo-nodes](https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#smooth-pseudo-nodes).
+#' If `directed = TRUE`, the function then builds the directed graph by
+#' duplicating bidirectional edges with reversed geometries. If the `oneway`
+#' column is missing, a warning is issued and an undirected `sfnetwork` is
+#' returned instead.
 #'
 #' @export
 #'
@@ -41,6 +56,14 @@
 #'   highway_filter = highway_filter
 #' )
 #'
+#' car_sfnet_filtered_2 <- oe_get_sfnetwork(
+#'   place = "ITS Leeds",
+#'   mode = "driving",
+#'   directed = TRUE,
+#'   highway_filter = highway_filter,
+#'   require_equal = c("highway", "oneway")
+#' )
+#'
 #' # sfnet_undirected filtered
 #' walk_sfnet <- oe_get_sfnetwork(
 #'   place = "ITS Leeds",
@@ -53,6 +76,7 @@ oe_get_sfnetwork = function(
   place,
   mode = c("cycling", "driving", "walking"),
   ...,
+  require_equal = TRUE,
   directed = FALSE,
   highway_filter = NULL,
   quiet = FALSE
@@ -89,9 +113,9 @@ oe_get_sfnetwork = function(
     .subclass = "oe_get_sfnetwork_simplification"
   )
 
-  net = net_2_sfnet_undirected(net)
+  net = net_2_sfnet_undirected(net, require_equal = require_equal)
 
-  if (directed && !"oneway" %in% names(net)) {
+  if (directed && !"oneway" %in% names(tidygraph::as_tibble(net, "edges"))) {
     warning(
       "The \\'oneway\\' column is missing. 'directed' will be forced to FALSE and an undirected sfnetwork will be returned"
     )
@@ -118,10 +142,16 @@ oe_get_sfnetwork = function(
 #'
 #' sfnet_undirected <- net_2_sfnet_undirected(net_sf)
 #' }
-net_2_sfnet_undirected = function(net_sf) {
+net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
   if (!requireNamespace("sfnetworks", quietly = TRUE)) {
     stop("sfnetworks is not available. Please install it first")
   }
+
+  stopifnot(
+    (is.logical(require_equal) && length(require_equal) == 1L) ||
+      (is.character(require_equal) && all(require_equal %in% names(net_sf)))
+  )
+
   sfnet = sfnetworks::as_sfnetwork(
     x = net_sf,
     directed = FALSE
@@ -133,20 +163,13 @@ net_2_sfnet_undirected = function(net_sf) {
 
   # Simplifying the interstitial nodes segments keeping
   # the oneway attribute and concatenating the other fields (if oneway is present)
-  if ("oneway" %in% names(sf_net_subdiv)) {
-    tidygraph::convert(
-      sf_net_subdiv,
-      sfnetworks::to_spatial_smooth,
-      summarise_attributes = list(collapse_function),
-      require_equal = "oneway"
-    )
-  } else {
-    tidygraph::convert(
-      sf_net_subdiv,
-      sfnetworks::to_spatial_smooth,
-      summarise_attributes = list(collapse_function)
-    )
-  }
+
+  tidygraph::convert(
+    sf_net_subdiv,
+    sfnetworks::to_spatial_smooth,
+    summarise_attributes = list(collapse_function),
+    require_equal = require_equal
+  )
 }
 
 prepare_directed = function(sfnet_und) {

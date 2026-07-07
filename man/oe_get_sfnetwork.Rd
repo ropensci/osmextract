@@ -8,6 +8,7 @@ oe_get_sfnetwork(
   place,
   mode = c("cycling", "driving", "walking"),
   ...,
+  require_equal = TRUE,
   directed = FALSE,
   highway_filter = NULL,
   quiet = FALSE
@@ -27,6 +28,12 @@ and \code{walking} are supported.}
 
 \item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
 \code{force_download}.}
+
+\item{require_equal}{logical or character vector. Defaults to TRUE. If TRUE, only pseudo nodes that
+have incident edges with equal attribute values are removed. Alternatively, a character vector with
+the names of the attributes to check for equality can be provided. In that case, only those attributes
+are checked for equality. If FALSE, all pseudo nodes are removed regardless of attribute values.
+All other attributes are collapsed separated by a comma.}
 
 \item{directed}{logical, whether to return a directed sfnetwork object (default is FALSE)}
 
@@ -48,8 +55,18 @@ An \code{sfnetwork} object
 This function is a wrapper around \code{oe_get_network()} that returns a \code{sfnetwork} object.
 It performs simplification of the highway values and filters by highway types if specified. Minimal
 network preprocessing tasks i.e. subdivision and smoothing are performed using \code{sfnetworks} to
-create a clean \code{sfnetwork} object. All unique merged edge attributes are concatenated.
+create a clean \code{sfnetwork} object.
 It also allows for the creation of directed or undirected networks.
+}
+\details{
+Note that preprocessing is performed on the undirected graph, ignoring
+road directionality. See the documentation for \code{sfnetworks} for more details on
+the two preprocessing steps: \href{https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#subdivide-edges}{subdividing edges}
+and \href{https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#smooth-pseudo-nodes}{smoothing pseudo-nodes}.
+If \code{directed = TRUE}, the function then builds the directed graph by
+duplicating bidirectional edges with reversed geometries. If the \code{oneway}
+column is missing, a warning is issued and an undirected \code{sfnetwork} is
+returned instead.
 }
 \examples{
 highway_filter = c(
@@ -75,6 +92,14 @@ car_sfnet_filtered <- oe_get_sfnetwork(
   mode = "driving",
   directed = TRUE,
   highway_filter = highway_filter
+)
+
+car_sfnet_filtered_2 <- oe_get_sfnetwork(
+  place = "ITS Leeds",
+  mode = "driving",
+  directed = TRUE,
+  highway_filter = highway_filter,
+  require_equal = c("highway", "oneway")
 )
 
 # sfnet_undirected filtered

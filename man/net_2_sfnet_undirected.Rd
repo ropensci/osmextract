@@ -4,7 +4,7 @@
 \alias{net_2_sfnet_undirected}
 \title{Convert a spatial network to an undirected sfnetwork}
 \usage{
-net_2_sfnet_undirected(net_sf)
+net_2_sfnet_undirected(net_sf, require_equal = TRUE)
 }
 \arguments{
 \item{net_sf}{a \code{sf} object representing a spatial network}

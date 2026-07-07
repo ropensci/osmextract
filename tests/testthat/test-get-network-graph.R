@@ -235,3 +235,32 @@ test_that("oe_get_dodgrnetwork warns when oneway is missing", {
 
   expect_s3_class(graph, "dodgr_streetnet")
 })
+
+test_that("oe_get_sfnetwork validates and respects require_equal parameter", {
+  skip_if_not_installed("sfnetworks")
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  # Test parameter validation
+  expect_error(
+    oe_get_sfnetwork(
+      "ITS Leeds",
+      mode = "driving",
+      require_equal = 123,
+      quiet = TRUE
+    )
+  )
+  expect_error(
+    oe_get_sfnetwork(
+      "ITS Leeds",
+      mode = "driving",
+      require_equal = "invalid_attribute",
+      quiet = TRUE
+    )
+  )
+})
