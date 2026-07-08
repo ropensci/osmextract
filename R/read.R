@@ -185,8 +185,7 @@ oe_read = function(
         ),
         collapse = " - "
       ),
-      call. = FALSE,
-      immediate. = TRUE
+      call. = FALSE
     )
   }
 
