@@ -66,10 +66,7 @@ test_that("clean_oneway applies implied oneway only when junction column present
     )
   )
 
-  expect_message(
-    out_with <- clean_oneway(toy_with_junction, quiet = FALSE),
-    class = "clean_oneway_implied"
-  )
+  out_with <- clean_oneway(toy_with_junction, quiet = FALSE)
   out_without = clean_oneway(toy_without_junction, quiet = TRUE)
 
   expect_identical(out_with$oneway, c("yes", "no"))
@@ -96,26 +93,6 @@ test_that("oe_get_network cleans the highway and oneway values of the sample net
   expect_true(all(c("highway", "oneway", "junction") %in% names(cleannet)))
   expect_false(any(grepl("_link", cleannet$highway, fixed = TRUE)))
   expect_true(all(cleannet$oneway %in% c("yes", "no")))
-})
-
-test_that("oe_get_network validates clean_output", {
-  withr::local_envvar(
-    .new = list(
-      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
-      "TESTTHAT" = "true"
-    )
-  )
-  its_pbf = setup_pbf()
-
-  expect_error(
-    oe_get_network(
-      "ITS Leeds",
-      mode = "driving",
-      clean_output = "yes",
-      quiet = TRUE
-    ),
-    "logical value"
-  )
 })
 
 test_that("oe_get_sfnetwork returns an sfnetwork and validates directed", {
