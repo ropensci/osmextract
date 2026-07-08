@@ -32,7 +32,7 @@ Imports:
     httr,
     jsonlite
 Suggests: 
-    testthat (>= 3.0.2),
+    testthat (>= 3.3.0),
     knitr,
     rmarkdown,
     covr,
