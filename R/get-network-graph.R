@@ -371,7 +371,7 @@ clean_highway = function(net, highway_filter) {
 #' values if specified and substitutes remaining `NA` values as `"no"`. See
 #' Details.
 #'
-#' @param net_raw a `sf` object representing a spatial network with the `oneway`
+#' @param x a `sf` object representing a spatial network with the `oneway`
 #'   and `junction` columns
 #' @param quiet logical, whether to suppress messages. Default is `FALSE`.
 #'

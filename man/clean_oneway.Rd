@@ -7,10 +7,10 @@
 clean_oneway(x, quiet = FALSE)
 }
 \arguments{
-\item{quiet}{logical, whether to suppress messages. Default is \code{FALSE}.}
-
-\item{net_raw}{a \code{sf} object representing a spatial network with the \code{oneway}
+\item{x}{a \code{sf} object representing a spatial network with the \code{oneway}
 and \code{junction} columns}
+
+\item{quiet}{logical, whether to suppress messages. Default is \code{FALSE}.}
 }
 \value{
 An \code{sf} object with standardised oneway values
