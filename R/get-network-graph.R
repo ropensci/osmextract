@@ -375,6 +375,7 @@ clean_highway = function(net, highway_filter) {
 #'   and `junction` columns
 #' @param quiet logical, whether to suppress messages. Default is `FALSE`.
 #'
+#' @export
 #' @returns An `sf` object with standardised oneway values
 #'
 #' @details According to the information reported at
