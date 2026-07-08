@@ -2,29 +2,62 @@
 % Please edit documentation in R/get-network-graph.R
 \name{clean_oneway}
 \alias{clean_oneway}
-\title{Clean the oneway values in a osm network}
+\title{Clean the oneway values in a OSM network}
 \usage{
-clean_oneway(net_raw, quiet = FALSE)
+clean_oneway(x, quiet = FALSE)
 }
 \arguments{
-\item{net_raw}{a \code{sf} object representing a spatial network with the \code{oneway} and \code{junction} columns}
+\item{quiet}{logical, whether to suppress messages. Default is \code{FALSE}.}
 
-\item{quiet}{logical, whether to suppress messages. Default is FALSE.}
+\item{net_raw}{a \code{sf} object representing a spatial network with the \code{oneway}
+and \code{junction} columns}
 }
 \value{
 An \code{sf} object with standardised oneway values
 }
 \description{
-This helper function standardises the oneway values in a osm network.
-It also applies the implied \code{oneway} tag restriction based on the \code{junction}
-tag values if specified.
+This helper function standardises the oneway values in a OSM network. It also
+applies a few implied \code{oneway} tag restriction based on the \code{junction} tag
+values if specified and substitutes remaining \code{NA} values as \code{"no"}. See
+Details.
 }
 \details{
-For more information on the implied oneway restriction, see \href{https://wiki.openstreetmap.org/wiki/Key:oneway#Implied_oneway_restriction}{wiki.openstreetmap.org}.
+According to the information reported at
+\href{https://wiki.openstreetmap.org/wiki/Key:oneway#Implied_oneway_restriction}{wiki.openstreetmap.org},
+the \code{oneway} key can only assume one out of 5 possible values: \code{"yes"},
+\code{"no"}, \code{"-1"}, \code{"reversible"}, and \code{"alternating"}. However, the oneway
+tag is optional and typically missing. Hence, the objective of this
+function is to replace the \code{NA} values whenever possible using contextual
+information.
+
+In fact, there are tags or combination of tags (such as
+junction='roundabout') which imply \code{oneway='yes'}. This function tests such
+combination and converts the NA values into 'yes'.
+
+Then, the \code{oneway='-1'} values (which indicate wrong-way roads) are fixed
+by reversing the geometry of the lines and setting the road as oneway.
+
+Finally, the remaining NA values are set as \code{oneway='no'}. For simplicity,
+even the \code{oneway='reversible'} and \code{oneway='alternating'} are converted
+into \code{oneway='no'}.
 }
 \examples{
-\dontrun{
-sf_net <- osmextract::oe_get_network(place = "ITS Leeds", mode = "driving")
-sf_net_clean <- clean_oneway(sf_net)
-}
+# Copy the ITS file to tempdir() to make sure that the examples do not
+# require internet connection. You can skip the next 4 lines (and start
+# directly with oe_get_keys) when running the examples locally.
+its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"),
+  to = its_pbf,
+  overwrite = TRUE
+)
+roads <- oe_get_network(
+  place = "ITS Leeds",
+  mode = "driving",
+  download_directory = tempdir(),
+  quiet = TRUE
+)
+table(roads$oneway, useNA = "ifany")
+roads_clean <- clean_oneway(roads)
+table(roads_clean$oneway, useNA = "ifany")
 }

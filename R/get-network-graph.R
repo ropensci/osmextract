@@ -134,12 +134,12 @@ oe_get_sfnetwork = function(
   )
   net = net_2_sfnet_undirected(net, require_equal = require_equal)
 
-  if (directed && !"oneway" %in% names(tidygraph::as_tibble(net, "edges"))) {
+  if (directed && "oneway" %!in% names(tidygraph::as_tibble(net, "edges"))) {
     warning(
       paste(
-      "The", sQuote("oneway"), "column is missing.",
-      sQuote("directed"),
-      "will be forced to FALSE and an undirected sfnetwork will be returned"
+        "The", sQuote("oneway"), "column is missing.",
+        sQuote("directed"),
+        "will be forced to FALSE and an undirected sfnetwork will be returned"
       )
     )
     directed = FALSE
@@ -222,7 +222,6 @@ prepare_directed = function(sfnet_und) {
       sfnetworks::as_sfnetwork(directed = TRUE)
   }
 }
-
 
 #' Obtain a weighted_streetnet from OpenStreetMap data
 #'
@@ -327,8 +326,8 @@ oe_get_dodgrnetwork = function(
 
 ## Utils
 
-# This function simplifies the highway values by removing the "_link" suffix and filtering by `highway_filter` if specified.
-
+# This function simplifies the highway values by removing the "_link" suffix and
+# filtering by `highway_filter` if specified.
 clean_highway = function(net, highway_filter) {
   stopifnot("highway" %in% names(net))
 
@@ -344,54 +343,77 @@ clean_highway = function(net, highway_filter) {
   net
 }
 
-#' Clean the oneway values in a osm network
+#' Clean the oneway values in a OSM network
 #'
-#' This helper function standardises the oneway values in a osm network.
-#' It also applies the implied `oneway` tag restriction based on the `junction`
-#' tag values if specified.
+#' This helper function standardises the oneway values in a OSM network. It also
+#' applies a few implied `oneway` tag restriction based on the `junction` tag
+#' values if specified and substitutes remaining `NA` values as `"no"`. See
+#' Details.
 #'
-#' @param net_raw a `sf` object representing a spatial network with the `oneway` and `junction` columns
-#' @param quiet logical, whether to suppress messages. Default is FALSE.
+#' @param net_raw a `sf` object representing a spatial network with the `oneway`
+#'   and `junction` columns
+#' @param quiet logical, whether to suppress messages. Default is `FALSE`.
 #'
 #' @returns An `sf` object with standardised oneway values
 #'
-#' @details For more information on the implied oneway restriction, see [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Key:oneway#Implied_oneway_restriction).
+#' @details According to the information reported at
+#'   [wiki.openstreetmap.org](https://wiki.openstreetmap.org/wiki/Key:oneway#Implied_oneway_restriction),
+#'   the `oneway` key can only assume one out of 5 possible values: `"yes"`,
+#'   `"no"`, `"-1"`, `"reversible"`, and `"alternating"`. However, the oneway
+#'   tag is optional and typically missing. Hence, the objective of this
+#'   function is to replace the `NA` values whenever possible using contextual
+#'   information.
 #'
+#'   In fact, there are tags or combination of tags (such as
+#'   junction='roundabout') which imply `oneway='yes'`. This function tests such
+#'   combination and converts the NA values into 'yes'.
+#'
+#'   Then, the `oneway='-1'` values (which indicate wrong-way roads) are fixed
+#'   by reversing the geometry of the lines and setting the road as oneway.
+#'
+#'   Finally, the remaining NA values are set as `oneway='no'`. For simplicity,
+#'   even the `oneway='reversible'` and `oneway='alternating'` are converted
+#'   into `oneway='no'`.
 #'
 #' @examples
-#' \dontrun{
-#' sf_net <- osmextract::oe_get_network(place = "ITS Leeds", mode = "driving")
-#' sf_net_clean <- clean_oneway(sf_net)
-#' }
-clean_oneway = function(
-  net_raw,
-  quiet = FALSE
-) {
-  if ("junction" %in% names(net_raw)) {
-    oe_message(
-      "The implied oneway restriction was applied based on the junction column values.",
-      quiet = quiet,
-      .subclass = "clean_oneway_implied"
-    )
+#' # Copy the ITS file to tempdir() to make sure that the examples do not
+#' # require internet connection. You can skip the next 4 lines (and start
+#' # directly with oe_get_keys) when running the examples locally.
+#' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+#' file.copy(
+#'   from = system.file("its-example.osm.pbf", package = "osmextract"),
+#'   to = its_pbf,
+#'   overwrite = TRUE
+#' )
+#' roads <- oe_get_network(
+#'   place = "ITS Leeds",
+#'   mode = "driving",
+#'   download_directory = tempdir(),
+#'   quiet = TRUE
+#' )
+#' table(roads$oneway, useNA = "ifany")
+#' roads_clean <- clean_oneway(roads)
+#' table(roads_clean$oneway, useNA = "ifany")
+clean_oneway = function(x, quiet = FALSE) {
+  stopifnot("oneway" %in% names(x))
 
-    net_raw$oneway[
-      net_raw$junction == "roundabout" & is.na(net_raw$oneway)
-    ] = "yes"
+  if ("junction" %in% names(x)) {
+    idx_roundabout <- !is.na(x[["junction"]]) & x[["junction"]] == "roundabout" & is.na(x[["oneway"]])
+    x[["oneway"]][idx_roundabout] = "yes"
   }
 
+  # Reversing the geometries with -1
+  idx_m1 <- !is.na(x[["oneway"]]) & x[["oneway"]] == "-1"
+  sf::st_geometry(x[idx_m1, ]) = sf::st_reverse(sf::st_geometry(x[idx_m1, ]))
+
+  x$oneway[idx_m1] = "yes"
+
   # Simplifying the bi-directional tags
-  net_raw$oneway[
-    is.na(net_raw$oneway) | net_raw$oneway %in% c("alternating", "reversible")
+  x$oneway[
+    is.na(x$oneway) | x$oneway %in% c("alternating", "reversible")
   ] = "no"
 
-  # Reversing the geometries with -1
-  sf::st_geometry(net_raw[
-    net_raw$oneway == "-1",
-  ]) = sf::st_reverse(sf::st_geometry(net_raw[net_raw$oneway == "-1", ]))
-
-  net_raw$oneway[net_raw$oneway == "-1"] = "yes"
-
-  net_raw
+  x
 }
 
 # Function for summarise attributes of edges when converting to sfnetwork
@@ -399,7 +421,8 @@ collapse_function = function(x) {
   paste(unique(x), collapse = ",")
 }
 
-# function to ensure that the string values match the possible values for the highway_filter parameter
+# function to ensure that the string values match the possible values for the
+# highway_filter parameter
 check_highway_filter = function(highway_filter) {
   match.arg(
     highway_filter,
