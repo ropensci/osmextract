@@ -26,8 +26,7 @@ objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
 and \code{walking} are supported.}
 
-\item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
-\code{force_download}.}
+\item{...}{Additional arguments passed to \code{\link[=oe_get_network]{oe_get_network()}}.}
 
 \item{require_equal}{logical or character vector. Defaults to \code{TRUE.} If
 \code{TRUE}, only pseudo nodes that have incident edges with equal attribute

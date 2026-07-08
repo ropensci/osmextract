@@ -7,6 +7,7 @@
 #' of directed or undirected networks.
 #'
 #' @inheritParams oe_get_network
+#' @param ... Additional arguments passed to [oe_get_network()].
 #' @param directed logical, whether to return a directed sfnetwork object
 #'   (default is `FALSE`)
 #' @param require_equal logical or character vector. Defaults to `TRUE.` If
@@ -223,54 +224,71 @@ prepare_directed = function(sfnet_und) {
   }
 }
 
-#' Obtain a weighted_streetnet from OpenStreetMap data
+#' Obtain a weighted_streetnet object from OpenStreetMap data
 #'
-#' This function is a wrapper around `oe_get_network()`
-#' that returns a `dodgr_streetnet`` object. It performs
-#' simplification of the highway values, filters by highway types and
-#' standardises the `oneway` attribute as well as applying the
-#' implied oneway restriction based on the `junction`` tag values.
-#'
+#' This function is a wrapper around `oe_get_network()` that returns a
+#' `dodgr_streetnet` object. It performs simplification of the highway values,
+#' filters by highway types and standardises the `oneway` attribute as well as
+#' applying the implied oneway restriction based on the `junction`` tag values.
 #'
 #' @inheritParams oe_get_sfnetwork
-#' @param ... additional parameters passed to `oe_get()` and `dodgr::weight_streetnet()`, excluding `x` and `id_col` for the latter.
-#' @param highway_filter string vector of highway types to keep. By default, it includes "motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", and "residential".
 #' @inheritParams oe_get quiet
+#' @param highway_filter Character vector of highway types to keep.  Ignored if
+#'   `NULL`. Valid values are: "busway", "cycleway", "footway", "living_street",
+#'   "motorway", "path", "pedestrian", "primary", "residential", "rest_area",
+#'   "service", "services", "steps", "tertiary", "track", "trunk" and
+#'   "unclassified".
+#' @param ... additional parameters passed to [oe_get_network()] and
+#'   [dodgr::weight_streetnet()], excluding `x` and `id_col` for the latter.
 #'
 #' @returns A `dodgr_streetnet` object
 #'
 #' @export
 #'
-#' @seealso [oe_get()], [oe_get_network()], [oe_get_sfnetwork()], [oe_get_sfnetwork()]
+#' @seealso [oe_get()], [oe_get_network()], [oe_get_sfnetwork()]
 #'
 #' @examples
-#'  highway_filter = c(
-#'  "motorway",
-#'  "trunk",
-#'  "primary",
-#'  "secondary",
-#'  "tertiary",
-#'  "unclassified",
-#'  "residential"
+#' # Copy the ITS file to tempdir() to make sure that the examples do not
+#' # require internet connection. You can skip the next 4 lines (and start
+#' # directly with oe_get_keys) when running the examples locally.
+#' its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+#' file.copy(
+#'   from = system.file("its-example.osm.pbf", package = "osmextract"),
+#'   to = its_pbf,
+#'   overwrite = TRUE
+#' )
+#'
+#' graph_bike <- oe_get_dodgrnetwork(
+#'   place = "ITS Leeds",
+#'   mode = "cycling",
+#'   wt_profile = "bicycle",
+#'   left_side = TRUE,
+#'   download_directory = tempdir()
+#' )
+#' head(graph_bike)
+#'
+#' highway_filter = c(
+#'   "motorway",
+#'   "trunk",
+#'   "primary",
+#'   "secondary",
+#'   "tertiary",
+#'   "unclassified",
+#'   "residential"
 #' )
 #'
 #'  graph_car <- oe_get_dodgrnetwork(
 #'    place = "ITS Leeds",
 #'    mode = "driving",
 #'    wt_profile = "motorcar",
-#'    left_side = TRUE
-#'  )
-#'
-#'  class(graph_car)
-#'
-#'  graph_bike <- oe_get_dodgrnetwork(
-#'    place = "ITS Leeds",
-#'    mode = "cycling",
-#'    wt_profile = "bicycle",
 #'    left_side = TRUE,
-#'    highway_filter = highway_filter
+#'    highway_filter = highway_filter,
+#'    download_directory = tempdir(),
+#'    quiet = TRUE
 #'  )
 #'
+#'  head(graph_car)
+#'  class(graph_car)
 oe_get_dodgrnetwork = function(
   place,
   mode = c("cycling", "driving", "walking"),
@@ -286,7 +304,7 @@ oe_get_dodgrnetwork = function(
     check_highway_filter(highway_filter)
   }
 
-  # Extract the dots arguments as alist
+  # Extract the dots arguments as a list
   all.args = list(...)
 
   # Identifying the names of the parameters for the dodgr function
@@ -313,9 +331,12 @@ oe_get_dodgrnetwork = function(
   dodgr_args = list(x = net)
   dodgr_args = c(dodgr_args, all.args[names(all.args) %in% dodgr.pars])
 
-  if (!"oneway" %in% names(net)) {
+  if ("oneway" %!in% names(net)) {
     warning(
-      "The \\'oneway\\' column is missing. All edges will be assumed to be bidirectional"
+      paste(
+        "The", sQuote("oneway"), "column is missing.",
+        "All edges will be assumed to be bidirectional!"
+      )
     )
   }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get-network-graph.R
 \name{oe_get_dodgrnetwork}
 \alias{oe_get_dodgrnetwork}
-\title{Obtain a weighted_streetnet from OpenStreetMap data}
+\title{Obtain a weighted_streetnet object from OpenStreetMap data}
 \usage{
 oe_get_dodgrnetwork(
   place,
@@ -24,9 +24,14 @@ objects. See Details and Examples in \code{\link[=oe_match]{oe_match()}}.}
 transport. Can be abbreviated. Currently \code{cycling} (the default), \code{driving}
 and \code{walking} are supported.}
 
-\item{...}{additional parameters passed to \code{oe_get()} and \code{dodgr::weight_streetnet()}, excluding \code{x} and \code{id_col} for the latter.}
+\item{...}{additional parameters passed to \code{\link[=oe_get_network]{oe_get_network()}} and
+\code{\link[dodgr:weight_streetnet]{dodgr::weight_streetnet()}}, excluding \code{x} and \code{id_col} for the latter.}
 
-\item{highway_filter}{string vector of highway types to keep. By default, it includes "motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", and "residential".}
+\item{highway_filter}{Character vector of highway types to keep.  Ignored if
+\code{NULL}. Valid values are: "busway", "cycleway", "footway", "living_street",
+"motorway", "path", "pedestrian", "primary", "residential", "rest_area",
+"service", "services", "steps", "tertiary", "track", "trunk" and
+"unclassified".}
 
 \item{quiet}{Boolean. If \code{FALSE}, the function prints informative messages.
 Starting from \code{sf} version
@@ -38,38 +43,54 @@ display a progress bar.}
 A \code{dodgr_streetnet} object
 }
 \description{
-This function is a wrapper around \code{oe_get_network()}
-that returns a \verb{dodgr_streetnet`` object. It performs simplification of the highway values, filters by highway types and standardises the }oneway\verb{attribute as well as applying the implied oneway restriction based on the}junction`` tag values.
+This function is a wrapper around \code{oe_get_network()} that returns a
+\code{dodgr_streetnet} object. It performs simplification of the highway values,
+filters by highway types and standardises the \code{oneway} attribute as well as
+applying the implied oneway restriction based on the `junction`` tag values.
 }
 \examples{
- highway_filter = c(
- "motorway",
- "trunk",
- "primary",
- "secondary",
- "tertiary",
- "unclassified",
- "residential"
+# Copy the ITS file to tempdir() to make sure that the examples do not
+# require internet connection. You can skip the next 4 lines (and start
+# directly with oe_get_keys) when running the examples locally.
+its_pbf = file.path(tempdir(), "test_its-example.osm.pbf")
+file.copy(
+  from = system.file("its-example.osm.pbf", package = "osmextract"),
+  to = its_pbf,
+  overwrite = TRUE
+)
+
+graph_bike <- oe_get_dodgrnetwork(
+  place = "ITS Leeds",
+  mode = "cycling",
+  wt_profile = "bicycle",
+  left_side = TRUE,
+  download_directory = tempdir()
+)
+head(graph_bike)
+
+highway_filter = c(
+  "motorway",
+  "trunk",
+  "primary",
+  "secondary",
+  "tertiary",
+  "unclassified",
+  "residential"
 )
 
  graph_car <- oe_get_dodgrnetwork(
    place = "ITS Leeds",
    mode = "driving",
    wt_profile = "motorcar",
-   left_side = TRUE
- )
-
- class(graph_car)
-
- graph_bike <- oe_get_dodgrnetwork(
-   place = "ITS Leeds",
-   mode = "cycling",
-   wt_profile = "bicycle",
    left_side = TRUE,
-   highway_filter = highway_filter
+   highway_filter = highway_filter,
+   download_directory = tempdir(),
+   quiet = TRUE
  )
 
+ head(graph_car)
+ class(graph_car)
 }
 \seealso{
-\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}
+\code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}
 }
