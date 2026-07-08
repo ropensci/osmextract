@@ -20,4 +20,4 @@
 ^tests/testthat/README\.md$
 ^CRAN-SUBMISSION$
 ^\.devcontainer$
-
+_pkgdown.yml
