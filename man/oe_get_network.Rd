@@ -27,17 +27,19 @@ and \code{walking} are supported.}
 \item{...}{Additional arguments passed to \code{\link[=oe_get]{oe_get()}} such as \code{boundary} or
 \code{force_download}.}
 
-\item{clean_output}{logical; whether to standardise \code{oneway} values
-and simplify the \code{highway} values by removing the "_link" suffix. Geometries
-of links where \code{oneway == -1} in the original data are reversed. If a \code{junction}
-column is present and its value is \code{"roundabout"} or \code{"motorway"}, the \code{oneway}
-attribute is automatically set to \code{"yes"}. Additionally, if a \code{highway_filter}
-is provided, only highways of the specified types are retained.}
+\item{clean_output}{logical; whether to standardise \code{oneway} values and
+simplify the \code{highway} values by removing the "_link" suffix. Geometries of
+links where \code{oneway == -1} in the original data are reversed. If a
+\code{junction} column is present and its value is \code{"roundabout"}, the \code{oneway}
+attribute is automatically set to \code{"yes"}. Additionally, if a
+\code{highway_filter} is provided, only highways of the specified types are
+retained.}
 
-\item{highway_filter}{Character vector of highway types to keep. Ignored if clean_output is FALSE.
-Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",
-"path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
-"steps", "tertiary", "track", "trunk" and "unclassified".}
+\item{highway_filter}{Character vector of highway types to keep. Ignored if
+clean_output is \code{FALSE}. Valid values are: "busway", "cycleway", "footway",
+"living_street", "motorway", "path", "pedestrian", "primary",
+"residential", "rest_area", "service", "services", "steps", "tertiary",
+"track", "trunk" and "unclassified".}
 }
 \value{
 An \code{sf} object.
@@ -51,8 +53,8 @@ to each each mode of transport.
 \details{
 The definition of usable transport network was taken from the Python
 packages
-\href{https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py}{osmnx} and
-\href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
+\href{https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py}{osmnx}
+and \href{https://pyrosm.readthedocs.io/en/latest/}{pyrosm} and several other
 documents found online, i.e.
 \url{https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions},
 \url{https://wiki.openstreetmap.org/wiki/Key:access}. See also the discussion
@@ -64,11 +66,10 @@ parameter) selects the OSM ways that meet the following conditions:
 \item The \code{highway} tag is not missing;
 \item The \code{highway} tag is not equal to \code{abandoned}, \code{bus_guideway}, \code{byway},
 \code{construction}, \code{corridor}, \code{elevator}, \code{fixme}, \code{escalator}, \code{gallop},
-\code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed}, \code{raceway} or
-\code{steps};
+\code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed}, \code{raceway} or \code{steps};
 \item The \code{highway} tag is not equal to \code{motorway}, \code{motorway_link},
-\code{footway}, \code{bridleway} or \code{pedestrian} unless the tag \code{bicycle} is equal
-to \code{yes}, \code{designated}, \code{permissive} or \code{destination} (see
+\code{footway}, \code{bridleway} or \code{pedestrian} unless the tag \code{bicycle} is equal to
+\code{yes}, \code{designated}, \code{permissive} or \code{destination} (see
 \href{https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions}{here}
 for more details);
 \item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{bicycle} is
@@ -84,9 +85,9 @@ following conditions:
 \itemize{
 \item The \code{highway} tag is not missing;
 \item The \code{highway} tag is not equal to \code{abandoned}, \code{bus_guideway},
-\code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme},
-\code{escalator}, \code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed},
-\code{raceway}, \code{motorway} or \code{motorway_link};
+\code{byway}, \code{construction}, \code{corridor}, \code{elevator}, \code{fixme}, \code{escalator},
+\code{gallop}, \code{historic}, \code{no}, \code{planned}, \code{platform}, \code{proposed}, \code{raceway},
+\code{motorway} or \code{motorway_link};
 \item The \code{highway} tag is not equal to \code{cycleway} unless the \code{foot} tag is
 equal to \code{yes};
 \item The \code{access} tag is not equal to \code{private} or \code{no} unless \code{foot} is

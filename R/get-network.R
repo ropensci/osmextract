@@ -9,16 +9,18 @@
 #' @param mode A character string of length one denoting the desired mode of
 #'   transport. Can be abbreviated. Currently `cycling` (the default), `driving`
 #'   and `walking` are supported.
-#' @param clean_output logical; whether to standardise `oneway` values
-#' and simplify the `highway` values by removing the "_link" suffix. Geometries
-#' of links where `oneway == -1` in the original data are reversed. If a `junction`
-#' column is present and its value is `"roundabout"` or `"motorway"`, the `oneway`
-#' attribute is automatically set to `"yes"`. Additionally, if a `highway_filter`
-#' is provided, only highways of the specified types are retained.
-#' @param highway_filter Character vector of highway types to keep. Ignored if clean_output is FALSE.
-#' Valid values are: "busway", "cycleway", "footway", "living_street", "motorway",
-#' "path", "pedestrian", "primary", "residential", "rest_area", "service", "services",
-#' "steps", "tertiary", "track", "trunk" and "unclassified".
+#' @param clean_output logical; whether to standardise `oneway` values and
+#'   simplify the `highway` values by removing the "_link" suffix. Geometries of
+#'   links where `oneway == -1` in the original data are reversed. If a
+#'   `junction` column is present and its value is `"roundabout"`, the `oneway`
+#'   attribute is automatically set to `"yes"`. Additionally, if a
+#'   `highway_filter` is provided, only highways of the specified types are
+#'   retained.
+#' @param highway_filter Character vector of highway types to keep. Ignored if
+#'   clean_output is `FALSE`. Valid values are: "busway", "cycleway", "footway",
+#'   "living_street", "motorway", "path", "pedestrian", "primary",
+#'   "residential", "rest_area", "service", "services", "steps", "tertiary",
+#'   "track", "trunk" and "unclassified".
 #' @param ... Additional arguments passed to [oe_get()] such as `boundary` or
 #'   `force_download`.
 #'
@@ -27,11 +29,11 @@
 #'
 #' @details The definition of usable transport network was taken from the Python
 #'   packages
-#'   [osmnx](https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py) and
-#'   [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
+#'   [osmnx](https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py)
+#'   and [pyrosm](https://pyrosm.readthedocs.io/en/latest/) and several other
 #'   documents found online, i.e.
 #'   <https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions>,
-#'    <https://wiki.openstreetmap.org/wiki/Key:access>. See also the discussion
+#'   <https://wiki.openstreetmap.org/wiki/Key:access>. See also the discussion
 #'   in <https://github.com/ropensci/osmextract/issues/153>.
 #'
 #'   The `cycling` mode of transport (i.e. the default value for `mode`
@@ -40,11 +42,10 @@
 #'   - The `highway` tag is not missing;
 #'   - The `highway` tag is not equal to `abandoned`, `bus_guideway`, `byway`,
 #'   `construction`, `corridor`, `elevator`, `fixme`, `escalator`, `gallop`,
-#'   `historic`, `no`, `planned`, `platform`, `proposed`, `raceway` or
-#'   `steps`;
+#'   `historic`, `no`, `planned`, `platform`, `proposed`, `raceway` or `steps`;
 #'   - The `highway` tag is not equal to `motorway`, `motorway_link`,
-#'   `footway`, `bridleway` or `pedestrian` unless the tag `bicycle` is equal
-#'   to `yes`, `designated`, `permissive` or `destination` (see
+#'   `footway`, `bridleway` or `pedestrian` unless the tag `bicycle` is equal to
+#'   `yes`, `designated`, `permissive` or `destination` (see
 #'   [here](https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions)
 #'   for more details);
 #'   - The `access` tag is not equal to `private` or `no` unless `bicycle` is
@@ -59,9 +60,9 @@
 #'
 #'   - The `highway` tag is not missing;
 #'   - The `highway` tag is not equal to `abandoned`, `bus_guideway`,
-#'   `byway`, `construction`, `corridor`, `elevator`, `fixme`,
-#'   `escalator`, `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`,
-#'   `raceway`, `motorway` or `motorway_link`;
+#'   `byway`, `construction`, `corridor`, `elevator`, `fixme`, `escalator`,
+#'   `gallop`, `historic`, `no`, `planned`, `platform`, `proposed`, `raceway`,
+#'   `motorway` or `motorway_link`;
 #'   - The `highway` tag is not equal to `cycleway` unless the `foot` tag is
 #'   equal to `yes`;
 #'   - The `access` tag is not equal to `private` or `no` unless `foot` is
@@ -143,11 +144,7 @@ oe_get_network = function(
   )
 
   # Check the clean_output argument
-  if (!is.logical(clean_output) || length(clean_output) != 1) {
-    stop(
-      "The clean_output parameter must be a logical value (TRUE or FALSE)."
-    )
-  }
+  stopifnot(is.logical(clean_output) & length(clean_output) == 1L)
 
   if (!is.null(highway_filter) && clean_output) {
     check_highway_filter(highway_filter)
@@ -171,8 +168,7 @@ oe_get_network = function(
     # Simplifies the highway values by removing the "_link" suffix
     result = clean_highway(result, highway_filter = highway_filter)
 
-    # Check if the oneway column is present, and if not,
-    # adds it with the default value "no"
+    # Check if the oneway column is present
     if ("oneway" %in% names(result)) {
       result = clean_oneway(result, quiet = quiet)
     }
