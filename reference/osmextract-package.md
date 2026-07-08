@@ -20,6 +20,9 @@ Useful links:
 
 Authors:
 
+- Andrea Gilardi <andrea.gilardi@unimib.it>
+  ([ORCID](https://orcid.org/0000-0002-9424-7439))
+
 - Robin Lovelace ([ORCID](https://orcid.org/0000-0001-5679-6536))
 
 Other contributors:

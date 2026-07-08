@@ -222,7 +222,7 @@ its = oe_get("ITS Leeds", download_directory = tempdir())
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmprX7JUd/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpewWCXF/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -268,7 +268,7 @@ its = oe_get("ITS Leeds", download_directory = tempdir())
 #> The input place was matched with: ITS Leeds
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/RtmprX7JUd/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpewWCXF/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
