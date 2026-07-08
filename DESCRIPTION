@@ -37,7 +37,7 @@ Suggests:
     rmarkdown,
     covr,
     withr,
-    dodgr,
+    dodgr (>= 0.4.3),
     sfnetworks,
     tidygraph,
     dplyr
