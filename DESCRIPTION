@@ -19,7 +19,6 @@ Description: Match, download, convert and import Open Street Map data extracts
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 URL: https://docs.ropensci.org/osmextract/, https://github.com/ropensci/osmextract
 BugReports: https://github.com/ropensci/osmextract/issues
@@ -40,3 +39,4 @@ VignetteBuilder: knitr
 Language: en-GB
 Config/testthat/edition: 3
 Config/build/copy-method: link
+Config/roxygen2/version: 8.0.0

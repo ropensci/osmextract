@@ -59,7 +59,7 @@ details about these data at the following link:
 \url{https://download.geofabrik.de/technical.html}.
 }
 \seealso{
-Other provider's-database: 
+Other provider's-database:
 \code{\link{bbbike_zones}},
 \code{\link{openstreetmap_fr_zones}}
 }

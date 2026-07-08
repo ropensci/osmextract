@@ -6,7 +6,7 @@
 \alias{osmextract-package}
 \title{osmextract: Download and Import Open Street Map Data Extracts}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
 Match, download, convert and import Open Street Map data extracts obtained from several providers.
 }
@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Andrea Gilardi \email{andrea.gilardi@unimib.it} (\href{https://orcid.org/0000-0002-9424-7439}{ORCID})
   \item Robin Lovelace (\href{https://orcid.org/0000-0001-5679-6536}{ORCID})
 }
 
