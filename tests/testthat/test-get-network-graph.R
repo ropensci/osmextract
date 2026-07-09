@@ -66,7 +66,7 @@ test_that("clean_oneway applies implied oneway only when junction column present
     )
   )
 
-  out_with <- clean_oneway(toy_with_junction, quiet = FALSE)
+  out_with = clean_oneway(toy_with_junction, quiet = FALSE)
   out_without = clean_oneway(toy_without_junction, quiet = TRUE)
 
   expect_identical(out_with$oneway, c("yes", "no"))
@@ -105,7 +105,12 @@ test_that("oe_get_sfnetwork returns an sfnetwork and validates directed", {
   )
   its_pbf = setup_pbf()
 
-  sfnet = oe_get_sfnetwork("ITS Leeds", mode = "driving", quiet = TRUE)
+  expect_warning(
+    {
+      sfnet = oe_get_sfnetwork("ITS Leeds", mode = "driving", quiet = TRUE)
+    },
+    regexp = "subdivision assumes attributes are constant"
+  )
 
   expect_s3_class(sfnet, "sfnetwork")
 
@@ -130,11 +135,14 @@ test_that("oe_get_sfnetwork warns when oneway is missing", {
   its_pbf = setup_pbf()
 
   expect_warning(
-    sfnet <- oe_get_sfnetwork(
-      "ITS Leeds",
-      mode = "walking",
-      directed = TRUE,
-      quiet = TRUE
+    expect_warning(
+      sfnet <- oe_get_sfnetwork(
+        "ITS Leeds",
+        mode = "walking",
+        directed = TRUE,
+        quiet = TRUE
+      ),
+      regexp = "subdivision assumes attributes are constant"
     ),
     regexp = "column is missing"
   )
@@ -149,8 +157,6 @@ test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects"
     oneway = c("no", "yes"),
     junction = c(NA, NA),
     z_order = c(1, 2),
-    from = c(1, 2),
-    to = c(2, 3),
     geometry = sf::st_sfc(
       sf::st_linestring(rbind(c(0, 0), c(1, 0))),
       sf::st_linestring(rbind(c(1, 0), c(2, 0))),
@@ -158,7 +164,13 @@ test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects"
     )
   )
 
-  undirected_net = net_2_sfnet_undirected(toy_net)
+  expect_warning(
+    {
+      undirected_net = net_2_sfnet_undirected(toy_net)
+    },
+    regexp = "subdivision assumes attributes"
+  )
+
   directed_net = prepare_directed(undirected_net)
 
   expect_s3_class(undirected_net, "sfnetwork")
