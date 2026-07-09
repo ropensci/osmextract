@@ -44,57 +44,59 @@
 #'   to = its_pbf,
 #'   overwrite = TRUE
 #' )
-#' # Undirected unfiltered pedestrian network
-#' walk_sfnet <- oe_get_sfnetwork(
-#'   place = "ITS Leeds",
-#'   mode = "walking",
-#'   download_directory = tempdir(),
-#'   quiet = TRUE
-#' )
-#' plot(walk_sfnet)
+#' if (requireNamespace("sfnetworks", quietly = TRUE)) {
+#'   #' # Undirected unfiltered pedestrian network
+#'   walk_sfnet <- oe_get_sfnetwork(
+#'     place = "ITS Leeds",
+#'     mode = "walking",
+#'     download_directory = tempdir(),
+#'     quiet = TRUE
+#'   )
+#'   plot(walk_sfnet)
 #'
-#' # Directed unfiltered driving network
-#' car_sfnet <- oe_get_sfnetwork(
-#'   place = "ITS Leeds",
-#'   mode = "driving",
-#'   directed = TRUE,
-#'   download_directory = tempdir(),
-#'   quiet = TRUE
-#' )
-#' plot(car_sfnet)
+#'   #' # Directed unfiltered driving network
+#'   car_sfnet <- oe_get_sfnetwork(
+#'     place = "ITS Leeds",
+#'     mode = "driving",
+#'     directed = TRUE,
+#'     download_directory = tempdir(),
+#'     quiet = TRUE
+#'   )
+#'   plot(car_sfnet)
 #'
-#' # Directed filtered driving network
-#' highway_filter = c(
-#'  "motorway",
-#'  "trunk",
-#'  "primary",
-#'  "secondary",
-#'  "tertiary",
-#'  "unclassified",
-#'  "residential"
-#'  )
+#'   #' # Directed filtered driving network
+#'   highway_filter = c(
+#'     "motorway",
+#'     "trunk",
+#'     "primary",
+#'     "secondary",
+#'     "tertiary",
+#'     "unclassified",
+#'     "residential"
+#'   )
 #'
-#' car_sfnet_filtered <- oe_get_sfnetwork(
-#'   place = "ITS Leeds",
-#'   mode = "driving",
-#'   directed = TRUE,
-#'   highway_filter = highway_filter,
-#'   download_directory = tempdir(),
-#'   quiet = TRUE
-#' )
-#' plot(car_sfnet_filtered)
+#'   car_sfnet_filtered <- oe_get_sfnetwork(
+#'     place = "ITS Leeds",
+#'     mode = "driving",
+#'     directed = TRUE,
+#'     highway_filter = highway_filter,
+#'     download_directory = tempdir(),
+#'     quiet = TRUE
+#'   )
+#'   plot(car_sfnet_filtered)
 #'
-#' # Smooth pseudo nodes when highway and oneway fields are equal
-#' car_sfnet_filtered_2 <- oe_get_sfnetwork(
-#'   place = "ITS Leeds",
-#'   mode = "driving",
-#'   directed = TRUE,
-#'   highway_filter = highway_filter,
-#'   require_equal = c("highway", "oneway"),
-#'   download_directory = tempdir(),
-#'   quiet = TRUE
-#' )
-#' plot(car_sfnet_filtered_2)
+#'   # Smooth pseudo nodes when highway and oneway fields are equal
+#'   car_sfnet_filtered_2 <- oe_get_sfnetwork(
+#'     place = "ITS Leeds",
+#'     mode = "driving",
+#'     directed = TRUE,
+#'     highway_filter = highway_filter,
+#'     require_equal = c("highway", "oneway"),
+#'     download_directory = tempdir(),
+#'     quiet = TRUE
+#'   )
+#'   plot(car_sfnet_filtered_2)
+#' }
 oe_get_sfnetwork = function(
   place,
   mode = c("cycling", "driving", "walking"),
@@ -224,7 +226,7 @@ prepare_directed = function(sfnet_und) {
   }
 }
 
-#' Obtain a weighted_streetnet object from OpenStreetMap data
+#' Obtain a dodgr_streetnet object from OpenStreetMap data
 #'
 #' This function is a wrapper around `oe_get_network()` that returns a
 #' `dodgr_streetnet` object. It performs simplification of the highway values,
@@ -258,37 +260,40 @@ prepare_directed = function(sfnet_und) {
 #'   overwrite = TRUE
 #' )
 #'
-#' graph_bike <- oe_get_dodgrnetwork(
-#'   place = "ITS Leeds",
-#'   mode = "cycling",
-#'   wt_profile = "bicycle",
-#'   left_side = TRUE,
-#'   download_directory = tempdir()
-#' )
-#' head(graph_bike)
+#' if (requireNamespace("dodgr", quietly = TRUE)) {
+#'   graph_bike <- oe_get_dodgrnetwork(
+#'     place = "ITS Leeds",
+#'     mode = "cycling",
+#'     wt_profile = "bicycle",
+#'     left_side = TRUE,
+#'     download_directory = tempdir(),
+#'     quiet = TRUE
+#'   )
+#'   head(graph_bike)
 #'
-#' highway_filter = c(
-#'   "motorway",
-#'   "trunk",
-#'   "primary",
-#'   "secondary",
-#'   "tertiary",
-#'   "unclassified",
-#'   "residential"
-#' )
+#'   highway_filter = c(
+#'     "motorway",
+#'     "trunk",
+#'     "primary",
+#'     "secondary",
+#'     "tertiary",
+#'     "unclassified",
+#'     "residential"
+#'   )
 #'
-#'  graph_car <- oe_get_dodgrnetwork(
-#'    place = "ITS Leeds",
-#'    mode = "driving",
-#'    wt_profile = "motorcar",
-#'    left_side = TRUE,
-#'    highway_filter = highway_filter,
-#'    download_directory = tempdir(),
-#'    quiet = TRUE
-#'  )
+#'   graph_car <- oe_get_dodgrnetwork(
+#'     place = "ITS Leeds",
+#'     mode = "driving",
+#'     wt_profile = "motorcar",
+#'     left_side = TRUE,
+#'     highway_filter = highway_filter,
+#'     download_directory = tempdir(),
+#'     quiet = TRUE
+#'   )
 #'
-#'  head(graph_car)
-#'  class(graph_car)
+#'   head(graph_car)
+#'   class(graph_car)
+#' }
 oe_get_dodgrnetwork = function(
   place,
   mode = c("cycling", "driving", "walking"),
@@ -343,7 +348,6 @@ oe_get_dodgrnetwork = function(
   # Returning the weighted_streetnetwork
   do.call(dodgr::weight_streetnet, dodgr_args)
 }
-
 
 ## Utils
 

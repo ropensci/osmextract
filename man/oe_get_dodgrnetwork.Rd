@@ -2,7 +2,7 @@
 % Please edit documentation in R/get-network-graph.R
 \name{oe_get_dodgrnetwork}
 \alias{oe_get_dodgrnetwork}
-\title{Obtain a weighted_streetnet object from OpenStreetMap data}
+\title{Obtain a dodgr_streetnet object from OpenStreetMap data}
 \usage{
 oe_get_dodgrnetwork(
   place,
@@ -59,37 +59,40 @@ file.copy(
   overwrite = TRUE
 )
 
-graph_bike <- oe_get_dodgrnetwork(
-  place = "ITS Leeds",
-  mode = "cycling",
-  wt_profile = "bicycle",
-  left_side = TRUE,
-  download_directory = tempdir()
-)
-head(graph_bike)
+if (requireNamespace("dodgr", quietly = TRUE)) {
+  graph_bike <- oe_get_dodgrnetwork(
+    place = "ITS Leeds",
+    mode = "cycling",
+    wt_profile = "bicycle",
+    left_side = TRUE,
+    download_directory = tempdir(),
+    quiet = TRUE
+  )
+  head(graph_bike)
 
-highway_filter = c(
-  "motorway",
-  "trunk",
-  "primary",
-  "secondary",
-  "tertiary",
-  "unclassified",
-  "residential"
-)
+  highway_filter = c(
+    "motorway",
+    "trunk",
+    "primary",
+    "secondary",
+    "tertiary",
+    "unclassified",
+    "residential"
+  )
 
- graph_car <- oe_get_dodgrnetwork(
-   place = "ITS Leeds",
-   mode = "driving",
-   wt_profile = "motorcar",
-   left_side = TRUE,
-   highway_filter = highway_filter,
-   download_directory = tempdir(),
-   quiet = TRUE
- )
+  graph_car <- oe_get_dodgrnetwork(
+    place = "ITS Leeds",
+    mode = "driving",
+    wt_profile = "motorcar",
+    left_side = TRUE,
+    highway_filter = highway_filter,
+    download_directory = tempdir(),
+    quiet = TRUE
+  )
 
- head(graph_car)
- class(graph_car)
+  head(graph_car)
+  class(graph_car)
+}
 }
 \seealso{
 \code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_sfnetwork]{oe_get_sfnetwork()}}

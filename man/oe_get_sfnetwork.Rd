@@ -81,57 +81,59 @@ file.copy(
   to = its_pbf,
   overwrite = TRUE
 )
-# Undirected unfiltered pedestrian network
-walk_sfnet <- oe_get_sfnetwork(
-  place = "ITS Leeds",
-  mode = "walking",
-  download_directory = tempdir(),
-  quiet = TRUE
-)
-plot(walk_sfnet)
+if (requireNamespace("sfnetworks", quietly = TRUE)) {
+  #' # Undirected unfiltered pedestrian network
+  walk_sfnet <- oe_get_sfnetwork(
+    place = "ITS Leeds",
+    mode = "walking",
+    download_directory = tempdir(),
+    quiet = TRUE
+  )
+  plot(walk_sfnet)
 
-# Directed unfiltered driving network
-car_sfnet <- oe_get_sfnetwork(
-  place = "ITS Leeds",
-  mode = "driving",
-  directed = TRUE,
-  download_directory = tempdir(),
-  quiet = TRUE
-)
-plot(car_sfnet)
+  #' # Directed unfiltered driving network
+  car_sfnet <- oe_get_sfnetwork(
+    place = "ITS Leeds",
+    mode = "driving",
+    directed = TRUE,
+    download_directory = tempdir(),
+    quiet = TRUE
+  )
+  plot(car_sfnet)
 
-# Directed filtered driving network
-highway_filter = c(
- "motorway",
- "trunk",
- "primary",
- "secondary",
- "tertiary",
- "unclassified",
- "residential"
- )
+  #' # Directed filtered driving network
+  highway_filter = c(
+    "motorway",
+    "trunk",
+    "primary",
+    "secondary",
+    "tertiary",
+    "unclassified",
+    "residential"
+  )
 
-car_sfnet_filtered <- oe_get_sfnetwork(
-  place = "ITS Leeds",
-  mode = "driving",
-  directed = TRUE,
-  highway_filter = highway_filter,
-  download_directory = tempdir(),
-  quiet = TRUE
-)
-plot(car_sfnet_filtered)
+  car_sfnet_filtered <- oe_get_sfnetwork(
+    place = "ITS Leeds",
+    mode = "driving",
+    directed = TRUE,
+    highway_filter = highway_filter,
+    download_directory = tempdir(),
+    quiet = TRUE
+  )
+  plot(car_sfnet_filtered)
 
-# Smooth pseudo nodes when highway and oneway fields are equal
-car_sfnet_filtered_2 <- oe_get_sfnetwork(
-  place = "ITS Leeds",
-  mode = "driving",
-  directed = TRUE,
-  highway_filter = highway_filter,
-  require_equal = c("highway", "oneway"),
-  download_directory = tempdir(),
-  quiet = TRUE
-)
-plot(car_sfnet_filtered_2)
+  # Smooth pseudo nodes when highway and oneway fields are equal
+  car_sfnet_filtered_2 <- oe_get_sfnetwork(
+    place = "ITS Leeds",
+    mode = "driving",
+    directed = TRUE,
+    highway_filter = highway_filter,
+    require_equal = c("highway", "oneway"),
+    download_directory = tempdir(),
+    quiet = TRUE
+  )
+  plot(car_sfnet_filtered_2)
+}
 }
 \seealso{
 \code{\link[=oe_get]{oe_get()}}, \code{\link[=oe_get_network]{oe_get_network()}}, \code{\link[=oe_get_dodgrnetwork]{oe_get_dodgrnetwork()}}
