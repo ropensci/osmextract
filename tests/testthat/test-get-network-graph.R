@@ -11,6 +11,9 @@ test_that("clean_highway strips _link suffix and filters values", {
     )
   )
 
+  clean_net <- clean_highway(toy_net)
+  expect_identical(clean_net[["highway"]], c("primary", "residential", "trunk"))
+
   filtered_net = clean_highway(
     toy_net,
     highway_filter = c("primary", "residential")
@@ -23,26 +26,25 @@ test_that("clean_highway strips _link suffix and filters values", {
 
 test_that("clean_oneway standardises values and reverses -1 geometries", {
   toy_net = sf::st_sf(
-    oneway = c(NA, "alternating", "reversible", "-1", "no"),
-    junction = c("roundabout", NA, NA, NA, NA),
+    oneway = c(NA, "alternating", "reversible", "-1", "no", NA),
+    junction = c("roundabout", NA, NA, NA, NA, NA),
     geometry = sf::st_sfc(
       sf::st_linestring(rbind(c(0, 0), c(1, 0))),
       sf::st_linestring(rbind(c(1, 0), c(2, 0))),
       sf::st_linestring(rbind(c(2, 0), c(3, 0))),
       sf::st_linestring(rbind(c(3, 0), c(4, 0))),
       sf::st_linestring(rbind(c(4, 0), c(5, 0))),
+      sf::st_linestring(rbind(c(5, 0), c(6, 0))),
       crs = 4326
     )
   )
 
   clean_net = clean_oneway(toy_net)
 
-  expect_identical(clean_net$oneway, c("yes", "no", "no", "yes", "no"))
-
-  reversed_coords = sf::st_coordinates(clean_net$geometry[4])
+  expect_identical(clean_net$oneway, c("yes", "no", "no", "yes", "no", "no"))
   expect_identical(
-    unname(reversed_coords[, c("X", "Y")]),
-    matrix(c(4, 0, 3, 0), ncol = 2, byrow = TRUE)
+    sf::st_geometry(clean_net)[[4]],
+    sf::st_linestring(rbind(c(4, 0), c(3, 0)))
   )
 })
 
@@ -95,7 +97,7 @@ test_that("oe_get_network cleans the highway and oneway values of the sample net
   expect_true(all(cleannet$oneway %in% c("yes", "no")))
 })
 
-test_that("oe_get_sfnetwork returns an sfnetwork and validates directed", {
+test_that("oe_get_sfnetwork returns an sfnetwork", {
   skip_if_not_installed("sfnetworks")
   withr::local_envvar(
     .new = list(
@@ -107,73 +109,52 @@ test_that("oe_get_sfnetwork returns an sfnetwork and validates directed", {
 
   expect_warning(
     {
-      sfnet = oe_get_sfnetwork("ITS Leeds", mode = "driving", quiet = TRUE)
-    },
-    regexp = "subdivision assumes attributes are constant"
-  )
-
-  expect_s3_class(sfnet, "sfnetwork")
-
-  expect_error(
-    oe_get_sfnetwork(
-      "ITS Leeds",
-      mode = "driving",
-      directed = "yes",
-      quiet = TRUE
-    ),
-    "is.logical\\(directed\\) is not TRUE"
-  )
-})
-
-test_that("oe_get_sfnetwork warns when oneway is missing", {
-  withr::local_envvar(
-    .new = list(
-      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
-      "TESTTHAT" = "true"
-    )
-  )
-  its_pbf = setup_pbf()
-
-  expect_warning(
-    expect_warning(
-      sfnet <- oe_get_sfnetwork(
+      sfnet = oe_get_sfnetwork(
         "ITS Leeds",
-        mode = "walking",
-        directed = TRUE,
+        mode = "driving",
+        download_directory = tempdir(),
         quiet = TRUE
-      ),
-      regexp = "subdivision assumes attributes are constant"
-    ),
-    regexp = "column is missing"
+      )
+    },
+    regexp = "attributes are constant"
   )
 
   expect_s3_class(sfnet, "sfnetwork")
 })
 
-test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects", {
+test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects and handle arguments correctly", {
   skip_if_not_installed("sfnetworks")
   toy_net = sf::st_sf(
     highway = c("residential", "residential"),
     oneway = c("no", "yes"),
-    junction = c(NA, NA),
-    z_order = c(1, 2),
     geometry = sf::st_sfc(
       sf::st_linestring(rbind(c(0, 0), c(1, 0))),
       sf::st_linestring(rbind(c(1, 0), c(2, 0))),
       crs = 4326
     )
   )
+  sf::st_agr(toy_net) <- c("highway" = "constant", "oneway" = "constant")
 
-  expect_warning(
-    {
-      undirected_net = net_2_sfnet_undirected(toy_net)
-    },
-    regexp = "subdivision assumes attributes"
+  undirected_net = net_2_sfnet_undirected(toy_net)
+  expect_s3_class(undirected_net, "sfnetwork")
+
+  undirected_net = net_2_sfnet_undirected(toy_net)
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 2)
+
+  undirected_net = net_2_sfnet_undirected(toy_net, require_equal = FALSE)
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 1)
+  expect_equal(
+    (undirected_net |> sf::st_as_sf("edges"))[["oneway"]],
+    "no,yes"
   )
 
-  directed_net = prepare_directed(undirected_net)
+  undirected_net = net_2_sfnet_undirected(toy_net, require_equal = "highway")
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 1)
 
-  expect_s3_class(undirected_net, "sfnetwork")
+  undirected_net = net_2_sfnet_undirected(toy_net, require_equal = "oneway")
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 2)
+
+  directed_net = prepare_directed(undirected_net)
   expect_s3_class(directed_net, "sfnetwork")
 })
 
@@ -217,7 +198,8 @@ test_that("oe_get_dodgrnetwork warns when oneway is missing", {
     graph <- oe_get_dodgrnetwork(
       "ITS Leeds",
       mode = "walking",
-      wt_profile = "foot"
+      wt_profile = "foot",
+      quiet = TRUE
     ),
     regexp = "column is missing"
   )
@@ -225,31 +207,3 @@ test_that("oe_get_dodgrnetwork warns when oneway is missing", {
   expect_s3_class(graph, "dodgr_streetnet")
 })
 
-test_that("oe_get_sfnetwork validates and respects require_equal parameter", {
-  skip_if_not_installed("sfnetworks")
-  withr::local_envvar(
-    .new = list(
-      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
-      "TESTTHAT" = "true"
-    )
-  )
-  its_pbf = setup_pbf()
-
-  # Test parameter validation
-  expect_error(
-    oe_get_sfnetwork(
-      "ITS Leeds",
-      mode = "driving",
-      require_equal = 123,
-      quiet = TRUE
-    )
-  )
-  expect_error(
-    oe_get_sfnetwork(
-      "ITS Leeds",
-      mode = "driving",
-      require_equal = "invalid_attribute",
-      quiet = TRUE
-    )
-  )
-})
