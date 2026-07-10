@@ -33,6 +33,7 @@ Other contributors:
   \item Barry Rowlingson (\href{https://orcid.org/0000-0002-8586-6625}{ORCID}) [contributor]
   \item Salva Fernández (Salva reviewed the package (v. 0.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/395>) [reviewer]
   \item Nicholas Potter (Nicholas reviewed the package (v. 0.1) for rOpenSci, see <https://github.com/ropensci/software-review/issues/395>) [reviewer]
+  \item Juan P. Fonseca-Zamora (\href{https://orcid.org/0009-0006-7042-3828}{ORCID}) [contributor]
 }
 
 }

@@ -1,0 +1,209 @@
+test_that("clean_highway strips _link suffix and filters values", {
+  toy_net = sf::st_sf(
+    highway = c("primary_link", "residential", "trunk_link"),
+    oneway = c("yes", NA, "no"),
+    junction = c(NA, "roundabout", NA),
+    geometry = sf::st_sfc(
+      sf::st_linestring(rbind(c(0, 0), c(1, 0))),
+      sf::st_linestring(rbind(c(1, 0), c(2, 0))),
+      sf::st_linestring(rbind(c(2, 0), c(3, 0))),
+      crs = 4326
+    )
+  )
+
+  clean_net <- clean_highway(toy_net)
+  expect_identical(clean_net[["highway"]], c("primary", "residential", "trunk"))
+
+  filtered_net = clean_highway(
+    toy_net,
+    highway_filter = c("primary", "residential")
+  )
+
+  expect_identical(filtered_net$highway, c("primary", "residential"))
+  expect_false(any(grepl("_link", filtered_net$highway, fixed = TRUE)))
+  expect_equal(nrow(filtered_net), 2L)
+})
+
+test_that("clean_oneway standardises values and reverses -1 geometries", {
+  toy_net = sf::st_sf(
+    oneway = c(NA, "alternating", "reversible", "-1", "no", NA),
+    junction = c("roundabout", NA, NA, NA, NA, NA),
+    geometry = sf::st_sfc(
+      sf::st_linestring(rbind(c(0, 0), c(1, 0))),
+      sf::st_linestring(rbind(c(1, 0), c(2, 0))),
+      sf::st_linestring(rbind(c(2, 0), c(3, 0))),
+      sf::st_linestring(rbind(c(3, 0), c(4, 0))),
+      sf::st_linestring(rbind(c(4, 0), c(5, 0))),
+      sf::st_linestring(rbind(c(5, 0), c(6, 0))),
+      crs = 4326
+    )
+  )
+
+  clean_net = clean_oneway(toy_net)
+
+  expect_identical(clean_net$oneway, c("yes", "no", "no", "yes", "no", "no"))
+  expect_identical(
+    sf::st_geometry(clean_net)[[4]],
+    sf::st_linestring(rbind(c(4, 0), c(3, 0)))
+  )
+})
+
+test_that("clean_oneway applies implied oneway only when junction column present", {
+  toy_with_junction = sf::st_sf(
+    oneway = c(NA, "no"),
+    junction = c("roundabout", NA),
+    geometry = sf::st_sfc(
+      sf::st_linestring(rbind(c(0, 0), c(1, 0))),
+      sf::st_linestring(rbind(c(1, 0), c(2, 0))),
+      crs = 4326
+    )
+  )
+
+  toy_without_junction = sf::st_sf(
+    oneway = c(NA, "no"),
+    geometry = sf::st_sfc(
+      sf::st_linestring(rbind(c(0, 0), c(1, 0))),
+      sf::st_linestring(rbind(c(1, 0), c(2, 0))),
+      crs = 4326
+    )
+  )
+
+  out_with = clean_oneway(toy_with_junction, quiet = FALSE)
+  out_without = clean_oneway(toy_without_junction, quiet = TRUE)
+
+  expect_identical(out_with$oneway, c("yes", "no"))
+  expect_identical(out_without$oneway, c("no", "no"))
+})
+
+test_that("oe_get_network cleans the highway and oneway values of the sample network", {
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  cleannet = oe_get_network(
+    "ITS Leeds",
+    mode = "driving",
+    quiet = TRUE,
+    clean_output = TRUE
+  )
+
+  expect_s3_class(cleannet, "sf")
+  expect_true(all(c("highway", "oneway", "junction") %in% names(cleannet)))
+  expect_false(any(grepl("_link", cleannet$highway, fixed = TRUE)))
+  expect_true(all(cleannet$oneway %in% c("yes", "no")))
+})
+
+test_that("oe_get_sfnetwork returns an sfnetwork", {
+  skip_if_not_installed("sfnetworks")
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  expect_warning(
+    {
+      sfnet = oe_get_sfnetwork(
+        "ITS Leeds",
+        mode = "driving",
+        download_directory = tempdir(),
+        quiet = TRUE
+      )
+    },
+    regexp = "attributes are constant"
+  )
+
+  expect_s3_class(sfnet, "sfnetwork")
+})
+
+test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects and handle arguments correctly", {
+  skip_if_not_installed("sfnetworks")
+  toy_net = sf::st_sf(
+    highway = c("residential", "residential"),
+    oneway = c("no", "yes"),
+    geometry = sf::st_sfc(
+      sf::st_linestring(rbind(c(0, 0), c(1, 0))),
+      sf::st_linestring(rbind(c(1, 0), c(2, 0))),
+      crs = 4326
+    )
+  )
+  sf::st_agr(toy_net) <- c("highway" = "constant", "oneway" = "constant")
+
+  undirected_net = net_2_sfnet_undirected(toy_net)
+  expect_s3_class(undirected_net, "sfnetwork")
+
+  undirected_net = net_2_sfnet_undirected(toy_net)
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 2)
+
+  undirected_net = net_2_sfnet_undirected(toy_net, require_equal = FALSE)
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 1)
+  expect_equal(
+    (undirected_net |> sf::st_as_sf("edges"))[["oneway"]],
+    "no,yes"
+  )
+
+  undirected_net = net_2_sfnet_undirected(toy_net, require_equal = "highway")
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 1)
+
+  undirected_net = net_2_sfnet_undirected(toy_net, require_equal = "oneway")
+  expect_shape(undirected_net |> sf::st_as_sf("edges"), nrow = 2)
+
+  directed_net = prepare_directed(undirected_net)
+  expect_s3_class(directed_net, "sfnetwork")
+})
+
+test_that("oe_get_dodgrnetwork returns a dodgr_streetnet and applies highway filtering", {
+  skip_if_not_installed("dodgr")
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  graph = oe_get_dodgrnetwork(
+    "ITS Leeds",
+    mode = "driving",
+    wt_profile = "motorcar",
+    left_side = TRUE,
+    highway_filter = c("residential", "service"),
+    quiet = TRUE
+  )
+
+  expect_s3_class(graph, "dodgr_streetnet")
+  expect_true(all(
+    na.omit(unique(graph$highway)) %in% c("residential", "service")
+  ))
+  expect_false(any(grepl("_link", graph$highway, fixed = TRUE)))
+})
+
+test_that("oe_get_dodgrnetwork warns when oneway is missing", {
+  skip_if_not_installed("dodgr")
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  expect_warning(
+    graph <- oe_get_dodgrnetwork(
+      "ITS Leeds",
+      mode = "walking",
+      wt_profile = "foot",
+      quiet = TRUE
+    ),
+    regexp = "column is missing"
+  )
+
+  expect_s3_class(graph, "dodgr_streetnet")
+})
+
