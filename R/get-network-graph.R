@@ -144,7 +144,7 @@ oe_get_sfnetwork = function(
   )
   net = net_2_sfnet_undirected(net, require_equal = require_equal)
 
-  if (directed && "oneway" %!in% names(tidygraph::as_tibble(net, "edges"))) {
+  if (directed && "oneway" %!in% names(sf::st_as_sf(net, "edges"))) {
     warning(
       paste(
         "The", sQuote("oneway"), "column is missing.",
