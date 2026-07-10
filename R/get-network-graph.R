@@ -378,7 +378,7 @@ oe_get_dodgrnetwork = function(
 
 # This function simplifies the highway values by removing the "_link" suffix and
 # filtering by `highway_filter` if specified.
-clean_highway = function(net, highway_filter) {
+clean_highway = function(net, highway_filter = NULL) {
   stopifnot("highway" %in% names(net))
 
   net$highway = gsub(
