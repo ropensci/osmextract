@@ -217,14 +217,15 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
 
   # Creating junctions where road segments overlap
   # This converts implicit intersections into explicit nodes
-  sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision)
+  sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision, .clean = TRUE)
 
   # Simplifying the interstitial nodes segments
   tidygraph::convert(
     sf_net_subdiv,
     sfnetworks::to_spatial_smooth,
     summarise_attributes = list(collapse_function),
-    require_equal = require_equal
+    require_equal = require_equal,
+    .clean = TRUE
   )
 }
 
