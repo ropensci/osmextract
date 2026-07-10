@@ -166,11 +166,13 @@ oe_get_sfnetwork = function(
 #' Convert a spatial network to an undirected sfnetwork
 #'
 #' @param net_sf a `sf` object representing a spatial network
-#' @param require_equal logical or character vector. Defaults to TRUE. If TRUE, only pseudo nodes that
-#' have incident edges with equal attribute values are removed. Alternatively, a character vector with
-#' the names of the attributes to check for equality can be provided. In that case, only those attributes
-#' are checked for equality. If FALSE, all pseudo nodes are removed regardless of attribute values.
-#' All other attributes are collapsed separated by a comma.
+#' @param require_equal logical or character vector. Defaults to `TRUE`. If
+#'   `TRUE`, only pseudo nodes that have incident edges with all equal attribute
+#'   values are removed. Alternatively, a character vector with the names of the
+#'   attributes to check for equality can be provided. In that case, only those
+#'   attributes are checked for equality. If `FALSE`, all pseudo nodes are
+#'   removed regardless of attribute values. All other attributes are collapsed
+#'   separated by a comma.
 #'
 #' @returns An `sfnetwork` object
 #' @export
