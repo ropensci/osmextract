@@ -14,6 +14,12 @@
 - [`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
   can correctly and automatically detect the openstreetmap.fr provider
   from an input URL.
+- Added new functions `oe_get_*network` to obtain primal graphs, i.e.,
+  `sfnetwork` and `dodgr_streetnet` objects, from OSM data.
+
+#### MINOR CHANGES
+
+- Bumped minimum `testthat` version to 3.3.0
 
 ## osmextract 0.6.0
 

@@ -18,6 +18,9 @@
   Nicholas reviewed the package (v. 0.1) for rOpenSci, see
   \<<https://github.com/ropensci/software-review/issues/395>\>
 
+- **Juan P. Fonseca-Zamora**. Contributor.
+  [](https://orcid.org/0009-0006-7042-3828)
+
 ## Citation
 
 Source:

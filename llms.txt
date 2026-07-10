@@ -320,11 +320,17 @@ project, you agree to abide by its terms.
 - [`bbbike_zones`](https://docs.ropensci.org/osmextract/reference/bbbike_zones.md)
   : An sf object of geographical zones taken from bbbike.org
 
+- [`clean_oneway()`](https://docs.ropensci.org/osmextract/reference/clean_oneway.md)
+  : Clean the oneway values in a OSM network
+
 - [`geofabrik_zones`](https://docs.ropensci.org/osmextract/reference/geofabrik_zones.md)
   : An sf object of geographical zones taken from geofabrik.de
 
 - [`get_default_osmconf_ini()`](https://docs.ropensci.org/osmextract/reference/get_default_osmconf_ini.md)
   : Get default osmconf.ini
+
+- [`net_2_sfnet_undirected()`](https://docs.ropensci.org/osmextract/reference/net_2_sfnet_undirected.md)
+  : Convert a spatial network to an undirected sfnetwork
 
 - [`oe_clean()`](https://docs.ropensci.org/osmextract/reference/oe_clean.md)
   : Clean download directory
@@ -346,12 +352,18 @@ project, you agree to abide by its terms.
 - [`oe_get_boundary()`](https://docs.ropensci.org/osmextract/reference/oe_get_boundary.md)
   : Get the administrative boundary for a given place
 
+- [`oe_get_dodgrnetwork()`](https://docs.ropensci.org/osmextract/reference/oe_get_dodgrnetwork.md)
+  : Obtain a dodgr_streetnet object from OpenStreetMap data
+
 - [`oe_get_keys()`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md)
   [`print(`*`<oe_key_values_list>`*`)`](https://docs.ropensci.org/osmextract/reference/oe_get_keys.md)
   : Return keys and (optionally) values stored in "other_tags" column
 
 - [`oe_get_network()`](https://docs.ropensci.org/osmextract/reference/oe_get_network.md)
   : Import transport networks used by a specific mode of transport
+
+- [`oe_get_sfnetwork()`](https://docs.ropensci.org/osmextract/reference/oe_get_sfnetwork.md)
+  : Obtain a sfnetwork object from OpenStreetMap data
 
 - [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md)
   : Match input place with a url

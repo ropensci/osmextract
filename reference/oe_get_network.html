@@ -54,7 +54,13 @@ to each each mode of transport.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_get_network</span><span class="op">(</span><span class="va">place</span>, mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cycling"</span>, <span class="st">"driving"</span>, <span class="st">"walking"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">oe_get_network</span><span class="op">(</span></span>
+<span>  <span class="va">place</span>,</span>
+<span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cycling"</span>, <span class="st">"driving"</span>, <span class="st">"walking"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  clean_output <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  highway_filter <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -80,6 +86,24 @@ and <code>walking</code> are supported.</p></dd>
 <dd><p>Additional arguments passed to <code><a href="oe_get.html">oe_get()</a></code> such as <code>boundary</code> or
 <code>force_download</code>.</p></dd>
 
+
+<dt id="arg-clean-output">clean_output<a class="anchor" aria-label="anchor" href="#arg-clean-output"></a></dt>
+<dd><p>logical; whether to standardise <code>oneway</code> values and
+simplify the <code>highway</code> values by removing the "_link" suffix. Geometries of
+links where <code>oneway == -1</code> in the original data are reversed. If a
+<code>junction</code> column is present and its value is <code>"roundabout"</code>, the <code>oneway</code>
+attribute is automatically set to <code>"yes"</code>. Additionally, if a
+<code>highway_filter</code> is provided, only highways of the specified types are
+retained.</p></dd>
+
+
+<dt id="arg-highway-filter">highway_filter<a class="anchor" aria-label="anchor" href="#arg-highway-filter"></a></dt>
+<dd><p>Character vector of highway types to keep. Ignored if
+clean_output is <code>FALSE</code>. Valid values are: "busway", "cycleway", "footway",
+"living_street", "motorway", "path", "pedestrian", "primary",
+"residential", "rest_area", "service", "services", "steps", "tertiary",
+"track", "trunk" and "unclassified".</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -89,8 +113,8 @@ and <code>walking</code> are supported.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The definition of usable transport network was taken from the Python
 packages
-<a href="https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py" class="external-link">osmnx</a> and
-<a href="https://pyrosm.readthedocs.io/en/latest/" class="external-link">pyrosm</a> and several other
+<a href="https://raw.githubusercontent.com/gboeing/osmnx/refs/heads/main/osmnx/_overpass.py" class="external-link">osmnx</a>
+and <a href="https://pyrosm.readthedocs.io/en/latest/" class="external-link">pyrosm</a> and several other
 documents found online, i.e.
 <a href="https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions" class="external-link">https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions</a>,
 <a href="https://wiki.openstreetmap.org/wiki/Key:access" class="external-link">https://wiki.openstreetmap.org/wiki/Key:access</a>. See also the discussion
@@ -99,11 +123,10 @@ in <a href="https://github.com/ropensci/osmextract/issues/153" class="external-l
 parameter) selects the OSM ways that meet the following conditions:</p><ul><li><p>The <code>highway</code> tag is not missing;</p></li>
 <li><p>The <code>highway</code> tag is not equal to <code>abandoned</code>, <code>bus_guideway</code>, <code>byway</code>,
 <code>construction</code>, <code>corridor</code>, <code>elevator</code>, <code>fixme</code>, <code>escalator</code>, <code>gallop</code>,
-<code>historic</code>, <code>no</code>, <code>planned</code>, <code>platform</code>, <code>proposed</code>, <code>raceway</code> or
-<code>steps</code>;</p></li>
+<code>historic</code>, <code>no</code>, <code>planned</code>, <code>platform</code>, <code>proposed</code>, <code>raceway</code> or <code>steps</code>;</p></li>
 <li><p>The <code>highway</code> tag is not equal to <code>motorway</code>, <code>motorway_link</code>,
-<code>footway</code>, <code>bridleway</code> or <code>pedestrian</code> unless the tag <code>bicycle</code> is equal
-to <code>yes</code>, <code>designated</code>, <code>permissive</code> or <code>destination</code> (see
+<code>footway</code>, <code>bridleway</code> or <code>pedestrian</code> unless the tag <code>bicycle</code> is equal to
+<code>yes</code>, <code>designated</code>, <code>permissive</code> or <code>destination</code> (see
 <a href="https://wiki.openstreetmap.org/wiki/Bicycle#Bicycle_Restrictions" class="external-link">here</a>
 for more details);</p></li>
 <li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code> unless <code>bicycle</code> is
@@ -115,9 +138,9 @@ equal to <code>yes</code>, <code>permissive</code> or <code>designated</code> (s
 </ul><p>The <code>walking</code> mode of transport selects the OSM ways that meet the
 following conditions:</p><ul><li><p>The <code>highway</code> tag is not missing;</p></li>
 <li><p>The <code>highway</code> tag is not equal to <code>abandoned</code>, <code>bus_guideway</code>,
-<code>byway</code>, <code>construction</code>, <code>corridor</code>, <code>elevator</code>, <code>fixme</code>,
-<code>escalator</code>, <code>gallop</code>, <code>historic</code>, <code>no</code>, <code>planned</code>, <code>platform</code>, <code>proposed</code>,
-<code>raceway</code>, <code>motorway</code> or <code>motorway_link</code>;</p></li>
+<code>byway</code>, <code>construction</code>, <code>corridor</code>, <code>elevator</code>, <code>fixme</code>, <code>escalator</code>,
+<code>gallop</code>, <code>historic</code>, <code>no</code>, <code>planned</code>, <code>platform</code>, <code>proposed</code>, <code>raceway</code>,
+<code>motorway</code> or <code>motorway_link</code>;</p></li>
 <li><p>The <code>highway</code> tag is not equal to <code>cycleway</code> unless the <code>foot</code> tag is
 equal to <code>yes</code>;</p></li>
 <li><p>The <code>access</code> tag is not equal to <code>private</code> or <code>no</code> unless <code>foot</code> is

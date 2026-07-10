@@ -9,7 +9,13 @@ used to filter the OSM ways according to each each mode of transport.
 ## Usage
 
 ``` r
-oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
+oe_get_network(
+  place,
+  mode = c("cycling", "driving", "walking"),
+  ...,
+  clean_output = FALSE,
+  highway_filter = NULL
+)
 ```
 
 ## Arguments
@@ -35,6 +41,24 @@ oe_get_network(place, mode = c("cycling", "driving", "walking"), ...)
   Additional arguments passed to
   [`oe_get()`](https://docs.ropensci.org/osmextract/reference/oe_get.md)
   such as `boundary` or `force_download`.
+
+- clean_output:
+
+  logical; whether to standardise `oneway` values and simplify the
+  `highway` values by removing the "\_link" suffix. Geometries of links
+  where `oneway == -1` in the original data are reversed. If a
+  `junction` column is present and its value is `"roundabout"`, the
+  `oneway` attribute is automatically set to `"yes"`. Additionally, if a
+  `highway_filter` is provided, only highways of the specified types are
+  retained.
+
+- highway_filter:
+
+  Character vector of highway types to keep. Ignored if clean_output is
+  `FALSE`. Valid values are: "busway", "cycleway", "footway",
+  "living_street", "motorway", "path", "pedestrian", "primary",
+  "residential", "rest_area", "service", "services", "steps",
+  "tertiary", "track", "trunk" and "unclassified".
 
 ## Value
 

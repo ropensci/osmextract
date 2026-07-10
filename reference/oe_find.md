@@ -123,14 +123,14 @@ res = file.copy(
 res = oe_get("ITS Leeds", quiet = TRUE, download_directory = tempdir())
 oe_find("ITS Leeds", provider = "test", download_directory = tempdir())
 #> The input place was matched with: ITS Leeds
-#> [1] "/tmp/RtmpewWCXF/test_its-example.gpkg"   
-#> [2] "/tmp/RtmpewWCXF/test_its-example.osm.pbf"
+#> [1] "/tmp/RtmpHb8rDC/test_its-example.gpkg"   
+#> [2] "/tmp/RtmpHb8rDC/test_its-example.osm.pbf"
 oe_find(
   "ITS Leeds", provider = "test",
   download_directory = tempdir(), return_gpkg = FALSE
 )
 #> The input place was matched with: ITS Leeds
-#> [1] "/tmp/RtmpewWCXF/test_its-example.osm.pbf"
+#> [1] "/tmp/RtmpHb8rDC/test_its-example.osm.pbf"
 
 if (FALSE) { # \dontrun{
 oe_find("Isle of Wight", download_directory = tempdir())

@@ -37,3 +37,6 @@ Other contributors:
 - Nicholas Potter (Nicholas reviewed the package (v. 0.1) for rOpenSci,
   see \<https://github.com/ropensci/software-review/issues/395\>)
   \[reviewer\]
+
+- Juan P. Fonseca-Zamora
+  ([ORCID](https://orcid.org/0009-0006-7042-3828)) \[contributor\]
