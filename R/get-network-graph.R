@@ -22,14 +22,21 @@
 #' @returns An `sfnetwork` object
 #'
 #' @details
+#'
+#' In particular, the two preprocessing morphers applied to the output returned
+#' by [oe_get_network()] are [sfnetworks::to_spatial_subdivision()] and
+#' [sfnetworks::to_spatial_smooth()]. Check their help pages for more details.
+#' See also the documentation for `sfnetworks` for more details on the two
+#' preprocessing steps: [subdividing
+#' edges](https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#subdivide-edges)
+#' and [smoothing
+#' pseudo-nodes](https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#smooth-pseudo-nodes).
+#'
 #' Note that preprocessing is performed on the undirected graph, ignoring road
-#' directionality. See the documentation for `sfnetworks` for more details on
-#' the two preprocessing steps: [subdividing edges](https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#subdivide-edges)
-#' and [smoothing pseudo-nodes](https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#smooth-pseudo-nodes).
-#' If `directed = TRUE`, the function then builds the directed graph by
-#' duplicating bidirectional edges with reversed geometries. If the `oneway`
-#' column is missing, a warning is issued and an undirected `sfnetwork` is
-#' returned instead.
+#' directionality. If `directed = TRUE`, the function then builds the directed
+#' graph by duplicating bidirectional edges with reversed geometries. If the
+#' `oneway` column is missing, a warning is issued and an undirected `sfnetwork`
+#' is returned instead.
 #'
 #' @export
 #'

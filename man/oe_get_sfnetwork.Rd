@@ -62,14 +62,18 @@ i.e. subdivision and smoothing are performed. It also allows for the creation
 of directed or undirected networks.
 }
 \details{
-Note that preprocessing is performed on the undirected graph, ignoring road
-directionality. See the documentation for \code{sfnetworks} for more details on
-the two preprocessing steps: \href{https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#subdivide-edges}{subdividing edges}
+In particular, the two preprocessing morphers applied to the output returned
+by \code{\link[=oe_get_network]{oe_get_network()}} are \code{\link[sfnetworks:to_spatial_subdivision]{sfnetworks::to_spatial_subdivision()}} and
+\code{\link[sfnetworks:to_spatial_smooth]{sfnetworks::to_spatial_smooth()}}. Check their help pages for more details.
+See also the documentation for \code{sfnetworks} for more details on the two
+preprocessing steps: \href{https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#subdivide-edges}{subdividing edges}
 and \href{https://luukvdmeer.github.io/sfnetworks/articles/sfn02_preprocess_clean.html#smooth-pseudo-nodes}{smoothing pseudo-nodes}.
-If \code{directed = TRUE}, the function then builds the directed graph by
-duplicating bidirectional edges with reversed geometries. If the \code{oneway}
-column is missing, a warning is issued and an undirected \code{sfnetwork} is
-returned instead.
+
+Note that preprocessing is performed on the undirected graph, ignoring road
+directionality. If \code{directed = TRUE}, the function then builds the directed
+graph by duplicating bidirectional edges with reversed geometries. If the
+\code{oneway} column is missing, a warning is issued and an undirected \code{sfnetwork}
+is returned instead.
 }
 \examples{
 # Copy the ITS file to tempdir() to make sure that the examples do not
