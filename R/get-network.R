@@ -17,10 +17,10 @@
 #'   `highway_filter` is provided, only highways of the specified types are
 #'   retained.
 #' @param highway_filter Character vector of highway types to keep. Ignored if
-#'   clean_output is `FALSE`. Valid values are: "busway", "cycleway", "footway",
-#'   "living_street", "motorway", "path", "pedestrian", "primary",
-#'   "residential", "rest_area", "service", "services", "steps", "tertiary",
-#'   "track", "trunk" and "unclassified".
+#'   `clean_output` is `FALSE`. Valid values are: `"busway"`, `"cycleway"`,
+#'   `"footway"`, `"living_street"`, `"motorway"`, `"path"`, `"pedestrian"`,
+#'   `"primary"`, `"residential"`, `"rest_area"`, `"service"`, `"services"`,
+#'   `"steps"`, `"tertiary"`, `"track"`, `"trunk"` and `"unclassified"`.
 #' @param ... Additional arguments passed to [oe_get()] such as `boundary` or
 #'   `force_download`.
 #'

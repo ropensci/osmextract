@@ -36,10 +36,10 @@ attribute is automatically set to \code{"yes"}. Additionally, if a
 retained.}
 
 \item{highway_filter}{Character vector of highway types to keep. Ignored if
-clean_output is \code{FALSE}. Valid values are: "busway", "cycleway", "footway",
-"living_street", "motorway", "path", "pedestrian", "primary",
-"residential", "rest_area", "service", "services", "steps", "tertiary",
-"track", "trunk" and "unclassified".}
+\code{clean_output} is \code{FALSE}. Valid values are: \code{"busway"}, \code{"cycleway"},
+\code{"footway"}, \code{"living_street"}, \code{"motorway"}, \code{"path"}, \code{"pedestrian"},
+\code{"primary"}, \code{"residential"}, \code{"rest_area"}, \code{"service"}, \code{"services"},
+\code{"steps"}, \code{"tertiary"}, \code{"track"}, \code{"trunk"} and \code{"unclassified"}.}
 }
 \value{
 An \code{sf} object.
