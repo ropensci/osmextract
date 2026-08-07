@@ -54,11 +54,12 @@ oe_get_network(
 
 - highway_filter:
 
-  Character vector of highway types to keep. Ignored if clean_output is
-  `FALSE`. Valid values are: "busway", "cycleway", "footway",
-  "living_street", "motorway", "path", "pedestrian", "primary",
-  "residential", "rest_area", "service", "services", "steps",
-  "tertiary", "track", "trunk" and "unclassified".
+  Character vector of highway types to keep. Ignored if `clean_output`
+  is `FALSE`. Valid values are: `"busway"`, `"cycleway"`, `"footway"`,
+  `"living_street"`, `"motorway"`, `"path"`, `"pedestrian"`,
+  `"primary"`, `"residential"`, `"rest_area"`, `"service"`,
+  `"services"`, `"steps"`, `"tertiary"`, `"track"`, `"trunk"` and
+  `"unclassified"`.
 
 ## Value
 
