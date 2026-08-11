@@ -102,7 +102,56 @@ OSM extract, assuming you already know their OSM IDs:</p>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.5609 ymin: 53.8063 xmax: -1.549451 ymax: 53.81044</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="how-can-i-convert-the-segments-downloaded-from-osm-into-a-street-network">How can I convert the segments downloaded from OSM into a street
+network?<a class="anchor" aria-label="anchor" href="#how-can-i-convert-the-segments-downloaded-from-osm-into-a-street-network"></a>
+</h2>
+<p>Starting from version 0.7, the package includes a set of functions to
+automatically convert the output of <code><a href="../reference/oe_get_network.html">oe_get_network()</a></code> (and
+similar functions) into <code>sfnetwork</code> or <code>dodgr</code>
+objects.</p>
+<p>For example, the following command returns a <code>sfnetwork</code>
+object representing the walking network extracted from the toy ITS data
+included in the package:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sfn_walking</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get_sfnetwork.html">oe_get_sfnetwork</a></span><span class="op">(</span></span>
+<span>  place <span class="op">=</span> <span class="st">"ITS Leeds"</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"walking"</span>, </span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: to_spatial_subdivision assumes attributes are constant over geometries</span></span></code></pre></div>
+<p>More precisely, the function runs the following operations:</p>
+<ol style="list-style-type: decimal">
+<li>It extracts the walkable streets from the toy ITS Leeds data
+included in the package;</li>
+<li>It applies a series of preprocessing steps to standardise the values
+included in the <code>oneway</code> column and simplies the
+<code>highway</code> tag removing the <code>"_link"</code> suffix. See
+the <code>clean_output</code> argument in <code>oe_get_network</code>
+for more details.</li>
+<li>It converts the data into <code>sfnetwork</code> class and applies
+two spatial morphers, namely <code>to_spatial_subdivision</code> and
+<code>to_spatial_smooth</code> to fix possible inconsistencies in the
+geometries and simplify the geometry structure. See also
+<code><a href="../reference/net_2_sfnet_undirected.html">?net_2_sfnet_undirected</a></code>;</li>
+<li>If requested, converts the output into a directed network after
+duplicating bidirectional edges with reversed geometries.</li>
+</ol>
+<p>The following command runs similar operations (except for the spatial
+morphers) and returns a <code>dodgr_streenet</code> object:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dodgr_walking</span> <span class="op">=</span> <span class="fu"><a href="../reference/oe_get_dodgrnetwork.html">oe_get_dodgrnetwork</a></span><span class="op">(</span></span>
+<span>  place <span class="op">=</span> <span class="st">"ITS Leeds"</span>,</span>
+<span>  mode <span class="op">=</span> <span class="st">"walking"</span>, </span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in oe_get_dodgrnetwork(place = "ITS Leeds", mode = "walking", quiet = TRUE): The 'oneway'</span></span>
+<span><span class="co">#&gt; column is missing. All edges will be assumed to be bidirectional!</span></span></code></pre></div>
+<p>See the help pages of the corresponding functions for more
+details.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
