@@ -617,7 +617,7 @@ returned by `tools::R_user_dir("osmextract", "data")` (see
 ``` r
 
 oe_download_directory()
-#> [1] "/tmp/Rtmpi0mpyo"
+#> [1] "/tmp/Rtmpdj12Ks"
 ```
 
 Another relevant alternative for temporary downloads might be
@@ -936,7 +936,7 @@ So, for example, the following code can be used for reading-in the
 ``` r
 
 oe_read(its_gpkg)
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -953,7 +953,7 @@ will ignore the conversion step.
 ``` r
 
 oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = FALSE)
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.osm.pbf' using driver `OSM'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.osm.pbf' using driver `OSM'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -991,7 +991,7 @@ its_lines = oe_get("ITS Leeds")
 #> The input place was matched with: ITS Leeds
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1121,7 +1121,7 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE)
 #> Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field
 #> 'highway' already exists. Renaming it as 'highway2'
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 191 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1139,7 +1139,7 @@ oe_get("ITS Leeds", provider = "test", quiet = FALSE, force_vectortranslate = TR
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1169,7 +1169,7 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE, ex
 #> Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field
 #> 'highway' already exists. Renaming it as 'highway2'
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 191 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1201,7 +1201,7 @@ oe_get("ITS Leeds", vectortranslate_options = c("-t_srs", "EPSG:27700"), quiet =
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1252,7 +1252,7 @@ its_leeds = oe_get("ITS Leeds", vectortranslate_options = my_vectortranslate, qu
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 76 features and 2 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1328,7 +1328,7 @@ its_small = oe_get("ITS Leeds", boundary = its_bbox)
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 5 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1351,7 +1351,7 @@ its_small = oe_get(its_bbox, provider = "test")
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 5 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1527,7 +1527,7 @@ colnames(oe_get(
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
 #> Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'
-#> from data source `/tmp/Rtmpi0mpyo/test_its-example.gpkg' using driver `GPKG'
+#> from data source `/tmp/Rtmpdj12Ks/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
