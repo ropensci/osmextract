@@ -107,9 +107,11 @@ plot(st_geometry(bbbike_zones), xlim = c(-2, 10), ylim = c(35, 60), col = "darkr
 ```
 
 ```{r, echo = FALSE, out.width="80%"}
-knitr::include_graphics(
-  path = "../man/figures/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png"
-)
+if (!interactive()) {
+  knitr::include_graphics(
+    path = "../man/figures/94461461-772e4d00-01ba-11eb-950c-804ad177729f.png"
+  )
+}
 ```
 
 As shown in the visualisation above of [BBBike.org](https://download.bbbike.org/osm/) zones in Europe, that provider offers rectangular extracts of the major cities.
@@ -141,8 +143,8 @@ oe_match("US", match_by = "iso3166_1_alpha2")
 There are a few scenarios where the `iso3166-1 alpha2` codes in `geofabrik_data` cannot be used since there are no per-country extracts (e.g. Israel and Palestine):
 
 ```{r, error = TRUE}
-oe_match("PS", match_by = "iso3166_1_alpha2", quiet = TRUE)
-oe_match("IL", match_by = "iso3166_1_alpha2", quiet = TRUE)
+try(oe_match("PS", match_by = "iso3166_1_alpha2", quiet = TRUE))
+try(oe_match("IL", match_by = "iso3166_1_alpha2", quiet = TRUE))
 ```
 
 For this reason, we coded a function named `oe_match_pattern()` to explore the matching operations for all available providers according to a pre-defined pattern. 
@@ -226,7 +228,7 @@ For example, `level = 1` may correspond to continent-size extracts, `2` is for c
 yak = c(-120.51084, 46.60156)
 oe_match(yak, level = 1, quiet = TRUE)
 oe_match(yak, level = 2, quiet = TRUE)
-oe_match(yak, level = 3, quiet = TRUE)
+try(oe_match(yak, level = 3, quiet = TRUE))
 ```
 
 If there are multiple OSM extracts intersecting the input `place` at the same `level`, then `oe_match()` will return the area whose centroid is closest to the input `place`.
@@ -374,7 +376,7 @@ its_gpkg = oe_vectortranslate(its_pbf)
 list.files(oe_download_directory(), pattern = "pbf|gpkg")
 ```
 
-The vectortranslate operation can be customised in several ways modifying the parameters `layer`, `extra_tags`, `osmconf_ini`, `vectortranslate_options`, `boundary` and `boundary_type`.  
+The vectortranslate operation can be customised in several ways modifying the parameters `layer`, `extra_tags`, `osmconf_ini`, `vectortranslate_options`, `boundary` and `boundary_type`.
 
 ### `layer` argument
 
