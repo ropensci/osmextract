@@ -47,6 +47,11 @@ adjust_version_in_url <- function(version, url) {
 # doubles carrying sub-grid noise, which silently breaks exact matching between
 # the layers (see #323). We snap the coordinates back onto the source grid.
 snap_to_osm_grid = function(x, precision = getOption("osmextract.precision", 1e7)) {
+  # Only snap coordinates if the object is an sf object with geometry
+  if (!inherits(x, "sf")) {
+    return(x)
+  }
+  
   sf::st_set_geometry(
     x,
     sf::st_as_sfc(
