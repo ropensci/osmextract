@@ -52,7 +52,7 @@
 #'   overwrite = TRUE
 #' )
 #' if (requireNamespace("sfnetworks", quietly = TRUE)) {
-#'   #' # Undirected unfiltered pedestrian network
+#'   # Undirected unfiltered pedestrian network
 #'   walk_sfnet <- oe_get_sfnetwork(
 #'     place = "ITS Leeds",
 #'     mode = "walking",
@@ -61,7 +61,7 @@
 #'   )
 #'   plot(walk_sfnet)
 #'
-#'   #' # Directed unfiltered driving network
+#'   # Directed unfiltered driving network
 #'   car_sfnet <- oe_get_sfnetwork(
 #'     place = "ITS Leeds",
 #'     mode = "driving",
@@ -71,7 +71,7 @@
 #'   )
 #'   plot(car_sfnet)
 #'
-#'   #' # Directed filtered driving network
+#'   # Directed filtered driving network
 #'   highway_filter = c(
 #'     "motorway",
 #'     "trunk",
