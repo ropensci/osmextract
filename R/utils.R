@@ -43,6 +43,17 @@ adjust_version_in_url <- function(version, url) {
   gsub("latest(?=\\.osm\\.pbf$)", version, url, perl = TRUE)
 }
 
+# OSM stores coordinates on a 1e-7 precision grid. The GDAL OSM driver returns
+# doubles carrying sub-grid noise, which silently breaks exact matching between
+# the layers (see #323). We snap the coordinates back onto the source grid.
+snap_to_osm_grid = function(x, precision = getOption("osmextract.precision", 1e7)) {
+  sf::st_set_geometry(
+    x,
+    sf::st_as_sfc(
+      x = sf::st_as_binary(sf::st_geometry(x), precision = precision),
+      crs = sf::st_crs(x))
+  )
+}
 
 # Starting from sf 1.0.2, sf::st_read raises a warning message when both layer
 # and query arguments are set, while it raises a warning in sf < 1.0.2 when
@@ -51,7 +62,7 @@ adjust_version_in_url <- function(version, url) {
 # to circumvent this problem and set the appropriate arguments.
 my_st_read <- function(dsn, layer, quiet, ...) {
   dots_names = ...names()
-  if (utils::packageVersion("sf") <= "1.0.1") { # nocov start
+  out = if (utils::packageVersion("sf") <= "1.0.1") { # nocov start
     sf::st_read(
       dsn = dsn,
       layer = layer,
@@ -74,6 +85,9 @@ my_st_read <- function(dsn, layer, quiet, ...) {
       )
     }
   }
+  
+  # Snap coordinates onto OSM's native 1e-7 precision grid
+  snap_to_osm_grid(out)
 }
 
 #' Returns the download directory used by the package
