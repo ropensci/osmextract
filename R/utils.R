@@ -51,7 +51,7 @@ adjust_version_in_url <- function(version, url) {
 # to circumvent this problem and set the appropriate arguments.
 my_st_read <- function(dsn, layer, quiet, ...) {
   dots_names = ...names()
-  if (utils::packageVersion("sf") <= "1.0.1") { # nocov start
+  out <- if (utils::packageVersion("sf") <= "1.0.1") { # nocov start
     sf::st_read(
       dsn = dsn,
       layer = layer,
@@ -74,6 +74,18 @@ my_st_read <- function(dsn, layer, quiet, ...) {
       )
     }
   }
+
+  # At the time of writing (Sep. 2026), the OSM wiki says OSM data are stored in
+  # a geodetic CRS with 7 digits of precision: https://wiki.openstreetmap.org/wiki/Node
+  # The following code forces such value into the sf object we just created.
+  # See also the discussion in https://github.com/ropensci/osmextract/issues/323
+  # The if (inherits(...)) is required because the previous function does not
+  # always return an sf object (see, for example, the oe_get_keys code and the
+  # example in the main vignette).
+  if (inherits(out, "sf")) {
+    sf::st_precision(out) = 1e7
+  }
+  out
 }
 
 #' Returns the download directory used by the package
