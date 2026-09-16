@@ -6,6 +6,7 @@
 * Bump minimum R version to 4.2.0 to simplify the package's workflow and adopt `...names()`. In fact, ...names() was introduced in R 4.1.0, but a relevant bug was fixed only included from R 4.1.3.
 * `oe_download()` can correctly and automatically detect the openstreetmap.fr provider from an input URL. 
 * Added new functions `oe_get_*network` to obtain primal graphs, i.e., `sfnetwork` and `dodgr_streetnet` objects, from OSM data. ([#321](https://github.com/ropensci/osmextract/issues/261))
+* The output of `oe_get()` and `oe_read()` (plus related functions) returns an `sf` object with precision forecefully set equal to 1e7, following the indications reported in the [OSM wiki](https://wiki.openstreetmap.org/wiki/Node) that coordinates are reported using a precision of 7 decimal places in latitude and longitude; ([#323](https://github.com/ropensci/osmextract/issues/323)). See also `?sf::st_precision` to get an idea of the implications of this change. 
 
 ### MINOR CHANGES
 

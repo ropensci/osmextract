@@ -16,6 +16,12 @@
 #'   the tags in `other_tags` field as new columns. See examples and
 #'   [oe_get_keys()] for more details.
 #'
+#'   Starting from version 0.7, the function forcefully sets a precision equal
+#'   to 1e7 on the returned `sf` object, following the indications reported in the
+#'   [OSM wiki](https://wiki.openstreetmap.org/wiki/Node) that coordinates are
+#'   reported using a precision of 7 decimal places in latitude and longitude.
+#'   See also `?sf::st_coordinates`.
+#'
 #' @inheritParams oe_get
 #' @param file_path A URL or the path to a `.pbf` or `.gpkg` file. If a URL,
 #'   then it must be specified using HTTP/HTTPS protocol.
