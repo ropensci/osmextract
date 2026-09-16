@@ -51,13 +51,16 @@ snap_to_osm_grid = function(x, precision = getOption("osmextract.precision", 1e7
   if (!inherits(x, "sf")) {
     return(x)
   }
-  
-  sf::st_set_geometry(
-    x,
-    sf::st_as_sfc(
-      x = sf::st_as_binary(sf::st_geometry(x), precision = precision),
-      crs = sf::st_crs(x))
-  )
+  if (precision != 0){
+    x = sf::st_set_geometry(
+      x,
+      sf::st_as_sfc(
+        x = sf::st_as_binary(sf::st_geometry(x), precision = precision),
+        crs = sf::st_crs(x))
+    )
+    sf::st_precision(x) = precision
+  }
+  return(x)
 }
 
 # Starting from sf 1.0.2, sf::st_read raises a warning message when both layer
