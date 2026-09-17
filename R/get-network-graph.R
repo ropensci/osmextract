@@ -201,6 +201,7 @@ oe_get_sfnetwork = function(
 #'   plot(sfnet_undirected)
 #' }
 net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
+
   if (!requireNamespace("sfnetworks", quietly = TRUE)) {
     stop("sfnetworks is not available. Please install it first")
   }
@@ -219,7 +220,14 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
   # This converts implicit intersections into explicit nodes
   sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision, .clean = TRUE)
 
-  # Simplifying the interstitial nodes segments
+# This converts the require_equal argument into a character vector if TRUE (Works with both implementations of sfnetworks) 
+if(is.logical(require_equal)&&require_equal){
+    require_equal = names(sf::st_drop_geometry(net_sf))
+  } 
+
+if(utils::packageVersion("sfnetworks")<"0.9"){
+# Implementation working with current version of sfnetworks on CRAN
+# Simplifying the interstitial nodes segments 
   tidygraph::convert(
     sf_net_subdiv,
     sfnetworks::to_spatial_smooth,
@@ -227,6 +235,22 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
     require_equal = require_equal,
     .clean = TRUE
   )
+
+} else {
+  # if require_equal is FALSE, it is set to NULL as per new implementation in sfnetworks>0.9
+  if(is.logical(require_equal)&&!require_equal){
+    require_equal = NULL
+  }
+  
+  tidygraph::convert(
+      sf_net_subdiv,
+      sfnetworks::to_spatial_smooth,
+      attribute_summary = list(collapse_function),
+      require_equal = require_equal,
+      .clean = TRUE
+    )
+
+} 
 }
 
 prepare_directed = function(sfnet_und) {
