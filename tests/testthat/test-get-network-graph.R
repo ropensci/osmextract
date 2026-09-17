@@ -156,6 +156,28 @@ test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects 
 
   directed_net = prepare_directed(undirected_net)
   expect_s3_class(directed_net, "sfnetwork")
+
+  # Tests for invalid require_equal
+  expect_error(
+    net_2_sfnet_undirected(toy_net, require_equal = 123),
+    regexp = "must be either a single TRUE/FALSE or a character vector"
+  )
+
+  expect_error(
+    net_2_sfnet_undirected(toy_net, require_equal = c(TRUE, FALSE)),
+    regexp = "must be either a single TRUE/FALSE or a character vector"
+  )
+
+  expect_error(
+    net_2_sfnet_undirected(toy_net, require_equal = NA),
+    regexp = "must be either a single TRUE/FALSE or a character vector"
+  )
+
+  expect_error(
+    net_2_sfnet_undirected(toy_net, require_equal = c("highway", "nonexistent_col")),
+    regexp = "contains non-existent column names"
+  )
+
 })
 
 test_that("oe_get_dodgrnetwork returns a dodgr_streetnet and applies highway filtering", {
