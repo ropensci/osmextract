@@ -201,14 +201,35 @@ oe_get_sfnetwork = function(
 #'   plot(sfnet_undirected)
 #' }
 net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
+
   if (!requireNamespace("sfnetworks", quietly = TRUE)) {
     stop("sfnetworks is not available. Please install it first")
   }
 
-  stopifnot(
-    (is.logical(require_equal) && length(require_equal) == 1L) ||
-      (is.character(require_equal) && all(require_equal %in% names(net_sf)))
-  )
+  if (isTRUE(require_equal)) {
+    # Setting require_equal to all attribute names but the column with the geometry
+    geom_col <- attr(net_sf, "sf_column")
+    require_equal <- setdiff(names(net_sf), geom_col)
+  } else if (!isFALSE(require_equal)) {
+    # if not Logical of lenght == 1
+    if (!is.character(require_equal)) {
+      stop(
+        sQuote("require_equal"),
+        " must be either a single TRUE/FALSE or a character vector.",
+        call. = FALSE
+      )
+    }
+
+    missing_cols <- setdiff(require_equal, names(net_sf))
+    if (length(missing_cols) > 0L) {
+      stop(
+        sQuote("require_equal"),
+        " contains non-existent column names: ",
+        toString(dQuote(missing_cols)),
+        call. = FALSE
+      )
+    }
+  }
 
   sfnet = sfnetworks::as_sfnetwork(
     x = net_sf,
@@ -219,14 +240,32 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
   # This converts implicit intersections into explicit nodes
   sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision, .clean = TRUE)
 
-  # Simplifying the interstitial nodes segments
-  tidygraph::convert(
-    sf_net_subdiv,
-    sfnetworks::to_spatial_smooth,
-    summarise_attributes = list(collapse_function),
-    require_equal = require_equal,
-    .clean = TRUE
-  )
+  if(utils::packageVersion("sfnetworks")<"0.9"){
+    # Implementation working with current version of sfnetworks on CRAN
+    # Simplifying the interstitial nodes segments
+    tidygraph::convert(
+      sf_net_subdiv,
+      sfnetworks::to_spatial_smooth,
+      summarise_attributes = list(collapse_function),
+      require_equal = require_equal,
+      .clean = TRUE
+    )
+
+  } else {
+    # if require_equal is FALSE, it is set to NULL as per new implementation in sfnetworks>0.9
+    if(isFALSE(require_equal)){
+      require_equal = NULL
+    }
+
+    tidygraph::convert(
+      sf_net_subdiv,
+      sfnetworks::to_spatial_smooth,
+      attribute_summary = list(collapse_function),
+      require_equal = require_equal,
+      .clean = TRUE
+    )
+
+  }
 }
 
 prepare_directed = function(sfnet_und) {
