@@ -206,9 +206,12 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
     stop("sfnetworks is not available. Please install it first")
   }
 
-  is_single_logical <- is.logical(require_equal) && length(require_equal) == 1L && !is.na(require_equal)
-
-  if (!is_single_logical) {
+  if (isTRUE(require_equal)) {
+    # Setting require_equal to all attribute names but the column with the geometry
+    geom_col <- attr(net_sf, "sf_column")
+    require_equal <- setdiff(names(net_sf), geom_col)
+  } else if (!isFALSE(require_equal)) {
+    # if not Logical of lenght == 1
     if (!is.character(require_equal)) {
       stop(
         sQuote("require_equal"),
@@ -237,11 +240,6 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
   # This converts implicit intersections into explicit nodes
   sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision, .clean = TRUE)
 
-  # This converts the require_equal argument into a character vector if TRUE (Works with both implementations of sfnetworks)
-  if(is.logical(require_equal)&&require_equal){
-    require_equal = names(sf::st_drop_geometry(net_sf))
-  }
-
   if(utils::packageVersion("sfnetworks")<"0.9"){
     # Implementation working with current version of sfnetworks on CRAN
     # Simplifying the interstitial nodes segments
@@ -255,7 +253,7 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
 
   } else {
     # if require_equal is FALSE, it is set to NULL as per new implementation in sfnetworks>0.9
-    if(is.logical(require_equal)&&!require_equal){
+    if(isFALSE(require_equal)){
       require_equal = NULL
     }
 
