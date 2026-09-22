@@ -156,6 +156,7 @@ test_that("net_2_sfnet_undirected and prepare_directed return sfnetwork objects 
 
   directed_net = prepare_directed(undirected_net)
   expect_s3_class(directed_net, "sfnetwork")
+
 })
 
 test_that("oe_get_dodgrnetwork returns a dodgr_streetnet and applies highway filtering", {
