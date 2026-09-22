@@ -408,7 +408,7 @@ test_that("Vectortranslate operations are not repeated when extra_fields include
   )
 })
 
-test_that("oe_read returns output with default 1e7 precision", {
+test_that("oe_read returns output with set precision", {
   withr::local_envvar(
     .new = list(
       "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
@@ -417,10 +417,10 @@ test_that("oe_read returns output with default 1e7 precision", {
   )
   its_pbf = setup_pbf()
 
-  # Read in data
   osm_data = oe_read(its_pbf, quiet = TRUE)
   expect_equal(sf::st_precision(osm_data), 1e7)
 
+  # Test the use of osmextract.precision option
   withr::with_options(
     new = list(osmextract.precision = 1),
     code = {
