@@ -27,13 +27,13 @@ Source:
 [`DESCRIPTION`](https://github.com/ropensci/osmextract/blob/master/DESCRIPTION)
 
 Gilardi A, Lovelace R (2026). *osmextract: Download and Import Open
-Street Map Data Extracts*. R package version 0.6.0.9000,
+Street Map Data Extracts*. R package version 0.7.0,
 <https://docs.ropensci.org/osmextract/>.
 
     @Manual{,
       title = {osmextract: Download and Import Open Street Map Data Extracts},
       author = {Andrea Gilardi and Robin Lovelace},
       year = {2026},
-      note = {R package version 0.6.0.9000},
+      note = {R package version 0.7.0},
       url = {https://docs.ropensci.org/osmextract/},
     }
