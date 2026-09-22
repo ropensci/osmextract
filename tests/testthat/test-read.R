@@ -407,3 +407,18 @@ test_that("Vectortranslate operations are not repeated when extra_fields include
     class = "oe_vectortranslate_skipOperations"
   )
 })
+
+test_that("oe_read returns output with default 1e7 precision", {
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  # Read in data
+  osm_data = oe_read(its_pbf, quiet = TRUE)
+
+  expect_equal(sf::st_precision(osm_data), 1e7)
+})
