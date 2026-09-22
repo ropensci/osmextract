@@ -592,7 +592,7 @@ R-related user-specific data directory returned by
 <code><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">?tools::R_user_dir</a></code>):</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_download_directory.html">oe_download_directory</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "/tmp/Rtmp9uPNZk"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/tmp/RtmpSuTc3x"</span></span></code></pre></div>
 <p>Another relevant alternative for temporary downloads might be
 <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code>. Use this if you want to avoid persisting
 downloaded files between R sessions.</p>
@@ -877,24 +877,115 @@ path or URL.</p>
 <code>its-gpkg</code> file:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
+<span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Precision:     1e+07 </span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     osm_id           name     highway waterway aerialway barrier man_made railway    bicycle</span></span>
+<span><span class="co">#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt; designated</span></span>
+<span><span class="co">#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;          foot z_order</span></span>
+<span><span class="co">#&gt; 1        &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 2  designated       0</span></span>
+<span><span class="co">#&gt; 3        &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 4        &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 5        &lt;NA&gt;       3</span></span>
+<span><span class="co">#&gt; 6        &lt;NA&gt;       8</span></span>
+<span><span class="co">#&gt; 7        &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 8        &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 9        &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 10       &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt;                                                                                                                        other_tags</span></span>
+<span><span class="co">#&gt; 1                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3                                                               "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span></span>
+<span><span class="co">#&gt; 4                                                                             "access"=&gt;"permissive","lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 5                                                                                                    "lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span></span>
+<span><span class="co">#&gt; 7                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                          geometry</span></span>
+<span><span class="co">#&gt; 1  LINESTRING (-1.560083 53.80...</span></span>
+<span><span class="co">#&gt; 2  LINESTRING (-1.559709 53.80...</span></span>
+<span><span class="co">#&gt; 3  LINESTRING (-1.5609 53.8085...</span></span>
+<span><span class="co">#&gt; 4  LINESTRING (-1.552587 53.80...</span></span>
+<span><span class="co">#&gt; 5  LINESTRING (-1.551771 53.80...</span></span>
+<span><span class="co">#&gt; 6  LINESTRING (-1.552894 53.80...</span></span>
+<span><span class="co">#&gt; 7  LINESTRING (-1.554698 53.80...</span></span>
+<span><span class="co">#&gt; 8  LINESTRING (-1.557451 53.80...</span></span>
+<span><span class="co">#&gt; 9  LINESTRING (-1.556508 53.80...</span></span>
+<span><span class="co">#&gt; 10 LINESTRING (-1.558149 53.80...</span></span></code></pre></div>
 <p>If the input <code>file_path</code> points to a <code>.osm.pbf</code>
 file, the vectortranslate operations can be skipped using the parameter
 <code>skip_vectortranslate</code>. In that case, <code><a href="../reference/oe_read.html">oe_read()</a></code>
 will ignore the conversion step.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_read.html">oe_read</a></span><span class="op">(</span><span class="va">its_pbf</span>, skip_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.osm.pbf' using driver `OSM'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.osm.pbf' using driver `OSM'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
+<span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Precision:     1e+07 </span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     osm_id           name     highway waterway aerialway barrier man_made railway z_order</span></span>
+<span><span class="co">#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       3</span></span>
+<span><span class="co">#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       8</span></span>
+<span><span class="co">#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt;                                                                                                                        other_tags</span></span>
+<span><span class="co">#&gt; 1                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                    "bicycle"=&gt;"designated","foot"=&gt;"designated"</span></span>
+<span><span class="co">#&gt; 3                                                               "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span></span>
+<span><span class="co">#&gt; 4                                                                             "access"=&gt;"permissive","lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 5                                                                                                    "lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span></span>
+<span><span class="co">#&gt; 7                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                          geometry</span></span>
+<span><span class="co">#&gt; 1  LINESTRING (-1.560083 53.80...</span></span>
+<span><span class="co">#&gt; 2  LINESTRING (-1.559709 53.80...</span></span>
+<span><span class="co">#&gt; 3  LINESTRING (-1.5609 53.8085...</span></span>
+<span><span class="co">#&gt; 4  LINESTRING (-1.552587 53.80...</span></span>
+<span><span class="co">#&gt; 5  LINESTRING (-1.551771 53.80...</span></span>
+<span><span class="co">#&gt; 6  LINESTRING (-1.552894 53.80...</span></span>
+<span><span class="co">#&gt; 7  LINESTRING (-1.554698 53.80...</span></span>
+<span><span class="co">#&gt; 8  LINESTRING (-1.557451 53.80...</span></span>
+<span><span class="co">#&gt; 9  LINESTRING (-1.556508 53.80...</span></span>
+<span><span class="co">#&gt; 10 LINESTRING (-1.558149 53.80...</span></span></code></pre></div>
 <p>We can see that the output data includes nine fields (i.e. the
 default tags), while the previous example had 11 fields (i.e. the
 default tags + <code>bicycle</code> and <code>foot</code> tags, that
@@ -923,7 +1014,7 @@ follows:</p>
 <span><span class="co">#&gt; The input place was matched with: ITS Leeds</span></span>
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1023,12 +1114,63 @@ file:</p>
 <span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
 <span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
+<span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Precision:     1e+07 </span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     osm_id highway lanes           name    highway2 waterway aerialway barrier man_made railway</span></span>
+<span><span class="co">#&gt; 1  4371081    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  4371084    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3  4419868    &lt;NA&gt;  &lt;NA&gt;    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4  6277600    &lt;NA&gt;     1 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  6277601    &lt;NA&gt;     1 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  6295680    &lt;NA&gt;     2  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7  6962430    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8  6962433    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9  6962435    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10 6962440    &lt;NA&gt;  &lt;NA&gt;  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;    z_order</span></span>
+<span><span class="co">#&gt; 1        0</span></span>
+<span><span class="co">#&gt; 2        0</span></span>
+<span><span class="co">#&gt; 3        0</span></span>
+<span><span class="co">#&gt; 4        0</span></span>
+<span><span class="co">#&gt; 5        0</span></span>
+<span><span class="co">#&gt; 6        0</span></span>
+<span><span class="co">#&gt; 7        0</span></span>
+<span><span class="co">#&gt; 8        0</span></span>
+<span><span class="co">#&gt; 9        0</span></span>
+<span><span class="co">#&gt; 10       0</span></span>
+<span><span class="co">#&gt;                                                                                                           other_tags</span></span>
+<span><span class="co">#&gt; 1                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                       "bicycle"=&gt;"designated","foot"=&gt;"designated"</span></span>
+<span><span class="co">#&gt; 3                                                  "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span></span>
+<span><span class="co">#&gt; 4                                                                             "access"=&gt;"permissive","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 5                                                                                                    "oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 6  "lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span></span>
+<span><span class="co">#&gt; 7                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                              &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                          geometry</span></span>
+<span><span class="co">#&gt; 1  LINESTRING (-1.560083 53.80...</span></span>
+<span><span class="co">#&gt; 2  LINESTRING (-1.559709 53.80...</span></span>
+<span><span class="co">#&gt; 3  LINESTRING (-1.5609 53.8085...</span></span>
+<span><span class="co">#&gt; 4  LINESTRING (-1.552587 53.80...</span></span>
+<span><span class="co">#&gt; 5  LINESTRING (-1.551771 53.80...</span></span>
+<span><span class="co">#&gt; 6  LINESTRING (-1.552894 53.80...</span></span>
+<span><span class="co">#&gt; 7  LINESTRING (-1.554698 53.80...</span></span>
+<span><span class="co">#&gt; 8  LINESTRING (-1.557451 53.80...</span></span>
+<span><span class="co">#&gt; 9  LINESTRING (-1.556508 53.80...</span></span>
+<span><span class="co">#&gt; 10 LINESTRING (-1.558149 53.80...</span></span></code></pre></div>
 <p>If we compare it with the default output:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/oe_get.html">oe_get</a></span><span class="op">(</span><span class="st">"ITS Leeds"</span>, provider <span class="op">=</span> <span class="st">"test"</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span>, force_vectortranslate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -1037,12 +1179,52 @@ file:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
+<span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Precision:     1e+07 </span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     osm_id           name     highway waterway aerialway barrier man_made railway z_order</span></span>
+<span><span class="co">#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       3</span></span>
+<span><span class="co">#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       8</span></span>
+<span><span class="co">#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt;                                                                                                                        other_tags</span></span>
+<span><span class="co">#&gt; 1                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                    "bicycle"=&gt;"designated","foot"=&gt;"designated"</span></span>
+<span><span class="co">#&gt; 3                                                               "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span></span>
+<span><span class="co">#&gt; 4                                                                             "access"=&gt;"permissive","lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 5                                                                                                    "lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span></span>
+<span><span class="co">#&gt; 7                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                          geometry</span></span>
+<span><span class="co">#&gt; 1  LINESTRING (-1.560083 53.80...</span></span>
+<span><span class="co">#&gt; 2  LINESTRING (-1.559709 53.80...</span></span>
+<span><span class="co">#&gt; 3  LINESTRING (-1.5609 53.8085...</span></span>
+<span><span class="co">#&gt; 4  LINESTRING (-1.552587 53.80...</span></span>
+<span><span class="co">#&gt; 5  LINESTRING (-1.551771 53.80...</span></span>
+<span><span class="co">#&gt; 6  LINESTRING (-1.552894 53.80...</span></span>
+<span><span class="co">#&gt; 7  LINESTRING (-1.554698 53.80...</span></span>
+<span><span class="co">#&gt; 8  LINESTRING (-1.557451 53.80...</span></span>
+<span><span class="co">#&gt; 9  LINESTRING (-1.556508 53.80...</span></span>
+<span><span class="co">#&gt; 10 LINESTRING (-1.558149 53.80...</span></span></code></pre></div>
 <p>we can see that there are 2 extra features in the <code>sf</code>
 object that was read-in using the customized <code>CONFIG</code> file
 (i.e. 191 features instead of 189 since we set
@@ -1064,12 +1246,63 @@ ignored (with a warning message), if you are using an ad-hoc
 <span><span class="co">#&gt; Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field</span></span>
 <span><span class="co">#&gt; 'highway' already exists. Renaming it as 'highway2'</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span></code></pre></div>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Simple feature collection with 191 features and 12 fields</span></span>
+<span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt; Precision:     1e+07 </span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     osm_id highway lanes           name    highway2 waterway aerialway barrier man_made railway</span></span>
+<span><span class="co">#&gt; 1  4371081    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2  4371084    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3  4419868    &lt;NA&gt;  &lt;NA&gt;    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4  6277600    &lt;NA&gt;     1 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5  6277601    &lt;NA&gt;     1 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6  6295680    &lt;NA&gt;     2  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7  6962430    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8  6962433    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9  6962435    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10 6962440    &lt;NA&gt;  &lt;NA&gt;  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;    z_order</span></span>
+<span><span class="co">#&gt; 1        0</span></span>
+<span><span class="co">#&gt; 2        0</span></span>
+<span><span class="co">#&gt; 3        0</span></span>
+<span><span class="co">#&gt; 4        0</span></span>
+<span><span class="co">#&gt; 5        0</span></span>
+<span><span class="co">#&gt; 6        0</span></span>
+<span><span class="co">#&gt; 7        0</span></span>
+<span><span class="co">#&gt; 8        0</span></span>
+<span><span class="co">#&gt; 9        0</span></span>
+<span><span class="co">#&gt; 10       0</span></span>
+<span><span class="co">#&gt;                                                                                                           other_tags</span></span>
+<span><span class="co">#&gt; 1                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                       "bicycle"=&gt;"designated","foot"=&gt;"designated"</span></span>
+<span><span class="co">#&gt; 3                                                  "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span></span>
+<span><span class="co">#&gt; 4                                                                             "access"=&gt;"permissive","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 5                                                                                                    "oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 6  "lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span></span>
+<span><span class="co">#&gt; 7                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                              &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                          geometry</span></span>
+<span><span class="co">#&gt; 1  LINESTRING (-1.560083 53.80...</span></span>
+<span><span class="co">#&gt; 2  LINESTRING (-1.559709 53.80...</span></span>
+<span><span class="co">#&gt; 3  LINESTRING (-1.5609 53.8085...</span></span>
+<span><span class="co">#&gt; 4  LINESTRING (-1.552587 53.80...</span></span>
+<span><span class="co">#&gt; 5  LINESTRING (-1.551771 53.80...</span></span>
+<span><span class="co">#&gt; 6  LINESTRING (-1.552894 53.80...</span></span>
+<span><span class="co">#&gt; 7  LINESTRING (-1.554698 53.80...</span></span>
+<span><span class="co">#&gt; 8  LINESTRING (-1.557451 53.80...</span></span>
+<span><span class="co">#&gt; 9  LINESTRING (-1.556508 53.80...</span></span>
+<span><span class="co">#&gt; 10 LINESTRING (-1.558149 53.80...</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="vectortranslate_options-boundary-and-boundary_type">
@@ -1094,12 +1327,52 @@ performing vectortranslate operations:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
 <span><span class="co">#&gt; Bounding box:  xmin: 428911.1 ymin: 434356.9 xmax: 429858.1 ymax: 435067</span></span>
-<span><span class="co">#&gt; Projected CRS: OSGB36 / British National Grid</span></span></code></pre></div>
+<span><span class="co">#&gt; Projected CRS: OSGB36 / British National Grid</span></span>
+<span><span class="co">#&gt; Simple feature collection with 189 features and 10 fields</span></span>
+<span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: 428911.1 ymin: 434356.9 xmax: 429858.1 ymax: 435067</span></span>
+<span><span class="co">#&gt; Projected CRS: OSGB36 / British National Grid</span></span>
+<span><span class="co">#&gt; Precision:     1e+07 </span></span>
+<span><span class="co">#&gt; First 10 features:</span></span>
+<span><span class="co">#&gt;     osm_id           name     highway waterway aerialway barrier man_made railway z_order</span></span>
+<span><span class="co">#&gt; 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       3</span></span>
+<span><span class="co">#&gt; 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       8</span></span>
+<span><span class="co">#&gt; 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt; 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       0</span></span>
+<span><span class="co">#&gt;                                                                                                                        other_tags</span></span>
+<span><span class="co">#&gt; 1                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                    "bicycle"=&gt;"designated","foot"=&gt;"designated"</span></span>
+<span><span class="co">#&gt; 3                                                               "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span></span>
+<span><span class="co">#&gt; 4                                                                             "access"=&gt;"permissive","lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 5                                                                                                    "lanes"=&gt;"1","oneway"=&gt;"yes"</span></span>
+<span><span class="co">#&gt; 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","oneway"=&gt;"yes","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span></span>
+<span><span class="co">#&gt; 7                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                            &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                          geometry</span></span>
+<span><span class="co">#&gt; 1  LINESTRING (429066.9 434784...</span></span>
+<span><span class="co">#&gt; 2  LINESTRING (429091.8 434741...</span></span>
+<span><span class="co">#&gt; 3  LINESTRING (429013 434780.2...</span></span>
+<span><span class="co">#&gt; 4  LINESTRING (429561.5 434628...</span></span>
+<span><span class="co">#&gt; 5  LINESTRING (429615.1 434649...</span></span>
+<span><span class="co">#&gt; 6  LINESTRING (429539.9 434838...</span></span>
+<span><span class="co">#&gt; 7  LINESTRING (429421.4 434797...</span></span>
+<span><span class="co">#&gt; 8  LINESTRING (429239.5 434903...</span></span>
+<span><span class="co">#&gt; 9  LINESTRING (429301.7 434875...</span></span>
+<span><span class="co">#&gt; 10 LINESTRING (429193.4 434914...</span></span></code></pre></div>
 <p>The default CRS of all OSM extracts obtained by Geofabrik and several
 other providers is <code>EPSG:4326</code>, i.e. latitude and longitude
 coordinates expressed via WGS84 ellipsoid, while the code
@@ -1136,7 +1409,7 @@ that will be passed to <code>ogr2ogr:</code></p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 76 features and 2 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1202,7 +1475,7 @@ via the argument <code>boundary</code>:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 5 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1220,7 +1493,7 @@ the spatial clipping operation:</p>
 <span><span class="co">#&gt; Starting with the vectortranslate operations on the input file!</span></span>
 <span><span class="co">#&gt; 0...10...20...30...40...50...60...70...80...90...100 - done.</span></span>
 <span><span class="co">#&gt; Finished the vectortranslate operations on the input file!</span></span>
-<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 5 features and 10 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>
@@ -1374,7 +1647,7 @@ rerunning the <code><a href="../reference/oe_vectortranslate.html">oe_vectortran
 <span><span class="co">#&gt; The chosen file was already detected in the download directory. Skip downloading.</span></span>
 <span><span class="co">#&gt; The corresponding gpkg file was already detected. Skip vectortranslate operations.</span></span>
 <span><span class="co">#&gt; Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'</span></span>
-<span><span class="co">#&gt; from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'</span></span>
+<span><span class="co">#&gt; from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'</span></span>
 <span><span class="co">#&gt; Simple feature collection with 189 features and 11 fields</span></span>
 <span><span class="co">#&gt; Geometry type: LINESTRING</span></span>
 <span><span class="co">#&gt; Dimension:     XY</span></span>

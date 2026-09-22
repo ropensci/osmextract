@@ -617,7 +617,7 @@ returned by `tools::R_user_dir("osmextract", "data")` (see
 ``` r
 
 oe_download_directory()
-#> [1] "/tmp/Rtmp9uPNZk"
+#> [1] "/tmp/RtmpSuTc3x"
 ```
 
 Another relevant alternative for temporary downloads might be
@@ -936,12 +936,63 @@ So, for example, the following code can be used for reading-in the
 ``` r
 
 oe_read(its_gpkg)
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #> Geodetic CRS:  WGS 84
+#> Simple feature collection with 189 features and 12 fields
+#> Geometry type: LINESTRING
+#> Dimension:     XY
+#> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#> Geodetic CRS:  WGS 84
+#> Precision:     1e+07 
+#> First 10 features:
+#>     osm_id           name     highway waterway aerialway barrier man_made railway    bicycle
+#> 1  4371081           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 2  4371084           <NA>    cycleway     <NA>      <NA>    <NA>     <NA>    <NA> designated
+#> 3  4419868    Cannon Walk     footway     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 4  6277600 Cavendish Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 5  6277601 Cavendish Road residential     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 6  6295680  Blenheim Walk       trunk     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 7  6962430           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 8  6962433           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 9  6962435           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#> 10 6962440  Cemetery Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       <NA>
+#>          foot z_order
+#> 1        <NA>       0
+#> 2  designated       0
+#> 3        <NA>       0
+#> 4        <NA>       0
+#> 5        <NA>       3
+#> 6        <NA>       8
+#> 7        <NA>       0
+#> 8        <NA>       0
+#> 9        <NA>       0
+#> 10       <NA>       0
+#>                                                                                                                        other_tags
+#> 1                                                                                                                            <NA>
+#> 2                                                                                                                            <NA>
+#> 3                                                               "website"=>"http://woodhousemooronline.com/the-cannon-destroyer/"
+#> 4                                                                             "access"=>"permissive","lanes"=>"1","oneway"=>"yes"
+#> 5                                                                                                    "lanes"=>"1","oneway"=>"yes"
+#> 6  "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","oneway"=>"yes","ref"=>"A660","turn:lanes"=>"left;through|through;slight_right"
+#> 7                                                                                                                            <NA>
+#> 8                                                                                                                            <NA>
+#> 9                                                                                                                            <NA>
+#> 10                                                                                                                           <NA>
+#>                          geometry
+#> 1  LINESTRING (-1.560083 53.80...
+#> 2  LINESTRING (-1.559709 53.80...
+#> 3  LINESTRING (-1.5609 53.8085...
+#> 4  LINESTRING (-1.552587 53.80...
+#> 5  LINESTRING (-1.551771 53.80...
+#> 6  LINESTRING (-1.552894 53.80...
+#> 7  LINESTRING (-1.554698 53.80...
+#> 8  LINESTRING (-1.557451 53.80...
+#> 9  LINESTRING (-1.556508 53.80...
+#> 10 LINESTRING (-1.558149 53.80...
 ```
 
 If the input `file_path` points to a `.osm.pbf` file, the
@@ -953,12 +1004,52 @@ will ignore the conversion step.
 ``` r
 
 oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = FALSE)
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.osm.pbf' using driver `OSM'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.osm.pbf' using driver `OSM'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #> Geodetic CRS:  WGS 84
+#> Simple feature collection with 189 features and 10 fields
+#> Geometry type: LINESTRING
+#> Dimension:     XY
+#> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#> Geodetic CRS:  WGS 84
+#> Precision:     1e+07 
+#> First 10 features:
+#>     osm_id           name     highway waterway aerialway barrier man_made railway z_order
+#> 1  4371081           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 2  4371084           <NA>    cycleway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 3  4419868    Cannon Walk     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 4  6277600 Cavendish Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 5  6277601 Cavendish Road residential     <NA>      <NA>    <NA>     <NA>    <NA>       3
+#> 6  6295680  Blenheim Walk       trunk     <NA>      <NA>    <NA>     <NA>    <NA>       8
+#> 7  6962430           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 8  6962433           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 9  6962435           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 10 6962440  Cemetery Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#>                                                                                                                        other_tags
+#> 1                                                                                                                            <NA>
+#> 2                                                                                    "bicycle"=>"designated","foot"=>"designated"
+#> 3                                                               "website"=>"http://woodhousemooronline.com/the-cannon-destroyer/"
+#> 4                                                                             "access"=>"permissive","lanes"=>"1","oneway"=>"yes"
+#> 5                                                                                                    "lanes"=>"1","oneway"=>"yes"
+#> 6  "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","oneway"=>"yes","ref"=>"A660","turn:lanes"=>"left;through|through;slight_right"
+#> 7                                                                                                                            <NA>
+#> 8                                                                                                                            <NA>
+#> 9                                                                                                                            <NA>
+#> 10                                                                                                                           <NA>
+#>                          geometry
+#> 1  LINESTRING (-1.560083 53.80...
+#> 2  LINESTRING (-1.559709 53.80...
+#> 3  LINESTRING (-1.5609 53.8085...
+#> 4  LINESTRING (-1.552587 53.80...
+#> 5  LINESTRING (-1.551771 53.80...
+#> 6  LINESTRING (-1.552894 53.80...
+#> 7  LINESTRING (-1.554698 53.80...
+#> 8  LINESTRING (-1.557451 53.80...
+#> 9  LINESTRING (-1.556508 53.80...
+#> 10 LINESTRING (-1.558149 53.80...
 ```
 
 We can see that the output data includes nine fields (i.e. the default
@@ -991,7 +1082,7 @@ its_lines = oe_get("ITS Leeds")
 #> The input place was matched with: ITS Leeds
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1121,12 +1212,63 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE)
 #> Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field
 #> 'highway' already exists. Renaming it as 'highway2'
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 191 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #> Geodetic CRS:  WGS 84
+#> Simple feature collection with 191 features and 12 fields
+#> Geometry type: LINESTRING
+#> Dimension:     XY
+#> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#> Geodetic CRS:  WGS 84
+#> Precision:     1e+07 
+#> First 10 features:
+#>     osm_id highway lanes           name    highway2 waterway aerialway barrier man_made railway
+#> 1  4371081    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 2  4371084    <NA>  <NA>           <NA>    cycleway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 3  4419868    <NA>  <NA>    Cannon Walk     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 4  6277600    <NA>     1 Cavendish Road     service     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 5  6277601    <NA>     1 Cavendish Road residential     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 6  6295680    <NA>     2  Blenheim Walk       trunk     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 7  6962430    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 8  6962433    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 9  6962435    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 10 6962440    <NA>  <NA>  Cemetery Road     service     <NA>      <NA>    <NA>     <NA>    <NA>
+#>    z_order
+#> 1        0
+#> 2        0
+#> 3        0
+#> 4        0
+#> 5        0
+#> 6        0
+#> 7        0
+#> 8        0
+#> 9        0
+#> 10       0
+#>                                                                                                           other_tags
+#> 1                                                                                                               <NA>
+#> 2                                                                       "bicycle"=>"designated","foot"=>"designated"
+#> 3                                                  "website"=>"http://woodhousemooronline.com/the-cannon-destroyer/"
+#> 4                                                                             "access"=>"permissive","oneway"=>"yes"
+#> 5                                                                                                    "oneway"=>"yes"
+#> 6  "lit"=>"yes","maxspeed"=>"30 mph","oneway"=>"yes","ref"=>"A660","turn:lanes"=>"left;through|through;slight_right"
+#> 7                                                                                                               <NA>
+#> 8                                                                                                               <NA>
+#> 9                                                                                                               <NA>
+#> 10                                                                                                              <NA>
+#>                          geometry
+#> 1  LINESTRING (-1.560083 53.80...
+#> 2  LINESTRING (-1.559709 53.80...
+#> 3  LINESTRING (-1.5609 53.8085...
+#> 4  LINESTRING (-1.552587 53.80...
+#> 5  LINESTRING (-1.551771 53.80...
+#> 6  LINESTRING (-1.552894 53.80...
+#> 7  LINESTRING (-1.554698 53.80...
+#> 8  LINESTRING (-1.557451 53.80...
+#> 9  LINESTRING (-1.556508 53.80...
+#> 10 LINESTRING (-1.558149 53.80...
 ```
 
 If we compare it with the default output:
@@ -1139,12 +1281,52 @@ oe_get("ITS Leeds", provider = "test", quiet = FALSE, force_vectortranslate = TR
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #> Geodetic CRS:  WGS 84
+#> Simple feature collection with 189 features and 10 fields
+#> Geometry type: LINESTRING
+#> Dimension:     XY
+#> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#> Geodetic CRS:  WGS 84
+#> Precision:     1e+07 
+#> First 10 features:
+#>     osm_id           name     highway waterway aerialway barrier man_made railway z_order
+#> 1  4371081           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 2  4371084           <NA>    cycleway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 3  4419868    Cannon Walk     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 4  6277600 Cavendish Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 5  6277601 Cavendish Road residential     <NA>      <NA>    <NA>     <NA>    <NA>       3
+#> 6  6295680  Blenheim Walk       trunk     <NA>      <NA>    <NA>     <NA>    <NA>       8
+#> 7  6962430           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 8  6962433           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 9  6962435           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 10 6962440  Cemetery Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#>                                                                                                                        other_tags
+#> 1                                                                                                                            <NA>
+#> 2                                                                                    "bicycle"=>"designated","foot"=>"designated"
+#> 3                                                               "website"=>"http://woodhousemooronline.com/the-cannon-destroyer/"
+#> 4                                                                             "access"=>"permissive","lanes"=>"1","oneway"=>"yes"
+#> 5                                                                                                    "lanes"=>"1","oneway"=>"yes"
+#> 6  "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","oneway"=>"yes","ref"=>"A660","turn:lanes"=>"left;through|through;slight_right"
+#> 7                                                                                                                            <NA>
+#> 8                                                                                                                            <NA>
+#> 9                                                                                                                            <NA>
+#> 10                                                                                                                           <NA>
+#>                          geometry
+#> 1  LINESTRING (-1.560083 53.80...
+#> 2  LINESTRING (-1.559709 53.80...
+#> 3  LINESTRING (-1.5609 53.8085...
+#> 4  LINESTRING (-1.552587 53.80...
+#> 5  LINESTRING (-1.551771 53.80...
+#> 6  LINESTRING (-1.552894 53.80...
+#> 7  LINESTRING (-1.554698 53.80...
+#> 8  LINESTRING (-1.557451 53.80...
+#> 9  LINESTRING (-1.556508 53.80...
+#> 10 LINESTRING (-1.558149 53.80...
 ```
 
 we can see that there are 2 extra features in the `sf` object that was
@@ -1169,12 +1351,63 @@ oe_get("ITS Leeds", provider = "test", osmconf_ini = temp_ini, quiet = FALSE, ex
 #> Warning in CPL_gdalvectortranslate(source, destination, options, oo, doo, : GDAL Message 1: Field
 #> 'highway' already exists. Renaming it as 'highway2'
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 191 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
 #> Geodetic CRS:  WGS 84
+#> Simple feature collection with 191 features and 12 fields
+#> Geometry type: LINESTRING
+#> Dimension:     XY
+#> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105
+#> Geodetic CRS:  WGS 84
+#> Precision:     1e+07 
+#> First 10 features:
+#>     osm_id highway lanes           name    highway2 waterway aerialway barrier man_made railway
+#> 1  4371081    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 2  4371084    <NA>  <NA>           <NA>    cycleway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 3  4419868    <NA>  <NA>    Cannon Walk     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 4  6277600    <NA>     1 Cavendish Road     service     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 5  6277601    <NA>     1 Cavendish Road residential     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 6  6295680    <NA>     2  Blenheim Walk       trunk     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 7  6962430    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 8  6962433    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 9  6962435    <NA>  <NA>           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>
+#> 10 6962440    <NA>  <NA>  Cemetery Road     service     <NA>      <NA>    <NA>     <NA>    <NA>
+#>    z_order
+#> 1        0
+#> 2        0
+#> 3        0
+#> 4        0
+#> 5        0
+#> 6        0
+#> 7        0
+#> 8        0
+#> 9        0
+#> 10       0
+#>                                                                                                           other_tags
+#> 1                                                                                                               <NA>
+#> 2                                                                       "bicycle"=>"designated","foot"=>"designated"
+#> 3                                                  "website"=>"http://woodhousemooronline.com/the-cannon-destroyer/"
+#> 4                                                                             "access"=>"permissive","oneway"=>"yes"
+#> 5                                                                                                    "oneway"=>"yes"
+#> 6  "lit"=>"yes","maxspeed"=>"30 mph","oneway"=>"yes","ref"=>"A660","turn:lanes"=>"left;through|through;slight_right"
+#> 7                                                                                                               <NA>
+#> 8                                                                                                               <NA>
+#> 9                                                                                                               <NA>
+#> 10                                                                                                              <NA>
+#>                          geometry
+#> 1  LINESTRING (-1.560083 53.80...
+#> 2  LINESTRING (-1.559709 53.80...
+#> 3  LINESTRING (-1.5609 53.8085...
+#> 4  LINESTRING (-1.552587 53.80...
+#> 5  LINESTRING (-1.551771 53.80...
+#> 6  LINESTRING (-1.552894 53.80...
+#> 7  LINESTRING (-1.554698 53.80...
+#> 8  LINESTRING (-1.557451 53.80...
+#> 9  LINESTRING (-1.556508 53.80...
+#> 10 LINESTRING (-1.558149 53.80...
 ```
 
 #### `vectortranslate_options` + `boundary` and `boundary_type`
@@ -1201,12 +1434,52 @@ oe_get("ITS Leeds", vectortranslate_options = c("-t_srs", "EPSG:27700"), quiet =
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: 428911.1 ymin: 434356.9 xmax: 429858.1 ymax: 435067
 #> Projected CRS: OSGB36 / British National Grid
+#> Simple feature collection with 189 features and 10 fields
+#> Geometry type: LINESTRING
+#> Dimension:     XY
+#> Bounding box:  xmin: 428911.1 ymin: 434356.9 xmax: 429858.1 ymax: 435067
+#> Projected CRS: OSGB36 / British National Grid
+#> Precision:     1e+07 
+#> First 10 features:
+#>     osm_id           name     highway waterway aerialway barrier man_made railway z_order
+#> 1  4371081           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 2  4371084           <NA>    cycleway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 3  4419868    Cannon Walk     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 4  6277600 Cavendish Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 5  6277601 Cavendish Road residential     <NA>      <NA>    <NA>     <NA>    <NA>       3
+#> 6  6295680  Blenheim Walk       trunk     <NA>      <NA>    <NA>     <NA>    <NA>       8
+#> 7  6962430           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 8  6962433           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 9  6962435           <NA>     footway     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#> 10 6962440  Cemetery Road     service     <NA>      <NA>    <NA>     <NA>    <NA>       0
+#>                                                                                                                        other_tags
+#> 1                                                                                                                            <NA>
+#> 2                                                                                    "bicycle"=>"designated","foot"=>"designated"
+#> 3                                                               "website"=>"http://woodhousemooronline.com/the-cannon-destroyer/"
+#> 4                                                                             "access"=>"permissive","lanes"=>"1","oneway"=>"yes"
+#> 5                                                                                                    "lanes"=>"1","oneway"=>"yes"
+#> 6  "lanes"=>"2","lit"=>"yes","maxspeed"=>"30 mph","oneway"=>"yes","ref"=>"A660","turn:lanes"=>"left;through|through;slight_right"
+#> 7                                                                                                                            <NA>
+#> 8                                                                                                                            <NA>
+#> 9                                                                                                                            <NA>
+#> 10                                                                                                                           <NA>
+#>                          geometry
+#> 1  LINESTRING (429066.9 434784...
+#> 2  LINESTRING (429091.8 434741...
+#> 3  LINESTRING (429013 434780.2...
+#> 4  LINESTRING (429561.5 434628...
+#> 5  LINESTRING (429615.1 434649...
+#> 6  LINESTRING (429539.9 434838...
+#> 7  LINESTRING (429421.4 434797...
+#> 8  LINESTRING (429239.5 434903...
+#> 9  LINESTRING (429301.7 434875...
+#> 10 LINESTRING (429193.4 434914...
 ```
 
 The default CRS of all OSM extracts obtained by Geofabrik and several
@@ -1252,7 +1525,7 @@ its_leeds = oe_get("ITS Leeds", vectortranslate_options = my_vectortranslate, qu
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 76 features and 2 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1328,7 +1601,7 @@ its_small = oe_get("ITS Leeds", boundary = its_bbox)
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 5 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1351,7 +1624,7 @@ its_small = oe_get(its_bbox, provider = "test")
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 5 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -1527,7 +1800,7 @@ colnames(oe_get(
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
 #> Reading query `SELECT *, hstore_get_value(other_tags, 'bicycle') AS bicycle FROM lines'
-#> from data source `/tmp/Rtmp9uPNZk/test_its-example.gpkg' using driver `GPKG'
+#> from data source `/tmp/RtmpSuTc3x/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY

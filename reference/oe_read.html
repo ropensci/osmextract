@@ -221,6 +221,11 @@ the argument <code>extra_tags</code> without rerunning the vectortranslate proce
 the corresponding <code>.pbf</code> file. On the other hand, you can extract some of
 the tags in <code>other_tags</code> field as new columns. See examples and
 <code><a href="oe_get_keys.html">oe_get_keys()</a></code> for more details.</p>
+<p>Starting from version 0.7, the function forcefully sets a precision equal
+to 1e7 on the returned <code>sf</code> object, following the indications reported in the
+<a href="https://wiki.openstreetmap.org/wiki/Node" class="external-link">OSM wiki</a> that coordinates are
+reported using a precision of 7 decimal places in latitude and longitude.
+See also <code><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">?sf::st_coordinates</a></code>.</p>
     </div>
 
     <div class="section level2">
@@ -235,12 +240,74 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_pbf</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 93 features and 15 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 93 features and 15 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Precision:     1e+07 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     osm_id                  name      highway waterway aerialway barrier</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  6277600        Cavendish Road      service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  6277601        Cavendish Road  residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  6295680         Blenheim Walk        trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  6962440         Cemetery Road      service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  6962444                  &lt;NA&gt;      service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  6962455                  &lt;NA&gt;      service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  6966713 Back Blenheim Terrace unclassified     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  6966716 Back Woodstock Street unclassified     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  6966718   Marlborough Gardens  residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 6966720     Marlborough Grove  residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    man_made railway     access       service oneway junction motor_vehicle</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      &lt;NA&gt;    &lt;NA&gt; permissive          &lt;NA&gt;    yes     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;    yes     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;    yes     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt; parking_aisle   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7      &lt;NA&gt;    &lt;NA&gt;        yes          &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9      &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10     &lt;NA&gt;    &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    z_order</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                        other_tags</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                    "lanes"=&gt;"1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                                    "lanes"=&gt;"1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","ref"=&gt;"A660","turn:lanes"=&gt;"left;through|through;slight_right"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                                            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                                            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                                                            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                            "surface"=&gt;"asphalt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                                            "surface"=&gt;"asphalt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                               "lit"=&gt;"yes","surface"=&gt;"asphalt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                              "lit"=&gt;"yes","surface"=&gt;"asphalt"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  LINESTRING (-1.552587 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LINESTRING (-1.551771 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LINESTRING (-1.552894 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LINESTRING (-1.558149 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LINESTRING (-1.553665 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  LINESTRING (-1.557198 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  LINESTRING (-1.552227 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  LINESTRING (-1.552008 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  LINESTRING (-1.551731 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 LINESTRING (-1.551187 53.80...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Read a new layer</span></span></span>
 <span class="r-in"><span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_pbf</span>, layer <span class="op">=</span> <span class="st">"points"</span><span class="op">)</span></span></span>
@@ -248,12 +315,63 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.568766 ymin: 53.80569 xmax: -1.549451 ymax: 53.81136</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.568766 ymin: 53.80569 xmax: -1.549451 ymax: 53.81136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Precision:     1e+07 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      osm_id                         name barrier         highway      ref</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  21069418                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  21093230                         &lt;NA&gt;    &lt;NA&gt; mini_roundabout     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  26653419 Statue of Duke of Wellington    &lt;NA&gt;            &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  31004252                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  31004259                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  31004270                         &lt;NA&gt;    &lt;NA&gt;        crossing     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  31004287                         &lt;NA&gt;    &lt;NA&gt; traffic_signals     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  52905112                         &lt;NA&gt;    &lt;NA&gt;            &lt;NA&gt;   LS2 54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  52905119                         &lt;NA&gt;    &lt;NA&gt;            &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 52905122       Leeds University Steps    &lt;NA&gt;        bus_stop 45011386</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    address is_in place man_made</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        other_tags</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                                                                                                                                                                                                                                                                                                                                                                         "crossing"=&gt;"traffic_signals","crossing_ref"=&gt;"pelican"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                                                                                                                                                                                                                                                                                                                                       "historic"=&gt;"memorial","tourism"=&gt;"artwork","url"=&gt;"http://www.leodis.net/display.aspx?resourceIdentifier=2008118_165852"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                                                                                                                                                                                                                                                                                                                                                  "crossing"=&gt;"traffic_signals","crossing_ref"=&gt;"toucan","kerb"=&gt;"flush","tactile_paving"=&gt;"yes"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           "crossing"=&gt;"pelican"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                                                                                                                                                                                                                                                                                                                                                                                         "crossing"=&gt;"traffic_signals","crossing_ref"=&gt;"pelican"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                                                                                                                                                                                                                                                                                                                                                                                         "amenity"=&gt;"post_box","operator"=&gt;"Royal Mail","post_box:type"=&gt;"meter"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                                                                                                                                                                                                                                                                                                                                                                                    "amenity"=&gt;"telephone","booth"=&gt;"KXPlus","covered"=&gt;"booth","operator"=&gt;"BT"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 "bus"=&gt;"yes","local_ref"=&gt;"45011386","naptan:AtcoCode"=&gt;"450011386","naptan:Bearing"=&gt;"N","naptan:CommonName"=&gt;"Leeds University","naptan:Crossing"=&gt;"Back Blenheim Terrace","naptan:Indicator"=&gt;"Stop 45011386","naptan:Landmark"=&gt;"Leeds University","naptan:Notes"=&gt;"New TF shelter and 3P fitted awaiting survey","naptan:PlusbusZoneRef"=&gt;"LEEDS","naptan:ShortCommonName"=&gt;"Leeds University","naptan:Street"=&gt;"Woodhouse Lane","naptan:verified"=&gt;"yes","public_transport"=&gt;"platform","shelter"=&gt;"yes"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   POINT (-1.552508 53.8086)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   POINT (-1.56583 53.81002)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  POINT (-1.559813 53.80819)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   POINT (-1.56048 53.80638)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  POINT (-1.559558 53.80796)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  POINT (-1.559285 53.80795)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  POINT (-1.551964 53.80751)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   POINT (-1.55062 53.80642)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  POINT (-1.552372 53.80799)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 POINT (-1.552314 53.80809)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The following example shows how to add new tags</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_pbf</span>, extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oneway"</span>, <span class="st">"ref"</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -264,17 +382,68 @@ the tags in <code>other_tags</code> field as new columns. See examples and
 <span class="r-in"><span><span class="co"># Read an existing .gpkg file. This file was created internally by oe_read().</span></span></span>
 <span class="r-in"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.gpkg"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -1.562458 ymin: 53.80471 xmax: -1.548076 ymax: 53.81105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Precision:     1e+07 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> First 10 features:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     osm_id           name     highway waterway aerialway barrier man_made</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  4371081           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  4371084           &lt;NA&gt;    cycleway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  4419868    Cannon Walk     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  6277600 Cavendish Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  6277601 Cavendish Road residential     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  6295680  Blenheim Walk       trunk     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  6962430           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  6962433           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  6962435           &lt;NA&gt;     footway     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 6962440  Cemetery Road     service     &lt;NA&gt;      &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    railway oneway  ref z_order</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     &lt;NA&gt;    yes &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     &lt;NA&gt;    yes &lt;NA&gt;       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     &lt;NA&gt;    yes A660       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8     &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9     &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10    &lt;NA&gt;   &lt;NA&gt; &lt;NA&gt;       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                          other_tags</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                      "bicycle"=&gt;"designated","foot"=&gt;"designated"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                 "website"=&gt;"http://woodhousemooronline.com/the-cannon-destroyer/"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                               "access"=&gt;"permissive","lanes"=&gt;"1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                      "lanes"=&gt;"1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  "lanes"=&gt;"2","lit"=&gt;"yes","maxspeed"=&gt;"30 mph","turn:lanes"=&gt;"left;through|through;slight_right"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                                              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                                              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                                             &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  LINESTRING (-1.560083 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LINESTRING (-1.559709 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LINESTRING (-1.5609 53.8085...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LINESTRING (-1.552587 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LINESTRING (-1.551771 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  LINESTRING (-1.552894 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  LINESTRING (-1.554698 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  LINESTRING (-1.557451 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  LINESTRING (-1.556508 53.80...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 LINESTRING (-1.558149 53.80...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># You cannot add any new layer to an existing .gpkg file but you can extract</span></span></span>
 <span class="r-in"><span><span class="co"># some of the tags in other_tags. Check oe_get_keys() for more details.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_gpkg</span>, extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"maxspeed"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># doesn't work</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>

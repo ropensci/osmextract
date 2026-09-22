@@ -34,6 +34,7 @@ print(out, n = 0L)
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.5609 ymin: 53.8063 xmax: -1.549451 ymax: 53.81044
 #> Geodetic CRS:  WGS 84
+#> Precision:     1e+07
 ```
 
 ## How can I convert the segments downloaded from OSM into a street network?

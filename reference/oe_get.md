@@ -249,6 +249,13 @@ and
 [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html))
 performs the other three operations.
 
+Starting from version 0.7, the function forcefully sets a precision
+equal to 1e7 on the returned `sf` object, following the indications
+reported in the [OSM wiki](https://wiki.openstreetmap.org/wiki/Node)
+that coordinates are reported using a precision of 7 decimal places in
+latitude and longitude. See also
+[`?sf::st_coordinates`](https://r-spatial.github.io/sf/reference/st_coordinates.html).
+
 ## See also
 
 [`oe_match()`](https://docs.ropensci.org/osmextract/reference/oe_match.md),
@@ -279,7 +286,7 @@ its = oe_get("ITS Leeds", download_directory = tempdir())
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -299,7 +306,7 @@ its_points = oe_get("ITS Leeds", layer = "points", download_directory = tempdir(
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `points' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `points' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 186 features and 10 fields
 #> Geometry type: POINT
 #> Dimension:     XY
@@ -314,12 +321,12 @@ oe_get(
   "ITS Leeds", download_only = TRUE, quiet = TRUE,
   download_directory = tempdir()
 )
-#> [1] "/tmp/RtmpDshL2b/test_its-example.gpkg"
+#> [1] "/tmp/RtmpeqtqR3/test_its-example.gpkg"
 oe_get(
   "ITS Leeds", download_only = TRUE, skip_vectortranslate = TRUE,
   quiet = TRUE, download_directory = tempdir()
 )
-#> [1] "/tmp/RtmpDshL2b/test_its-example.osm.pbf"
+#> [1] "/tmp/RtmpeqtqR3/test_its-example.osm.pbf"
 # See also ?oe_find()
 
 # Add additional tags
@@ -332,7 +339,7 @@ its_with_oneway = oe_get(
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -354,7 +361,7 @@ its_oneway = oe_get("ITS Leeds", query = q, download_directory = tempdir())
 #> The chosen file was already detected in the download directory. Skip downloading.
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
 #> Reading query `SELECT * FROM 'lines' WHERE oneway == 'yes''
-#> from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'
+#> from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 13 features and 11 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -366,6 +373,7 @@ its_oneway[, c(1, 3, 9)]
 #> Dimension:     XY
 #> Bounding box:  xmin: -1.558828 ymin: 53.80595 xmax: -1.548899 ymax: 53.809
 #> Geodetic CRS:  WGS 84
+#> Precision:     1e+07 
 #> First 10 features:
 #>       osm_id     highway oneway                       geometry
 #> 1    6277600     service    yes LINESTRING (-1.552587 53.80...
@@ -400,7 +408,7 @@ its_spat = oe_get("ITS Leeds", boundary = its_poly, download_directory = tempdir
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `lines' from data source `/tmp/RtmpDshL2b/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpeqtqR3/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 77 features and 10 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
