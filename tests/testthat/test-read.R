@@ -419,6 +419,13 @@ test_that("oe_read returns output with default 1e7 precision", {
 
   # Read in data
   osm_data = oe_read(its_pbf, quiet = TRUE)
-
   expect_equal(sf::st_precision(osm_data), 1e7)
+
+  withr::with_options(
+    new = list(osmextract.precision = 1),
+    code = {
+      osm_data = oe_read(its_pbf, quiet = TRUE)
+      expect_equal(sf::st_precision(osm_data), 1.0)
+    }
+  )
 })
