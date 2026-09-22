@@ -1,4 +1,4 @@
-# osmextract (development version)
+# osmextract 0.7.0
 
 ### MAJOR CHANGES
 
