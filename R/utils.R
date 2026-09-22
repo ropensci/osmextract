@@ -43,7 +43,6 @@ adjust_version_in_url <- function(version, url) {
   gsub("latest(?=\\.osm\\.pbf$)", version, url, perl = TRUE)
 }
 
-
 # Starting from sf 1.0.2, sf::st_read raises a warning message when both layer
 # and query arguments are set, while it raises a warning in sf < 1.0.2 when
 # there are multiple layers and the layer argument is not set. See also
@@ -83,7 +82,7 @@ my_st_read <- function(dsn, layer, quiet, ...) {
   # always return an sf object (see, for example, the oe_get_keys code and the
   # example in the main vignette).
   if (inherits(out, "sf")) {
-    sf::st_precision(out) = 1e7
+    sf::st_precision(out) = getOption("osmextract.precision", 1e7)
   }
   out
 }
