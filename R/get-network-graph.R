@@ -201,15 +201,14 @@ oe_get_sfnetwork = function(
 #'   plot(sfnet_undirected)
 #' }
 net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
-
   if (!requireNamespace("sfnetworks", quietly = TRUE)) {
     stop("sfnetworks is not available. Please install it first")
   }
 
   if (isTRUE(require_equal)) {
     # Setting require_equal to all attribute names but the column with the geometry
-    geom_col <- attr(net_sf, "sf_column")
-    require_equal <- setdiff(names(net_sf), geom_col)
+    geom_col = attr(net_sf, "sf_column")
+    require_equal = setdiff(names(net_sf), geom_col)
   } else if (!isFALSE(require_equal)) {
     # if not Logical of lenght == 1
     if (!is.character(require_equal)) {
@@ -220,7 +219,7 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
       )
     }
 
-    missing_cols <- setdiff(require_equal, names(net_sf))
+    missing_cols = setdiff(require_equal, names(net_sf))
     if (length(missing_cols) > 0L) {
       stop(
         sQuote("require_equal"),
@@ -231,16 +230,16 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
     }
   }
 
-  sfnet = sfnetworks::as_sfnetwork(
+  sfnet <- sfnetworks::as_sfnetwork(
     x = net_sf,
     directed = FALSE
   )
 
   # Creating junctions where road segments overlap
   # This converts implicit intersections into explicit nodes
-  sf_net_subdiv = tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision, .clean = TRUE)
+  sf_net_subdiv <- tidygraph::convert(sfnet, sfnetworks::to_spatial_subdivision, .clean = TRUE)
 
-  if(utils::packageVersion("sfnetworks")<"0.9"){
+  if (utils::packageVersion("sfnetworks") < "0.9.9.900") {
     # Implementation working with current version of sfnetworks on CRAN
     # Simplifying the interstitial nodes segments
     tidygraph::convert(
@@ -250,10 +249,10 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
       require_equal = require_equal,
       .clean = TRUE
     )
-
   } else {
-    # if require_equal is FALSE, it is set to NULL as per new implementation in sfnetworks>0.9
-    if(isFALSE(require_equal)){
+    # if require_equal is FALSE, it is set to NULL as per new implementation in
+    # dev sfnetworks
+    if (isFALSE(require_equal)) {
       require_equal = NULL
     }
 
@@ -264,7 +263,6 @@ net_2_sfnet_undirected = function(net_sf, require_equal = TRUE) {
       require_equal = require_equal,
       .clean = TRUE
     )
-
   }
 }
 
