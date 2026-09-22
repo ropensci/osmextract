@@ -41,6 +41,8 @@ Suggests:
     sfnetworks,
     tidygraph,
     dplyr
+Remotes: 
+    r-spatial/sf
 VignetteBuilder: knitr
 Language: en-GB
 Config/testthat/edition: 3
