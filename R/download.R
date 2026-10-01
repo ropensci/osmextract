@@ -18,6 +18,16 @@
 #'   the function downloads it using [httr::GET()]. The timeout for the download
 #'   can be modified using `options("timeout")`. The default value is 300s.
 #'
+#'   Two further checks guard against working with unusable data. When a file is
+#'   already present, its age is reported and `force_download = TRUE` is
+#'   suggested once it is older than `options("osmextract.stale_days")` days
+#'   (30 by default), since providers do refresh their extracts. When a file is
+#'   downloaded, its contents are checked before the function reports success.
+#'   Some providers answer a request for a path that does not exist with an HTTP
+#'   200 status and a small HTML page, so a success status alone does not mean
+#'   the payload is an extract. A file that fails the check is deleted and an
+#'   error is raised, rather than being cached and silently reused.
+#'
 #' @inheritParams oe_get
 #' @param file_url A URL pointing to a (typically `.osm.pbf`) file.
 #' @param provider Which provider stores the file? If `NULL` (the default), the
@@ -94,9 +104,19 @@ oe_download = function(
   file_path = normalizePath(file_path, winslash = "/", mustWork = FALSE)
 
   if (file.exists(file_path) && !isTRUE(force_download)) {
+    # Report the age of the cached file. Providers refresh their extracts, so a
+    # very old local copy is usually worth replacing, and this message
+    # previously gave no hint that the file might be out of date.
+    age_days = as.numeric(
+      difftime(Sys.time(), file.mtime(file_path), units = "days")
+    )
+    stale_days = getOption("osmextract.stale_days", 30)
     oe_message(
       "The chosen file was already detected in the download directory. ",
-      "Skip downloading.",
+      "Skip downloading. ",
+      "(Cached file is ", round(age_days), " days old",
+      if (age_days >= stale_days) ", set force_download = TRUE to refresh it",
+      ".)",
       quiet = quiet,
       .subclass = "oe_download_skipDownloading"
     )
@@ -167,6 +187,22 @@ oe_download = function(
 
   httr::stop_for_status(resp, "download data from the provider")
 
+  # A success status does not mean the payload is an extract. Providers answer a
+  # wrong path with 200 and a small HTML page, and a bad file would otherwise be
+  # cached and reused silently by every later call.
+  if (!is_valid_pbf(file_path)) {
+    file.remove(file_path)
+    oe_stop(
+      .subclass = "oe_download_InvalidFile",
+      message = paste0(
+        "The downloaded file is not a valid OSM PBF extract, so it has been ",
+        "removed. The provider probably returned a web page or an error ",
+        "message instead of data. Check that this URL points to an extract: ",
+        file_url
+      )
+    )
+  }
+
   oe_message(
     "File downloaded!",
     quiet = quiet,
@@ -174,6 +210,35 @@ oe_download = function(
   )
 
   file_path
+}
+
+# Does a file really contain an OSM PBF extract?
+#
+# A PBF file starts with a BlobHeader whose type is the literal string
+# "OSMHeader", so that marker appears within the first bytes of a real extract.
+# The check reads only a small prefix and adds no dependency, because it runs on
+# files of gigabytes.
+is_valid_pbf = function(path, n = 64L) {
+  if (!file.exists(path)) {
+    return(FALSE)
+  }
+
+  size = file.size(path)
+  if (is.na(size) || size < 16) {
+    return(FALSE)
+  }
+
+  prefix = readBin(path, "raw", n = min(n, size))
+  marker = charToRaw("OSMHeader")
+
+  for (i in which(prefix == marker[[1]])) {
+    j = i + length(marker) - 1L
+    if (j <= length(prefix) && identical(prefix[i:j], marker)) {
+      return(TRUE)
+    }
+  }
+
+  FALSE
 }
 
 # Infer the chosen provider from the file_url
