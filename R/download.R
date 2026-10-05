@@ -104,22 +104,28 @@ oe_download = function(
   file_path = normalizePath(file_path, winslash = "/", mustWork = FALSE)
 
   if (file.exists(file_path) && !isTRUE(force_download)) {
-    # Report the age of the cached file. Providers refresh their extracts, so a
-    # very old local copy is usually worth replacing, and this message
-    # previously gave no hint that the file might be out of date.
-    age_days = as.numeric(
-      difftime(Sys.time(), file.mtime(file_path), units = "days")
-    )
-    stale_days = getOption("osmextract.stale_days", 30)
     oe_message(
       "The chosen file was already detected in the download directory. ",
-      "Skip downloading. ",
-      "(Cached file is ", round(age_days), " days old",
-      if (age_days >= stale_days) ", set force_download = TRUE to refresh it",
-      ".)",
+      "Skip downloading.",
       quiet = quiet,
       .subclass = "oe_download_skipDownloading"
     )
+
+    # The following if-clause shouldn't run if we are downloading from an
+    # historical fixed extract (such as those available in Geofabrik) which
+    # could have been selected using the 'version' argument.
+    if (!(provider == "geofabrik" && looks_like_version_url(file_url))) {
+      # Test whether the saved file is too old (#329)
+      age_days = difftime(Sys.time(), file.mtime(file_path), units = "days")
+      stale_days = getOption("osmextract.stale_days", 30)
+      if (age_days >= stale_days) {
+        warning(
+          "Cached file is ", round(age_days), " days old. ",
+          "Set force_download = TRUE to refresh it."
+        )
+      }
+    }
+
     return(file_path)
   }
 
@@ -262,4 +268,10 @@ is_valid_resp = function(resp) {
   }
 
   grepl("\\.osm\\.pbf$", url, perl = TRUE)
+}
+
+# Historical .osm.pbf files specified on geofabrik servers are something like
+# "https://download.geofabrik.de/antarctica-140101-free.shp.zip"
+looks_like_version_url <- function(x) {
+  grepl("-\\d{6}\\.osm\\.pbf$", x, perl = TRUE)
 }

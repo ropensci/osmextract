@@ -35,28 +35,54 @@ test_that("oe_download: fails with more than one URL", {
   expect_error(oe_download(c("a", "b")), class = "oe_download_LengthFileUrlGt2")
 })
 
-test_that("oe_download: reports the age of a cached file", {
-  example = system.file("its-example.osm.pbf", package = "osmextract")
-  skip_if(example == "", "the bundled example pbf is not installed")
-
-  d = withr::local_tempdir()
-  cached = file.path(d, "geofabrik_test-latest.osm.pbf")
-  file.copy(example, cached)
-
-  # Backdate it so that it counts as stale
-  Sys.setFileTime(cached, Sys.time() - 90 * 86400)
-
-  res = NULL
-  expect_message(
-    res <- oe_download(
-      file_url = "https://download.geofabrik.de/test-latest.osm.pbf",
-      download_directory = d,
-      quiet = FALSE
-    ),
-    regexp = "90 days old",
-    class = "oe_download_skipDownloading"
+test_that("ow_download complains about old extracts" {
+  skip_on_cran()
+  skip_on_ci()
+  skip_if_offline("github.com")
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
   )
-  expect_equal(res, normalizePath(cached, winslash = "/", mustWork = FALSE))
+  # I need to add the withr::defer since I don't use setup pbf here
+  withr::defer(oe_clean(tempdir()))
+
+  its_match = oe_match("ITS Leeds", quiet = TRUE)
+  its_file = oe_download(
+    file_url = its_match$url,
+    provider = "test",
+    quiet = TRUE
+  )
+
+  # Fake the time on the object
+  Sys.setFileTime(its_file, Sys.time() - 90 * 24 * 60 * 60)
+  expect_warning(
+    {
+      oe_download(
+        file_url = its_match$url,
+        provider = "test",
+        quiet = TRUE
+      )
+    },
+    regexp = "Cached file is 90 days old."
+  )
+
+  # No warning when we are downloading historical extracts from geofabrik
+  malta_file <- oe_download(
+    "https://download.geofabrik.de/europe/malta-140101.osm.pbf",
+    quiet = TRUE
+  )
+
+  Sys.setFileTime(malta_file, Sys.time() - 90 * 24 * 60 * 60)
+  expect_no_warning(
+    object = {
+      oe_download(
+        "https://download.geofabrik.de/europe/malta-140101.osm.pbf",
+        quiet = TRUE
+      )
+    }
+  )
 })
 
 test_that("infer_provider_from_url: simplest examples work", {
@@ -76,4 +102,9 @@ test_that("infer_provider_from_url: simplest examples work", {
     infer_provider_from_url("http://download.openstreetmap.fr/extracts/africa-latest.osm.pbf"),
     "openstreetmap_fr"
   )
+})
+
+test_that("looks_like_version_url works", {
+  expect_true(looks_like_version_url("https://download.geofabrik.de/europe/malta-140101.osm.pbf"))
+  expect_false(looks_like_version_url("https://download.geofabrik.de/europe/malta-latest.osm.pbf"))
 })
