@@ -36,6 +36,7 @@ check_version <- function(version, provider) {
   }
   version
 }
+
 adjust_version_in_url <- function(version, url) {
   if (version == "latest") {
     return(url)
@@ -143,6 +144,15 @@ oe_stop <- function(.subclass, message, call = NULL, ...) {
     call = call
   )
   stop(err)
+}
+oe_warning <- function(.subclass, message, call = NULL, ...) {
+  warn <- warningCondition(
+    message = message,
+    ...,
+    class = .subclass,
+    call = call
+  )
+  warning(warn)
 }
 
 #' Clean download directory
