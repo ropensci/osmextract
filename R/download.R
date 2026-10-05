@@ -187,10 +187,11 @@ oe_download = function(
 
   httr::stop_for_status(resp, "download data from the provider")
 
-  # A success status does not mean the payload is an extract. Providers answer a
-  # wrong path with 200 and a small HTML page, and a bad file would otherwise be
-  # cached and reused silently by every later call.
-  if (!is_valid_pbf(file_path)) {
+  # A successful HTML status does not always mean that we downloaded an OSM
+  # extract. In some weird cases and server bugs, providers may return invalid
+  # data as well as successfully HTML status, possibly after a redirection. See
+  # #330 and private email to Geofabrik team.
+  if (!is_valid_resp(resp)) {
     file.remove(file_path)
     oe_stop(
       .subclass = "oe_download_InvalidFile",
@@ -210,35 +211,6 @@ oe_download = function(
   )
 
   file_path
-}
-
-# Does a file really contain an OSM PBF extract?
-#
-# A PBF file starts with a BlobHeader whose type is the literal string
-# "OSMHeader", so that marker appears within the first bytes of a real extract.
-# The check reads only a small prefix and adds no dependency, because it runs on
-# files of gigabytes.
-is_valid_pbf = function(path, n = 64L) {
-  if (!file.exists(path)) {
-    return(FALSE)
-  }
-
-  size = file.size(path)
-  if (is.na(size) || size < 16) {
-    return(FALSE)
-  }
-
-  prefix = readBin(path, "raw", n = min(n, size))
-  marker = charToRaw("OSMHeader")
-
-  for (i in which(prefix == marker[[1]])) {
-    j = i + length(marker) - 1L
-    if (j <= length(prefix) && identical(prefix[i:j], marker)) {
-      return(TRUE)
-    }
-  }
-
-  FALSE
 }
 
 # Infer the chosen provider from the file_url
@@ -270,4 +242,24 @@ infer_provider_from_url = function(file_url) {
   }
 
   matching_provider
+}
+
+# Check that the URL of the request (after redirects) corresponds to a
+# ".osm.pbf" file. This might be relevant in case the servers silently redirects
+# to an "home" page and returns an HTML page. This is especially relevant for
+# Geofabrik since, at the moment (Oct 2026) it's the only provider that performs
+# a redirection (e.g., "xyz-latest.osm.pbf" --> "xyz-20261005.osm.pbf"). See
+# also #330.
+is_valid_resp = function(resp) {
+  # According to httr docs, the url field of the response includes the url the
+  # request was actually sent to (after redirects). We need to check whether
+  # such URL points to a .osm.pbf file.
+  url <- resp[["url"]]
+
+  # Something weird happened, so better safe than sorry
+  if (is.null(url)) {
+    return(FALSE)
+  }
+
+  grepl("\\.osm\\.pbf$", url, perl = TRUE)
 }

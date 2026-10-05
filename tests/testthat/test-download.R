@@ -35,26 +35,6 @@ test_that("oe_download: fails with more than one URL", {
   expect_error(oe_download(c("a", "b")), class = "oe_download_LengthFileUrlGt2")
 })
 
-test_that("is_valid_pbf: accepts extracts and rejects non-extracts", {
-  example = system.file("its-example.osm.pbf", package = "osmextract")
-  skip_if(example == "", "the bundled example pbf is not installed")
-  expect_true(is_valid_pbf(example))
-
-  # Everything here goes through withr, because setup_pbf() asserts that
-  # tempdir() holds no .osm.pbf or .gpkg file, so nothing may be left behind.
-
-  # A provider can answer with 200 and a web page rather than an extract
-  html = withr::local_tempfile(fileext = ".osm.pbf")
-  writeLines("<!DOCTYPE html>\n<html><body>Not found</body></html>", html)
-  expect_false(is_valid_pbf(html))
-
-  # Exists, but far too short to hold a blob header
-  expect_false(is_valid_pbf(withr::local_tempfile(fileext = ".pbf")))
-
-  # Does not exist at all
-  expect_false(is_valid_pbf(file.path(tempdir(), "no-such-extract.pbf")))
-})
-
 test_that("oe_download: reports the age of a cached file", {
   example = system.file("its-example.osm.pbf", package = "osmextract")
   skip_if(example == "", "the bundled example pbf is not installed")
