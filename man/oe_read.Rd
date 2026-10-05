@@ -134,6 +134,12 @@ the argument \code{extra_tags} without rerunning the vectortranslate process on
 the corresponding \code{.pbf} file. On the other hand, you can extract some of
 the tags in \code{other_tags} field as new columns. See examples and
 \code{\link[=oe_get_keys]{oe_get_keys()}} for more details.
+
+Starting from version 0.7, the function forcefully sets a precision equal
+to 1e7 on the returned \code{sf} object, following the indications reported in the
+\href{https://wiki.openstreetmap.org/wiki/Node}{OSM wiki} that coordinates are
+reported using a precision of 7 decimal places in latitude and longitude.
+See also \code{?sf::st_coordinates}.
 }
 \examples{
 # Read an existing .pbf file. First we need to copy a .pbf file into a
