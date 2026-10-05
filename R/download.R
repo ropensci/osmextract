@@ -21,12 +21,12 @@
 #'   Two further checks guard against working with unusable data. When a file is
 #'   already present, its age is reported and `force_download = TRUE` is
 #'   suggested once it is older than `options("osmextract.stale_days")` days
-#'   (30 by default), since providers do refresh their extracts. When a file is
-#'   downloaded, its contents are checked before the function reports success.
-#'   Some providers answer a request for a path that does not exist with an HTTP
-#'   200 status and a small HTML page, so a success status alone does not mean
-#'   the payload is an extract. A file that fails the check is deleted and an
-#'   error is raised, rather than being cached and silently reused.
+#'   (365 by default), since providers frequently refresh their extracts with
+#'   updated OSM data. Furthermore, when a file is downloaded, its source is
+#'   checked before the function reports success. In particular, the function
+#'   tests that the URL used to download the data (after the possible
+#'   redirection) points to a `.osm.pbf` file. A file that fails the check is
+#'   deleted and an error is raised.
 #'
 #' @inheritParams oe_get
 #' @param file_url A URL pointing to a (typically `.osm.pbf`) file.
@@ -113,15 +113,15 @@ oe_download = function(
 
     # The following if-clause shouldn't run if we are downloading from an
     # historical fixed extract (such as those available in Geofabrik) which
-    # could have been selected using the 'version' argument.
+    # could have been selected using the 'version' argument (#329).
     if (!(provider == "geofabrik" && looks_like_version_url(file_url))) {
-      # Test whether the saved file is too old (#329)
       age_days = difftime(Sys.time(), file.mtime(file_path), units = "days")
-      stale_days = getOption("osmextract.stale_days", 30)
+      stale_days = getOption("osmextract.stale_days", 365)
       if (age_days >= stale_days) {
-        warning(
-          "Cached file is ", round(age_days), " days old. ",
-          "Set force_download = TRUE to refresh it."
+        oe_warning(
+          message = paste0("Cached file is ", round(age_days), " days old. ",
+          "Set force_download = TRUE to refresh it."),
+          .subclass = "oe_download_StaleDays"
         )
       }
     }
@@ -200,7 +200,7 @@ oe_download = function(
   if (!is_valid_resp(resp)) {
     file.remove(file_path)
     oe_stop(
-      .subclass = "oe_download_InvalidFile",
+      .subclass = "oe_download_InvalidResponse",
       message = paste0(
         "The downloaded file is not a valid OSM PBF extract, so it has been ",
         "removed. The provider probably returned a web page or an error ",

@@ -56,7 +56,7 @@ test_that("ow_download complains about old extracts", {
   )
 
   # Fake the time on the object
-  Sys.setFileTime(its_file, Sys.time() - 90 * 24 * 60 * 60)
+  Sys.setFileTime(its_file, Sys.time() - 366 * 24 * 60 * 60)
   expect_warning(
     {
       oe_download(
@@ -65,7 +65,7 @@ test_that("ow_download complains about old extracts", {
         quiet = TRUE
       )
     },
-    regexp = "Cached file is 90 days old."
+    class = "oe_download_StaleDays"
   )
 
   # No warning when we are downloading historical extracts from geofabrik
@@ -74,7 +74,7 @@ test_that("ow_download complains about old extracts", {
     quiet = TRUE
   )
 
-  Sys.setFileTime(malta_file, Sys.time() - 90 * 24 * 60 * 60)
+  Sys.setFileTime(malta_file, Sys.time() - 366 * 24 * 60 * 60)
   expect_no_warning(
     object = {
       oe_download(

@@ -71,12 +71,12 @@ can be modified using \code{options("timeout")}. The default value is 300s.
 Two further checks guard against working with unusable data. When a file is
 already present, its age is reported and \code{force_download = TRUE} is
 suggested once it is older than \code{options("osmextract.stale_days")} days
-(30 by default), since providers do refresh their extracts. When a file is
-downloaded, its contents are checked before the function reports success.
-Some providers answer a request for a path that does not exist with an HTTP
-200 status and a small HTML page, so a success status alone does not mean
-the payload is an extract. A file that fails the check is deleted and an
-error is raised, rather than being cached and silently reused.
+(365 by default), since providers frequently refresh their extracts with
+updated OSM data. Furthermore, when a file is downloaded, its source is
+checked before the function reports success. In particular, the function
+tests that the URL used to download the data (after the possible
+redirection) points to a \code{.osm.pbf} file. A file that fails the check is
+deleted and an error is raised.
 }
 \examples{
 (its_match = oe_match("ITS Leeds", quiet = TRUE))
