@@ -35,7 +35,7 @@ test_that("oe_download: fails with more than one URL", {
   expect_error(oe_download(c("a", "b")), class = "oe_download_LengthFileUrlGt2")
 })
 
-test_that("ow_download complains about old extracts" {
+test_that("ow_download complains about old extracts", {
   skip_on_cran()
   skip_on_ci()
   skip_if_offline("github.com")
