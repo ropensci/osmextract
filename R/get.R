@@ -118,18 +118,10 @@
 #'   3. convert it into `.gpkg` format;
 #'   4. read-in the `.gpkg` file.
 #'
-#'   The function `oe_match()` is used to
-#'   perform the first operation and the function `oe_read()` (which is a
-#'   wrapper around `oe_download()`, `oe_vectortranslate()` and `sf::st_read()`)
-#'   performs the other three operations.
-#'
-#'   Starting from version 0.7, the function forcefully sets a precision equal
-#'   to 1e7 on the returned `sf` object, following the indications reported in
-#'   the [OSM wiki](https://wiki.openstreetmap.org/wiki/Node) that coordinates
-#'   are reported using a precision of 7 decimal places in latitude and
-#'   longitude. See also `?sf::st_coordinates`. The previous behaviour can be
-#'   restored by executing `options(osmextract.precision = 0)` before running
-#'   this function.
+#'   The function `oe_match()` is used to perform the first operation and the
+#'   function `oe_read()` (which is a wrapper around `oe_download()`,
+#'   `oe_vectortranslate()` and `sf::st_read()`) performs the other three
+#'   operations.
 #'
 #' @seealso [`oe_match()`], [`oe_download()`], [`oe_vectortranslate()`], and
 #'   [`oe_read()`].

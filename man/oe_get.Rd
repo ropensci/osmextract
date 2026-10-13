@@ -171,16 +171,10 @@ is divided into 4 steps:
 \item read-in the \code{.gpkg} file.
 }
 
-The function \code{oe_match()} is used to
-perform the first operation and the function \code{oe_read()} (which is a
-wrapper around \code{oe_download()}, \code{oe_vectortranslate()} and \code{sf::st_read()})
-performs the other three operations.
-
-Starting from version 0.7, the function forcefully sets a precision equal
-to 1e7 on the returned \code{sf} object, following the indications reported in the
-\href{https://wiki.openstreetmap.org/wiki/Node}{OSM wiki} that coordinates are
-reported using a precision of 7 decimal places in latitude and longitude.
-See also \code{?sf::st_coordinates}.
+The function \code{oe_match()} is used to perform the first operation and the
+function \code{oe_read()} (which is a wrapper around \code{oe_download()},
+\code{oe_vectortranslate()} and \code{sf::st_read()}) performs the other three
+operations.
 }
 \examples{
 # Copy ITS file to tempdir so that the examples do not require internet
