@@ -79,10 +79,15 @@ my_st_read <- function(dsn, layer, quiet, ...) {
   # a geodetic CRS with 7 digits of precision: https://wiki.openstreetmap.org/wiki/Node
   # The following code forces such value into the sf object we just created.
   # See also the discussion in https://github.com/ropensci/osmextract/issues/323
+
   # The if (inherits(...)) is required because the previous function does not
   # always return an sf object (see, for example, the oe_get_keys code and the
   # example in the main vignette).
-  if (inherits(out, "sf")) {
+
+  # The st_crs() test is included since oe_vectortranslate() may change the
+  # default CRS and the suggested value (1e7) is meaningful only in the original
+  # projection (#331)
+  if (inherits(out, "sf") && sf::st_crs(out) == sf::st_crs("EPSG:4326")) {
     sf::st_precision(out) = getOption("osmextract.precision", 1e7)
   }
   out
