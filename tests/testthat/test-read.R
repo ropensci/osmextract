@@ -429,3 +429,22 @@ test_that("oe_read returns output with set precision", {
     }
   )
 })
+
+test_that("oe_read returns precision = 0 when output CRS is not standard (#331)", {
+  withr::local_envvar(
+    .new = list(
+      "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
+      "TESTTHAT" = "true"
+    )
+  )
+  its_pbf = setup_pbf()
+
+  osm_data = oe_read(
+    its_pbf,
+    quiet = TRUE,
+    vectortranslate_options = c(
+      "-t_srs", "EPSG:27700" # Projected CRS for the UK
+    )
+  )
+  expect_equal(sf::st_precision(osm_data), 0)
+})
