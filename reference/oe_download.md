@@ -90,6 +90,16 @@ the new path, the function downloads it using
 for the download can be modified using `options("timeout")`. The default
 value is 300s.
 
+Two further checks guard against working with unusable data. When a file
+is already present, its age is reported and `force_download = TRUE` is
+suggested once it is older than `options("osmextract.stale_days")` days
+(365 by default), since providers frequently refresh their extracts with
+updated OSM data. Furthermore, when a file is downloaded, its source is
+checked before the function reports success. In particular, the function
+tests that the URL used to download the data (after the possible
+redirection) points to a `.osm.pbf` file. A file that fails the check is
+deleted and an error is raised.
+
 ## Examples
 
 ``` r

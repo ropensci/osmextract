@@ -131,6 +131,15 @@ function just returns its path. The parameter <code>force_download</code> can be
 to modify this behaviour. If there is no file associated with the new path,
 the function downloads it using <code><a href="https://httr.r-lib.org/reference/GET.html" class="external-link">httr::GET()</a></code>. The timeout for the download
 can be modified using <code>options("timeout")</code>. The default value is 300s.</p>
+<p>Two further checks guard against working with unusable data. When a file is
+already present, its age is reported and <code>force_download = TRUE</code> is
+suggested once it is older than <code>options("osmextract.stale_days")</code> days
+(365 by default), since providers frequently refresh their extracts with
+updated OSM data. Furthermore, when a file is downloaded, its source is
+checked before the function reports success. In particular, the function
+tests that the URL used to download the data (after the possible
+redirection) points to a <code>.osm.pbf</code> file. A file that fails the check is
+deleted and an error is raised.</p>
     </div>
 
     <div class="section level2">

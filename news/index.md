@@ -33,6 +33,25 @@
   (i.e. precision = 0) can be restored by executing
   `options(osmextract.precision = 0)`.
 
+#### BUG FIXES
+
+- [`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
+  now checks that a downloaded file really holds an OSM extract before
+  reporting success. Some providers answer a request for a path that
+  does not exist with an HTTP 200 status and a small HTML page. That
+  page was previously written to disk and returned as if it were a valid
+  `.osm.pbf` file, and since
+  [`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
+  skips downloading when the file already exists, it was then reused
+  silently by every later call. A file that fails the check is now
+  deleted and an informative error is raised.
+- [`oe_download()`](https://docs.ropensci.org/osmextract/reference/oe_download.md)
+  now reports the age of an already downloaded file, and suggests
+  `force_download = TRUE` once it is older than
+  `options("osmextract.stale_days")` days (30 by default). Previously an
+  indefinitely old extract was reused without any indication that it
+  might be out of date.
+
 #### MINOR CHANGES
 
 - Bumped minimum `testthat` version to 3.3.0
