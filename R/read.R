@@ -17,10 +17,11 @@
 #'   [oe_get_keys()] for more details.
 #'
 #'   Starting from version 0.7, the function forcefully sets a precision equal
-#'   to 1e7 on the returned `sf` object, following the indications reported in the
-#'   [OSM wiki](https://wiki.openstreetmap.org/wiki/Node) that coordinates are
-#'   reported using a precision of 7 decimal places in latitude and longitude.
-#'   See also `?sf::st_coordinates`. The previous behaviour can be
+#'   to 1e7 on the returned `sf` object (as long as it is specified using a CRS
+#'   equal to `EPSG:4326`). This change was inspired by the notes in the [OSM
+#'   wiki](https://wiki.openstreetmap.org/wiki/Node) which highlight that
+#'   coordinates are reported using a precision of 7 decimal places in latitude
+#'   and longitude. See also `?sf::st_coordinates`. The old behaviour can be
 #'   restored by executing `options(osmextract.precision = 0)` before running
 #'   this function.
 #'
