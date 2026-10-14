@@ -23,15 +23,14 @@
   and
   [`oe_read()`](https://docs.ropensci.org/osmextract/reference/oe_read.md)
   (plus related functions) returns an `sf` object with precision
-  forcefully set equal to 1e7, following the indications reported in the
-  [OSM wiki](https://wiki.openstreetmap.org/wiki/Node) that coordinates
-  are reported using a precision of 7 decimal places in latitude and
+  forcefully set equal to 1e7, following the indications in the [OSM
+  wiki](https://wiki.openstreetmap.org/wiki/Node) that coordinates are
+  reported using a precision of 7 decimal places in latitude and
   longitude;
-  ([\#323](https://github.com/ropensci/osmextract/issues/323)). See also
-  [`?sf::st_precision`](https://r-spatial.github.io/sf/reference/st_precision.html)
-  to get an idea of the implications of this change. The old behaviour
-  (i.e. precision = 0) can be restored by executing
-  `options(osmextract.precision = 0)`.
+  ([\#323](https://github.com/ropensci/osmextract/issues/323)). The old
+  behaviour (i.e. precision = 0) can be restored by executing
+  `options(osmextract.precision = 0)`. This modification is ignored when
+  output CRS != EPSG:4326.
 
 #### BUG FIXES
 

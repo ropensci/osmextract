@@ -195,11 +195,14 @@ examples and
 for more details.
 
 Starting from version 0.7, the function forcefully sets a precision
-equal to 1e7 on the returned `sf` object, following the indications
-reported in the [OSM wiki](https://wiki.openstreetmap.org/wiki/Node)
-that coordinates are reported using a precision of 7 decimal places in
-latitude and longitude. See also
+equal to 1e7 on the returned `sf` object (as long as it is specified
+using a CRS equal to `EPSG:4326`). This change was inspired by the notes
+in the [OSM wiki](https://wiki.openstreetmap.org/wiki/Node) which
+highlight that coordinates are reported using a precision of 7 decimal
+places in latitude and longitude. See also
 [`?sf::st_coordinates`](https://r-spatial.github.io/sf/reference/st_coordinates.html).
+The old behaviour can be restored by executing
+`options(osmextract.precision = 0)` before running this function.
 
 ## Examples
 
@@ -214,7 +217,7 @@ file.copy(
 #> [1] FALSE
 oe_read(its_pbf)
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/RtmpILNnua/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpp6rDIP/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 93 features and 15 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -289,7 +292,7 @@ oe_read(its_pbf, layer = "points")
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `points' from data source `/tmp/RtmpILNnua/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `points' from data source `/tmp/Rtmpp6rDIP/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 186 features and 10 fields
 #> Geometry type: POINT
 #> Dimension:     XY
@@ -356,7 +359,7 @@ names(oe_read(its_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
 # Read an existing .gpkg file. This file was created internally by oe_read().
 its_gpkg = file.path(tempdir(), "test_its-example.gpkg")
 oe_read(its_gpkg)
-#> Reading layer `lines' from data source `/tmp/RtmpILNnua/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpp6rDIP/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -417,7 +420,7 @@ oe_read(its_gpkg)
 # You cannot add any new layer to an existing .gpkg file but you can extract
 # some of the tags in other_tags. Check oe_get_keys() for more details.
 names(oe_read(its_gpkg, extra_tags = c("maxspeed"))) # doesn't work
-#> Reading layer `lines' from data source `/tmp/RtmpILNnua/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/Rtmpp6rDIP/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
