@@ -18,6 +18,16 @@
 #'   the function downloads it using [httr::GET()]. The timeout for the download
 #'   can be modified using `options("timeout")`. The default value is 300s.
 #'
+#'   Two further checks guard against working with unusable data. When a file is
+#'   already present, its age is reported and `force_download = TRUE` is
+#'   suggested once it is older than `options("osmextract.stale_days")` days
+#'   (365 by default), since providers frequently refresh their extracts with
+#'   updated OSM data. Furthermore, when a file is downloaded, its source is
+#'   checked before the function reports success. In particular, the function
+#'   tests that the URL used to download the data (after the possible
+#'   redirection) points to a `.osm.pbf` file. A file that fails the check is
+#'   deleted and an error is raised.
+#'
 #' @inheritParams oe_get
 #' @param file_url A URL pointing to a (typically `.osm.pbf`) file.
 #' @param provider Which provider stores the file? If `NULL` (the default), the
@@ -100,6 +110,22 @@ oe_download = function(
       quiet = quiet,
       .subclass = "oe_download_skipDownloading"
     )
+
+    # The following if-clause shouldn't run if we are downloading from an
+    # historical fixed extract (such as those available in Geofabrik) which
+    # could have been selected using the 'version' argument (#329).
+    if (!(provider == "geofabrik" && looks_like_version_url(file_url))) {
+      age_days = difftime(Sys.time(), file.mtime(file_path), units = "days")
+      stale_days = getOption("osmextract.stale_days", 365)
+      if (age_days >= stale_days) {
+        oe_warning(
+          message = paste0("Cached file is ", round(age_days), " days old. ",
+          "Set force_download = TRUE to refresh it."),
+          .subclass = "oe_download_StaleDays"
+        )
+      }
+    }
+
     return(file_path)
   }
 
@@ -167,6 +193,23 @@ oe_download = function(
 
   httr::stop_for_status(resp, "download data from the provider")
 
+  # A successful HTML status does not always mean that we downloaded an OSM
+  # extract. In some weird cases and server bugs, providers may return invalid
+  # data as well as successfully HTML status, possibly after a redirection. See
+  # #330 and private email to Geofabrik team.
+  if (!is_valid_resp(resp)) {
+    file.remove(file_path)
+    oe_stop(
+      .subclass = "oe_download_InvalidResponse",
+      message = paste0(
+        "The downloaded file is not a valid OSM PBF extract, so it has been ",
+        "removed. The provider probably returned a web page or an error ",
+        "message instead of data. Check that this URL points to an extract: ",
+        file_url
+      )
+    )
+  }
+
   oe_message(
     "File downloaded!",
     quiet = quiet,
@@ -205,4 +248,30 @@ infer_provider_from_url = function(file_url) {
   }
 
   matching_provider
+}
+
+# Check that the URL of the request (after redirects) corresponds to a
+# ".osm.pbf" file. This might be relevant in case the servers silently redirects
+# to an "home" page and returns an HTML page. This is especially relevant for
+# Geofabrik since, at the moment (Oct 2026) it's the only provider that performs
+# a redirection (e.g., "xyz-latest.osm.pbf" --> "xyz-20261005.osm.pbf"). See
+# also #330.
+is_valid_resp = function(resp) {
+  # According to httr docs, the url field of the response includes the url the
+  # request was actually sent to (after redirects). We need to check whether
+  # such URL points to a .osm.pbf file.
+  url <- resp[["url"]]
+
+  # Something weird happened, so better safe than sorry
+  if (is.null(url)) {
+    return(FALSE)
+  }
+
+  grepl("\\.osm\\.pbf$", url, perl = TRUE)
+}
+
+# Historical .osm.pbf files specified on geofabrik servers are something like
+# "https://download.geofabrik.de/antarctica-140101-free.shp.zip"
+looks_like_version_url <- function(x) {
+  grepl("-\\d{6}\\.osm\\.pbf$", x, perl = TRUE)
 }
