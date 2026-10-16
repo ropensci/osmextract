@@ -29,5 +29,5 @@ if (requireNamespace("withr", quietly = TRUE)) {
     oe_download_directory()
   )
 }
-#> [1] "/tmp/RtmpLH7EH0"
+#> [1] "/tmp/RtmpKiqUls"
 ```
