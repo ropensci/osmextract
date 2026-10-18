@@ -170,6 +170,8 @@ test_that("warning with ad-hoc osmconf_ini + CONFIG_FILE in vectortranslate_opti
   )
 })
 
+rm(temp_ini)
+
 # Define a small polygon in the area of ITS Leeds
 its_poly = sf::st_sfc(
   sf::st_polygon(
@@ -254,10 +256,8 @@ test_that("get error when boundary is not a POLYGON/MULTIPOLYGON", {
     )
   )
   its_pbf = setup_pbf()
-
-  # Error for non POLYGON boundary. I need suppressWarnings for the warning on
-  # centroids for lat/long data
-  suppressWarnings(expect_error(oe_read(its_pbf, boundary = sf::st_centroid(its_poly), quiet = TRUE)))
+  
+  expect_error(oe_read(its_pbf, boundary = sf::st_centroid(its_poly), quiet = TRUE))
 })
 
 test_that("warning when setting boundary and spat/clipsrc options", {
