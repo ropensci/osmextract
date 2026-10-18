@@ -122,7 +122,7 @@ test_that("oe_get_keys: reads from sf object", {
   its_pbf = setup_pbf()
 
   its = oe_read(its_pbf, skip_vectortranslate = TRUE, quiet = TRUE)
-  expect_error(oe_get_keys(its), NA)
+  expect_no_error(oe_get_keys(its))
 })
 
 test_that("the output from oe_get_keys is the same as for hstore_get_values", {
@@ -193,7 +193,7 @@ test_that("oe_get_keys matches input zone with file", {
   its_pbf = setup_pbf()
 
   # Simplest example works
-  expect_error(oe_get_keys("ITS Leeds"), NA)
+  expect_no_error(oe_get_keys("ITS Leeds"))
 
   # Cannot extract from files that were not previously downloaded
   expect_error(oe_get_keys("Brazil"), class = "oe_get_keys-matchedFileMissing")

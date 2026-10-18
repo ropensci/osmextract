@@ -131,11 +131,10 @@ test_that("oe_vectortranslate returns no warning with duplicated field in extra_
   # After the following discussion
   # https://github.com/ropensci/osmextract/issues/229#issuecomment-941002791 I
   # included a call to unique to filter the duplicated fields.
-  expect_warning(
+  expect_no_warning(
     object = {
     its_gpkg = oe_vectortranslate(its_pbf, quiet = TRUE, extra_tags = c("highway", "barrier", "oneway"))
-    },
-    regexp = NA
+    }
   )
 })
 
@@ -148,13 +147,12 @@ test_that("vectortranslate_options are autocompleted", {
   )
   its_pbf = setup_pbf()
 
-  expect_error(
+  expect_no_error(
     oe_vectortranslate(
       its_pbf,
       quiet = TRUE,
       vectortranslate_options = c("-t_srs", "EPSG:27700")
-    ),
-    NA
+    )
   )
 })
 

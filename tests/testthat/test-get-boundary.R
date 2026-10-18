@@ -1,4 +1,4 @@
-test_that("oe_get_network: simplest examples work", {
+test_that("oe_get_boundary: simplest examples work", {
   withr::local_envvar(
     .new = list(
       "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
@@ -7,5 +7,5 @@ test_that("oe_get_network: simplest examples work", {
   )
   its_pbf = setup_pbf()
 
-  expect_error(oe_get_boundary("ITS Leeds", quiet = TRUE), NA)
+  expect_no_error(oe_get_boundary("ITS Leeds", quiet = TRUE))
 })

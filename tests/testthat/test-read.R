@@ -40,13 +40,12 @@ test_that("or_read: simplest example with a URL works", {
   withr::defer(oe_clean(tempdir()))
 
   my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
-  expect_error(
+  expect_no_error(
     oe_read(
       my_url,
       provider = "test",
       quiet = TRUE
-    ),
-    NA
+    )
   )
 })
 

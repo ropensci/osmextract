@@ -7,7 +7,7 @@ test_that("oe_get_network: simplest examples work", {
   )
   its_pbf = setup_pbf()
 
-  expect_error(oe_get_network("ITS Leeds", quiet = TRUE), NA)
+  expect_no_error(oe_get_network("ITS Leeds", quiet = TRUE))
 })
 
 test_that("oe_get_network handles missing oneway when clean_output = TRUE", {
@@ -96,7 +96,7 @@ test_that("oe_get_network: options in ... work correctly", {
   its_pbf = setup_pbf()
 
   expect_warning(oe_get_network("ITS Leeds", layer = "points", quiet = TRUE))
-  expect_message(oe_get_network("ITS Leeds", quiet = TRUE), NA)
+  expect_no_message(oe_get_network("ITS Leeds", quiet = TRUE))
 
   driving_network_with_area_tag = oe_get_network(
     "ITS Leeds",
