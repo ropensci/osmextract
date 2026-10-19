@@ -74,7 +74,7 @@ wrapped function for more details.</p>
 <span>  force_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  never_skip_vectortranslate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  boundary <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  boundary_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spat"</span>, <span class="st">"clipsrc"</span><span class="op">)</span>,</span>
+<span>  boundary_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spat"</span>, <span class="st">"clipsrc"</span>, <span class="st">"clipdst"</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -193,9 +193,8 @@ to override this behaviour and forcefully import the full extract.</p></dd>
 <dt id="arg-boundary-type">boundary_type<a class="anchor" aria-label="anchor" href="#arg-boundary-type"></a></dt>
 <dd><p>A character vector of length 1 specifying the type of
 spatial filter. The <code>spat</code> filter selects only those features that
-intersect a given area, while <code>clipsrc</code> also clips the geometries. Check
-the examples and also <a href="https://gdal.org/en/stable/programs/ogr2ogr.html" class="external-link">here</a> for
-more details.</p></dd>
+intersect the bounding box of the given area, while <code>clipsrc</code> and <code>clipdst</code>
+also clip the geometries.</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
@@ -242,7 +241,7 @@ this function.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_pbf</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The corresponding gpkg file was already detected. Skip vectortranslate operations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 93 features and 15 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -317,7 +316,7 @@ this function.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Starting with the vectortranslate operations on the input file!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0...10...20...30...40...50...60...70...80...90...100 - done.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Finished the vectortranslate operations on the input file!</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `points' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 186 features and 10 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -384,7 +383,7 @@ this function.</p>
 <span class="r-in"><span><span class="co"># Read an existing .gpkg file. This file was created internally by oe_read().</span></span></span>
 <span class="r-in"><span><span class="va">its_gpkg</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"test_its-example.gpkg"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_gpkg</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -445,7 +444,7 @@ this function.</p>
 <span class="r-in"><span><span class="co"># You cannot add any new layer to an existing .gpkg file but you can extract</span></span></span>
 <span class="r-in"><span><span class="co"># some of the tags in other_tags. Check oe_get_keys() for more details.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu">oe_read</span><span class="op">(</span><span class="va">its_gpkg</span>, extra_tags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"maxspeed"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># doesn't work</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `lines' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 189 features and 12 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>

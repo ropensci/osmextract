@@ -30,7 +30,7 @@ oe_read(
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
   boundary = NULL,
-  boundary_type = c("spat", "clipsrc"),
+  boundary_type = c("spat", "clipsrc", "clipdst"),
   quiet = FALSE
 )
 ```
@@ -162,10 +162,9 @@ oe_read(
 - boundary_type:
 
   A character vector of length 1 specifying the type of spatial filter.
-  The `spat` filter selects only those features that intersect a given
-  area, while `clipsrc` also clips the geometries. Check the examples
-  and also [here](https://gdal.org/en/stable/programs/ogr2ogr.html) for
-  more details.
+  The `spat` filter selects only those features that intersect the
+  bounding box of the given area, while `clipsrc` and `clipdst` also
+  clip the geometries.
 
 - quiet:
 
@@ -217,7 +216,7 @@ file.copy(
 #> [1] FALSE
 oe_read(its_pbf)
 #> The corresponding gpkg file was already detected. Skip vectortranslate operations.
-#> Reading layer `lines' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 93 features and 15 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -292,7 +291,7 @@ oe_read(its_pbf, layer = "points")
 #> Starting with the vectortranslate operations on the input file!
 #> 0...10...20...30...40...50...60...70...80...90...100 - done.
 #> Finished the vectortranslate operations on the input file!
-#> Reading layer `points' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `points' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 186 features and 10 fields
 #> Geometry type: POINT
 #> Dimension:     XY
@@ -359,7 +358,7 @@ names(oe_read(its_pbf, extra_tags = c("oneway", "ref"), quiet = TRUE))
 # Read an existing .gpkg file. This file was created internally by oe_read().
 its_gpkg = file.path(tempdir(), "test_its-example.gpkg")
 oe_read(its_gpkg)
-#> Reading layer `lines' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
@@ -420,7 +419,7 @@ oe_read(its_gpkg)
 # You cannot add any new layer to an existing .gpkg file but you can extract
 # some of the tags in other_tags. Check oe_get_keys() for more details.
 names(oe_read(its_gpkg, extra_tags = c("maxspeed"))) # doesn't work
-#> Reading layer `lines' from data source `/tmp/RtmpDF0eaY/test_its-example.gpkg' using driver `GPKG'
+#> Reading layer `lines' from data source `/tmp/RtmpnpKczq/test_its-example.gpkg' using driver `GPKG'
 #> Simple feature collection with 189 features and 12 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
