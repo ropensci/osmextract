@@ -1,6 +1,4 @@
 test_that("oe_read: simplest examples work", {
-  # Actually I don't need the withr::defer since it's automatically set by setup_pbf
-  # withr::defer(oe_clean(tempdir()))
   withr::local_envvar(
     .new = list(
       "OSMEXT_DOWNLOAD_DIRECTORY" = tempdir(),
@@ -9,18 +7,15 @@ test_that("oe_read: simplest examples work", {
   )
   its_pbf = setup_pbf()
 
-  # Read in data
   osm_data = oe_read(its_pbf, quiet = TRUE)
-
-  # Run the tests. Check that result is sf object:
   expect_s3_class(object = osm_data, class = "sf")
+  
   # Linestring geometry is default:
   expect_equal(
     as.character(unique(sf::st_geometry_type(osm_data))),
     "LINESTRING"
   )
 
-  # Read-in points
   osm_data_points = oe_read(its_pbf, layer = "points", quiet = TRUE)
   expect_equal(
     as.character(unique(sf::st_geometry_type(osm_data_points))),
@@ -37,7 +32,7 @@ test_that("or_read: simplest example with a URL works", {
       "TESTTHAT" = "true"
     )
   )
-  withr::defer(oe_clean(tempdir()))
+  withr::defer(oe_clean()) ## Needed since we are not using setup_pbf()
 
   my_url = "https://github.com/ropensci/osmextract/raw/master/inst/its-example.osm.pbf"
   expect_no_error(
@@ -65,7 +60,6 @@ test_that("oe_read fails with misspelled arguments", {
   )
   its_pbf = setup_pbf()
 
-  # Run tests
   expect_error(
     suppressWarnings(oe_read(
       its_pbf,
@@ -93,6 +87,7 @@ test_that("extra_tags are not ignored when vectortranslate_options is not NULL",
   )
 
   expect_true("oneway" %in% colnames(its_gpkg))
+  expect_shape(its_gpkg, nrow = 5)
 })
 
 # Create a fake osmconf_ini
@@ -115,6 +110,7 @@ test_that("osmconf_ini is not ignored when vectortranslate_options is not NULL",
 
   # Regular output
   its_gpkg = oe_read(its_pbf, quiet = TRUE)
+
   # Ad hoc osmconf_ini + vectortranslate options
   its_gpkg_osmconf = oe_read(
     its_pbf,
@@ -284,6 +280,8 @@ test_that("warning when setting boundary and spat/clipsrc options", {
   ))
 })
 
+rm(its_poly)
+
 test_that("oe_read returns an error with unnamed arguments", {
   withr::local_envvar(
     .new = list(
@@ -378,9 +376,6 @@ test_that("oe_read returns an error with unnamed argument and extra comma", {
     class = "oe_read-namesDotsError"
   )
 })
-
-# Clean
-rm(its_poly)
 
 test_that("Vectortranslate operations are not repeated when extra_fields include the character :", {
   # See also https://github.com/ropensci/osmextract/issues/260
