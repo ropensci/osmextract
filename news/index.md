@@ -72,6 +72,7 @@
   and `dplyr`. They are used to implement the new `oe_get_*network()`
   functionalities.
   ([\#321](https://github.com/ropensci/osmextract/issues/261))
+- Added `clipdst` option to `boundary_type` arg.
 
 ## osmextract 0.6.0
 
