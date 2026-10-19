@@ -19,6 +19,7 @@
 * Simplified `oe_providers()` and removed the argument `quiet`. Now the function is always quiet. The corresponding message is included in the docs.
 * Bumped minimum `testthat` version to 3.3.0
 * Added a few R packages to `Suggests`, namely `sfnetworks`, `dodgr`, and `dplyr`. They are used to implement the new `oe_get_*network()` functionalities. ([#321](https://github.com/ropensci/osmextract/issues/261))
+* Added `clipdst` option to `boundary_type` arg. 
 
 # osmextract 0.6.0
 
