@@ -193,12 +193,25 @@ test_that("boundary and boundary_type arguments from oe_vectortranslate work", {
   )
   its_pbf = setup_pbf()
 
-  # Spatial filters work
+  its_poly_27700 = sf::st_transform(its_poly, 27700)
+  
   its = oe_read(its_pbf, quiet = TRUE)
-  its_spat = oe_read(its_pbf, boundary = its_poly %>% sf::st_transform(27700), quiet = TRUE)
-  its_clipsrc = oe_read(its_pbf, boundary = its_poly, quiet = TRUE, boundary_type = "clipsrc")
-  expect_lte(nrow(its_spat), nrow(its))
-  expect_lte(nrow(its_clipsrc), nrow(its_spat))
+  its_spat = oe_read(its_pbf, boundary = its_poly, quiet = TRUE)
+  its_clipsrc = oe_read(its_pbf, boundary = its_poly, boundary_type = "clipsrc", quiet = TRUE)
+  its_clipdst = oe_read(
+    file_path = its_pbf, 
+    vectortranslate_options = c("-t_srs", "EPSG:27700"),
+    boundary = its_poly_27700, 
+    boundary_type = "clipdst", 
+    quiet = TRUE
+  )
+  
+  expect_lt(nrow(its_spat), nrow(its))
+  expect_lt(nrow(its_clipsrc), nrow(its_spat))
+  expect_true(sf::st_crs(its_clipdst) == sf::st_crs(27700))
+  expect_lt(nrow(its_clipdst), nrow(its_spat))
+
+  # TODO: Compare its_clipsrc and its_clipdst. They should be the same?
 })
 
 test_that("spatial filters work with bbox objects", {

@@ -21,7 +21,7 @@ oe_get(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   boundary = NULL,
-  boundary_type = c("spat", "clipsrc"),
+  boundary_type = c("spat", "clipsrc", "clipdst"),
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
@@ -128,9 +128,8 @@ to override this behaviour and forcefully import the full extract.}
 
 \item{boundary_type}{A character vector of length 1 specifying the type of
 spatial filter. The \code{spat} filter selects only those features that
-intersect a given area, while \code{clipsrc} also clips the geometries. Check
-the examples and also \href{https://gdal.org/en/stable/programs/ogr2ogr.html}{here} for
-more details.}
+intersect the bounding box of the given area, while \code{clipsrc} and \code{clipdst}
+also clip the geometries.}
 
 \item{download_only}{Boolean. If \code{TRUE}, then the function only returns the
 path where the matched file is stored, instead of reading it. \code{FALSE} by

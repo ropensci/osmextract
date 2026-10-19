@@ -97,7 +97,7 @@ oe_read = function(
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
   boundary = NULL,
-  boundary_type = c("spat", "clipsrc"),
+  boundary_type = c("spat", "clipsrc", "clipdst"),
   quiet = FALSE
 ) {
 

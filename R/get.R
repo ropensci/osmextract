@@ -98,9 +98,8 @@
 #'   to override this behaviour and forcefully import the full extract.
 #' @param boundary_type A character vector of length 1 specifying the type of
 #'   spatial filter. The `spat` filter selects only those features that
-#'   intersect a given area, while `clipsrc` also clips the geometries. Check
-#'   the examples and also [here](https://gdal.org/en/stable/programs/ogr2ogr.html) for
-#'   more details.
+#'   intersect the bounding box of the given area, while `clipsrc` and `clipdst` 
+#'   also clip the geometries.
 #' @param download_only Boolean. If `TRUE`, then the function only returns the
 #'   path where the matched file is stored, instead of reading it. `FALSE` by
 #'   default.
@@ -225,7 +224,7 @@
 #'
 #' # Remove .pbf and .gpkg files in tempdir
 #' oe_clean(tempdir())
-oe_get = function(
+oe_get <- function(
   place,
   layer = "lines",
   ...,
@@ -242,23 +241,22 @@ oe_get = function(
   extra_tags = NULL,
   force_vectortranslate = FALSE,
   boundary = NULL,
-  boundary_type = c("spat", "clipsrc"),
+  boundary_type = c("spat", "clipsrc", "clipdst"),
   download_only = FALSE,
   skip_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
   quiet = FALSE
 ) {
-
   # Test misspelt arguments
   check_layer_provider(layer, provider)
 
   # See https://github.com/ropensci/osmextract/pull/125
   if (is.character(place) && place == "ITS Leeds") {
-    provider = "test"
+    provider <- "test"
   }
 
   # Match the input place with the provider's data.
-  matched_zone = oe_match(
+  matched_zone <- oe_match(
     place = place,
     provider = provider,
     match_by = match_by,
@@ -270,25 +268,26 @@ oe_get = function(
 
   # Extract the matched URL and file size and pass these parameters to the
   # osmext-download function.
-  file_url = matched_zone[["url"]]
-  file_size = matched_zone[["file_size"]]
+  file_url <- matched_zone[["url"]]
+  file_size <- matched_zone[["file_size"]]
 
   # If place is an sf/sfc polygon or bbox, use it as boundary. See also #313 and
   # #314.The following !identical(x, NA) is required since is.na(NULL) returns
   # logical(0)
   if (!identical(boundary, NA)) {
     if (
-      is.null(boundary) && (
-        inherits(place, "bbox") ||
-        (inherits(place, c("sf", "sfc")) && sf::st_dimension(place) == 2) # The last test checks for POLYGON / MULTIPOLYGON
-      )
+      is.null(boundary) &&
+        (
+          inherits(place, "bbox") ||
+            (inherits(place, c("sf", "sfc")) && sf::st_dimension(place) == 2) # The last test checks for POLYGON / MULTIPOLYGON
+        )
     ) {
       oe_message(
         "Setting 'boundary = place' to geographically subset the output. Use boundary = NA to import full extract.",
         .subclass = "oe_get_overwriting_boundary",
         quiet = quiet
       )
-      boundary = place
+      boundary <- place
     }
   }
 

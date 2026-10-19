@@ -169,7 +169,7 @@ oe_vectortranslate = function(
   force_vectortranslate = FALSE,
   never_skip_vectortranslate = FALSE,
   boundary = NULL,
-  boundary_type = c("spat", "clipsrc"),
+  boundary_type = c("spat", "clipsrc", "clipdst"),
   quiet = FALSE
 ) {
   # Check that the input file was specified using the format
@@ -534,7 +534,7 @@ get_fields_default = function(layer, file) {
 process_boundary = function(
   vectortranslate_options,
   boundary = NULL,
-  boundary_type = c("spat", "clipsrc")
+  boundary_type = c("spat", "clipsrc", "clipdst")
 ) {
   # Starting from #313, boundary might be NA on purpose.
   # FIXME: How to handle the case where, for whatever reason, boundary is like
@@ -544,10 +544,10 @@ process_boundary = function(
     return(vectortranslate_options)
   }
 
-  if (any(c("-spat", "-clipsrc") %in% vectortranslate_options)) {
+  if (any(c("-spat", "-clipsrc", "-clipdst") %in% vectortranslate_options)) {
     warning(
       "The boundary argument is ignored since the vectortraslate_options ",
-      "already defines a spatial filter",
+      "already define a spatial filter",
       call. = FALSE
     )
     return(vectortranslate_options)
@@ -575,8 +575,8 @@ process_boundary = function(
   # Check that the object can be interpreted as a POLYGON
   stopifnot(sf::st_is(boundary, "POLYGON") || sf::st_is(boundary, "MULTIPOLYGON"))
 
-  # Check the CRS of boundary
-  if (sf::st_crs(boundary) != sf::st_crs(4326)) {
+  # TODO: Raise a warning? 
+  if (boundary_type != "clipdst" && sf::st_crs(boundary) != sf::st_crs(4326)) {
     boundary = sf::st_transform(boundary, 4326)
   }
   # Try to fix the boundary in case it's not valid
@@ -588,7 +588,8 @@ process_boundary = function(
   switch(
     boundary_type,
     spat = process_spat(vectortranslate_options, boundary),
-    clipsrc = process_clipsrc(vectortranslate_options, boundary)
+    clipsrc = process_clipsrc(vectortranslate_options, boundary), 
+    clipdst = process_clipdst(vectortranslate_options, boundary)
   )
 }
 
@@ -600,6 +601,11 @@ process_spat = function(vectortranslate_options, boundary) {
 # Add "-clipsrc" + WKT
 process_clipsrc = function(vectortranslate_options, boundary) {
   c(vectortranslate_options, "-clipsrc", sf::st_as_text(boundary))
+}
+
+# Add "-clipdst" + WKT
+process_clipdst = function(vectortranslate_options, boundary) {
+  c(vectortranslate_options, "-clipdst", sf::st_as_text(boundary))
 }
 
 #' Get default osmconf.ini
